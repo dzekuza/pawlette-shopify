@@ -57,7 +57,7 @@ export default function CartPage() {
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={lines.length} onCart={() => router.push('/cart')} />
 
-      <main className="pt-[100px] pb-20">
+      <main className="pt-[80px] pb-20">
         <div className="max-w-[1100px] mx-auto px-5 md:px-10">
 
           {/* Page heading */}
@@ -66,7 +66,7 @@ export default function CartPage() {
           </h1>
 
           {lines.length > 0 && (
-            <p className="text-[15px] mb-10 opacity-60" style={{ color: 'var(--color-bark)' }}>
+            <p className="text-[15px] mb-5 opacity-60" style={{ color: 'var(--color-bark)' }}>
               {lines.length} {lines.length === 1 ? 'item' : 'items'}
             </p>
           )}
@@ -81,7 +81,7 @@ export default function CartPage() {
               <p className="text-[16px] max-w-[360px] leading-relaxed m-0 opacity-60" style={{ color: 'var(--color-bark)' }}>
                 Build a collar your dog will actually be excited to wear.
               </p>
-              <PrimaryButton href="/configure" variant="sage" size="lg">
+              <PrimaryButton href="/products" variant="sage" size="lg">
                 Design Your Collar
               </PrimaryButton>
             </div>
@@ -94,7 +94,7 @@ export default function CartPage() {
 
                 {/* Free shipping progress bar */}
                 {amountToFreeShipping > 0 && (
-                  <div className="bg-white rounded-2xl p-4 mb-6" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                  <div className="bg-white rounded-2xl p-4 mb-4" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
                     <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
                       Add <strong>€{amountToFreeShipping.toFixed(2)}</strong> more for free shipping 🚚
                     </p>
@@ -112,7 +112,7 @@ export default function CartPage() {
 
                 {amountToFreeShipping === 0 && (
                   <div
-                    className="rounded-2xl px-5 py-3 mb-6 text-[14px] font-semibold"
+                    className="rounded-2xl px-5 py-3 mb-4 text-[14px] font-semibold"
                     style={{
                       background: 'rgba(168,213,162,0.18)',
                       border: '1.5px solid var(--color-sage)',
@@ -124,31 +124,41 @@ export default function CartPage() {
                 )}
 
                 {/* Cart lines */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2.5">
                   {lines.map(line => {
                     const lineTotal = parseFloat(line.merchandise.price.amount) * line.quantity;
+                    const thumb = line.merchandise.image?.url ?? line.merchandise.product.featuredImage?.url;
                     return (
                       <div
                         key={line.id}
-                        className="bg-white rounded-[20px] px-4 py-[18px] md:px-6 md:py-5 flex items-center gap-[18px] relative"
-                        style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}
+                        className="bg-white rounded-[16px] px-3 py-3 md:px-4 md:py-4 flex items-center gap-3 relative"
+                        style={{ border: '1.5px solid rgba(61,53,48,0.08)' }}
                       >
+                        {/* Thumbnail */}
+                        <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-[#F0EBE5] flex items-center justify-center">
+                          {thumb
+                            ? <img src={thumb} alt="" className="w-full h-full object-cover" />
+                            : <span style={{ fontSize: 24 }}>🐾</span>
+                          }
+                        </div>
                         {/* Item details */}
                         <div className="flex-1 min-w-0">
                           <p
-                            className="text-[17px] mb-1.5 truncate"
-                            style={{ color: 'var(--color-bark)', letterSpacing: '0.02em', fontFamily: "'Luckiest Guy', cursive" }}
+                            className="text-[15px] mb-1 truncate"
+                            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
                           >
                             {line.merchandise.product.title}
                           </p>
                           <div className="flex flex-wrap gap-1.5 items-center">
-                            {/* Quantity badge */}
                             <span
-                              className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
-                              style={{ background: 'rgba(61,53,48,0.08)', color: 'var(--color-bark)' }}
+                              className="inline-block text-[11px] font-semibold px-[8px] py-[2px] rounded-full"
+                              style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
                             >
-                              Qty: {line.quantity}
+                              Qty {line.quantity}
                             </span>
+                            {line.merchandise.title && line.merchandise.title !== 'Default Title' && (
+                              <span className="text-[11px] opacity-50" style={{ color: 'var(--color-bark)' }}>{line.merchandise.title}</span>
+                            )}
                           </div>
                         </div>
 
@@ -177,7 +187,7 @@ export default function CartPage() {
                 {/* Continue shopping */}
                 <div className="mt-6">
                   <Link
-                    href="/configure"
+                    href="/products"
                     className="text-[14px] font-semibold no-underline opacity-75 inline-flex items-center gap-1.5"
                     style={{ color: 'var(--color-bark)' }}
                   >
@@ -188,13 +198,13 @@ export default function CartPage() {
 
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
-                <div className="bg-white rounded-3xl px-7 pt-7 pb-8" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
-                  <p className="text-[16px] font-semibold mb-6" style={{ color: 'var(--color-bark)' }}>
+                <div className="bg-white rounded-2xl px-5 pt-5 pb-6" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                  <p className="text-[14px] font-semibold mb-4 uppercase tracking-widest opacity-50" style={{ color: 'var(--color-bark)' }}>
                     Order Summary
                   </p>
 
                   {/* Line items */}
-                  <div className="flex flex-col gap-[14px]">
+                  <div className="flex flex-col gap-[10px]">
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
                         Subtotal ({lines.length} {lines.length === 1 ? 'item' : 'items'})
@@ -220,7 +230,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Divider */}
-                    <div className="h-px my-1.5" style={{ background: 'rgba(61,53,48,0.1)' }} />
+                    <div className="h-px my-1" style={{ background: 'rgba(61,53,48,0.1)' }} />
 
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)' }}>
@@ -254,7 +264,7 @@ export default function CartPage() {
                   )}
 
                   {/* CTA */}
-                  <div className="mt-7">
+                  <div className="mt-5">
                     <button
                       onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }}
                       className="w-full rounded-full py-4 text-[16px] font-bold cursor-pointer border-none"

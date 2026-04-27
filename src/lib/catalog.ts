@@ -1,8 +1,9 @@
-import { getCollars, getCharms } from '@/lib/shopify'
+import { getCollars, getCharms, type ShopifyCharm } from '@/lib/shopify'
 
 export interface ProductDetail {
   slug: string
   id: string
+  variantId: string
   productType: 'collar' | 'charm'
   name: string
   price: string
@@ -16,10 +17,12 @@ export interface ProductDetail {
   ctaHref: string
   ctaLabel: string
   compatibilityNote: string
+  tags: string[]
   features?: string
   set_includes?: string
   care?: string
   shipping?: string
+  charmVariants?: ShopifyCharm[]
 }
 
 export function slugFromProductName (name: string) {
@@ -45,6 +48,31 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
 }
 
 export async function getProductBySlugAsync (slug: string): Promise<ProductDetail | undefined> {
+  if (slug === 'charm-charms') {
+    const charms = await getCharms()
+    const first = charms[0]
+    if (!first) return undefined
+    return {
+      slug,
+      id: 'charm-charms',
+      variantId: first.variantId,
+      productType: 'charm',
+      name: 'Charms',
+      price: '€6',
+      shortDescription: 'Snap-on silicone charms for all PawCharms collars.',
+      longDescription: 'Each charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.',
+      image: first.image,
+      images: first.productImages.length > 0 ? first.productImages : (first.image ? [first.image] : []),
+      accentColor: first.bg,
+      tintColor: `${first.bg}33`,
+      ctaHref: '/products',
+      ctaLabel: 'Add in configurator',
+      compatibilityNote: 'Compatible with every PawCharms collar set.',
+      tags: ['Charm'],
+      charmVariants: charms,
+    }
+  }
+
   if (slug.startsWith('charm-')) {
     const charmHandle = slug.replace(/^charm-/, '')
     const charms = await getCharms()
@@ -53,40 +81,58 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     return {
       slug,
       id: `charm-${charm.id}`,
+      variantId: charm.variantId,
       productType: 'charm',
       name: `${charm.title} charm`,
       price: charm.price,
-      shortDescription: 'Snap-on charm for all PawCharms collars.',
-      longDescription: `${charm.title} charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.`,
+      shortDescription: charm.description || 'Snap-on charm for all PawCharms collars.',
+      longDescription: charm.description || `${charm.title} charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.`,
       image: charm.image,
-      images: charm.image ? [charm.image] : [],
+      images: charm.productImages.length > 0 ? charm.productImages : (charm.image ? [charm.image] : []),
       accentColor: charm.bg,
       tintColor: `${charm.bg}33`,
-      ctaHref: '/configure',
+      ctaHref: '/products',
       ctaLabel: 'Add in configurator',
       compatibilityNote: 'Compatible with every PawCharms collar set.',
+      tags: ['Charm'],
+      features: charm.features,
+      care: charm.care,
+      shipping: charm.shipping,
     }
   }
 
   const collarHandle = slug.replace(/^collar-/, '')
+  const normalize = (s: string) => s.replace(/-collar$/, '')
+  const titleToSlug = (t: string) => t.replace(/ set/gi, '').toLowerCase().replace(/\s+/g, '-')
   const collars = await getCollars()
-  const collar = collars.find((c) => c.id === collarHandle || c.handle === collarHandle)
+  const collar = collars.find((c) =>
+    c.id === collarHandle ||
+    c.handle === collarHandle ||
+    normalize(c.handle) === normalize(collarHandle) ||
+    titleToSlug(c.title) === collarHandle
+  )
   if (!collar) return undefined
 
   return {
     slug,
     id: `collar-${collar.id}`,
+    variantId: collar.variantId,
     productType: 'collar',
     name: collar.title,
     price: collar.price,
-    shortDescription: `${collar.title} — waterproof silicone collar with snap-on charms.`,
-    longDescription: `${collar.title} is a waterproof silicone collar set with five snap-on charms. Designed for daily wear and easy cleaning after rain, beach days, or muddy walks.`,
+    shortDescription: collar.description || `${collar.title} — waterproof silicone collar with snap-on charms.`,
+    longDescription: collar.description || `${collar.title} is a waterproof silicone collar set with five snap-on charms. Designed for daily wear and easy cleaning after rain, beach days, or muddy walks.`,
     image: '',
     images: [],
     accentColor: collar.color,
     tintColor: hexToRgba(collar.color, 0.15),
-    ctaHref: '/configure',
+    ctaHref: '/products',
     ctaLabel: 'Build your set',
     compatibilityNote: 'Includes 5 charms. You can swap or add any individual charm at any time.',
+    tags: collar.tags,
+    features: collar.features,
+    set_includes: collar.set_includes,
+    care: collar.care,
+    shipping: collar.shipping,
   }
 }

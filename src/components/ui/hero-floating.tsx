@@ -158,7 +158,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           }}
         >
           <Link
-            href="/configure"
+            href="/products"
             style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}

@@ -1,19 +1,21 @@
 'use client'
 
+import { useState } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify'
 import { Accordion } from '@/components/shared/Accordion'
 import { CharmsStep } from './config-panel/CharmsStep'
 import { ColourStep } from './config-panel/ColourStep'
 import { SizeStep } from './config-panel/SizeStep'
+import { CollarStage } from '@/components/CollarStage'
 
-const PRODUCT_ACCORDION = [
-  { id: 'description', title: 'Description', content: 'Ready for any adventure, our Waterproof Dog Collar & Leash Set combines durability, comfort, and convenience. The lightweight, adjustable collar is dirt- and odor-resistant, easy to clean, and features a safe-release buckle. Personalize it with our silicone dog charms for a custom touch.' },
-  { id: 'features',    title: 'Product Features',   content: 'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.' },
-  { id: 'includes',   title: 'Set Includes',        content: '1 waterproof adjustable collar, 1 waterproof 5ft leash, and compatibility with silicone snap-on charms for personalization.' },
-  { id: 'care',       title: 'Care',                content: 'Rinse with water after muddy or beach walks and wipe dry with a soft cloth. Air dry flat. Avoid direct high heat to preserve shape and finish.' },
-  { id: 'shipping',   title: 'Shipping & Returns',  content: 'Fast shipping across Lithuania and EU. Free shipping on qualifying orders and easy returns within the return window if unused and in original condition.' },
-]
+const DEFAULT_ACCORDION = {
+  description: 'Waterproof silicone collar with snap-on charms. Lightweight, adjustable fit with safe-release buckle. Dirt and odor resistant — rinse and go.',
+  features: 'Waterproof silicone construction, lightweight adjustable fit, safe-release buckle, dirt and odor resistance.',
+  set_includes: 'Base collar in your chosen colour and size. Five interchangeable snap-on charms. Adjustable safe-release buckle. Linen storage pouch.',
+  care: 'Rinse after every swim or muddy walk. Air dry flat — no tumble dryers. Wipe charms with a damp cloth, then air dry.',
+  shipping: 'Free shipping on orders over €40. Delivered in 2–4 business days. Returns accepted within 30 days of purchase in original condition.',
+}
 
 interface ConfigPanelProps {
   collar: ShopifyCollar | null
@@ -22,6 +24,8 @@ interface ConfigPanelProps {
   setCollar: (collar: ShopifyCollar) => void
   selectedCharms: (string | null)[]
   toggleCharm: (id: string) => void
+  moveCharm?: (from: number, to: number) => void
+  onClearSlot?: (i: number) => void
   size: string
   setSize: (size: string) => void
   onAddToCart: () => void
@@ -35,6 +39,8 @@ export function ConfigPanel({
   setCollar,
   selectedCharms,
   toggleCharm,
+  moveCharm,
+  onClearSlot,
   size,
   setSize,
   onAddToCart,
@@ -42,6 +48,7 @@ export function ConfigPanel({
 }: ConfigPanelProps) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
+  const [showCharmsModal, setShowCharmsModal] = useState(false)
 
   const textPrimary = isDark ? '#FAF7F2' : '#3D3530'
   const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : '#6B6460'
@@ -51,6 +58,24 @@ export function ConfigPanel({
   const panelBg = isDark ? 'rgba(30,22,18,0.85)' : 'transparent'
 
   const noop = () => {}
+
+  const accordionItems = [
+    { id: 'description', title: 'Description', content: collar?.description ?? DEFAULT_ACCORDION.description },
+    { id: 'features',    title: 'Product Features', content: collar?.features ?? DEFAULT_ACCORDION.features },
+    { id: 'includes',    title: 'Set Includes', content: collar?.set_includes ?? DEFAULT_ACCORDION.set_includes },
+    { id: 'care',        title: 'Care', content: collar?.care ?? DEFAULT_ACCORDION.care },
+    { id: 'shipping',    title: 'Shipping & Returns', content: collar?.shipping ?? DEFAULT_ACCORDION.shipping },
+  ]
+
+  const collarPrice = collar ? parseFloat(collar.price.replace(/[^0-9.]/g, '')) : 28
+  const charmsTotalPrice = selectedCharms
+    .filter(Boolean)
+    .reduce((sum, id) => {
+      const charm = charms.find(c => c.id === id)
+      return sum + (charm ? parseFloat(charm.price.replace(/[^0-9.]/g, '')) : 0)
+    }, 0)
+  const totalPrice = collarPrice + charmsTotalPrice
+  const selectedCount = selectedCharms.filter(Boolean).length
 
   return (
     <div className="flex flex-col font-sans">
@@ -69,17 +94,30 @@ export function ConfigPanel({
 
       <div className="h-px my-7" style={{ background: divider }} />
 
-      {/* ── Charms ── */}
-      <CharmsStep
-        borderColor={borderColor}
-        charms={charms}
-        isDark={isDark}
-        selectedCharms={selectedCharms}
-        textMuted={textMuted}
-        textPrimary={textPrimary}
-        textSecondary={textSecondary}
-        toggleCharm={toggleCharm}
-      />
+      {/* ── Charms button ── */}
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Charms</span>
+          {selectedCount > 0 && (
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: textSecondary }}>{selectedCount} selected</span>
+          )}
+        </div>
+        <button
+          onClick={() => setShowCharmsModal(true)}
+          style={{
+            width: '100%', padding: '13px 16px', borderRadius: 12,
+            border: `1.5px solid ${borderColor}`, background: 'transparent',
+            cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
+            fontSize: 14, color: textPrimary, display: 'flex', alignItems: 'center',
+            justifyContent: 'space-between', transition: 'border-color 150ms',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = '#A8D5A2' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = borderColor }}
+        >
+          <span>{selectedCount > 0 ? `${selectedCount} charm${selectedCount > 1 ? 's' : ''} added` : 'Add charms'}</span>
+          <span style={{ fontSize: 20, lineHeight: 1, color: textMuted }}>+</span>
+        </button>
+      </div>
 
       <div className="h-px my-7" style={{ background: divider }} />
 
@@ -90,6 +128,7 @@ export function ConfigPanel({
         next={noop}
         setSize={setSize}
         size={size}
+        sizes={collar?.sizes}
         textMuted={textMuted}
         textPrimary={textPrimary}
       />
@@ -119,7 +158,7 @@ export function ConfigPanel({
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(1px)' }}
           onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
         >
-          Add to cart — €28
+          Add to cart — €{totalPrice}
         </button>
         <p
           className="text-center mt-2.5 mb-0 font-sans"
@@ -135,8 +174,79 @@ export function ConfigPanel({
 
       {/* Product info accordion */}
       <div className="mt-8">
-        <Accordion items={PRODUCT_ACCORDION} isMobile={isMobile} />
+        <Accordion items={accordionItems} isMobile={isMobile} />
       </div>
+
+      {/* ── Charms modal ── */}
+      {showCharmsModal && (
+        <div style={{
+          position: 'fixed', inset: 0, zIndex: 1000,
+          display: 'flex', flexDirection: 'column',
+          alignItems: isMobile ? 'stretch' : 'center',
+          justifyContent: isMobile ? 'flex-end' : 'center',
+        }}>
+          {/* Backdrop */}
+          <div
+            onClick={() => setShowCharmsModal(false)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.45)' }}
+          />
+          {/* Panel */}
+          <div style={{
+            position: 'relative', background: '#FAF7F2',
+            borderRadius: isMobile ? '24px 24px 0 0' : 24,
+            maxHeight: isMobile ? '90vh' : '80vh',
+            width: isMobile ? '100%' : 560,
+            display: 'flex', flexDirection: 'column', overflow: 'hidden',
+            boxShadow: isMobile ? 'none' : '0 24px 60px rgba(0,0,0,0.18)',
+          }}>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0', flexShrink: 0 }}>
+              <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 17, color: '#3D3530' }}>Add charms</span>
+              <button
+                onClick={() => setShowCharmsModal(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: '#9B948F', lineHeight: 1, padding: '0 4px' }}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            {/* CollarStage preview — height sized to charm strip natural height to avoid centering whitespace */}
+            <div style={{ height: isMobile ? 116 : 136, flexShrink: 0, padding: '12px 20px 0' }}>
+              <CollarStage
+                collar={collar}
+                charms={charms}
+                selectedCharms={selectedCharms}
+                isDark={false}
+                moveCharm={moveCharm ?? noop}
+                onClearSlot={onClearSlot ?? noop}
+                showGallery={false}
+              />
+            </div>
+            {/* Charm picker scrollable area */}
+            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px 16px' }}>
+              <CharmsStep
+                borderColor='#E8E3DC'
+                charms={charms}
+                isDark={false}
+                selectedCharms={selectedCharms}
+                textMuted='#9B948F'
+                textPrimary='#3D3530'
+                textSecondary='#6B6460'
+                toggleCharm={toggleCharm}
+              />
+            </div>
+            {/* Done */}
+            <div style={{ padding: '12px 20px 28px', flexShrink: 0, borderTop: '1px solid #EDEAE4' }}>
+              <button
+                onClick={() => setShowCharmsModal(false)}
+                style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 15, background: '#A8D5A2', color: '#2a5a25', letterSpacing: '0.01em' }}
+              >
+                Done{selectedCount > 0 ? ` — ${selectedCount} charm${selectedCount > 1 ? 's' : ''}` : ''}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   )

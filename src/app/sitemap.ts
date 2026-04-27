@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: 'https://pawcharms.lt/configure',
+      url: 'https://pawcharms.lt/products',
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,

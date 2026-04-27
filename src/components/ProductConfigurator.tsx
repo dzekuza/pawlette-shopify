@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { CommerceFooter } from '@/components/shared/CommerceFooter'
 import { SIZES, type CartItem } from '@/lib/data'
-import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
-import { addLineToCart, fetchCart } from '@/lib/cart'
+import { getCollars, getCollarsSync, getCharms, getCharmsSync, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { BentoSection } from './BentoSection'
 import { CollarStage } from './CollarStage'
 import { ConfigPanel } from './ConfigPanel'
@@ -41,9 +41,9 @@ const COLLAR_GALLERY: Record<string, string[]> = {
 export function ProductConfigurator () {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
-  const [collars, setCollars] = useState<ShopifyCollar[]>([])
-  const [charms, setCharms] = useState<ShopifyCharm[]>([])
-  const [collar, setCollar] = useState<ShopifyCollar | null>(null)
+  const [collars, setCollars] = useState<ShopifyCollar[]>(() => getCollarsSync() ?? [])
+  const [charms, setCharms] = useState<ShopifyCharm[]>(() => getCharmsSync() ?? [])
+  const [collar, setCollar] = useState<ShopifyCollar | null>(() => getCollarsSync()?.[0] ?? null)
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null)
   const [selectedCharms, setSelectedCharms] = useState<(string | null)[]>([null, null, null, null, null])
   const [size, setSize] = useState<string>(SIZES[1])
@@ -103,7 +103,7 @@ export function ProductConfigurator () {
       collarName: collar.title,
       collarColor: collar.color,
       collarBgTint: collar.bgTint,
-      collarVariantId: collar.variantId,
+      collarVariantId: collar.variants.find(v => v.size === size)?.id ?? collar.variantId,
       charmIds: selectedCharms,
       charmVariantIds: selectedCharms.map(id => {
         if (!id) return null
@@ -112,7 +112,13 @@ export function ProductConfigurator () {
       size,
       engraving: '',
     }
-    const updatedCart = await addLineToCart(collar.variantId)
+    const collarVariantId = collar.variants.find(v => v.size === size)?.id ?? collar.variantId
+    const charmVariantIds = selectedCharms
+      .filter(Boolean)
+      .map(id => charms.find(c => c.id === id)?.variantId)
+      .filter(Boolean) as string[]
+    const lines = [collarVariantId, ...charmVariantIds].map(id => ({ merchandiseId: id, quantity: 1 }))
+    const updatedCart = await addLinesToCart(lines)
     setCheckoutUrl(updatedCart.checkoutUrl)
     setCart(prev => [...prev, item])
     setCartOpen(true)
@@ -134,7 +140,7 @@ export function ProductConfigurator () {
       collarName: collar.title,
       collarColor: collar.color,
       collarBgTint: collar.bgTint,
-      collarVariantId: collar.variantId,
+      collarVariantId: collar.variants.find(v => v.size === size)?.id ?? collar.variantId,
       charmIds: ids.map(id => id),
       charmVariantIds: ids.map(id => charms.find(c => c.id === id)?.variantId ?? null),
       size: '',

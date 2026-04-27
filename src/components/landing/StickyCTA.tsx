@@ -35,7 +35,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#A8D5A2', animation: 'pulse 2s ease-in-out infinite' }} />
           4 people shopping now
         </div>
-        <a href="/configure" style={{
+        <a href="/products" style={{
           fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500,
           padding: '10px 24px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25',
           textDecoration: 'none', transition: 'background 150ms', whiteSpace: 'nowrap',

@@ -33,7 +33,7 @@ const productListSchema = {
       name: `Žavesys ${c.name}`,
       description: c.color,
       brand: { '@type': 'Brand', name: 'PawCharms' },
-      url: 'https://pawcharms.lt/configure',
+      url: 'https://pawcharms.lt/products',
       offers: {
         '@type': 'Offer',
         price: c.price,

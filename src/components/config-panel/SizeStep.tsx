@@ -6,6 +6,7 @@ interface SizeStepProps {
   next: () => void
   setSize: (size: string) => void
   size: string
+  sizes?: string[]
   textMuted: string
   textPrimary: string
 }
@@ -16,9 +17,12 @@ export function SizeStep ({
   next,
   setSize,
   size,
+  sizes,
   textMuted,
   textPrimary
 }: SizeStepProps) {
+  const options: string[] = sizes && sizes.length > 0 ? sizes : (SIZES as unknown as string[])
+
   return (
     <div>
       <div
@@ -33,8 +37,8 @@ export function SizeStep ({
       >
         Select size
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
-        {SIZES.map((option) => (
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(options.length, 4)}, 1fr)`, gap: 8 }}>
+        {options.map((option) => (
           <button
             key={option}
             className='btn-press'

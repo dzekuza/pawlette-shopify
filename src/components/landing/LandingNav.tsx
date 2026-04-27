@@ -6,10 +6,18 @@ import { cn } from '@/lib/utils';
 
 const NAV_LINKS = [
   { label: 'Shop collars', href: '/products' },
+  { label: 'Charms', href: '/products/charm-charms' },
   { label: 'Build yours', href: '/configure' },
-  { label: 'How it works', href: '/#charms' },
   { label: 'Sizing guide', href: '/guide/how-to-measure-dog-collar' },
   { label: 'Care & materials', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: 'FAQ', href: '/faq' },
+];
+
+const DESKTOP_NAV = [
+  { label: 'Shop', href: '/products' },
+  { label: 'Charms', href: '/products/charm-charms' },
+  { label: 'Build yours', href: '/configure' },
+  { label: 'Care', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];
 
 interface LandingNavProps {
@@ -40,7 +48,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
       <header
         style={{ top: topOffset }}
         className={cn(
-          'fixed left-0 right-0 z-[200] h-16 grid items-center grid-cols-[1fr_auto_1fr] px-5 md:px-10',
+          'fixed left-0 right-0 z-[200] h-16 flex items-center px-5 md:px-10',
           'transition-[background,backdrop-filter,border-color] duration-250 ease-[ease]',
           'border-b',
           active
@@ -48,16 +56,17 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             : 'bg-transparent backdrop-blur-none border-transparent'
         )}
       >
+        <div className="grid items-center grid-cols-[1fr_auto_1fr] w-full mx-auto" style={{ maxWidth: 1200 }}>
         {/* Desktop nav links */}
         <nav className="hidden md:flex gap-8">
-          {['Shop', 'Charms', 'About', 'Care'].map(l => (
-            <a
-              key={l}
-              href={`#${l.toLowerCase()}`}
+          {DESKTOP_NAV.map((link, i) => (
+            <Link
+              key={i}
+              href={link.href}
               className="font-sans text-sm font-medium text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
             >
-              {l}
-            </a>
+              {link.label}
+            </Link>
           ))}
         </nav>
 
@@ -104,6 +113,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             />
           </button>
         </div>
+        </div>
       </header>
 
       {/* Full-screen menu overlay */}
@@ -118,7 +128,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         <nav className="flex flex-col gap-2">
           {NAV_LINKS.map((link, i) => (
             <a
-              key={link.href}
+              key={i}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-[ease] block hover:text-sage"

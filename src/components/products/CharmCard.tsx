@@ -2,58 +2,29 @@ import Link from 'next/link'
 import { slugFromCharmId } from '@/lib/catalog'
 import type { ShopifyCharm } from '@/lib/shopify'
 
-interface CharmCardProps {
-  charm: ShopifyCharm
-}
-
-export function CharmCard ({ charm }: CharmCardProps) {
+export function CharmCard ({ charm }: { charm: ShopifyCharm }) {
   return (
     <Link href={`/products/${slugFromCharmId(charm.id)}`} style={{ textDecoration: 'none' }}>
       <article
-        style={{
-          cursor: 'pointer',
-          borderRadius: 16,
-          border: '1px solid transparent',
-          background: 'rgba(61,53,48,0.03)',
-          padding: '20px 12px 16px',
-          textAlign: 'center',
-          transition: 'transform 200ms ease-out, background-color 200ms ease-out, border-color 200ms ease-out'
-        }}
-        onMouseEnter={(event) => {
-          event.currentTarget.style.transform = 'translateY(-3px)'
-          event.currentTarget.style.background = `${charm.bg}30`
-          event.currentTarget.style.borderColor = charm.bg
-        }}
-        onMouseLeave={(event) => {
-          event.currentTarget.style.transform = 'translateY(0)'
-          event.currentTarget.style.background = 'rgba(61,53,48,0.03)'
-          event.currentTarget.style.borderColor = 'transparent'
-        }}
+        data-animate='card'
+        style={{ cursor: 'pointer', borderRadius: 20, transition: 'transform 200ms ease-out' }}
+        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
       >
-        <div
-          style={{
-            width: 76,
-            height: 76,
-            margin: '0 auto 12px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '50%',
-            background: charm.bg,
-            transition: 'box-shadow 200ms ease-out'
-          }}
-        >
+        <div style={{ height: 280, position: 'relative', overflow: 'hidden', borderRadius: 20, background: charm.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img
             src={encodeURI(charm.image)}
-            alt=''
-            aria-hidden='true'
-            style={{ width: 52, height: 52, objectFit: 'contain' }}
+            alt={charm.baseTitle}
+            style={{ width: '70%', height: '70%', objectFit: 'contain' }}
           />
         </div>
-        <div style={{ marginBottom: 2, fontSize: 13, fontWeight: 500, color: '#3D3530' }}>
-          {charm.title}
+        <div style={{ padding: '16px 4px 8px' }}>
+          <div style={{ marginBottom: 4, fontSize: 16, fontWeight: 500, color: '#3D3530' }}>{charm.baseTitle}</div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+            <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530' }}>{charm.price}</div>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25' }}>View details →</span>
+          </div>
         </div>
-        <div style={{ fontSize: 12, color: '#9B948F' }}>€4</div>
       </article>
     </Link>
   )

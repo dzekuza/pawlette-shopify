@@ -78,7 +78,7 @@ export default function MeasureGuidePage() {
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A8D5A2', display: 'inline-block' }} />
             PawCharms
           </Link>
-          <Link href="/configure" style={{ fontSize: 13, fontWeight: 500, padding: '8px 18px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', textDecoration: 'none' }}>
+          <Link href="/products" style={{ fontSize: 13, fontWeight: 500, padding: '8px 18px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', textDecoration: 'none' }}>
             Build yours →
           </Link>
         </header>
@@ -159,7 +159,7 @@ export default function MeasureGuidePage() {
           <div style={{ marginTop: 64, padding: '40px', background: '#3D3530', borderRadius: 20, textAlign: 'center' }}>
             <p style={{ fontSize: 22, fontWeight: 500, color: '#FAF7F2', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>Ready to build your collar?</p>
             <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>Pick your colour, add charms, and enter your size in the configurator.</p>
-            <Link href="/configure" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', fontSize: 15, fontWeight: 500, textDecoration: 'none', letterSpacing: '-0.01em' }}>
+            <Link href="/products" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', fontSize: 15, fontWeight: 500, textDecoration: 'none', letterSpacing: '-0.01em' }}>
               Build your collar →
             </Link>
           </div>

@@ -7,7 +7,7 @@ const FOOTER_COLS = [
   { title: 'Shop', links: [
     { label: 'Collar sets', href: '/products' },
     { label: 'Charms', href: '/products' },
-    { label: 'Build yours', href: '/configure' },
+    { label: 'Build yours', href: '/products' },
   ]},
   { title: 'Help', links: [
     { label: 'Sizing guide', href: '/guide/how-to-measure-dog-collar' },

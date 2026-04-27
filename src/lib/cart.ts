@@ -8,8 +8,9 @@ export interface ShopifyCartLine {
   merchandise: {
     id: string;
     title: string;
-    product: { title: string };
+    product: { title: string; featuredImage?: { url: string } };
     price: { amount: string };
+    image?: { url: string };
   };
 }
 
@@ -37,8 +38,9 @@ const CART_FRAGMENT = `
             ... on ProductVariant {
               id
               title
+              image { url }
               price { amount }
-              product { title }
+              product { title featuredImage { url } }
             }
           }
         }
@@ -105,17 +107,21 @@ export function setStoredCartId(id: string): void {
 }
 
 export async function addLineToCart(variantId: string, quantity = 1): Promise<ShopifyCart> {
+  return addLinesToCart([{ merchandiseId: variantId, quantity }]);
+}
+
+export async function addLinesToCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
   const cartId = getStoredCartId();
 
   if (cartId) {
     const { data } = await shopifyClient.request(ADD_TO_CART, {
-      variables: { cartId, lines: [{ merchandiseId: variantId, quantity }] },
+      variables: { cartId, lines },
     });
     return parseCart(data.cartLinesAdd.cart);
   }
 
   const { data } = await shopifyClient.request(CREATE_CART, {
-    variables: { lines: [{ merchandiseId: variantId, quantity }] },
+    variables: { lines },
   });
   const cart = parseCart(data.cartCreate.cart);
   setStoredCartId(cart.id);

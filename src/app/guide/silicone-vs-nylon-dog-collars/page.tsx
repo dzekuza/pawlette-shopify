@@ -123,7 +123,7 @@ export default function ComparisonPage() {
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A8D5A2', display: 'inline-block' }} />
             PawCharms
           </Link>
-          <Link href="/configure" style={{ fontSize: 13, fontWeight: 500, padding: '8px 18px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', textDecoration: 'none' }}>
+          <Link href="/products" style={{ fontSize: 13, fontWeight: 500, padding: '8px 18px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', textDecoration: 'none' }}>
             Build yours →
           </Link>
         </header>
@@ -243,7 +243,7 @@ export default function ComparisonPage() {
             <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>
               Waterproof, odour-proof, and customisable with swap charms. Built in Vilnius.
             </p>
-            <Link href="/configure" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>
+            <Link href="/products" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', fontSize: 15, fontWeight: 500, textDecoration: 'none' }}>
               Build your collar →
             </Link>
           </div>

@@ -2,9 +2,17 @@ import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 
 export const shopifyClient = createStorefrontApiClient({
   storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
-  apiVersion: '2025-04',
+  apiVersion: '2026-04',
   publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!,
 });
+
+export interface ShopifyCollarVariant {
+  id: string;
+  title: string;
+  size: string;
+  color: string;
+  price: string;
+}
 
 export interface ShopifyCollar {
   id: string;
@@ -15,17 +23,37 @@ export interface ShopifyCollar {
   color: string;
   bgTint: string;
   glowColor: string;
+  sizes: string[];
+  image: string;
+  images: string[];
+  colors: string[];
+  variants: ShopifyCollarVariant[];
+  tags: string[];
+  description?: string;
+  features?: string;
+  set_includes?: string;
+  care?: string;
+  shipping?: string;
 }
 
 export interface ShopifyCharm {
   id: string;
   handle: string;
   title: string;
+  baseTitle: string;
   variantId: string;
   price: string;
   bg: string;
   category: string;
+  color: string;
   image: string;
+  productImages: string[];
+  productTitle: string;
+  productDescription: string;
+  description?: string;
+  features?: string;
+  care?: string;
+  shipping?: string;
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -37,22 +65,32 @@ function hexToRgba(hex: string, alpha: number): string {
 
 const COLLARS_QUERY = `
   query GetCollars {
-    products(first: 10, query: "product_type:collar") {
+    products(first: 50, query: "product_type:collar") {
       edges {
         node {
           id
           handle
           title
-          variants(first: 1) {
+          tags
+          featuredImage { url }
+          images(first: 10) { edges { node { url } } }
+          variants(first: 50) {
             edges {
               node {
                 id
+                title
                 price { amount }
+                selectedOptions { name value }
               }
             }
           }
           metafields(identifiers: [
-            { namespace: "pawlette", key: "color" }
+            { namespace: "pawlette", key: "color" },
+            { namespace: "pawlette", key: "description" },
+            { namespace: "pawlette", key: "features" },
+            { namespace: "pawlette", key: "set_includes" },
+            { namespace: "pawlette", key: "care" },
+            { namespace: "pawlette", key: "shipping" }
           ]) {
             key
             value
@@ -62,30 +100,84 @@ const COLLARS_QUERY = `
     }
   }
 `;
+
+// Static map from charm handle -> bg/category for legacy icon variants
+export const CHARM_META: Record<string, { bg: string; category: string }> = {
+  'blue-paw-charm':        { bg: '#B8D8F4', category: 'icon'   },
+  'green-star-charm':      { bg: '#A8D5A2', category: 'icon'   },
+  'sage-leaf-charm':       { bg: '#A8D5A2', category: 'icon'   },
+  'lavender-flower-charm': { bg: '#D4B8F4', category: 'icon'   },
+  'pink-heart-charm':      { bg: '#F4B5C0', category: 'icon'   },
+  'mini-heart-charm':      { bg: '#F4B5C0', category: 'icon'   },
+  'pink-bow-charm':        { bg: '#F4B5C0', category: 'icon'   },
+  'sage-sun-charm':        { bg: '#A8D5A2', category: 'icon'   },
+  'yellow-star-charm':     { bg: '#F9E4A0', category: 'icon'   },
+  'light-paw-charm':       { bg: '#B8D8F4', category: 'icon'   },
+  'blue-drop-charm':       { bg: '#B8D8F4', category: 'icon'   },
+  'butterfly-charm':       { bg: '#D4B8F4', category: 'icon'   },
+  'pink-mushroom-charm':   { bg: '#F4B5C0', category: 'icon'   },
+};
+
+const COLOR_BG: Record<string, string> = {
+  blue:   '#B8D8F4',
+  green:  '#A8D5A2',
+  red:    '#F4B5C0',
+  yellow: '#F9E4A0',
+};
+
+// Resolves bg/category/color/baseTitle from variant title.
+// Handles "Letter A - Blue", "Paw Charm - Blue", and legacy icon names.
+function resolveCharmMeta(title: string): { bg: string; category: string; color: string; baseTitle: string } {
+  const letterMatch = title.match(/^(Letter\s+[A-Z])\s+-\s+(\w+)$/i);
+  if (letterMatch) {
+    const color = letterMatch[2].toLowerCase();
+    return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'letter', color, baseTitle: letterMatch[1] };
+  }
+  if (/^letter\s+\w+\s+charm$/i.test(title)) {
+    return { bg: '#B8D8F4', category: 'letter', color: '', baseTitle: title };
+  }
+  const iconColorMatch = title.match(/^(.+?)\s+-\s+(\w+)$/i);
+  if (iconColorMatch) {
+    const color = iconColorMatch[2].toLowerCase();
+    return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'icon', color, baseTitle: iconColorMatch[1] };
+  }
+  const handle = title.toLowerCase().replace(/\s+/g, '-');
+  const meta = CHARM_META[handle] ?? { bg: '#B8D8F4', category: 'icon' };
+  return { ...meta, color: '', baseTitle: title };
+}
+
+function titleToHandle(title: string): string {
+  return title.toLowerCase().replace(/\s+/g, '-');
+}
 
 const CHARMS_QUERY = `
   query GetCharms {
-    products(first: 100, query: "product_type:charm") {
+    products(first: 1, query: "product_type:charm") {
       edges {
         node {
           id
-          handle
           title
-          featuredImage { url }
-          variants(first: 1) {
-            edges {
-              node {
-                id
-                price { amount }
-              }
-            }
+          descriptionHtml
+          images(first: 50) {
+            edges { node { url } }
           }
           metafields(identifiers: [
-            { namespace: "pawlette", key: "bg" },
-            { namespace: "pawlette", key: "category" }
+            { namespace: "pawlette", key: "description" },
+            { namespace: "pawlette", key: "care" },
+            { namespace: "pawlette", key: "shipping" }
           ]) {
             key
             value
+          }
+          variants(first: 200) {
+            edges {
+              node {
+                id
+                title
+                image { url }
+                price { amount }
+              }
+            }
           }
         }
       }
@@ -93,46 +185,133 @@ const CHARMS_QUERY = `
   }
 `;
 
-export async function getCollars(): Promise<ShopifyCollar[]> {
-  const { data, errors } = await shopifyClient.request(COLLARS_QUERY);
-  if (errors || !data) return [];
+let _collarsCache: ShopifyCollar[] | null = null;
+let _collarsInflight: Promise<ShopifyCollar[]> | null = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return data.products.edges.map(({ node }: any) => {
-    const colorMeta = node.metafields?.find((m: any) => m?.key === 'color');
-    const color = colorMeta?.value ?? '#A8D5A2';
-    const variant = node.variants.edges[0]?.node;
-    return {
-      id: node.handle,
-      handle: node.handle,
-      title: node.title,
-      variantId: variant?.id ?? '',
-      price: variant ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€28',
-      color,
-      bgTint: hexToRgba(color, 0.15),
-      glowColor: hexToRgba(color, 0.5),
-    };
-  });
+export function getCollarsSync(): ShopifyCollar[] | null { return _collarsCache; }
+
+export async function getCollars(): Promise<ShopifyCollar[]> {
+  if (_collarsCache) return _collarsCache;
+  if (!_collarsInflight) {
+    _collarsInflight = (async () => {
+      const { data, errors } = await shopifyClient.request(COLLARS_QUERY);
+      if (errors || !data) return [];
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = data.products.edges.map(({ node }: any) => {
+        const meta = (key: string) => node.metafields?.find((m: any) => m?.key === key)?.value;
+        const color = meta('color') ?? '#A8D5A2';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: v }: any) => ({
+          id: v.id,
+          title: v.title,
+          size: v.selectedOptions?.find((o: any) => o.name === 'Size')?.value ?? '',
+          color: v.selectedOptions?.find((o: any) => o.name === 'Colors')?.value ?? '',
+          price: v.price ? `€${parseFloat(v.price.amount).toFixed(0)}` : '€28',
+        }));
+        const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
+        const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
+        const firstVariant = allVariants[0];
+        return {
+          id: node.handle,
+          handle: node.handle,
+          title: node.title,
+          variantId: firstVariant?.id ?? '',
+          price: firstVariant ? firstVariant.price : '€28',
+          color,
+          bgTint: hexToRgba(color, 0.15),
+          glowColor: hexToRgba(color, 0.5),
+          image: node.featuredImage?.url ?? '',
+          images: (node.images?.edges ?? []).map(({ node: img }: any) => img.url as string),
+          sizes,
+          colors,
+          variants: allVariants,
+          tags: (node.tags ?? []) as string[],
+          description: meta('description') || undefined,
+          features: meta('features') || undefined,
+          set_includes: meta('set_includes') || undefined,
+          care: meta('care') || undefined,
+          shipping: meta('shipping') || undefined,
+        };
+      });
+      _collarsCache = result;
+      return result;
+    })();
+  }
+  return _collarsInflight;
 }
 
-export async function getCharms(): Promise<ShopifyCharm[]> {
-  const { data, errors } = await shopifyClient.request(CHARMS_QUERY);
-  if (errors || !data) return [];
+let _charmsCache: ShopifyCharm[] | null = null;
+let _charmsInflight: Promise<ShopifyCharm[]> | null = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return data.products.edges.map(({ node }: any) => {
-    const bgMeta = node.metafields?.find((m: any) => m?.key === 'bg');
-    const catMeta = node.metafields?.find((m: any) => m?.key === 'category');
-    const variant = node.variants.edges[0]?.node;
-    return {
-      id: node.handle,
-      handle: node.handle,
-      title: node.title,
-      variantId: variant?.id ?? '',
-      price: variant ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€6',
-      bg: bgMeta?.value ?? '#B8D8F4',
-      category: catMeta?.value ?? 'icon',
-      image: node.featuredImage?.url ?? '',
-    };
-  });
+export function getCharmsSync(): ShopifyCharm[] | null { return _charmsCache; }
+
+export async function getCharms(): Promise<ShopifyCharm[]> {
+  if (_charmsCache) return _charmsCache;
+  if (!_charmsInflight) {
+    _charmsInflight = (async () => {
+      const { data, errors } = await shopifyClient.request(CHARMS_QUERY);
+      if (errors || !data) return [];
+
+      const product = data.products.edges[0]?.node;
+      if (!product) return [];
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const productMeta = (key: string) => product.metafields?.find((m: any) => m?.key === key)?.value;
+      const productTitle: string = product.title ?? 'Charms';
+      const productDescriptionHtml: string = product.descriptionHtml ?? '';
+      const rawDesc = productMeta('description');
+      // Shopify rich-text metafields are JSON — extract plain text recursively
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const extractText = (node: any): string => {
+        if (!node) return '';
+        if (typeof node.value === 'string') return node.value;
+        if (Array.isArray(node.children)) return node.children.map(extractText).join(' ');
+        return '';
+      };
+      let productDescriptionPlain = '';
+      if (rawDesc) {
+        try { productDescriptionPlain = extractText(JSON.parse(rawDesc)).trim(); }
+        catch { productDescriptionPlain = rawDesc; }
+      }
+      if (!productDescriptionPlain) {
+        productDescriptionPlain = productDescriptionHtml.replace(/<[^>]*>/g, '').trim();
+      }
+      const productDescription = rawDesc || undefined;
+      const productCare = productMeta('care') || undefined;
+      const productShipping = productMeta('shipping') || undefined;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const allProductImages: string[] = (product.images?.edges ?? []).map(({ node: img }: any) => img.url as string);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const variantImageUrls = new Set(product.variants.edges.map(({ node: v }: any) => v.image?.url).filter(Boolean).map((u: string) => u.split('?')[0]));
+      // Gallery images = product-level images that are NOT variant images (compare base URLs, ignore CDN query params)
+      const productImages = allProductImages.filter(url => !variantImageUrls.has(url.split('?')[0]));
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = product.variants.edges.map(({ node: variant }: any) => {
+        const { bg, category, color, baseTitle } = resolveCharmMeta(variant.title);
+        return {
+          id: titleToHandle(variant.title),
+          handle: titleToHandle(variant.title),
+          title: variant.title,
+          baseTitle,
+          variantId: variant.id ?? '',
+          price: variant.price ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€6',
+          bg,
+          category,
+          color,
+          image: variant.image?.url ?? '',
+          productImages,
+          productTitle,
+          productDescription: productDescriptionPlain,
+          description: productDescription,
+          care: productCare,
+          shipping: productShipping,
+        };
+      });
+      _charmsCache = result;
+      return result;
+    })();
+  }
+  return _charmsInflight;
 }
