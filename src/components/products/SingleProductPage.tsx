@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
@@ -17,8 +17,8 @@ import type { ProductDetail } from '@/lib/catalog'
 
 const COLLAR_GALLERY: Record<string, string[]> = {
   blossom: [
-    '/In_a_minimalist_style_a_delicate_pink_hzs32ACd.webp',
     '/collar-pink.png',
+    '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp',
     '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp',
   ],
   sage: [
@@ -28,12 +28,12 @@ const COLLAR_GALLERY: Record<string, string[]> = {
   ],
   sky: [
     '/A_yellow_star-shaped_charm_is_attached_to_a_pink_jWdEg3nN.webp',
-    '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
+    '/A_man_sits_at_an_outdoor_cafe_with_a_French_BfuQAh4h.webp',
     '/A_woman_with_brown_hair_runs_along_a_sandy_beach_pMc16cB6.webp',
   ],
   honey: [
-    '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
     '/collar-yellow.png',
+    '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
     '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
   ],
 }
@@ -77,6 +77,10 @@ export function SingleProductPage ({ product }: Props) {
   const [charmTab, setCharmTab] = useState<CharmTab>('all')
   const [charmQuery, setCharmQuery] = useState('')
   const [added, setAdded] = useState(false)
+
+  // ── Mobile gallery slider ──
+  const [activeSlide, setActiveSlide] = useState(0)
+  const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     getCollars().then((data) => {
@@ -176,7 +180,7 @@ export function SingleProductPage ({ product }: Props) {
           minHeight: isMobile ? 'auto' : '80vh',
           maxWidth: 1200,
           marginTop: isMobile ? 0 : NAV_H,
-          paddingBottom: isMobile ? 80 : 64,
+          paddingBottom: isMobile ? 0 : 64,
         }}
       >
 
@@ -188,6 +192,7 @@ export function SingleProductPage ({ product }: Props) {
               position: isMobile ? 'relative' : 'sticky',
               top: NAV_H,
               height: isMobile ? 'auto' : '80vh',
+              padding: isMobile ? '16px 16px 0' : undefined,
             }}
           >
             {/* Tab bar */}
@@ -215,37 +220,72 @@ export function SingleProductPage ({ product }: Props) {
               ))}
             </div>
 
-            {/* Gallery */}
+            {/* Gallery — desktop: 3-col grid | mobile: swipe carousel */}
             {leftTab === 'gallery' && (
-              <div
-                className="relative flex-1 overflow-hidden grid"
-                style={{
-                  minHeight: isMobile ? 320 : 0,
-                  gridTemplateColumns: '3fr 2fr',
-                  gridTemplateRows: '1fr 1fr',
-                  gap: 10,
-                }}
-              >
-                <div className="rounded-[20px] overflow-hidden relative" style={{ gridRow: '1 / 3' }}>
-                  <img
-                    src={gallery[0]}
-                    alt={`${collar?.title ?? ''} collar`}
-                    className="w-full h-full object-cover block"
-                  />
+              isMobile ? (
+                <div>
                   <div
-                    className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
-                    style={{ background: collar?.color, padding: '5px 14px', fontSize: 11, color: '#3D3530', letterSpacing: '0.08em' }}
+                    ref={sliderRef}
+                    onScroll={(e) => {
+                      const el = e.currentTarget
+                      setActiveSlide(Math.round(el.scrollLeft / el.offsetWidth))
+                    }}
+                    style={{
+                      display: 'flex',
+                      overflowX: 'auto',
+                      scrollSnapType: 'x mandatory',
+                      scrollbarWidth: 'none',
+                      borderRadius: 20,
+                      gap: 0,
+                    }}
                   >
-                    {collar?.title ?? ''}
+                    {gallery.map((src, i) => (
+                      <div
+                        key={i}
+                        style={{ flexShrink: 0, width: '100%', scrollSnapAlign: 'start', height: 340, overflow: 'hidden', borderRadius: 20, position: 'relative' }}
+                      >
+                        <img src={src} alt={i === 0 ? `${collar?.title ?? ''} collar` : ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                        {i === 0 && collar?.title && (
+                          <div className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase" style={{ background: collar.color, padding: '5px 14px', fontSize: 11, color: '#3D3530', letterSpacing: '0.08em' }}>
+                            {collar.title}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                  {/* Dots */}
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 12 }}>
+                    {gallery.map((_, i) => (
+                      <div
+                        key={i}
+                        onClick={() => {
+                          sliderRef.current?.scrollTo({ left: i * sliderRef.current.offsetWidth, behavior: 'smooth' })
+                          setActiveSlide(i)
+                        }}
+                        style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? '#3D3530' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms, background 200ms' }}
+                      />
+                    ))}
                   </div>
                 </div>
-                <div className="rounded-2xl overflow-hidden">
-                  <img src={gallery[1]} alt="" className="w-full h-full object-cover block" />
+              ) : (
+                <div
+                  className="relative flex-1 overflow-hidden grid"
+                  style={{ minHeight: 0, gridTemplateColumns: '3fr 2fr', gridTemplateRows: '1fr 1fr', gap: 10 }}
+                >
+                  <div className="rounded-[20px] overflow-hidden relative" style={{ gridRow: '1 / 3' }}>
+                    <img src={gallery[0]} alt={`${collar?.title ?? ''} collar`} className="w-full h-full object-cover block" />
+                    <div className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase" style={{ background: collar?.color, padding: '5px 14px', fontSize: 11, color: '#3D3530', letterSpacing: '0.08em' }}>
+                      {collar?.title ?? ''}
+                    </div>
+                  </div>
+                  <div className="rounded-2xl overflow-hidden">
+                    <img src={gallery[1]} alt="" className="w-full h-full object-cover block" />
+                  </div>
+                  <div className="rounded-2xl overflow-hidden">
+                    <img src={gallery[2]} alt="" className="w-full h-full object-cover block" />
+                  </div>
                 </div>
-                <div className="rounded-2xl overflow-hidden">
-                  <img src={gallery[2]} alt="" className="w-full h-full object-cover block" />
-                </div>
-              </div>
+              )
             )}
 
             {/* Preview */}
@@ -269,8 +309,9 @@ export function SingleProductPage ({ product }: Props) {
             style={{
               position: isMobile ? 'relative' : 'sticky',
               top: NAV_H,
-              height: isMobile ? 340 : '80vh',
-              borderRadius: 28,
+              height: isMobile ? 300 : '80vh',
+              margin: isMobile ? '16px 16px 0' : undefined,
+              borderRadius: 24,
               overflow: 'hidden',
               background: displayAccentColor,
               display: 'flex',
@@ -293,7 +334,7 @@ export function SingleProductPage ({ product }: Props) {
         {isCollar ? (
           <div
             className="flex flex-col"
-            style={{ overflowY: isMobile ? 'visible' : 'auto' }}
+            style={{ overflowY: isMobile ? 'visible' : 'auto', padding: isMobile ? '24px 16px 80px' : undefined }}
           >
             {/* Heading block */}
             <div className="mb-8">
@@ -333,7 +374,7 @@ export function SingleProductPage ({ product }: Props) {
           /* Charm right panel */
           <div
             className="flex flex-col"
-            style={{ overflowY: isMobile ? 'visible' : 'auto', gap: 24, fontFamily: "'DM Sans', sans-serif" }}
+            style={{ overflowY: isMobile ? 'visible' : 'auto', gap: 24, fontFamily: "'DM Sans', sans-serif", padding: isMobile ? '24px 16px 80px' : undefined }}
           >
             {/* Heading */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
