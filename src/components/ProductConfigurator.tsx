@@ -1,9 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { CommerceFooter } from '@/components/shared/CommerceFooter'
-import { COLLARS, SIZES, type CartItem, type Collar } from '@/lib/data'
+import { SIZES, type CartItem } from '@/lib/data'
+import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { addLineToCart, fetchCart } from '@/lib/cart'
 import { BentoSection } from './BentoSection'
 import { CollarStage } from './CollarStage'
 import { ConfigPanel } from './ConfigPanel'
@@ -39,13 +41,25 @@ const COLLAR_GALLERY: Record<string, string[]> = {
 export function ProductConfigurator () {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
-  const [collar, setCollar] = useState<Collar>(COLLARS[0])
-  const [selectedCharms, setSelectedCharms] = useState<(string | null)[]>(['c1', 'c2', 'c3', null, null])
+  const [collars, setCollars] = useState<ShopifyCollar[]>([])
+  const [charms, setCharms] = useState<ShopifyCharm[]>([])
+  const [collar, setCollar] = useState<ShopifyCollar | null>(null)
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null)
+  const [selectedCharms, setSelectedCharms] = useState<(string | null)[]>([null, null, null, null, null])
   const [size, setSize] = useState<string>(SIZES[1])
   const [cart, setCart] = useState<CartItem[]>([])
   const [cartOpen, setCartOpen] = useState(false)
   const [showUpsell, setShowUpsell] = useState(false)
   const [leftTab, setLeftTab] = useState<'gallery' | 'preview'>('gallery')
+
+  useEffect(() => {
+    getCollars().then(data => {
+      setCollars(data)
+      if (data.length > 0) setCollar(data[0])
+    })
+    getCharms().then(setCharms)
+    fetchCart().then(c => { if (c) setCheckoutUrl(c.checkoutUrl) })
+  }, [])
 
   const toggleCharm = (id: string) => {
     setSelectedCharms(prev => {
@@ -82,9 +96,26 @@ export function ProductConfigurator () {
     })
   }
 
-  const addToCart = () => {
-    setCart(prev => [...prev, { collar, charms: [...selectedCharms], size, engraving: '' }])
-    setShowUpsell(true)
+  const addToCart = async () => {
+    if (!collar) return
+    const item: CartItem = {
+      collarId: collar.id,
+      collarName: collar.title,
+      collarColor: collar.color,
+      collarBgTint: collar.bgTint,
+      collarVariantId: collar.variantId,
+      charmIds: selectedCharms,
+      charmVariantIds: selectedCharms.map(id => {
+        if (!id) return null
+        return charms.find(c => c.id === id)?.variantId ?? null
+      }),
+      size,
+      engraving: '',
+    }
+    const updatedCart = await addLineToCart(collar.variantId)
+    setCheckoutUrl(updatedCart.checkoutUrl)
+    setCart(prev => [...prev, item])
+    setCartOpen(true)
   }
 
   const removeFromCart = (index: number) => {
@@ -97,8 +128,20 @@ export function ProductConfigurator () {
   }
 
   const handleAddCharms = (ids: string[]) => {
-    if (ids.length === 0) return
-    setCart(prev => [...prev, { collar, charms: ids, size: '', engraving: '', extra: true }])
+    if (ids.length === 0 || !collar) return
+    const item: CartItem = {
+      collarId: collar.id,
+      collarName: collar.title,
+      collarColor: collar.color,
+      collarBgTint: collar.bgTint,
+      collarVariantId: collar.variantId,
+      charmIds: ids.map(id => id),
+      charmVariantIds: ids.map(id => charms.find(c => c.id === id)?.variantId ?? null),
+      size: '',
+      engraving: '',
+      extra: true,
+    }
+    setCart(prev => [...prev, item])
   }
 
   const NAV_H = 72
@@ -174,29 +217,29 @@ export function ProductConfigurator () {
               {/* Featured image — spans both rows */}
               <div className="rounded-[20px] overflow-hidden relative" style={{ gridRow: '1 / 3' }}>
                 <img
-                  key={COLLAR_GALLERY[collar.id]?.[0]}
-                  src={COLLAR_GALLERY[collar.id]?.[0]}
-                  alt={`${collar.name} collar`}
+                  key={COLLAR_GALLERY[collar?.id ?? '']?.[0]}
+                  src={COLLAR_GALLERY[collar?.id ?? '']?.[0]}
+                  alt={`${collar?.title ?? ''} collar`}
                   className="w-full h-full object-cover block"
                 />
                 <div
                   className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
                   style={{
-                    background: collar.color,
+                    background: collar?.color,
                     padding: '5px 14px',
                     fontSize: 11,
                     color: '#3D3530',
                     letterSpacing: '0.08em',
                   }}
                 >
-                  {collar.name}
+                  {collar?.title ?? ''}
                 </div>
               </div>
               <div className="rounded-2xl overflow-hidden">
-                <img src={COLLAR_GALLERY[collar.id]?.[1]} alt="" className="w-full h-full object-cover block" />
+                <img src={COLLAR_GALLERY[collar?.id ?? '']?.[1]} alt="" className="w-full h-full object-cover block" />
               </div>
               <div className="rounded-2xl overflow-hidden">
-                <img src={COLLAR_GALLERY[collar.id]?.[2]} alt="" className="w-full h-full object-cover block" />
+                <img src={COLLAR_GALLERY[collar?.id ?? '']?.[2]} alt="" className="w-full h-full object-cover block" />
               </div>
             </div>
           )}
@@ -269,6 +312,7 @@ export function ProductConfigurator () {
           items={cart}
           onClose={() => setCartOpen(false)}
           onRemove={removeFromCart}
+          checkoutUrl={checkoutUrl}
         />
       )}
       {showUpsell && (
