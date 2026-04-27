@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
-import { getProductBySlug, getProductBySlugAsync, PRODUCT_CATALOG } from '@/lib/catalog'
+import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
 
 export const revalidate = 300
 
@@ -10,7 +10,8 @@ interface ProductPageProps {
 }
 
 export async function generateStaticParams () {
-  return PRODUCT_CATALOG.map((product) => ({ slug: product.slug }))
+  const slugs = await getAllProductSlugs()
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata ({ params }: ProductPageProps): Promise<Metadata> {
@@ -32,7 +33,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
       type: 'website',
       url: `https://pawcharms.lt/products/${product.slug}`,
       siteName: 'PawCharms',
-      images: [{ url: product.image }]
+      images: product.image ? [{ url: product.image }] : undefined
     }
   }
 }

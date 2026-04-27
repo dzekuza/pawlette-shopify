@@ -40,6 +40,19 @@ function hexToRgba (hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
+function uniqueStrings (values: string[]) {
+  return [...new Set(values.filter(Boolean))]
+}
+
+function getCharmGallery (charm: ShopifyCharm) {
+  const productGallery = uniqueStrings([
+    charm.productFeaturedImage,
+    ...charm.productImages,
+  ])
+
+  return productGallery.length > 0 ? productGallery : uniqueStrings([charm.image])
+}
+
 // Static fallback catalog for generateStaticParams — populated at runtime via Shopify
 export const PRODUCT_CATALOG: ProductDetail[] = []
 
@@ -47,10 +60,21 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
   return PRODUCT_CATALOG.find((product) => product.slug === slug)
 }
 
+export async function getAllProductSlugs (): Promise<string[]> {
+  const [collars, charms] = await Promise.all([getCollars(), getCharms()])
+
+  return [
+    ...collars.map((collar) => slugFromProductName(collar.title)),
+    'charm-charms',
+    ...charms.map((charm) => slugFromCharmId(charm.id)),
+  ]
+}
+
 export async function getProductBySlugAsync (slug: string): Promise<ProductDetail | undefined> {
   if (slug === 'charm-charms') {
     const charms = await getCharms()
     const first = charms[0]
+    const images = first ? getCharmGallery(first) : []
     if (!first) return undefined
     return {
       slug,
@@ -61,8 +85,8 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
       price: '€6',
       shortDescription: 'Snap-on silicone charms for all PawCharms collars.',
       longDescription: 'Each charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.',
-      image: first.image,
-      images: first.productImages.length > 0 ? first.productImages : (first.image ? [first.image] : []),
+      image: images[0] ?? '',
+      images,
       accentColor: first.bg,
       tintColor: `${first.bg}33`,
       ctaHref: '/products',
@@ -77,6 +101,7 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     const charmHandle = slug.replace(/^charm-/, '')
     const charms = await getCharms()
     const charm = charms.find((c) => c.id === charmHandle || c.handle === charmHandle)
+    const images = charm ? getCharmGallery(charm) : []
     if (!charm) return undefined
     return {
       slug,
@@ -85,10 +110,10 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
       productType: 'charm',
       name: `${charm.title} charm`,
       price: charm.price,
-      shortDescription: charm.description || 'Snap-on charm for all PawCharms collars.',
+      shortDescription: charm.productDescription || 'Snap-on charm for all PawCharms collars.',
       longDescription: charm.description || `${charm.title} charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.`,
-      image: charm.image,
-      images: charm.productImages.length > 0 ? charm.productImages : (charm.image ? [charm.image] : []),
+      image: images[0] ?? '',
+      images,
       accentColor: charm.bg,
       tintColor: `${charm.bg}33`,
       ctaHref: '/products',
@@ -122,8 +147,8 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     price: collar.price,
     shortDescription: collar.description || `${collar.title} — waterproof silicone collar with snap-on charms.`,
     longDescription: collar.description || `${collar.title} is a waterproof silicone collar set with five snap-on charms. Designed for daily wear and easy cleaning after rain, beach days, or muddy walks.`,
-    image: '',
-    images: [],
+    image: collar.image,
+    images: uniqueStrings([collar.image, ...collar.images]),
     accentColor: collar.color,
     tintColor: hexToRgba(collar.color, 0.15),
     ctaHref: '/products',

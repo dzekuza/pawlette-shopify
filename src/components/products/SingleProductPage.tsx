@@ -55,7 +55,7 @@ const COLLAR_GALLERY: Record<string, string[]> = {
   ],
 }
 
-type CharmTab = 'all' | 'letter' | 'icon'
+type CharmTab = 'all' | 'letter'
 
 const BORDER_COLOR = '#E8E3DC'
 const TEXT_PRIMARY = '#3D3530'
@@ -192,7 +192,9 @@ export function SingleProductPage ({ product }: Props) {
   // Filtered charms for the charm picker (charm product page)
   const filteredCharms = useMemo(() => {
     if (!product.charmVariants) return []
-    let list = charmTab === 'all' ? [...product.charmVariants] : product.charmVariants.filter((c) => c.category === charmTab)
+    let list = charmTab === 'all'
+      ? [...product.charmVariants]
+      : product.charmVariants.filter((c) => c.category === charmTab)
     if (charmColor !== 'all') list = list.filter((c) => c.color === charmColor)
     if (charmQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(charmQuery.toLowerCase()))
     return list
@@ -226,11 +228,12 @@ export function SingleProductPage ({ product }: Props) {
   const displayImage = selectedCharm?.image ?? product.image ?? ''
   const displayName = selectedCharm?.title ?? product.name
   const displayPrice = selectedCharm?.price ?? product.price
-  const charmGallery = product.images.length > 0 ? product.images : []
-  // Show variant image when a charm is selected, gallery image when browsing
-  const charmHeroImage = selectedCharm?.image
-    ? selectedCharm.image
-    : (charmGallery.length > 0 ? (charmGallery[charmGalleryIndex] ?? '') : '')
+  const charmGallery = product.images.length > 0
+    ? product.images
+    : selectedCharm?.image
+      ? [selectedCharm.image]
+      : []
+  const charmHeroImage = charmGallery[charmGalleryIndex] ?? charmGallery[0] ?? ''
 
   return (
     <div className="bg-cream min-h-screen font-sans">
@@ -275,15 +278,15 @@ export function SingleProductPage ({ product }: Props) {
       {isMobile && !isCollar && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ margin: '16px 16px 0' }}>
-            <div style={{ height: 300, borderRadius: 24, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '60%', height: '60%', objectFit: 'contain' }} /> : null}
+            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
+              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '65%', height: '65%', objectFit: 'contain' }} /> : null}
             </div>
             {charmGallery.length > 1 && (
-              <div style={{ display: 'flex', gap: 8, marginTop: 8, overflowX: 'auto', paddingBottom: 4 }}>
-                {charmGallery.map((src, i) => (
-                  <button key={i} onClick={() => setCharmGalleryIndex(i)} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 12, overflow: 'hidden', background: displayAccentColor, border: i === charmGalleryIndex ? '2px solid #3D3530' : '2px solid transparent', cursor: 'pointer', padding: 0 }}>
-                    <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </button>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
+                {charmGallery.slice(1).map((src, i) => (
+                  <div key={i} onClick={() => setCharmGalleryIndex(i + 1)} style={{ borderRadius: 12, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: charmGalleryIndex === i + 1 ? '2px solid #3D3530' : 'none' }}>
+                    <img src={src} alt="" style={{ width: '65%', height: '65%', objectFit: 'contain' }} />
+                  </div>
                 ))}
               </div>
             )}
@@ -350,19 +353,19 @@ export function SingleProductPage ({ product }: Props) {
           </div>
         ) : (
           /* Desktop charm left */
-          <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', display: 'flex', gap: 10 }}>
+          <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
+              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '65%', height: '65%', objectFit: 'contain' }} /> : null}
+            </div>
             {charmGallery.length > 1 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, flexShrink: 0 }}>
-                {charmGallery.map((src, i) => (
-                  <button key={i} onClick={() => setCharmGalleryIndex(i)} style={{ width: 60, height: 60, borderRadius: 12, overflow: 'hidden', background: displayAccentColor, border: i === charmGalleryIndex ? '2px solid #3D3530' : '2px solid transparent', cursor: 'pointer', padding: 0, flexShrink: 0 }}>
-                    <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </button>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {charmGallery.slice(1).map((src, i) => (
+                  <div key={i} onClick={() => setCharmGalleryIndex(i + 1)} style={{ borderRadius: i === charmGallery.length - 3 ? '8px 8px 8px 20px' : i === charmGallery.length - 2 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: charmGalleryIndex === i + 1 ? '2px solid #3D3530' : 'none' }}>
+                    <img src={src} alt="" style={{ width: '65%', height: '65%', objectFit: 'contain' }} />
+                  </div>
                 ))}
               </div>
             )}
-            <div style={{ flex: 1, height: '80vh', minWidth: 0, borderRadius: 24, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '60%', height: '60%', objectFit: 'contain' }} /> : null}
-            </div>
           </div>
         )}
 
@@ -770,23 +773,16 @@ function CharmPicker ({
         <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>Choose charm</span>
         {selected && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selected.title}</span>}
       </div>
-      <div style={{ display: 'flex', gap: 4, background: 'rgba(61,53,48,0.07)', borderRadius: 50, padding: 4, width: 'fit-content' }}>
-        {(['all', 'letter', 'icon'] as CharmTab[]).map((t) => (
-          <button key={t} onClick={() => onTabChange(t)} style={{ padding: '6px 14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 12, letterSpacing: '0.04em', background: tab === t ? '#FAF7F2' : 'transparent', color: tab === t ? '#3D3530' : 'rgba(61,53,48,0.45)', boxShadow: tab === t ? '0 1px 4px rgba(61,53,48,0.12)' : 'none', transition: 'background 150ms, color 150ms' }}>
-            {t === 'all' ? 'All' : t === 'letter' ? 'Letters' : 'Icons'}
-          </button>
-        ))}
-      </div>
-      <input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Search charms…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY, fontSize: 13, fontFamily: "'DM Sans',sans-serif", outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
+<input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Search charms…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY, fontSize: 13, fontFamily: "'DM Sans',sans-serif", outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
       </div>
       <div style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8 }}>
           {charms.map((charm) => {
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
-              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ borderRadius: 14, background: '#F0EBE5', cursor: 'pointer', padding: '10px 6px 8px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
-                <img src={charm.image} alt="" aria-hidden="true" style={{ width: 48, height: 48, objectFit: 'contain' }} />
-                <span style={{ fontSize: 12, fontWeight: 500, letterSpacing: '0.04em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2 }}>{charm.title}</span>
+              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '6px 4px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
+                <img src={charm.image} alt="" aria-hidden="true" style={{ width: 32, height: 32, objectFit: 'contain' }} />
+                <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2 }}>{charm.title}</span>
               </button>
             )
           })}

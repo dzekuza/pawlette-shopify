@@ -1,42 +1,47 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from 'next'
+import { getAllProductSlugs } from '@/lib/catalog'
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const lastModified = new Date()
+  const productSlugs = await getAllProductSlugs()
+  const productEntries = productSlugs.map((slug) => ({
+    url: `https://pawcharms.lt/products/${slug}`,
+    lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: slug === 'charm-charms' ? 0.75 : 0.7,
+  }))
+
   return [
     {
       url: 'https://pawcharms.lt',
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: 'https://pawcharms.lt/products',
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: 'https://pawcharms.lt/products',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
       url: 'https://pawcharms.lt/guide/how-to-measure-dog-collar',
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'yearly',
       priority: 0.6,
     },
     {
       url: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars',
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'yearly',
       priority: 0.6,
     },
     {
       url: 'https://pawcharms.lt/coming-soon',
-      lastModified: new Date(),
+      lastModified,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
-  ];
+    ...productEntries,
+  ]
 }
