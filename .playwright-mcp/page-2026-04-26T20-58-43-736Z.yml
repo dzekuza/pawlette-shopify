@@ -1,0 +1,227 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - navigation [ref=e4]:
+        - link "Shop" [ref=e5] [cursor=pointer]:
+          - /url: "#shop"
+        - link "Charms" [ref=e6] [cursor=pointer]:
+          - /url: "#charms"
+        - link "About" [ref=e7] [cursor=pointer]:
+          - /url: "#about"
+        - link "Care" [ref=e8] [cursor=pointer]:
+          - /url: "#care"
+      - link "Žavesys home" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - img "Žavesys" [ref=e10]
+      - generic [ref=e11]:
+        - button "Cart" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+        - button "Open menu" [ref=e16] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /configure
+          - text: Build yours
+        - link:
+          - /url: /#charms
+          - text: How it works
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - img "Sage set" [ref=e26]
+            - img "Sage set" [ref=e28]
+          - generic [ref=e29]:
+            - img "Sage set" [ref=e31]
+            - img "Sage set" [ref=e33]
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - generic [ref=e36]:
+              - generic [ref=e37]:
+                - paragraph [ref=e38]: Sage set
+                - paragraph [ref=e39]: New — waterproof silicone collar with snap-on charms.
+              - paragraph [ref=e40]: €244
+            - generic [ref=e41]:
+              - paragraph [ref=e42]: Select colour — Sage
+              - generic [ref=e43]:
+                - button "Select Blossom colour" [ref=e44] [cursor=pointer]
+                - button "Select Sage colour" [ref=e45] [cursor=pointer]
+                - button "Select Sky colour" [ref=e46] [cursor=pointer]
+                - button "Select Honey colour" [ref=e47] [cursor=pointer]
+            - generic [ref=e48]:
+              - paragraph [ref=e49]: Size
+              - generic [ref=e50]:
+                - button "S" [ref=e51] [cursor=pointer]
+                - button "M" [ref=e52] [cursor=pointer]
+                - button "L" [ref=e53] [cursor=pointer]
+          - button "€244 — Add to cart" [ref=e54] [cursor=pointer]
+          - generic [ref=e55]:
+            - generic [ref=e56]:
+              - button "Product Features" [ref=e57] [cursor=pointer]
+              - button "Set Includes" [ref=e58] [cursor=pointer]
+              - button "Care" [ref=e59] [cursor=pointer]
+              - button "Shipping & Returns" [ref=e60] [cursor=pointer]
+            - paragraph [ref=e61]: Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - paragraph [ref=e67]: The material
+              - generic [ref=e68]:
+                - paragraph [ref=e69]: Waterproof.
+                - paragraph [ref=e70]: No odor. No stains.
+              - paragraph [ref=e71]: TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
+            - generic [ref=e72]:
+              - generic [ref=e73]: Lakes
+              - generic [ref=e74]: Mud
+              - generic [ref=e75]: Rain
+              - generic [ref=e76]: Snow
+          - generic [ref=e78]:
+            - paragraph [ref=e79]: Origin
+            - generic [ref=e80]:
+              - paragraph [ref=e81]: Handmade in
+              - paragraph [ref=e82]: Vilnius, Lithuania.
+            - paragraph [ref=e83]: Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
+            - paragraph [ref=e84]: Vandeniui atspari.
+        - generic [ref=e85]:
+          - generic [ref=e87]:
+            - paragraph [ref=e88]: Sizing guide
+            - generic [ref=e89]:
+              - generic [ref=e90]: S
+              - generic [ref=e91]: 28–36 cm
+            - paragraph [ref=e92]: Beagle, Cocker Spaniel
+            - generic [ref=e95]:
+              - button "XS 20–28" [ref=e96]:
+                - generic [ref=e97]: XS
+                - generic [ref=e98]: 20–28
+              - button "S 28–36" [ref=e99] [cursor=pointer]:
+                - generic [ref=e100]: S
+                - generic [ref=e101]: 28–36
+              - button "M 36–44" [ref=e102] [cursor=pointer]:
+                - generic [ref=e103]: M
+                - generic [ref=e104]: 36–44
+              - button "L 44–52" [ref=e105] [cursor=pointer]:
+                - generic [ref=e106]: L
+                - generic [ref=e107]: 44–52
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - paragraph [ref=e111]: Charm system
+              - paragraph [ref=e112]: Snaps on in 5 seconds.
+              - paragraph [ref=e113]: Magnetic connector. No clips. No tools. No fuss.
+            - generic [ref=e114]:
+              - generic [ref=e115]: 🌸
+              - generic [ref=e116]: ⭐
+              - generic [ref=e117]: 🦋
+              - generic [ref=e118]: 🌿
+              - generic [ref=e119]: +8 more
+          - generic [ref=e121]:
+            - paragraph [ref=e122]: Care
+            - generic [ref=e123]:
+              - generic [ref=e126]:
+                - paragraph [ref=e127]: Rinse
+                - paragraph [ref=e128]: After every swim or muddy walk.
+              - generic [ref=e131]:
+                - paragraph [ref=e132]: Air dry
+                - paragraph [ref=e133]: Lay flat. No tumble dryers.
+              - generic [ref=e136]:
+                - paragraph [ref=e137]: Wipe charms
+                - paragraph [ref=e138]: Damp cloth, then air dry.
+              - generic [ref=e141]:
+                - paragraph [ref=e142]: Store flat
+                - paragraph [ref=e143]: In the linen pouch.
+      - heading "Your moments" [level=2] [ref=e145]
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - paragraph [ref=e178]: Recommended
+            - paragraph [ref=e179]: You might also like
+          - link "View all →" [ref=e180] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=e181]:
+          - link "Blossom set New arrival Blossom set Blush collar, five interchangeable charms. €28 · 5 charms Add to cart" [ref=e182] [cursor=pointer]:
+            - /url: /products/collar-blossom
+            - generic [ref=e183]:
+              - img "Blossom set" [ref=e184]
+              - generic [ref=e185]: New arrival
+            - generic [ref=e186]:
+              - paragraph [ref=e187]: Blossom set
+              - paragraph [ref=e188]: Blush collar, five interchangeable charms.
+              - generic [ref=e195]:
+                - generic [ref=e196]: €28 · 5 charms
+                - button "Add to cart" [ref=e197]
+          - link "Sage set Sage set Fresh and earthy. Botanical charms. €28 · 5 charms Add to cart" [ref=e198] [cursor=pointer]:
+            - /url: /products/collar-sage
+            - img "Sage set" [ref=e200]
+            - generic [ref=e201]:
+              - paragraph [ref=e202]: Sage set
+              - paragraph [ref=e203]: Fresh and earthy. Botanical charms.
+              - generic [ref=e209]:
+                - generic [ref=e210]: €28 · 5 charms
+                - button "Add to cart" [ref=e211]
+          - link "Sky set Waterproof Sky set For the adventurous pup. Fully waterproof. €28 · 5 charms Add to cart" [ref=e212] [cursor=pointer]:
+            - /url: /products/collar-sky
+            - generic [ref=e213]:
+              - img "Sky set" [ref=e214]
+              - generic [ref=e215]: Waterproof
+            - generic [ref=e216]:
+              - paragraph [ref=e217]: Sky set
+              - paragraph [ref=e218]: For the adventurous pup. Fully waterproof.
+              - generic [ref=e224]:
+                - generic [ref=e225]: €28 · 5 charms
+                - button "Add to cart" [ref=e226]
+          - link "Honey set Summer drop Honey set Warm and sunny. Seasonal summer charms. €28 · 5 charms Add to cart" [ref=e227] [cursor=pointer]:
+            - /url: /products/collar-honey
+            - generic [ref=e228]:
+              - img "Honey set" [ref=e229]
+              - generic [ref=e230]: Summer drop
+            - generic [ref=e231]:
+              - paragraph [ref=e232]: Honey set
+              - paragraph [ref=e233]: Warm and sunny. Seasonal summer charms.
+              - generic [ref=e239]:
+                - generic [ref=e240]: €28 · 5 charms
+                - button "Add to cart" [ref=e241]
+    - contentinfo [ref=e242]:
+      - generic [ref=e243]: Žavesys
+      - generic [ref=e245]: © 2025 · Made with care in Lithuania
+      - generic [ref=e246]: Vandeniui atspari.
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img
+  - button "Open Next.js Dev Tools" [ref=e252] [cursor=pointer]:
+    - img [ref=e253]
+  - alert [ref=e256]

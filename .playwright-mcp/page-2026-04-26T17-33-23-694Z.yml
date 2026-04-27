@@ -1,0 +1,213 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "Žavesys home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img "Žavesys" [ref=e5]
+      - navigation [ref=e6]:
+        - link "Shop" [ref=e7] [cursor=pointer]:
+          - /url: "#shop"
+        - link "Charms" [ref=e8] [cursor=pointer]:
+          - /url: "#charms"
+        - link "About" [ref=e9] [cursor=pointer]:
+          - /url: "#about"
+        - link "Care" [ref=e10] [cursor=pointer]:
+          - /url: "#care"
+      - generic [ref=e11]:
+        - button "Cart" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+        - button "Open menu" [ref=e16] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /configure
+          - text: Build yours
+        - link:
+          - /url: /#charms
+          - text: How it works
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - img "Blossom set" [ref=e23]
+          - generic [ref=e24]: New arrival
+        - generic [ref=e25]:
+          - generic [ref=e26]:
+            - generic [ref=e27]:
+              - paragraph [ref=e28]: Blossom set
+              - paragraph [ref=e29]: Blush collar, five interchangeable charms.
+            - paragraph [ref=e30]: €28
+          - generic [ref=e31]:
+            - paragraph [ref=e32]: Select colour — Blossom
+            - generic [ref=e33]:
+              - button "Select Blossom colour" [ref=e34] [cursor=pointer]
+              - button "Select Sage colour" [ref=e35] [cursor=pointer]
+              - button "Select Sky colour" [ref=e36] [cursor=pointer]
+              - button "Select Honey colour" [ref=e37] [cursor=pointer]
+          - generic [ref=e38]:
+            - paragraph [ref=e39]: Size
+            - generic [ref=e40]:
+              - button "S" [ref=e41] [cursor=pointer]
+              - button "M" [ref=e42] [cursor=pointer]
+              - button "L" [ref=e43] [cursor=pointer]
+        - button "€28 — Add to cart" [ref=e44] [cursor=pointer]
+        - generic [ref=e45]:
+          - button "Product Features +" [ref=e47] [cursor=pointer]:
+            - generic [ref=e48]: Product Features
+            - generic [ref=e49]: +
+          - button "Shipping & Returns +" [ref=e52] [cursor=pointer]:
+            - generic [ref=e53]: Shipping & Returns
+            - generic [ref=e54]: +
+          - button "Warranty +" [ref=e57] [cursor=pointer]:
+            - generic [ref=e58]: Warranty
+            - generic [ref=e59]: +
+      - generic [ref=e60]:
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - paragraph [ref=e63]: The material
+            - generic [ref=e64]:
+              - paragraph [ref=e65]: Waterproof.
+              - paragraph [ref=e66]: No odor. No stains.
+            - paragraph [ref=e67]: TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
+          - generic [ref=e68]:
+            - generic [ref=e69]: Lakes
+            - generic [ref=e70]: Mud
+            - generic [ref=e71]: Rain
+            - generic [ref=e72]: Snow
+        - generic [ref=e73]:
+          - paragraph [ref=e74]: Origin
+          - generic [ref=e75]:
+            - paragraph [ref=e76]: Handmade in
+            - paragraph [ref=e77]: Vilnius, Lithuania.
+          - paragraph [ref=e78]: Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
+          - paragraph [ref=e79]: Vandeniui atspari.
+        - generic [ref=e80]:
+          - paragraph [ref=e81]: Sizing guide
+          - generic [ref=e82]:
+            - generic [ref=e83]: S
+            - generic [ref=e84]: 28–36 cm
+          - paragraph [ref=e85]: Beagle, Cocker Spaniel
+          - generic [ref=e88]:
+            - button "XS 20–28" [ref=e89]:
+              - generic [ref=e90]: XS
+              - generic [ref=e91]: 20–28
+            - button "S 28–36" [ref=e92] [cursor=pointer]:
+              - generic [ref=e93]: S
+              - generic [ref=e94]: 28–36
+            - button "M 36–44" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]: M
+              - generic [ref=e97]: 36–44
+            - button "L 44–52" [ref=e98] [cursor=pointer]:
+              - generic [ref=e99]: L
+              - generic [ref=e100]: 44–52
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - paragraph [ref=e103]: Charm system
+            - paragraph [ref=e104]: Snaps on in 5 seconds.
+            - paragraph [ref=e105]: Magnetic connector. No clips. No tools. No fuss.
+          - generic [ref=e106]:
+            - generic [ref=e107]: 🌸
+            - generic [ref=e108]: ⭐
+            - generic [ref=e109]: 🦋
+            - generic [ref=e110]: 🌿
+            - generic [ref=e111]: +8 more
+        - generic [ref=e112]:
+          - paragraph [ref=e113]: Care
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - paragraph [ref=e117]: Rinse
+                - paragraph [ref=e118]: After every swim or muddy walk.
+              - generic [ref=e119]:
+                - paragraph [ref=e120]: Air dry
+                - paragraph [ref=e121]: Lay flat. No tumble dryers.
+            - generic [ref=e122]:
+              - generic [ref=e123]:
+                - paragraph [ref=e124]: Wipe charms
+                - paragraph [ref=e125]: Damp cloth, then air dry.
+              - generic [ref=e126]:
+                - paragraph [ref=e127]: Store flat
+                - paragraph [ref=e128]: In the linen pouch.
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - paragraph [ref=e162]: Recommended
+            - paragraph [ref=e163]: You might also like
+          - link "View all →" [ref=e164] [cursor=pointer]:
+            - /url: /products
+        - generic [ref=e165]:
+          - link "Sage set Sage set Fresh and earthy. Botanical charms. €28 · 5 charms Add to cart" [ref=e166] [cursor=pointer]:
+            - /url: /products/collar-sage
+            - img "Sage set" [ref=e168]
+            - generic [ref=e169]:
+              - paragraph [ref=e170]: Sage set
+              - paragraph [ref=e171]: Fresh and earthy. Botanical charms.
+              - generic [ref=e177]:
+                - generic [ref=e178]: €28 · 5 charms
+                - button "Add to cart" [ref=e179]
+          - link "Sky set Waterproof Sky set For the adventurous pup. Fully waterproof. €28 · 5 charms Add to cart" [ref=e180] [cursor=pointer]:
+            - /url: /products/collar-sky
+            - generic [ref=e181]:
+              - img "Sky set" [ref=e182]
+              - generic [ref=e183]: Waterproof
+            - generic [ref=e184]:
+              - paragraph [ref=e185]: Sky set
+              - paragraph [ref=e186]: For the adventurous pup. Fully waterproof.
+              - generic [ref=e192]:
+                - generic [ref=e193]: €28 · 5 charms
+                - button "Add to cart" [ref=e194]
+          - link "Honey set Summer drop Honey set Warm and sunny. Seasonal summer charms. €28 · 5 charms Add to cart" [ref=e195] [cursor=pointer]:
+            - /url: /products/collar-honey
+            - generic [ref=e196]:
+              - img "Honey set" [ref=e197]
+              - generic [ref=e198]: Summer drop
+            - generic [ref=e199]:
+              - paragraph [ref=e200]: Honey set
+              - paragraph [ref=e201]: Warm and sunny. Seasonal summer charms.
+              - generic [ref=e207]:
+                - generic [ref=e208]: €28 · 5 charms
+                - button "Add to cart" [ref=e209]
+    - contentinfo [ref=e210]:
+      - generic [ref=e211]: Žavesys
+      - generic [ref=e213]: © 2025 · Made with care in Lithuania
+      - generic [ref=e214]: Vandeniui atspari.
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img
+  - button "Open Next.js Dev Tools" [ref=e220] [cursor=pointer]:
+    - img [ref=e221]
+  - alert [ref=e224]

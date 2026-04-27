@@ -1,0 +1,36 @@
+'use client';
+
+import { useWindowWidth } from '@/hooks/useWindowWidth';
+
+const STEPS = [
+  { n: '01', title: 'Pick your collar', desc: 'Four pastel colours, each waterproof and adjustable to fit any neck size.', icon: '🎨' },
+  { n: '02', title: 'Choose your charms', desc: 'Every set ships with 5 charms. Mix, match, and change with the seasons.', icon: '✨' },
+  { n: '03', title: 'Snap and go', desc: 'Each charm clicks on magnetically. Five seconds, no tools, no fuss.', icon: '⚡' },
+];
+
+export function HowItWorks() {
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
+
+  return (
+    <section id="how" style={{ background: '#FAF0F5', padding: isMobile ? '60px 20px' : '100px 40px' }}>
+      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 64 }}>
+          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 16 }}>How it works</div>
+          <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 48, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.1 }}>
+            Snap it on.<br />Show it off.
+          </h2>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3,1fr)', gap: isMobile ? 20 : 40 }}>
+          {STEPS.map((s, i) => (
+            <div key={i} style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 20, padding: '36px 32px', border: '1px solid rgba(255,255,255,0.9)' }}>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 52, fontWeight: 500, color: '#F4B5C0', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 20 }}>{s.n}</div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>{s.title}</div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#6B6460', lineHeight: 1.7 }}>{s.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

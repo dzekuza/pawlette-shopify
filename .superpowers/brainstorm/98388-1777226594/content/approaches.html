@@ -1,0 +1,38 @@
+<h2>How should we build the admin?</h2>
+<p class="subtitle">3 approaches — pick the one that fits your goals</p>
+
+<div class="options">
+  <div class="option" data-choice="clone" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Clone + Adapt dashboard-theme</h3>
+      <p>Copy the full dashboard-theme repo, strip spa/booking-specific pages, replace with dog-brand mock data. Keeps all existing components (charts, tables, sidebar) intact — we just swap content. Fast, battle-tested UI.</p>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>Done in one session</li><li>All components already built</li><li>Recharts + TanStack Table ready</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Carries unused spa code initially</li><li>Colors/fonts need brand tuning</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="scaffold" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Fresh Next.js + cherry-pick components</h3>
+      <p>New project, install shadcn/ui fresh, copy only the components we need (sidebar, data table, charts). Cleaner starting point, no legacy routes.</p>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>Zero dead code</li><li>Full control from day 1</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>2× more setup work</li><li>Re-wires things that already work in template</li></ul></div>
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="thin" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Clone + minimal strip (recommended)</h3>
+      <p>Clone dashboard-theme, delete only the unneeded routes, keep all UI primitives and chart components. Brand it with Žavesys bark/cream/sage tokens. Fastest path to a polished result.</p>
+      <div class="pros-cons" style="margin-top:12px">
+        <div class="pros"><h4>Pros</h4><ul><li>Fastest</li><li>Retains all charts/tables</li><li>Brand swap is 1 CSS file edit</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Slightly larger initial codebase</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

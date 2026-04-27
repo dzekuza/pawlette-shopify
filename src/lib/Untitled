@@ -1,0 +1,13 @@
+remove
+
+<header class="sticky top-0 z-...">
+  <nav ...>
+  <div ...>
+  Features
+Pricing
+About
+Sign In
+Get Started
+</header>
+  in DemoPage (at Server)
+  in RootLayout (at src/app/layout.tsx:23:7)

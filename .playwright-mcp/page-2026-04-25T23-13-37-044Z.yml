@@ -1,0 +1,325 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🐾 Laima from Vilnius just ordered the Blossom set
+      - generic [ref=e7]: ⭐ Marta rated the Sage collar 5 stars
+      - generic [ref=e9]: 💧 Bruno survived a lake swim — collar looks brand new
+      - generic [ref=e11]: 🛍 Rūta ordered 3 sets as gifts
+      - generic [ref=e13]: 🌸 Mochi is wearing the new Hibiscus charm
+      - generic [ref=e15]: 🇱🇹 Just restocked — Honey set is back
+      - generic [ref=e17]: ⚡ "Took literally 5 seconds to swap" — Jurgita K.
+      - generic [ref=e19]: 🐕 Luna got 4 compliments on one walk
+      - generic [ref=e21]: 🐾 Laima from Vilnius just ordered the Blossom set
+      - generic [ref=e23]: ⭐ Marta rated the Sage collar 5 stars
+      - generic [ref=e25]: 💧 Bruno survived a lake swim — collar looks brand new
+      - generic [ref=e27]: 🛍 Rūta ordered 3 sets as gifts
+      - generic [ref=e29]: 🌸 Mochi is wearing the new Hibiscus charm
+      - generic [ref=e31]: 🇱🇹 Just restocked — Honey set is back
+      - generic [ref=e33]: ⚡ "Took literally 5 seconds to swap" — Jurgita K.
+      - generic [ref=e35]: 🐕 Luna got 4 compliments on one walk
+    - banner [ref=e37]:
+      - generic [ref=e38]: Žavesys
+      - navigation [ref=e40]:
+        - link "Shop" [ref=e41] [cursor=pointer]:
+          - /url: "#shop"
+        - link "Charms" [ref=e42] [cursor=pointer]:
+          - /url: "#charms"
+        - link "About" [ref=e43] [cursor=pointer]:
+          - /url: "#about"
+        - link "Care" [ref=e44] [cursor=pointer]:
+          - /url: "#care"
+      - button [ref=e45] [cursor=pointer]:
+        - img [ref=e46]
+    - generic [ref=e50]:
+      - generic [ref=e51]:
+        - generic [ref=e52]: Made in Lithuania · Handcrafted
+        - heading "Waterproof. Playful. Yours." [level=1] [ref=e53]:
+          - text: Waterproof.
+          - text: Playful.
+          - text: Yours.
+        - paragraph [ref=e54]: Snap on a charm, change your dog's look. Five seconds. That's it.
+        - generic [ref=e55]:
+          - link "Shop collars" [ref=e56] [cursor=pointer]:
+            - /url: /configure
+            - button "Shop collars" [ref=e57]
+          - button "See all charms" [ref=e58] [cursor=pointer]
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - generic [ref=e61]: €28
+            - generic [ref=e62]: per collar set
+          - generic [ref=e63]:
+            - generic [ref=e64]: 5 charms
+            - generic [ref=e65]: included
+          - generic [ref=e66]:
+            - generic [ref=e67]: Free ship
+            - generic [ref=e68]: over €40
+      - generic [ref=e70]:
+        - generic [ref=e72]: Blossom set
+        - generic [ref=e73]: Waterproof
+        - generic [ref=e75]:
+          - generic [ref=e76] [cursor=pointer]: 🌸
+          - generic [ref=e77] [cursor=pointer]: 🌿
+          - generic [ref=e78] [cursor=pointer]: ⭐
+          - generic [ref=e79] [cursor=pointer]: ☀️
+          - generic [ref=e80] [cursor=pointer]: 🦋
+        - generic [ref=e81]: Click a charm to try it on
+    - generic [ref=e83]:
+      - generic [ref=e84]:
+        - generic [ref=e85]: 💧
+        - generic [ref=e86]: Waterproof
+      - generic [ref=e87]:
+        - generic [ref=e88]: ⚡
+        - generic [ref=e89]: 5-second swap
+      - generic [ref=e90]:
+        - generic [ref=e91]: 🇱🇹
+        - generic [ref=e92]: Made in Lithuania
+      - generic [ref=e93]:
+        - generic [ref=e94]: ♻️
+        - generic [ref=e95]: Eco-friendly materials
+      - generic [ref=e96]:
+        - generic [ref=e97]: ↩️
+        - generic [ref=e98]: Free returns
+    - generic [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]: How it works
+        - heading "Snap it on. Show it off." [level=2] [ref=e103]:
+          - text: Snap it on.
+          - text: Show it off.
+      - generic [ref=e104]:
+        - generic [ref=e105]:
+          - generic [ref=e106]: "01"
+          - generic [ref=e107]: Pick your collar
+          - generic [ref=e108]: Four pastel colours, each waterproof and adjustable to fit any neck size.
+        - generic [ref=e109]:
+          - generic [ref=e110]: "02"
+          - generic [ref=e111]: Choose your charms
+          - generic [ref=e112]: Every set ships with 5 charms. Mix, match, and change with the seasons.
+        - generic [ref=e113]:
+          - generic [ref=e114]: "03"
+          - generic [ref=e115]: Snap and go
+          - generic [ref=e116]: Each charm clicks on magnetically. Five seconds, no tools, no fuss.
+    - generic [ref=e118]:
+      - generic [ref=e119]:
+        - generic [ref=e120]:
+          - generic [ref=e121]: Collar sets
+          - heading "Shop all collars" [level=2] [ref=e122]
+        - link "View all →" [ref=e123] [cursor=pointer]:
+          - /url: "#"
+      - generic [ref=e124]:
+        - generic [ref=e125] [cursor=pointer]:
+          - generic [ref=e126]:
+            - generic [ref=e127]: New arrival
+            - generic [ref=e129]:
+              - generic [ref=e130]: 🌿
+              - generic [ref=e131]: ⭐
+              - generic [ref=e132]: ☀️
+              - generic [ref=e133]: 🌸
+          - generic [ref=e134]:
+            - generic [ref=e135]: Blossom set
+            - generic [ref=e136]: Blush collar, five interchangeable charms.
+            - generic [ref=e137]:
+              - generic [ref=e138]: €28 · 5 charms
+              - link "Add to cart" [ref=e139]:
+                - /url: /configure
+                - button "Add to cart" [ref=e140]
+        - generic [ref=e141] [cursor=pointer]:
+          - generic [ref=e144]:
+            - generic [ref=e145]: 🌸
+            - generic [ref=e146]: 🦋
+            - generic [ref=e147]: 🍃
+          - generic [ref=e148]:
+            - generic [ref=e149]: Sage set
+            - generic [ref=e150]: Fresh and earthy. Botanical charms.
+            - generic [ref=e151]:
+              - generic [ref=e152]: €28 · 5 charms
+              - link "Add to cart" [ref=e153]:
+                - /url: /configure
+                - button "Add to cart" [ref=e154]
+        - generic [ref=e155] [cursor=pointer]:
+          - generic [ref=e156]:
+            - generic [ref=e157]: Waterproof
+            - generic [ref=e159]:
+              - generic [ref=e160]: 💎
+              - generic [ref=e161]: 🌊
+              - generic [ref=e162]: 🐾
+          - generic [ref=e163]:
+            - generic [ref=e164]: Sky set
+            - generic [ref=e165]: For the adventurous pup. Fully waterproof.
+            - generic [ref=e166]:
+              - generic [ref=e167]: €28 · 5 charms
+              - link "Add to cart" [ref=e168]:
+                - /url: /configure
+                - button "Add to cart" [ref=e169]
+        - generic [ref=e170] [cursor=pointer]:
+          - generic [ref=e171]:
+            - generic [ref=e172]: Summer drop
+            - generic [ref=e174]:
+              - generic [ref=e175]: 🌻
+              - generic [ref=e176]: 🍀
+              - generic [ref=e177]: ⭐
+          - generic [ref=e178]:
+            - generic [ref=e179]: Honey set
+            - generic [ref=e180]: Warm and sunny. Seasonal summer charms.
+            - generic [ref=e181]:
+              - generic [ref=e182]: €28 · 5 charms
+              - link "Add to cart" [ref=e183]:
+                - /url: /configure
+                - button "Add to cart" [ref=e184]
+    - generic [ref=e187]:
+      - generic [ref=e188]:
+        - generic [ref=e189]: The charm collection
+        - heading "Your dog. Your style." [level=2] [ref=e190]:
+          - text: Your dog.
+          - text: Your style.
+        - paragraph [ref=e191]: Each charm clicks on in seconds and comes off just as easily. Collect them all, swap by mood, season, or occasion.
+        - button "Shop all charms" [ref=e192] [cursor=pointer]
+      - generic [ref=e193]:
+        - generic [ref=e194] [cursor=pointer]:
+          - generic [ref=e195]: 🌸
+          - generic [ref=e196]: Blossom
+        - generic [ref=e197] [cursor=pointer]:
+          - generic [ref=e198]: 🌿
+          - generic [ref=e199]: Leaf
+        - generic [ref=e200] [cursor=pointer]:
+          - generic [ref=e201]: ⭐
+          - generic [ref=e202]: Star
+        - generic [ref=e203] [cursor=pointer]:
+          - generic [ref=e204]: ☀️
+          - generic [ref=e205]: Sun
+        - generic [ref=e206] [cursor=pointer]:
+          - generic [ref=e207]: 🦋
+          - generic [ref=e208]: Butterfly
+        - generic [ref=e209] [cursor=pointer]:
+          - generic [ref=e210]: 🐾
+          - generic [ref=e211]: Paw
+        - generic [ref=e212] [cursor=pointer]:
+          - generic [ref=e213]: 🌊
+          - generic [ref=e214]: Wave
+        - generic [ref=e215] [cursor=pointer]:
+          - generic [ref=e216]: 💎
+          - generic [ref=e217]: Gem
+        - generic [ref=e218] [cursor=pointer]:
+          - generic [ref=e219]: 🌙
+          - generic [ref=e220]: Moon
+        - generic [ref=e221] [cursor=pointer]:
+          - generic [ref=e222]: 🍀
+          - generic [ref=e223]: Clover
+        - generic [ref=e224] [cursor=pointer]:
+          - generic [ref=e225]: 🦴
+          - generic [ref=e226]: Bone
+        - generic [ref=e227] [cursor=pointer]:
+          - generic [ref=e228]: 🌺
+          - generic [ref=e229]: Hibiscus
+    - generic [ref=e231]:
+      - generic [ref=e232]: About Žavesys
+      - heading "Made with care, here in Lithuania." [level=2] [ref=e233]:
+        - text: Made with care,
+        - text: here in Lithuania.
+      - paragraph [ref=e234]: Žavesys means "enchantment" in Lithuanian — and that's exactly what we wanted to create. Each collar is handcrafted in Vilnius, made from waterproof materials that hold up to mud, rain, and lakes without odor or staining.
+      - paragraph [ref=e235]: "The charm system was born from a simple idea: your dog's collar should be as unique as they are, and changing it should take five seconds, not five minutes."
+      - generic [ref=e236]:
+        - button "Our story" [ref=e237] [cursor=pointer]
+        - button "Find us on Etsy" [ref=e238] [cursor=pointer]
+    - generic [ref=e240]:
+      - generic [ref=e241]:
+        - generic [ref=e242]: Customer love
+        - heading "Dogs and owners approve." [level=2] [ref=e243]
+      - generic [ref=e244]:
+        - generic [ref=e245]:
+          - generic [ref=e246]:
+            - generic [ref=e247]: ★
+            - generic [ref=e248]: ★
+            - generic [ref=e249]: ★
+            - generic [ref=e250]: ★
+            - generic [ref=e251]: ★
+          - paragraph [ref=e252]: "\"Ordered the Sage set and my dog gets compliments every walk. The charms really do snap on in seconds — I was skeptical but it's genuinely that fast.\""
+          - generic [ref=e253]:
+            - generic [ref=e254]: Laima K.
+            - generic [ref=e255]: Luna (Beagle)
+        - generic [ref=e256]:
+          - generic [ref=e257]:
+            - generic [ref=e258]: ★
+            - generic [ref=e259]: ★
+            - generic [ref=e260]: ★
+            - generic [ref=e261]: ★
+            - generic [ref=e262]: ★
+          - paragraph [ref=e263]: "\"The collar survived two months of swimming, mud walks, and a particularly rough beach day. Zero smell, zero stains. Absolutely worth it.\""
+          - generic [ref=e264]:
+            - generic [ref=e265]: Marta S.
+            - generic [ref=e266]: Bruno (Golden)
+        - generic [ref=e267]:
+          - generic [ref=e268]:
+            - generic [ref=e269]: ★
+            - generic [ref=e270]: ★
+            - generic [ref=e271]: ★
+            - generic [ref=e272]: ★
+            - generic [ref=e273]: ★
+          - paragraph [ref=e274]: "\"Bought one, immediately ordered two more as gifts. The Blossom collar in particular is just gorgeous. Love that it's made in Lithuania.\""
+          - generic [ref=e275]:
+            - generic [ref=e276]: Rūta P.
+            - generic [ref=e277]: Mochi (Shiba)
+    - contentinfo [ref=e278]:
+      - generic [ref=e279]:
+        - generic [ref=e280]:
+          - generic [ref=e281]:
+            - generic [ref=e282]: Žavesys
+            - paragraph [ref=e284]: Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.
+            - generic [ref=e285]: Vandeniui atspari.
+          - generic [ref=e286]:
+            - generic [ref=e287]: Shop
+            - generic [ref=e288]:
+              - link "Collar sets" [ref=e289] [cursor=pointer]:
+                - /url: "#"
+              - link "Charms" [ref=e290] [cursor=pointer]:
+                - /url: "#"
+              - link "Gift sets" [ref=e291] [cursor=pointer]:
+                - /url: "#"
+              - link "Sale" [ref=e292] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e293]:
+            - generic [ref=e294]: Help
+            - generic [ref=e295]:
+              - link "Sizing guide" [ref=e296] [cursor=pointer]:
+                - /url: "#"
+              - link "Shipping" [ref=e297] [cursor=pointer]:
+                - /url: "#"
+              - link "Returns" [ref=e298] [cursor=pointer]:
+                - /url: "#"
+              - link "Care instructions" [ref=e299] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e300]:
+            - generic [ref=e301]: Brand
+            - generic [ref=e302]:
+              - link "Our story" [ref=e303] [cursor=pointer]:
+                - /url: "#"
+              - link "Find on Etsy" [ref=e304] [cursor=pointer]:
+                - /url: "#"
+              - link "Instagram" [ref=e305] [cursor=pointer]:
+                - /url: "#"
+              - link "Contact" [ref=e306] [cursor=pointer]:
+                - /url: "#"
+        - generic [ref=e307]:
+          - generic [ref=e308]: © 2025 Žavesys. Made with care in Lithuania.
+          - generic [ref=e309]: "@zavesys · Etsy · Instagram"
+    - generic [ref=e310]:
+      - generic [ref=e317]:
+        - generic [ref=e318]: Waterproof collar sets — from €28
+        - generic [ref=e319]: 5 charms included · free shipping over €40
+      - generic [ref=e320]:
+        - generic [ref=e321]: 4 people shopping now
+        - link "Build your collar →" [ref=e323] [cursor=pointer]:
+          - /url: /configure
+    - generic [ref=e324]:
+      - generic [ref=e325]: Tweaks
+      - generic [ref=e326]:
+        - button "☀️ Cream" [ref=e327] [cursor=pointer]
+        - button "🌙 Dark" [ref=e328] [cursor=pointer]
+      - generic [ref=e329]:
+        - generic [ref=e330]: "Hero size: 72px"
+        - slider [ref=e331]: "72"
+      - generic [ref=e332] [cursor=pointer]:
+        - checkbox "Show reviews" [checked] [ref=e333]
+        - generic [ref=e334]: Show reviews
+  - button "Open Next.js Dev Tools" [ref=e340] [cursor=pointer]:
+    - img [ref=e341]
+  - alert [ref=e344]

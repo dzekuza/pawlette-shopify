@@ -1,0 +1,169 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "← Back to shop" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e5]: Žavesys
+      - button [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - generic [ref=e13]:
+          - button "Product" [ref=e14] [cursor=pointer]:
+            - generic [ref=e21]: Product
+          - button "📷 Flat-lay" [ref=e22] [cursor=pointer]:
+            - generic [ref=e23]: 📷
+            - generic [ref=e24]: Flat-lay
+          - button "🐕 On dog" [ref=e25] [cursor=pointer]:
+            - generic [ref=e26]: 🐕
+            - generic [ref=e27]: On dog
+          - button "🔍 Close-up" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]: 🔍
+            - generic [ref=e30]: Close-up
+        - generic [ref=e32]:
+          - generic [ref=e37]: 🌸
+          - generic [ref=e38]: 🌿
+          - generic [ref=e39]: ⭐
+          - generic [ref=e41]: +
+          - generic [ref=e43]: +
+          - img
+        - generic [ref=e44]:
+          - generic [ref=e45]: Blossom collar
+          - generic [ref=e52]: 3 / 5 charms selected
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - generic [ref=e55]: Collar set
+          - generic [ref=e56]:
+            - heading "Build your collar" [level=1] [ref=e57]
+            - generic [ref=e58]: €28
+        - generic [ref=e59]:
+          - button "Colour" [ref=e60] [cursor=pointer]
+          - button "Charms" [ref=e61]
+          - button "Size" [ref=e62]
+          - button "Engraving" [ref=e63]
+        - generic [ref=e67]:
+          - generic [ref=e68]: Select colour — Blossom
+          - generic [ref=e69]:
+            - button "Blossom" [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: Blossom
+            - button "Sage" [ref=e72] [cursor=pointer]:
+              - generic [ref=e73]: Sage
+            - button "Sky" [active] [ref=e74] [cursor=pointer]:
+              - generic [ref=e75]: Sky
+            - button "Honey" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]: Honey
+        - button "Next →" [ref=e79] [cursor=pointer]
+        - generic [ref=e80]:
+          - generic [ref=e81]: Blossom
+          - generic [ref=e83]: 3 charms
+          - generic [ref=e84]: S
+        - generic [ref=e85]:
+          - generic [ref=e86]:
+            - generic [ref=e87]: ↩
+            - generic [ref=e88]: 30-day returns
+          - generic [ref=e89]:
+            - generic [ref=e90]: 🔒
+            - generic [ref=e91]: Secure checkout
+          - generic [ref=e92]:
+            - generic [ref=e93]: 🚚
+            - generic [ref=e94]: Free over €40
+          - generic [ref=e95]:
+            - generic [ref=e96]: 🇱🇹
+            - generic [ref=e97]: Made in LT
+    - generic [ref=e99]:
+      - generic [ref=e100]:
+        - generic [ref=e101]:
+          - generic [ref=e102]: The material
+          - generic [ref=e103]:
+            - text: Waterproof.
+            - text: No odor. No stains.
+          - generic [ref=e104]: TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
+        - generic [ref=e105]:
+          - generic [ref=e106]: Lakes
+          - generic [ref=e107]: Mud
+          - generic [ref=e108]: Rain
+          - generic [ref=e109]: Snow
+      - generic [ref=e110]:
+        - generic [ref=e111]:
+          - generic [ref=e112]: Origin
+          - generic [ref=e113]:
+            - text: Handmade in
+            - text: Vilnius, Lithuania.
+          - generic [ref=e114]: Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
+        - generic [ref=e115]: Vandeniui atspari.
+      - generic [ref=e116]:
+        - generic [ref=e117]: Sizing guide
+        - generic [ref=e118]:
+          - generic [ref=e119]: S
+          - generic [ref=e120]: 36 cm
+        - generic [ref=e121]: Beagle, Cocker Spaniel
+        - slider [ref=e124] [cursor=pointer]: "36"
+        - generic [ref=e125]:
+          - generic [ref=e126]:
+            - generic [ref=e127]: XS
+            - generic [ref=e128]: 20–28
+          - generic [ref=e129]:
+            - generic [ref=e130]: S
+            - generic [ref=e131]: 28–36
+          - generic [ref=e132]:
+            - generic [ref=e133]: M
+            - generic [ref=e134]: 36–44
+          - generic [ref=e135]:
+            - generic [ref=e136]: L
+            - generic [ref=e137]: 44–52
+      - generic [ref=e138]:
+        - generic [ref=e139]:
+          - generic [ref=e140]: Charm system
+          - generic [ref=e141]: Snaps on in 5 seconds.
+          - generic [ref=e142]: Magnetic connector. No clips. No tools. No fuss.
+        - generic [ref=e143]:
+          - generic [ref=e144]: 🌸
+          - generic [ref=e145]: ⭐
+          - generic [ref=e146]: 🦋
+          - generic [ref=e147]: 🌿
+          - generic [ref=e148]: +8 more
+      - generic [ref=e149]:
+        - generic [ref=e150]: Care
+        - generic [ref=e153]:
+          - generic [ref=e154]: Rinse
+          - generic [ref=e155]: After every swim or muddy walk.
+        - generic [ref=e158]:
+          - generic [ref=e159]: Air dry
+          - generic [ref=e160]: Lay flat. No tumble dryers.
+        - generic [ref=e163]:
+          - generic [ref=e164]: Wipe charms
+          - generic [ref=e165]: Damp cloth, then air dry.
+        - generic [ref=e168]:
+          - generic [ref=e169]: Store flat
+          - generic [ref=e170]: In the linen pouch.
+    - contentinfo [ref=e171]:
+      - generic [ref=e172]: Žavesys
+      - generic [ref=e174]: © 2025 · Made with care in Lithuania
+      - generic [ref=e175]: Vandeniui atspari.
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img
+  - button "Open Next.js Dev Tools" [ref=e181] [cursor=pointer]:
+    - img [ref=e182]
+  - alert [ref=e185]
