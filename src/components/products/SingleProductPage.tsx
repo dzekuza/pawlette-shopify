@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { motion, type Variants } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { CommerceFooter } from '@/components/shared/CommerceFooter'
@@ -13,13 +13,9 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { SectionLabel } from '@/components/shared/SectionLabel'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { slugFromProductName } from '@/lib/catalog'
-import { getCollars, type ShopifyCollar } from '@/lib/shopify'
+import { getCollars, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { addLineToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
-
-const FADE_UP: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: (delay: number = 0) => ({ opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut', delay } }),
-}
 
 const DISPLAY_SIZES = ['S', 'M', 'L'] as const
 type DisplaySize = (typeof DISPLAY_SIZES)[number]
@@ -39,26 +35,15 @@ const ALL_GUIDE_SIZES = [
   { key: 'L', range: '44–52' },
 ]
 
-type InfoTab = 'features' | 'includes' | 'care' | 'shipping'
+type CharmTab = 'all' | 'letter' | 'icon'
 
-const DESKTOP_TABS: Array<{ id: InfoTab; label: string }> = [
-  { id: 'features', label: 'Product Features' },
-  { id: 'includes', label: 'Set Includes' },
-  { id: 'care', label: 'Care' },
-  { id: 'shipping', label: 'Shipping & Returns' },
-]
-
-const DEFAULT_TAB_CONTENT: Record<InfoTab, string> = {
-  features:
-    'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.',
-  includes:
-    'Base collar in your chosen colour and size. Five interchangeable snap-on charms. Adjustable safe-release buckle. Linen storage pouch.',
-  care:
-    'Rinse after every swim or muddy walk. Air dry flat — no tumble dryers. Wipe charms with a damp cloth, then air dry. Store flat in the linen pouch.',
-  shipping:
-    'Free shipping on orders over €40. Delivered in 2–4 business days. Returns accepted within 30 days of purchase in original condition.',
+const DEFAULT_CONTENT = {
+  features: 'Waterproof silicone construction, lightweight adjustable fit, safe-release buckle, dirt and odor resistance.',
+  set_includes: 'Base collar in your chosen colour and size. Five interchangeable snap-on charms. Adjustable safe-release buckle. Linen storage pouch.',
+  care: 'Rinse after every swim or muddy walk. Air dry flat — no tumble dryers. Wipe charms with a damp cloth, then air dry.',
+  shipping: 'Free shipping on orders over €40. Delivered in 2–4 business days. Returns accepted within 30 days of purchase in original condition.',
+  charm_features: 'Silicone snap-on charm. Clicks on and off in five seconds without tools. Waterproof and odor-resistant.',
 }
-
 
 const CARE_BULLETS = [
   { title: 'Rinse', desc: 'After every swim or muddy walk.' },
@@ -67,6 +52,12 @@ const CARE_BULLETS = [
   { title: 'Store flat', desc: 'In the linen pouch.' },
 ]
 
+const TEXT_PRIMARY = '#3D3530'
+const TEXT_SECONDARY = '#6B6460'
+const TEXT_MUTED = '#9B948F'
+const BORDER_COLOR = '#E8E3DC'
+const DIVIDER = '#EDEAE4'
+
 interface Props {
   product: ProductDetail
 }
@@ -74,197 +65,344 @@ interface Props {
 export function SingleProductPage({ product }: Props) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
-  const isCompactHero = width < 1280
   const isCompactBento = width < 1180
   const isScrollableRecommendations = width < 1200
 
   const isCollar = product.productType === 'collar'
-
-  const tabContent: Record<InfoTab, string> = {
-    features: product.features ?? DEFAULT_TAB_CONTENT.features,
-    includes: product.set_includes ?? DEFAULT_TAB_CONTENT.includes,
-    care: product.care ?? DEFAULT_TAB_CONTENT.care,
-    shipping: product.shipping ?? DEFAULT_TAB_CONTENT.shipping,
-  }
-
-  const mobileAccordion: AccordionItem[] = [
-    { id: 'features', title: 'Product Features', content: tabContent.features },
-    { id: 'shipping', title: 'Shipping & Returns', content: tabContent.shipping },
-    { id: 'warranty', title: 'Warranty', content: "12-month warranty against manufacturing defects. If something breaks, we'll replace it — no questions asked." },
-  ]
+  const hasCharmVariants = !!product.charmVariants?.length
 
   const [collars, setCollars] = useState<ShopifyCollar[]>([])
   const [selectedCollar, setSelectedCollar] = useState<ShopifyCollar | null>(null)
-  const [selectedSize, setSelectedSize] = useState<DisplaySize>('S')
+  const [selectedSize, setSelectedSize] = useState<DisplaySize>('M')
+  const [selectedCharm, setSelectedCharm] = useState<ShopifyCharm | null>(
+    product.charmVariants?.[0] ?? null
+  )
+  const [charmTab, setCharmTab] = useState<CharmTab>('all')
+  const [charmQuery, setCharmQuery] = useState('')
+  const [added, setAdded] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
+    if (!isCollar) return
     getCollars().then((data) => {
       setCollars(data)
       const match = data.find((c) => c.color === product.accentColor) ?? data[0] ?? null
       setSelectedCollar(match)
     })
-  }, [product.accentColor])
-  const [desktopTab, setDesktopTab] = useState<InfoTab>('features')
-  const [added, setAdded] = useState(false)
-  const router = useRouter()
+  }, [isCollar, product.accentColor])
 
-  const handleAddToCart = () => {
-    const item = {
-      collarId: selectedCollar?.id ?? '',
-      collarName: selectedCollar?.title ?? '',
-      collarColor: selectedCollar?.color ?? '',
-      collarBgTint: selectedCollar?.bgTint ?? '',
-      collarVariantId: selectedCollar?.variantId ?? '',
-      charmIds: [],
-      charmVariantIds: [],
-      size: selectedSize,
-      engraving: '',
+  const activeCharm = hasCharmVariants ? selectedCharm : null
+  const displayImage = activeCharm?.image || product.image || ''
+  const displayAccentColor = activeCharm?.bg || product.accentColor
+  const displayName = hasCharmVariants && activeCharm ? activeCharm.title : product.name
+  const displayPrice = hasCharmVariants
+    ? (activeCharm?.price ?? product.price)
+    : isCollar
+      ? (selectedCollar?.price ?? product.price)
+      : product.price
+
+  const filteredCharms = useMemo(() => {
+    if (!product.charmVariants) return []
+    let list = charmTab === 'all'
+      ? [...product.charmVariants]
+      : product.charmVariants.filter((c) => c.category === charmTab)
+    if (charmQuery.trim()) {
+      list = list.filter((c) => c.title.toLowerCase().includes(charmQuery.toLowerCase()))
     }
-    const existing = JSON.parse(localStorage.getItem('pawlette_cart') ?? '[]')
-    localStorage.setItem('pawlette_cart', JSON.stringify([...existing, item]))
+    return list
+  }, [product.charmVariants, charmTab, charmQuery])
+
+  const accordionItems: AccordionItem[] = isCollar
+    ? [
+        { id: 'description', title: 'Description', content: product.shortDescription },
+        { id: 'features', title: 'Product Features', content: product.features ?? DEFAULT_CONTENT.features },
+        { id: 'includes', title: 'Set Includes', content: product.set_includes ?? DEFAULT_CONTENT.set_includes },
+        { id: 'care', title: 'Care', content: product.care ?? DEFAULT_CONTENT.care },
+        { id: 'shipping', title: 'Shipping & Returns', content: product.shipping ?? DEFAULT_CONTENT.shipping },
+      ]
+    : [
+        { id: 'description', title: 'Description', content: product.shortDescription },
+        { id: 'features', title: 'Product Features', content: product.features ?? DEFAULT_CONTENT.charm_features },
+        { id: 'care', title: 'Care', content: product.care ?? DEFAULT_CONTENT.care },
+        { id: 'shipping', title: 'Shipping & Returns', content: product.shipping ?? DEFAULT_CONTENT.shipping },
+      ]
+
+  const handleAddToCart = async () => {
+    const variantId = isCollar
+      ? (selectedCollar?.variantId ?? product.variantId)
+      : hasCharmVariants
+        ? (selectedCharm?.variantId ?? product.variantId)
+        : product.variantId
+    if (!variantId) return
     setAdded(true)
+    try {
+      await addLineToCart(variantId)
+    } catch (e) {
+      console.error('Add to cart failed', e)
+    }
     setTimeout(() => {
       setAdded(false)
       router.push('/cart')
     }, 800)
   }
 
-  const displayImage = product.image || ''
-  const displayName = product.name
-  const displayBadge = product.badge
-  const displayBadgeColor: string | undefined = undefined
-  const displayBadgeBg: string | undefined = undefined
+  const leftImage = (
+    <div
+      style={{
+        position: 'sticky',
+        top: 80,
+        borderRadius: 28,
+        overflow: 'hidden',
+        width: '100%',
+        aspectRatio: '1 / 1',
+        background: isCollar ? '#F0EBE5' : displayAccentColor,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'background-color 300ms ease-out',
+      }}
+    >
+      {displayImage ? (
+        <img
+          src={displayImage}
+          alt={displayName}
+          style={{
+            width: isCollar ? '100%' : '72%',
+            height: isCollar ? '100%' : '72%',
+            objectFit: isCollar ? 'cover' : 'contain',
+          }}
+        />
+      ) : (
+        <div style={{ width: '100%', height: '100%', background: displayAccentColor }} />
+      )}
+    </div>
+  )
+
+  const rightPanel = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans', sans-serif" }}>
+
+      {/* Title + description */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <h1 style={{ margin: 0, fontSize: isMobile ? 26 : 32, fontWeight: 600, color: TEXT_PRIMARY, lineHeight: 1.2, letterSpacing: '-0.02em' }}>
+          {displayName}
+        </h1>
+        <p style={{ margin: 0, fontSize: 15, color: TEXT_SECONDARY, lineHeight: 1.6 }}>
+          {product.shortDescription}
+        </p>
+      </div>
+
+      {/* Price */}
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+        <span style={{ fontSize: 26, fontWeight: 700, color: TEXT_PRIMARY }}>{displayPrice}</span>
+        <span style={{ fontSize: 13, color: TEXT_MUTED }}>incl. VAT</span>
+      </div>
+
+      {/* Colour selector — collars */}
+      {isCollar && collars.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
+              Colour
+            </span>
+            <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{selectedCollar?.title ?? ''}</span>
+          </div>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {collars.map((collar) => {
+              const active = collar.id === selectedCollar?.id
+              return (
+                <button
+                  key={collar.id}
+                  onClick={() => setSelectedCollar(collar)}
+                  aria-label={`Select ${collar.title}`}
+                  style={{
+                    width: 44, height: 44, borderRadius: 14, padding: 0,
+                    background: collar.color, cursor: 'pointer',
+                    border: active ? `2.5px solid ${TEXT_PRIMARY}` : '2.5px solid transparent',
+                    boxShadow: active ? 'none' : `0 2px 8px 0 ${collar.glowColor}`,
+                    transition: 'border-color 150ms ease-out, transform 100ms ease-out',
+                  }}
+                />
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Charm picker — charm-charms page */}
+      {hasCharmVariants && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
+              Choose charm
+            </span>
+            {selectedCharm && (
+              <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selectedCharm.title}</span>
+            )}
+          </div>
+
+          {/* Category tabs */}
+          <div style={{ display: 'flex', gap: 6 }}>
+            {(['all', 'letter', 'icon'] as CharmTab[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setCharmTab(t)}
+                style={{
+                  padding: '6px 14px', borderRadius: 20, border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 500, fontFamily: "'DM Sans', sans-serif",
+                  background: charmTab === t ? TEXT_PRIMARY : '#EDE8E2',
+                  color: charmTab === t ? '#FAF7F2' : TEXT_MUTED,
+                  transition: 'background-color 150ms ease-out, color 150ms ease-out',
+                }}
+              >
+                {t === 'all' ? 'All' : t === 'letter' ? 'Letters' : 'Icons'}
+              </button>
+            ))}
+          </div>
+
+          {/* Search */}
+          <input
+            type="search"
+            value={charmQuery}
+            onChange={(e) => setCharmQuery(e.target.value)}
+            placeholder="Search charms…"
+            style={{
+              width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10,
+              border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY,
+              fontSize: 13, fontFamily: "'DM Sans', sans-serif", outline: 'none',
+              transition: 'border-color 150ms ease-out',
+            }}
+            onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }}
+            onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }}
+          />
+
+          {/* Grid */}
+          <div style={{ overflowY: 'auto', maxHeight: 300, paddingRight: 2 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8 }}>
+              {filteredCharms.map((charm) => {
+                const isSelected = selectedCharm?.id === charm.id
+                return (
+                  <button
+                    key={charm.id}
+                    onClick={() => setSelectedCharm(charm)}
+                    title={charm.title}
+                    style={{
+                      borderRadius: 14, background: '#F0EBE5', cursor: 'pointer', padding: '10px 6px 8px',
+                      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4,
+                      outline: 'none',
+                      border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+                      boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none',
+                      transition: 'border-color 120ms ease-out, transform 100ms ease-out',
+                    }}
+                  >
+                    <img src={charm.image} alt="" aria-hidden="true" style={{ width: 48, height: 48, objectFit: 'contain' }} />
+                    <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.05em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2 }}>
+                      {charm.title}
+                    </span>
+                  </button>
+                )
+              })}
+              {filteredCharms.length === 0 && (
+                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>
+                  No charms found
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Size selector — collars */}
+      {isCollar && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
+            Size
+          </span>
+          <div style={{ display: 'flex', gap: 10 }}>
+            {DISPLAY_SIZES.map((size) => {
+              const active = size === selectedSize
+              return (
+                <button
+                  key={size}
+                  onClick={() => setSelectedSize(size)}
+                  style={{
+                    flex: 1, padding: '12px 4px', borderRadius: 10, cursor: 'pointer',
+                    fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 15, textAlign: 'center',
+                    border: 'none',
+                    background: active ? TEXT_PRIMARY : '#fff',
+                    color: active ? '#FAF7F2' : TEXT_PRIMARY,
+                    boxShadow: active ? 'none' : `0 0 0 1.5px ${BORDER_COLOR}`,
+                    transition: 'background-color 150ms ease-out, color 150ms ease-out',
+                  }}
+                >
+                  {size}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Divider */}
+      <div style={{ height: 1, background: DIVIDER }} />
+
+      {/* CTA */}
+      <div>
+        <button
+          onClick={handleAddToCart}
+          style={{
+            width: '100%', padding: isMobile ? '14px' : '16px', borderRadius: 50, border: 'none',
+            cursor: 'pointer', fontFamily: "'DM Sans', sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+            background: '#A8D5A2', color: '#2a5a25',
+            transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+            boxShadow: '0 4px 20px rgba(168,213,162,0.45)',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' }}
+          onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
+          onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+        >
+          {added ? '✓ Added to cart' : `Add to cart — ${displayPrice}`}
+        </button>
+        <p style={{ textAlign: 'center', marginTop: 10, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>
+          Free shipping over €50 · Made in Lithuania
+        </p>
+      </div>
+
+      {/* Product info accordion */}
+      <Accordion items={accordionItems} isMobile={isMobile} />
+    </div>
+  )
 
   return (
     <div className="bg-cream text-bark min-h-screen font-sans">
       <LandingNav topOffset={0} />
 
       <div style={{ paddingTop: 64 }}>
-        {/* ── Product hero ── */}
-        {isCompactHero ? (
-          <section
-            className="bg-cream flex flex-col"
-            style={{
-              padding: isMobile ? '24px 16px' : '32px 24px 48px',
-              gap: 24,
-              maxWidth: isMobile ? undefined : 960,
-              margin: isMobile ? undefined : '0 auto',
-            }}
-          >
-            <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0}>
-              <ProductImage
-                src={displayImage}
-                alt={displayName}
-                height={isMobile ? 384 : 560}
-                badge={displayBadge}
-                badgeBg={displayBadgeBg}
-                badgeColor={displayBadgeColor}
-                isCollar={isCollar}
-                accentColor={product.accentColor}
-              />
-            </motion.div>
-            <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0.1}>
-              <ProductInfoBlock
-                displayName={displayName}
-                product={product}
-                collars={collars}
-                selectedCollar={selectedCollar}
-                selectedSize={selectedSize}
-                isCollar={isCollar}
-                isMobile={isMobile}
-                onCollarChange={setSelectedCollar}
-                onSizeChange={setSelectedSize}
-              />
-            </motion.div>
-            <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0.18}>
-              <PrimaryButton variant={added ? 'sage' : 'dark'} fullWidth onClick={handleAddToCart}>
-                {added ? '✓ Added to cart' : `${product.price} — Add to cart`}
-              </PrimaryButton>
-            </motion.div>
-            <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0.24}>
-              {isMobile ? (
-                <Accordion items={mobileAccordion} isMobile />
-              ) : (
-                <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} tabContent={tabContent} />
-              )}
-            </motion.div>
+        {/* ── Hero ── */}
+        {isMobile ? (
+          <section style={{ padding: '24px 16px', display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {leftImage}
+            {rightPanel}
           </section>
         ) : (
-          <section
-            className="bg-cream flex items-start"
-            style={{ padding: '24px 64px 64px', gap: 64, maxWidth: 1440, margin: '0 auto' }}
-          >
-            {/* Left: sticky image area */}
-            <motion.div variants={FADE_UP} initial="hidden" animate="show" custom={0} style={{ flexShrink: 0 }}>
-              {isCollar ? (
-                <div className="flex flex-col" style={{ position: 'sticky', top: 80, gap: 16 }}>
-                  {[[0, 1], [2, 3]].map((row, ri) => (
-                    <div key={ri} className="flex" style={{ gap: 16 }}>
-                      {row.map((i) => (
-                        <ProductImage
-                          key={i}
-                          src={product.images[i] ?? displayImage}
-                          alt={displayName}
-                          height={360}
-                          width={360}
-                          badge={i === 0 ? displayBadge : undefined}
-                          badgeBg={displayBadgeBg}
-                          badgeColor={displayBadgeColor}
-                        />
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div
-                  className="flex items-center justify-center overflow-hidden"
-                  style={{
-                    position: 'sticky', top: 80,
-                    width: 480, height: 480, borderRadius: 24,
-                    background: product.accentColor,
-                  }}
-                >
-                  <img
-                    src={displayImage}
-                    alt={displayName}
-                    className="object-contain"
-                    style={{ width: '72%', height: '72%' }}
-                  />
-                </div>
-              )}
-            </motion.div>
-
-            {/* Right: product info */}
-            <motion.div
-              variants={FADE_UP} initial="hidden" animate="show" custom={0.1}
-              className="flex-1 min-w-0 flex flex-col"
-              style={{ gap: 24 }}
-            >
-              <ProductInfoBlock
-                displayName={displayName}
-                product={product}
-                collars={collars}
-                selectedCollar={selectedCollar}
-                selectedSize={selectedSize}
-                isCollar={isCollar}
-                isMobile={isMobile}
-                onCollarChange={setSelectedCollar}
-                onSizeChange={setSelectedSize}
-              />
-              <PrimaryButton variant={added ? 'sage' : 'dark'} fullWidth onClick={handleAddToCart}>
-                {added ? '✓ Added to cart' : `${product.price} — Add to cart`}
-              </PrimaryButton>
-              <DesktopTabsPanel desktopTab={desktopTab} onSelect={setDesktopTab} tabContent={tabContent} />
-            </motion.div>
+          <section style={{ padding: '32px 64px 64px', maxWidth: 1440, margin: '0 auto' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 440px', gap: 64, alignItems: 'start' }}>
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+                {leftImage}
+              </motion.div>
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45, delay: 0.1 }}>
+                {rightPanel}
+              </motion.div>
+            </div>
           </section>
         )}
 
-        {/* ── Bento section ── */}
+        {/* ── Bento ── */}
         <section
-          className="bg-surface-2 flex flex-col"
+          className="bg-surface-2"
           style={{
             padding: isMobile ? '24px 16px' : '64px',
-            gap: 16,
+            display: 'flex', flexDirection: 'column', gap: 16,
             maxWidth: isMobile ? undefined : 1440,
             margin: isMobile ? undefined : '0 auto',
           }}
@@ -281,13 +419,11 @@ export function SingleProductPage({ product }: Props) {
             </>
           ) : (
             <>
-              {/* Row 1: Waterproof + Handmade */}
-              <div className="flex" style={{ gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
+              <div style={{ display: 'flex', gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
                 <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}><WaterproofCard /></div>
                 <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}><HandmadeCard /></div>
               </div>
-              {/* Row 2: Sizing + Charm + Care */}
-              <div className="flex items-stretch" style={{ gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
+              <div style={{ display: 'flex', alignItems: 'stretch', gap: 16, flexWrap: isCompactBento ? 'wrap' : 'nowrap' }}>
                 {isCollar && (
                   <div style={{ flex: isCompactBento ? '1 1 320px' : 1, minWidth: isCompactBento ? 320 : 0 }}>
                     <SizingGuide selectedSize={selectedSize} onSizeChange={setSelectedSize} sizeIndex={SIZE_INDEX} allSizes={ALL_GUIDE_SIZES} sizeDetails={SIZE_DETAILS} />
@@ -305,7 +441,7 @@ export function SingleProductPage({ product }: Props) {
 
         {/* ── You might also like ── */}
         <YouMightAlsoLike
-          currentAccentColor={product.accentColor}
+          currentAccentColor={displayAccentColor}
           isMobile={isMobile}
           isScrollable={isScrollableRecommendations}
         />
@@ -316,191 +452,7 @@ export function SingleProductPage({ product }: Props) {
   )
 }
 
-function DesktopTabsPanel({
-  desktopTab,
-  onSelect,
-  tabContent,
-}: {
-  desktopTab: InfoTab
-  onSelect: (tab: InfoTab) => void
-  tabContent: Record<InfoTab, string>
-}) {
-  return (
-    <div className="bg-white rounded-2xl flex flex-col" style={{ padding: '24px 16px', gap: 18 }}>
-      <div className="flex gap-2 flex-wrap">
-        {DESKTOP_TABS.map((tab) => {
-          const active = tab.id === desktopTab
-          return (
-            <button
-              key={tab.id}
-              onClick={() => onSelect(tab.id)}
-              className="rounded-[10px] border-none cursor-pointer font-sans whitespace-nowrap"
-              style={{
-                padding: '8px 12px', fontSize: 13, fontWeight: 500,
-                background: active ? 'var(--color-bark)' : '#f4efe8',
-                color: active ? 'var(--color-cream)' : 'var(--color-bark-light)',
-              }}
-            >
-              {tab.label}
-            </button>
-          )
-        })}
-      </div>
-      <p className="m-0 text-bark-light" style={{ fontSize: 14, lineHeight: '24.5px' }}>
-        {tabContent[desktopTab]}
-      </p>
-    </div>
-  )
-}
-
 /* ── Sub-components ── */
-
-function ProductImage({
-  src, alt, height, width, badge, badgeBg, badgeColor, isCollar, accentColor,
-}: {
-  src: string; alt: string; height: number; width?: number
-  badge?: string; badgeBg?: string; badgeColor?: string
-  isCollar?: boolean; accentColor?: string
-}) {
-  const isCharm = isCollar === false
-  return (
-    <div
-      className="rounded-[20px] overflow-hidden relative"
-      style={{
-        height, width: width ?? '100%', flexShrink: width ? 0 : undefined,
-        background: isCharm ? accentColor : undefined,
-        display: isCharm ? 'flex' : undefined,
-        alignItems: isCharm ? 'center' : undefined,
-        justifyContent: isCharm ? 'center' : undefined,
-      }}
-    >
-      <img
-        src={src}
-        alt={alt}
-        style={{
-          width: isCharm ? '72%' : '100%',
-          height: isCharm ? '72%' : '100%',
-          objectFit: isCharm ? 'contain' : 'cover',
-        }}
-      />
-      {badge && (
-        <div className="absolute top-3.5 right-3.5 rounded-[20px]" style={{ background: badgeBg, padding: '3.5px 10px' }}>
-          <span className="font-medium uppercase" style={{ fontSize: 10, color: badgeColor, letterSpacing: '0.6px' }}>
-            {badge}
-          </span>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function ProductInfoBlock({
-  displayName, product, collars, selectedCollar, selectedSize,
-  isCollar, isMobile, onCollarChange, onSizeChange,
-}: {
-  displayName: string
-  product: ProductDetail
-  collars: ShopifyCollar[]
-  selectedCollar: ShopifyCollar | null
-  selectedSize: DisplaySize
-  isCollar: boolean
-  isMobile: boolean
-  onCollarChange: (c: ShopifyCollar) => void
-  onSizeChange: (s: DisplaySize) => void
-}) {
-  return (
-    <div className="flex flex-col min-w-0" style={{ gap: 16 }}>
-      {/* Name + price */}
-      <div
-        className="flex"
-        style={{
-          justifyContent: 'space-between',
-          alignItems: isMobile ? 'flex-start' : 'flex-end',
-          gap: 12,
-          flexWrap: isMobile ? 'wrap' : 'nowrap',
-        }}
-      >
-        <div className="flex flex-col min-w-0 flex-1" style={{ gap: isMobile ? 0 : 8 }}>
-          <p className="m-0 font-medium text-bark" style={{ fontSize: isMobile ? 24 : 32, lineHeight: isMobile ? '32px' : '40px' }}>
-            {displayName}
-          </p>
-          <p className="m-0 text-bark-muted" style={{ fontSize: 16, lineHeight: '24px' }}>
-            {product.shortDescription}
-          </p>
-        </div>
-        <p className="m-0 ml-auto font-medium text-bark whitespace-nowrap" style={{ fontSize: isMobile ? 20 : 24, lineHeight: '30px' }}>
-          {product.price}
-        </p>
-      </div>
-
-      {/* Colour selector */}
-      {isCollar && (
-        <div className="flex flex-col" style={{ gap: 12 }}>
-          <SectionLabel>
-            Select colour —{' '}
-            <span style={{ fontWeight: 400, color: 'var(--color-bark-light)', textTransform: 'none', letterSpacing: 0 }}>
-              {selectedCollar?.title ?? ''}
-            </span>
-          </SectionLabel>
-          <div className="flex flex-wrap" style={{ gap: 8 }}>
-            {collars.map((collar) => {
-              const active = collar.id === selectedCollar?.id
-              return (
-                <motion.button
-                  key={collar.id}
-                  onClick={() => onCollarChange(collar)}
-                  aria-label={`Select ${collar.title} colour`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ duration: 0.15 }}
-                  className="cursor-pointer p-0"
-                  style={{
-                    width: 48, height: 48, borderRadius: 16,
-                    background: collar.color,
-                    border: active ? '2px solid var(--color-bark)' : '3px solid transparent',
-                    boxShadow: active ? 'none' : `0 2px 8px 0 ${collar.glowColor}`,
-                  }}
-                />
-              )
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Size selector */}
-      {isCollar && (
-        <div className="flex flex-col" style={{ gap: 12 }}>
-          <SectionLabel>Size</SectionLabel>
-          <div className="flex flex-wrap" style={{ gap: 12 }}>
-            {DISPLAY_SIZES.map((size) => {
-              const active = size === selectedSize
-              return (
-                <motion.button
-                  key={size}
-                  onClick={() => onSizeChange(size)}
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ duration: 0.15 }}
-                  className="cursor-pointer font-sans font-medium text-center border-none"
-                  style={{
-                    flex: '1 1 96px', padding: '12px 4px', borderRadius: 10,
-                    background: active ? 'var(--color-bark)' : '#fff',
-                    color: active ? 'var(--color-cream)' : 'rgba(45,45,45,0.87)',
-                    fontSize: 16,
-                    letterSpacing: '0.44px',
-                  }}
-                >
-                  {size}
-                </motion.button>
-              )
-            })}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
 
 function WaterproofCard() {
   return (
@@ -721,10 +673,7 @@ function YouMightAlsoLike({
               key={p.id}
               href={`/products/${slug}`}
               className="no-underline text-inherit flex-shrink-0"
-              style={{
-                width: 272,
-                scrollSnapAlign: isScrollable ? 'start' : undefined,
-              }}
+              style={{ width: 272, scrollSnapAlign: isScrollable ? 'start' : undefined }}
             >
               <div className="rounded-[20px] overflow-hidden relative" style={{ height: 200 }}>
                 <img src={p.image} alt={p.name} className="w-full h-full object-cover" />
