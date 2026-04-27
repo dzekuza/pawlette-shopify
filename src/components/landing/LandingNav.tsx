@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
   { label: 'Shop collars', href: '/products' },
@@ -25,6 +26,8 @@ interface LandingNavProps {
 }
 
 export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNavProps) {
+  const width = useWindowWidth() ?? 1200;
+  const isMobile = width < 768;
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -140,7 +143,15 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
           ))}
         </nav>
 
-        <div className="absolute bottom-10 left-10 right-10 flex justify-between items-center">
+        <div
+          className="absolute left-10 right-10 flex justify-between items-center"
+          style={{
+            bottom: isMobile ? 28 : 40,
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            gap: isMobile ? 10 : 0,
+          }}
+        >
           <span className="font-sans text-[13px] text-bark-muted">Made in Vilnius, Lithuania</span>
           <a
             href="mailto:hello@pawcharms.lt"

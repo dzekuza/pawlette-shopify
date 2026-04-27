@@ -36,6 +36,7 @@ const FADE_UP = {
 export function FloatingHero({ className }: FloatingHeroProps) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
+  const isCompactMobile = w < 420;
 
   return (
     <section
@@ -152,26 +153,26 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           custom={0.4} variants={FADE_UP} initial="hidden" animate="show"
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+            gridTemplateColumns: isCompactMobile ? "1fr" : "repeat(2, minmax(0, 1fr))",
             gap: 10,
             width: "100%"
           }}
         >
           <Link
             href="/products"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", transition: "background 150ms" }}
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
           >
             Build your collar →
           </Link>
           <Link
-            href="/products"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: "14px 32px", borderRadius: 100, border: "2px solid #A8D5A2", color: "#A8D5A2", textDecoration: "none", background: "transparent", display: "block", textAlign: "center", transition: "background 150ms" }}
+            href="/products/charm-charms"
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "14px 32px", borderRadius: 100, border: "2px solid #A8D5A2", color: "#2a5a25", textDecoration: "none", background: "rgba(168,213,162,0.1)", display: "block", textAlign: "center", transition: "background 150ms, border-color 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#D4EDD1")}
-            onMouseOut={e => (e.currentTarget.style.background = "transparent")}
+            onMouseOut={e => (e.currentTarget.style.background = "rgba(168,213,162,0.1)")}
           >
-            See all collars
+            Shop charms
           </Link>
         </motion.div>
 

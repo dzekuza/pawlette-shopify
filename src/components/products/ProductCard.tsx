@@ -6,13 +6,13 @@ export function ProductCard ({ product }: { product: LandingCollar }) {
   return (
     <Link
       href={`/products/${slugFromProductName(product.name)}`}
-      style={{ textDecoration: 'none' }}
+      style={{ textDecoration: 'none', display: 'block', height: '100%' }}
     >
       <article
         data-animate='card'
-        style={{ cursor: 'pointer', borderRadius: 20, transition: 'transform 200ms ease-out' }}
+        style={{ cursor: 'pointer', borderRadius: 20, transition: 'transform 200ms ease-out', display: 'flex', flexDirection: 'column', height: '100%' }}
       >
-        <div style={{ height: 280, position: 'relative', overflow: 'hidden', borderRadius: 20, background: product.bg }}>
+        <div style={{ height: 'clamp(220px, 34vw, 280px)', position: 'relative', overflow: 'hidden', borderRadius: 20, background: product.bg }}>
           {product.image && (
             <img
               src={product.image}
@@ -32,15 +32,28 @@ export function ProductCard ({ product }: { product: LandingCollar }) {
             </span>
           </div>
         </div>
-        <div style={{ padding: '16px 4px 8px' }}>
-          <div style={{ marginBottom: 4, fontSize: 16, fontWeight: 500, color: '#3D3530' }}>{product.name}</div>
-          <div style={{ marginBottom: 14, fontSize: 13, lineHeight: 1.5, color: '#9B948F' }}>{product.desc}</div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530' }}>
+        <div style={{ padding: '16px 4px 8px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+          <div style={{ marginBottom: 6, fontSize: 16, fontWeight: 500, lineHeight: 1.35, color: '#3D3530' }}>{product.name}</div>
+          <div
+            style={{
+              marginBottom: 14,
+              fontSize: 13,
+              lineHeight: 1.55,
+              color: '#9B948F',
+              display: '-webkit-box',
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+            }}
+          >
+            {product.desc}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16, marginTop: 'auto' }}>
+            <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530', lineHeight: 1.2 }}>
               {product.price}
-              <span style={{ marginLeft: 6, fontSize: 12, fontWeight: 400, color: '#9B948F' }}>· 5 charms</span>
+              <span style={{ marginLeft: 6, fontSize: 12, fontWeight: 400, color: '#9B948F', whiteSpace: 'nowrap' }}>· 5 charms</span>
             </div>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25' }}>View details →</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25', whiteSpace: 'nowrap' }}>View details →</span>
           </div>
         </div>
       </article>

@@ -92,7 +92,7 @@ export function SingleProductPage ({ product }: Props) {
   const isCharmProduct = product.tags?.includes('Charm') || product.productType === 'charm'
 
   // ── Collar PDP state ──
-  const [collars, setCollars] = useState<ShopifyCollar[]>([])
+  const [, setCollars] = useState<ShopifyCollar[]>([])
   const [charms, setCharms] = useState<ShopifyCharm[]>([])
   const [collar, setCollar] = useState<ShopifyCollar | null>(null)
   const [selectedColor, setSelectedColor] = useState<string>('')
@@ -100,7 +100,7 @@ export function SingleProductPage ({ product }: Props) {
 
   // ── Charm page state ──
   const [selectedCharm, setSelectedCharm] = useState<ShopifyCharm | null>(product.charmVariants?.[0] ?? null)
-  const [charmTab, setCharmTab] = useState<CharmTab>('all')
+  const [charmTab] = useState<CharmTab>('all')
   const [charmColor, setCharmColor] = useState<string>('all')
   const [charmQuery, setCharmQuery] = useState('')
   const [added, setAdded] = useState(false)
@@ -109,7 +109,7 @@ export function SingleProductPage ({ product }: Props) {
   // ── Personalise dialog ──
   const [personaliseOpen, setPersonaliseOpen] = useState(false)
   const [selectedCollarCharms, setSelectedCollarCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
-  const [collarCharmTab, setCollarCharmTab] = useState<CharmTab>('all')
+  const [collarCharmTab] = useState<CharmTab>('all')
   const [collarCharmColor, setCollarCharmColor] = useState<string>('all')
   const [collarCharmQuery, setCollarCharmQuery] = useState('')
   const [charmAdded, setCharmAdded] = useState(false)
@@ -233,8 +233,6 @@ export function SingleProductPage ({ product }: Props) {
   const gallery = (collar?.images && collar.images.length > 0) ? collar.images : localGallery
 
   const NAV_H = 72
-  const displayAccentColor = selectedCharm?.bg ?? product.accentColor
-  const displayImage = selectedCharm?.image ?? product.image ?? ''
   const displayName = selectedCharm?.title ?? product.name
   const displayPrice = selectedCharm?.price ?? product.price
   const charmGallery = product.images.length > 0
@@ -319,7 +317,7 @@ export function SingleProductPage ({ product }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
-                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} tab={charmTab} onTabChange={setCharmTab} query={charmQuery} onQueryChange={setCharmQuery} />
+                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} query={charmQuery} onQueryChange={setCharmQuery} />
               </>
             )}
             <div style={{ height: 1, background: '#EDEAE4' }} />
@@ -387,7 +385,7 @@ export function SingleProductPage ({ product }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollar ? (
           <div style={{ overflowY: 'auto', paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} product={product} showCharms={!isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -403,7 +401,7 @@ export function SingleProductPage ({ product }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
-                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} tab={charmTab} onTabChange={setCharmTab} query={charmQuery} onQueryChange={setCharmQuery} />
+                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} query={charmQuery} onQueryChange={setCharmQuery} />
               </>
             )}
             <div style={{ height: 1, background: DIVIDER }} />
@@ -481,8 +479,6 @@ export function SingleProductPage ({ product }: Props) {
                 selected={null}
                 selectedIds={selectedCollarCharms.filter(Boolean).map(c => c!.id)}
                 onSelect={toggleCollarCharm}
-                tab={collarCharmTab}
-                onTabChange={setCollarCharmTab}
                 query={collarCharmQuery}
                 onQueryChange={setCollarCharmQuery}
               />
@@ -561,11 +557,10 @@ interface CollarPDPProps {
   selectedCharms?: (ShopifyCharm | null)[]
   price: string
   name: string
-  product?: ProductDetail
   showCharms?: boolean
 }
 
-function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, price, name, product, showCharms = true }: CollarPDPProps) {
+function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, price, name, showCharms = true }: CollarPDPProps) {
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
 
@@ -776,10 +771,10 @@ function CharmColorPicker ({ color, onColorChange }: { color: string; onColorCha
 }
 
 function CharmPicker ({
-  charms, selected, selectedIds, onSelect, tab, onTabChange, query, onQueryChange,
+  charms, selected, selectedIds, onSelect, query, onQueryChange,
 }: {
   charms: ShopifyCharm[]; selected: ShopifyCharm | null; selectedIds?: string[]; onSelect: (c: ShopifyCharm) => void
-  tab: CharmTab; onTabChange: (t: CharmTab) => void; query: string; onQueryChange: (q: string) => void
+  query: string; onQueryChange: (q: string) => void
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12, height: '100%', minHeight: 0 }}>
@@ -791,13 +786,13 @@ function CharmPicker ({
 <input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Search charms…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY, fontSize: 13, fontFamily: "'DM Sans',sans-serif", outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
       </div>
       <div style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
           {charms.map((charm) => {
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
-              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '6px 4px 5px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 3, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
-                <img src={charm.image} alt="" aria-hidden="true" style={{ width: 32, height: 32, objectFit: 'contain' }} />
-                <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2 }}>{charm.title}</span>
+              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
+                <img src={charm.image} alt="" aria-hidden="true" style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
               </button>
             )
           })}
