@@ -1,0 +1,313 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - navigation [ref=e4]:
+        - link "Shop" [ref=e5] [cursor=pointer]:
+          - /url: /products
+        - link "Charms" [ref=e6] [cursor=pointer]:
+          - /url: /products/charm-charms
+        - link "Build yours" [ref=e7] [cursor=pointer]:
+          - /url: /configure
+        - link "Care" [ref=e8] [cursor=pointer]:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+      - link "Žavesys home" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - img "Žavesys" [ref=e10]
+      - generic [ref=e11]:
+        - button "Cart" [ref=e12] [cursor=pointer]:
+          - img [ref=e13]
+        - button "Open menu" [ref=e16] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /configure
+          - text: Build yours
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e20]:
+      - img "collar" [ref=e23]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - paragraph [ref=e30]: Waterproof Collar
+          - heading "Blossom Collar" [level=1] [ref=e31]
+          - generic [ref=e32]:
+            - generic [ref=e33]: €28
+            - generic [ref=e34]: free shipping over €50
+        - button "Add to cart — €28" [ref=e36] [cursor=pointer]
+        - paragraph [ref=e37]: Free shipping over €50 · Made in Lithuania
+        - generic [ref=e38]:
+          - button "Description +" [ref=e40] [cursor=pointer]:
+            - text: Description
+            - generic [ref=e41]: +
+          - button "Product Features +" [ref=e43] [cursor=pointer]:
+            - text: Product Features
+            - generic [ref=e44]: +
+          - button "Set Includes +" [ref=e46] [cursor=pointer]:
+            - text: Set Includes
+            - generic [ref=e47]: +
+          - button "Care +" [ref=e49] [cursor=pointer]:
+            - text: Care
+            - generic [ref=e50]: +
+          - button "Shipping & Returns +" [ref=e52] [cursor=pointer]:
+            - text: Shipping & Returns
+            - generic [ref=e53]: +
+    - generic [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]:
+            - generic [ref=e59]: The material
+            - generic [ref=e60]:
+              - text: Waterproof.
+              - text: No odor. No stains.
+            - generic [ref=e61]: TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
+          - generic [ref=e62]:
+            - generic [ref=e63]: Lakes
+            - generic [ref=e64]: Mud
+            - generic [ref=e65]: Rain
+            - generic [ref=e66]: Snow
+        - generic [ref=e67]:
+          - generic [ref=e68]: Origin
+          - generic [ref=e69]:
+            - text: Handmade in
+            - text: Vilnius, Lithuania.
+          - generic [ref=e70]: Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
+          - generic [ref=e71]: Vandeniui atspari.
+      - generic [ref=e72]:
+        - generic [ref=e73]:
+          - generic [ref=e74]: Sizing guide
+          - generic [ref=e75]:
+            - generic [ref=e76]: S
+            - generic [ref=e77]: 36 cm
+          - generic [ref=e78]: Beagle, Cocker Spaniel
+          - slider [ref=e81] [cursor=pointer]: "36"
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - generic [ref=e84]: XS
+              - generic [ref=e85]: 20–28
+            - generic [ref=e86]:
+              - generic [ref=e87]: S
+              - generic [ref=e88]: 28–36
+            - generic [ref=e89]:
+              - generic [ref=e90]: M
+              - generic [ref=e91]: 36–44
+            - generic [ref=e92]:
+              - generic [ref=e93]: L
+              - generic [ref=e94]: 44–52
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - generic [ref=e97]: Charm system
+            - generic [ref=e98]: Snaps on in 5 seconds.
+            - generic [ref=e99]: Magnetic connector. No clips. No tools. No fuss.
+          - generic [ref=e100]:
+            - generic [ref=e101]: 🌸
+            - generic [ref=e102]: ⭐
+            - generic [ref=e103]: 🦋
+            - generic [ref=e104]: 🌿
+            - generic [ref=e105]: +8 more
+        - generic [ref=e106]:
+          - generic [ref=e107]: Care
+          - generic [ref=e110]:
+            - generic [ref=e111]: Rinse
+            - generic [ref=e112]: After every swim or muddy walk.
+          - generic [ref=e115]:
+            - generic [ref=e116]: Air dry
+            - generic [ref=e117]: Lay flat. No tumble dryers.
+          - generic [ref=e120]:
+            - generic [ref=e121]: Wipe charms
+            - generic [ref=e122]: Damp cloth, then air dry.
+          - generic [ref=e125]:
+            - generic [ref=e126]: Store flat
+            - generic [ref=e127]: In the linen pouch.
+    - heading "Your moments" [level=2] [ref=e129]
+    - generic [ref=e160]:
+      - generic [ref=e161]:
+        - generic [ref=e162]:
+          - generic [ref=e163]: Customer love
+          - heading "Dogs and owners approve." [level=2] [ref=e164]
+        - generic [ref=e165]:
+          - button "Previous" [disabled] [ref=e166] [cursor=pointer]: ←
+          - button "Next" [ref=e167] [cursor=pointer]: →
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - img "Laima K." [ref=e171]
+          - generic [ref=e173]:
+            - generic [ref=e174]:
+              - img [ref=e175]
+              - img [ref=e176]
+              - img [ref=e177]
+              - img [ref=e178]
+              - img [ref=e179]
+              - generic [ref=e180]: "5.0"
+            - paragraph [ref=e181]: “Snaps on in seconds and still looks brand new after muddy walks.”
+            - generic [ref=e182]:
+              - img "Laima K." [ref=e183]
+              - generic [ref=e184]: Laima K.
+        - generic [ref=e185]:
+          - img "Marta S." [ref=e186]
+          - generic [ref=e188]:
+            - generic [ref=e189]:
+              - img [ref=e190]
+              - img [ref=e191]
+              - img [ref=e192]
+              - img [ref=e193]
+              - img [ref=e194]
+              - generic [ref=e195]: "5.0"
+            - paragraph [ref=e196]: “We swim weekly and the collar stays clean, soft, and comfortable.”
+            - generic [ref=e197]:
+              - img "Marta S." [ref=e198]
+              - generic [ref=e199]: Marta S.
+        - generic [ref=e200]:
+          - img "Rūta P." [ref=e201]
+          - generic [ref=e203]:
+            - generic [ref=e204]:
+              - img [ref=e205]
+              - img [ref=e206]
+              - img [ref=e207]
+              - img [ref=e208]
+              - img [ref=e209]
+              - generic [ref=e210]: "5.0"
+            - paragraph [ref=e211]: “Ordered three as gifts. Packaging and quality are both amazing.”
+            - generic [ref=e212]:
+              - img "Rūta P." [ref=e213]
+              - generic [ref=e214]: Rūta P.
+        - generic [ref=e215]:
+          - img "Aiste J." [ref=e216]
+          - generic [ref=e218]:
+            - generic [ref=e219]:
+              - img [ref=e220]
+              - img [ref=e221]
+              - img [ref=e222]
+              - img [ref=e223]
+              - img [ref=e224]
+              - generic [ref=e225]: "4.9"
+            - paragraph [ref=e226]: “Our daily cafe stop gets compliments every single time.”
+            - generic [ref=e227]:
+              - img "Aiste J." [ref=e228]
+              - generic [ref=e229]: Aiste J.
+        - generic [ref=e230]:
+          - img "Monika T." [ref=e231]
+          - generic [ref=e233]:
+            - generic [ref=e234]:
+              - img [ref=e235]
+              - img [ref=e236]
+              - img [ref=e237]
+              - img [ref=e238]
+              - img [ref=e239]
+              - generic [ref=e240]: "5.0"
+            - paragraph [ref=e241]: “Lightweight enough for runs and secure enough for full sprints.”
+            - generic [ref=e242]:
+              - img "Monika T." [ref=e243]
+              - generic [ref=e244]: Monika T.
+        - generic [ref=e245]:
+          - img "Greta N." [ref=e246]
+          - generic [ref=e248]:
+            - generic [ref=e249]:
+              - img [ref=e250]
+              - img [ref=e251]
+              - img [ref=e252]
+              - img [ref=e253]
+              - img [ref=e254]
+              - generic [ref=e255]: "5.0"
+            - paragraph [ref=e256]: “Golden hour photos look unreal with the Blossom set.”
+            - generic [ref=e257]:
+              - img "Greta N." [ref=e258]
+              - generic [ref=e259]: Greta N.
+        - generic [ref=e260]:
+          - img "Tomas V." [ref=e261]
+          - generic [ref=e263]:
+            - generic [ref=e264]:
+              - img [ref=e265]
+              - img [ref=e266]
+              - img [ref=e267]
+              - img [ref=e268]
+              - img [ref=e269]
+              - generic [ref=e270]: "4.8"
+            - paragraph [ref=e271]: “Super easy to swap charms for weekend and weekday looks.”
+            - generic [ref=e272]:
+              - img "Tomas V." [ref=e273]
+              - generic [ref=e274]: Tomas V.
+        - generic [ref=e275]:
+          - img "Egle R." [ref=e276]
+          - generic [ref=e278]:
+            - generic [ref=e279]:
+              - img [ref=e280]
+              - img [ref=e281]
+              - img [ref=e282]
+              - img [ref=e283]
+              - img [ref=e284]
+              - generic [ref=e285]: "5.0"
+            - paragraph [ref=e286]: “The colors are perfect and the fit is comfy all day.”
+            - generic [ref=e287]:
+              - img "Egle R." [ref=e288]
+              - generic [ref=e289]: Egle R.
+        - generic [ref=e290]:
+          - img "Karolis P." [ref=e291]
+          - generic [ref=e293]:
+            - generic [ref=e294]:
+              - img [ref=e295]
+              - img [ref=e296]
+              - img [ref=e297]
+              - img [ref=e298]
+              - img [ref=e299]
+              - generic [ref=e300]: "5.0"
+            - paragraph [ref=e301]: “Park play, rain, and zoomies — still no wear after weeks.”
+            - generic [ref=e302]:
+              - img "Karolis P." [ref=e303]
+              - generic [ref=e304]: Karolis P.
+      - generic [ref=e305]:
+        - button "Go to slide 1" [ref=e306] [cursor=pointer]
+        - button "Go to slide 2" [ref=e307] [cursor=pointer]
+        - button "Go to slide 3" [ref=e308] [cursor=pointer]
+        - button "Go to slide 4" [ref=e309] [cursor=pointer]
+        - button "Go to slide 5" [ref=e310] [cursor=pointer]
+        - button "Go to slide 6" [ref=e311] [cursor=pointer]
+        - button "Go to slide 7" [ref=e312] [cursor=pointer]
+    - contentinfo [ref=e313]:
+      - generic [ref=e314]: Žavesys
+      - generic [ref=e316]: © 2025 · Made with care in Lithuania
+      - generic [ref=e317]: Vandeniui atspari.
+  - button "Open Next.js Dev Tools" [ref=e323] [cursor=pointer]:
+    - img [ref=e324]
+  - alert [ref=e327]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

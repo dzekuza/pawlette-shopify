@@ -48,12 +48,70 @@ export interface ShopifyCharm {
   color: string;
   image: string;
   productImages: string[];
+  productFeaturedImage: string;
   productTitle: string;
   productDescription: string;
   description?: string;
   features?: string;
   care?: string;
   shipping?: string;
+}
+
+interface ShopifyMetafield {
+  key: string;
+  value: string;
+}
+
+interface ShopifySelectedOption {
+  name: string;
+  value: string;
+}
+
+interface ShopifyImageNode {
+  url: string;
+}
+
+interface ShopifyVariantNode {
+  id: string;
+  title: string;
+  price?: {
+    amount: string;
+  };
+  selectedOptions?: ShopifySelectedOption[];
+  image?: ShopifyImageNode;
+}
+
+interface ShopifyProductNode {
+  id: string;
+  handle: string;
+  title: string;
+  tags?: string[];
+  featuredImage?: ShopifyImageNode;
+  images?: {
+    edges: Array<{
+      node: ShopifyImageNode;
+    }>;
+  };
+  variants: {
+    edges: Array<{
+      node: ShopifyVariantNode;
+    }>;
+  };
+  metafields?: Array<ShopifyMetafield | null>;
+  descriptionHtml?: string;
+}
+
+interface ShopifyProductsResponse {
+  products: {
+    edges: Array<{
+      node: ShopifyProductNode;
+    }>;
+  };
+}
+
+interface RichTextNode {
+  value?: string;
+  children?: RichTextNode[];
 }
 
 function hexToRgba(hex: string, alpha: number): string {
@@ -158,7 +216,8 @@ const CHARMS_QUERY = `
           id
           title
           descriptionHtml
-          images(first: 50) {
+          featuredImage { url }
+          images(first: 250) {
             edges { node { url } }
           }
           metafields(identifiers: [
@@ -194,20 +253,19 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
   if (_collarsCache) return _collarsCache;
   if (!_collarsInflight) {
     _collarsInflight = (async () => {
-      const { data, errors } = await shopifyClient.request(COLLARS_QUERY);
+      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
       if (errors || !data) return [];
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = data.products.edges.map(({ node }: any) => {
-        const meta = (key: string) => node.metafields?.find((m: any) => m?.key === key)?.value;
+      const result = data.products.edges.map(({ node }) => {
+        const meta = (key: string) =>
+          node.metafields?.find((metafield) => metafield?.key === key)?.value;
         const color = meta('color') ?? '#A8D5A2';
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: v }: any) => ({
-          id: v.id,
-          title: v.title,
-          size: v.selectedOptions?.find((o: any) => o.name === 'Size')?.value ?? '',
-          color: v.selectedOptions?.find((o: any) => o.name === 'Colors')?.value ?? '',
-          price: v.price ? `€${parseFloat(v.price.amount).toFixed(0)}` : '€28',
+        const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: variant }) => ({
+          id: variant.id,
+          title: variant.title,
+          size: variant.selectedOptions?.find((option) => option.name === 'Size')?.value ?? '',
+          color: variant.selectedOptions?.find((option) => option.name === 'Colors')?.value ?? '',
+          price: variant.price ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€28',
         }));
         const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
         const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
@@ -222,7 +280,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           bgTint: hexToRgba(color, 0.15),
           glowColor: hexToRgba(color, 0.5),
           image: node.featuredImage?.url ?? '',
-          images: (node.images?.edges ?? []).map(({ node: img }: any) => img.url as string),
+          images: (node.images?.edges ?? []).map(({ node: image }) => image.url),
           sizes,
           colors,
           variants: allVariants,
@@ -250,20 +308,20 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
   if (_charmsCache) return _charmsCache;
   if (!_charmsInflight) {
     _charmsInflight = (async () => {
-      const { data, errors } = await shopifyClient.request(CHARMS_QUERY);
+      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
       if (errors || !data) return [];
 
       const product = data.products.edges[0]?.node;
       if (!product) return [];
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const productMeta = (key: string) => product.metafields?.find((m: any) => m?.key === key)?.value;
+      const productMeta = (key: string) =>
+        product.metafields?.find((metafield) => metafield?.key === key)?.value;
       const productTitle: string = product.title ?? 'Charms';
+      const productFeaturedImage: string = product.featuredImage?.url ?? '';
       const productDescriptionHtml: string = product.descriptionHtml ?? '';
       const rawDesc = productMeta('description');
       // Shopify rich-text metafields are JSON — extract plain text recursively
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const extractText = (node: any): string => {
+      const extractText = (node: RichTextNode | null | undefined): string => {
         if (!node) return '';
         if (typeof node.value === 'string') return node.value;
         if (Array.isArray(node.children)) return node.children.map(extractText).join(' ');
@@ -280,15 +338,17 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
       const productDescription = rawDesc || undefined;
       const productCare = productMeta('care') || undefined;
       const productShipping = productMeta('shipping') || undefined;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const allProductImages: string[] = (product.images?.edges ?? []).map(({ node: img }: any) => img.url as string);
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const variantImageUrls = new Set(product.variants.edges.map(({ node: v }: any) => v.image?.url).filter(Boolean).map((u: string) => u.split('?')[0]));
+      const allProductImages: string[] = (product.images?.edges ?? []).map(({ node: image }) => image.url);
+      const variantImageUrls = new Set(
+        product.variants.edges
+          .map(({ node: variant }) => variant.image?.url)
+          .filter((url): url is string => Boolean(url))
+          .map((url) => url.split('?')[0])
+      );
       // Gallery images = product-level images that are NOT variant images (compare base URLs, ignore CDN query params)
       const productImages = allProductImages.filter(url => !variantImageUrls.has(url.split('?')[0]));
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = product.variants.edges.map(({ node: variant }: any) => {
+      const result = product.variants.edges.map(({ node: variant }) => {
         const { bg, category, color, baseTitle } = resolveCharmMeta(variant.title);
         return {
           id: titleToHandle(variant.title),
@@ -302,6 +362,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           color,
           image: variant.image?.url ?? '',
           productImages,
+          productFeaturedImage,
           productTitle,
           productDescription: productDescriptionPlain,
           description: productDescription,

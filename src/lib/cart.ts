@@ -1,6 +1,7 @@
 import { shopifyClient } from './shopify';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
+export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
 
 export interface ShopifyCartLine {
   id: string;
@@ -22,6 +23,10 @@ export interface ShopifyCart {
   cost: {
     totalAmount: { amount: string; currencyCode: string };
   };
+}
+
+interface CartUpdatedEventDetail {
+  totalQuantity: number;
 }
 
 const CART_FRAGMENT = `
@@ -86,13 +91,36 @@ const REMOVE_CART_LINES = `
   }
 `;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseCart(cartData: any): ShopifyCart {
+interface CartLineNode {
+  node: ShopifyCartLine;
+}
+
+interface CartShape {
+  id: string;
+  checkoutUrl: string;
+  totalQuantity: number;
+  lines: {
+    edges: CartLineNode[];
+  };
+  cost: ShopifyCart['cost'];
+}
+
+function emitCartUpdated(cart: ShopifyCart | null): void {
+  if (typeof window === 'undefined') return;
+
+  window.dispatchEvent(
+    new CustomEvent<CartUpdatedEventDetail>(SHOPIFY_CART_UPDATED_EVENT, {
+      detail: { totalQuantity: cart?.totalQuantity ?? 0 },
+    })
+  );
+}
+
+function parseCart(cartData: CartShape): ShopifyCart {
   return {
     id: cartData.id,
     checkoutUrl: cartData.checkoutUrl,
     totalQuantity: cartData.totalQuantity,
-    lines: cartData.lines.edges.map((e: any) => e.node),
+    lines: cartData.lines.edges.map((edge) => edge.node),
     cost: cartData.cost,
   };
 }
@@ -106,6 +134,11 @@ export function setStoredCartId(id: string): void {
   localStorage.setItem(CART_ID_KEY, id);
 }
 
+export function clearStoredCartId(): void {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(CART_ID_KEY);
+}
+
 export async function addLineToCart(variantId: string, quantity = 1): Promise<ShopifyCart> {
   return addLinesToCart([{ merchandiseId: variantId, quantity }]);
 }
@@ -117,7 +150,9 @@ export async function addLinesToCart(lines: { merchandiseId: string; quantity: n
     const { data } = await shopifyClient.request(ADD_TO_CART, {
       variables: { cartId, lines },
     });
-    return parseCart(data.cartLinesAdd.cart);
+    const cart = parseCart(data.cartLinesAdd.cart);
+    emitCartUpdated(cart);
+    return cart;
   }
 
   const { data } = await shopifyClient.request(CREATE_CART, {
@@ -125,20 +160,32 @@ export async function addLinesToCart(lines: { merchandiseId: string; quantity: n
   });
   const cart = parseCart(data.cartCreate.cart);
   setStoredCartId(cart.id);
+  emitCartUpdated(cart);
   return cart;
 }
 
 export async function fetchCart(): Promise<ShopifyCart | null> {
   const cartId = getStoredCartId();
-  if (!cartId) return null;
+  if (!cartId) {
+    emitCartUpdated(null);
+    return null;
+  }
   const { data } = await shopifyClient.request(GET_CART, { variables: { cartId } });
-  if (!data?.cart) return null;
-  return parseCart(data.cart);
+  if (!data?.cart) {
+    clearStoredCartId();
+    emitCartUpdated(null);
+    return null;
+  }
+  const cart = parseCart(data.cart);
+  emitCartUpdated(cart);
+  return cart;
 }
 
 export async function removeCartLine(cartId: string, lineId: string): Promise<ShopifyCart> {
   const { data } = await shopifyClient.request(REMOVE_CART_LINES, {
     variables: { cartId, lineIds: [lineId] },
   });
-  return parseCart(data.cartLinesRemove.cart);
+  const cart = parseCart(data.cartLinesRemove.cart);
+  emitCartUpdated(cart);
+  return cart;
 }

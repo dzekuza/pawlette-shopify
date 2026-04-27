@@ -62,6 +62,15 @@ const TEXT_PRIMARY = '#3D3530'
 const TEXT_MUTED = '#9B948F'
 const TEXT_SECONDARY = '#6B6460'
 const DIVIDER = '#EDEAE4'
+const GALLERY_PHOTO_BG = '#F4EFE8'
+
+function getCharmGallerySurface () {
+  return GALLERY_PHOTO_BG
+}
+
+function getCharmGalleryImageStyle () {
+  return { width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' as const }
+}
 
 const DEFAULT_CHARM_ACCORDION = [
   { id: 'description', title: 'Description', content: 'Snap-on silicone charms for all PawCharms collars. Each charm clicks on and off in around five seconds without tools.' },
@@ -233,7 +242,13 @@ export function SingleProductPage ({ product }: Props) {
     : selectedCharm?.image
       ? [selectedCharm.image]
       : []
-  const charmHeroImage = charmGallery[charmGalleryIndex] ?? charmGallery[0] ?? ''
+  const visibleCharmGallery = charmGallery.slice(0, 7)
+  const safeCharmGalleryIndex = visibleCharmGallery[charmGalleryIndex] ? charmGalleryIndex : 0
+  const charmHeroImage = visibleCharmGallery[safeCharmGalleryIndex] ?? visibleCharmGallery[0] ?? ''
+  const charmThumbnails = visibleCharmGallery
+    .map((src, index) => ({ src, index }))
+    .filter(({ index }) => index !== safeCharmGalleryIndex)
+    .slice(0, 6)
 
   return (
     <div className="bg-cream min-h-screen font-sans">
@@ -278,14 +293,14 @@ export function SingleProductPage ({ product }: Props) {
       {isMobile && !isCollar && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ margin: '16px 16px 0' }}>
-            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '65%', height: '65%', objectFit: 'contain' }} /> : null}
+            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
+              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={getCharmGalleryImageStyle()} /> : null}
             </div>
-            {charmGallery.length > 1 && (
+            {charmThumbnails.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
-                {charmGallery.slice(1).map((src, i) => (
-                  <div key={i} onClick={() => setCharmGalleryIndex(i + 1)} style={{ borderRadius: 12, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: charmGalleryIndex === i + 1 ? '2px solid #3D3530' : 'none' }}>
-                    <img src={src} alt="" style={{ width: '65%', height: '65%', objectFit: 'contain' }} />
+                {charmThumbnails.map(({ src, index }) => (
+                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: 12, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none' }}>
+                    <img src={src} alt="" style={getCharmGalleryImageStyle()} />
                   </div>
                 ))}
               </div>
@@ -354,14 +369,14 @@ export function SingleProductPage ({ product }: Props) {
         ) : (
           /* Desktop charm left */
           <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={{ width: '65%', height: '65%', objectFit: 'contain' }} /> : null}
+            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
+              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={getCharmGalleryImageStyle()} /> : null}
             </div>
-            {charmGallery.length > 1 && (
+            {charmThumbnails.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                {charmGallery.slice(1).map((src, i) => (
-                  <div key={i} onClick={() => setCharmGalleryIndex(i + 1)} style={{ borderRadius: i === charmGallery.length - 3 ? '8px 8px 8px 20px' : i === charmGallery.length - 2 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: displayAccentColor, display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: charmGalleryIndex === i + 1 ? '2px solid #3D3530' : 'none' }}>
-                    <img src={src} alt="" style={{ width: '65%', height: '65%', objectFit: 'contain' }} />
+                {charmThumbnails.map(({ src, index }, thumbIndex) => (
+                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none' }}>
+                    <img src={src} alt="" style={getCharmGalleryImageStyle()} />
                   </div>
                 ))}
               </div>

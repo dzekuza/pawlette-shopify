@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCartCount } from '@/hooks/useCartCount';
 import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
@@ -19,19 +20,7 @@ import { ExitModal } from './landing/ExitModal';
 
 export function LandingPage() {
   const router = useRouter();
-  const [cartCount, setCartCount] = useState(0);
-
-  useEffect(() => {
-    const read = () => {
-      try {
-        const items = JSON.parse(localStorage.getItem('pawlette_cart') || '[]');
-        setCartCount(Array.isArray(items) ? items.length : 0);
-      } catch { setCartCount(0); }
-    };
-    read();
-    window.addEventListener('storage', read);
-    return () => window.removeEventListener('storage', read);
-  }, []);
+  const cartCount = useCartCount();
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);

@@ -1,0 +1,193 @@
+[     177ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     258ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     327ms] [LOG] %cReact Grab v0.1.32%c
+https://react-grab.com background: #330039; color: #ffffff; border: 1px solid #d75fcb; padding: 4px 4px 4px 24px; border-radius: 4px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyOTQgMjk0Ij48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJNMTQ1IDQ3YzI1LTIwIDUwLTI3IDY3LTE3IDE2IDkgMjMgMzAgMjAgNjAgMCAyLTEgNS0xIDdsLTIgMTNoLTFsLTEyLTRjLTgtMy0xNy01LTI1LTZsLTE3LTNjLTEwLTEtMjAtMS0yOS0xLTEwIDAtMjAgMC0yOSAxLTYgOC0xMSAxNi0xNiAyNC01IDktOSAxNy0xMyAyNiA0IDkgOCAxOCAxMyAyNnMxMCAxNiAxNiAyNGwxMSAxNGM1IDcgMTEgMTMgMTggMTlsMTAgOHMtMSAwIDAgMGwtMTEgOWMtMTcgMTQtMzUgMjItNDkgMjItNiAwLTEzLTItMTgtNS0xNi05LTIzLTMwLTIwLTU5IDEtMyAxLTUgMS04LTMwLTEyLTQ4LTI5LTQ4LTUwIDAtMTggMTQtMzUgNDEtNDcgMi0xIDUtMiA3LTMgMC0yIDAtNS0xLTctMy0zMCA0LTUxIDIwLTYwIDE4LTEwIDQyLTMgNjggMTdNNzEgMjAxYy0xIDItMSA0LTEgNS0yIDI0IDMgNDEgMTMgNDdoMWMxMSA3IDMwIDEgNTEtMTUtMTAtOS0xOC0xOC0yNi0yOS0xMy0xLTI2LTQtMzgtOG05LTM4Yy0zIDktNSAxNy03IDI2IDggMiAxNyA0IDI1IDYtMy01LTYtMTAtOS0xNi0zLTUtNi0xMC05LTE2bS0xOS01M2MtMiAxLTMgMS01IDItMjEgMTAtMzQgMjMtMzQgMzUgMCAxMyAxNCAyNyAzOSAzNyAzLTEyIDctMjUgMTItMzctNS0xMi05LTI0LTEyLTM3bTM3LTEwYy04IDEtMTcgMy0yNSA2IDIgOCA0IDE2IDcgMjUgMy01IDYtMTEgOS0xNnptLTMtNjFjLTQtMS04IDAtMTIgMi0xMCA3LTE1IDI0LTEzIDQ3IDAgMiAwIDMgMSA1IDEyLTQgMjUtNiAzOC04IDgtMTAgMTYtMjAgMjYtMjktMTUtMTEtMjktMTctNDAtMTdtMTExIDJjLTQtMi04LTMtMTItMi0xMSAwLTI1IDUtNDAgMTcgMTAgOSAxOSAxOSAyNiAyOSAxMyAyIDI2IDQgMzkgOHYtNWMzLTIzLTItNDAtMTMtNDdtLTYxIDIzYy03IDYtMTMgMTMtMTkgMTloMzdjLTYtNi0xMi0xMy0xOC0xOSIvPjxtYXNrIGlkPSJhIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJtMjM1IDg1LTEzMyAyNyAyOCAxMzMgMTMzLTI3WiIvPjwvbWFzaz48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJtMTM3IDEzMCA3NiAxMWM4IDEgOSAxMSAzIDE1bC0yOCAxNi00IDMyYy0xIDgtMTAgMTAtMTQgNGwtNDEtNjZjLTMtNiAxLTEzIDgtMTIiIG1hc2s9InVybCgjYSkiLz48L3N2Zz4="); background-size: 16px 16px; background-repeat: no-repeat; background-position: 4px center; display: inline-block; margin-bottom: 4px;  @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     433ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     704ms] [LOG] [Fast Refresh] done in 371ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   12219ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   13223ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   14226ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   15229ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   16238ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   21247ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   26258ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   31268ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   36278ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   41289ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   46297ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[   51313ms] [ERROR] WebSocket connection to 'ws://localhost:3000/_next/webpack-hmr?id=MXdpKsap6MxsggbWwCEd_' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  147677ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  147696ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  147718ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  147721ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  147750ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  147751ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  147780ms] [LOG] %cReact Grab v0.1.32%c
+https://react-grab.com background: #330039; color: #ffffff; border: 1px solid #d75fcb; padding: 4px 4px 4px 24px; border-radius: 4px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyOTQgMjk0Ij48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJNMTQ1IDQ3YzI1LTIwIDUwLTI3IDY3LTE3IDE2IDkgMjMgMzAgMjAgNjAgMCAyLTEgNS0xIDdsLTIgMTNoLTFsLTEyLTRjLTgtMy0xNy01LTI1LTZsLTE3LTNjLTEwLTEtMjAtMS0yOS0xLTEwIDAtMjAgMC0yOSAxLTYgOC0xMSAxNi0xNiAyNC01IDktOSAxNy0xMyAyNiA0IDkgOCAxOCAxMyAyNnMxMCAxNiAxNiAyNGwxMSAxNGM1IDcgMTEgMTMgMTggMTlsMTAgOHMtMSAwIDAgMGwtMTEgOWMtMTcgMTQtMzUgMjItNDkgMjItNiAwLTEzLTItMTgtNS0xNi05LTIzLTMwLTIwLTU5IDEtMyAxLTUgMS04LTMwLTEyLTQ4LTI5LTQ4LTUwIDAtMTggMTQtMzUgNDEtNDcgMi0xIDUtMiA3LTMgMC0yIDAtNS0xLTctMy0zMCA0LTUxIDIwLTYwIDE4LTEwIDQyLTMgNjggMTdNNzEgMjAxYy0xIDItMSA0LTEgNS0yIDI0IDMgNDEgMTMgNDdoMWMxMSA3IDMwIDEgNTEtMTUtMTAtOS0xOC0xOC0yNi0yOS0xMy0xLTI2LTQtMzgtOG05LTM4Yy0zIDktNSAxNy03IDI2IDggMiAxNyA0IDI1IDYtMy01LTYtMTAtOS0xNi0zLTUtNi0xMC05LTE2bS0xOS01M2MtMiAxLTMgMS01IDItMjEgMTAtMzQgMjMtMzQgMzUgMCAxMyAxNCAyNyAzOSAzNyAzLTEyIDctMjUgMTItMzctNS0xMi05LTI0LTEyLTM3bTM3LTEwYy04IDEtMTcgMy0yNSA2IDIgOCA0IDE2IDcgMjUgMy01IDYtMTEgOS0xNnptLTMtNjFjLTQtMS04IDAtMTIgMi0xMCA3LTE1IDI0LTEzIDQ3IDAgMiAwIDMgMSA1IDEyLTQgMjUtNiAzOC04IDgtMTAgMTYtMjAgMjYtMjktMTUtMTEtMjktMTctNDAtMTdtMTExIDJjLTQtMi04LTMtMTItMi0xMSAwLTI1IDUtNDAgMTcgMTAgOSAxOSAxOSAyNiAyOSAxMyAyIDI2IDQgMzkgOHYtNWMzLTIzLTItNDAtMTMtNDdtLTYxIDIzYy03IDYtMTMgMTMtMTkgMTloMzdjLTYtNi0xMi0xMy0xOC0xOSIvPjxtYXNrIGlkPSJhIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJtMjM1IDg1LTEzMyAyNyAyOCAxMzMgMTMzLTI3WiIvPjwvbWFzaz48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJtMTM3IDEzMCA3NiAxMWM4IDEgOSAxMSAzIDE1bC0yOCAxNi00IDMyYy0xIDgtMTAgMTAtMTQgNGwtNDEtNjZjLTMtNiAxLTEzIDgtMTIiIG1hc2s9InVybCgjYSkiLz48L3N2Zz4="); background-size: 16px 16px; background-repeat: no-repeat; background-position: 4px center; display: inline-block; margin-bottom: 4px;  @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  148110ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  148111ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  148270ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  148271ms] [ERROR] Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. /products @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  160422ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  160429ms] ReferenceError: i is not defined
+    at eval (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js?id=%255Bproject%255D%252Fsrc%252Fcomponents%252Flanding%252FLandingNav.tsx+%255Bapp-client%255D+%2528ecmascript%2529:111:36)
+    at Array.map (<anonymous>)
+    at LandingNav (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js?id=%255Bproject%255D%252Fsrc%252Fcomponents%252Flanding%252FLandingNav.tsx+%255Bapp-client%255D+%2528ecmascript%2529:107:51)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performSyncWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at flushSyncWork$1 (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9230:86)
+    at Object.scheduleRefresh (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:299:13)
+    at http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:391:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:384:38)
+    at applyUpdate (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:878:31)
+    at http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:886:13
+[  160474ms] [LOG] [Fast Refresh] done in 57ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  160577ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  160588ms] [LOG] [Fast Refresh] done in 113ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165301ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165302ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165331ms] ReferenceError: i is not defined
+    at eval (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js?id=%255Bproject%255D%252Fsrc%252Fcomponents%252Flanding%252FLandingNav.tsx+%255Bapp-client%255D+%2528ecmascript%2529:111:36)
+    at Array.map (<anonymous>)
+    at LandingNav (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js?id=%255Bproject%255D%252Fsrc%252Fcomponents%252Flanding%252FLandingNav.tsx+%255Bapp-client%255D+%2528ecmascript%2529:107:51)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performSyncWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10263:9)
+    at flushSyncWorkAcrossRoots_impl (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10179:316)
+    at flushSyncWork$1 (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9230:86)
+    at Object.scheduleRefresh (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:299:13)
+    at http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:391:33
+    at Set.forEach (<anonymous>)
+    at Object.performReactRefresh (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:384:38)
+    at applyUpdate (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:878:31)
+    at http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:886:13
+[  165339ms] [LOG] [Fast Refresh] done in 35ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165460ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165482ms] [LOG] [Fast Refresh] done in 122ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165548ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/charm-charms:0
+[  165583ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165594ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  165714ms] ReferenceError: i is not defined
+    at http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:130:36
+    at Array.map (<anonymous>)
+    at LandingNav (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:126:51)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64)
+[  168714ms] [WARNING] The resource http://unpkg.com/react-grab/dist/index.global.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/products/charm-charms:0
+[  174362ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  174363ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  174431ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  174532ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/charm-charms:0
+[  174605ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  174623ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  174829ms] ReferenceError: i is not defined
+    at http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:130:36
+    at Array.map (<anonymous>)
+    at LandingNav (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:126:51)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64)
+[  177798ms] [WARNING] The resource http://unpkg.com/react-grab/dist/index.global.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/products/charm-charms:0
+[  186232ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  186236ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  186319ms] [LOG] [Fast Refresh] done in 106ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  186738ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  186821ms] [LOG] [Fast Refresh] done in 185ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  187003ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/products/charm-charms:0
+[  187036ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  187049ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  187095ms] ReferenceError: i is not defined
+    at http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:130:36
+    at Array.map (<anonymous>)
+    at LandingNav (http://localhost:3000/_next/static/chunks/src_07j0~dy._.js:126:51)
+    at Object.react_stack_bottom_frame (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6691:24)
+    at runWithFiberInDEV (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3000/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64)
+[  190099ms] [WARNING] The resource http://unpkg.com/react-grab/dist/index.global.js was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ http://localhost:3000/products/charm-charms:0
+[  209679ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  209680ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  209730ms] [LOG] [Fast Refresh] done in 36ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  210004ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  210016ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  210159ms] [LOG] %cReact Grab v0.1.32%c
+https://react-grab.com background: #330039; color: #ffffff; border: 1px solid #d75fcb; padding: 4px 4px 4px 24px; border-radius: 4px; background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCAyOTQgMjk0Ij48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJNMTQ1IDQ3YzI1LTIwIDUwLTI3IDY3LTE3IDE2IDkgMjMgMzAgMjAgNjAgMCAyLTEgNS0xIDdsLTIgMTNoLTFsLTEyLTRjLTgtMy0xNy01LTI1LTZsLTE3LTNjLTEwLTEtMjAtMS0yOS0xLTEwIDAtMjAgMC0yOSAxLTYgOC0xMSAxNi0xNiAyNC01IDktOSAxNy0xMyAyNiA0IDkgOCAxOCAxMyAyNnMxMCAxNiAxNiAyNGwxMSAxNGM1IDcgMTEgMTMgMTggMTlsMTAgOHMtMSAwIDAgMGwtMTEgOWMtMTcgMTQtMzUgMjItNDkgMjItNiAwLTEzLTItMTgtNS0xNi05LTIzLTMwLTIwLTU5IDEtMyAxLTUgMS04LTMwLTEyLTQ4LTI5LTQ4LTUwIDAtMTggMTQtMzUgNDEtNDcgMi0xIDUtMiA3LTMgMC0yIDAtNS0xLTctMy0zMCA0LTUxIDIwLTYwIDE4LTEwIDQyLTMgNjggMTdNNzEgMjAxYy0xIDItMSA0LTEgNS0yIDI0IDMgNDEgMTMgNDdoMWMxMSA3IDMwIDEgNTEtMTUtMTAtOS0xOC0xOC0yNi0yOS0xMy0xLTI2LTQtMzgtOG05LTM4Yy0zIDktNSAxNy03IDI2IDggMiAxNyA0IDI1IDYtMy01LTYtMTAtOS0xNi0zLTUtNi0xMC05LTE2bS0xOS01M2MtMiAxLTMgMS01IDItMjEgMTAtMzQgMjMtMzQgMzUgMCAxMyAxNCAyNyAzOSAzNyAzLTEyIDctMjUgMTItMzctNS0xMi05LTI0LTEyLTM3bTM3LTEwYy04IDEtMTcgMy0yNSA2IDIgOCA0IDE2IDcgMjUgMy01IDYtMTEgOS0xNnptLTMtNjFjLTQtMS04IDAtMTIgMi0xMCA3LTE1IDI0LTEzIDQ3IDAgMiAwIDMgMSA1IDEyLTQgMjUtNiAzOC04IDgtMTAgMTYtMjAgMjYtMjktMTUtMTEtMjktMTctNDAtMTdtMTExIDJjLTQtMi04LTMtMTItMi0xMSAwLTI1IDUtNDAgMTcgMTAgOSAxOSAxOSAyNiAyOSAxMyAyIDI2IDQgMzkgOHYtNWMzLTIzLTItNDAtMTMtNDdtLTYxIDIzYy03IDYtMTMgMTMtMTkgMTloMzdjLTYtNi0xMi0xMy0xOC0xOSIvPjxtYXNrIGlkPSJhIj48cGF0aCBmaWxsPSIjZmZmIiBkPSJtMjM1IDg1LTEzMyAyNyAyOCAxMzMgMTMzLTI3WiIvPjwvbWFzaz48cGF0aCBmaWxsPSIjZmY0MGUwIiBkPSJtMTM3IDEzMCA3NiAxMWM4IDEgOSAxMSAzIDE1bC0yOCAxNi00IDMyYy0xIDgtMTAgMTAtMTQgNGwtNDEtNjZjLTMtNiAxLTEzIDgtMTIiIG1hc2s9InVybCgjYSkiLz48L3N2Zz4="); background-size: 16px 16px; background-repeat: no-repeat; background-position: 4px center; display: inline-block; margin-bottom: 4px;  @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  251290ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  251320ms] [LOG] [Fast Refresh] done in 49ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  291547ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  291577ms] [LOG] [Fast Refresh] done in 25ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  373795ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  373824ms] [LOG] [Fast Refresh] done in 40ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  388476ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  388505ms] [LOG] [Fast Refresh] done in 52ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  453596ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  453684ms] [LOG] [Fast Refresh] done in 65ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  502444ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  502510ms] [LOG] [Fast Refresh] done in 43ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  518711ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  518762ms] [LOG] [Fast Refresh] done in 151ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  584728ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  584779ms] [LOG] [Fast Refresh] done in 88ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  639712ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  639768ms] [LOG] [Fast Refresh] done in 58ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  643899ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  644006ms] [LOG] [Fast Refresh] done in 145ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  652542ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  652542ms] [LOG] [Fast Refresh] done in 101ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  735593ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  735664ms] [LOG] [Fast Refresh] done in 65ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  774528ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  774557ms] [LOG] [Fast Refresh] done in 92ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  777836ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  777863ms] [LOG] [Fast Refresh] done in 28ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  782191ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  782218ms] [LOG] [Fast Refresh] done in 31ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  786336ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  786362ms] [LOG] [Fast Refresh] done in 35ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  790158ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  790190ms] [LOG] [Fast Refresh] done in 109ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  795327ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  795355ms] [LOG] [Fast Refresh] done in 46ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  799753ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  799788ms] [LOG] [Fast Refresh] done in 52ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

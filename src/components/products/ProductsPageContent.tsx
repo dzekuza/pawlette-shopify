@@ -1,24 +1,21 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
-import { getCharms, getCharmsSync, type ShopifyCharm } from '@/lib/shopify'
-import { getLandingCollars, getLandingCollarsSync, type LandingCollar } from '@/lib/db'
+import type { ShopifyCharm } from '@/lib/shopify'
+import type { LandingCollar } from '@/lib/db'
 import { ProductCard } from './ProductCard'
 import Link from 'next/link'
 
-export function ProductsPageContent () {
-  const [collars, setCollars] = useState<LandingCollar[]>(() => getLandingCollarsSync() ?? [])
-  const [charms, setCharms] = useState<ShopifyCharm[]>(() => getCharmsSync() ?? [])
+interface ProductsPageContentProps {
+  collars: LandingCollar[]
+  charms: ShopifyCharm[]
+}
 
-  useEffect(() => {
-    getLandingCollars().then(setCollars)
-    getCharms().then(setCharms)
-  }, [])
+export function ProductsPageContent ({ collars, charms }: ProductsPageContentProps) {
 
   const charmProduct = charms[0]
-  const charmHeroImage = charmProduct?.productImages?.[0] ?? charmProduct?.image ?? ''
+  const charmHeroImage = charmProduct?.productFeaturedImage || charmProduct?.productImages?.[0] || charmProduct?.image || ''
   const charmBg = '#B8D8F4'
 
   return (

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const HERO_CHARMS = [
@@ -54,7 +55,7 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
             Snap on a charm, change your dog&apos;s look. Five seconds. That&apos;s it.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <a href="/products" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></a>
+            <Link href="/products" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></Link>
             <Pill size="lg" variant="secondary">See all charms</Pill>
           </div>
           <div style={{ marginTop: 48, display: 'flex', gap: 32 }}>
@@ -119,7 +120,7 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
             Waterproof dog collars with snap-on charms. Change your dog&apos;s look in five seconds.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 40 }}>
-            <a href="/products" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></a>
+            <Link href="/products" style={{ textDecoration: 'none' }}><Pill size="lg">Shop collars</Pill></Link>
             <button className="btn-press"
               style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: 'transparent', border: '2px solid rgba(250,247,242,0.3)', color: 'rgba(250,247,242,0.7)', transition: 'border-color 150ms ease-out, color 150ms ease-out, transform 100ms ease-out' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,247,242,0.7)'; e.currentTarget.style.color = '#FAF7F2'; }}

@@ -18,10 +18,8 @@ export default function CartPage() {
 
   const [shopifyCart, setShopifyCart] = useState<ShopifyCart | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     fetchCart().then(cart => {
       if (cart) {
         setShopifyCart(cart);
@@ -45,17 +43,9 @@ export default function CartPage() {
   const total = subtotal + shipping;
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-        <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-      <LandingNav topOffset={0} cartCount={lines.length} onCart={() => router.push('/cart')} />
+      <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className="pt-[80px] pb-20">
         <div className="max-w-[1100px] mx-auto px-5 md:px-10">

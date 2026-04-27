@@ -40,6 +40,15 @@ function hexToRgba (hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
+const CHARM_PRODUCT_GALLERY_FALLBACK = [
+  '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
+  '/A_yellow_star-shaped_charm_is_attached_to_a_pink_jWdEg3nN.webp',
+  '/In_a_cute_and_playful_style_pastel-colored_dog_plHj2W1q.webp',
+  '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp',
+  '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp',
+]
+const MAX_CHARM_GALLERY_IMAGES = 7
+
 function uniqueStrings (values: string[]) {
   return [...new Set(values.filter(Boolean))]
 }
@@ -50,7 +59,17 @@ function getCharmGallery (charm: ShopifyCharm) {
     ...charm.productImages,
   ])
 
-  return productGallery.length > 0 ? productGallery : uniqueStrings([charm.image])
+  const filledGallery = uniqueStrings([
+    ...productGallery,
+    ...CHARM_PRODUCT_GALLERY_FALLBACK,
+  ]).slice(0, MAX_CHARM_GALLERY_IMAGES)
+
+  if (filledGallery.length > 0) return filledGallery
+
+  return uniqueStrings([
+    charm.image,
+    ...CHARM_PRODUCT_GALLERY_FALLBACK,
+  ]).slice(0, MAX_CHARM_GALLERY_IMAGES)
 }
 
 // Static fallback catalog for generateStaticParams — populated at runtime via Shopify

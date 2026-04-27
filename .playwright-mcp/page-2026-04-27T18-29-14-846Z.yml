@@ -1,0 +1,98 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Shop" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Charms" [ref=e7] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Build yours" [ref=e8] [cursor=pointer]:
+            - /url: /configure
+          - link "Care" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - button "Cart" [ref=e13] [cursor=pointer]:
+            - img [ref=e14]
+          - button "Open menu" [ref=e17] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /configure
+          - text: Build yours
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e21]:
+      - generic [ref=e22]:
+        - heading "Your Cart" [level=1] [ref=e23]
+        - generic [ref=e24]:
+          - generic [ref=e25]: 🐾
+          - heading "Your cart is empty" [level=2] [ref=e26]
+          - paragraph [ref=e27]: Build a collar your dog will actually be excited to wear.
+          - link "Design Your Collar" [ref=e29] [cursor=pointer]:
+            - /url: /configure
+    - contentinfo [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - link "Žavesys home" [ref=e34] [cursor=pointer]:
+              - /url: /
+              - img "Žavesys" [ref=e35]
+            - paragraph [ref=e36]: Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.
+            - generic [ref=e37]: Vandeniui atspari.
+          - generic [ref=e38]:
+            - generic [ref=e39]: Shop
+            - generic [ref=e40]:
+              - link "Collar sets" [ref=e41] [cursor=pointer]:
+                - /url: /products
+              - link "Charms" [ref=e42] [cursor=pointer]:
+                - /url: /products
+              - link "Build yours" [ref=e43] [cursor=pointer]:
+                - /url: /configure
+          - generic [ref=e44]:
+            - generic [ref=e45]: Help
+            - generic [ref=e46]:
+              - link "Sizing guide" [ref=e47] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silicone vs nylon" [ref=e48] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Shipping" [ref=e49] [cursor=pointer]:
+                - /url: "#"
+              - link "Returns" [ref=e50] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e51]:
+            - generic [ref=e52]: Brand
+            - generic [ref=e53]:
+              - link "Our story" [ref=e54] [cursor=pointer]:
+                - /url: "#about"
+              - link "Instagram" [ref=e55] [cursor=pointer]:
+                - /url: "#"
+              - link "Contact" [ref=e56] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e57]:
+          - generic [ref=e58]: © 2025 Žavesys. Made with care in Lithuania.
+          - generic [ref=e59]: "@zavesys · Etsy · Instagram"
+  - button "Open Next.js Dev Tools" [ref=e65] [cursor=pointer]:
+    - img [ref=e66]
+  - alert [ref=e69]

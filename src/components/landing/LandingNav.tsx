@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 const NAV_LINKS = [
   { label: 'Shop collars', href: '/products' },
   { label: 'Charms', href: '/products/charm-charms' },
-  { label: 'Build yours', href: '/configure' },
   { label: 'Sizing guide', href: '/guide/how-to-measure-dog-collar' },
   { label: 'Care & materials', href: '/guide/silicone-vs-nylon-dog-collars' },
   { label: 'FAQ', href: '/faq' },
@@ -16,7 +15,6 @@ const NAV_LINKS = [
 const DESKTOP_NAV = [
   { label: 'Shop', href: '/products' },
   { label: 'Charms', href: '/products/charm-charms' },
-  { label: 'Build yours', href: '/configure' },
   { label: 'Care', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];
 

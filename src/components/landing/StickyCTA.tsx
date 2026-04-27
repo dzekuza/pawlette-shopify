@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
@@ -35,7 +36,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#A8D5A2', animation: 'pulse 2s ease-in-out infinite' }} />
           4 people shopping now
         </div>
-        <a href="/products" style={{
+        <Link href="/products" style={{
           fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500,
           padding: '10px 24px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25',
           textDecoration: 'none', transition: 'background 150ms', whiteSpace: 'nowrap',
@@ -43,7 +44,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           onMouseEnter={e => (e.currentTarget.style.background = '#8fc489')}
           onMouseLeave={e => (e.currentTarget.style.background = '#A8D5A2')}>
           Build your collar →
-        </a>
+        </Link>
       </div>
     </div>
   );
