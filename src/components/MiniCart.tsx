@@ -1,14 +1,15 @@
 'use client';
 
-import { CartItem, ALL_CHARMS } from '@/lib/data';
+import { CartItem } from '@/lib/data';
 
 interface MiniCartProps {
   items: CartItem[];
   onClose: () => void;
   onRemove: (i: number) => void;
+  checkoutUrl?: string | null;
 }
 
-export function MiniCart({ items, onClose, onRemove }: MiniCartProps) {
+export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProps) {
   const total = items.length * 28;
 
   return (
@@ -29,19 +30,16 @@ export function MiniCart({ items, onClose, onRemove }: MiniCartProps) {
             <div style={{ fontSize: 14, color: '#9B948F', textAlign: 'center', paddingTop: 60 }}>Your cart is empty.</div>
           ) : items.map((item, i) => (
             <div key={i} style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid #E8E3DC', display: 'flex', gap: 14, alignItems: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: 12, background: item.collar.bgTint || '#FAF0F5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0 }}>
-                <div style={{ height: 8, borderRadius: 4, width: 44, background: item.collar.color }} />
-                <div style={{ display: 'flex', gap: 3 }}>
-                  {item.charms.filter(Boolean).slice(0, 3).map(id => {
-                    const c = ALL_CHARMS.find(ch => ch.id === id);
-                    return c ? <span key={id} style={{ fontSize: 12 }}>{c.e}</span> : null;
-                  })}
+              <div style={{ width: 60, height: 60, borderRadius: 12, background: item.collarBgTint || '#FAF0F5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0 }}>
+                <div style={{ height: 8, borderRadius: 4, width: 44, background: item.collarColor }} />
+                <div style={{ fontSize: 11, color: '#9B948F' }}>
+                  {item.charmIds.filter(Boolean).length} charms
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: '#3D3530' }}>{item.collar.name} collar set</div>
+                <div style={{ fontSize: 14, fontWeight: 500, color: '#3D3530' }}>{item.collarName} collar set</div>
                 <div style={{ fontSize: 12, color: '#9B948F', marginTop: 2 }}>
-                  {item.size.split(' ')[0]} · {item.charms.filter(Boolean).length} charms{item.engraving ? ` · "${item.engraving}"` : ''}
+                  {item.size.split(' ')[0]} · {item.charmIds.filter(Boolean).length} charms{item.engraving ? ` · "${item.engraving}"` : ''}
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
@@ -63,7 +61,7 @@ export function MiniCart({ items, onClose, onRemove }: MiniCartProps) {
               {total >= 40 ? 'Free' : '€4.90'}
             </span>
           </div>
-          <button style={{ width: '100%', fontSize: 15, fontWeight: 500, padding: '14px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}>
+          <button onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }} style={{ width: '100%', fontSize: 15, fontWeight: 500, padding: '14px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}>
             Checkout — €{total >= 40 ? total : total + 4.9}
           </button>
           <div style={{ textAlign: 'center', fontSize: 12, color: '#9B948F', marginTop: 10 }}>Free returns · secure checkout</div>
