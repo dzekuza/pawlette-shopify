@@ -249,6 +249,7 @@ export function ProductConfigurator () {
             <div className="relative flex-1 flex flex-col min-h-0">
               <CollarStage
                 collar={collar}
+                charms={charms}
                 selectedCharms={selectedCharms}
                 isDark={false}
                 moveCharm={moveCharm}
@@ -291,6 +292,8 @@ export function ProductConfigurator () {
 
           <ConfigPanel
             collar={collar}
+            collars={collars}
+            charms={charms}
             setCollar={setCollar}
             selectedCharms={selectedCharms}
             toggleCharm={toggleCharm}

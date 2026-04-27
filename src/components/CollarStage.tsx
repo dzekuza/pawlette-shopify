@@ -1,7 +1,7 @@
 'use client';
 
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { Collar, ALL_CHARMS } from '@/lib/data';
+import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify';
 import {
   DndContext,
   DragEndEvent,
@@ -22,7 +22,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useState } from 'react';
 
 interface CollarStageProps {
-  collar: Collar;
+  collar: ShopifyCollar | null;
+  charms: ShopifyCharm[];
   selectedCharms: (string | null)[];
   isDark: boolean;
   moveCharm: (fromIndex: number, toIndex: number) => void;
@@ -33,17 +34,19 @@ interface CollarStageProps {
 function SortableSlot({
   slotIndex,
   charmId,
+  charms,
   slotSize,
   charmSize,
   onClear,
 }: {
   slotIndex: number;
   charmId: string | null;
+  charms: ShopifyCharm[];
   slotSize: number;
   charmSize: number;
   onClear: () => void;
 }) {
-  const charm = charmId ? ALL_CHARMS.find(c => c.id === charmId) : null;
+  const charm = charmId ? charms.find(c => c.id === charmId) : null;
   const id = `slot-${slotIndex}`;
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id, disabled: !charm });
   const style = {
@@ -74,7 +77,7 @@ function SortableSlot({
       >
         {showFilled ? (
           <img
-            src={encodeURI(charm!.image)}
+            src={charm!.image}
             alt=""
             aria-hidden="true"
             draggable={false}
@@ -104,8 +107,8 @@ function SortableSlot({
   );
 }
 
-function DragPreview({ charmId, slotSize, charmSize }: { charmId: string; slotSize: number; charmSize: number }) {
-  const charm = ALL_CHARMS.find(c => c.id === charmId);
+function DragPreview({ charmId, charms, slotSize, charmSize }: { charmId: string; charms: ShopifyCharm[]; slotSize: number; charmSize: number }) {
+  const charm = charms.find(c => c.id === charmId);
   if (!charm) return null;
   return (
     <div
@@ -120,7 +123,7 @@ function DragPreview({ charmId, slotSize, charmSize }: { charmId: string; slotSi
       }}
     >
       <img
-        src={encodeURI(charm.image)}
+        src={charm.image}
         alt=""
         draggable={false}
         style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }}
@@ -152,7 +155,7 @@ const COLLAR_GALLERY: Record<string, string[]> = {
   ],
 };
 
-export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, showGallery = true }: CollarStageProps) {
+export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClearSlot, showGallery = true }: CollarStageProps) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const slotSize = isMobile ? 52 : 64;
@@ -164,7 +167,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setMounted(true); }, []);
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { setActiveImg(0); }, [collar.id]);
+  useEffect(() => { setActiveImg(0); }, [collar?.id]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
@@ -184,12 +187,12 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
   };
 
   const activeCharmId = activeId ? selectedCharms[slotIds.indexOf(activeId)] : null;
-  const gallery = COLLAR_GALLERY[collar.id] ?? COLLAR_GALLERY.blossom;
+  const gallery = COLLAR_GALLERY[collar?.id ?? ''] ?? COLLAR_GALLERY.blossom;
 
   const ssrCharms = (
     <div className="flex items-center justify-center w-full" style={{ gap: isMobile ? 8 : 12 }}>
       {slotIds.map((_, i) => {
-        const charm = selectedCharms[i] ? ALL_CHARMS.find(c => c.id === selectedCharms[i]) : null;
+        const charm = selectedCharms[i] ? charms.find(c => c.id === selectedCharms[i]) : null;
         return (
           <div
             key={i}
@@ -203,7 +206,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
             }}
           >
             {charm
-              ? <img src={encodeURI(charm.image)} alt="" style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }} />
+              ? <img src={charm.image} alt="" style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }} />
               : <span className="text-lg" style={{ color: 'rgba(61,53,48,0.22)' }}>+</span>}
           </div>
         );
@@ -233,7 +236,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
                   style={{
                     width: 62,
                     height: 62,
-                    border: `2px solid ${activeImg === i ? collar.color : 'rgba(61,53,48,0.12)'}`,
+                    border: `2px solid ${activeImg === i ? (collar?.color ?? '#A8D5A2') : 'rgba(61,53,48,0.12)'}`,
                     background: 'rgba(61,53,48,0.04)',
                     transition: 'border-color 200ms, transform 150ms',
                     transform: activeImg === i ? 'scale(1.04)' : 'scale(1)',
@@ -250,27 +253,27 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
             className="flex-1 relative overflow-hidden"
             style={{
               borderRadius: isMobile ? 16 : 20,
-              background: `linear-gradient(160deg, ${collar.bgTint} 0%, rgba(42,30,24,0.5) 100%)`,
+              background: `linear-gradient(160deg, ${collar?.bgTint ?? 'rgba(168,213,162,0.3)'} 0%, rgba(42,30,24,0.5) 100%)`,
               minHeight: isMobile ? 260 : 0,
             }}
           >
             <img
               key={gallery[activeImg]}
               src={gallery[activeImg]}
-              alt={`${collar.name} collar`}
+              alt={`${collar?.title ?? ''} collar`}
               className="w-full h-full object-cover block"
             />
             <div
               className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
               style={{
-                background: collar.color,
+                background: collar?.color ?? '#A8D5A2',
                 padding: '4px 14px',
                 fontSize: 11,
                 color: '#3D3530',
                 letterSpacing: '0.08em',
               }}
             >
-              {collar.name}
+              {collar?.title ?? ''}
             </div>
           </div>
         </div>
@@ -287,7 +290,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
               style={{
                 width: 56,
                 height: 56,
-                border: `2px solid ${activeImg === i ? collar.color : 'rgba(61,53,48,0.12)'}`,
+                border: `2px solid ${activeImg === i ? (collar?.color ?? '#A8D5A2') : 'rgba(61,53,48,0.12)'}`,
               }}
             >
               <img src={img} alt="" draggable={false} className="w-full h-full object-cover block" />
@@ -300,10 +303,10 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
       <div
         className="flex flex-col items-center flex-shrink-0"
         style={{
-          background: collar.color,
+          background: collar?.color ?? '#A8D5A2',
           borderRadius: isMobile ? 14 : 18,
           padding: isMobile ? '18px 16px' : '22px 24px',
-          boxShadow: `0 0 40px ${collar.glowColor}55, 0 4px 16px rgba(0,0,0,0.12)`,
+          boxShadow: `0 0 40px ${collar?.glowColor ?? 'rgba(168,213,162,0.5)'}55, 0 4px 16px rgba(0,0,0,0.12)`,
           transition: 'background-color 400ms, box-shadow 400ms',
           gap: 12,
         }}
@@ -317,6 +320,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
                     key={id}
                     slotIndex={i}
                     charmId={selectedCharms[i]}
+                    charms={charms}
                     slotSize={slotSize}
                     charmSize={charmSize}
                     onClear={() => onClearSlot(i)}
@@ -326,7 +330,7 @@ export function CollarStage({ collar, selectedCharms, moveCharm, onClearSlot, sh
             </SortableContext>
             <DragOverlay>
               {activeId && activeCharmId
-                ? <DragPreview charmId={activeCharmId} slotSize={slotSize} charmSize={charmSize} />
+                ? <DragPreview charmId={activeCharmId} charms={charms} slotSize={slotSize} charmSize={charmSize} />
                 : null}
             </DragOverlay>
           </DndContext>

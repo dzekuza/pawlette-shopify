@@ -1,10 +1,11 @@
-import { COLLARS, type Collar } from '@/lib/data'
+import type { ShopifyCollar } from '@/lib/shopify'
 
 interface ColourStepProps {
-  collar: Collar
+  collar: ShopifyCollar | null
+  collars: ShopifyCollar[]
   next: () => void
   panelBg: string
-  setCollar: (collar: Collar) => void
+  setCollar: (collar: ShopifyCollar) => void
   textMuted: string
   textPrimary: string
   textSecondary: string
@@ -12,6 +13,7 @@ interface ColourStepProps {
 
 export function ColourStep ({
   collar,
+  collars,
   next,
   panelBg,
   setCollar,
@@ -41,11 +43,11 @@ export function ColourStep ({
             color: textSecondary
           }}
         >
-          {collar.name}
+          {collar?.title ?? ''}
         </span>
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {COLLARS.map((option) => (
+        {collars.map((option) => (
           <button
             key={option.id}
             className='btn-press'

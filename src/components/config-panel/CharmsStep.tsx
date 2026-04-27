@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { ALL_CHARMS } from '@/lib/data'
+import type { ShopifyCharm } from '@/lib/shopify'
 
 type CharmTab = 'all' | 'letter' | 'icon'
 
@@ -13,6 +13,7 @@ const TABS: Array<{ id: CharmTab, label: string }> = [
 
 interface CharmsStepProps {
   borderColor: string
+  charms: ShopifyCharm[]
   isDark: boolean
   selectedCharms: (string | null)[]
   textMuted: string
@@ -23,6 +24,7 @@ interface CharmsStepProps {
 
 export function CharmsStep ({
   borderColor,
+  charms,
   isDark,
   selectedCharms,
   textMuted,
@@ -35,14 +37,14 @@ export function CharmsStep ({
   const selectedCount = selectedCharms.filter(Boolean).length
 
   const filtered = useMemo(() => {
-    let list = tab === 'all' ? [...ALL_CHARMS] : ALL_CHARMS.filter((charm) => charm.category === tab)
+    let list = tab === 'all' ? [...charms] : charms.filter((charm) => charm.category === tab)
 
     if (query.trim()) {
-      list = list.filter((charm) => charm.name.toLowerCase().includes(query.toLowerCase()))
+      list = list.filter((charm) => charm.title.toLowerCase().includes(query.toLowerCase()))
     }
 
     return list
-  }, [query, tab])
+  }, [query, tab, charms])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -129,7 +131,7 @@ export function CharmsStep ({
                 key={charm.id}
                 className={!isFull ? 'btn-press' : undefined}
                 onClick={() => !isFull && toggleCharm(charm.id)}
-                title={charm.name}
+                title={charm.title}
                 style={{
                   borderRadius: 14,
                   background: isDark ? 'rgba(255,255,255,0.06)' : '#F0EBE5',
@@ -148,7 +150,7 @@ export function CharmsStep ({
                 }}
               >
                 <img
-                  src={encodeURI(charm.image)}
+                  src={charm.image}
                   alt=''
                   aria-hidden='true'
                   style={{ width: 52, height: 52, objectFit: 'contain' }}
@@ -164,7 +166,7 @@ export function CharmsStep ({
                     lineHeight: 1.2
                   }}
                 >
-                  {charm.name}
+                  {charm.title}
                 </span>
               </button>
             )

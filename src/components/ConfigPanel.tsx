@@ -1,7 +1,7 @@
 'use client'
 
 import { useWindowWidth } from '@/hooks/useWindowWidth'
-import { type Collar } from '@/lib/data'
+import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify'
 import { Accordion } from '@/components/shared/Accordion'
 import { CharmsStep } from './config-panel/CharmsStep'
 import { ColourStep } from './config-panel/ColourStep'
@@ -16,8 +16,10 @@ const PRODUCT_ACCORDION = [
 ]
 
 interface ConfigPanelProps {
-  collar: Collar
-  setCollar: (collar: Collar) => void
+  collar: ShopifyCollar | null
+  collars: ShopifyCollar[]
+  charms: ShopifyCharm[]
+  setCollar: (collar: ShopifyCollar) => void
   selectedCharms: (string | null)[]
   toggleCharm: (id: string) => void
   size: string
@@ -28,6 +30,8 @@ interface ConfigPanelProps {
 
 export function ConfigPanel({
   collar,
+  collars,
+  charms,
   setCollar,
   selectedCharms,
   toggleCharm,
@@ -54,6 +58,7 @@ export function ConfigPanel({
       {/* ── Colour ── */}
       <ColourStep
         collar={collar}
+        collars={collars}
         next={noop}
         panelBg={panelBg}
         setCollar={setCollar}
@@ -67,6 +72,7 @@ export function ConfigPanel({
       {/* ── Charms ── */}
       <CharmsStep
         borderColor={borderColor}
+        charms={charms}
         isDark={isDark}
         selectedCharms={selectedCharms}
         textMuted={textMuted}
