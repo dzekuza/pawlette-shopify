@@ -1,17 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Collar, ALL_CHARMS } from '@/lib/data';
-
-const extras = ALL_CHARMS.slice(5);
+import { type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify';
 
 interface UpsellModalProps {
-  collar: Collar;
+  collar: ShopifyCollar | null;
+  charms: ShopifyCharm[];
   onClose: () => void;
   onAddCharms: (ids: string[]) => void;
 }
 
-export function UpsellModal({ collar, onClose, onAddCharms }: UpsellModalProps) {
+export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModalProps) {
+  const extras = charms.slice(5);
   const [picked, setPicked] = useState<string[]>([]);
 
   const toggle = (id: string) =>
@@ -32,7 +32,7 @@ export function UpsellModal({ collar, onClose, onAddCharms }: UpsellModalProps) 
         <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: '#A8D5A2', fontSize: 14, color: '#2a5a25' }}>✓</div>
           <div>
-            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar.name} collar added to cart</div>
+            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar?.title ?? ''} collar added to cart</div>
             <div style={{ fontSize: 12, color: '#5a9a55' }}>Your 5 included charms are ready to pick.</div>
           </div>
         </div>
@@ -59,8 +59,10 @@ export function UpsellModal({ collar, onClose, onAddCharms }: UpsellModalProps) 
                   transition: 'all 150ms',
                 }}
               >
-                <span style={{ fontSize: 24 }}>{c.e}</span>
-                <span className="font-medium uppercase" style={{ fontSize: 10, letterSpacing: '0.05em', color: 'rgba(61,53,48,0.6)' }}>{c.name}</span>
+                {c.image
+                  ? <img src={c.image} alt={c.title} style={{ width: 32, height: 32, objectFit: 'contain' }} />
+                  : <span style={{ fontSize: 24 }}>✦</span>}
+                <span className="font-medium uppercase" style={{ fontSize: 10, letterSpacing: '0.05em', color: 'rgba(61,53,48,0.6)' }}>{c.title}</span>
               </button>
             );
           })}

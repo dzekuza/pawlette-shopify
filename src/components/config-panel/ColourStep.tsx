@@ -62,9 +62,9 @@ export function ColourStep ({
               background: option.color,
               cursor: 'pointer',
               outline: 'none',
-              border: collar.id === option.id ? `3px solid ${textPrimary}` : '3px solid transparent',
+              border: collar?.id === option.id ? `3px solid ${textPrimary}` : '3px solid transparent',
               transition: 'border-color 150ms ease-out, box-shadow 200ms ease-out, transform 100ms ease-out',
-              boxShadow: collar.id === option.id
+              boxShadow: collar?.id === option.id
                 ? `0 0 0 1px ${panelBg}, 0 4px 12px ${option.glowColor}`
                 : `0 2px 8px ${option.glowColor}`
             }}

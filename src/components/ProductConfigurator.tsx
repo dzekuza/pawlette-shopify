@@ -321,6 +321,7 @@ export function ProductConfigurator () {
       {showUpsell && (
         <UpsellModal
           collar={collar}
+          charms={charms}
           onClose={handleUpsellClose}
           onAddCharms={handleAddCharms}
         />

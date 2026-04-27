@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { slugFromCharmId } from '@/lib/catalog'
-import type { Charm } from '@/lib/data'
+import type { ShopifyCharm } from '@/lib/shopify'
 
 interface CharmCardProps {
-  charm: Charm
+  charm: ShopifyCharm
 }
 
 export function CharmCard ({ charm }: CharmCardProps) {
@@ -51,7 +51,7 @@ export function CharmCard ({ charm }: CharmCardProps) {
           />
         </div>
         <div style={{ marginBottom: 2, fontSize: 13, fontWeight: 500, color: '#3D3530' }}>
-          {charm.name}
+          {charm.title}
         </div>
         <div style={{ fontSize: 12, color: '#9B948F' }}>€4</div>
       </article>

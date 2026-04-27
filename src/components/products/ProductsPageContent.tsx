@@ -1,15 +1,23 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { CommerceFooter } from '@/components/shared/CommerceFooter'
-import { ALL_CHARMS, PRODUCTS } from '@/lib/data'
+import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { getLandingCollars, type LandingCollar } from '@/lib/db'
 import { CharmCard } from './CharmCard'
 import { ProductCard } from './ProductCard'
 import { ProductFilter, ProductsFilterTabs } from './ProductsFilterTabs'
 
 export function ProductsPageContent () {
   const [filter, setFilter] = useState<ProductFilter>('all')
+  const [collars, setCollars] = useState<LandingCollar[]>([])
+  const [charms, setCharms] = useState<ShopifyCharm[]>([])
+
+  useEffect(() => {
+    getLandingCollars().then(setCollars)
+    getCharms().then(setCharms)
+  }, [])
 
   const showCollars = filter === 'all' || filter === 'collars'
   const showCharms = filter === 'all' || filter === 'charms'
@@ -34,7 +42,7 @@ export function ProductsPageContent () {
             )}
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-7">
-              {PRODUCTS.map((product) => (
+              {collars.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </div>
@@ -70,7 +78,7 @@ export function ProductsPageContent () {
             )}
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-              {ALL_CHARMS.map((charm) => (
+              {charms.map((charm) => (
                 <CharmCard key={charm.id} charm={charm} />
               ))}
             </div>

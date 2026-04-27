@@ -1,7 +1,7 @@
-import type { Collar } from '@/lib/data'
+import type { ShopifyCollar } from '@/lib/shopify'
 
 interface OrderOverviewProps {
-  collar: Collar
+  collar: ShopifyCollar | null
   divider: string
   isDark: boolean
   selectedCharms: (string | null)[]
@@ -56,13 +56,13 @@ export function OrderOverview ({
               width: 10,
               height: 10,
               borderRadius: '50%',
-              background: collar.color,
+              background: collar?.color ?? 'transparent',
               display: 'inline-block'
             }}
           />
           Collar
         </span>
-        <span style={{ color: textPrimary, fontWeight: 500 }}>{collar.name}</span>
+        <span style={{ color: textPrimary, fontWeight: 500 }}>{collar?.title ?? ''}</span>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>

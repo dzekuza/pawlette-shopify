@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion, type Variants } from 'framer-motion'
@@ -12,9 +12,8 @@ import type { AccordionItem } from '@/components/shared/Accordion'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { SectionLabel } from '@/components/shared/SectionLabel'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
-import { COLLARS, PRODUCTS } from '@/lib/data'
 import { slugFromProductName } from '@/lib/catalog'
-import type { Collar } from '@/lib/data'
+import { getCollars, type ShopifyCollar } from '@/lib/shopify'
 import type { ProductDetail } from '@/lib/catalog'
 
 const FADE_UP: Variants = {
@@ -80,7 +79,6 @@ export function SingleProductPage({ product }: Props) {
   const isScrollableRecommendations = width < 1200
 
   const isCollar = product.productType === 'collar'
-  const initialCollar = COLLARS.find((c) => c.color === product.accentColor) ?? COLLARS[0]
 
   const tabContent: Record<InfoTab, string> = {
     features: product.features ?? DEFAULT_TAB_CONTENT.features,
@@ -95,16 +93,30 @@ export function SingleProductPage({ product }: Props) {
     { id: 'warranty', title: 'Warranty', content: "12-month warranty against manufacturing defects. If something breaks, we'll replace it — no questions asked." },
   ]
 
-  const [selectedCollar, setSelectedCollar] = useState<Collar>(initialCollar)
+  const [collars, setCollars] = useState<ShopifyCollar[]>([])
+  const [selectedCollar, setSelectedCollar] = useState<ShopifyCollar | null>(null)
   const [selectedSize, setSelectedSize] = useState<DisplaySize>('S')
+
+  useEffect(() => {
+    getCollars().then((data) => {
+      setCollars(data)
+      const match = data.find((c) => c.color === product.accentColor) ?? data[0] ?? null
+      setSelectedCollar(match)
+    })
+  }, [product.accentColor])
   const [desktopTab, setDesktopTab] = useState<InfoTab>('features')
   const [added, setAdded] = useState(false)
   const router = useRouter()
 
   const handleAddToCart = () => {
     const item = {
-      collar: selectedCollar,
-      charms: [],
+      collarId: selectedCollar?.id ?? '',
+      collarName: selectedCollar?.title ?? '',
+      collarColor: selectedCollar?.color ?? '',
+      collarBgTint: selectedCollar?.bgTint ?? '',
+      collarVariantId: selectedCollar?.variantId ?? '',
+      charmIds: [],
+      charmVariantIds: [],
       size: selectedSize,
       engraving: '',
     }
@@ -117,12 +129,11 @@ export function SingleProductPage({ product }: Props) {
     }, 800)
   }
 
-  const collarProduct = PRODUCTS.find((p) => p.collarColor === selectedCollar.color)
-  const displayImage = product.image || collarProduct?.image || ''
+  const displayImage = product.image || ''
   const displayName = product.name
-  const displayBadge = isCollar ? collarProduct?.badge : product.badge
-  const displayBadgeColor = collarProduct?.badgeColor
-  const displayBadgeBg = collarProduct?.badgeBg
+  const displayBadge = product.badge
+  const displayBadgeColor: string | undefined = undefined
+  const displayBadgeBg: string | undefined = undefined
 
   return (
     <div className="bg-cream text-bark min-h-screen font-sans">
@@ -156,6 +167,7 @@ export function SingleProductPage({ product }: Props) {
               <ProductInfoBlock
                 displayName={displayName}
                 product={product}
+                collars={collars}
                 selectedCollar={selectedCollar}
                 selectedSize={selectedSize}
                 isCollar={isCollar}
@@ -231,6 +243,7 @@ export function SingleProductPage({ product }: Props) {
               <ProductInfoBlock
                 displayName={displayName}
                 product={product}
+                collars={collars}
                 selectedCollar={selectedCollar}
                 selectedSize={selectedSize}
                 isCollar={isCollar}
@@ -382,16 +395,17 @@ function ProductImage({
 }
 
 function ProductInfoBlock({
-  displayName, product, selectedCollar, selectedSize,
+  displayName, product, collars, selectedCollar, selectedSize,
   isCollar, isMobile, onCollarChange, onSizeChange,
 }: {
   displayName: string
   product: ProductDetail
-  selectedCollar: Collar
+  collars: ShopifyCollar[]
+  selectedCollar: ShopifyCollar | null
   selectedSize: DisplaySize
   isCollar: boolean
   isMobile: boolean
-  onCollarChange: (c: Collar) => void
+  onCollarChange: (c: ShopifyCollar) => void
   onSizeChange: (s: DisplaySize) => void
 }) {
   return (
@@ -425,17 +439,17 @@ function ProductInfoBlock({
           <SectionLabel>
             Select colour —{' '}
             <span style={{ fontWeight: 400, color: 'var(--color-bark-light)', textTransform: 'none', letterSpacing: 0 }}>
-              {selectedCollar.name}
+              {selectedCollar?.title ?? ''}
             </span>
           </SectionLabel>
           <div className="flex flex-wrap" style={{ gap: 8 }}>
-            {COLLARS.map((collar) => {
-              const active = collar.id === selectedCollar.id
+            {collars.map((collar) => {
+              const active = collar.id === selectedCollar?.id
               return (
                 <motion.button
                   key={collar.id}
                   onClick={() => onCollarChange(collar)}
-                  aria-label={`Select ${collar.name} colour`}
+                  aria-label={`Select ${collar.title} colour`}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ duration: 0.15 }}
@@ -664,9 +678,13 @@ function YouMightAlsoLike({
   isMobile: boolean
   isScrollable: boolean
 }) {
+  const [allProducts, setAllProducts] = useState<import('@/lib/db').LandingCollar[]>([])
+  useEffect(() => {
+    import('@/lib/db').then(({ getLandingCollars }) => getLandingCollars().then(setAllProducts))
+  }, [])
   const products = isMobile
-    ? PRODUCTS.filter((p) => p.collarColor !== currentAccentColor)
-    : [...PRODUCTS]
+    ? allProducts.filter((p) => p.collarColor !== currentAccentColor)
+    : [...allProducts]
 
   return (
     <section

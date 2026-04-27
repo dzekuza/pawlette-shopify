@@ -7,7 +7,7 @@ import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { ProductGrid } from './landing/ProductGrid';
-import { getLandingCollars, staticLandingCollars, type LandingCollar } from '@/lib/db';
+import { getLandingCollars, type LandingCollar } from '@/lib/db';
 import { CharmGrid } from './landing/CharmGrid';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { BentoSection } from './BentoSection';
@@ -35,7 +35,7 @@ export function LandingPage() {
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);
-  const [collars, setCollars] = useState<LandingCollar[]>(staticLandingCollars());
+  const [collars, setCollars] = useState<LandingCollar[]>([]);
 
   useEffect(() => {
     getLandingCollars().then((data) => { if (data.length > 0) setCollars(data); });

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Collar } from '@/lib/data';
+import type { ShopifyCollar } from '@/lib/shopify';
 
-export function UrgencyBar({ collar, isDark }: { collar: Collar; isDark: boolean }) {
+export function UrgencyBar({ collar, isDark }: { collar: ShopifyCollar | null; isDark: boolean }) {
   const [count, setCount] = useState(5);
   const [viewers, setViewers] = useState(9);
 
@@ -24,7 +24,7 @@ export function UrgencyBar({ collar, isDark }: { collar: Collar; isDark: boolean
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e8a020', flexShrink: 0 }} />
         <span suppressHydrationWarning style={{ fontSize: 13, fontWeight: 500, color: isDark ? 'rgba(250,247,242,0.8)' : '#7a5010' }}>
-          Only {count} {collar.name} sets left in stock
+          Only {count} {collar?.title ?? ''} sets left in stock
         </span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
