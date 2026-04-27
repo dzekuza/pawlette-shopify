@@ -7,60 +7,40 @@ import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
 
-interface CartItem {
-  collar: { id: string; name: string; color: string };
-  charms: (string | null)[];
-  size: string;
-  engraving: string;
-  extra?: boolean;
-}
-
-const COLLAR_PRICE = 28;
-const EXTRA_CHARM_PRICE = 6;
 const SHIPPING_THRESHOLD = 50;
 const SHIPPING_COST = 4.9;
-
-function collarCharmCount(item: CartItem): number {
-  return item.charms.filter(Boolean).length;
-}
-
-function itemPrice(item: CartItem): number {
-  return COLLAR_PRICE + (item.extra ? EXTRA_CHARM_PRICE : 0);
-}
 
 export default function CartPage() {
   const router = useRouter();
   const cartCount = useCartCount();
 
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [shopifyCart, setShopifyCart] = useState<ShopifyCart | null>(null);
+  const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
-    try {
-      const raw = localStorage.getItem('pawlette_cart');
-      if (raw) {
-        const parsed = JSON.parse(raw) as CartItem[];
-        if (Array.isArray(parsed)) setCartItems(parsed);
+    fetchCart().then(cart => {
+      if (cart) {
+        setShopifyCart(cart);
+        setCheckoutUrl(cart.checkoutUrl);
       }
-    } catch {
-      // ignore malformed localStorage data
-    }
+    });
   }, []);
 
-  function removeItem(index: number) {
-    setCartItems(prev => {
-      const next = prev.filter((_, i) => i !== index);
-      try {
-        localStorage.setItem('pawlette_cart', JSON.stringify(next));
-      } catch { /* noop */ }
-      return next;
-    });
+  async function removeItem(lineId: string) {
+    if (!shopifyCart) return;
+    const updated = await removeCartLine(shopifyCart.id, lineId);
+    setShopifyCart(updated);
   }
 
-  const subtotal = cartItems.reduce((sum, item) => sum + itemPrice(item), 0);
+  const lines = shopifyCart?.lines ?? [];
+  const subtotal = lines.reduce(
+    (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
+    0
+  );
   const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const total = subtotal + shipping;
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
@@ -75,7 +55,7 @@ export default function CartPage() {
 
   return (
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-      <LandingNav topOffset={0} cartCount={cartItems.length} onCart={() => router.push('/cart')} />
+      <LandingNav topOffset={0} cartCount={lines.length} onCart={() => router.push('/cart')} />
 
       <main className="pt-[100px] pb-20">
         <div className="max-w-[1100px] mx-auto px-5 md:px-10">
@@ -85,13 +65,13 @@ export default function CartPage() {
             Your Cart
           </h1>
 
-          {cartItems.length > 0 && (
+          {lines.length > 0 && (
             <p className="text-[15px] mb-10 opacity-60" style={{ color: 'var(--color-bark)' }}>
-              {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
+              {lines.length} {lines.length === 1 ? 'item' : 'items'}
             </p>
           )}
 
-          {cartItems.length === 0 ? (
+          {lines.length === 0 ? (
             /* Empty state */
             <div className="flex flex-col items-center justify-center pt-[60px] pb-20 gap-6 text-center">
               <span className="text-[96px] leading-none">🐾</span>
@@ -143,61 +123,32 @@ export default function CartPage() {
                   </div>
                 )}
 
-                {/* Cart items */}
+                {/* Cart lines */}
                 <div className="flex flex-col gap-4">
-                  {cartItems.map((item, index) => {
-                    const charmCount = collarCharmCount(item);
-                    const price = itemPrice(item);
+                  {lines.map(line => {
+                    const lineTotal = parseFloat(line.merchandise.price.amount) * line.quantity;
                     return (
                       <div
-                        key={index}
+                        key={line.id}
                         className="bg-white rounded-[20px] px-4 py-[18px] md:px-6 md:py-5 flex items-center gap-[18px] relative"
                         style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}
                       >
-                        {/* Colour swatch */}
-                        <div
-                          className="w-[52px] h-[52px] rounded-full shrink-0"
-                          style={{
-                            background: item.collar.color,
-                            boxShadow: `0 2px 12px ${item.collar.color}88`,
-                            border: '2px solid rgba(255,255,255,0.8)',
-                          }}
-                        />
-
                         {/* Item details */}
                         <div className="flex-1 min-w-0">
                           <p
                             className="text-[17px] mb-1.5 truncate"
                             style={{ color: 'var(--color-bark)', letterSpacing: '0.02em', fontFamily: "'Luckiest Guy', cursive" }}
                           >
-                            Collar Set — {item.collar.name}
+                            {line.merchandise.product.title}
                           </p>
                           <div className="flex flex-wrap gap-1.5 items-center">
-                            {/* Size badge */}
+                            {/* Quantity badge */}
                             <span
                               className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
                               style={{ background: 'rgba(61,53,48,0.08)', color: 'var(--color-bark)' }}
                             >
-                              {item.size}
+                              Qty: {line.quantity}
                             </span>
-                            {/* Charm count badge */}
-                            {charmCount > 0 && (
-                              <span
-                                className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
-                                style={{ background: 'rgba(168,213,162,0.25)', color: 'var(--color-bark)' }}
-                              >
-                                {charmCount} {charmCount === 1 ? 'charm' : 'charms'}
-                              </span>
-                            )}
-                            {/* Engraving badge */}
-                            {item.engraving && (
-                              <span
-                                className="inline-block text-[12px] font-semibold px-[10px] py-[3px] rounded-full"
-                                style={{ background: 'rgba(249,228,160,0.4)', color: 'var(--color-bark)' }}
-                              >
-                                &ldquo;{item.engraving}&rdquo;
-                              </span>
-                            )}
                           </div>
                         </div>
 
@@ -207,10 +158,10 @@ export default function CartPage() {
                             className="text-[20px]"
                             style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
                           >
-                            €{price.toFixed(2)}
+                            €{lineTotal.toFixed(2)}
                           </span>
                           <button
-                            onClick={() => removeItem(index)}
+                            onClick={() => removeItem(line.id)}
                             aria-label="Remove item"
                             className="w-7 h-7 rounded-full flex items-center justify-center text-[14px] font-bold shrink-0 cursor-pointer border-none transition-[background] duration-150"
                             style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
@@ -246,7 +197,7 @@ export default function CartPage() {
                   <div className="flex flex-col gap-[14px]">
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
-                        Subtotal ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})
+                        Subtotal ({lines.length} {lines.length === 1 ? 'item' : 'items'})
                       </span>
                       <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
                         €{subtotal.toFixed(2)}
@@ -304,9 +255,13 @@ export default function CartPage() {
 
                   {/* CTA */}
                   <div className="mt-7">
-                    <PrimaryButton href="/checkout" variant="sage" size="lg" fullWidth>
+                    <button
+                      onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }}
+                      className="w-full rounded-full py-4 text-[16px] font-bold cursor-pointer border-none"
+                      style={{ background: 'var(--color-sage)', color: 'var(--color-bark)' }}
+                    >
                       Proceed to Checkout
-                    </PrimaryButton>
+                    </button>
                   </div>
 
                   {/* Trust note */}
