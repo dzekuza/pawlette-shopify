@@ -1,11 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import { ALL_CHARMS } from '@/lib/data';
+import { useState, useEffect } from 'react';
+import { getCharms, type ShopifyCharm } from '@/lib/shopify';
 
 export function CharmGrid() {
   const [selected, setSelected] = useState<string | null>(null);
-  const selectedCharm = ALL_CHARMS.find(c => c.id === selected);
+  const [charms, setCharms] = useState<ShopifyCharm[]>([]);
+
+  useEffect(() => {
+    getCharms().then(setCharms)
+  }, [])
+
+  const selectedCharm = charms.find(c => c.id === selected);
 
   return (
     <section id="charms" className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
@@ -37,10 +43,10 @@ export function CharmGrid() {
                   className="flex h-9 w-9 items-center justify-center rounded-full"
                   style={{ background: selectedCharm.bg }}
                 >
-                  <img src={encodeURI(selectedCharm.image)} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
+                  <img src={selectedCharm.image} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
                 </div>
                 <div>
-                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.name} charm</div>
+                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title} charm</div>
                   <div className="font-sans text-xs text-bark-muted">€6 · snap-on · waterproof</div>
                 </div>
               </div>
@@ -50,7 +56,7 @@ export function CharmGrid() {
 
         {/* 6-column charm grid */}
         <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:gap-4 lg:grid-cols-6">
-          {ALL_CHARMS.map(c => (
+          {charms.map(c => (
             <div
               key={c.id}
               data-animate="card"
@@ -66,13 +72,13 @@ export function CharmGrid() {
               }}
             >
               <img
-                src={encodeURI(c.image)}
+                src={c.image}
                 alt=""
                 aria-hidden="true"
                 className="h-[52px] w-[52px] object-contain lg:h-[70px] lg:w-[70px]"
               />
               <span className="font-sans text-[8px] font-medium uppercase tracking-[0.06em] text-bark/55 md:text-[10px]">
-                {c.name}
+                {c.title}
               </span>
             </div>
           ))}
