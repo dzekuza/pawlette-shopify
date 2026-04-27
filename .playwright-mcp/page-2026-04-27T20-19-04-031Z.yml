@@ -1,0 +1,783 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Žavesys home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e6]
+        - generic [ref=e7]:
+          - button "Cart" [ref=e8] [cursor=pointer]:
+            - img [ref=e9]
+          - button "Open menu" [ref=e12] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e16]:
+      - img "Letter A - Blue" [ref=e19]
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - paragraph [ref=e29]: Snap-on charm
+          - heading "Letter A - Blue" [level=1] [ref=e30]
+          - generic [ref=e31]:
+            - generic [ref=e32]: €6
+            - generic [ref=e33]: free shipping over €50
+        - generic [ref=e34]:
+          - generic [ref=e35]: Color
+          - generic [ref=e36]:
+            - button "All" [pressed] [ref=e37] [cursor=pointer]
+            - button "Blue" [ref=e38] [cursor=pointer]
+            - button "Green" [ref=e39] [cursor=pointer]
+            - button "Red" [ref=e40] [cursor=pointer]
+            - button "Yellow" [ref=e41] [cursor=pointer]
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]: Choose charm
+              - generic [ref=e46]: Letter A - Blue
+            - searchbox "Search charms…" [ref=e47]
+          - generic [ref=e49]:
+            - button "Letter A - Blue" [ref=e50] [cursor=pointer]:
+              - img [ref=e51]
+              - generic [ref=e52]: Letter A - Blue
+            - button "Letter A - Green" [ref=e53] [cursor=pointer]:
+              - img [ref=e54]
+              - generic [ref=e55]: Letter A - Green
+            - button "Letter A - Red" [ref=e56] [cursor=pointer]:
+              - img [ref=e57]
+              - generic [ref=e58]: Letter A - Red
+            - button "Letter A - Yellow" [ref=e59] [cursor=pointer]:
+              - img [ref=e60]
+              - generic [ref=e61]: Letter A - Yellow
+            - button "Letter B - Blue" [ref=e62] [cursor=pointer]:
+              - img [ref=e63]
+              - generic [ref=e64]: Letter B - Blue
+            - button "Letter B - Green" [ref=e65] [cursor=pointer]:
+              - img [ref=e66]
+              - generic [ref=e67]: Letter B - Green
+            - button "Letter B - Red" [ref=e68] [cursor=pointer]:
+              - img [ref=e69]
+              - generic [ref=e70]: Letter B - Red
+            - button "Letter B - Yellow" [ref=e71] [cursor=pointer]:
+              - img [ref=e72]
+              - generic [ref=e73]: Letter B - Yellow
+            - button "Letter C - Blue" [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+              - generic [ref=e76]: Letter C - Blue
+            - button "Letter C - Green" [ref=e77] [cursor=pointer]:
+              - img [ref=e78]
+              - generic [ref=e79]: Letter C - Green
+            - button "Letter C - Red" [ref=e80] [cursor=pointer]:
+              - img [ref=e81]
+              - generic [ref=e82]: Letter C - Red
+            - button "Letter C - Yellow" [ref=e83] [cursor=pointer]:
+              - img [ref=e84]
+              - generic [ref=e85]: Letter C - Yellow
+            - button "Letter D - Blue" [ref=e86] [cursor=pointer]:
+              - img [ref=e87]
+              - generic [ref=e88]: Letter D - Blue
+            - button "Letter D - Green" [ref=e89] [cursor=pointer]:
+              - img [ref=e90]
+              - generic [ref=e91]: Letter D - Green
+            - button "Letter D - Red" [ref=e92] [cursor=pointer]:
+              - img [ref=e93]
+              - generic [ref=e94]: Letter D - Red
+            - button "Letter D - Yellow" [ref=e95] [cursor=pointer]:
+              - img [ref=e96]
+              - generic [ref=e97]: Letter D - Yellow
+            - button "Letter E - Blue" [ref=e98] [cursor=pointer]:
+              - img [ref=e99]
+              - generic [ref=e100]: Letter E - Blue
+            - button "Letter E - Green" [ref=e101] [cursor=pointer]:
+              - img [ref=e102]
+              - generic [ref=e103]: Letter E - Green
+            - button "Letter E - Red" [ref=e104] [cursor=pointer]:
+              - img [ref=e105]
+              - generic [ref=e106]: Letter E - Red
+            - button "Letter E - Yellow" [ref=e107] [cursor=pointer]:
+              - img [ref=e108]
+              - generic [ref=e109]: Letter E - Yellow
+            - button "Letter F - Blue" [ref=e110] [cursor=pointer]:
+              - img [ref=e111]
+              - generic [ref=e112]: Letter F - Blue
+            - button "Letter F - Green" [ref=e113] [cursor=pointer]:
+              - img [ref=e114]
+              - generic [ref=e115]: Letter F - Green
+            - button "Letter F - Red" [ref=e116] [cursor=pointer]:
+              - img [ref=e117]
+              - generic [ref=e118]: Letter F - Red
+            - button "Letter F - Yellow" [ref=e119] [cursor=pointer]:
+              - img [ref=e120]
+              - generic [ref=e121]: Letter F - Yellow
+            - button "Letter G - Blue" [ref=e122] [cursor=pointer]:
+              - img [ref=e123]
+              - generic [ref=e124]: Letter G - Blue
+            - button "Letter G - Green" [ref=e125] [cursor=pointer]:
+              - img [ref=e126]
+              - generic [ref=e127]: Letter G - Green
+            - button "Letter G - Red" [ref=e128] [cursor=pointer]:
+              - img [ref=e129]
+              - generic [ref=e130]: Letter G - Red
+            - button "Letter G - Yellow" [ref=e131] [cursor=pointer]:
+              - img [ref=e132]
+              - generic [ref=e133]: Letter G - Yellow
+            - button "Letter H - Blue" [ref=e134] [cursor=pointer]:
+              - img [ref=e135]
+              - generic [ref=e136]: Letter H - Blue
+            - button "Letter H - Green" [ref=e137] [cursor=pointer]:
+              - img [ref=e138]
+              - generic [ref=e139]: Letter H - Green
+            - button "Letter H - Red" [ref=e140] [cursor=pointer]:
+              - img [ref=e141]
+              - generic [ref=e142]: Letter H - Red
+            - button "Letter H - Yellow" [ref=e143] [cursor=pointer]:
+              - img [ref=e144]
+              - generic [ref=e145]: Letter H - Yellow
+            - button "Letter I - Blue" [ref=e146] [cursor=pointer]:
+              - img [ref=e147]
+              - generic [ref=e148]: Letter I - Blue
+            - button "Letter I - Green" [ref=e149] [cursor=pointer]:
+              - img [ref=e150]
+              - generic [ref=e151]: Letter I - Green
+            - button "Letter I - Red" [ref=e152] [cursor=pointer]:
+              - img [ref=e153]
+              - generic [ref=e154]: Letter I - Red
+            - button "Letter I - Yellow" [ref=e155] [cursor=pointer]:
+              - img [ref=e156]
+              - generic [ref=e157]: Letter I - Yellow
+            - button "Letter J - Blue" [ref=e158] [cursor=pointer]:
+              - img [ref=e159]
+              - generic [ref=e160]: Letter J - Blue
+            - button "Letter J - Green" [ref=e161] [cursor=pointer]:
+              - img [ref=e162]
+              - generic [ref=e163]: Letter J - Green
+            - button "Letter J - Red" [ref=e164] [cursor=pointer]:
+              - img [ref=e165]
+              - generic [ref=e166]: Letter J - Red
+            - button "Letter J - Yellow" [ref=e167] [cursor=pointer]:
+              - img [ref=e168]
+              - generic [ref=e169]: Letter J - Yellow
+            - button "Letter K - Blue" [ref=e170] [cursor=pointer]:
+              - img [ref=e171]
+              - generic [ref=e172]: Letter K - Blue
+            - button "Letter K - Green" [ref=e173] [cursor=pointer]:
+              - img [ref=e174]
+              - generic [ref=e175]: Letter K - Green
+            - button "Letter K - Red" [ref=e176] [cursor=pointer]:
+              - img [ref=e177]
+              - generic [ref=e178]: Letter K - Red
+            - button "Letter K - Yellow" [ref=e179] [cursor=pointer]:
+              - img [ref=e180]
+              - generic [ref=e181]: Letter K - Yellow
+            - button "Letter L - Blue" [ref=e182] [cursor=pointer]:
+              - img [ref=e183]
+              - generic [ref=e184]: Letter L - Blue
+            - button "Letter L - Green" [ref=e185] [cursor=pointer]:
+              - img [ref=e186]
+              - generic [ref=e187]: Letter L - Green
+            - button "Letter L - Red" [ref=e188] [cursor=pointer]:
+              - img [ref=e189]
+              - generic [ref=e190]: Letter L - Red
+            - button "Letter L - Yellow" [ref=e191] [cursor=pointer]:
+              - img [ref=e192]
+              - generic [ref=e193]: Letter L - Yellow
+            - button "Letter M - Blue" [ref=e194] [cursor=pointer]:
+              - img [ref=e195]
+              - generic [ref=e196]: Letter M - Blue
+            - button "Letter M - Green" [ref=e197] [cursor=pointer]:
+              - img [ref=e198]
+              - generic [ref=e199]: Letter M - Green
+            - button "Letter M - Red" [ref=e200] [cursor=pointer]:
+              - img [ref=e201]
+              - generic [ref=e202]: Letter M - Red
+            - button "Letter M - Yellow" [ref=e203] [cursor=pointer]:
+              - img [ref=e204]
+              - generic [ref=e205]: Letter M - Yellow
+            - button "Letter N - Blue" [ref=e206] [cursor=pointer]:
+              - img [ref=e207]
+              - generic [ref=e208]: Letter N - Blue
+            - button "Letter N - Green" [ref=e209] [cursor=pointer]:
+              - img [ref=e210]
+              - generic [ref=e211]: Letter N - Green
+            - button "Letter N - Red" [ref=e212] [cursor=pointer]:
+              - img [ref=e213]
+              - generic [ref=e214]: Letter N - Red
+            - button "Letter N - Yellow" [ref=e215] [cursor=pointer]:
+              - img [ref=e216]
+              - generic [ref=e217]: Letter N - Yellow
+            - button "Letter O - Blue" [ref=e218] [cursor=pointer]:
+              - img [ref=e219]
+              - generic [ref=e220]: Letter O - Blue
+            - button "Letter O - Green" [ref=e221] [cursor=pointer]:
+              - img [ref=e222]
+              - generic [ref=e223]: Letter O - Green
+            - button "Letter O - Red" [ref=e224] [cursor=pointer]:
+              - img [ref=e225]
+              - generic [ref=e226]: Letter O - Red
+            - button "Letter O - Yellow" [ref=e227] [cursor=pointer]:
+              - img [ref=e228]
+              - generic [ref=e229]: Letter O - Yellow
+            - button "Letter P - Blue" [ref=e230] [cursor=pointer]:
+              - img [ref=e231]
+              - generic [ref=e232]: Letter P - Blue
+            - button "Letter P - Green" [ref=e233] [cursor=pointer]:
+              - img [ref=e234]
+              - generic [ref=e235]: Letter P - Green
+            - button "Letter P - Red" [ref=e236] [cursor=pointer]:
+              - img [ref=e237]
+              - generic [ref=e238]: Letter P - Red
+            - button "Letter P - Yellow" [ref=e239] [cursor=pointer]:
+              - img [ref=e240]
+              - generic [ref=e241]: Letter P - Yellow
+            - button "Letter Q - Blue" [ref=e242] [cursor=pointer]:
+              - img [ref=e243]
+              - generic [ref=e244]: Letter Q - Blue
+            - button "Letter Q - Green" [ref=e245] [cursor=pointer]:
+              - img [ref=e246]
+              - generic [ref=e247]: Letter Q - Green
+            - button "Letter Q - Red" [ref=e248] [cursor=pointer]:
+              - img [ref=e249]
+              - generic [ref=e250]: Letter Q - Red
+            - button "Letter Q - Yellow" [ref=e251] [cursor=pointer]:
+              - img [ref=e252]
+              - generic [ref=e253]: Letter Q - Yellow
+            - button "Letter R - Blue" [ref=e254] [cursor=pointer]:
+              - img [ref=e255]
+              - generic [ref=e256]: Letter R - Blue
+            - button "Letter R - Green" [ref=e257] [cursor=pointer]:
+              - img [ref=e258]
+              - generic [ref=e259]: Letter R - Green
+            - button "Letter R - Red" [ref=e260] [cursor=pointer]:
+              - img [ref=e261]
+              - generic [ref=e262]: Letter R - Red
+            - button "Letter R - Yellow" [ref=e263] [cursor=pointer]:
+              - img [ref=e264]
+              - generic [ref=e265]: Letter R - Yellow
+            - button "Letter S - Blue" [ref=e266] [cursor=pointer]:
+              - img [ref=e267]
+              - generic [ref=e268]: Letter S - Blue
+            - button "Letter S - Green" [ref=e269] [cursor=pointer]:
+              - img [ref=e270]
+              - generic [ref=e271]: Letter S - Green
+            - button "Letter S - Red" [ref=e272] [cursor=pointer]:
+              - img [ref=e273]
+              - generic [ref=e274]: Letter S - Red
+            - button "Letter S - Yellow" [ref=e275] [cursor=pointer]:
+              - img [ref=e276]
+              - generic [ref=e277]: Letter S - Yellow
+            - button "Letter T - Blue" [ref=e278] [cursor=pointer]:
+              - img [ref=e279]
+              - generic [ref=e280]: Letter T - Blue
+            - button "Letter T - Green" [ref=e281] [cursor=pointer]:
+              - img [ref=e282]
+              - generic [ref=e283]: Letter T - Green
+            - button "Letter T - Red" [ref=e284] [cursor=pointer]:
+              - img [ref=e285]
+              - generic [ref=e286]: Letter T - Red
+            - button "Letter T - Yellow" [ref=e287] [cursor=pointer]:
+              - img [ref=e288]
+              - generic [ref=e289]: Letter T - Yellow
+            - button "Letter U - Blue" [ref=e290] [cursor=pointer]:
+              - img [ref=e291]
+              - generic [ref=e292]: Letter U - Blue
+            - button "Letter U - Green" [ref=e293] [cursor=pointer]:
+              - img [ref=e294]
+              - generic [ref=e295]: Letter U - Green
+            - button "Letter U - Red" [ref=e296] [cursor=pointer]:
+              - img [ref=e297]
+              - generic [ref=e298]: Letter U - Red
+            - button "Letter U - Yellow" [ref=e299] [cursor=pointer]:
+              - img [ref=e300]
+              - generic [ref=e301]: Letter U - Yellow
+            - button "Letter V - Blue" [ref=e302] [cursor=pointer]:
+              - img [ref=e303]
+              - generic [ref=e304]: Letter V - Blue
+            - button "Letter V - Green" [ref=e305] [cursor=pointer]:
+              - img [ref=e306]
+              - generic [ref=e307]: Letter V - Green
+            - button "Letter V - Red" [ref=e308] [cursor=pointer]:
+              - img [ref=e309]
+              - generic [ref=e310]: Letter V - Red
+            - button "Letter V - Yellow" [ref=e311] [cursor=pointer]:
+              - img [ref=e312]
+              - generic [ref=e313]: Letter V - Yellow
+            - button "Letter W - Blue" [ref=e314] [cursor=pointer]:
+              - img [ref=e315]
+              - generic [ref=e316]: Letter W - Blue
+            - button "Letter W - Green" [ref=e317] [cursor=pointer]:
+              - img [ref=e318]
+              - generic [ref=e319]: Letter W - Green
+            - button "Letter W - Red" [ref=e320] [cursor=pointer]:
+              - img [ref=e321]
+              - generic [ref=e322]: Letter W - Red
+            - button "Letter W - Yellow" [ref=e323] [cursor=pointer]:
+              - img [ref=e324]
+              - generic [ref=e325]: Letter W - Yellow
+            - button "Letter X - Blue" [ref=e326] [cursor=pointer]:
+              - img [ref=e327]
+              - generic [ref=e328]: Letter X - Blue
+            - button "Letter X - Green" [ref=e329] [cursor=pointer]:
+              - img [ref=e330]
+              - generic [ref=e331]: Letter X - Green
+            - button "Letter X - Red" [ref=e332] [cursor=pointer]:
+              - img [ref=e333]
+              - generic [ref=e334]: Letter X - Red
+            - button "Letter X - Yellow" [ref=e335] [cursor=pointer]:
+              - img [ref=e336]
+              - generic [ref=e337]: Letter X - Yellow
+            - button "Letter Y - Blue" [ref=e338] [cursor=pointer]:
+              - img [ref=e339]
+              - generic [ref=e340]: Letter Y - Blue
+            - button "Letter Y - Green" [ref=e341] [cursor=pointer]:
+              - img [ref=e342]
+              - generic [ref=e343]: Letter Y - Green
+            - button "Letter Y - Red" [ref=e344] [cursor=pointer]:
+              - img [ref=e345]
+              - generic [ref=e346]: Letter Y - Red
+            - button "Letter Y - Yellow" [ref=e347] [cursor=pointer]:
+              - img [ref=e348]
+              - generic [ref=e349]: Letter Y - Yellow
+            - button "Letter Z - Blue" [ref=e350] [cursor=pointer]:
+              - img [ref=e351]
+              - generic [ref=e352]: Letter Z - Blue
+            - button "Letter Z - Green" [ref=e353] [cursor=pointer]:
+              - img [ref=e354]
+              - generic [ref=e355]: Letter Z - Green
+            - button "Letter Z - Red" [ref=e356] [cursor=pointer]:
+              - img [ref=e357]
+              - generic [ref=e358]: Letter Z - Red
+            - button "Letter Z - Yellow" [ref=e359] [cursor=pointer]:
+              - img [ref=e360]
+              - generic [ref=e361]: Letter Z - Yellow
+            - button "Paw Charm - Blue" [ref=e362] [cursor=pointer]:
+              - img [ref=e363]
+              - generic [ref=e364]: Paw Charm - Blue
+            - button "Paw Charm - Green" [ref=e365] [cursor=pointer]:
+              - img [ref=e366]
+              - generic [ref=e367]: Paw Charm - Green
+            - button "Paw Charm - Red" [ref=e368] [cursor=pointer]:
+              - img [ref=e369]
+              - generic [ref=e370]: Paw Charm - Red
+            - button "Paw Charm - Yellow" [ref=e371] [cursor=pointer]:
+              - img [ref=e372]
+              - generic [ref=e373]: Paw Charm - Yellow
+            - button "Star Charm - Blue" [ref=e374] [cursor=pointer]:
+              - img [ref=e375]
+              - generic [ref=e376]: Star Charm - Blue
+            - button "Star Charm - Green" [ref=e377] [cursor=pointer]:
+              - img [ref=e378]
+              - generic [ref=e379]: Star Charm - Green
+            - button "Star Charm - Red" [ref=e380] [cursor=pointer]:
+              - img [ref=e381]
+              - generic [ref=e382]: Star Charm - Red
+            - button "Star Charm - Yellow" [ref=e383] [cursor=pointer]:
+              - img [ref=e384]
+              - generic [ref=e385]: Star Charm - Yellow
+            - button "Leaf Charm - Blue" [ref=e386] [cursor=pointer]:
+              - img [ref=e387]
+              - generic [ref=e388]: Leaf Charm - Blue
+            - button "Leaf Charm - Green" [ref=e389] [cursor=pointer]:
+              - img [ref=e390]
+              - generic [ref=e391]: Leaf Charm - Green
+            - button "Leaf Charm - Red" [ref=e392] [cursor=pointer]:
+              - img [ref=e393]
+              - generic [ref=e394]: Leaf Charm - Red
+            - button "Leaf Charm - Yellow" [ref=e395] [cursor=pointer]:
+              - img [ref=e396]
+              - generic [ref=e397]: Leaf Charm - Yellow
+            - button "Flower Charm - Blue" [ref=e398] [cursor=pointer]:
+              - img [ref=e399]
+              - generic [ref=e400]: Flower Charm - Blue
+            - button "Flower Charm - Green" [ref=e401] [cursor=pointer]:
+              - img [ref=e402]
+              - generic [ref=e403]: Flower Charm - Green
+            - button "Flower Charm - Red" [ref=e404] [cursor=pointer]:
+              - img [ref=e405]
+              - generic [ref=e406]: Flower Charm - Red
+            - button "Flower Charm - Yellow" [ref=e407] [cursor=pointer]:
+              - img [ref=e408]
+              - generic [ref=e409]: Flower Charm - Yellow
+            - button "Heart Charm - Blue" [ref=e410] [cursor=pointer]:
+              - img [ref=e411]
+              - generic [ref=e412]: Heart Charm - Blue
+            - button "Heart Charm - Green" [ref=e413] [cursor=pointer]:
+              - img [ref=e414]
+              - generic [ref=e415]: Heart Charm - Green
+            - button "Heart Charm - Red" [ref=e416] [cursor=pointer]:
+              - img [ref=e417]
+              - generic [ref=e418]: Heart Charm - Red
+            - button "Heart Charm - Yellow" [ref=e419] [cursor=pointer]:
+              - img [ref=e420]
+              - generic [ref=e421]: Heart Charm - Yellow
+            - button "Bow Charm - Blue" [ref=e422] [cursor=pointer]:
+              - img [ref=e423]
+              - generic [ref=e424]: Bow Charm - Blue
+            - button "Bow Charm - Green" [ref=e425] [cursor=pointer]:
+              - img [ref=e426]
+              - generic [ref=e427]: Bow Charm - Green
+            - button "Bow Charm - Red" [ref=e428] [cursor=pointer]:
+              - img [ref=e429]
+              - generic [ref=e430]: Bow Charm - Red
+            - button "Bow Charm - Yellow" [ref=e431] [cursor=pointer]:
+              - img [ref=e432]
+              - generic [ref=e433]: Bow Charm - Yellow
+            - button "Sun Charm - Blue" [ref=e434] [cursor=pointer]:
+              - img [ref=e435]
+              - generic [ref=e436]: Sun Charm - Blue
+            - button "Sun Charm - Green" [ref=e437] [cursor=pointer]:
+              - img [ref=e438]
+              - generic [ref=e439]: Sun Charm - Green
+            - button "Sun Charm - Red" [ref=e440] [cursor=pointer]:
+              - img [ref=e441]
+              - generic [ref=e442]: Sun Charm - Red
+            - button "Sun Charm - Yellow" [ref=e443] [cursor=pointer]:
+              - img [ref=e444]
+              - generic [ref=e445]: Sun Charm - Yellow
+            - button "Drop Charm - Blue" [ref=e446] [cursor=pointer]:
+              - img [ref=e447]
+              - generic [ref=e448]: Drop Charm - Blue
+            - button "Drop Charm - Green" [ref=e449] [cursor=pointer]:
+              - img [ref=e450]
+              - generic [ref=e451]: Drop Charm - Green
+            - button "Drop Charm - Red" [ref=e452] [cursor=pointer]:
+              - img [ref=e453]
+              - generic [ref=e454]: Drop Charm - Red
+            - button "Drop Charm - Yellow" [ref=e455] [cursor=pointer]:
+              - img [ref=e456]
+              - generic [ref=e457]: Drop Charm - Yellow
+            - button "Butterfly Charm - Blue" [ref=e458] [cursor=pointer]:
+              - img [ref=e459]
+              - generic [ref=e460]: Butterfly Charm - Blue
+            - button "Butterfly Charm - Green" [ref=e461] [cursor=pointer]:
+              - img [ref=e462]
+              - generic [ref=e463]: Butterfly Charm - Green
+            - button "Butterfly Charm - Red" [ref=e464] [cursor=pointer]:
+              - img [ref=e465]
+              - generic [ref=e466]: Butterfly Charm - Red
+            - button "Butterfly Charm - Yellow" [ref=e467] [cursor=pointer]:
+              - img [ref=e468]
+              - generic [ref=e469]: Butterfly Charm - Yellow
+            - button "Mushroom Charm - Blue" [ref=e470] [cursor=pointer]:
+              - img [ref=e471]
+              - generic [ref=e472]: Mushroom Charm - Blue
+            - button "Mushroom Charm - Green" [ref=e473] [cursor=pointer]:
+              - img [ref=e474]
+              - generic [ref=e475]: Mushroom Charm - Green
+            - button "Mushroom Charm - Red" [ref=e476] [cursor=pointer]:
+              - img [ref=e477]
+              - generic [ref=e478]: Mushroom Charm - Red
+            - button "Mushroom Charm - Yellow" [ref=e479] [cursor=pointer]:
+              - img [ref=e480]
+              - generic [ref=e481]: Mushroom Charm - Yellow
+        - generic [ref=e483]:
+          - button "Add to cart — €6" [ref=e484] [cursor=pointer]
+          - paragraph [ref=e485]: Free shipping over €50 · Made in Lithuania
+        - generic [ref=e486]:
+          - button "Description +" [ref=e488] [cursor=pointer]:
+            - text: Description
+            - generic [ref=e489]: +
+          - button "Care +" [ref=e491] [cursor=pointer]:
+            - text: Care
+            - generic [ref=e492]: +
+          - button "Shipping & Returns +" [ref=e494] [cursor=pointer]:
+            - text: Shipping & Returns
+            - generic [ref=e495]: +
+    - generic [ref=e497]:
+      - generic [ref=e498]:
+        - generic [ref=e499]:
+          - generic [ref=e500]:
+            - generic [ref=e501]: The material
+            - generic [ref=e502]:
+              - text: Waterproof.
+              - text: No odor. No stains.
+            - generic [ref=e503]: TPU-coated nylon that shrugs off lakes, mud, and rain. Wipe with a damp cloth — it comes up looking new every time.
+          - generic [ref=e504]:
+            - generic [ref=e505]: Lakes
+            - generic [ref=e506]: Mud
+            - generic [ref=e507]: Rain
+            - generic [ref=e508]: Snow
+        - generic [ref=e509]:
+          - generic [ref=e510]: Origin
+          - generic [ref=e511]:
+            - text: Handmade in
+            - text: Vilnius, Lithuania.
+          - generic [ref=e512]: Small batch. Cut and assembled by hand in our workshop. Each collar ships in a linen pouch.
+          - generic [ref=e513]: Vandeniui atspari.
+      - generic [ref=e514]:
+        - generic [ref=e515]:
+          - generic [ref=e516]: Sizing guide
+          - generic [ref=e517]:
+            - generic [ref=e518]: S
+            - generic [ref=e519]: 36 cm
+          - generic [ref=e520]: Beagle, Cocker Spaniel
+          - slider [ref=e523] [cursor=pointer]: "36"
+          - generic [ref=e524]:
+            - generic [ref=e525]:
+              - generic [ref=e526]: XS
+              - generic [ref=e527]: 20–28
+            - generic [ref=e528]:
+              - generic [ref=e529]: S
+              - generic [ref=e530]: 28–36
+            - generic [ref=e531]:
+              - generic [ref=e532]: M
+              - generic [ref=e533]: 36–44
+            - generic [ref=e534]:
+              - generic [ref=e535]: L
+              - generic [ref=e536]: 44–52
+        - generic [ref=e537]:
+          - generic [ref=e538]:
+            - generic [ref=e539]: Charm system
+            - generic [ref=e540]: Snaps on in 5 seconds.
+            - generic [ref=e541]: Magnetic connector. No clips. No tools. No fuss.
+          - generic [ref=e542]:
+            - generic [ref=e543]: 🌸
+            - generic [ref=e544]: ⭐
+            - generic [ref=e545]: 🦋
+            - generic [ref=e546]: 🌿
+            - generic [ref=e547]: +8 more
+        - generic [ref=e548]:
+          - generic [ref=e549]: Care
+          - generic [ref=e552]:
+            - generic [ref=e553]: Rinse
+            - generic [ref=e554]: After every swim or muddy walk.
+          - generic [ref=e557]:
+            - generic [ref=e558]: Air dry
+            - generic [ref=e559]: Lay flat. No tumble dryers.
+          - generic [ref=e562]:
+            - generic [ref=e563]: Wipe charms
+            - generic [ref=e564]: Damp cloth, then air dry.
+          - generic [ref=e567]:
+            - generic [ref=e568]: Store flat
+            - generic [ref=e569]: In the linen pouch.
+    - heading "Your moments" [level=2] [ref=e571]
+    - generic [ref=e602]:
+      - generic [ref=e603]:
+        - generic [ref=e604]:
+          - generic [ref=e605]: Customer love
+          - heading "Dogs and owners approve." [level=2] [ref=e606]
+        - generic [ref=e607]:
+          - button "Previous" [disabled] [ref=e608] [cursor=pointer]: ←
+          - button "Next" [ref=e609] [cursor=pointer]: →
+      - generic [ref=e611]:
+        - generic [ref=e612]:
+          - img "Laima K." [ref=e613]
+          - generic [ref=e615]:
+            - generic [ref=e616]:
+              - img [ref=e617]
+              - img [ref=e618]
+              - img [ref=e619]
+              - img [ref=e620]
+              - img [ref=e621]
+              - generic [ref=e622]: "5.0"
+            - paragraph [ref=e623]: “Snaps on in seconds and still looks brand new after muddy walks.”
+            - generic [ref=e624]:
+              - img "Laima K." [ref=e625]
+              - generic [ref=e626]: Laima K.
+        - generic [ref=e627]:
+          - img "Marta S." [ref=e628]
+          - generic [ref=e630]:
+            - generic [ref=e631]:
+              - img [ref=e632]
+              - img [ref=e633]
+              - img [ref=e634]
+              - img [ref=e635]
+              - img [ref=e636]
+              - generic [ref=e637]: "5.0"
+            - paragraph [ref=e638]: “We swim weekly and the collar stays clean, soft, and comfortable.”
+            - generic [ref=e639]:
+              - img "Marta S." [ref=e640]
+              - generic [ref=e641]: Marta S.
+        - generic [ref=e642]:
+          - img "Rūta P." [ref=e643]
+          - generic [ref=e645]:
+            - generic [ref=e646]:
+              - img [ref=e647]
+              - img [ref=e648]
+              - img [ref=e649]
+              - img [ref=e650]
+              - img [ref=e651]
+              - generic [ref=e652]: "5.0"
+            - paragraph [ref=e653]: “Ordered three as gifts. Packaging and quality are both amazing.”
+            - generic [ref=e654]:
+              - img "Rūta P." [ref=e655]
+              - generic [ref=e656]: Rūta P.
+        - generic [ref=e657]:
+          - img "Aiste J." [ref=e658]
+          - generic [ref=e660]:
+            - generic [ref=e661]:
+              - img [ref=e662]
+              - img [ref=e663]
+              - img [ref=e664]
+              - img [ref=e665]
+              - img [ref=e666]
+              - generic [ref=e667]: "4.9"
+            - paragraph [ref=e668]: “Our daily cafe stop gets compliments every single time.”
+            - generic [ref=e669]:
+              - img "Aiste J." [ref=e670]
+              - generic [ref=e671]: Aiste J.
+        - generic [ref=e672]:
+          - img "Monika T." [ref=e673]
+          - generic [ref=e675]:
+            - generic [ref=e676]:
+              - img [ref=e677]
+              - img [ref=e678]
+              - img [ref=e679]
+              - img [ref=e680]
+              - img [ref=e681]
+              - generic [ref=e682]: "5.0"
+            - paragraph [ref=e683]: “Lightweight enough for runs and secure enough for full sprints.”
+            - generic [ref=e684]:
+              - img "Monika T." [ref=e685]
+              - generic [ref=e686]: Monika T.
+        - generic [ref=e687]:
+          - img "Greta N." [ref=e688]
+          - generic [ref=e690]:
+            - generic [ref=e691]:
+              - img [ref=e692]
+              - img [ref=e693]
+              - img [ref=e694]
+              - img [ref=e695]
+              - img [ref=e696]
+              - generic [ref=e697]: "5.0"
+            - paragraph [ref=e698]: “Golden hour photos look unreal with the Blossom set.”
+            - generic [ref=e699]:
+              - img "Greta N." [ref=e700]
+              - generic [ref=e701]: Greta N.
+        - generic [ref=e702]:
+          - img "Tomas V." [ref=e703]
+          - generic [ref=e705]:
+            - generic [ref=e706]:
+              - img [ref=e707]
+              - img [ref=e708]
+              - img [ref=e709]
+              - img [ref=e710]
+              - img [ref=e711]
+              - generic [ref=e712]: "4.8"
+            - paragraph [ref=e713]: “Super easy to swap charms for weekend and weekday looks.”
+            - generic [ref=e714]:
+              - img "Tomas V." [ref=e715]
+              - generic [ref=e716]: Tomas V.
+        - generic [ref=e717]:
+          - img "Egle R." [ref=e718]
+          - generic [ref=e720]:
+            - generic [ref=e721]:
+              - img [ref=e722]
+              - img [ref=e723]
+              - img [ref=e724]
+              - img [ref=e725]
+              - img [ref=e726]
+              - generic [ref=e727]: "5.0"
+            - paragraph [ref=e728]: “The colors are perfect and the fit is comfy all day.”
+            - generic [ref=e729]:
+              - img "Egle R." [ref=e730]
+              - generic [ref=e731]: Egle R.
+        - generic [ref=e732]:
+          - img "Karolis P." [ref=e733]
+          - generic [ref=e735]:
+            - generic [ref=e736]:
+              - img [ref=e737]
+              - img [ref=e738]
+              - img [ref=e739]
+              - img [ref=e740]
+              - img [ref=e741]
+              - generic [ref=e742]: "5.0"
+            - paragraph [ref=e743]: “Park play, rain, and zoomies — still no wear after weeks.”
+            - generic [ref=e744]:
+              - img "Karolis P." [ref=e745]
+              - generic [ref=e746]: Karolis P.
+      - generic [ref=e747]:
+        - button "Go to slide 1" [ref=e748] [cursor=pointer]
+        - button "Go to slide 2" [ref=e749] [cursor=pointer]
+        - button "Go to slide 3" [ref=e750] [cursor=pointer]
+        - button "Go to slide 4" [ref=e751] [cursor=pointer]
+        - button "Go to slide 5" [ref=e752] [cursor=pointer]
+        - button "Go to slide 6" [ref=e753] [cursor=pointer]
+        - button "Go to slide 7" [ref=e754] [cursor=pointer]
+        - button "Go to slide 8" [ref=e755] [cursor=pointer]
+        - button "Go to slide 9" [ref=e756] [cursor=pointer]
+    - contentinfo [ref=e757]:
+      - generic [ref=e758]:
+        - generic [ref=e759]:
+          - generic [ref=e760]:
+            - link "Žavesys home" [ref=e761] [cursor=pointer]:
+              - /url: /
+              - img "Žavesys" [ref=e762]
+            - paragraph [ref=e763]: Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.
+            - generic [ref=e764]: Vandeniui atspari.
+          - generic [ref=e765]:
+            - generic [ref=e766]: Shop
+            - generic [ref=e767]:
+              - link "Collar sets" [ref=e768] [cursor=pointer]:
+                - /url: /products
+              - link "Charms" [ref=e769] [cursor=pointer]:
+                - /url: /products
+              - link "Build yours" [ref=e770] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e771]:
+            - generic [ref=e772]: Help
+            - generic [ref=e773]:
+              - link "Sizing guide" [ref=e774] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silicone vs nylon" [ref=e775] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Shipping" [ref=e776] [cursor=pointer]:
+                - /url: "#"
+              - link "Returns" [ref=e777] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e778]:
+            - generic [ref=e779]: Brand
+            - generic [ref=e780]:
+              - link "Our story" [ref=e781] [cursor=pointer]:
+                - /url: "#about"
+              - link "Instagram" [ref=e782] [cursor=pointer]:
+                - /url: "#"
+              - link "Contact" [ref=e783] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e784]:
+          - generic [ref=e785]: © 2025 Žavesys. Made with care in Lithuania.
+          - generic [ref=e786]: "@zavesys · Etsy · Instagram"
+  - button "Open Next.js Dev Tools" [ref=e792] [cursor=pointer]:
+    - img [ref=e793]
+  - alert [ref=e796]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

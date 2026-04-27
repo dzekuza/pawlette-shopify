@@ -1,0 +1,110 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Žavesys home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e6]
+        - generic [ref=e7]:
+          - button "Cart" [ref=e8] [cursor=pointer]:
+            - img [ref=e9]
+          - button "Open menu" [ref=e12] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e16]:
+      - generic [ref=e17]:
+        - heading "Your Cart" [level=1] [ref=e18]
+        - generic [ref=e19]:
+          - generic [ref=e20]: 🐾
+          - heading "Your cart is empty" [level=2] [ref=e21]
+          - paragraph [ref=e22]: Build a collar your dog will actually be excited to wear.
+          - link "Design Your Collar" [ref=e24] [cursor=pointer]:
+            - /url: /products
+    - contentinfo [ref=e25]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - link "Žavesys home" [ref=e29] [cursor=pointer]:
+              - /url: /
+              - img "Žavesys" [ref=e30]
+            - paragraph [ref=e31]: Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.
+            - generic [ref=e32]: Vandeniui atspari.
+          - generic [ref=e33]:
+            - generic [ref=e34]: Shop
+            - generic [ref=e35]:
+              - link "Collar sets" [ref=e36] [cursor=pointer]:
+                - /url: /products
+              - link "Charms" [ref=e37] [cursor=pointer]:
+                - /url: /products
+              - link "Build yours" [ref=e38] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e39]:
+            - generic [ref=e40]: Help
+            - generic [ref=e41]:
+              - link "Sizing guide" [ref=e42] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silicone vs nylon" [ref=e43] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Shipping" [ref=e44] [cursor=pointer]:
+                - /url: "#"
+              - link "Returns" [ref=e45] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e46]:
+            - generic [ref=e47]: Brand
+            - generic [ref=e48]:
+              - link "Our story" [ref=e49] [cursor=pointer]:
+                - /url: "#about"
+              - link "Instagram" [ref=e50] [cursor=pointer]:
+                - /url: "#"
+              - link "Contact" [ref=e51] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e52]:
+          - generic [ref=e53]: © 2025 Žavesys. Made with care in Lithuania.
+          - generic [ref=e54]: "@zavesys · Etsy · Instagram"
+  - button "Open Next.js Dev Tools" [ref=e60] [cursor=pointer]:
+    - img [ref=e61]
+  - alert [ref=e64]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

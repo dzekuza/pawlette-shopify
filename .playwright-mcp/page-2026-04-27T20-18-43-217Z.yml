@@ -1,0 +1,127 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - link "Žavesys home" [ref=e5] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e6]
+        - generic [ref=e7]:
+          - button "Cart" [ref=e8] [cursor=pointer]:
+            - img [ref=e9]
+          - button "Open menu" [ref=e12] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e16]:
+      - generic [ref=e17]:
+        - link [ref=e18] [cursor=pointer]:
+          - /url: /products/collar-personalized-waterproof-dog-collar-with-charms
+          - article [ref=e19]:
+            - generic [ref=e20]:
+              - img "Personalized Waterproof Dog Collar with Charms" [ref=e21]
+              - generic [ref=e24]: Personalized Waterproof Dog Collar with Charms
+            - generic [ref=e25]:
+              - generic [ref=e26]: Personalized Waterproof Dog Collar with Charms
+              - generic [ref=e27]: Waterproof silicone collar with snap-on charms.
+              - generic [ref=e28]:
+                - generic [ref=e29]: €28· 5 charms
+                - generic [ref=e30]: View details →
+        - link [ref=e31] [cursor=pointer]:
+          - /url: /products/charm-charms
+          - article [ref=e32]:
+            - generic [ref=e33]:
+              - img "Charms" [ref=e34]
+              - generic [ref=e36]: Charms
+            - generic [ref=e37]:
+              - generic [ref=e38]: Charms
+              - generic [ref=e39]: Snap-on silicone charms for all PawCharms collars. Each charm clicks on and off in around five seconds — no tools needed. Mix letters and icons to spell names, nicknames, or anything your dog deserves.
+              - generic [ref=e40]:
+                - generic [ref=e41]: €6
+                - generic [ref=e42]: View details →
+    - contentinfo [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - link "Žavesys home" [ref=e47] [cursor=pointer]:
+              - /url: /
+              - img "Žavesys" [ref=e48]
+            - paragraph [ref=e49]: Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.
+            - generic [ref=e50]: Vandeniui atspari.
+          - generic [ref=e51]:
+            - generic [ref=e52]: Shop
+            - generic [ref=e53]:
+              - link "Collar sets" [ref=e54] [cursor=pointer]:
+                - /url: /products
+              - link "Charms" [ref=e55] [cursor=pointer]:
+                - /url: /products
+              - link "Build yours" [ref=e56] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e57]:
+            - generic [ref=e58]: Help
+            - generic [ref=e59]:
+              - link "Sizing guide" [ref=e60] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silicone vs nylon" [ref=e61] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Shipping" [ref=e62] [cursor=pointer]:
+                - /url: "#"
+              - link "Returns" [ref=e63] [cursor=pointer]:
+                - /url: "#"
+          - generic [ref=e64]:
+            - generic [ref=e65]: Brand
+            - generic [ref=e66]:
+              - link "Our story" [ref=e67] [cursor=pointer]:
+                - /url: "#about"
+              - link "Instagram" [ref=e68] [cursor=pointer]:
+                - /url: "#"
+              - link "Contact" [ref=e69] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e70]:
+          - generic [ref=e71]: © 2025 Žavesys. Made with care in Lithuania.
+          - generic [ref=e72]: "@zavesys · Etsy · Instagram"
+  - button "Open Next.js Dev Tools" [ref=e78] [cursor=pointer]:
+    - img [ref=e79]
+  - alert [ref=e82]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

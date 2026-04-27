@@ -1,0 +1,116 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🐾 Laima from Vilnius just ordered the Blossom set
+      - generic [ref=e7]: ⭐ Marta rated the Sage collar 5 stars
+      - generic [ref=e9]: 💧 Bruno survived a lake swim — collar looks brand new
+      - generic [ref=e11]: 🛍 Rūta ordered 3 sets as gifts
+      - generic [ref=e13]: 🌸 Mochi is wearing the new Hibiscus charm
+      - generic [ref=e15]: 🇱🇹 Just restocked — Honey set is back
+      - generic [ref=e17]: ⚡ "Took literally 5 seconds to swap" — Jurgita K.
+      - generic [ref=e19]: 🐕 Luna got 4 compliments on one walk
+      - generic [ref=e21]: 🐾 Laima from Vilnius just ordered the Blossom set
+      - generic [ref=e23]: ⭐ Marta rated the Sage collar 5 stars
+      - generic [ref=e25]: 💧 Bruno survived a lake swim — collar looks brand new
+      - generic [ref=e27]: 🛍 Rūta ordered 3 sets as gifts
+      - generic [ref=e29]: 🌸 Mochi is wearing the new Hibiscus charm
+      - generic [ref=e31]: 🇱🇹 Just restocked — Honey set is back
+      - generic [ref=e33]: ⚡ "Took literally 5 seconds to swap" — Jurgita K.
+      - generic [ref=e35]: 🐕 Luna got 4 compliments on one walk
+    - banner [ref=e37]:
+      - generic [ref=e38]:
+        - navigation [ref=e39]:
+          - link "Shop" [ref=e40] [cursor=pointer]:
+            - /url: /products
+          - link "Charms" [ref=e41] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Care" [ref=e42] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e43] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e44]
+        - generic [ref=e45]:
+          - button "Cart" [ref=e46] [cursor=pointer]:
+            - img [ref=e47]
+          - button "Open menu" [ref=e50] [cursor=pointer]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Shop collars
+        - link:
+          - /url: /products/charm-charms
+          - text: Charms
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Sizing guide
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Care & materials
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Made in Vilnius, Lithuania
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e54]:
+      - img
+      - img
+      - img
+      - img "Sage charm" [ref=e56]
+      - img "Flower charm" [ref=e58]
+      - img "Star charm" [ref=e60]
+      - img "Heart charm" [ref=e62]
+      - img "Star charm" [ref=e64]
+      - img "Paw charm" [ref=e66]
+      - img:
+        - generic: made for
+        - generic: your pup ♥
+      - generic [ref=e67]:
+        - generic [ref=e68]: ✦ Made in Lithuania · Waterproof
+        - heading "Collars made for them." [level=1] [ref=e69]:
+          - text: Collars made
+          - text: for them.
+        - paragraph [ref=e70]: Waterproof. Personalised. Swappable charms in five seconds flat.
+        - generic [ref=e71]:
+          - link "Build your collar →" [ref=e72] [cursor=pointer]:
+            - /url: /products
+          - link "See all collars" [ref=e73] [cursor=pointer]:
+            - /url: /products
+    - generic [ref=e100]:
+      - generic [ref=e107]:
+        - generic [ref=e108]: Waterproof collar sets — from €28
+        - generic [ref=e109]: 5 charms included · free shipping over €40
+      - generic [ref=e110]:
+        - generic [ref=e111]: 4 people shopping now
+        - link "Build your collar →" [ref=e113] [cursor=pointer]:
+          - /url: /products
+  - button "Open Next.js Dev Tools" [ref=e119] [cursor=pointer]:
+    - img [ref=e120]
+  - alert [ref=e123]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img
