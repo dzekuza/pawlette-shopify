@@ -23,7 +23,7 @@ const ROW_TWO = [
 export function PhotoSlider() {
   return (
     <section className="bg-cream py-20 overflow-hidden">
-      <h2 className="font-display text-[36px] md:text-[52px] text-bark text-center mb-10 tracking-[0.02em]">
+      <h2 className="font-display text-[42px] md:text-[52px] text-bark text-center mb-10 tracking-[0.02em]">
         Your moments
       </h2>
       <div className="flex flex-col gap-4">

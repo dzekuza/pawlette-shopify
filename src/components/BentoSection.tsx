@@ -25,6 +25,8 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
     gap: 16,
     flexDirection: isMobile ? 'column' : 'row',
   };
+  const impactHeadingSize = isMobile ? 34 : 48;
+  const sizingLabelSize = isMobile ? 38 : 48;
 
   return (
     <section style={{ background: bg, transition: 'background 400ms' }}>
@@ -39,7 +41,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 The material
               </div>
-              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: 48, color: 'var(--color-interactive-text)', lineHeight: 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
+              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'var(--color-interactive-text)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
                 Waterproof.<br />No odor. No stains.
               </div>
               <div style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: 1.7 }}>
@@ -60,7 +62,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
               Origin
             </div>
-            <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: 48, color: 'var(--color-cream)', lineHeight: 1.05, letterSpacing: '0.01em' }}>
+            <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'var(--color-cream)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em' }}>
               Handmade in<br />Vilnius, Lithuania.
             </div>
             <div style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: 1.7 }}>
@@ -80,7 +82,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
               Sizing guide
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
-              <span style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: 48, color: textPrimary, lineHeight: 1 }}>{sizeLabel}</span>
+              <span style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: sizingLabelSize, color: textPrimary, lineHeight: 1 }}>{sizeLabel}</span>
               <span style={{ fontSize: 15, color: textSecondary }}>{sizingNeck} cm</span>
             </div>
             <div style={{ fontSize: 13, color: textMuted, marginBottom: 16 }}>{sizeBreed}</div>
@@ -108,7 +110,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 Charm system
               </div>
-              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: 48, color: 'rgba(61,20,30,0.85)', lineHeight: 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
+              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'rgba(61,20,30,0.85)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
                 Snaps on in 5 seconds.
               </div>
               <div style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: 1.6 }}>

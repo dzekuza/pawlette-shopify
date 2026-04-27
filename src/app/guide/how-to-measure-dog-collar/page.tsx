@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { LandingFooter } from '@/components/landing/LandingFooter';
+import { LandingNav } from '@/components/landing/LandingNav';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 export const metadata: Metadata = {
   title: 'How to Measure Your Dog for a Collar | PawCharms Guide',
@@ -70,21 +73,15 @@ export default function MeasureGuidePage() {
       />
 
       <div style={{ background: '#FAF7F2', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
-
-        {/* Nav */}
-        <header style={{ position: 'sticky', top: 0, zIndex: 100, background: 'rgba(250,247,242,0.95)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(61,53,48,0.08)', padding: '0 48px', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <Link href="/" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 500 }}>← Back</Link>
-          <Link href="/" style={{ fontSize: 18, fontWeight: 500, color: '#3D3530', letterSpacing: '-0.02em', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 7 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#A8D5A2', display: 'inline-block' }} />
-            PawCharms
-          </Link>
-          <Link href="/products" style={{ fontSize: 13, fontWeight: 500, padding: '8px 18px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', textDecoration: 'none' }}>
-            Build yours →
-          </Link>
-        </header>
+        <LandingNav topOffset={0} />
 
         {/* Content */}
-        <main style={{ maxWidth: 720, margin: '0 auto', padding: '64px 24px 96px' }}>
+        <main style={{ maxWidth: 720, margin: '0 auto', padding: '128px 24px 96px' }}>
+          <div style={{ marginBottom: 24 }}>
+            <Link href="/guide/silicone-vs-nylon-dog-collars" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
+              Compare collar materials →
+            </Link>
+          </div>
 
           <p style={{ fontSize: 13, fontWeight: 500, color: '#A8D5A2', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Sizing guide</p>
 
@@ -156,15 +153,17 @@ export default function MeasureGuidePage() {
           </div>
 
           {/* CTA */}
-          <div style={{ marginTop: 64, padding: '40px', background: '#3D3530', borderRadius: 20, textAlign: 'center' }}>
+          <div style={{ marginTop: 64, marginBottom: 24, padding: '40px', background: '#3D3530', borderRadius: 20, textAlign: 'center' }}>
             <p style={{ fontSize: 22, fontWeight: 500, color: '#FAF7F2', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>Ready to build your collar?</p>
             <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>Pick your colour, add charms, and enter your size in the configurator.</p>
-            <Link href="/products" style={{ display: 'inline-block', padding: '14px 32px', borderRadius: 100, background: '#A8D5A2', color: '#2a5a25', fontSize: 15, fontWeight: 500, textDecoration: 'none', letterSpacing: '-0.01em' }}>
+            <PrimaryButton href="/products" variant="sage" size="lg">
               Build your collar →
-            </Link>
+            </PrimaryButton>
           </div>
 
         </main>
+
+        <LandingFooter />
       </div>
     </>
   );

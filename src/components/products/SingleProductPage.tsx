@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useMemo, useRef } from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
@@ -8,6 +9,7 @@ import { Reviews } from '@/components/landing/Reviews'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { BentoSection } from '@/components/BentoSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
@@ -80,12 +82,14 @@ const DEFAULT_CHARM_ACCORDION = [
 
 interface Props {
   product: ProductDetail
+  recommendedProducts: ProductDetail[]
 }
 
-export function SingleProductPage ({ product }: Props) {
+export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
   const router = useRouter()
+  const cartCount = useCartCount()
 
   const isCollar = product.productType === 'collar'
   const hasCharmVariants = !!product.charmVariants?.length
@@ -139,15 +143,24 @@ export function SingleProductPage ({ product }: Props) {
   // ── Mobile gallery slider ──
   const [activeSlide, setActiveSlide] = useState(0)
   const sliderRef = useRef<HTMLDivElement>(null)
-  const touchStartX = useRef<number>(0)
+  const swipeStartX = useRef<number | null>(null)
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX
+  const handleSwipeStart = (clientX: number) => {
+    swipeStartX.current = clientX
   }
-  const handleTouchEnd = (e: React.TouchEvent, length: number) => {
-    const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (dx < -40) setActiveSlide(s => Math.min(s + 1, length - 1))
-    else if (dx > 40) setActiveSlide(s => Math.max(s - 1, 0))
+  const handleSwipeEnd = (
+    clientX: number,
+    length: number,
+    setIndex: React.Dispatch<React.SetStateAction<number>>
+  ) => {
+    if (swipeStartX.current === null) return
+    const dx = clientX - swipeStartX.current
+    swipeStartX.current = null
+    if (dx < -40) setIndex(s => Math.min(s + 1, length - 1))
+    else if (dx > 40) setIndex(s => Math.max(s - 1, 0))
+  }
+  const clearSwipe = () => {
+    swipeStartX.current = null
   }
 
   useEffect(() => {
@@ -250,18 +263,27 @@ export function SingleProductPage ({ product }: Props) {
 
   return (
     <div className="bg-cream min-h-screen font-sans">
-      <LandingNav topOffset={0} />
+      <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── Mobile layout ── */}
       {isMobile && isCollar && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ padding: '16px 20px 0' }}>
             {/* Slider */}
-            <div style={{ height: 320, borderRadius: 20, overflow: 'hidden', position: 'relative' }} onTouchStart={handleTouchStart} onTouchEnd={(e) => handleTouchEnd(e, gallery.length)}>
+            <div
+              style={{ height: 320, borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
+              onPointerDown={(e) => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return
+                handleSwipeStart(e.clientX)
+              }}
+              onPointerUp={(e) => handleSwipeEnd(e.clientX, gallery.length, setActiveSlide)}
+              onPointerCancel={clearSwipe}
+              onPointerLeave={clearSwipe}
+            >
               <div ref={sliderRef} style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
                 {gallery.map((src, i) => (
                   <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
-                    <img src={src} alt={i === 0 ? `${collar?.title ?? ''} collar` : ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                    <img src={src} alt={i === 0 ? `${collar?.title ?? ''} collar` : ''} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', userSelect: 'none' }} />
                     {i === 0 && collar?.title && (
                       <div style={{ position: 'absolute', bottom: 14, left: 14, background: collar.color, padding: '5px 14px', borderRadius: 50, fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 11, color: '#3D3530', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                         {collar.title}
@@ -291,15 +313,44 @@ export function SingleProductPage ({ product }: Props) {
       {isMobile && !isCollar && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ margin: '16px 16px 0' }}>
-            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={getCharmGalleryImageStyle()} /> : null}
-            </div>
-            {charmThumbnails.length > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginTop: 8 }}>
-                {charmThumbnails.map(({ src, index }) => (
-                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: 12, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none' }}>
-                    <img src={src} alt="" style={getCharmGalleryImageStyle()} />
+            <div
+              style={{ height: 'auto', borderRadius: 20, overflow: 'hidden', position: 'relative', background: getCharmGallerySurface(), aspectRatio: '1 / 1', touchAction: 'pan-y' }}
+              onPointerDown={(e) => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return
+                handleSwipeStart(e.clientX)
+              }}
+              onPointerUp={(e) => handleSwipeEnd(e.clientX, visibleCharmGallery.length, setCharmGalleryIndex)}
+              onPointerCancel={clearSwipe}
+              onPointerLeave={clearSwipe}
+            >
+              <div style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${safeCharmGalleryIndex * 100}%)` }}>
+                {visibleCharmGallery.map((src, index) => (
+                  <div key={`${src}-${index}`} style={{ flexShrink: 0, width: '100%', height: '100%' }}>
+                    <img src={src} alt={index === safeCharmGalleryIndex ? displayName : ''} draggable={false} style={{ ...getCharmGalleryImageStyle(), userSelect: 'none' }} />
                   </div>
+                ))}
+              </div>
+              {visibleCharmGallery.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setCharmGalleryIndex((current) => Math.max(current - 1, 0))}
+                    style={{ position: 'absolute', left: 0, top: 0, width: '28%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
+                    aria-label="Previous image"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setCharmGalleryIndex((current) => Math.min(current + 1, visibleCharmGallery.length - 1))}
+                    style={{ position: 'absolute', right: 0, top: 0, width: '28%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
+                    aria-label="Next image"
+                  />
+                </>
+              )}
+            </div>
+            {visibleCharmGallery.length > 1 && (
+              <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
+                {visibleCharmGallery.map((_, index) => (
+                  <div key={index} onClick={() => setCharmGalleryIndex(index)} style={{ width: index === safeCharmGalleryIndex ? 20 : 6, height: 6, borderRadius: 3, background: index === safeCharmGalleryIndex ? '#3D3530' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
                 ))}
               </div>
             )}
@@ -339,8 +390,7 @@ export function SingleProductPage ({ product }: Props) {
           maxWidth: 1200,
           marginTop: NAV_H,
           paddingBottom: 64,
-          
-          
+          overflowX: 'hidden',
         }}
       >
         {/* ── LEFT ── */}
@@ -384,12 +434,12 @@ export function SingleProductPage ({ product }: Props) {
 
         {/* ── RIGHT (desktop only) ── */}
         {isCollar ? (
-          <div style={{ overflowY: 'auto', paddingLeft: 8, paddingRight: 8 }}>
+          <div style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
             <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
           </div>
         ) : (
           /* Desktop charm right */
-          <div style={{ overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
+          <div style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Snap-on charm</p>
               <h1 style={{ margin: 0, fontSize: 36, fontWeight: 600, lineHeight: 1.2, color: '#3D3530' }}>{displayName}</h1>
@@ -415,6 +465,7 @@ export function SingleProductPage ({ product }: Props) {
       <BentoSection isDark={false} />
       <PhotoSlider />
       <Reviews />
+      <RecommendedProductsSection products={recommendedProducts} />
       <LandingFooter />
 
       {/* ── Personalise charm dialog ── */}
@@ -502,6 +553,87 @@ export function SingleProductPage ({ product }: Props) {
         </div>
       )}
     </div>
+  )
+}
+
+function RecommendedProductsSection ({ products }: { products: ProductDetail[] }) {
+  if (!products.length) return null
+
+  return (
+    <section className="bg-cream py-[60px] md:py-[96px]">
+      <div className="mx-auto max-w-[1160px] px-5 md:px-10">
+        <div className="mb-10 md:mb-12">
+          <div className="mb-3.5 font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-bark-muted">
+            Recommended products
+          </div>
+          <h2 className="m-0 font-sans text-[28px] font-medium tracking-[-0.02em] text-bark md:text-[40px]">
+            You might also like
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {products.map((recommendedProduct) => {
+            const productLabel = recommendedProduct.productType === 'charm' ? 'Charm' : 'Collar set'
+            const imageFit = recommendedProduct.productType === 'charm' ? 'contain' : 'cover'
+
+            return (
+              <Link
+                key={recommendedProduct.slug}
+                href={`/products/${recommendedProduct.slug}`}
+                className="block h-full rounded-[24px] border border-border bg-white p-4 no-underline transition-transform duration-200 hover:-translate-y-1"
+              >
+                <article className="flex h-full flex-col">
+                  <div
+                    className="mb-4 overflow-hidden rounded-[20px]"
+                    style={{
+                      background: recommendedProduct.productType === 'charm' ? '#F4EFE8' : recommendedProduct.tintColor,
+                    }}
+                  >
+                    <div className="aspect-square w-full">
+                      <img
+                        src={recommendedProduct.image}
+                        alt={recommendedProduct.name}
+                        className="h-full w-full"
+                        style={{ objectFit: imageFit }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mb-3 inline-flex w-fit rounded-full bg-[rgba(61,53,48,0.06)] px-3 py-1 font-sans text-[10px] font-medium uppercase tracking-[0.08em] text-bark-muted">
+                    {productLabel}
+                  </div>
+
+                  <h3 className="m-0 font-sans text-[21px] font-medium leading-[1.2] text-bark">
+                    {recommendedProduct.name}
+                  </h3>
+
+                  <p
+                    className="mt-3 mb-0 font-sans text-[14px] leading-[1.6] text-bark-muted"
+                    style={{
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    {recommendedProduct.shortDescription}
+                  </p>
+
+                  <div className="mt-auto flex items-end justify-between gap-4 pt-6">
+                    <span className="font-sans text-[24px] font-medium leading-none text-bark">
+                      {recommendedProduct.price}
+                    </span>
+                    <span className="font-sans text-[14px] font-medium text-[#2A5A25]">
+                      View details →
+                    </span>
+                  </div>
+                </article>
+              </Link>
+            )
+          })}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -776,8 +908,37 @@ function CharmPicker ({
   charms: ShopifyCharm[]; selected: ShopifyCharm | null; selectedIds?: string[]; onSelect: (c: ShopifyCharm) => void
   query: string; onQueryChange: (q: string) => void
 }) {
+  const [expanded, setExpanded] = useState(false)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const width = useWindowWidth() ?? 1200
+  const gridRef = useRef<HTMLDivElement | null>(null)
+  const COLLAPSED_ROWS = 3
+  const TILE_HEIGHT = 82
+  const GRID_GAP = 8
+  const collapsedHeight = COLLAPSED_ROWS * TILE_HEIGHT + (COLLAPSED_ROWS - 1) * GRID_GAP
+
+  useEffect(() => {
+    if (!expanded) return
+
+    const frame = window.requestAnimationFrame(() => {
+      setExpanded(false)
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [query, width, charms, expanded])
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const grid = gridRef.current
+      if (!grid) return
+      setHasOverflow(grid.scrollHeight > collapsedHeight + 4)
+    })
+
+    return () => window.cancelAnimationFrame(frame)
+  }, [charms, query, width, collapsedHeight])
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, height: '100%', minHeight: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flexShrink: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>Choose charm</span>
@@ -785,8 +946,17 @@ function CharmPicker ({
       </div>
 <input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Search charms…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY, fontSize: 13, fontFamily: "'DM Sans',sans-serif", outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
       </div>
-      <div style={{ overflowY: 'auto', flex: 1, minHeight: 0 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minHeight: 0 }}>
+        <div
+          style={{
+            overflowY: expanded ? 'auto' : 'hidden',
+            flex: 1,
+            minHeight: 0,
+            maxHeight: expanded ? undefined : collapsedHeight,
+            transition: 'max-height 200ms ease',
+          }}
+        >
+        <div ref={gridRef} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(72px, 1fr))', gap: 8 }}>
           {charms.map((charm) => {
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
@@ -798,6 +968,30 @@ function CharmPicker ({
           })}
           {charms.length === 0 && <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>No charms found</div>}
         </div>
+        </div>
+        {hasOverflow && (
+          <button
+            type="button"
+            onClick={() => setExpanded((current) => !current)}
+            style={{
+              alignSelf: 'center',
+              padding: '0 14px',
+              height: 34,
+              borderRadius: 999,
+              border: `1.5px solid ${BORDER_COLOR}`,
+              background: '#FFFDF9',
+              color: TEXT_PRIMARY,
+              cursor: 'pointer',
+              fontFamily: "'DM Sans',sans-serif",
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: '0.03em',
+              textTransform: 'uppercase',
+            }}
+          >
+            {expanded ? 'View less' : 'View more'}
+          </button>
+        )}
       </div>
     </div>
   )

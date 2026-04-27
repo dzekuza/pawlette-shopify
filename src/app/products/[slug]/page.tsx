@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
-import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
+import { getAllProductSlugs, getProductBySlugAsync, getRecommendedProductsForProductAsync } from '@/lib/catalog'
 
 export const revalidate = 300
 
@@ -44,5 +44,7 @@ export default async function ProductPage ({ params }: ProductPageProps) {
 
   if (!product) notFound()
 
-  return <SingleProductPage product={product} />
+  const recommendedProducts = await getRecommendedProductsForProductAsync(product)
+
+  return <SingleProductPage product={product} recommendedProducts={recommendedProducts} />
 }

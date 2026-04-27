@@ -82,6 +82,69 @@ body {
   overflow-x: hidden;
 }
 
+.account-page .account-heading-1,
+.account-page .account-heading-2,
+.account-page h1,
+.account-page h2,
+.account-page h3 {
+  font-family: 'DM Sans', sans-serif !important;
+  color: var(--color-bark);
+  letter-spacing: -0.02em !important;
+  text-wrap: balance;
+}
+
+.account-page .account-heading-1,
+.account-page h1 {
+  font-size: clamp(2rem, 1.8rem + 0.9vw, 2.4rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.02 !important;
+}
+
+.account-page .account-heading-2,
+.account-page h2 {
+  font-size: clamp(1.5rem, 1.35rem + 0.5vw, 1.85rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.08 !important;
+}
+
+.account-page .account-copy {
+  max-width: 34ch;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-bark-light);
+}
+
+.account-page .account-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-bark-light);
+  letter-spacing: 0.01em;
+}
+
+.account-page .account-input {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--color-bark);
+  line-height: 1.4;
+}
+
+.account-page .account-link {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-bark-light);
+  text-decoration: underline;
+  text-underline-offset: 0.24em;
+  text-decoration-thickness: 1px;
+  transition: color 120ms ease;
+}
+
+.account-page .account-link:hover {
+  color: var(--color-bark);
+}
+
 h1, h2, h3 {
   font-family: 'Luckiest Guy', 'DM Sans', sans-serif !important;
   font-weight: 400 !important;

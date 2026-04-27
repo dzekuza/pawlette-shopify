@@ -2,10 +2,12 @@
 
 import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
+import { useCartCount } from '@/hooks/useCartCount'
 import type { ShopifyCharm } from '@/lib/shopify'
 import type { LandingCollar } from '@/lib/db'
 import { ProductCard } from './ProductCard'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface ProductsPageContentProps {
   collars: LandingCollar[]
@@ -13,13 +15,15 @@ interface ProductsPageContentProps {
 }
 
 export function ProductsPageContent ({ collars, charms }: ProductsPageContentProps) {
+  const router = useRouter()
+  const cartCount = useCartCount()
   const charmProduct = charms[0]
   const charmHeroImage = charmProduct?.productFeaturedImage || charmProduct?.productImages?.[0] || charmProduct?.image || ''
   const charmBg = '#B8D8F4'
 
   return (
     <div className="min-h-screen bg-cream text-bark pt-16">
-      <LandingNav topOffset={0} />
+      <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className="mx-auto px-5 pb-20 md:px-8" style={{ maxWidth: 1160, paddingTop: 40 }}>
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10">

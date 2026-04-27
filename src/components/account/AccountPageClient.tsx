@@ -1,12 +1,14 @@
 'use client';
 
-import { useMemo, useState, type FormEvent } from 'react';
+import { useMemo, useState, type ButtonHTMLAttributes, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Heart, LogOut, MapPin, Package, Plus, UserRound, type LucideIcon } from 'lucide-react';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { useCartCount } from '@/hooks/useCartCount';
 import type { CustomerAccount, CustomerAddress, CustomerOrder } from '@/lib/customer-types';
+import { cn } from '@/lib/utils';
 
 type Tab = 'orders' | 'profile' | 'addresses' | 'wishlist';
 type AuthMode = 'sign-in' | 'create' | 'recover';
@@ -17,14 +19,142 @@ interface AccountPageClientProps {
 }
 
 const inputClass =
-  'w-full rounded-[10px] border-[1.5px] border-[#E8E3DC] px-[14px] py-[10px] text-[14px] bg-white outline-none box-border';
+  'account-input w-full rounded-[10px] border-[1.5px] border-[#E8E3DC] px-[14px] py-[11px] text-[15px] bg-white outline-none box-border';
 
-const NAV_ITEMS: { id: Tab; label: string; icon: string }[] = [
-  { id: 'orders', label: 'Orders', icon: '📦' },
-  { id: 'profile', label: 'Profile', icon: '👤' },
-  { id: 'addresses', label: 'Addresses', icon: '📍' },
-  { id: 'wishlist', label: 'Wishlist', icon: '♡' },
+const authLinkClass =
+  'account-link bg-transparent border-none p-0 cursor-pointer';
+
+const NAV_ITEMS: { id: Tab; label: string; icon: LucideIcon }[] = [
+  { id: 'orders', label: 'Orders', icon: Package },
+  { id: 'profile', label: 'Profile', icon: UserRound },
+  { id: 'addresses', label: 'Addresses', icon: MapPin },
+  { id: 'wishlist', label: 'Wishlist', icon: Heart },
 ];
+
+type AccountButtonVariant = 'primary' | 'secondary' | 'ghost';
+
+function getAccountButtonClass({
+  variant = 'secondary',
+  fullWidth = false,
+  align = 'center',
+}: {
+  variant?: AccountButtonVariant;
+  fullWidth?: boolean;
+  align?: 'center' | 'start';
+}) {
+  return cn(
+    'inline-flex items-center gap-2.5 rounded-2xl px-5 py-3 text-[14px] font-semibold leading-none transition-[background,color,border-color,box-shadow,transform] duration-150',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+    'disabled:pointer-events-none disabled:opacity-55',
+    fullWidth && 'w-full',
+    align === 'start' ? 'justify-start text-left' : 'justify-center text-center',
+    variant === 'primary' && 'border border-transparent bg-sage text-bark hover:bg-sage-dark',
+    variant === 'secondary' && 'border border-border bg-white text-bark hover:bg-surface-2',
+    variant === 'ghost' && 'border border-transparent bg-transparent text-bark-light hover:bg-surface-2 hover:text-bark',
+  );
+}
+
+function AccountActionButton({
+  variant = 'secondary',
+  fullWidth = false,
+  align = 'center',
+  icon: Icon,
+  className,
+  children,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  variant?: AccountButtonVariant;
+  fullWidth?: boolean;
+  align?: 'center' | 'start';
+  icon?: LucideIcon;
+}) {
+  return (
+    <button
+      className={cn(getAccountButtonClass({ variant, fullWidth, align }), className)}
+      {...props}
+    >
+      {Icon && <Icon className="h-4 w-4 shrink-0" strokeWidth={1.9} />}
+      <span>{children}</span>
+    </button>
+  );
+}
+
+function AccountNavButton({
+  icon: Icon,
+  label,
+  active,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  icon: LucideIcon;
+  label: string;
+  active?: boolean;
+}) {
+  return (
+    <button
+      className={cn(
+        'group flex shrink-0 items-center gap-3 rounded-2xl border px-3.5 py-3 text-left text-[14px] font-semibold transition-[background,color,border-color,box-shadow] duration-150 md:w-full',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark focus-visible:ring-offset-2 focus-visible:ring-offset-cream',
+        active
+          ? 'border-border bg-white text-bark shadow-[0_10px_24px_rgba(61,53,48,0.06)]'
+          : 'border-transparent bg-transparent text-bark-light hover:bg-surface-2 hover:text-bark',
+      )}
+      aria-current={active ? 'page' : undefined}
+      {...props}
+    >
+      <span
+        className={cn(
+          'flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-[background,color] duration-150',
+          active ? 'bg-sage text-bark' : 'bg-cream text-bark-light group-hover:bg-white group-hover:text-bark',
+        )}
+      >
+        <Icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
+      </span>
+      <span>{label}</span>
+    </button>
+  );
+}
+
+function AccountEmptyState({
+  icon: Icon,
+  title,
+  description,
+  actionHref,
+  actionLabel,
+}: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  actionHref?: string;
+  actionLabel?: string;
+}) {
+  return (
+    <div
+      className="flex flex-col items-center justify-center rounded-[28px] bg-white px-6 py-14 text-center"
+      style={{ border: '1.5px solid #E8E3DC' }}
+    >
+      <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2 text-bark">
+        <Icon className="h-7 w-7" strokeWidth={1.9} />
+      </div>
+      <div
+        className="mb-2 text-[18px] font-semibold"
+        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+      >
+        {title}
+      </div>
+      <div
+        className="mb-7 max-w-[32ch] text-[14px] leading-relaxed"
+        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+      >
+        {description}
+      </div>
+      {actionHref && actionLabel && (
+        <Link href={actionHref} className={getAccountButtonClass({ variant: 'primary' })}>
+          {actionLabel}
+        </Link>
+      )}
+    </div>
+  );
+}
 
 function formatMoney(amount: string, currencyCode: string): string {
   const value = Number(amount);
@@ -396,132 +526,98 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
   ) : null;
 
   return (
-    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+    <div className="account-page min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <div className="pt-[100px]">
         {feedbackBanner}
 
         {customer ? (
-          <div className="max-w-[900px] mx-auto px-4 md:px-6 pb-[60px] md:pb-20 flex flex-col md:flex-row gap-6 md:gap-12 items-start">
+          <div className="max-w-[980px] mx-auto px-4 md:px-6 pb-[60px] md:pb-20 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
             <div className="w-full md:w-[240px] shrink-0">
-              <div className="flex flex-row md:flex-col items-center gap-4 md:gap-3 pb-5 md:pb-8 mb-0 md:mb-2">
-                <div
-                  className="rounded-full flex items-center justify-center shrink-0 w-[52px] h-[52px] md:w-[72px] md:h-[72px] text-[18px] md:text-[26px]"
-                  style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'Luckiest Guy', cursive" }}
-                >
-                  {customerInitials}
-                </div>
-                <div className="md:text-center">
+              <div className="rounded-[28px] bg-white p-4 md:p-5" style={{ border: '1.5px solid #E8E3DC' }}>
+                <div className="flex flex-row md:flex-col items-center gap-4 md:gap-3 pb-5 md:pb-6 mb-0 md:mb-1">
                   <div
-                    className="font-bold text-[15px]"
-                    style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+                    className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[18px] text-[20px] font-bold md:h-[72px] md:w-[72px] md:text-[26px]"
+                    style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif", letterSpacing: '-0.04em' }}
                   >
-                    {customer.displayName || `${customer.firstName} ${customer.lastName}`.trim() || customer.email}
+                    {customerInitials}
                   </div>
-                  <div
-                    className="text-[12px] mt-0.5"
-                    style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {customer.email}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0">
-                {NAV_ITEMS.map((item) => {
-                  const isActive = activeTab === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id)}
-                      className="flex items-center gap-2.5 rounded-xl border-none cursor-pointer text-left whitespace-nowrap text-[14px] transition-[background,color] duration-150 px-[14px] py-[9px] md:px-4 md:py-[11px]"
-                      style={{
-                        background: isActive ? 'var(--color-sage)' : 'transparent',
-                        color: isActive ? 'var(--color-bark)' : '#9B948F',
-                        fontWeight: isActive ? 700 : 500,
-                        fontFamily: "'DM Sans', sans-serif",
-                      }}
+                  <div className="min-w-0 md:text-center">
+                    <div
+                      className="truncate font-bold text-[15px]"
+                      style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                     >
-                      <span className="text-[15px]">{item.icon}</span>
-                      {item.label}
-                    </button>
-                  );
-                })}
+                      {customer.displayName || `${customer.firstName} ${customer.lastName}`.trim() || customer.email}
+                    </div>
+                    <div
+                      className="mt-1 truncate text-[12px]"
+                      style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+                    >
+                      {customer.email}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0">
+                  {NAV_ITEMS.map((item) => {
+                    const isActive = activeTab === item.id;
+                    return (
+                      <AccountNavButton
+                        key={item.id}
+                        onClick={() => setActiveTab(item.id)}
+                        icon={item.icon}
+                        label={item.label}
+                        active={isActive}
+                      />
+                    );
+                  })}
+                </div>
+
+                <AccountActionButton
+                  onClick={handleLogout}
+                  variant="ghost"
+                  align="start"
+                  fullWidth
+                  icon={LogOut}
+                  className="hidden md:inline-flex mt-6"
+                >
+                  Sign out
+                </AccountActionButton>
               </div>
-
-              <button
-                onClick={handleLogout}
-                className="hidden md:block mt-8 px-4 py-[10px] rounded-xl bg-transparent text-[13px] font-medium cursor-pointer w-full text-left"
-                style={{ border: '1.5px solid #E8E3DC', color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-              >
-                Sign out
-              </button>
             </div>
-
-            <div
-              className="hidden md:block w-px self-stretch shrink-0"
-              style={{ background: '#E8E3DC' }}
-            />
 
             <div className="flex-1 min-w-0">
               {activeTab === 'orders' && (
                 <div>
-                  <h2
-                    className="text-[26px] mb-6"
-                    style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
-                  >
+                  <h2 className="account-heading-2 mb-6">
                     Your Orders
                   </h2>
 
                   {customer.orders.length > 0 ? (
                     customer.orders.map((order) => <OrderCard key={order.id} order={order} />)
                   ) : (
-                    <div
-                      className="flex flex-col items-center justify-center px-6 py-[60px] bg-white rounded-2xl text-center"
-                      style={{ border: '1.5px solid #E8E3DC' }}
-                    >
-                      <div className="text-[48px] mb-4">📦</div>
-                      <div
-                        className="text-[16px] font-semibold mb-2"
-                        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        No orders yet
-                      </div>
-                      <div
-                        className="text-[14px] mb-6"
-                        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        Your future collar orders will show up here after checkout.
-                      </div>
-                      <Link
-                        href="/products"
-                        className="inline-block px-7 py-3 rounded-xl font-bold text-[14px] no-underline"
-                        style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        Shop products
-                      </Link>
-                    </div>
+                    <AccountEmptyState
+                      icon={Package}
+                      title="No orders yet"
+                      description="Your future collar orders will show up here after checkout."
+                      actionHref="/products"
+                      actionLabel="Shop products"
+                    />
                   )}
                 </div>
               )}
 
               {activeTab === 'profile' && (
                 <div>
-                  <h2
-                    className="text-[26px] mb-6"
-                    style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
-                  >
+                  <h2 className="account-heading-2 mb-6">
                     Profile
                   </h2>
 
                   <form onSubmit={handleProfileSave} className="flex flex-col gap-4 max-w-[480px]">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label
-                          className="block text-[13px] font-semibold mb-1.5"
-                          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                        >
+                        <label className="account-label block mb-2">
                           First name
                         </label>
                         <input
@@ -532,10 +628,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                         />
                       </div>
                       <div>
-                        <label
-                          className="block text-[13px] font-semibold mb-1.5"
-                          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                        >
+                        <label className="account-label block mb-2">
                           Last name
                         </label>
                         <input
@@ -548,10 +641,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     </div>
 
                     <div>
-                      <label
-                        className="block text-[13px] font-semibold mb-1.5"
-                        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                      >
+                      <label className="account-label block mb-2">
                         Email address
                       </label>
                       <input
@@ -564,10 +654,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     </div>
 
                     <div>
-                      <label
-                        className="block text-[13px] font-semibold mb-1.5"
-                        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                      >
+                      <label className="account-label block mb-2">
                         Phone number
                       </label>
                       <input
@@ -592,28 +679,21 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       Email me about launches, offers, and new charm drops.
                     </label>
 
-                    <button
+                    <AccountActionButton
                       type="submit"
                       disabled={isProfileSaving}
-                      className="mt-2 self-start px-7 py-3 rounded-xl font-bold text-[15px] cursor-pointer border-none transition-[background] duration-200"
-                      style={{
-                        background: isProfileSaving ? '#D7E8D5' : 'var(--color-sage)',
-                        color: 'var(--color-bark)',
-                        fontFamily: "'DM Sans', sans-serif",
-                      }}
+                      variant="primary"
+                      className="mt-2 self-start"
                     >
                       {isProfileSaving ? 'Saving...' : 'Save changes'}
-                    </button>
+                    </AccountActionButton>
                   </form>
                 </div>
               )}
 
               {activeTab === 'addresses' && (
                 <div>
-                  <h2
-                    className="text-[26px] mb-6"
-                    style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
-                  >
+                  <h2 className="account-heading-2 mb-6">
                     Addresses
                   </h2>
 
@@ -626,36 +706,22 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       />
                     ))
                   ) : (
-                    <div
-                      className="bg-white rounded-2xl px-6 py-5 mb-4 max-w-[420px]"
-                      style={{ border: '1.5px solid #E8E3DC' }}
-                    >
-                      <div
-                        className="font-bold text-[15px] mb-1.5"
-                        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        No saved addresses yet
-                      </div>
-                      <div
-                        className="text-[14px] leading-relaxed"
-                        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                      >
-                        Save an address here so future checkouts are faster.
-                      </div>
+                    <div className="mb-4 max-w-[520px]">
+                      <AccountEmptyState
+                        icon={MapPin}
+                        title="No saved addresses yet"
+                        description="Save an address here so future checkouts are faster."
+                      />
                     </div>
                   )}
 
-                  <button
+                  <AccountActionButton
                     onClick={() => setShowAddressForm((current) => !current)}
-                    className="px-6 py-[11px] rounded-xl font-semibold text-[14px] cursor-pointer bg-transparent"
-                    style={{
-                      border: '1.5px solid var(--color-bark)',
-                      color: 'var(--color-bark)',
-                      fontFamily: "'DM Sans', sans-serif",
-                    }}
+                    variant={showAddressForm ? 'ghost' : 'secondary'}
+                    icon={showAddressForm ? undefined : Plus}
                   >
                     {showAddressForm ? 'Cancel' : '+ Add address'}
-                  </button>
+                  </AccountActionButton>
 
                   {showAddressForm && (
                     <form onSubmit={handleAddressSave} className="mt-6 flex flex-col gap-4 max-w-[520px]">
@@ -719,18 +785,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                         value={addressForm.phone}
                         onChange={(event) => setAddressForm((current) => ({ ...current, phone: event.target.value }))}
                       />
-                      <button
+                      <AccountActionButton
                         type="submit"
                         disabled={isAddressSaving}
-                        className="self-start px-6 py-3 rounded-xl font-bold text-[15px] cursor-pointer border-none"
-                        style={{
-                          background: isAddressSaving ? '#D7E8D5' : 'var(--color-sage)',
-                          color: 'var(--color-bark)',
-                          fontFamily: "'DM Sans', sans-serif",
-                        }}
+                        variant="primary"
+                        className="self-start"
                       >
                         {isAddressSaving ? 'Saving...' : 'Save address'}
-                      </button>
+                      </AccountActionButton>
                     </form>
                   )}
                 </div>
@@ -738,47 +800,29 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
 
               {activeTab === 'wishlist' && (
                 <div>
-                  <h2
-                    className="text-[26px] mb-6"
-                    style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
-                  >
+                  <h2 className="account-heading-2 mb-6">
                     Wishlist
                   </h2>
-                  <div
-                    className="flex flex-col items-center justify-center px-6 py-[60px] bg-white rounded-2xl text-center"
-                    style={{ border: '1.5px solid #E8E3DC' }}
-                  >
-                    <div className="text-[48px] mb-4">🐾</div>
-                    <div
-                      className="text-[16px] font-semibold mb-2"
-                      style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      Wishlist coming next
-                    </div>
-                    <div
-                      className="text-[14px] mb-6"
-                      style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      Your customer account is real now. Wishlist support can be the next step.
-                    </div>
-                    <Link
-                      href="/products"
-                      className="inline-block px-7 py-3 rounded-xl font-bold text-[14px] no-underline"
-                      style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                    >
-                      Shop products
-                    </Link>
-                  </div>
+                  <AccountEmptyState
+                    icon={Heart}
+                    title="Wishlist coming next"
+                    description="Your customer account is real now. Wishlist support can be the next step."
+                    actionHref="/products"
+                    actionLabel="Shop products"
+                  />
                 </div>
               )}
 
-              <button
+              <AccountActionButton
                 onClick={handleLogout}
-                className="md:hidden mt-8 px-5 py-3 rounded-xl bg-transparent text-[13px] font-medium cursor-pointer w-full"
-                style={{ border: '1.5px solid #E8E3DC', color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+                variant="ghost"
+                align="start"
+                fullWidth
+                icon={LogOut}
+                className="md:hidden mt-8"
               >
                 Sign out
-              </button>
+              </AccountActionButton>
             </div>
           </div>
         ) : (
@@ -787,41 +831,10 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               className="bg-white rounded-3xl px-6 md:px-9 py-10"
               style={{ border: '1.5px solid #E8E3DC' }}
             >
-              <div className="flex gap-2 mb-8">
-                {[
-                  { id: 'sign-in', label: 'Sign in' },
-                  { id: 'create', label: 'Create account' },
-                  { id: 'recover', label: 'Reset password' },
-                ].map((mode) => {
-                  const active = authMode === mode.id;
-
-                  return (
-                    <button
-                      key={mode.id}
-                      onClick={() => setAuthMode(mode.id as AuthMode)}
-                      className="rounded-full px-4 py-2 text-[13px] font-semibold border-none cursor-pointer"
-                      style={{
-                        background: active ? 'var(--color-sage)' : '#F3EEE8',
-                        color: 'var(--color-bark)',
-                        fontFamily: "'DM Sans', sans-serif",
-                      }}
-                    >
-                      {mode.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              <h1
-                className="text-[32px] mb-2"
-                style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}
-              >
+              <h1 className="account-heading-1 mb-3">
                 {authMode === 'sign-in' ? 'Welcome back' : authMode === 'create' ? 'Create your account' : 'Reset your password'}
               </h1>
-              <p
-                className="text-[15px] mb-8"
-                style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-              >
+              <p className="account-copy mb-8">
                 {authMode === 'sign-in'
                   ? 'Sign in to view your orders, profile, and saved addresses.'
                   : authMode === 'create'
@@ -832,10 +845,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               {authMode === 'sign-in' && (
                 <form onSubmit={handleLogin} className="flex flex-col gap-4">
                   <div>
-                    <label
-                      className="block text-[13px] font-semibold mb-1.5"
-                      style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                    >
+                    <label className="account-label block mb-2">
                       Email address
                     </label>
                     <input
@@ -847,10 +857,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     />
                   </div>
                   <div>
-                    <label
-                      className="block text-[13px] font-semibold mb-1.5"
-                      style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
-                    >
+                    <label className="account-label block mb-2">
                       Password
                     </label>
                     <input
@@ -860,6 +867,22 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       value={loginForm.password}
                       onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
                     />
+                  </div>
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setAuthMode('create')}
+                      className={authLinkClass}
+                    >
+                      Create account
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAuthMode('recover')}
+                      className={authLinkClass}
+                    >
+                      Forgot password?
+                    </button>
                   </div>
                   <button
                     type="submit"
@@ -910,6 +933,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   >
                     {isAuthSubmitting ? 'Creating...' : 'Create account'}
                   </button>
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('sign-in')}
+                    className={authLinkClass}
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    Back to sign in
+                  </button>
                 </form>
               )}
 
@@ -929,6 +960,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                   >
                     {isAuthSubmitting ? 'Sending...' : 'Send reset link'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setAuthMode('sign-in')}
+                    className={authLinkClass}
+                    style={{ alignSelf: 'flex-start' }}
+                  >
+                    Back to sign in
                   </button>
                 </form>
               )}

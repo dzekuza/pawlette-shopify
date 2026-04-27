@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { PawPrint } from 'lucide-react';
 import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
@@ -51,9 +52,11 @@ export default function CartPage() {
         <div className="max-w-[1100px] mx-auto px-5 md:px-10">
 
           {/* Page heading */}
-          <h1 className="text-[32px] md:text-[48px] mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
-            Your Cart
-          </h1>
+          {lines.length > 0 && (
+            <h1 className="text-[32px] md:text-[48px] mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
+              Your Cart
+            </h1>
+          )}
 
           {lines.length > 0 && (
             <p className="text-[15px] mb-5 opacity-60" style={{ color: 'var(--color-bark)' }}>
@@ -63,17 +66,45 @@ export default function CartPage() {
 
           {lines.length === 0 ? (
             /* Empty state */
-            <div className="flex flex-col items-center justify-center pt-[60px] pb-20 gap-6 text-center">
-              <span className="text-[96px] leading-none">🐾</span>
-              <h2 className="text-[26px] md:text-[36px] m-0" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
-                Your cart is empty
-              </h2>
-              <p className="text-[16px] max-w-[360px] leading-relaxed m-0 opacity-60" style={{ color: 'var(--color-bark)' }}>
-                Build a collar your dog will actually be excited to wear.
-              </p>
-              <PrimaryButton href="/products" variant="sage" size="lg">
-                Design Your Collar
-              </PrimaryButton>
+            <div className="mx-auto max-w-[640px] pt-8 md:pt-12 pb-20">
+              <div
+                className="flex flex-col items-center justify-center rounded-[32px] px-7 py-12 md:px-12 md:py-14 text-center"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(243,237,230,0.92) 100%)',
+                  border: '1.5px solid rgba(61,53,48,0.08)',
+                  boxShadow: '0 20px 48px rgba(61,53,48,0.06)',
+                }}
+              >
+                <div
+                  className="mb-5 flex h-[76px] w-[76px] items-center justify-center rounded-[24px]"
+                  style={{ background: 'rgba(168,213,162,0.18)', color: 'var(--color-bark)' }}
+                >
+                  <PawPrint className="h-9 w-9" strokeWidth={1.8} />
+                </div>
+                <p
+                  className="mb-3 text-[12px] font-semibold uppercase tracking-[0.18em]"
+                  style={{ color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Cart
+                </p>
+                <h1
+                  className="m-0 text-[32px] md:text-[40px]"
+                  style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, lineHeight: 1.02, letterSpacing: '-0.03em', textWrap: 'balance' as const }}
+                >
+                  Your cart is empty
+                </h1>
+                <p
+                  className="mt-4 mb-0 max-w-[32ch] text-[16px] leading-[1.6]"
+                  style={{ color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Build a collar your dog will actually be excited to wear.
+                </p>
+                <div className="mt-8">
+                  <PrimaryButton href="/products" variant="sage" size="lg">
+                    Design Your Collar
+                  </PrimaryButton>
+                </div>
+              </div>
             </div>
           ) : (
             /* Two-column layout */

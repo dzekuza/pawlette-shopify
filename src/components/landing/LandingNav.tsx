@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { CircleUserRound } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
@@ -71,29 +72,8 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
           ))}
         </nav>
 
-        {/* Mobile spacer */}
-        <div className="md:hidden" />
-
-        <Link href="/" aria-label="Žavesys home" className="flex items-center justify-center">
-          <img src="/pawcharms.svg" alt="Žavesys" className="h-11 w-auto block" />
-        </Link>
-
-        <div className="flex items-center gap-1 justify-end">
-          {/* Cart button */}
-          <button onClick={onCart} aria-label="Cart" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
-            </svg>
-            {cartCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-sage text-interactive-text text-[10px] font-semibold flex items-center justify-center font-sans">
-                {cartCount}
-              </span>
-            )}
-          </button>
-
-          {/* Hamburger */}
+        {/* Mobile hamburger */}
+        <div className="md:hidden flex items-center">
           <button
             onClick={() => setMenuOpen(o => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
@@ -112,6 +92,34 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
               className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-[ease]"
               style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
             />
+          </button>
+        </div>
+
+        <Link href="/" aria-label="Žavesys home" className="flex items-center justify-center">
+          <img src="/pawcharms.svg" alt="Žavesys" className="h-11 w-auto block" />
+        </Link>
+
+        <div className="flex items-center gap-1 justify-end">
+          <Link
+            href="/account"
+            aria-label="Account"
+            className="p-2 text-bark transition-colors duration-150 hover:text-sage"
+          >
+            <CircleUserRound className="h-5 w-5" strokeWidth={1.75} />
+          </Link>
+
+          {/* Cart button */}
+          <button onClick={onCart} aria-label="Cart" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <path d="M16 10a4 4 0 0 1-8 0" />
+            </svg>
+            {cartCount > 0 && (
+              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-sage text-interactive-text text-[10px] font-semibold flex items-center justify-center font-sans">
+                {cartCount}
+              </span>
+            )}
           </button>
         </div>
         </div>
