@@ -25,10 +25,10 @@ const authLinkClass =
   'account-link bg-transparent border-none p-0 cursor-pointer';
 
 const NAV_ITEMS: { id: Tab; label: string; icon: LucideIcon }[] = [
-  { id: 'orders', label: 'Orders', icon: Package },
-  { id: 'profile', label: 'Profile', icon: UserRound },
-  { id: 'addresses', label: 'Addresses', icon: MapPin },
-  { id: 'wishlist', label: 'Wishlist', icon: Heart },
+  { id: 'orders', label: 'Užsakymai', icon: Package },
+  { id: 'profile', label: 'Profilis', icon: UserRound },
+  { id: 'addresses', label: 'Adresai', icon: MapPin },
+  { id: 'wishlist', label: 'Norų sąrašas', icon: Heart },
 ];
 
 type AccountButtonVariant = 'primary' | 'secondary' | 'ghost';
@@ -160,22 +160,39 @@ function formatMoney(amount: string, currencyCode: string): string {
   const value = Number(amount);
   if (Number.isNaN(value)) return amount;
 
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat('lt-LT', {
     style: 'currency',
     currency: currencyCode,
   }).format(value);
 }
 
 function formatOrderDate(value: string): string {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
+  return new Intl.DateTimeFormat('lt-LT', {
+    month: 'long',
     day: 'numeric',
     year: 'numeric',
   }).format(new Date(value));
 }
 
 function prettifyStatus(value: string): string {
-  return value.toLowerCase().replace(/_/g, ' ');
+  const normalized = value.toLowerCase();
+  const map: Record<string, string> = {
+    paid: 'apmokėta',
+    pending: 'laukiama',
+    authorized: 'autorizuota',
+    partially_paid: 'iš dalies apmokėta',
+    refunded: 'grąžinta',
+    partially_refunded: 'iš dalies grąžinta',
+    fulfilled: 'įvykdyta',
+    unfulfilled: 'neįvykdyta',
+    partial: 'iš dalies įvykdyta',
+    scheduled: 'suplanuota',
+    on_hold: 'sulaikyta',
+    open: 'atidaryta',
+    restocked: 'grąžinta į sandėlį',
+  };
+
+  return map[normalized] ?? normalized.replace(/_/g, ' ');
 }
 
 function getInitials(customer: CustomerAccount): string {
@@ -196,7 +213,7 @@ async function readJson<T>(response: Response): Promise<T> {
         ? payload.error
         : typeof payload.message === 'string'
           ? payload.message
-          : 'Something went wrong.';
+          : 'Kažkas nepavyko.';
 
     throw new Error(message);
   }
@@ -221,7 +238,7 @@ function OrderCard({ order }: { order: CustomerOrder }) {
           className="font-semibold text-[15px] mb-1"
           style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
-          Order #{order.orderNumber}
+          Užsakymas #{order.orderNumber}
         </div>
         <div
           className="text-[13px]"
@@ -265,7 +282,7 @@ function AddressCard({
           className="absolute top-4 right-4 rounded-[20px] px-[10px] py-[2px] text-[11px] font-semibold"
           style={{ background: '#E8F5E6', color: '#3A7A35', fontFamily: "'DM Sans', sans-serif" }}
         >
-          Default
+          Numatytasis
         </div>
       )}
       <div
@@ -329,11 +346,11 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
     city: '',
     province: '',
     zip: '',
-    country: 'Lithuania',
+    country: 'Lietuva',
     phone: initialCustomer?.phone ?? '',
   });
 
-  const customerInitials = useMemo(() => (customer ? getInitials(customer) : 'PC'), [customer]);
+  const customerInitials = useMemo(() => (customer ? getInitials(customer) : 'PŽ'), [customer]);
 
   function applyCustomer(nextCustomer: CustomerAccount | null) {
     setCustomer(nextCustomer);
@@ -373,10 +390,10 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
 
       applyCustomer(payload.customer);
       setActiveTab('orders');
-      setFeedback({ kind: 'success', message: 'You are signed in.' });
+      setFeedback({ kind: 'success', message: 'Prisijungėte sėkmingai.' });
       setLoginForm({ email: '', password: '' });
     } catch (error) {
-      setFeedback({ kind: 'error', message: error instanceof Error ? error.message : 'Unable to sign in.' });
+      setFeedback({ kind: 'error', message: error instanceof Error ? error.message : 'Nepavyko prisijungti.' });
     } finally {
       setIsAuthSubmitting(false);
     }
@@ -398,12 +415,12 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
 
       applyCustomer(payload.customer);
       setActiveTab('orders');
-      setFeedback({ kind: 'success', message: 'Your account is ready.' });
+      setFeedback({ kind: 'success', message: 'Jūsų paskyra paruošta.' });
       setRegisterForm({ firstName: '', lastName: '', email: '', password: '' });
     } catch (error) {
       setFeedback({
         kind: 'error',
-        message: error instanceof Error ? error.message : 'Unable to create your account.',
+        message: error instanceof Error ? error.message : 'Nepavyko sukurti paskyros.',
       });
     } finally {
       setIsAuthSubmitting(false);
@@ -429,7 +446,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
     } catch (error) {
       setFeedback({
         kind: 'error',
-        message: error instanceof Error ? error.message : 'Unable to send the reset email.',
+        message: error instanceof Error ? error.message : 'Nepavyko išsiųsti slaptažodžio atkūrimo laiško.',
       });
     } finally {
       setIsAuthSubmitting(false);
@@ -451,11 +468,11 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
       );
 
       applyCustomer(payload.customer);
-      setFeedback({ kind: 'success', message: 'Profile updated.' });
+      setFeedback({ kind: 'success', message: 'Profilis atnaujintas.' });
     } catch (error) {
       setFeedback({
         kind: 'error',
-        message: error instanceof Error ? error.message : 'Unable to save your profile.',
+        message: error instanceof Error ? error.message : 'Nepavyko išsaugoti profilio.',
       });
     } finally {
       setIsProfileSaving(false);
@@ -485,13 +502,13 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
         city: '',
         province: '',
         zip: '',
-        country: current.country || 'Lithuania',
+        country: current.country || 'Lietuva',
       }));
-      setFeedback({ kind: 'success', message: 'Address saved.' });
+      setFeedback({ kind: 'success', message: 'Adresas išsaugotas.' });
     } catch (error) {
       setFeedback({
         kind: 'error',
-        message: error instanceof Error ? error.message : 'Unable to save your address.',
+        message: error instanceof Error ? error.message : 'Nepavyko išsaugoti adreso.',
       });
     } finally {
       setIsAddressSaving(false);
@@ -504,7 +521,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
     applyCustomer(null);
     setActiveTab('orders');
     setAuthMode('sign-in');
-    setFeedback({ kind: 'success', message: 'You have been signed out.' });
+    setFeedback({ kind: 'success', message: 'Atsijungėte sėkmingai.' });
   }
 
   const feedbackBanner = feedback ? (
@@ -582,7 +599,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   icon={LogOut}
                   className="hidden md:inline-flex mt-6"
                 >
-                  Sign out
+                  Atsijungti
                 </AccountActionButton>
               </div>
             </div>
@@ -591,7 +608,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               {activeTab === 'orders' && (
                 <div>
                   <h2 className="account-heading-2 mb-6">
-                    Your Orders
+                    Jūsų užsakymai
                   </h2>
 
                   {customer.orders.length > 0 ? (
@@ -599,10 +616,10 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   ) : (
                     <AccountEmptyState
                       icon={Package}
-                      title="No orders yet"
-                      description="Your future collar orders will show up here after checkout."
+                      title="Užsakymų dar nėra"
+                      description="Būsimi jūsų užsakymai atsiras čia po apmokėjimo."
                       actionHref="/products"
-                      actionLabel="Shop products"
+                      actionLabel="Peržiūrėti produktus"
                     />
                   )}
                 </div>
@@ -611,14 +628,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               {activeTab === 'profile' && (
                 <div>
                   <h2 className="account-heading-2 mb-6">
-                    Profile
+                    Profilis
                   </h2>
 
                   <form onSubmit={handleProfileSave} className="flex flex-col gap-4 max-w-[480px]">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="account-label block mb-2">
-                          First name
+                          Vardas
                         </label>
                         <input
                           className={inputClass}
@@ -629,7 +646,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       </div>
                       <div>
                         <label className="account-label block mb-2">
-                          Last name
+                          Pavardė
                         </label>
                         <input
                           className={inputClass}
@@ -642,7 +659,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
 
                     <div>
                       <label className="account-label block mb-2">
-                        Email address
+                        El. paštas
                       </label>
                       <input
                         className={inputClass}
@@ -655,7 +672,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
 
                     <div>
                       <label className="account-label block mb-2">
-                        Phone number
+                        Telefono numeris
                       </label>
                       <input
                         className={inputClass}
@@ -676,7 +693,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                           setProfileForm((current) => ({ ...current, acceptsMarketing: event.target.checked }))
                         }
                       />
-                      Email me about launches, offers, and new charm drops.
+                      Siųskite man naujienas apie pristatymus, pasiūlymus ir naujus pakabukus.
                     </label>
 
                     <AccountActionButton
@@ -685,7 +702,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       variant="primary"
                       className="mt-2 self-start"
                     >
-                      {isProfileSaving ? 'Saving...' : 'Save changes'}
+                      {isProfileSaving ? 'Saugoma...' : 'Išsaugoti pakeitimus'}
                     </AccountActionButton>
                   </form>
                 </div>
@@ -694,7 +711,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               {activeTab === 'addresses' && (
                 <div>
                   <h2 className="account-heading-2 mb-6">
-                    Addresses
+                    Adresai
                   </h2>
 
                   {customer.addresses.length > 0 ? (
@@ -709,8 +726,8 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     <div className="mb-4 max-w-[520px]">
                       <AccountEmptyState
                         icon={MapPin}
-                        title="No saved addresses yet"
-                        description="Save an address here so future checkouts are faster."
+                        title="Išsaugotų adresų dar nėra"
+                        description="Išsaugokite adresą čia, kad kiti atsiskaitymai būtų greitesni."
                       />
                     </div>
                   )}
@@ -720,7 +737,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     variant={showAddressForm ? 'ghost' : 'secondary'}
                     icon={showAddressForm ? undefined : Plus}
                   >
-                    {showAddressForm ? 'Cancel' : '+ Add address'}
+                    {showAddressForm ? 'Atšaukti' : '+ Pridėti adresą'}
                   </AccountActionButton>
 
                   {showAddressForm && (
@@ -728,39 +745,39 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
                           className={inputClass}
-                          placeholder="First name"
+                          placeholder="Vardas"
                           value={addressForm.firstName}
                           onChange={(event) => setAddressForm((current) => ({ ...current, firstName: event.target.value }))}
                         />
                         <input
                           className={inputClass}
-                          placeholder="Last name"
+                          placeholder="Pavardė"
                           value={addressForm.lastName}
                           onChange={(event) => setAddressForm((current) => ({ ...current, lastName: event.target.value }))}
                         />
                       </div>
                       <input
                         className={inputClass}
-                        placeholder="Address line 1"
+                        placeholder="Adresas 1"
                         value={addressForm.address1}
                         onChange={(event) => setAddressForm((current) => ({ ...current, address1: event.target.value }))}
                       />
                       <input
                         className={inputClass}
-                        placeholder="Address line 2"
+                        placeholder="Adresas 2"
                         value={addressForm.address2}
                         onChange={(event) => setAddressForm((current) => ({ ...current, address2: event.target.value }))}
                       />
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
                           className={inputClass}
-                          placeholder="City"
+                          placeholder="Miestas"
                           value={addressForm.city}
                           onChange={(event) => setAddressForm((current) => ({ ...current, city: event.target.value }))}
                         />
                         <input
                           className={inputClass}
-                          placeholder="Province / State"
+                          placeholder="Regionas / valstija"
                           value={addressForm.province}
                           onChange={(event) => setAddressForm((current) => ({ ...current, province: event.target.value }))}
                         />
@@ -768,20 +785,20 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <input
                           className={inputClass}
-                          placeholder="Postal code"
+                          placeholder="Pašto kodas"
                           value={addressForm.zip}
                           onChange={(event) => setAddressForm((current) => ({ ...current, zip: event.target.value }))}
                         />
                         <input
                           className={inputClass}
-                          placeholder="Country"
+                          placeholder="Šalis"
                           value={addressForm.country}
                           onChange={(event) => setAddressForm((current) => ({ ...current, country: event.target.value }))}
                         />
                       </div>
                       <input
                         className={inputClass}
-                        placeholder="Phone number"
+                        placeholder="Telefono numeris"
                         value={addressForm.phone}
                         onChange={(event) => setAddressForm((current) => ({ ...current, phone: event.target.value }))}
                       />
@@ -791,7 +808,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                         variant="primary"
                         className="self-start"
                       >
-                        {isAddressSaving ? 'Saving...' : 'Save address'}
+                        {isAddressSaving ? 'Saugoma...' : 'Išsaugoti adresą'}
                       </AccountActionButton>
                     </form>
                   )}
@@ -801,14 +818,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               {activeTab === 'wishlist' && (
                 <div>
                   <h2 className="account-heading-2 mb-6">
-                    Wishlist
+                    Norų sąrašas
                   </h2>
                   <AccountEmptyState
                     icon={Heart}
-                    title="Wishlist coming next"
-                    description="Your customer account is real now. Wishlist support can be the next step."
+                    title="Norų sąrašas netrukus"
+                    description="Jūsų kliento paskyra jau veikia. Norų sąrašas gali būti kitas žingsnis."
                     actionHref="/products"
-                    actionLabel="Shop products"
+                    actionLabel="Peržiūrėti produktus"
                   />
                 </div>
               )}
@@ -821,7 +838,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                 icon={LogOut}
                 className="md:hidden mt-8"
               >
-                Sign out
+                Atsijungti
               </AccountActionButton>
             </div>
           </div>
@@ -832,21 +849,21 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
               style={{ border: '1.5px solid #E8E3DC' }}
             >
               <h1 className="account-heading-1 mb-3">
-                {authMode === 'sign-in' ? 'Welcome back' : authMode === 'create' ? 'Create your account' : 'Reset your password'}
+                {authMode === 'sign-in' ? 'Sveiki sugrįžę' : authMode === 'create' ? 'Sukurkite paskyrą' : 'Atkurkite slaptažodį'}
               </h1>
               <p className="account-copy mb-8">
                 {authMode === 'sign-in'
-                  ? 'Sign in to view your orders, profile, and saved addresses.'
+                  ? 'Prisijunkite, kad matytumėte užsakymus, profilį ir išsaugotus adresus.'
                   : authMode === 'create'
-                    ? 'Set up a real PawCharms customer account connected to Shopify.'
-                    : 'We’ll send a reset link if there’s an account for your email.'}
+                    ? 'Susikurkite tikrą PawCharms kliento paskyrą, susietą su Shopify.'
+                    : 'Jei paskyra su šiuo el. paštu egzistuoja, išsiųsime atkūrimo nuorodą.'}
               </p>
 
               {authMode === 'sign-in' && (
                 <form onSubmit={handleLogin} className="flex flex-col gap-4">
                   <div>
                     <label className="account-label block mb-2">
-                      Email address
+                      El. paštas
                     </label>
                     <input
                       className={inputClass}
@@ -858,7 +875,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   </div>
                   <div>
                     <label className="account-label block mb-2">
-                      Password
+                      Slaptažodis
                     </label>
                     <input
                       className={inputClass}
@@ -874,14 +891,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                       onClick={() => setAuthMode('create')}
                       className={authLinkClass}
                     >
-                      Create account
+                      Sukurti paskyrą
                     </button>
                     <button
                       type="button"
                       onClick={() => setAuthMode('recover')}
                       className={authLinkClass}
                     >
-                      Forgot password?
+                      Pamiršote slaptažodį?
                     </button>
                   </div>
                   <button
@@ -890,7 +907,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
                     style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    {isAuthSubmitting ? 'Signing in...' : 'Sign in'}
+                    {isAuthSubmitting ? 'Jungiama...' : 'Prisijungti'}
                   </button>
                 </form>
               )}
@@ -900,13 +917,13 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <input
                       className={inputClass}
-                      placeholder="First name"
+                      placeholder="Vardas"
                       value={registerForm.firstName}
                       onChange={(event) => setRegisterForm((current) => ({ ...current, firstName: event.target.value }))}
                     />
                     <input
                       className={inputClass}
-                      placeholder="Last name"
+                      placeholder="Pavardė"
                       value={registerForm.lastName}
                       onChange={(event) => setRegisterForm((current) => ({ ...current, lastName: event.target.value }))}
                     />
@@ -921,7 +938,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   <input
                     className={inputClass}
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="Sukurkite slaptažodį"
                     value={registerForm.password}
                     onChange={(event) => setRegisterForm((current) => ({ ...current, password: event.target.value }))}
                   />
@@ -931,7 +948,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
                     style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    {isAuthSubmitting ? 'Creating...' : 'Create account'}
+                    {isAuthSubmitting ? 'Kuriama...' : 'Sukurti paskyrą'}
                   </button>
                   <button
                     type="button"
@@ -939,7 +956,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     className={authLinkClass}
                     style={{ alignSelf: 'flex-start' }}
                   >
-                    Back to sign in
+                    Grįžti į prisijungimą
                   </button>
                 </form>
               )}
@@ -959,7 +976,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
                     style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                   >
-                    {isAuthSubmitting ? 'Sending...' : 'Send reset link'}
+                    {isAuthSubmitting ? 'Siunčiama...' : 'Siųsti atkūrimo nuorodą'}
                   </button>
                   <button
                     type="button"
@@ -967,7 +984,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     className={authLinkClass}
                     style={{ alignSelf: 'flex-start' }}
                   >
-                    Back to sign in
+                    Grįžti į prisijungimą
                   </button>
                 </form>
               )}

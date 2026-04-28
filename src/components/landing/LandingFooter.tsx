@@ -4,21 +4,22 @@ import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const FOOTER_COLS = [
-  { title: 'Shop', links: [
-    { label: 'Collar sets', href: '/products' },
-    { label: 'Charms', href: '/products/charm-charms' },
-    { label: 'Build yours', href: '/products' },
+  { title: 'Parduotuvė', links: [
+    { label: 'Antkaklių rinkiniai', href: '/products' },
+    { label: 'Pasivaikščiojimo rinkiniai', href: '/sets' },
+    { label: 'Pakabukai', href: '/products/charm-charms' },
+    { label: 'Susikurk savo', href: '/products' },
   ]},
-  { title: 'Help', links: [
-    { label: 'Sizing guide', href: '/guide/how-to-measure-dog-collar' },
-    { label: 'Silicone vs nylon', href: '/guide/silicone-vs-nylon-dog-collars' },
-    { label: 'Shipping', href: '#' },
-    { label: 'Returns', href: '#' },
+  { title: 'Pagalba', links: [
+    { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
+    { label: 'Silikonas ar nailonas', href: '/guide/silicone-vs-nylon-dog-collars' },
+    { label: 'Pristatymas', href: '/faq#orders' },
+    { label: 'Grąžinimas', href: '/faq#orders' },
   ]},
-  { title: 'Brand', links: [
-    { label: 'Our story', href: '#about' },
-    { label: 'Instagram', href: '#' },
-    { label: 'Contact', href: 'mailto:hello@pawcharms.lt' },
+  { title: 'PawCharms', links: [
+    { label: 'Mūsų istorija', href: '/#about' },
+    { label: 'DUK', href: '/faq#products' },
+    { label: 'Kontaktai', href: 'mailto:hello@pawcharms.lt' },
   ]},
 ];
 
@@ -31,11 +32,11 @@ export function LandingFooter() {
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
-            <Link href="/" aria-label="Žavesys home" style={{ display: 'inline-flex', marginBottom: 16 }}>
-              <img src="/pawcharms.svg" alt="Žavesys" style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
+            <Link href="/" aria-label="PawCharms home" style={{ display: 'inline-flex', marginBottom: 16 }}>
+              <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
             </Link>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.5)', lineHeight: 1.7, maxWidth: 260 }}>Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.</p>
-            <div style={{ marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(250,247,242,0.35)', fontStyle: 'italic' }}>Vandeniui atspari.</div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.5)', lineHeight: 1.7, maxWidth: 260 }}>Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.</p>
+            <div style={{ marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(250,247,242,0.35)', fontStyle: 'italic' }}>Pakabukai keičiami per 5 sekundes.</div>
           </div>
           {isMobile ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 24 }}>
@@ -72,8 +73,8 @@ export function LandingFooter() {
           )}
         </div>
         <div style={{ borderTop: '1px solid rgba(250,247,242,0.1)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 8 : 16 }}>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>© 2025 Žavesys. Made with care in Lithuania.</div>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>@zavesys · Etsy · Instagram</div>
+          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
+          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>hello@pawcharms.lt · Vilnius, Lietuva</div>
         </div>
       </div>
     </footer>

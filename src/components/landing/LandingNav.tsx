@@ -7,17 +7,19 @@ import { cn } from '@/lib/utils';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
-  { label: 'Shop collars', href: '/products' },
-  { label: 'Charms', href: '/products/charm-charms' },
-  { label: 'Sizing guide', href: '/guide/how-to-measure-dog-collar' },
-  { label: 'Care & materials', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: 'Antkakliai', href: '/products' },
+  { label: 'Rinkiniai', href: '/sets' },
+  { label: 'Pakabukai', href: '/products/charm-charms' },
+  { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
+  { label: 'Priežiūra ir medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
   { label: 'FAQ', href: '/faq' },
 ];
 
 const DESKTOP_NAV = [
-  { label: 'Shop', href: '/products' },
-  { label: 'Charms', href: '/products/charm-charms' },
-  { label: 'Care', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: 'Parduotuvė', href: '/products' },
+  { label: 'Rinkiniai', href: '/sets' },
+  { label: 'Pakabukai', href: '/products/charm-charms' },
+  { label: 'Priežiūra', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];
 
 interface LandingNavProps {
@@ -76,7 +78,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         <div className="md:hidden flex items-center">
           <button
             onClick={() => setMenuOpen(o => !o)}
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
             aria-expanded={menuOpen}
             className="bg-transparent border-0 cursor-pointer p-2 text-bark flex flex-col gap-[5px] items-center justify-center w-9 h-9"
           >
@@ -102,14 +104,14 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         <div className="flex items-center gap-1 justify-end">
           <Link
             href="/account"
-            aria-label="Account"
+            aria-label="Paskyra"
             className="p-2 text-bark transition-colors duration-150 hover:text-sage"
           >
             <CircleUserRound className="h-5 w-5" strokeWidth={1.75} />
           </Link>
 
           {/* Cart button */}
-          <button onClick={onCart} aria-label="Cart" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
+          <button onClick={onCart} aria-label="Krepšelis" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
@@ -160,7 +162,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             gap: isMobile ? 10 : 0,
           }}
         >
-          <span className="font-sans text-[13px] text-bark-muted">Made in Vilnius, Lithuania</span>
+          <span className="font-sans text-[13px] text-bark-muted">Pagaminta Vilniuje, Lietuvoje</span>
           <a
             href="mailto:hello@pawcharms.lt"
             className="font-sans text-[13px] text-bark-muted no-underline transition-colors duration-150 hover:text-bark"

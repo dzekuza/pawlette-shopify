@@ -71,40 +71,40 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
       {/* Sage charm — top left */}
       <div className="float-c" style={{ position: "absolute", left: isMobile ? "2%" : "8%", top: "8%", width: 110, filter: "drop-shadow(0 10px 24px rgba(168,213,162,0.4))", zIndex: 40 }}>
-        <img src="/charm-z.png" alt="Sage charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-z.png" alt="Šalavijo pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Flower charm — mid left */}
       <div className="float-a" style={{ position: "absolute", left: isMobile ? "1%" : "6%", top: isMobile ? "8%" : "36%", width: 92, filter: "drop-shadow(0 8px 20px rgba(212,184,244,0.45))", zIndex: 40, animationDelay: "1.2s" }}>
-        <img src="/charm-flower.png" alt="Flower charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-flower.png" alt="Gėlės pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Star charm — lower left */}
       <div className="float-d" style={{ position: "absolute", left: isMobile ? "2%" : "9%", top: "62%", width: 96, filter: "drop-shadow(0 10px 22px rgba(249,228,160,0.5))", zIndex: 40 }}>
-        <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-star.png" alt="Žvaigždės pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* ── FLOATING IMAGES — right column ── */}
 
       {/* Heart charm — top right */}
       <div className="float-e" style={{ position: "absolute", right: isMobile ? "2%" : "8%", top: "10%", width: 96, filter: "drop-shadow(0 10px 22px rgba(244,181,192,0.45))", zIndex: 40 }}>
-        <img src="/charm-heart.png" alt="Heart charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-heart.png" alt="Širdelės pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Star charm — mid right */}
       <div className="float-b" style={{ position: "absolute", right: isMobile ? "1%" : "6%", top: "38%", width: 78, filter: "drop-shadow(0 8px 18px rgba(249,228,160,0.4))", zIndex: 40, animationDelay: "0.9s" }}>
-        <img src="/charm-star.png" alt="Star charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-star.png" alt="Žvaigždės pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* Paw charm — lower right */}
       <div className="float-f" style={{ position: "absolute", right: isMobile ? "2%" : "9%", top: "60%", width: 104, filter: "drop-shadow(0 10px 22px rgba(184,216,244,0.5))", zIndex: 40 }}>
-        <img src="/charm-paw.png" alt="Paw charm" style={{ width: "100%", height: "auto", display: "block" }} />
+        <img src="/charm-paw.png" alt="Lapelės pakabukas" style={{ width: "100%", height: "auto", display: "block" }} />
       </div>
 
       {/* ── HAND-DRAWN ANNOTATIONS ── */}
       <svg style={{ position: "absolute", top: "14%", left: isMobile ? "11%" : "17%", pointerEvents: "none" }} width="130" height="70" viewBox="0 0 130 70" fill="none">
-        <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,22)">made for</text>
-        <text x="4" y="44" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,44)">your pup ♥</text>
+        <text x="4" y="22" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,22)">sukurta</text>
+        <text x="4" y="44" fontFamily="'Caveat',cursive" fontSize="18" fill="#9B948F" transform="rotate(-5,4,44)">tavo šuniui ♥</text>
         <path d="M 80 50 C 90 60, 100 62, 108 70" stroke="#9B948F" strokeWidth="1.4" fill="none" strokeLinecap="round" />
       </svg>
 
@@ -129,7 +129,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           custom={0.1} variants={FADE_UP} initial="hidden" animate="show"
           style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F9E4A0", borderRadius: 100, padding: "6px 18px", fontSize: 13, fontWeight: 500, color: "#7a5010", marginBottom: 24 }}
         >
-          ✦ Made in Lithuania · Waterproof
+          ✦ Pagaminta Lietuvoje · Atsparūs vandeniui
         </motion.div>
 
         {/* Headline */}
@@ -137,7 +137,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           custom={0.2} variants={FADE_UP} initial="hidden" animate="show"
           style={{ fontFamily: "'Luckiest Guy', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 8 }}
         >
-          Collars made<br />for <span style={{ color: "#A8D5A2" }}>them.</span>
+          Antkakliai,<br />skirti <span style={{ color: "#A8D5A2" }}>jiems.</span>
         </motion.h1>
 
         {/* Subtext */}
@@ -145,7 +145,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           custom={0.3} variants={FADE_UP} initial="hidden" animate="show"
           style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 auto 20px" }}
         >
-          Waterproof. Personalised. Swappable charms in five seconds flat.
+          Atsparūs vandeniui. Personalizuoti. Pakabukai keičiami vos per penkias sekundes.
         </motion.p>
 
         {/* CTAs */}
@@ -164,7 +164,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
           >
-            Build your collar →
+            Kurk savo antkaklį →
           </Link>
           <Link
             href="/products/charm-charms"
@@ -172,7 +172,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             onMouseOver={e => (e.currentTarget.style.background = "#D4EDD1")}
             onMouseOut={e => (e.currentTarget.style.background = "rgba(168,213,162,0.1)")}
           >
-            Shop charms
+            Pirkti pakabukus
           </Link>
         </motion.div>
 

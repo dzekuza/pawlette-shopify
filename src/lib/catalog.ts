@@ -25,8 +25,20 @@ export interface ProductDetail {
   charmVariants?: ShopifyCharm[]
 }
 
+function slugifyText (value: string) {
+  return value
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[–—]/g, '-')
+    .replace(/[^a-zA-Z0-9\s-]/g, '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+}
+
 export function slugFromProductName (name: string) {
-  return `collar-${name.replace(' set', '').replace(' Set', '').toLowerCase().replace(/\s+/g, '-')}`
+  return `collar-${slugifyText(name.replace(/\b(set|Set|rinkinys)\b/g, '').trim())}`
 }
 
 export function slugFromCharmId (id: string) {
@@ -105,43 +117,43 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     id: 'charm-charms',
     variantId: first.variantId,
     productType: 'charm',
-    name: 'Charms',
+    name: 'Pakabukai',
     price: '€6',
-    shortDescription: 'Snap-on silicone charms for all PawCharms collars.',
-    longDescription: 'Each charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.',
+    shortDescription: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams.',
+    longDescription: 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.',
     image: images[0] ?? '',
     images,
     accentColor: first.bg,
     tintColor: `${first.bg}33`,
     ctaHref: '/products',
-    ctaLabel: 'Add in configurator',
-    compatibilityNote: 'Compatible with every PawCharms collar set.',
-    tags: ['Charm'],
+    ctaLabel: 'Pridėti konfigūratoriuje',
+    compatibilityNote: 'Suderinama su kiekvienu PawCharms antkaklio rinkiniu.',
+    tags: ['Pakabukas'],
     charmVariants: charms,
   }
 }
 
 function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
   const images = getCharmGallery(charm)
-  const shortDescription = extractPlainText(charm.productDescription) || 'Snap-on charm for all PawCharms collars.'
+  const shortDescription = extractPlainText(charm.productDescription) || 'Prisegamas pakabukas visiems PawCharms antkakliams.'
 
   return {
     slug: slugFromCharmId(charm.id),
     id: `charm-${charm.id}`,
     variantId: charm.variantId,
     productType: 'charm',
-    name: `${charm.title} charm`,
+    name: charm.title,
     price: charm.price,
     shortDescription,
-    longDescription: charm.description || `${charm.title} charm clicks on and off in around five seconds. Collect your favourites and rotate styles every day without tools.`,
+    longDescription: charm.description || `${charm.title} prisisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.`,
     image: images[0] ?? '',
     images,
     accentColor: charm.bg,
     tintColor: `${charm.bg}33`,
     ctaHref: '/products',
-    ctaLabel: 'Add in configurator',
-    compatibilityNote: 'Compatible with every PawCharms collar set.',
-    tags: ['Charm'],
+    ctaLabel: 'Pridėti konfigūratoriuje',
+    compatibilityNote: 'Suderinama su kiekvienu PawCharms antkaklio rinkiniu.',
+    tags: ['Pakabukas'],
     features: charm.features,
     care: charm.care,
     shipping: charm.shipping,
@@ -149,7 +161,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
 }
 
 function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
-  const shortDescription = extractPlainText(collar.description) || `${collar.title} — waterproof silicone collar with snap-on charms.`
+  const shortDescription = extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`
 
   return {
     slug: slugFromProductName(collar.title),
@@ -159,14 +171,14 @@ function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
     name: collar.title,
     price: collar.price,
     shortDescription,
-    longDescription: collar.description || `${collar.title} is a waterproof silicone collar set with five snap-on charms. Designed for daily wear and easy cleaning after rain, beach days, or muddy walks.`,
+    longDescription: collar.description || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
     image: collar.image,
     images: uniqueStrings([collar.image, ...collar.images]),
     accentColor: collar.color,
     tintColor: hexToRgba(collar.color, 0.15),
     ctaHref: '/products',
-    ctaLabel: 'Build your set',
-    compatibilityNote: 'Includes 5 charms. You can swap or add any individual charm at any time.',
+    ctaLabel: 'Kurti savo rinkinį',
+    compatibilityNote: 'Įeina 5 pakabukai. Bet kada galite juos keisti arba papildyti naujais.',
     tags: collar.tags,
     features: collar.features,
     set_includes: collar.set_includes,
@@ -208,7 +220,7 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
 
   const collarHandle = slug.replace(/^collar-/, '')
   const normalize = (s: string) => s.replace(/-collar$/, '')
-  const titleToSlug = (t: string) => t.replace(/ set/gi, '').toLowerCase().replace(/\s+/g, '-')
+  const titleToSlug = (t: string) => slugifyText(t.replace(/\b(set|rinkinys)\b/gi, '').trim())
   const collars = await getCollars()
   const collar = collars.find((c) =>
     c.id === collarHandle ||
@@ -221,7 +233,7 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
   return buildCollarProduct(collar)
 }
 
-export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 3): Promise<ProductDetail[]> {
+export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 4): Promise<ProductDetail[]> {
   const [collars, charms] = await Promise.all([getCollars(), getCharms()])
   const recommendations: ProductDetail[] = []
   const seen = new Set<string>([product.slug])

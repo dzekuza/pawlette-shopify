@@ -18,10 +18,10 @@ export default function CheckoutPage() {
       <LandingNav cartCount={0} onCart={() => {}} />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 16 }}>
         <div style={{ fontSize: 18, color: '#3D3530', fontWeight: 500 }}>
-          Redirecting to checkout…
+          Nukreipiame į atsiskaitymą…
         </div>
         <div style={{ fontSize: 14, color: '#9B948F' }}>
-          You&apos;ll complete your order on Shopify&apos;s secure checkout.
+          Užsakymą užbaigsite saugioje Shopify atsiskaitymo aplinkoje.
         </div>
       </div>
     </div>

@@ -21,21 +21,21 @@ export function CharmGrid() {
         <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <div className="mb-3 font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-bark-muted">
-              The charm collection
+              Pakabukų kolekcija
             </div>
             <h2 className="mb-4 font-display text-[40px] font-normal leading-[1.1] tracking-[-0.02em] text-bark md:text-[48px]">
-              Your dog. Your style.
+              Tavo šuo. Tavo stilius.
             </h2>
             <p className="max-w-[480px] font-sans text-base leading-[1.7] text-bark-light">
-              Each charm clicks on in seconds and comes off just as easily. Collect them all, swap by
-              mood, season, or occasion.
+              Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima.
+              Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
             </p>
           </div>
           <div className="flex shrink-0 flex-col items-start gap-3 md:items-end">
             <button
               className="btn-press cursor-pointer rounded-full border-2 border-transparent bg-sage px-8 py-3.5 font-sans text-[15px] font-medium text-interactive-text transition-colors duration-150 ease-out hover:bg-[#8fc489]"
             >
-              Shop all charms
+              Visi pakabukai
             </button>
             {selectedCharm && (
               <div className="flex items-center gap-3">
@@ -46,8 +46,8 @@ export function CharmGrid() {
                   <img src={selectedCharm.image} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
                 </div>
                 <div>
-                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title} charm</div>
-                  <div className="font-sans text-xs text-bark-muted">€6 · snap-on · waterproof</div>
+                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title}</div>
+                  <div className="font-sans text-xs text-bark-muted">€6 · prisegamas · atsparus vandeniui</div>
                 </div>
               </div>
             )}

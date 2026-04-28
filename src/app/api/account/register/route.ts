@@ -10,14 +10,14 @@ export async function POST(request: Request) {
   const password = String(body.password ?? '');
 
   if (!firstName || !lastName || !email || !password) {
-    return NextResponse.json({ error: 'All fields are required.' }, { status: 400 });
+    return NextResponse.json({ error: 'Visi laukai yra privalomi.' }, { status: 400 });
   }
 
   const result = await registerCustomer({ firstName, lastName, email, password });
 
   if (!result.customer || !result.accessToken) {
     return NextResponse.json(
-      { error: result.errors[0] ?? 'Unable to create your account.' },
+      { error: result.errors[0] ?? 'Nepavyko sukurti paskyros.' },
       { status: 400 }
     );
   }

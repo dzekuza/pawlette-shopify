@@ -23,7 +23,7 @@ export async function PATCH(request: Request) {
   const customerAccessToken = await getCustomerSessionToken();
 
   if (!customerAccessToken) {
-    return NextResponse.json({ error: 'You must be signed in.' }, { status: 401 });
+    return NextResponse.json({ error: 'Turite būti prisijungę.' }, { status: 401 });
   }
 
   const body = await request.json();
@@ -37,7 +37,7 @@ export async function PATCH(request: Request) {
 
   if (result.errors.length > 0 || !result.customer) {
     return NextResponse.json(
-      { error: result.errors[0] ?? 'Unable to update your profile.' },
+      { error: result.errors[0] ?? 'Nepavyko atnaujinti profilio.' },
       { status: 400 }
     );
   }

@@ -6,7 +6,7 @@ interface ProductDetailMediaProps {
 }
 
 export function ProductDetailMedia ({ isMobile, product }: ProductDetailMediaProps) {
-  const productLabel = product.productType === 'charm' ? 'Single charm' : 'Collar set'
+  const productLabel = product.productType === 'charm' ? 'Vienas pakabukas' : 'Antkaklio rinkinys'
   const imageAspectRatio = product.productType === 'charm'
     ? '1 / 1'
     : (isMobile ? '1 / 1' : '4 / 3')

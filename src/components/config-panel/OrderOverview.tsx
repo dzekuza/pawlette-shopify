@@ -46,7 +46,7 @@ export function OrderOverview ({
           color: textMuted
         }}
       >
-        Order overview
+        Užsakymo suvestinė
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
@@ -60,20 +60,20 @@ export function OrderOverview ({
               display: 'inline-block'
             }}
           />
-          Collar
+          Antkaklis
         </span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>{collar?.title ?? ''}</span>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
-        <span>Charms</span>
+        <span>Pakabukai</span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>
-          {selectedCharmCount} charm{selectedCharmCount !== 1 ? 's' : ''}
+          {selectedCharmCount} pakab.
         </span>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
-        <span>Size</span>
+        <span>Dydis</span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>
           {size ? size.split(' — ')[0] : '—'}
         </span>
@@ -91,7 +91,7 @@ export function OrderOverview ({
           color: textPrimary
         }}
       >
-        <span>Total</span>
+        <span>Iš viso</span>
         <span>€28</span>
       </div>
     </div>

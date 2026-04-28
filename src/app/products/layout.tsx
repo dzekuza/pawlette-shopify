@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Shop Dog Collars & Charms | PawCharms',
-  description: 'Browse all PawCharms collar sets and swap charms. Waterproof silicone collars in 4 colours — Sage, Sky, Blossom, and Honey. Mix and match 12 charm designs.',
+  title: 'Šunų antkakliai ir pakabukai',
+  description: 'Peržiūrėkite visus PawCharms antkaklių rinkinius ir keičiamus pakabukus. Vandeniui atsparūs silikoniniai antkakliai 4 spalvų deriniuose.',
   openGraph: {
-    title: 'Shop Dog Collars & Charms | PawCharms',
-    description: 'Waterproof silicone dog collars in 4 colours with 12 swap charm designs. Made in Vilnius, Lithuania.',
+    title: 'Šunų antkakliai ir pakabukai | PawCharms',
+    description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
     type: 'website',
     url: 'https://pawcharms.lt/products',
     siteName: 'PawCharms',
@@ -13,16 +13,16 @@ export const metadata: Metadata = {
 };
 
 const collars = [
-  { id: 1, name: 'Blossom set', price: '28', color: 'Pink silicone dog collar with swap charms' },
-  { id: 2, name: 'Sage set',    price: '28', color: 'Sage green silicone dog collar with swap charms' },
-  { id: 3, name: 'Sky set',     price: '28', color: 'Sky blue silicone dog collar with swap charms' },
-  { id: 4, name: 'Honey set',   price: '28', color: 'Honey yellow silicone dog collar with swap charms' },
+  { id: 1, name: 'Blossom rinkinys', price: '28', color: 'Rožinis silikoninis šuns antkaklis su keičiamais pakabukais' },
+  { id: 2, name: 'Sage rinkinys',    price: '28', color: 'Šalavijo žalios spalvos silikoninis šuns antkaklis su keičiamais pakabukais' },
+  { id: 3, name: 'Sky rinkinys',     price: '28', color: 'Dangaus mėlynumo silikoninis šuns antkaklis su keičiamais pakabukais' },
+  { id: 4, name: 'Honey rinkinys',   price: '28', color: 'Medaus geltonumo silikoninis šuns antkaklis su keičiamais pakabukais' },
 ];
 
 const productListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  name: 'PawCharms Dog Collar Sets',
+  name: 'PawCharms šunų antkaklių rinkiniai',
   url: 'https://pawcharms.lt/products',
   numberOfItems: collars.length,
   itemListElement: collars.map((c, i) => ({

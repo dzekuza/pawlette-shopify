@@ -3,9 +3,9 @@
 export type ProductFilter = 'all' | 'collars' | 'charms'
 
 const FILTER_OPTIONS: Array<{ key: ProductFilter, label: string }> = [
-  { key: 'all', label: 'All products' },
-  { key: 'collars', label: 'Collar sets' },
-  { key: 'charms', label: 'Charms' }
+  { key: 'all', label: 'Visi produktai' },
+  { key: 'collars', label: 'Antkaklių rinkiniai' },
+  { key: 'charms', label: 'Pakabukai' }
 ]
 
 interface ProductsFilterTabsProps {

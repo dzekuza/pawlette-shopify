@@ -6,28 +6,28 @@ import type { AccordionItem } from '@/components/shared/Accordion';
 const FAQS: AccordionItem[] = [
   {
     id: 'waterproof',
-    title: 'Are PawCharms collars waterproof?',
-    content: 'Yes. All Žavesys collars are made from food-grade silicone — fully waterproof and safe for swimming, rain, and muddy walks. The material does not absorb odours or stains.',
+    title: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
+    content: 'Taip. Visi Žavesys antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
     id: 'charms',
-    title: 'How do the swap charms work?',
-    content: 'Each charm uses a snap connector that clicks on and off in around 5 seconds — no tools, no fiddling. You can mix and match all 12 charm designs freely between collars.',
+    title: 'Kaip veikia keičiami pakabukai?',
+    content: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų tarp skirtingų antkaklių.',
   },
   {
     id: 'size',
-    title: 'How do I choose the right collar size?',
-    content: "Measure around the widest part of your dog's neck and add 2–3 cm for comfort. XS fits 20–28 cm, S fits 28–36 cm, M fits 36–44 cm, and L fits 44–54 cm.",
+    title: 'Kaip pasirinkti tinkamą antkaklio dydį?',
+    content: 'Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm.',
   },
   {
     id: 'engrave',
-    title: "Can I engrave my dog's name on the collar?",
-    content: "Yes — personalised engraving is available at checkout. You can add your dog's name, a short message, or a phone number for safety.",
+    title: 'Ar galiu išgraviruoti savo šuns vardą ant antkaklio?',
+    content: 'Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti savo šuns vardą, trumpą žinutę arba telefono numerį saugumui.',
   },
   {
     id: 'origin',
-    title: 'Where are PawCharms collars made?',
-    content: "Every collar is designed and handcrafted in Vilnius, Lithuania. We're a small team and each order is made with care.",
+    title: 'Kur gaminami PawCharms antkakliai?',
+    content: 'Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame nedidelė komanda, todėl kiekvienas užsakymas ruošiamas itin kruopščiai.',
   },
 ];
 
@@ -36,7 +36,7 @@ export function FAQ() {
     <section className="bg-cream px-6 py-16 md:px-12 md:py-24">
       <div className="max-w-[720px] mx-auto">
         <h2 className="font-sans text-[28px] md:text-[36px] font-medium text-bark tracking-tight mb-12 mt-0">
-          Common questions
+          Dažniausi klausimai
         </h2>
         <Accordion items={FAQS} />
       </div>

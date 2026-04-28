@@ -20,12 +20,12 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
 
   if (!product) {
     return {
-      title: 'Product not found | PawCharms'
+      title: 'Prekė nerasta'
     }
   }
 
   return {
-    title: `${product.name} | PawCharms`,
+    title: product.name,
     description: product.shortDescription,
     openGraph: {
       title: `${product.name} | PawCharms`,

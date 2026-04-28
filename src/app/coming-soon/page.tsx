@@ -194,7 +194,7 @@ export default function ComingSoonPage() {
                 borderRadius: 999,
               }}
             >
-              🐶 Something special is coming
+              🐶 Netrukus startuojame
             </span>
           </div>
 
@@ -210,7 +210,7 @@ export default function ComingSoonPage() {
               margin: '0 0 12px',
             }}
           >
-            Pawlette
+            PawCharms
           </h1>
 
           {/* Accent line */}
@@ -225,7 +225,7 @@ export default function ComingSoonPage() {
               filter: 'drop-shadow(0 1px 0 rgba(61,53,48,0.12))',
             }}
           >
-            is being built with love ♡
+            kuriamas su meile ♡
           </p>
 
           {/* Description */}
@@ -240,8 +240,8 @@ export default function ComingSoonPage() {
               maxWidth: 420,
             }}
           >
-            Custom dog collars and silicone charms — designed for dogs who refuse to blend in.
-            We&apos;re putting the finishing touches on something you&apos;ll love.
+            Personalizuoti šunų antkakliai ir silikoniniai pakabukai šunims, kurie nusipelno daugiau nei įprasto aksesuaro.
+            Baigiame paskutinius akcentus ir netrukus pakviesime jus vidun.
           </p>
 
           {/* Email form */}
@@ -265,7 +265,7 @@ export default function ComingSoonPage() {
               opacity: 0.5,
               marginBottom: 2,
             }}>
-              Be first to know when we launch
+              Sužinokite pirmieji
             </p>
 
             <div style={{ display: 'flex', gap: 8, flexDirection: isMobile ? 'column' : 'row' }}>
@@ -274,7 +274,7 @@ export default function ComingSoonPage() {
                 type="email"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); setStatus('idle'); }}
-                placeholder="your@email.com"
+                placeholder="jusu@elpastas.lt"
                 disabled={status === 'loading' || status === 'success'}
                 className={status === 'error' ? 'input-shake' : ''}
                 style={{
@@ -315,29 +315,27 @@ export default function ComingSoonPage() {
                   flexShrink: 0,
                 }}
               >
-                {status === 'loading' ? 'Saving…' : status === 'success' ? '✓ You\'re on the list!' : 'Notify me →'}
+                {status === 'loading' ? 'Saugome…' : status === 'success' ? '✓ Jūs sąraše!' : 'Praneškite man →'}
               </button>
             </div>
 
             {status === 'error' && (
               <p style={{ fontSize: 13, color: '#e05c5c', margin: 0, textAlign: 'left', paddingLeft: 4 }}>
-                Please enter a valid email address.
+                Įveskite galiojantį el. pašto adresą.
               </p>
             )}
             {status === 'success' && (
               <p style={{ fontSize: 13, color: '#4caf7d', margin: 0, textAlign: 'left', paddingLeft: 4 }}>
-                Amazing! We&apos;ll send you an exclusive launch discount. 🎉
+                Puiku! Atsiųsime jums žinutę, kai tik startuosime. 🎉
               </p>
             )}
           </form>
 
           {/* Social links */}
           <div className="animate-in-5" style={{ marginTop: 40, display: 'flex', gap: 16, justifyContent: 'center', alignItems: 'center' }}>
-            <span style={{ fontSize: 13, color: 'var(--color-bark)', opacity: 0.4 }}>Follow along</span>
+            <span style={{ fontSize: 13, color: 'var(--color-bark)', opacity: 0.4 }}>Turite klausimų?</span>
             <a
-              href="https://instagram.com/pawlette.lt"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:hello@pawcharms.lt"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -362,9 +360,9 @@ export default function ComingSoonPage() {
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                <path d="M4 6h16v12H4z"/><path d="m22 7-10 7L2 7"/>
               </svg>
-              @pawlette.lt
+              hello@pawcharms.lt
             </a>
           </div>
 
@@ -379,7 +377,7 @@ export default function ComingSoonPage() {
               fontFamily: "'DM Sans', sans-serif",
             }}
           >
-            © 2026 Pawlette · Vilnius, Lithuania
+            © 2026 PawCharms · Vilnius, Lietuva
           </p>
         </div>
       </main>

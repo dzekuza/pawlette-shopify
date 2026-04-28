@@ -1,4 +1,4 @@
-const STEPS = ['Colour', 'Charms', 'Size'] as const
+const STEPS = ['Spalva', 'Pakabukai', 'Dydis'] as const
 
 interface ConfigPanelStepTabsProps {
   isDark: boolean

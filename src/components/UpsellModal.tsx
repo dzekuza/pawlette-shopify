@@ -28,19 +28,18 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
           ×
         </button>
 
-        {/* Success indicator */}
         <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: '#A8D5A2', fontSize: 14, color: '#2a5a25' }}>✓</div>
           <div>
-            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar?.title ?? ''} collar added to cart</div>
-            <div style={{ fontSize: 12, color: '#5a9a55' }}>Your 5 included charms are ready to pick.</div>
+            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar?.title ?? ''} pridėtas į krepšelį</div>
+            <div style={{ fontSize: 12, color: '#5a9a55' }}>Jūsų 5 įtraukti pakabukai jau paruošti pasirinkimui.</div>
           </div>
         </div>
 
         <div className="text-center mb-6">
-          <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>Complete your set</div>
-          <h2 className="text-bark mb-2" style={{ fontSize: 22, lineHeight: 1.2 }}>Add extra charms for €6 each.</h2>
-          <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>Swap by mood, season, or occasion. Most owners buy 2–3 extras.</p>
+          <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>Užbaikite savo rinkinį</div>
+          <h2 className="text-bark mb-2" style={{ fontSize: 22, lineHeight: 1.2 }}>Pridėkite papildomų pakabukų po €6.</h2>
+          <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>Keiskite pagal nuotaiką, sezoną ar progą. Dauguma šeimininkų renkasi dar 2–3 papildomus.</p>
         </div>
 
         <div className="grid grid-cols-4 gap-2.5 mb-6 overflow-y-auto" style={{ maxHeight: 200 }}>
@@ -74,14 +73,14 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
             className="flex-1 font-medium cursor-pointer rounded-full font-sans text-bark-light bg-white"
             style={{ fontSize: 14, padding: '13px', border: '2px solid #E8E3DC' }}
           >
-            No thanks
+            Ne, ačiū
           </button>
           <button
             onClick={() => { onAddCharms(picked); onClose(); }}
             className="flex-[2] font-medium cursor-pointer rounded-full border-none font-sans"
             style={{ fontSize: 14, padding: '13px', background: '#A8D5A2', color: '#2a5a25' }}
           >
-            {picked.length > 0 ? `Add ${picked.length} charm${picked.length > 1 ? 's' : ''} — +€${picked.length * 6}` : 'Go to cart →'}
+            {picked.length > 0 ? `Pridėti ${picked.length} pakab. — +€${picked.length * 6}` : 'Eiti į krepšelį →'}
           </button>
         </div>
       </div>

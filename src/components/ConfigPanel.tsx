@@ -10,11 +10,11 @@ import { SizeStep } from './config-panel/SizeStep'
 import { CollarStage } from '@/components/CollarStage'
 
 const DEFAULT_ACCORDION = {
-  description: 'Waterproof silicone collar with snap-on charms. Lightweight, adjustable fit with safe-release buckle. Dirt and odor resistant — rinse and go.',
-  features: 'Waterproof silicone construction, lightweight adjustable fit, safe-release buckle, dirt and odor resistance.',
-  set_includes: 'Base collar in your chosen colour and size. Five interchangeable snap-on charms. Adjustable safe-release buckle. Linen storage pouch.',
-  care: 'Rinse after every swim or muddy walk. Air dry flat — no tumble dryers. Wipe charms with a damp cloth, then air dry.',
-  shipping: 'Free shipping on orders over €40. Delivered in 2–4 business days. Returns accepted within 30 days of purchase in original condition.',
+  description: 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas, su saugiu atsegamu užsegimu. Atsparus purvui ir kvapams, tad tereikia nuplauti.',
+  features: 'Vandeniui atsparus silikonas, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams.',
+  set_includes: 'Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojamas saugus užsegimas. Lininis laikymo maišelis.',
+  care: 'Po kiekvieno maudymosi ar purvino pasivaikščiojimo nuplaukite. Džiovinkite paguldę, nedėkite į džiovyklę. Pakabukus valykite drėgna šluoste ir leiskite išdžiūti.',
+  shipping: 'Nemokamas pristatymas užsakymams nuo €40. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės.',
 }
 
 interface ConfigPanelProps {
@@ -60,11 +60,11 @@ export function ConfigPanel({
   const noop = () => {}
 
   const accordionItems = [
-    { id: 'description', title: 'Description', content: collar?.description ?? DEFAULT_ACCORDION.description },
-    { id: 'features',    title: 'Product Features', content: collar?.features ?? DEFAULT_ACCORDION.features },
-    { id: 'includes',    title: 'Set Includes', content: collar?.set_includes ?? DEFAULT_ACCORDION.set_includes },
-    { id: 'care',        title: 'Care', content: collar?.care ?? DEFAULT_ACCORDION.care },
-    { id: 'shipping',    title: 'Shipping & Returns', content: collar?.shipping ?? DEFAULT_ACCORDION.shipping },
+    { id: 'description', title: 'Aprašymas', content: collar?.description ?? DEFAULT_ACCORDION.description },
+    { id: 'features',    title: 'Produkto savybės', content: collar?.features ?? DEFAULT_ACCORDION.features },
+    { id: 'includes',    title: 'Į rinkinį įeina', content: collar?.set_includes ?? DEFAULT_ACCORDION.set_includes },
+    { id: 'care',        title: 'Priežiūra', content: collar?.care ?? DEFAULT_ACCORDION.care },
+    { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping ?? DEFAULT_ACCORDION.shipping },
   ]
 
   const collarPrice = collar ? parseFloat(collar.price.replace(/[^0-9.]/g, '')) : 28
@@ -97,9 +97,9 @@ export function ConfigPanel({
       {/* ── Charms button ── */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Charms</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Pakabukai</span>
           {selectedCount > 0 && (
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: textSecondary }}>{selectedCount} selected</span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: textSecondary }}>{selectedCount} pasirinkta</span>
           )}
         </div>
         <button
@@ -114,7 +114,7 @@ export function ConfigPanel({
           onMouseEnter={e => { e.currentTarget.style.borderColor = '#A8D5A2' }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = borderColor }}
         >
-          <span>{selectedCount > 0 ? `${selectedCount} charm${selectedCount > 1 ? 's' : ''} added` : 'Add charms'}</span>
+          <span>{selectedCount > 0 ? `${selectedCount} pakab. pridėta` : 'Pridėti pakabukų'}</span>
           <span style={{ fontSize: 20, lineHeight: 1, color: textMuted }}>+</span>
         </button>
       </div>
@@ -158,7 +158,7 @@ export function ConfigPanel({
           onMouseDown={e => { e.currentTarget.style.transform = 'translateY(1px)' }}
           onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
         >
-          Add to cart — €{totalPrice}
+          Į krepšelį — €{totalPrice}
         </button>
         <p
           className="text-center mt-2.5 mb-0 font-sans"
@@ -168,7 +168,7 @@ export function ConfigPanel({
             letterSpacing: '0.02em',
           }}
         >
-          Free shipping over €50 · Made in Lithuania
+          Nemokamas pristatymas nuo €50 · Pagaminta Lietuvoje
         </p>
       </div>
 
@@ -201,11 +201,11 @@ export function ConfigPanel({
           }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0', flexShrink: 0 }}>
-              <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 17, color: '#3D3530' }}>Add charms</span>
+              <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 17, color: '#3D3530' }}>Pridėti pakabukų</span>
               <button
                 onClick={() => setShowCharmsModal(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: '#9B948F', lineHeight: 1, padding: '0 4px' }}
-                aria-label="Close"
+                aria-label="Uždaryti"
               >
                 ×
               </button>
@@ -241,7 +241,7 @@ export function ConfigPanel({
                 onClick={() => setShowCharmsModal(false)}
                 style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 15, background: '#A8D5A2', color: '#2a5a25', letterSpacing: '0.01em' }}
               >
-                Done{selectedCount > 0 ? ` — ${selectedCount} charm${selectedCount > 1 ? 's' : ''}` : ''}
+                Baigta{selectedCount > 0 ? ` — ${selectedCount} pakab.` : ''}
               </button>
             </div>
           </div>

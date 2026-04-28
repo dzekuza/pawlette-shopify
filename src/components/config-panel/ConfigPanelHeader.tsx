@@ -21,7 +21,7 @@ export function ConfigPanelHeader ({
           marginBottom: 6
         }}
       >
-        Collar set
+        Antkaklio rinkinys
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <h1
@@ -34,7 +34,7 @@ export function ConfigPanelHeader ({
             lineHeight: 1.15
           }}
         >
-          Build your collar
+          Susikurkite antkaklį
         </h1>
         <span style={{ fontSize: 20, fontWeight: 500, color: textPrimary }}>€28</span>
       </div>

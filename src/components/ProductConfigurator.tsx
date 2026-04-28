@@ -274,7 +274,7 @@ export function ProductConfigurator () {
           {/* Heading block */}
           <div className="mb-8">
             <p className="font-sans font-semibold uppercase tracking-widest text-bark-muted m-0 mb-2" style={{ fontSize: 11 }}>
-              Collar Set
+              Antkaklio rinkinys
             </p>
             <h1
               className="text-bark m-0 mb-2.5"
@@ -284,14 +284,14 @@ export function ProductConfigurator () {
                 letterSpacing: '0.02em',
               }}
             >
-              Build your collar
+              Susikurkite antkaklį
             </h1>
             <div className="flex items-baseline gap-2.5">
               <span className="font-bold text-bark" style={{ fontSize: 28, letterSpacing: '-0.01em' }}>
                 €28
               </span>
               <span className="text-bark-muted" style={{ fontSize: 13 }}>
-                free shipping over €50
+                nemokamas pristatymas nuo €50
               </span>
             </div>
           </div>

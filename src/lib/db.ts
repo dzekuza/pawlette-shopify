@@ -30,7 +30,7 @@ export async function getLandingCollars(): Promise<LandingCollar[]> {
         collarColor: c.color,
         bg: c.bgTint,
         image: c.image,
-        desc: 'Waterproof silicone collar with snap-on charms.',
+        desc: 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.',
         charms: [
           { bg: '#A8D5A2', e: '🌿' },
           { bg: '#B8D8F4', e: '⭐' },

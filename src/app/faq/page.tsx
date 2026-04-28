@@ -10,66 +10,66 @@ import type { AccordionItem } from '@/components/shared/Accordion';
 const PRODUCT_FAQS: AccordionItem[] = [
   {
     id: 'waterproof',
-    title: 'Are Pawlette collars waterproof?',
+    title: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
     content:
-      'Yes. All Pawlette collars are made from food-grade silicone — fully waterproof and safe for swimming, rain, and muddy walks. The material does not absorb odours or stains, so a quick rinse is all you need after a wet adventure.',
+      'Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
     id: 'charms',
-    title: 'How do the swap charms work?',
+    title: 'Kaip veikia keičiami pakabukai?',
     content:
-      'Each charm uses a snap connector that clicks on and off in around 5 seconds — no tools, no fiddling. You can mix and match all 12 charm designs freely between any Pawlette collar.',
+      'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawCharms antkaklio.',
   },
   {
     id: 'size',
-    title: 'How do I choose the right collar size?',
+    title: 'Kaip pasirinkti tinkamą antkaklio dydį?',
     content:
-      "Measure around the widest part of your dog's neck and add 2–3 cm for comfort. XS fits 20–28 cm, S fits 28–36 cm, M fits 36–44 cm, and L fits 44–54 cm. If your dog is between sizes, size up.",
+      'Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
   },
   {
     id: 'engrave',
-    title: "Can I engrave my dog's name on the collar?",
+    title: 'Ar galiu išgraviruoti savo šuns vardą ant antkaklio?',
     content:
-      "Yes — personalised engraving is available at checkout. You can add your dog's name, a short message, or a phone number for safety. Engraving is laser-etched directly into the silicone for a clean, permanent finish.",
+      'Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti vardą, trumpą žinutę arba telefono numerį saugumui. Graviravimas lazeriu atliekamas tiesiai silikone.',
   },
   {
     id: 'origin',
-    title: 'Where are Pawlette collars made?',
+    title: 'Kur gaminami PawCharms antkakliai?',
     content:
-      "Every collar is designed and handcrafted in Vilnius, Lithuania. We're a small team and each order is made with care — not mass-produced in a factory.",
+      'Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame maža komanda, todėl kiekvienas užsakymas ruošiamas kruopščiai.',
   },
   {
     id: 'durability',
-    title: 'How durable is the silicone material?',
+    title: 'Kiek patvari silikoninė medžiaga?',
     content:
-      'Pawlette collars are built to last. Food-grade silicone is highly resistant to UV, saltwater, chlorine, and everyday wear. The collar will not crack, fade, or fray with regular use. We back every collar with a 12-month durability guarantee.',
+      'PawCharms antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
   },
   {
     id: 'charm-compatibility',
-    title: 'Are charms compatible with all collar sizes?',
+    title: 'Ar pakabukai tinka visiems antkaklių dydžiams?',
     content:
-      'Yes — all Pawlette charms use a universal snap connector that works across every collar size (XS through L). Any charm you buy today will fit any collar you buy in the future.',
+      'Taip — visi PawCharms pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo XS iki L.',
   },
 ];
 
 const ORDERS_FAQS: AccordionItem[] = [
   {
     id: 'shipping-time',
-    title: 'How long does shipping take?',
+    title: 'Kiek laiko trunka pristatymas?',
     content:
-      'Standard delivery within Lithuania takes 1–3 business days. EU shipping takes 3–7 business days. Orders are dispatched the next business day after payment is confirmed. You will receive a tracking link by email as soon as your parcel is on its way.',
+      'Standartinis pristatymas Lietuvoje trunka 1–3 darbo dienas. Į ES šalis siuntos paprastai keliauja 3–7 darbo dienas. Užsakymai išsiunčiami kitą darbo dieną po apmokėjimo.',
   },
   {
     id: 'returns',
-    title: 'What is your returns policy?',
+    title: 'Kokia jūsų grąžinimo politika?',
     content:
-      'We accept returns within 30 days of delivery for unused, unaltered items in their original packaging. Personalised (engraved) orders cannot be returned unless the item is faulty. To start a return, email us at hello@pawlette.lt with your order number.',
+      'Grąžinimus priimame per 30 dienų nuo pristatymo, jei prekė nenaudota ir originalioje pakuotėje. Personalizuoti užsakymai negrąžinami, nebent prekė brokuota.',
   },
   {
     id: 'gift-wrapping',
-    title: 'Do you offer gift wrapping?',
+    title: 'Ar siūlote dovanų pakavimą?',
     content:
-      'Yes! Select "Gift wrapping" at checkout and we will pack your order in our signature kraft box with a ribbon and a handwritten note card. You can add a personal message during checkout at no extra charge. Gift wrapping costs €2.50.',
+      'Taip. Pasirinkite dovanų pakavimą atsiskaitymo metu, ir užsakymą supakuosime į mūsų firminę dėžutę su juostele bei ranka rašyta kortele.',
   },
 ];
 
@@ -95,9 +95,9 @@ export default function FaqPage() {
           {/* Heading */}
           <h1
             className="text-[48px] md:text-[72px] font-normal leading-[1.05] mb-5"
-            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em' }}
+            style={{ color: 'var(--color-bark)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
           >
-            Got questions?
+            Turite klausimų?
           </h1>
 
           {/* Subtext */}
@@ -105,14 +105,14 @@ export default function FaqPage() {
             className="text-[16px] md:text-[18px] opacity-65 leading-relaxed m-0"
             style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
           >
-            Everything you need to know about Pawlette collars, charms, and
-            orders. Can&apos;t find an answer?{' '}
+            Viskas, ką verta žinoti apie PawCharms antkaklius, pakabukus ir
+            užsakymus. Neradote atsakymo?{' '}
             <a
-              href="mailto:hello@pawlette.lt"
+              href="mailto:hello@pawcharms.lt"
               className="underline underline-offset-[3px]"
               style={{ color: 'var(--color-bark)' }}
             >
-              Drop us a message.
+              Parašykite mums.
             </a>
           </p>
         </div>
@@ -123,13 +123,15 @@ export default function FaqPage() {
         {/* Single column on mobile, two columns on desktop */}
         <div className="block md:grid md:grid-cols-2 md:gap-16 md:items-start">
           <CategoryBlock
-            title="Product"
+            id="products"
+            title="Produktai"
             accent="var(--color-sage)"
             items={PRODUCT_FAQS}
           />
           <div className="h-12 md:hidden" />
           <CategoryBlock
-            title="Orders &amp; Shipping"
+            id="orders"
+            title="Užsakymai ir pristatymas"
             accent="var(--color-sage)"
             items={ORDERS_FAQS}
           />
@@ -145,20 +147,20 @@ export default function FaqPage() {
           className="text-[22px] md:text-[28px] mb-2"
           style={{ color: 'var(--color-sage)', fontFamily: "'Caveat', cursive", letterSpacing: '0.01em' }}
         >
-          Still not sure?
+          Dar abejojate?
         </p>
         <h2
           className="font-normal mb-6"
-          style={{ color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 44px)', letterSpacing: '0.01em' }}
+          style={{ color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 44px)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
         >
-          We&apos;re happy to help.
+          Mielai padėsime.
         </h2>
         <a
-          href="mailto:hello@pawlette.lt"
+          href="mailto:hello@pawcharms.lt"
           className="inline-block font-bold text-[15px] tracking-[0.04em] uppercase no-underline px-8 py-[14px] rounded-full"
           style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
         >
-          Email us
+          Parašykite el. paštu
         </a>
       </section>
 
@@ -170,18 +172,19 @@ export default function FaqPage() {
 /* Internal helper */
 
 interface CategoryBlockProps {
+  id: string;
   title: string;
   accent: string;
   items: AccordionItem[];
 }
 
-function CategoryBlock({ title, accent, items }: CategoryBlockProps) {
+function CategoryBlock({ id, title, accent, items }: CategoryBlockProps) {
   return (
-    <div>
+    <div id={id}>
       <div className="mb-8">
         <h2
           className="text-[22px] md:text-[26px] font-normal mb-2"
-          style={{ color: 'var(--color-bark)', letterSpacing: '0.01em' }}
+          style={{ color: 'var(--color-bark)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
         >
           {title}
         </h2>

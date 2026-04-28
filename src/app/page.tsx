@@ -7,61 +7,61 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Are PawCharms collars waterproof?',
+      name: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Yes. All Žavesys collars are made from food-grade silicone — fully waterproof and safe for swimming, rain, and muddy walks. The material does not absorb odours or stains.',
+        text: 'Taip. Visi Žavesys antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How do the swap charms work?',
+      name: 'Kaip veikia keičiami pakabukai?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Each charm uses a snap connector that clicks on and off in around 5 seconds — no tools, no fiddling. You can mix and match all 12 charm designs freely between collars.',
+        text: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų tarp skirtingų antkaklių.',
       },
     },
     {
       '@type': 'Question',
-      name: 'How do I choose the right collar size?',
+      name: 'Kaip pasirinkti tinkamą antkaklio dydį?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Measure around the widest part of your dog's neck and add 2–3 cm for comfort. XS fits 20–28 cm, S fits 28–36 cm, M fits 36–44 cm, and L fits 44–54 cm.",
+        text: 'Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm.',
       },
     },
     {
       '@type': 'Question',
-      name: "Can I engrave my dog's name on the collar?",
+      name: 'Ar galiu išgraviruoti savo šuns vardą ant antkaklio?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Yes — personalised engraving is available at checkout. You can add your dog's name, a short message, or a phone number for safety.",
+        text: 'Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti savo šuns vardą, trumpą žinutę arba telefono numerį saugumui.',
       },
     },
     {
       '@type': 'Question',
-      name: 'Where are PawCharms collars made?',
+      name: 'Kur gaminami PawCharms antkakliai?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: "Every collar is designed and handcrafted in Vilnius, Lithuania. We're a small team and each order is made with care.",
+        text: 'Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame nedidelė komanda, todėl kiekvienas užsakymas ruošiamas itin kruopščiai.',
       },
     },
   ],
 };
 
 export const metadata: Metadata = {
-  title: 'PawCharms — Handcrafted Dog Collars with Swap Charms | Made in Vilnius',
-  description: 'Waterproof, customisable dog collars with 5-second swap charms. Choose your colour, add charms, engrave your dog\'s name. Free shipping over €50. Ships from Vilnius, Lithuania.',
+  title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais | Pagaminta Vilniuje',
+  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Rinkitės spalvą, pridėkite pakabukus, išgraviruokite vardą. Nemokamas pristatymas nuo 50 €.',
   openGraph: {
-    title: 'PawCharms — Handcrafted Dog Collars with Swap Charms',
-    description: 'Waterproof dog collars with 5-second swap charms. Mix colours, add charms, engrave a name. Made in Lithuania.',
+    title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
+    description: 'Vandeniui atsparūs šunų antkakliai su per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.',
     type: 'website',
     url: 'https://pawcharms.lt',
     siteName: 'PawCharms',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PawCharms — Handcrafted Dog Collars with Swap Charms',
-    description: 'Waterproof dog collars with 5-second swap charms. Made in Vilnius, Lithuania.',
+    title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
+    description: 'Vandeniui atsparūs šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   },
 };
 

@@ -1,10 +1,10 @@
 import { TrustBadges } from '@/components/TrustBadges'
 
 const MOBILE_FEATURES = [
-  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_green_drop_shape_with_a_subtle_curve_on_qVGIeFtL Background Removed.png', text: 'Water-proof' },
-  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_simple_circular_graphic_depicts_a_clock_face_8DikilGN Background Removed.png', text: 'Easy to use' },
-  { iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_flat_design_style_a_light_green_heart_shape_mhu_5XWt Background Removed.png', text: 'Eco-friendly' },
-  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png', text: 'Free returns' }
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_green_drop_shape_with_a_subtle_curve_on_qVGIeFtL Background Removed.png', text: 'Atsparu vandeniui' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_simple_circular_graphic_depicts_a_clock_face_8DikilGN Background Removed.png', text: 'Paprasta naudoti' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_flat_design_style_a_light_green_heart_shape_mhu_5XWt Background Removed.png', text: 'Draugiška aplinkai' },
+  { iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png', text: 'Nemokamas grąžinimas' }
 ]
 
 interface ConfigPanelFeaturesProps {

@@ -10,28 +10,28 @@ interface ProductInfoTabsProps {
 const ACCORDION_ITEMS = [
   {
     id: 'description',
-    title: 'Description',
-    content: 'Ready for any adventure, our Waterproof Dog Collar & Leash Set combines durability, comfort, and convenience. The lightweight, adjustable collar is dirt- and odor-resistant, easy to clean, and features a safe-release buckle. Personalize it with our silicone dog charms for a custom touch.',
+    title: 'Aprašymas',
+    content: 'Pasiruošęs bet kokiam nuotykiui, mūsų vandeniui atsparus šuns antkaklio ir pavadėlio rinkinys sujungia patvarumą, patogumą ir praktiškumą. Lengvas reguliuojamas antkaklis yra atsparus purvui ir kvapams, lengvai valomas ir turi saugų atsegamą užsegimą. Suteikite jam asmeniškumo su mūsų silikoniniais šunų pakabukais.',
   },
   {
     id: 'features',
-    title: 'Product Features',
-    content: 'Waterproof collar and leash materials, lightweight adjustable fit, safe-release buckle, dirt and odor resistance, easy-clip leash adjustment, padded handle, and built-in waste bag holder.',
+    title: 'Produkto savybės',
+    content: 'Vandeniui atsparios antkaklio ir pavadėlio medžiagos, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams, lengvas pavadėlio reguliavimas, paminkštinta rankena ir integruotas maišelių laikiklis.',
   },
   {
     id: 'includes',
-    title: 'Set Includes',
-    content: '1 waterproof adjustable collar, 1 waterproof 5ft leash, and compatibility with silicone snap-on charms for personalization.',
+    title: 'Į rinkinį įeina',
+    content: '1 vandeniui atsparus reguliuojamas antkaklis, 1 vandeniui atsparus 1,5 m pavadėlis ir suderinamumas su silikoniniais prisegamais pakabukais personalizavimui.',
   },
   {
     id: 'care',
-    title: 'Care',
-    content: 'Rinse with water after muddy or beach walks and wipe dry with a soft cloth. Air dry flat. Avoid direct high heat to preserve shape and finish.',
+    title: 'Priežiūra',
+    content: 'Po purvinų ar paplūdimio pasivaikščiojimų nuplaukite vandeniu ir nusausinkite minkšta šluoste. Džiovinkite paguldę. Venkite tiesioginės aukštos temperatūros, kad išliktų forma ir apdaila.',
   },
   {
     id: 'shipping',
-    title: 'Shipping & Returns',
-    content: 'Fast shipping across Lithuania and EU. Free shipping on qualifying orders and easy returns within the return window if unused and in original condition.',
+    title: 'Pristatymas ir grąžinimas',
+    content: 'Greitas pristatymas visoje Lietuvoje ir ES. Nemokamas pristatymas tinkamiems užsakymams ir paprastas grąžinimas per nustatytą terminą, jei prekė nenaudota ir originalios būklės.',
   },
 ]
 

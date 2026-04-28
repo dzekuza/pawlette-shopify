@@ -12,9 +12,9 @@ export function Header() {
     'flex h-14 w-full items-center justify-between px-4 text-foreground md:h-12 md:transition-all md:ease-out'
 
   const links = [
-    { label: 'Features', href: '#' },
-    { label: 'Pricing', href: '#' },
-    { label: 'About', href: '#' },
+    { label: 'Savybės', href: '#' },
+    { label: 'Kainos', href: '#' },
+    { label: 'Apie', href: '#' },
   ];
 
   React.useEffect(() => {
@@ -54,8 +54,8 @@ export function Header() {
           ))}
         </div>
         <div className="hidden items-center gap-2 md:flex">
-          <Button variant="outline" className="h-9 px-4">Sign In</Button>
-          <Button className="h-9 px-4">Get Started</Button>
+          <Button variant="outline" className="h-9 px-4">Prisijungti</Button>
+          <Button className="h-9 px-4">Pradėti</Button>
         </div>
         <Button size="icon" variant="outline" onClick={() => setOpen(!open)} className="md:hidden">
           <MenuToggleIcon open={open} className="size-5" duration={300} />
@@ -87,8 +87,8 @@ export function Header() {
             ))}
           </div>
           <div className="flex flex-col gap-2">
-            <Button variant="outline" className="w-full">Sign In</Button>
-            <Button className="w-full">Get Started</Button>
+            <Button variant="outline" className="w-full">Prisijungti</Button>
+            <Button className="w-full">Pradėti</Button>
           </div>
         </div>
       </div>

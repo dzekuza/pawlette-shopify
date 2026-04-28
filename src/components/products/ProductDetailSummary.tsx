@@ -12,9 +12,9 @@ interface ProductDetailSummaryProps {
 type DetailTab = 'overview' | 'fit' | 'shipping'
 
 const TAB_LABELS: Array<{ id: DetailTab, label: string }> = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'fit', label: 'Compatibility' },
-  { id: 'shipping', label: 'Shipping' }
+  { id: 'overview', label: 'Apžvalga' },
+  { id: 'fit', label: 'Suderinamumas' },
+  { id: 'shipping', label: 'Pristatymas' }
 ]
 
 export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummaryProps) {
@@ -25,78 +25,78 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
 
   const quickPoints = isCharm
     ? [
-        'Snap-on change in about 5 seconds',
-        'Works with every PawCharms collar set',
-        'Best as a low-friction add-on'
+        'Pakeičiama prisegant per maždaug 5 sekundes',
+        'Tinka visiems PawCharms antkaklių rinkiniams',
+        'Puikus lengvai pasirenkamas papildymas'
       ]
     : [
-        'Waterproof silicone for everyday wear',
-        'Includes 5 swappable charms',
-        'Built to refresh over time'
+        'Vandeniui atsparus silikonas kasdieniam nešiojimui',
+        'Įeina 5 keičiami pakabukai',
+        'Sukurta atnaujinti stilių laikui bėgant'
       ]
 
   const statItems = isCharm
     ? [
-        { label: 'Format', value: 'Single charm' },
-        { label: 'Fit', value: 'All PawCharms collars' },
-        { label: 'Use case', value: 'Easy upsell add-on' }
+        { label: 'Formatas', value: 'Vienas pakabukas' },
+        { label: 'Tinka', value: 'Visiems PawCharms antkakliams' },
+        { label: 'Paskirtis', value: 'Lengvas papildomas pasirinkimas' }
       ]
     : [
-        { label: 'Format', value: 'Collar set' },
-        { label: 'Material', value: 'Waterproof silicone' },
-        { label: 'Use case', value: 'Daily wear' }
+        { label: 'Formatas', value: 'Antkaklio rinkinys' },
+        { label: 'Medžiaga', value: 'Vandeniui atsparus silikonas' },
+        { label: 'Paskirtis', value: 'Kasdieniam nešiojimui' }
       ]
 
   const tabContent: Record<DetailTab, { intro: string, bullets: string[] }> = isCharm
     ? {
         overview: {
-          intro: 'This page should make the add-on decision feel easy. The value is not complexity, it is instant visual refresh, universal fit, and a low-commitment price point.',
+          intro: 'Šis puslapis turėtų padėti lengvai apsispręsti dėl papildymo. Vertė čia slypi ne sudėtingume, o greitame vizualiniame atnaujinime, universaliame suderinamume ir lengvai priimtinoje kainoje.',
           bullets: [
-            'Adds variety without replacing the whole collar',
-            'Easy way to increase basket size with almost no friction',
-            'Collectible, giftable, and simple to mix by mood or season'
+            'Suteikia įvairovės nekeičiant viso antkaklio',
+            'Lengvas būdas padidinti krepšelio vertę beveik be jokios trinties',
+            'Kolekcionuojama, dovanojama ir lengvai derinama pagal nuotaiką ar sezoną'
           ]
         },
         fit: {
           intro: product.compatibilityNote,
           bullets: [
-            'Designed to work across the full PawCharms collar range',
-            'Best bought alongside a collar set or with multiple charms',
-            'Good choice for returning customers who already own a set'
+            'Sukurta veikti su visa PawCharms antkaklių linija',
+            'Geriausia pirkti kartu su antkaklio rinkiniu arba keliais pakabukais',
+            'Puikus pasirinkimas sugrįžtantiems klientams, kurie jau turi rinkinį'
           ]
         },
         shipping: {
-          intro: 'Ships from Vilnius, Lithuania. For best conversion, pair this with a collar set or build a mini bundle of several charms in one order.',
+          intro: 'Siunčiama iš Vilniaus, Lietuvos. Geriausiam rezultatui derinkite su antkaklio rinkiniu arba susikurkite mini rinkinį iš kelių pakabukų viename užsakyme.',
           bullets: [
             'Ships from Vilnius, LT',
-            'Strong add-on item for gifting and repeat orders',
-            'Simple product to bundle with bestsellers'
+            'Puikus papildomas produktas dovanoms ir pakartotiniams užsakymams',
+            'Lengvai derinamas su perkamiausiais produktais'
           ]
         }
       }
     : {
         overview: {
-          intro: 'The strongest conversion story here is comfort, waterproof durability, and the ability to refresh the look over time without buying a whole new setup.',
+          intro: 'Stipriausia šio produkto vertė yra patogumas, vandeniui atsparus patvarumas ir galimybė laikui bėgant atnaujinti įvaizdį nepirkant visai naujo rinkinio.',
           bullets: [
-            'Built for repeated everyday use',
-            'Personal look with swappable add-ons',
-            'Easy to clean after wet walks and muddy days'
+            'Sukurta kasdieniam naudojimui',
+            'Asmeniškas įvaizdis su keičiamais papildymais',
+            'Lengva valyti po šlapių ar purvinų pasivaikščiojimų'
           ]
         },
         fit: {
           intro: product.compatibilityNote,
           bullets: [
-            'Includes five charms in the starter set',
-            'Expandable with the wider charm collection',
-            'Balanced for both gifting and first purchase confidence'
+            'Pradiniame rinkinyje yra penki pakabukai',
+            'Galima plėsti platesne pakabukų kolekcija',
+            'Puikiai tinka tiek dovanai, tiek pirmam užsakymui'
           ]
         },
         shipping: {
-          intro: 'Ships from Vilnius, Lithuania, with a clear path to expand the set later through add-on charms and seasonal drops.',
+          intro: 'Siunčiama iš Vilniaus, Lietuvos, o vėliau rinkinį lengva plėsti papildomais pakabukais ir sezoniniais leidimais.',
           bullets: [
             'Ships from Vilnius, LT',
-            'Good first purchase with clear next-step upsells',
-            'Designed for repeat styling over time'
+            'Puikus pirmas pirkimas su aiškiomis papildymo galimybėmis',
+            'Sukurta stiliui atnaujinti laikui bėgant'
           ]
         }
       }
@@ -104,30 +104,30 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
   const faqItems = isCharm
     ? [
         {
-          question: 'Will this fit my collar?',
-          answer: 'Yes. Every PawCharms charm is made to work with all PawCharms collar sets, so shoppers do not need to worry about matching a specific base collar.'
+          question: 'Ar tai tiks mano antkakliui?',
+          answer: 'Taip. Kiekvienas PawCharms pakabukas sukurtas taip, kad tiktų visiems PawCharms antkaklių rinkiniams, todėl nereikia rūpintis dėl konkretaus pagrindo derinimo.'
         },
         {
-          question: 'When is a single charm the right purchase?',
-          answer: 'Single charms work best for existing PawCharms customers, gift add-ons, and shoppers who want to build a small multi-charm bundle instead of committing to another full set.'
+          question: 'Kada vienas pakabukas yra geriausias pasirinkimas?',
+          answer: 'Vienas pakabukas geriausiai tinka esamiems PawCharms klientams, kaip dovanos papildymas ar pirkėjams, norintiems susikurti mažą kelių pakabukų rinkinį vietoje viso naujo komplekto.'
         },
         {
-          question: 'How do I get the best value from this page?',
-          answer: 'Use it as an add-on. The strongest basket-building path is to pair the charm with a collar set or add several charms together to create a more complete look.'
+          question: 'Kaip iš šio puslapio gauti daugiausia vertės?',
+          answer: 'Naudokite kaip papildymą. Geriausias krepšelio formavimo kelias yra derinti pakabuką su antkaklio rinkiniu arba pridėti kelis pakabukus kartu, kad sukurtumėte pilnesnį įvaizdį.'
         }
       ]
     : [
         {
-          question: 'What comes with the set?',
-          answer: 'Each collar set includes the base collar and five compatible charms, giving the customer a ready-to-wear starter look from day one.'
+          question: 'Kas įeina į rinkinį?',
+          answer: 'Kiekviename antkaklio rinkinyje yra pagrindinis antkaklis ir penki suderinami pakabukai, todėl klientas nuo pirmos dienos gauna paruoštą įvaizdį.'
         },
         {
-          question: 'Can I update the look later?',
-          answer: 'Yes. That is one of the strongest reasons to buy the set. Additional charms can refresh the style over time without replacing the whole collar.'
+          question: 'Ar galėsiu vėliau atnaujinti įvaizdį?',
+          answer: 'Taip. Tai viena stipriausių priežasčių rinktis šį rinkinį. Papildomi pakabukai leidžia atnaujinti stilių laikui bėgant nekeičiant viso antkaklio.'
         },
         {
-          question: 'Why is this easier to buy than a standard collar?',
-          answer: 'It reduces decision fatigue by combining everyday practicality with a built-in styling system. Customers buy one base and keep evolving the look later.'
+          question: 'Kodėl tai lengviau įsigyti nei įprastą antkaklį?',
+          answer: 'Tai sumažina apsisprendimo nuovargį, nes sujungia kasdienį praktiškumą su integruota stiliaus sistema. Klientai perka vieną pagrindą ir vėliau gali toliau keisti įvaizdį.'
         }
       ]
 
@@ -227,14 +227,14 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
             >
               <div>
                 <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#9B948F', marginBottom: 8 }}>
-                  Price
+                  Kaina
                 </div>
                 <div style={{ fontSize: isMobile ? 38 : 44, lineHeight: 0.95, letterSpacing: '-0.05em', color: '#3D3530' }}>
                   {product.price}
                 </div>
               </div>
               <div style={{ fontSize: 13, color: '#8f8680' }}>
-                Ships from Vilnius, LT
+                Siunčiama iš Vilniaus, LT
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                   minWidth: isMobile ? undefined : 220
                 }}
               >
-                View more products
+                Peržiūrėti daugiau produktų
               </Link>
             </div>
           </div>
@@ -377,7 +377,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
 
       <section style={{ marginTop: 30, paddingTop: 22, borderTop: '1px solid rgba(61,53,48,0.10)' }}>
         <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#9B948F', fontWeight: 600, marginBottom: 8 }}>
-          Good to know
+          Verta žinoti
         </div>
 
         {faqItems.map((item, index) => {

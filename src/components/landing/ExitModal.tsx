@@ -38,14 +38,14 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
         {!sent ? (
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Before you go</div>
-              <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10% off your first collar.</h2>
-              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7 }}>Join our list. Get a discount code instantly. No spam — just new drops and dog content.</p>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Prieš išeinant</div>
+              <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10 % nuolaida pirmajam antkakliui.</h2>
+              <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7 }}>Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.</p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
               <input
                 type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="your@email.com"
+                placeholder="jusu@email.com"
                 style={{ flex: 1, fontFamily: "'DM Sans',sans-serif", fontSize: 14, boxSizing: 'border-box' as const, padding: '12px 16px', borderRadius: 100, border: '1.5px solid #E8E3DC', background: 'white', color: '#3D3530', outline: 'none', transition: 'border-color 150ms ease-out' }}
                 onFocus={e => (e.target.style.borderColor = '#A8D5A2')}
                 onBlur={e => (e.target.style.borderColor = '#E8E3DC')}
@@ -54,11 +54,11 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 className="btn-press"
                 onClick={() => email && setSent(true)}
                 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 22px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'transform 100ms ease-out' }}>
-                Get 10% off
+                Gauti 10 % nuolaidą
               </button>
             </div>
             <div style={{ textAlign: 'center', marginTop: 14, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#9B948F' }}>
-              <span onClick={onClose} style={{ cursor: 'pointer', textDecoration: 'underline' }}>No thanks, I&apos;ll pay full price</span>
+              <span onClick={onClose} style={{ cursor: 'pointer', textDecoration: 'underline' }}>Ne, mokėsiu pilną kainą</span>
             </div>
           </>
         ) : (
@@ -71,9 +71,9 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 style={{ width: 40, height: 40, objectFit: 'contain' }}
               />
             </div>
-            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 24, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>You&apos;re in!</h2>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7, marginBottom: 24 }}>Check your inbox for your 10% off code. Valid on your first order.</p>
-            <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Shop now →</button>
+            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 24, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>Jūs sąraše!</h2>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>
+            <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
           </div>
         )}
       </div>

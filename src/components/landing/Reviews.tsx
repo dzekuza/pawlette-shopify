@@ -7,15 +7,15 @@ const STAR_ICON = '/Dog_Collar_Flat_Lay_A_yellow_star_with_a_soft_green_outline_
 const INTERVAL = 3000;
 
 const stories = [
-  { id: 1, author: 'Laima K.', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp', quote: 'Snaps on in seconds and still looks brand new after muddy walks.', rating: 5 },
-  { id: 2, author: 'Marta S.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face', preview: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', quote: 'We swim weekly and the collar stays clean, soft, and comfortable.', rating: 5 },
-  { id: 3, author: 'Rūta P.', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face', preview: '/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp', quote: 'Ordered three as gifts. Packaging and quality are both amazing.', rating: 5 },
-  { id: 4, author: 'Aiste J.', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face', preview: '/A_man_sits_at_an_outdoor_cafe_with_a_French_BfuQAh4h.webp', quote: 'Our daily cafe stop gets compliments every single time.', rating: 4.9 },
-  { id: 5, author: 'Monika T.', avatar: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_with_brown_hair_runs_along_a_sandy_beach_pMc16cB6.webp', quote: 'Lightweight enough for runs and secure enough for full sprints.', rating: 5 },
-  { id: 6, author: 'Greta N.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face', preview: '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp', quote: 'Golden hour photos look unreal with the Blossom set.', rating: 5 },
-  { id: 7, author: 'Tomas V.', avatar: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=80&h=80&fit=crop&crop=face', preview: '/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp', quote: 'Super easy to swap charms for weekend and weekday looks.', rating: 4.8 },
-  { id: 8, author: 'Egle R.', avatar: 'https://images.unsplash.com/photo-1542204625-de293a6b4178?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp', quote: 'The colors are perfect and the fit is comfy all day.', rating: 5 },
-  { id: 9, author: 'Karolis P.', avatar: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?w=80&h=80&fit=crop&crop=face', preview: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', quote: 'Park play, rain, and zoomies — still no wear after weeks.', rating: 5 },
+  { id: 1, author: 'Laima K.', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp', quote: 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų vis dar atrodo kaip naujas.', rating: 5 },
+  { id: 2, author: 'Marta S.', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face', preview: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', quote: 'Maudomės kas savaitę, o antkaklis išlieka švarus, minkštas ir patogus.', rating: 5 },
+  { id: 3, author: 'Rūta P.', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face', preview: '/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp', quote: 'Užsakiau tris dovanoms. Ir pakuotė, ir kokybė tikrai nuostabios.', rating: 5 },
+  { id: 4, author: 'Aistė J.', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face', preview: '/A_man_sits_at_an_outdoor_cafe_with_a_French_BfuQAh4h.webp', quote: 'Per mūsų kasdienį sustojimą kavinėje visada sulaukiame komplimentų.', rating: 4.9 },
+  { id: 5, author: 'Monika T.', avatar: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_with_brown_hair_runs_along_a_sandy_beach_pMc16cB6.webp', quote: 'Pakankamai lengvas bėgimui ir pakankamai saugus pilnam sprintui.', rating: 5 },
+  { id: 6, author: 'Greta N.', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face', preview: '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp', quote: 'Auksinės valandos nuotraukose Blossom rinkinys atrodo nerealiai.', rating: 5 },
+  { id: 7, author: 'Tomas V.', avatar: 'https://images.unsplash.com/photo-1504257432389-52343af06ae3?w=80&h=80&fit=crop&crop=face', preview: '/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp', quote: 'Labai lengva pakeisti pakabukus savaitgalio ir darbo dienų deriniams.', rating: 4.8 },
+  { id: 8, author: 'Eglė R.', avatar: 'https://images.unsplash.com/photo-1542204625-de293a6b4178?w=80&h=80&fit=crop&crop=face', preview: '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp', quote: 'Spalvos tobulos, o antkaklis patogus visai dienai.', rating: 5 },
+  { id: 9, author: 'Karolis P.', avatar: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?w=80&h=80&fit=crop&crop=face', preview: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', quote: 'Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo.', rating: 5 },
 ];
 
 function StarRow({ rating }: { rating: number }) {
@@ -84,10 +84,10 @@ export function Reviews() {
         <div className="flex justify-between items-end mb-12">
           <div>
             <div className="font-sans text-[11px] font-medium tracking-[0.08em] uppercase text-bark-muted mb-3.5">
-              Customer love
+              Klientų atsiliepimai
             </div>
             <h2 className="font-sans text-[28px] md:text-[40px] font-medium tracking-[-0.02em] text-bark m-0">
-              Dogs and owners approve.
+              Patvirtinta šunų ir jų šeimininkų.
             </h2>
           </div>
           {/* Arrows */}
@@ -97,7 +97,7 @@ export function Reviews() {
                 key={label}
                 onClick={() => go(dir)}
                 disabled={dir === -1 ? index === 0 : index >= maxIndex}
-                aria-label={dir === -1 ? 'Previous' : 'Next'}
+                aria-label={dir === -1 ? 'Ankstesnis' : 'Kitas'}
                 className={cn(
                   'w-11 h-11 rounded-full border-[1.5px] border-border bg-white cursor-pointer text-[18px] text-bark',
                   'flex items-center justify-center transition-[background,opacity] duration-150',
@@ -151,7 +151,7 @@ export function Reviews() {
             <button
               key={i}
               onClick={() => { setIndex(i); startTimers(); }}
-              aria-label={`Go to slide ${i + 1}`}
+              aria-label={`Eiti į skaidrę ${i + 1}`}
               className="h-1.5 rounded-[3px] border-none cursor-pointer p-0 transition-[width,background] duration-[250ms] ease-[ease]"
               style={{
                 width: i === index ? 20 : 6,

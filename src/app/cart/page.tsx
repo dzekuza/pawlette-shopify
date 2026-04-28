@@ -54,13 +54,13 @@ export default function CartPage() {
           {/* Page heading */}
           {lines.length > 0 && (
             <h1 className="text-[32px] md:text-[48px] mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
-              Your Cart
+              Jūsų krepšelis
             </h1>
           )}
 
           {lines.length > 0 && (
             <p className="text-[15px] mb-5 opacity-60" style={{ color: 'var(--color-bark)' }}>
-              {lines.length} {lines.length === 1 ? 'item' : 'items'}
+              {lines.length} {lines.length === 1 ? 'prekė' : 'prekės'}
             </p>
           )}
 
@@ -91,17 +91,17 @@ export default function CartPage() {
                   className="m-0 text-[32px] md:text-[40px]"
                   style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, lineHeight: 1.02, letterSpacing: '-0.03em', textWrap: 'balance' as const }}
                 >
-                  Your cart is empty
+                  Jūsų krepšelis tuščias
                 </h1>
                 <p
                   className="mt-4 mb-0 max-w-[32ch] text-[16px] leading-[1.6]"
                   style={{ color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}
                 >
-                  Build a collar your dog will actually be excited to wear.
+                  Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.
                 </p>
                 <div className="mt-8">
                   <PrimaryButton href="/products" variant="sage" size="lg">
-                    Design Your Collar
+                    Kurti antkaklį
                   </PrimaryButton>
                 </div>
               </div>
@@ -117,7 +117,7 @@ export default function CartPage() {
                 {amountToFreeShipping > 0 && (
                   <div className="bg-white rounded-2xl p-4 mb-4" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
                     <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
-                      Add <strong>€{amountToFreeShipping.toFixed(2)}</strong> more for free shipping 🚚
+                      Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
                     </p>
                     <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
                       <div
@@ -140,7 +140,7 @@ export default function CartPage() {
                       color: 'var(--color-bark)',
                     }}
                   >
-                    You qualify for free shipping! 🎉
+                    Jums priklauso nemokamas pristatymas! 🎉
                   </div>
                 )}
 
@@ -175,7 +175,7 @@ export default function CartPage() {
                               className="inline-block text-[11px] font-semibold px-[8px] py-[2px] rounded-full"
                               style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
                             >
-                              Qty {line.quantity}
+                              Kiekis {line.quantity}
                             </span>
                             {line.merchandise.title && line.merchandise.title !== 'Default Title' && (
                               <span className="text-[11px] opacity-50" style={{ color: 'var(--color-bark)' }}>{line.merchandise.title}</span>
@@ -193,7 +193,7 @@ export default function CartPage() {
                           </span>
                           <button
                             onClick={() => removeItem(line.id)}
-                            aria-label="Remove item"
+                            aria-label="Pašalinti prekę"
                             className="w-7 h-7 rounded-full flex items-center justify-center text-[14px] font-bold shrink-0 cursor-pointer border-none transition-[background] duration-150"
                             style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
                           >
@@ -212,7 +212,7 @@ export default function CartPage() {
                     className="text-[14px] font-semibold no-underline opacity-75 inline-flex items-center gap-1.5"
                     style={{ color: 'var(--color-bark)' }}
                   >
-                    ← Continue Shopping
+                    ← Tęsti pirkimą
                   </Link>
                 </div>
               </div>
@@ -221,14 +221,14 @@ export default function CartPage() {
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
                 <div className="bg-white rounded-2xl px-5 pt-5 pb-6" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
                   <p className="text-[14px] font-semibold mb-4 uppercase tracking-widest opacity-50" style={{ color: 'var(--color-bark)' }}>
-                    Order Summary
+                    Užsakymo santrauka
                   </p>
 
                   {/* Line items */}
                   <div className="flex flex-col gap-[10px]">
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
-                        Subtotal ({lines.length} {lines.length === 1 ? 'item' : 'items'})
+                        Tarpinė suma ({lines.length} {lines.length === 1 ? 'prekė' : 'prekės'})
                       </span>
                       <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
                         €{subtotal.toFixed(2)}
@@ -237,11 +237,11 @@ export default function CartPage() {
 
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
-                        Shipping
+                        Pristatymas
                       </span>
                       {shipping === 0 ? (
                         <span className="text-[15px] font-semibold" style={{ color: '#4CAF50' }}>
-                          Free
+                          Nemokamai
                         </span>
                       ) : (
                         <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
@@ -255,7 +255,7 @@ export default function CartPage() {
 
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)' }}>
-                        Total
+                        Iš viso
                       </span>
                       <span
                         className="text-[22px]"
@@ -270,7 +270,7 @@ export default function CartPage() {
                   {amountToFreeShipping > 0 && (
                     <div className="mt-5 md:hidden">
                       <p className="text-[13px] opacity-65 mb-2" style={{ color: 'var(--color-bark)' }}>
-                        €{amountToFreeShipping.toFixed(2)} away from free shipping
+                        Iki nemokamo pristatymo liko €{amountToFreeShipping.toFixed(2)}
                       </p>
                       <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
                         <div
@@ -291,13 +291,13 @@ export default function CartPage() {
                       className="w-full rounded-full py-4 text-[16px] font-bold cursor-pointer border-none"
                       style={{ background: 'var(--color-sage)', color: 'var(--color-bark)' }}
                     >
-                      Proceed to Checkout
+                      Tęsti atsiskaitymą
                     </button>
                   </div>
 
                   {/* Trust note */}
                   <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
-                    Secure checkout · Ships from Vilnius 🇱🇹
+                    Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹
                   </p>
                 </div>
               </div>

@@ -4,10 +4,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: 'PawCharms — Handcrafted Dog Collars with Swap Charms',
+    default: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
     template: '%s | PawCharms',
   },
-  description: 'Waterproof, customisable dog collars with 5-second swap charms. Made in Vilnius, Lithuania.',
+  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   metadataBase: new URL('https://pawcharms.lt'),
 };
 
@@ -39,7 +39,7 @@ const websiteSchema = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="lt" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script
           type="application/ld+json"

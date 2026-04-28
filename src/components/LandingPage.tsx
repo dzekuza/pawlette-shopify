@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCartCount } from '@/hooks/useCartCount';
 import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
@@ -14,12 +14,14 @@ import { PhotoSlider } from './landing/PhotoSlider';
 import { BentoSection } from './BentoSection';
 import { Reviews } from './landing/Reviews';
 import { FAQ } from './landing/FAQ';
+import { About } from './landing/About';
 import { LandingFooter } from './landing/LandingFooter';
 import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
 
 export function LandingPage() {
   const router = useRouter();
+  const pathname = usePathname();
   const cartCount = useCartCount();
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
@@ -52,6 +54,21 @@ export function LandingPage() {
     if (!pageRef.current) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let mm: any = null;
+    const page = pageRef.current;
+    const animatedSections = Array.from(page.querySelectorAll<HTMLElement>('[data-animate="section"]'));
+    const animatedCards = Array.from(page.querySelectorAll<HTMLElement>('[data-animate="card"]'));
+
+    animatedSections.forEach((section) => {
+      section.style.opacity = '1';
+      section.style.visibility = 'visible';
+      section.style.transform = 'none';
+    });
+
+    animatedCards.forEach((card) => {
+      card.style.opacity = '1';
+      card.style.visibility = 'visible';
+      card.style.transform = 'none';
+    });
 
     Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(
       ([{ gsap }, { ScrollTrigger }]) => {
@@ -77,6 +94,7 @@ export function LandingPage() {
             sections.forEach((section) => {
               gsap.from(section, {
                 autoAlpha: 0, y: 40, duration: 0.8, ease: 'power2.out',
+                clearProps: 'transform,opacity,visibility',
                 scrollTrigger: { trigger: section, start: 'top 90%', toggleActions: 'play none none none', once: true },
               });
             });
@@ -110,8 +128,20 @@ export function LandingPage() {
       }
     );
 
-    return () => { mm?.revert(); };
-  }, []);
+    return () => {
+      mm?.revert();
+      animatedSections.forEach((section) => {
+        section.style.opacity = '1';
+        section.style.visibility = 'visible';
+        section.style.transform = 'none';
+      });
+      animatedCards.forEach((card) => {
+        card.style.opacity = '1';
+        card.style.visibility = 'visible';
+        card.style.transform = 'none';
+      });
+    };
+  }, [pathname]);
 
   return (
     <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif" }}>
@@ -125,6 +155,7 @@ export function LandingPage() {
       <div data-animate="section"><CharmGrid /></div>
       <div data-animate="section" data-parallax="photo-slider"><PhotoSlider /></div>
       <div data-animate="section"><BentoSection isDark={false} /></div>
+      <div data-animate="section"><About variant="cream" /></div>
       <div data-animate="section"><Reviews /></div>
       <div data-animate="section"><FAQ /></div>
       <div data-animate="section"><LandingFooter /></div>

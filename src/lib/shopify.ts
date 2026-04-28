@@ -12,6 +12,7 @@ export interface ShopifyCollarVariant {
   size: string;
   color: string;
   price: string;
+  image?: string;
 }
 
 export interface ShopifyCollar {
@@ -137,6 +138,7 @@ const COLLARS_QUERY = `
               node {
                 id
                 title
+                image { url }
                 price { amount }
                 selectedOptions { name value }
               }
@@ -178,23 +180,34 @@ export const CHARM_META: Record<string, { bg: string; category: string }> = {
 
 const COLOR_BG: Record<string, string> = {
   blue:   '#B8D8F4',
+  mėlyna: '#B8D8F4',
+  melyna: '#B8D8F4',
   green:  '#A8D5A2',
+  žalia:  '#A8D5A2',
+  zalia:  '#A8D5A2',
   red:    '#F4B5C0',
+  rausva: '#F4B5C0',
+  rožinė: '#F4B5C0',
+  rozine: '#F4B5C0',
   yellow: '#F9E4A0',
+  geltona:'#F9E4A0',
+  purple: '#D4B8F4',
+  violetinė: '#D4B8F4',
+  violetine: '#D4B8F4',
 };
 
 // Resolves bg/category/color/baseTitle from variant title.
 // Handles "Letter A - Blue", "Paw Charm - Blue", and legacy icon names.
 function resolveCharmMeta(title: string): { bg: string; category: string; color: string; baseTitle: string } {
-  const letterMatch = title.match(/^(Letter\s+[A-Z])\s+-\s+(\w+)$/i);
+  const letterMatch = title.match(/^((?:Letter|Raidė)\s+[A-ZĄČĘĖĮŠŲŪŽ])\s+-\s+([\p{L}\s]+)$/iu);
   if (letterMatch) {
     const color = letterMatch[2].toLowerCase();
     return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'letter', color, baseTitle: letterMatch[1] };
   }
-  if (/^letter\s+\w+\s+charm$/i.test(title)) {
+  if (/^(letter|raidė)\s+\w+\s+(charm|pakabukas)$/iu.test(title)) {
     return { bg: '#B8D8F4', category: 'letter', color: '', baseTitle: title };
   }
-  const iconColorMatch = title.match(/^(.+?)\s+-\s+(\w+)$/i);
+  const iconColorMatch = title.match(/^(.+?)\s+-\s+([\p{L}\s]+)$/iu);
   if (iconColorMatch) {
     const color = iconColorMatch[2].toLowerCase();
     return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'icon', color, baseTitle: iconColorMatch[1] };
@@ -246,11 +259,22 @@ const CHARMS_QUERY = `
 
 let _collarsCache: ShopifyCollar[] | null = null;
 let _collarsInflight: Promise<ShopifyCollar[]> | null = null;
+let _collarsCacheAt = 0;
+
+const CACHE_TTL_MS = process.env.NODE_ENV === 'development' ? 0 : 5 * 60 * 1000;
 
 export function getCollarsSync(): ShopifyCollar[] | null { return _collarsCache; }
 
+function isFresh(timestamp: number) {
+  return Date.now() - timestamp < CACHE_TTL_MS;
+}
+
 export async function getCollars(): Promise<ShopifyCollar[]> {
-  if (_collarsCache) return _collarsCache;
+  if (_collarsCache && isFresh(_collarsCacheAt)) return _collarsCache;
+  if (_collarsCache && !isFresh(_collarsCacheAt)) {
+    _collarsCache = null;
+    _collarsInflight = null;
+  }
   if (!_collarsInflight) {
     _collarsInflight = (async () => {
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
@@ -263,9 +287,10 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: variant }) => ({
           id: variant.id,
           title: variant.title,
-          size: variant.selectedOptions?.find((option) => option.name === 'Size')?.value ?? '',
-          color: variant.selectedOptions?.find((option) => option.name === 'Colors')?.value ?? '',
+          size: variant.selectedOptions?.find((option) => ['Size', 'Dydis'].includes(option.name))?.value ?? '',
+          color: variant.selectedOptions?.find((option) => ['Colors', 'Color', 'Spalvos', 'Spalva'].includes(option.name))?.value ?? '',
           price: variant.price ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€28',
+          image: variant.image?.url ?? '',
         }));
         const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
         const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
@@ -293,6 +318,8 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         };
       });
       _collarsCache = result;
+      _collarsCacheAt = Date.now();
+      _collarsInflight = null;
       return result;
     })();
   }
@@ -301,11 +328,16 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
 
 let _charmsCache: ShopifyCharm[] | null = null;
 let _charmsInflight: Promise<ShopifyCharm[]> | null = null;
+let _charmsCacheAt = 0;
 
 export function getCharmsSync(): ShopifyCharm[] | null { return _charmsCache; }
 
 export async function getCharms(): Promise<ShopifyCharm[]> {
-  if (_charmsCache) return _charmsCache;
+  if (_charmsCache && isFresh(_charmsCacheAt)) return _charmsCache;
+  if (_charmsCache && !isFresh(_charmsCacheAt)) {
+    _charmsCache = null;
+    _charmsInflight = null;
+  }
   if (!_charmsInflight) {
     _charmsInflight = (async () => {
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
@@ -371,6 +403,8 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
         };
       });
       _charmsCache = result;
+      _charmsCacheAt = Date.now();
+      _charmsInflight = null;
       return result;
     })();
   }

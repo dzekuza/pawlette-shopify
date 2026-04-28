@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const email = String(body.email ?? '').trim();
 
   if (!email) {
-    return NextResponse.json({ error: 'Email is required.' }, { status: 400 });
+    return NextResponse.json({ error: 'El. paštas yra privalomas.' }, { status: 400 });
   }
 
   const errors = await recoverCustomerPassword(email);
@@ -16,6 +16,6 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({
-    message: 'If an account exists for that email, a reset link has been sent.',
+    message: 'Jei paskyra su šiuo el. paštu egzistuoja, atkūrimo nuoroda jau išsiųsta.',
   });
 }

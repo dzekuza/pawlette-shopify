@@ -22,7 +22,7 @@ export function CharmCard ({ charm }: { charm: ShopifyCharm }) {
           <div style={{ marginBottom: 4, fontSize: 16, fontWeight: 500, color: '#3D3530' }}>{charm.baseTitle}</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
             <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530' }}>{charm.price}</div>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25' }}>View details →</span>
+            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25' }}>Peržiūrėti →</span>
           </div>
         </div>
       </article>

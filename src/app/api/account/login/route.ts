@@ -8,14 +8,14 @@ export async function POST(request: Request) {
   const password = String(body.password ?? '');
 
   if (!email || !password) {
-    return NextResponse.json({ error: 'Email and password are required.' }, { status: 400 });
+    return NextResponse.json({ error: 'El. paštas ir slaptažodis yra privalomi.' }, { status: 400 });
   }
 
   const result = await loginCustomer(email, password);
 
   if (!result.customer || !result.accessToken) {
     return NextResponse.json(
-      { error: result.errors[0] ?? 'Unable to sign in.' },
+      { error: result.errors[0] ?? 'Nepavyko prisijungti.' },
       { status: 400 }
     );
   }

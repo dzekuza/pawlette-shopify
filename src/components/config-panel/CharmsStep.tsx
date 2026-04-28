@@ -182,7 +182,7 @@ export function CharmsStep ({
                 color: textMuted
               }}
             >
-              No charms found
+              Pakabukų nerasta
             </div>
           )}
         </div>

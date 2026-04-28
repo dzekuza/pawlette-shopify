@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const customerAccessToken = await getCustomerSessionToken();
 
   if (!customerAccessToken) {
-    return NextResponse.json({ error: 'You must be signed in.' }, { status: 401 });
+    return NextResponse.json({ error: 'Turite būti prisijungę.' }, { status: 401 });
   }
 
   const body = await request.json();
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   if (result.errors.length > 0 || !result.customer) {
     return NextResponse.json(
-      { error: result.errors[0] ?? 'Unable to save your address.' },
+      { error: result.errors[0] ?? 'Nepavyko išsaugoti adreso.' },
       { status: 400 }
     );
   }

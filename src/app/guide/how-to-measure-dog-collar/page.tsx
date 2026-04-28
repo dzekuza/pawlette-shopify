@@ -5,11 +5,11 @@ import { LandingNav } from '@/components/landing/LandingNav';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 export const metadata: Metadata = {
-  title: 'How to Measure Your Dog for a Collar | PawCharms Guide',
-  description: 'Step-by-step guide to measuring your dog\'s neck for the perfect collar fit. Includes a size chart (XS–L) and tips for between sizes. Takes 2 minutes.',
+  title: 'Kaip išmatuoti šunį antkakliui',
+  description: 'Žingsnis po žingsnio gidas, kaip išmatuoti šuns kaklą, kad antkaklis tiktų idealiai. Su dydžių lentele ir patarimais.',
   openGraph: {
-    title: 'How to Measure Your Dog for a Collar',
-    description: 'Get the right fit in 5 steps. Includes size chart for XS, S, M, and L collars.',
+    title: 'Kaip išmatuoti šunį antkakliui',
+    description: 'Tinkamą dydį pasirinkite per 5 žingsnius. Su XS, S, M ir L lentele.',
     type: 'article',
     url: 'https://pawcharms.lt/guide/how-to-measure-dog-collar',
     siteName: 'PawCharms',
@@ -19,49 +19,49 @@ export const metadata: Metadata = {
 const howToSchema = {
   '@context': 'https://schema.org',
   '@type': 'HowTo',
-  name: "How to Measure Your Dog's Neck for a Collar",
-  description: "Measure your dog's neck in 5 steps to find the right collar size. Works for all breeds.",
+  name: 'Kaip išmatuoti šuns kaklą antkakliui',
+  description: 'Išmatuokite šuns kaklą per 5 žingsnius ir pasirinkite tinkamą antkaklio dydį.',
   totalTime: 'PT2M',
-  tool: [{ '@type': 'HowToTool', name: 'Flexible tape measure (or a piece of string and a ruler)' }],
+  tool: [{ '@type': 'HowToTool', name: 'Lanksti matavimo juosta (arba virvelė ir liniuotė)' }],
   step: [
     {
       '@type': 'HowToStep',
       position: 1,
-      name: 'Get a flexible tape measure',
-      text: "Use a soft fabric tape measure. If you don't have one, use a piece of string and measure it against a ruler afterwards.",
+      name: 'Pasiruoškite lanksčią matavimo juostą',
+      text: 'Naudokite minkštą matavimo juostą. Jei jos neturite, tiks virvelė ir liniuotė.',
     },
     {
       '@type': 'HowToStep',
       position: 2,
-      name: "Find the widest part of your dog's neck",
-      text: 'This is usually mid-neck — not the base where it meets the shoulders, and not right under the jaw.',
+      name: 'Raskite plačiausią kaklo vietą',
+      text: 'Dažniausiai tai kaklo vidurys — ne ties pečiais ir ne iškart po žandikauliu.',
     },
     {
       '@type': 'HowToStep',
       position: 3,
-      name: 'Wrap and measure',
-      text: "Hold the tape snug but not tight around the neck. You should be able to fit two fingers between the tape and the neck. Note the measurement in centimetres.",
+      name: 'Apjuoskite ir išmatuokite',
+      text: 'Juosta turi priglusti, bet neveržti. Tarp juostos ir kaklo turėtų tilpti du pirštai. Užsirašykite rezultatą centimetrais.',
     },
     {
       '@type': 'HowToStep',
       position: 4,
-      name: 'Add 2–3 cm for comfort',
-      text: 'Your final collar size should be your neck measurement plus 2–3 cm. This gives enough room for comfort without the collar being loose enough to slip over the head.',
+      name: 'Patogumui pridėkite 2–3 cm',
+      text: 'Galutinis antkaklio dydis turėtų būti kaklo apimtis plius 2–3 cm. Taip jis bus patogus, bet nenuslys per galvą.',
     },
     {
       '@type': 'HowToStep',
       position: 5,
-      name: 'Match to the size chart',
-      text: 'XS fits 20–28 cm, S fits 28–36 cm, M fits 36–44 cm, L fits 44–54 cm. If your dog is between sizes, choose the larger size.',
+      name: 'Palyginkite su dydžių lentele',
+      text: 'XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, L tinka 44–54 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
     },
   ],
 };
 
 const SIZES = [
-  { size: 'XS', range: '20–28 cm', breeds: 'Chihuahua, Toy Poodle, Yorkshire Terrier' },
-  { size: 'S',  range: '28–36 cm', breeds: 'French Bulldog, Beagle, Shiba Inu, Miniature Schnauzer' },
-  { size: 'M',  range: '36–44 cm', breeds: 'Border Collie, Cocker Spaniel, Whippet, Basenji' },
-  { size: 'L',  range: '44–54 cm', breeds: 'Golden Retriever, Labrador, German Shepherd, Husky' },
+  { size: 'XS', range: '20–28 cm', breeds: 'Čihuahua, toy pudelis, Jorkšyro terjeras' },
+  { size: 'S',  range: '28–36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
+  { size: 'M',  range: '36–44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
+  { size: 'L',  range: '44–54 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },
 ];
 
 export default function MeasureGuidePage() {
@@ -79,22 +79,22 @@ export default function MeasureGuidePage() {
         <main style={{ maxWidth: 720, margin: '0 auto', padding: '128px 24px 96px' }}>
           <div style={{ marginBottom: 24 }}>
             <Link href="/guide/silicone-vs-nylon-dog-collars" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
-              Compare collar materials →
+              Palyginti antkaklių medžiagas →
             </Link>
           </div>
 
-          <p style={{ fontSize: 13, fontWeight: 500, color: '#A8D5A2', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Sizing guide</p>
+          <p style={{ fontSize: 13, fontWeight: 500, color: '#A8D5A2', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Dydžių gidas</p>
 
-          <h1 style={{ fontSize: 40, fontWeight: 500, color: '#3D3530', letterSpacing: '-0.02em', lineHeight: 1.2, marginBottom: 20, marginTop: 0 }}>
-            How to measure your dog for a collar
+          <h1 style={{ fontSize: 40, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>
+            Kaip išmatuoti šunį antkakliui
           </h1>
 
           <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 48 }}>
-            A collar that fits well sits comfortably mid-neck — not so tight it restricts breathing, not loose enough to slip over the head. This guide takes about 2 minutes.
+            Gerai tinkantis antkaklis patogiai laikosi kaklo viduryje — neveržia ir nenuslysta per galvą. Šis gidas užtruks apie 2 minutes.
           </p>
 
           {/* Steps */}
-          <h2 style={{ fontSize: 24, fontWeight: 500, color: '#3D3530', letterSpacing: '-0.01em', marginBottom: 28, marginTop: 0 }}>5-step measuring guide</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginBottom: 28, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>5 žingsnių matavimo gidas</h2>
 
           {howToSchema.step.map((step, i) => (
             <div key={i} style={{ display: 'flex', gap: 20, marginBottom: 28 }}>
@@ -109,13 +109,13 @@ export default function MeasureGuidePage() {
           ))}
 
           {/* Size chart */}
-          <h2 style={{ fontSize: 24, fontWeight: 500, color: '#3D3530', letterSpacing: '-0.01em', marginTop: 56, marginBottom: 24 }}>Size chart</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginTop: 56, marginBottom: 24, fontFamily: "'DM Sans', sans-serif" }}>Dydžių lentelė</h2>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
               <thead>
                 <tr style={{ background: '#3D3530' }}>
-                  {['Size', 'Neck range', 'Common breeds'].map(h => (
+                  {['Dydis', 'Kaklo apimtis', 'Dažnos veislės'].map(h => (
                     <th key={h} style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: '#FAF7F2', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
                   ))}
                 </tr>
@@ -133,31 +133,31 @@ export default function MeasureGuidePage() {
           </div>
 
           <p style={{ fontSize: 13, color: '#9B948F', marginTop: 12 }}>
-            These are approximate. Always measure your individual dog — breed alone is not a reliable guide.
+            Tai apytikslės gairės. Visada matuokite konkretų šunį — vien veislė nėra pakankamai patikimas kriterijus.
           </p>
 
           {/* Between sizes */}
           <div style={{ background: '#EEF5EE', borderRadius: 16, padding: '24px 28px', marginTop: 48 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: '#3D3530', marginBottom: 8, marginTop: 0 }}>What if my dog is between sizes?</p>
+            <p style={{ fontSize: 15, fontWeight: 500, color: '#3D3530', marginBottom: 8, marginTop: 0 }}>Ką daryti, jei šuo tarp dydžių?</p>
             <p style={{ fontSize: 14, color: '#4a6b47', lineHeight: 1.6, margin: 0 }}>
-              Always go up a size. A slightly larger collar is safer and more comfortable than one that is too snug. All Žavesys collars have multiple adjustment positions so you can fine-tune the fit.
+              Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi Žavesys antkakliai turi kelias reguliavimo pozicijas.
             </p>
           </div>
 
           {/* The two-finger rule */}
           <div style={{ background: '#FAF0F5', borderRadius: 16, padding: '24px 28px', marginTop: 16 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: '#3D3530', marginBottom: 8, marginTop: 0 }}>The two-finger rule</p>
+            <p style={{ fontSize: 15, fontWeight: 500, color: '#3D3530', marginBottom: 8, marginTop: 0 }}>Dviejų pirštų taisyklė</p>
             <p style={{ fontSize: 14, color: '#6B4455', lineHeight: 1.6, margin: 0 }}>
-              Once the collar is on your dog, slide two fingers underneath it. If they fit snugly, the collar is correctly sized. If you can fit three or more fingers, go down a size. If you can barely fit one, the collar is too tight.
+              Užsegę antkaklį, pakiškite po juo du pirštus. Jei jie telpa patogiai, dydis tinkamas. Jei telpa trys ar daugiau, rinkitės mažesnį. Jei vos telpa vienas, antkaklis per ankštas.
             </p>
           </div>
 
           {/* CTA */}
           <div style={{ marginTop: 64, marginBottom: 24, padding: '40px', background: '#3D3530', borderRadius: 20, textAlign: 'center' }}>
-            <p style={{ fontSize: 22, fontWeight: 500, color: '#FAF7F2', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>Ready to build your collar?</p>
-            <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>Pick your colour, add charms, and enter your size in the configurator.</p>
+            <p style={{ fontSize: 22, fontWeight: 500, color: '#FAF7F2', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>Pasiruošę kurti savo antkaklį?</p>
+            <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>Išsirinkite spalvą, pridėkite pakabukus ir konfigūratoriuje nurodykite dydį.</p>
             <PrimaryButton href="/products" variant="sage" size="lg">
-              Build your collar →
+              Kurti antkaklį →
             </PrimaryButton>
           </div>
 
