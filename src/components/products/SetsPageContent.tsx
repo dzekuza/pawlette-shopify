@@ -15,7 +15,7 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
     <div className='sets-page min-h-screen bg-cream text-bark pt-16'>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      <main className='mx-auto px-5 pb-20 md:px-8' style={{ maxWidth: 1320, paddingTop: 40 }}>
+      <main className='mx-auto px-5 pb-[100px] md:px-10' style={{ maxWidth: 1320, paddingTop: 60 }}>
         <section
           style={{
             padding: 'clamp(28px, 4vw, 44px)',
@@ -114,7 +114,7 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
                         background: '#FFFDF9',
                         border: '1px solid rgba(61,53,48,0.08)',
                         boxShadow: '0 10px 24px rgba(61,53,48,0.08)',
-                        color: '#6B6460',
+                        color: 'var(--color-bark-light)',
                         fontSize: 24,
                         fontWeight: 500,
                         lineHeight: 1,
@@ -171,22 +171,22 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
                       background: 'rgba(61,53,48,0.035)',
                     }}
                   >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, lineHeight: 1.45, color: '#6B6460' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, lineHeight: 1.45, color: 'var(--color-bark-light)' }}>
                       <span>Antkaklis</span>
                       <span>{set.collar.price}</span>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, lineHeight: 1.45, color: '#6B6460' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 13, lineHeight: 1.45, color: 'var(--color-bark-light)' }}>
                       <span>Pavadėlis</span>
                       <span>{set.leash.price}</span>
                     </div>
                     <div style={{ height: 1, background: 'rgba(61,53,48,0.08)' }} />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 14, color: '#9B948F' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, fontSize: 14, color: 'var(--color-bark-muted)' }}>
                       <span>Atskira kaina</span>
                       <span style={{ textDecoration: 'line-through' }}>{set.originalPrice}</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'baseline' }}>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: '#3D3530' }}>Rinkinio kaina</span>
-                      <span style={{ fontSize: 30, fontWeight: 700, color: '#2A5A25', lineHeight: 1 }}>{set.bundlePrice}</span>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-bark)' }}>Rinkinio kaina</span>
+                      <span style={{ fontSize: 30, fontWeight: 700, color: 'var(--color-interactive-text)', lineHeight: 1 }}>{set.bundlePrice}</span>
                     </div>
                     <div
                       style={{
@@ -194,7 +194,7 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
                         padding: '7px 11px',
                         borderRadius: 999,
                         background: 'rgba(168,213,162,0.22)',
-                        color: '#2A5A25',
+                        color: 'var(--color-interactive-text)',
                         fontSize: 12,
                         fontWeight: 700,
                         letterSpacing: '0.04em',
@@ -215,8 +215,8 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
                         justifyContent: 'center',
                         minHeight: 48,
                         borderRadius: 999,
-                        background: '#A8D5A2',
-                        color: '#2A5A25',
+                        background: 'var(--color-sage)',
+                        color: 'var(--color-interactive-text)',
                         fontSize: 14,
                         fontWeight: 700,
                         boxShadow: '0 10px 22px rgba(168,213,162,0.28)',
@@ -234,7 +234,7 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
                         minHeight: 46,
                         borderRadius: 999,
                         border: '1px solid rgba(61,53,48,0.12)',
-                        color: '#3D3530',
+                        color: 'var(--color-bark)',
                         fontSize: 14,
                         fontWeight: 600,
                         background: '#FFFDF9',

@@ -46,7 +46,7 @@ export function Reviews() {
   const total = stories.length;
   const maxIndex = total - perPage;
 
-  const cardW = isMobile ? 280 : isTablet ? 260 : 300;
+  const cardW = isMobile ? 260 : isTablet ? 280 : 300;
   const gap = 16;
 
   const [index, setIndex] = useState(0);
@@ -86,7 +86,7 @@ export function Reviews() {
             <div className="font-sans text-[11px] font-medium tracking-[0.08em] uppercase text-bark-muted mb-3.5">
               Klientų atsiliepimai
             </div>
-            <h2 className="font-sans text-[28px] md:text-[40px] font-medium tracking-[-0.02em] text-bark m-0">
+            <h2 className="font-sans text-[30px] md:text-[40px] font-medium tracking-[-0.02em] text-bark m-0">
               Patvirtinta šunų ir jų šeimininkų.
             </h2>
           </div>

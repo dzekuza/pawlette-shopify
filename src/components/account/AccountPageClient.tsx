@@ -143,7 +143,7 @@ function AccountEmptyState({
       </div>
       <div
         className="mb-7 max-w-[32ch] text-[14px] leading-relaxed"
-        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+        style={{ color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}
       >
         {description}
       </div>
@@ -229,7 +229,7 @@ function OrderCard({ order }: { order: CustomerOrder }) {
     >
       <div
         className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center"
-        style={{ background: '#F4EEE6', color: 'var(--color-bark)', fontSize: 18 }}
+        style={{ background: 'var(--color-surface-2)', color: 'var(--color-bark)', fontSize: 18 }}
       >
         #{String(order.orderNumber).slice(-2)}
       </div>
@@ -242,7 +242,7 @@ function OrderCard({ order }: { order: CustomerOrder }) {
         </div>
         <div
           className="text-[13px]"
-          style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+          style={{ color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}
         >
           {formatOrderDate(order.processedAt)} · {prettifyStatus(order.fulfillmentStatus)}
         </div>
@@ -293,7 +293,7 @@ function AddressCard({
       </div>
       <div
         className="text-[14px] leading-relaxed"
-        style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+        style={{ color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}
       >
         {address.formatted.length > 0 ? (
           address.formatted.map((line) => <div key={line}>{line}</div>)
@@ -569,7 +569,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                     </div>
                     <div
                       className="mt-1 truncate text-[12px]"
-                      style={{ color: '#9B948F', fontFamily: "'DM Sans', sans-serif" }}
+                      style={{ color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}
                     >
                       {customer.email}
                     </div>

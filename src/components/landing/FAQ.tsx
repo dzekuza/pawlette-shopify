@@ -33,9 +33,9 @@ const FAQS: AccordionItem[] = [
 
 export function FAQ() {
   return (
-    <section className="bg-cream px-6 py-16 md:px-12 md:py-24">
+    <section className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
       <div className="max-w-[720px] mx-auto">
-        <h2 className="font-sans text-[28px] md:text-[36px] font-medium text-bark tracking-tight mb-12 mt-0">
+        <h2 className="font-sans text-[30px] md:text-[40px] font-medium text-bark tracking-[-0.02em] mb-10 mt-0">
           Dažniausi klausimai
         </h2>
         <Accordion items={FAQS} />

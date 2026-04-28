@@ -35,19 +35,19 @@ export function LandingFooter() {
             <Link href="/" aria-label="PawCharms home" style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />
             </Link>
-            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.5)', lineHeight: 1.7, maxWidth: 260 }}>Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.</p>
-            <div style={{ marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(250,247,242,0.35)', fontStyle: 'italic' }}>Pakabukai keičiami per 5 sekundes.</div>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.70)', lineHeight: 1.7, maxWidth: 260 }}>Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.</p>
+            <div style={{ marginTop: 20, fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: 'rgba(250,247,242,0.50)', fontStyle: 'italic' }}>Pakabukai keičiami per 5 sekundes.</div>
           </div>
           {isMobile ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 24 }}>
               {FOOTER_COLS.map((col, index) => (
                 <div key={col.title} style={{ gridColumn: index === FOOTER_COLS.length - 1 ? '1 / -1' : 'auto' }}>
-                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', marginBottom: 16 }}>{col.title}</div>
+                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.50)', marginBottom: 16 }}>{col.title}</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {col.links.map(l => (
-                      <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.55)', textDecoration: 'none', transition: 'color 150ms' }}
+                      <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.75)', textDecoration: 'none', transition: 'color 150ms' }}
                         onMouseEnter={e => (e.currentTarget.style.color = '#FAF7F2')}
-                        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.55)')}>
+                        onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.75)')}>
                         {l.label}
                       </a>
                     ))}
@@ -58,12 +58,12 @@ export function LandingFooter() {
           ) : (
             FOOTER_COLS.map((col) => (
               <div key={col.title}>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', marginBottom: 16 }}>{col.title}</div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.50)', marginBottom: 16 }}>{col.title}</div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
-                    <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.55)', textDecoration: 'none', transition: 'color 150ms' }}
+                    <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.75)', textDecoration: 'none', transition: 'color 150ms' }}
                       onMouseEnter={e => (e.currentTarget.style.color = '#FAF7F2')}
-                      onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.55)')}>
+                      onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.75)')}>
                       {l.label}
                     </a>
                   ))}
@@ -73,8 +73,8 @@ export function LandingFooter() {
           )}
         </div>
         <div style={{ borderTop: '1px solid rgba(250,247,242,0.1)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 8 : 16 }}>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
-          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.3)' }}>hello@pawcharms.lt · Vilnius, Lietuva</div>
+          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.45)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
+          <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'rgba(250,247,242,0.45)' }}>hello@pawcharms.lt · Vilnius, Lietuva</div>
         </div>
       </div>
     </footer>

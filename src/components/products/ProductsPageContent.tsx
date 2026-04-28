@@ -25,7 +25,7 @@ export function ProductsPageContent ({ collars, charms }: ProductsPageContentPro
     <div className="min-h-screen bg-cream text-bark pt-16">
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      <main className="mx-auto px-5 pb-20 md:px-8" style={{ maxWidth: 1160, paddingTop: 40 }}>
+      <main className="mx-auto px-5 pb-[100px] md:px-10" style={{ maxWidth: 1160, paddingTop: 60 }}>
         <section
           className="mb-10 overflow-hidden rounded-[32px] border border-bark/8 px-6 py-7 md:px-9 md:py-9"
           style={{

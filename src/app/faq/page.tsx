@@ -82,11 +82,11 @@ export default function FaqPage() {
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* Hero */}
-      <section className="pt-[120px] pb-12 md:pb-16 px-6 md:px-12 text-center">
+      <section className="pt-[120px] pb-[60px] md:pb-[80px] px-5 md:px-10 text-center">
         <div className="max-w-[640px] mx-auto">
           {/* Section label */}
           <span
-            className="inline-block text-[12px] font-semibold tracking-[0.12em] uppercase opacity-50 mb-4"
+            className="inline-block text-[11px] font-medium tracking-[0.08em] uppercase opacity-50 mb-4"
             style={{ color: 'var(--color-bark)' }}
           >
             FAQ
@@ -119,7 +119,7 @@ export default function FaqPage() {
       </section>
 
       {/* FAQ columns */}
-      <section className="max-w-[1120px] mx-auto px-6 md:px-12 pb-20 md:pb-[120px]">
+      <section className="max-w-[1120px] mx-auto px-5 md:px-10 pb-[60px] md:pb-[100px]">
         {/* Single column on mobile, two columns on desktop */}
         <div className="block md:grid md:grid-cols-2 md:gap-16 md:items-start">
           <CategoryBlock
@@ -140,7 +140,7 @@ export default function FaqPage() {
 
       {/* Bottom CTA band */}
       <section
-        className="px-6 md:px-12 py-12 md:py-16 text-center"
+        className="px-5 md:px-10 py-[60px] md:py-[80px] text-center"
         style={{ background: 'var(--color-bark)' }}
       >
         <p

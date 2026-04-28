@@ -21,7 +21,7 @@ const FEATURES = [
 
 export function FeaturesStrip({ variant }: { variant: 'cream' | 'bold' }) {
   return (
-    <div className="px-10 py-5">
+    <div className="px-5 py-[40px] md:px-10 md:py-[60px]">
       <div className="max-w-[1160px] mx-auto flex justify-around gap-5 flex-wrap">
         {FEATURES.map(f => (
           <div key={f.text} className="flex flex-col items-center gap-2.5 text-center">

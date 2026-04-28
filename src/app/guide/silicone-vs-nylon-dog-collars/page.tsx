@@ -117,7 +117,7 @@ export default function ComparisonPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(comparisonSchema) }}
       />
 
-      <div style={{ background: '#FAF7F2', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
+      <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
         <LandingNav topOffset={0} />
 
         <main style={{ maxWidth: 800, margin: '0 auto', padding: '128px 24px 96px' }}>
@@ -127,9 +127,9 @@ export default function ComparisonPage() {
             </Link>
           </div>
 
-          <p style={{ fontSize: 13, fontWeight: 500, color: '#A8D5A2', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Antkaklių gidas</p>
+          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Antkaklių gidas</p>
 
-          <h1 style={{ fontSize: 40, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>
+          <h1 style={{ fontSize: 40, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>
             Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?
           </h1>
 
@@ -142,21 +142,21 @@ export default function ComparisonPage() {
           </p>
 
           {/* Comparison table */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginBottom: 24, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Palyginimas greta</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 24, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Palyginimas greta</h2>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)', marginBottom: 56 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
               <thead>
-                <tr style={{ background: '#3D3530' }}>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: '#FAF7F2', letterSpacing: '0.06em', textTransform: 'uppercase', width: '22%' }}>Kriterijus</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: '#A8D5A2', letterSpacing: '0.06em', textTransform: 'uppercase', width: '39%' }}>Silikonas</th>
+                <tr style={{ background: 'var(--color-bark)' }}>
+                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-cream)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '22%' }}>Kriterijus</th>
+                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '39%' }}>Silikonas</th>
                   <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'rgba(250,247,242,0.5)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '39%' }}>Nailonas</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON.map((row, i) => (
-                  <tr key={row.criterion} style={{ background: i % 2 === 0 ? '#FFFFFF' : '#FAF7F2', borderTop: '1px solid rgba(61,53,48,0.06)' }}>
-                    <td style={{ padding: '16px 20px', fontSize: 14, fontWeight: 600, color: '#3D3530', verticalAlign: 'top' }}>{row.criterion}</td>
+                  <tr key={row.criterion} style={{ background: i % 2 === 0 ? '#FFFFFF' : 'var(--color-cream)', borderTop: '1px solid rgba(61,53,48,0.06)' }}>
+                    <td style={{ padding: '16px 20px', fontSize: 14, fontWeight: 600, color: 'var(--color-bark)', verticalAlign: 'top' }}>{row.criterion}</td>
                     <td style={{ padding: '16px 20px', fontSize: 14, color: '#3D5a3a', lineHeight: 1.5, verticalAlign: 'top', background: row.winner === 'silicone' ? 'rgba(168,213,162,0.1)' : 'inherit' }}>{row.silicone}</td>
                     <td style={{ padding: '16px 20px', fontSize: 14, color: '#6B6560', lineHeight: 1.5, verticalAlign: 'top', background: row.winner === 'nylon' ? 'rgba(168,213,162,0.1)' : 'inherit' }}>{row.nylon}</td>
                   </tr>
@@ -166,7 +166,7 @@ export default function ComparisonPage() {
           </div>
 
           {/* Silicone pros/cons */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Silikoniniai antkakliai</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Silikoniniai antkakliai</h2>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Silikoniniai antkakliai gaminami iš maistinio silikono — tos pačios medžiagos, kuri naudojama virtuvės įrankiuose ir medicinos gaminiuose. Svarbiausias privalumas yra neporėtas paviršius: į jį neįsigeria vanduo, bakterijos ar kvapai.
@@ -188,7 +188,7 @@ export default function ComparisonPage() {
           </div>
 
           {/* Nylon pros/cons */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Nailoniniai antkakliai</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Nailoniniai antkakliai</h2>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Nailoniniai antkakliai audžiami iš poliamido pluošto ir yra vieni plačiausiai prieinamų. Kokybė stipriai skiriasi: pigesni gali greitai irti, o sustiprintas nailonas būna labai tvirtas.
@@ -210,14 +210,14 @@ export default function ComparisonPage() {
           </div>
 
           {/* Verdict */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: '#3D3530', letterSpacing: '-0.03em', marginBottom: 16, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Ką rinktis?</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 16, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>Ką rinktis?</h2>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
-            <strong style={{ color: '#3D3530' }}>Rinkitės silikoną, jei:</strong> jūsų šuo maudosi, dažnai išsipurvina ar turi jautrią odą. Vien atsparumas vandeniui ir kvapams dažnai pateisina didesnę kainą.
+            <strong style={{ color: 'var(--color-bark)' }}>Rinkitės silikoną, jei:</strong> jūsų šuo maudosi, dažnai išsipurvina ar turi jautrią odą. Vien atsparumas vandeniui ir kvapams dažnai pateisina didesnę kainą.
           </p>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
-            <strong style={{ color: '#3D3530' }}>Rinkitės nailoną, jei:</strong> jums svarbus konkretus raštas, turite labai ribotą biudžetą arba jūsų šuo retai sušlampa.
+            <strong style={{ color: 'var(--color-bark)' }}>Rinkitės nailoną, jei:</strong> jums svarbus konkretus raštas, turite labai ribotą biudžetą arba jūsų šuo retai sušlampa.
           </p>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 56 }}>
@@ -227,14 +227,14 @@ export default function ComparisonPage() {
           {/* Related guide */}
           <div style={{ borderTop: '1px solid rgba(61,53,48,0.1)', paddingTop: 32, marginBottom: 56 }}>
             <p style={{ fontSize: 13, fontWeight: 500, color: '#9B948F', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12, marginTop: 0 }}>Susijęs gidas</p>
-            <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 16, fontWeight: 500, color: '#3D3530', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 16, fontWeight: 500, color: 'var(--color-bark)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
               Kaip išmatuoti šunį antkakliui →
             </Link>
           </div>
 
           {/* CTA */}
-          <div style={{ padding: '40px', background: '#3D3530', borderRadius: 20, textAlign: 'center', marginBottom: 24 }}>
-            <p style={{ fontSize: 22, fontWeight: 500, color: '#FAF7F2', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>
+          <div style={{ padding: '40px', background: 'var(--color-bark)', borderRadius: 20, textAlign: 'center', marginBottom: 24 }}>
+            <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-cream)', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>
               Išbandykite silikoninį antkaklį
             </p>
             <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>

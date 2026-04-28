@@ -17,10 +17,10 @@ export default function CheckoutPage() {
     <div style={{ minHeight: '100vh', background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
       <LandingNav cartCount={0} onCart={() => {}} />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 16 }}>
-        <div style={{ fontSize: 18, color: '#3D3530', fontWeight: 500 }}>
+        <div style={{ fontSize: 18, color: 'var(--color-bark)', fontWeight: 500 }}>
           Nukreipiame į atsiskaitymą…
         </div>
-        <div style={{ fontSize: 14, color: '#9B948F' }}>
+        <div style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>
           Užsakymą užbaigsite saugioje Shopify atsiskaitymo aplinkoje.
         </div>
       </div>

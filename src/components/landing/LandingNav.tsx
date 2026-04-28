@@ -45,6 +45,10 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (!isMobile && menuOpen) setMenuOpen(false);
+  }, [isMobile, menuOpen]);
+
   const active = scrolled || menuOpen;
 
   return (

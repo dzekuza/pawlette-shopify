@@ -53,7 +53,7 @@ export default function CartPage() {
 
           {/* Page heading */}
           {lines.length > 0 && (
-            <h1 className="text-[32px] md:text-[48px] mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '0.02em' }}>
+            <h1 className="font-sans text-[32px] md:text-[48px] font-semibold mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '-0.02em' }}>
               Jūsų krepšelis
             </h1>
           )}
