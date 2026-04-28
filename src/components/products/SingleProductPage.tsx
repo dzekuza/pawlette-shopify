@@ -335,7 +335,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           </div>
 
           {/* Right panel on mobile */}
-          <div style={{ padding: '24px 20px 144px' }}>
+          <div style={{ padding: '24px 20px 104px' }}>
             <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
           </div>
         </div>

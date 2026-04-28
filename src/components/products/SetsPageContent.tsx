@@ -43,7 +43,7 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
             {sets.map((set) => (
               <article
                 key={set.id}
-                className='grid grid-cols-1 gap-6 xl:grid-cols-[minmax(320px,1.08fr)_minmax(280px,0.92fr)]'
+                className='grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:items-start'
                 style={{
                   padding: 24,
                   borderRadius: 30,
@@ -54,19 +54,14 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
               >
                 <div
                   style={{
-                    position: 'relative',
-                    minHeight: 320,
-                    borderRadius: 26,
-                    overflow: 'hidden',
-                    background: `linear-gradient(160deg, ${set.accentColor}26 0%, rgba(255,255,255,0.78) 100%)`,
-                    padding: 18,
+                    display: 'grid',
+                    gap: 14,
+                    alignContent: 'start',
                   }}
                 >
                   <div
-                      style={{
-                        position: 'absolute',
-                        top: 16,
-                        left: 16,
+                    style={{
+                      width: 'fit-content',
                       zIndex: 2,
                       padding: '8px 12px',
                       borderRadius: 999,
@@ -84,39 +79,72 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
 
                   <div
                     style={{
-                      position: 'absolute',
-                      inset: 0,
-                      display: 'flex',
-                      alignItems: 'stretch',
-                      justifyContent: 'space-between',
-                      padding: '64px 20px 20px',
-                      gap: 16,
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1fr) auto minmax(0, 1fr)',
+                      alignItems: 'center',
+                      gap: 14,
                     }}
                   >
                     <div
                       style={{
-                        flex: '1 1 auto',
+                        aspectRatio: '1 / 1',
+                        minWidth: 0,
                         borderRadius: 24,
                         overflow: 'hidden',
-                        background: '#F7F2EB',
+                        background: `linear-gradient(160deg, ${set.accentColor}18 0%, rgba(255,255,255,0.94) 100%)`,
+                        border: '1px solid rgba(61,53,48,0.06)',
                         boxShadow: '0 12px 28px rgba(61,53,48,0.08)',
                       }}
                     >
-                      <img src={set.collar.image} alt={set.collar.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                      <img
+                        src={set.collar.image}
+                        alt={set.collar.title}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </div>
+
+                    <div
+                      aria-hidden='true'
+                      style={{
+                        width: 42,
+                        height: 42,
+                        borderRadius: 999,
+                        display: 'grid',
+                        placeItems: 'center',
+                        background: '#FFFDF9',
+                        border: '1px solid rgba(61,53,48,0.08)',
+                        boxShadow: '0 10px 24px rgba(61,53,48,0.08)',
+                        color: '#6B6460',
+                        fontSize: 24,
+                        fontWeight: 500,
+                        lineHeight: 1,
+                      }}
+                    >
+                      +
                     </div>
 
                     <div
                       style={{
-                        width: '38%',
-                        alignSelf: 'flex-end',
-                        borderRadius: 22,
+                        aspectRatio: '1 / 1',
+                        minWidth: 0,
+                        borderRadius: 24,
                         overflow: 'hidden',
                         background: '#FFF8F0',
+                        border: '1px solid rgba(61,53,48,0.06)',
                         boxShadow: '0 12px 28px rgba(61,53,48,0.1)',
-                        transform: 'translateY(18px)',
                       }}
                     >
-                      <img src={set.leash.image} alt={set.leash.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', aspectRatio: '3 / 4' }} />
+                      <img
+                        src={set.leash.image}
+                        alt={set.leash.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain',
+                          display: 'block',
+                          padding: 18,
+                        }}
+                      />
                     </div>
                   </div>
                 </div>

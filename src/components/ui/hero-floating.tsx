@@ -37,6 +37,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const isCompactMobile = w < 420;
+  const shouldStackCtas = w < 520;
 
   return (
     <section
@@ -153,14 +154,14 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           custom={0.4} variants={FADE_UP} initial="hidden" animate="show"
           style={{
             display: "grid",
-            gridTemplateColumns: isCompactMobile ? "1fr" : "repeat(2, minmax(0, 1fr))",
+            gridTemplateColumns: shouldStackCtas ? "1fr" : "repeat(2, minmax(0, 1fr))",
             gap: 10,
             width: "100%"
           }}
         >
           <Link
             href="/products"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", transition: "background 150ms" }}
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", whiteSpace: "nowrap", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
           >
@@ -168,9 +169,17 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </Link>
           <Link
             href="/products/charm-charms"
-            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "14px 32px", borderRadius: 100, border: "2px solid #A8D5A2", color: "#2a5a25", textDecoration: "none", background: "rgba(168,213,162,0.1)", display: "block", textAlign: "center", transition: "background 150ms, border-color 150ms" }}
-            onMouseOver={e => (e.currentTarget.style.background = "#D4EDD1")}
-            onMouseOut={e => (e.currentTarget.style.background = "rgba(168,213,162,0.1)")}
+            style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "14px 32px", borderRadius: 100, border: "1.5px solid rgba(168,213,162,0.42)", color: "#2a5a25", textDecoration: "none", background: "rgba(255,253,249,0.88)", boxShadow: "0 10px 24px rgba(61,53,48,0.08)", display: "block", textAlign: "center", whiteSpace: "nowrap", transition: "background 150ms, border-color 150ms, box-shadow 150ms" }}
+            onMouseOver={e => {
+              e.currentTarget.style.background = "#FFFDF9"
+              e.currentTarget.style.borderColor = "rgba(168,213,162,0.6)"
+              e.currentTarget.style.boxShadow = "0 14px 28px rgba(61,53,48,0.1)"
+            }}
+            onMouseOut={e => {
+              e.currentTarget.style.background = "rgba(255,253,249,0.88)"
+              e.currentTarget.style.borderColor = "rgba(168,213,162,0.42)"
+              e.currentTarget.style.boxShadow = "0 10px 24px rgba(61,53,48,0.08)"
+            }}
           >
             Pirkti pakabukus
           </Link>

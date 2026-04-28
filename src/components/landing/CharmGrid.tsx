@@ -8,7 +8,10 @@ export function CharmGrid() {
   const [charms, setCharms] = useState<ShopifyCharm[]>([]);
 
   useEffect(() => {
-    getCharms().then(setCharms)
+    getCharms().then(items => {
+      const shuffled = [...items].sort(() => Math.random() - 0.5);
+      setCharms(shuffled.slice(0, 9));
+    })
   }, [])
 
   const selectedCharm = charms.find(c => c.id === selected);

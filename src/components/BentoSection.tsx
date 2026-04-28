@@ -31,12 +31,12 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
   return (
     <section style={{ background: bg, transition: 'background 400ms' }}>
       {/* max-width lives here, not on the section */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '48px 20px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 
         {/* Row 1 — Material + Origin */}
         <div style={row}>
           {/* Material */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-sage)', padding: '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
+          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-sage)', padding: isMobile ? '28px 24px' : '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 Medžiaga
@@ -58,7 +58,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           </div>
 
           {/* Origin */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-bark)', padding: '40px 36px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-bark)', padding: isMobile ? '28px 24px' : '40px 36px', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
               Kilmė
             </div>
@@ -77,7 +77,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
         {/* Row 2 — Sizing + Charm system + Care */}
         <div style={row}>
           {/* Sizing */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: cardBg, border: `1px solid ${border}`, padding: '24px' }}>
+          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: cardBg, border: `1px solid ${border}`, padding: isMobile ? '20px' : '24px' }}>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, marginBottom: 16, fontFamily: "'DM Sans',sans-serif" }}>
               Dydžių gidas
             </div>
@@ -105,7 +105,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           </div>
 
           {/* Charm system */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-blossom)', padding: '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
+          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-blossom)', padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 Pakabukų sistema
@@ -126,7 +126,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           </div>
 
           {/* Care */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: cardBgAlt, border: `1px solid ${border}`, padding: '24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: cardBgAlt, border: `1px solid ${border}`, padding: isMobile ? '20px' : '24px', display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textMuted, fontFamily: "'DM Sans',sans-serif" }}>
               Priežiūra
             </div>
