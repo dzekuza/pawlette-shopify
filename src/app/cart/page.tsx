@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button';
 import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
-import { DisplayHeading } from '@/components/storefront/Typography';
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
 const SHIPPING_THRESHOLD = 50;
 const SHIPPING_COST = 4.9;
@@ -105,14 +105,28 @@ export default function CartPage() {
 
                 {amountToFreeShipping === 0 && (
                   <div
-                    className="rounded-2xl px-5 py-3 mb-4 text-[14px] font-semibold"
+                    className="rounded-2xl px-4 py-3 mb-4 flex items-center gap-3"
                     style={{
-                      background: 'rgba(168,213,162,0.18)',
-                      border: '1.5px solid var(--color-sage)',
-                      color: 'var(--color-bark)',
+                      background: 'rgba(168,213,162,0.15)',
+                      border: '1px solid rgba(168,213,162,0.5)',
                     }}
                   >
-                    Jums priklauso nemokamas pristatymas! 🎉
+                    <div style={{
+                      width: 32, height: 32, borderRadius: '50%',
+                      background: 'var(--color-sage)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0, fontSize: 15,
+                    }}>
+                      🎉
+                    </div>
+                    <div>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--color-bark)' }}>
+                        Nemokamas pristatymas!
+                      </p>
+                      <p style={{ margin: 0, fontSize: 12, color: '#6B6460' }}>
+                        Jūsų užsakymui priklauso nemokamas pristatymas.
+                      </p>
+                    </div>
                   </div>
                 )}
 
@@ -131,27 +145,19 @@ export default function CartPage() {
                         {/* Thumbnail */}
                         <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-[#F0EBE5] flex items-center justify-center">
                           {thumb
-                            ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-cover" />
+                            ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-contain p-[10px]" />
                             : <span style={{ fontSize: 24 }}>🐾</span>
                           }
                         </div>
                         {/* Item details */}
                         <div className="flex-1 min-w-0">
-                          <p
-                            className="text-[15px] mb-1 truncate"
-                            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
-                          >
+                          <p className="text-[15px] font-semibold mb-1 truncate" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>
                             {line.merchandise.product.title}
                           </p>
                           <div className="flex flex-wrap gap-1.5 items-center">
-                            <span
-                              className="inline-block text-[11px] font-semibold px-[8px] py-[2px] rounded-full"
-                              style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
-                            >
-                              Kiekis {line.quantity}
-                            </span>
+                            <Eyebrow className="text-[11px]">Kiekis {line.quantity}</Eyebrow>
                             {line.merchandise.title && line.merchandise.title !== 'Default Title' && (
-                              <span className="text-[11px] opacity-50" style={{ color: 'var(--color-bark)' }}>{line.merchandise.title}</span>
+                              <span className="text-[12px] opacity-50" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>{line.merchandise.title}</span>
                             )}
                           </div>
                         </div>
@@ -159,8 +165,8 @@ export default function CartPage() {
                         {/* Price + remove */}
                         <div className="flex flex-col items-end gap-2 shrink-0">
                           <span
-                            className="text-[20px]"
-                            style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
+                            className="text-[16px] font-medium"
+                            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                           >
                             €{lineTotal.toFixed(2)}
                           </span>
@@ -192,7 +198,7 @@ export default function CartPage() {
 
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
-                <SurfaceCard variant='white' className="rounded-2xl border-bark/10 px-5 pt-5 pb-6">
+                <SurfaceCard variant='white' className="rounded-2xl border-bark/10 px-4 pt-4 pb-4">
                   <p className="text-[14px] font-semibold mb-4 uppercase tracking-widest opacity-50" style={{ color: 'var(--color-bark)' }}>
                     Užsakymo santrauka
                   </p>

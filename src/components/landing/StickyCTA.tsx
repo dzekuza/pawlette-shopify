@@ -12,12 +12,16 @@ export function StickyCTA({ visible }: { visible: boolean }) {
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 150,
       background: 'rgba(250,247,242,0.96)', backdropFilter: 'blur(16px)',
       borderTop: '1px solid #E8E3DC',
-      padding: isMobile ? '12px 16px' : '14px 24px',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
       transform: visible ? 'translateY(0)' : 'translateY(100%)',
       transition: 'transform 350ms ease',
       boxShadow: '0 -4px 24px rgba(61,53,48,0.08)',
     }}>
+      <div style={{
+        maxWidth: 1200,
+        margin: '0 auto',
+        padding: isMobile ? '12px 16px' : '14px 48px',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+      }}>
       {!isMobile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex' }}>
@@ -45,6 +49,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           onMouseLeave={e => (e.currentTarget.style.background = '#A8D5A2')}>
           Kurk savo antkaklį →
         </Link>
+      </div>
       </div>
     </div>
   );
