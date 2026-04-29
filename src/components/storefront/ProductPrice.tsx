@@ -47,7 +47,7 @@ export function ProductPrice ({
   const { hasSale, savingsPercent } = getSaleMeta(currentPrice, originalPrice)
 
   const currentSizeClass = size === 'detail'
-    ? 'text-[26px] md:text-[30px]'
+    ? 'text-[22px] md:text-[25px]'
     : 'text-[22px]'
   const originalSizeClass = size === 'detail'
     ? 'text-[14px]'

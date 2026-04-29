@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { Reviews } from '@/components/landing/Reviews'
@@ -406,7 +407,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {/* charm right panel content — same as desktop below */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
-              <h1 style={{ margin: 0, fontSize: 28, fontWeight: 600, lineHeight: 1.2, color: '#3D3530' }}>{displayName}</h1>
+              <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: 1.18, color: '#3D3530' }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
@@ -493,7 +494,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           <div style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
-              <h1 style={{ margin: 0, fontSize: 36, fontWeight: 600, lineHeight: 1.2, color: '#3D3530' }}>{displayName}</h1>
+              <h1 style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.14, color: '#3D3530' }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
@@ -779,7 +780,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
       {/* Title & price */}
       <div>
         <p style={{ margin: '0 0 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: TEXT_MUTED }}>Atsparus vandeniui antkaklis</p>
-        <h1 style={{ margin: '0 0 10px', fontSize: 34, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>{name}</h1>
+        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>{name}</h1>
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
@@ -796,97 +797,6 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
               {point}
             </div>
           ))}
-        </div>
-        <div
-          style={{
-            marginTop: 14,
-            padding: '14px 14px 12px',
-            borderRadius: 18,
-            background: 'linear-gradient(180deg, rgba(255,253,249,0.96) 0%, rgba(244,239,232,0.92) 100%)',
-            border: `1px solid ${BORDER_COLOR}`,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 12,
-          }}
-        >
-          <div style={{ overflow: 'hidden' }}>
-            <div
-              style={{
-                display: 'flex',
-                transform: `translateX(-${activeReview * 100}%)`,
-                transition: 'transform 280ms ease',
-              }}
-            >
-              {PDP_REVIEWS.map((review) => (
-                <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
-                  <TestimonialQuoteCard author={review.author} quote={review.quote} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-            <div style={{ display: 'flex', gap: 6 }}>
-              {PDP_REVIEWS.map((review, index) => (
-                <button
-                  key={review.author}
-                  type="button"
-                  onClick={() => setActiveReview(index)}
-                  aria-label={`Rodyti atsiliepimą ${index + 1}`}
-                  aria-pressed={activeReview === index}
-                  style={{
-                    width: activeReview === index ? 20 : 7,
-                    height: 7,
-                    borderRadius: 999,
-                    border: 'none',
-                    padding: 0,
-                    cursor: 'pointer',
-                    background: activeReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)',
-                    transition: 'width 180ms ease, background 180ms ease',
-                  }}
-                />
-              ))}
-            </div>
-
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                type="button"
-                onClick={() => setActiveReview((current) => (current === 0 ? PDP_REVIEWS.length - 1 : current - 1))}
-                aria-label="Ankstesnis atsiliepimas"
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: '50%',
-                  border: `1px solid ${BORDER_COLOR}`,
-                  background: '#FFFDF9',
-                  color: TEXT_PRIMARY,
-                  cursor: 'pointer',
-                  fontSize: 16,
-                  lineHeight: 1,
-                }}
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                onClick={() => setActiveReview((current) => (current + 1) % PDP_REVIEWS.length)}
-                aria-label="Kitas atsiliepimas"
-                style={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: '50%',
-                  border: `1px solid ${BORDER_COLOR}`,
-                  background: '#FFFDF9',
-                  color: TEXT_PRIMARY,
-                  cursor: 'pointer',
-                  fontSize: 16,
-                  lineHeight: 1,
-                }}
-              >
-                ›
-              </button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -1046,7 +956,23 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
               <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.76)' }}>Įeina į šį rinkinį</span>
             </div>
           )}
-          <span style={{ fontSize: 20, lineHeight: 1, color: TEXT_PRIMARY, position: 'relative', zIndex: 1, width: 34, height: 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,253,249,0.55)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.45)' }}>+</span>
+          <span
+            style={{
+              color: TEXT_PRIMARY,
+              position: 'relative',
+              zIndex: 1,
+              width: 34,
+              height: 34,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'rgba(255,253,249,0.55)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.45)',
+            }}
+          >
+            <Plus aria-hidden size={18} strokeWidth={2.2} />
+          </span>
         </button>
         <p style={{ margin: '8px 0 0', fontSize: 12, lineHeight: 1.45, color: TEXT_MUTED }}>
           Jūsų rinkinyje jau yra penki pakabukai. Čia galite pasirinkti jų derinį prieš atsiskaitymą.
@@ -1073,6 +999,94 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
       <p style={{ textAlign: 'center', margin: '-8px 0 0', fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>
         Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje
       </p>
+
+      <div
+        style={{
+          marginTop: 14,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+        }}
+      >
+        <div style={{ overflow: 'hidden' }}>
+          <div
+            style={{
+              display: 'flex',
+              transform: `translateX(-${activeReview * 100}%)`,
+              transition: 'transform 280ms ease',
+            }}
+          >
+            {PDP_REVIEWS.map((review) => (
+              <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
+                <TestimonialQuoteCard author={review.author} quote={review.quote} />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+          <div style={{ display: 'flex', gap: 6 }}>
+            {PDP_REVIEWS.map((review, index) => (
+              <button
+                key={review.author}
+                type="button"
+                onClick={() => setActiveReview(index)}
+                aria-label={`Rodyti atsiliepimą ${index + 1}`}
+                aria-pressed={activeReview === index}
+                style={{
+                  width: activeReview === index ? 20 : 7,
+                  height: 7,
+                  borderRadius: 999,
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  background: activeReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)',
+                  transition: 'width 180ms ease, background 180ms ease',
+                }}
+              />
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button
+              type="button"
+              onClick={() => setActiveReview((current) => (current === 0 ? PDP_REVIEWS.length - 1 : current - 1))}
+              aria-label="Ankstesnis atsiliepimas"
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: '50%',
+                border: `1px solid ${BORDER_COLOR}`,
+                background: 'transparent',
+                color: TEXT_PRIMARY,
+                cursor: 'pointer',
+                fontSize: 16,
+                lineHeight: 1,
+              }}
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveReview((current) => (current + 1) % PDP_REVIEWS.length)}
+              aria-label="Kitas atsiliepimas"
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: '50%',
+                border: `1px solid ${BORDER_COLOR}`,
+                background: 'transparent',
+                color: TEXT_PRIMARY,
+                cursor: 'pointer',
+                fontSize: 16,
+                lineHeight: 1,
+              }}
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Accordion */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>

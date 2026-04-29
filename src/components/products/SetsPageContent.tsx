@@ -1,9 +1,11 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { LandingNav } from '@/components/landing/LandingNav'
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 import { useCartCount } from '@/hooks/useCartCount'
 import type { BundleSet } from '@/lib/sets'
 
@@ -16,24 +18,30 @@ export function SetsPageContent ({ sets }: { sets: BundleSet[] }) {
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className='mx-auto px-5 pb-[100px] md:px-10' style={{ maxWidth: 1320, paddingTop: 60 }}>
-        <section
-          style={{
-            padding: 'clamp(28px, 4vw, 44px)',
-            borderRadius: 36,
-            background: 'linear-gradient(135deg, rgba(255,170,120,0.16) 0%, rgba(255,108,155,0.12) 30%, rgba(109,166,255,0.14) 68%, rgba(88,208,170,0.12) 100%)',
-            border: '1px solid rgba(61,53,48,0.08)',
-            boxShadow: '0 18px 50px rgba(61,53,48,0.08)',
-          }}
-        >
-          <div>
-            <div className='sets-kicker mb-3 text-bark-muted'>
-              Rinkiniai
+        <section className='relative mb-12 overflow-hidden rounded-[32px] px-6 pb-6 pt-12 md:px-16 md:pb-6 md:pt-16'>
+          <div className='pointer-events-none absolute -left-8 top-0 hidden md:block'>
+            <Image src='/charm-z.png' alt='' width={89} height={100} className='h-auto w-[89px] -rotate-[3deg]' />
+          </div>
+          <div className='pointer-events-none absolute left-[22%] top-0 hidden md:block'>
+            <Image src='/charm-heart.png' alt='' width={105} height={108} className='h-auto w-[105px] -rotate-[10deg]' />
+          </div>
+          <div className='pointer-events-none absolute left-[25%] top-[72%] hidden md:block'>
+            <Image src='/charm-star.png' alt='' width={91} height={120} className='h-auto w-[91px] rotate-[5deg]' />
+          </div>
+          <div className='pointer-events-none absolute right-[18%] top-0 hidden md:block'>
+            <Image src='/charm-paw.png' alt='' width={104} height={96} className='h-auto w-[104px] -rotate-[4deg]' />
+          </div>
+
+          <div className='relative flex flex-col gap-8 md:flex-row md:items-start md:justify-between'>
+            <div className='max-w-[12ch]'>
+              <Eyebrow className='mb-3'>Rinkiniai</Eyebrow>
+              <DisplayHeading as='h1' size='floatingHero' className='m-0 max-w-[9ch] text-[clamp(3.25rem,7vw,4.8rem)] leading-[0.98]'>
+                Rinkiniai
+              </DisplayHeading>
             </div>
-            <h1 className='sets-display m-0 text-bark'>
-              Suderinti antkakliai ir pavadėliai viename rinkinyje.
-            </h1>
-            <p className='sets-copy mb-0 mt-4 text-bark-muted'>
-              Peržiūrėkite paruoštus derinius, palyginkite rinkinio kainą su pirkimu atskirai ir iškart atverkite derantį antkaklį bei pavadėlį.
+
+            <p className='max-w-[24rem] font-sans text-[14px] leading-6 text-bark-muted md:pt-4'>
+              Rinkitės vandeniui atsparius antkaklius, naršykite keičiamus pakabukus ir raskite paruoštą derinį vienoje vietoje.
             </p>
           </div>
         </section>
