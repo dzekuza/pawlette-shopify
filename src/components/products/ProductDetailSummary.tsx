@@ -3,6 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import type { ProductDetail } from '@/lib/catalog'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 
 interface ProductDetailSummaryProps {
   isMobile: boolean
@@ -134,33 +137,19 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
   return (
     <div style={{ paddingTop: isMobile ? 8 : 12 }}>
       {product.badge && (
-        <div
-          style={{
-            marginBottom: 14,
-            display: 'inline-flex',
-            borderRadius: 100,
-            padding: '5px 11px',
-            fontSize: 11,
-            textTransform: 'uppercase',
-            letterSpacing: '0.06em',
-            color: '#3D3530',
-            background: `${product.accentColor}22`
-          }}
+        <Badge
+          variant='default'
+          size='compact'
+          className='mb-[14px]'
+          style={{ color: '#3D3530', backgroundColor: `${product.accentColor}22` }}
         >
           {product.badge}
-        </div>
+        </Badge>
       )}
 
-      <h1
-        style={{
-          margin: 0,
-          fontSize: isMobile ? 34 : 48,
-          lineHeight: 1.03,
-          letterSpacing: '-0.04em'
-        }}
-      >
+      <DisplayHeading as='h1' size='section' className={isMobile ? 'text-[34px] leading-[1.03] tracking-[-0.04em]' : 'text-[48px] leading-[1.03] tracking-[-0.04em]'}>
         {product.name}
-      </h1>
+      </DisplayHeading>
 
       <p
         style={{
@@ -226,9 +215,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
               }}
             >
               <div>
-                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#9B948F', marginBottom: 8 }}>
-                  Kaina
-                </div>
+                <Eyebrow className='mb-2'>Kaina</Eyebrow>
                 <div style={{ fontSize: isMobile ? 38 : 44, lineHeight: 0.95, letterSpacing: '-0.05em', color: '#3D3530' }}>
                   {product.price}
                 </div>
@@ -253,39 +240,12 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                 alignItems: 'stretch'
               }}
             >
-              <Link
-                href={product.ctaHref}
-                style={{
-                  textDecoration: 'none',
-                  borderRadius: 999,
-                  background: '#A8D5A2',
-                  color: '#2a5a25',
-                  padding: isMobile ? '12px 16px' : '13px 18px',
-                  fontSize: 15,
-                  fontWeight: 600,
-                  textAlign: 'center',
-                  flex: isMobile ? '1 1 100%' : '0 0 auto',
-                  minWidth: isMobile ? undefined : 220
-                }}
-              >
-                {product.ctaLabel}
-              </Link>
-              <Link
-                href='/products'
-                style={{
-                  textDecoration: 'none',
-                  borderRadius: 999,
-                  border: '1px solid rgba(61,53,48,0.14)',
-                  color: '#3D3530',
-                  padding: isMobile ? '12px 16px' : '13px 18px',
-                  fontSize: 15,
-                  textAlign: 'center',
-                  flex: isMobile ? '1 1 100%' : '0 0 auto',
-                  minWidth: isMobile ? undefined : 220
-                }}
-              >
-                Peržiūrėti daugiau produktų
-              </Link>
+              <Button asChild variant='sage' size='pill' className={isMobile ? 'w-full flex-1' : 'min-w-[220px]'}>
+                <Link href={product.ctaHref}>{product.ctaLabel}</Link>
+              </Button>
+              <Button asChild variant='pillOutline' size='pill' className={isMobile ? 'w-full flex-1' : 'min-w-[220px]'}>
+                <Link href='/products'>Peržiūrėti daugiau produktų</Link>
+              </Button>
             </div>
           </div>
         </div>
@@ -302,9 +262,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
         >
           {statItems.map((item) => (
             <div key={item.label}>
-              <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 6 }}>
-                {item.label}
-              </div>
+              <Eyebrow className='mb-1.5 text-[10px] font-semibold'>{item.label}</Eyebrow>
               <div style={{ fontSize: 15, lineHeight: 1.45, color: '#3D3530', fontWeight: 500 }}>
                 {item.value}
               </div>
@@ -376,9 +334,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
       </section>
 
       <section style={{ marginTop: 30, paddingTop: 22, borderTop: '1px solid rgba(61,53,48,0.10)' }}>
-        <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#9B948F', fontWeight: 600, marginBottom: 8 }}>
-          Verta žinoti
-        </div>
+        <Eyebrow className='mb-2 text-[12px] font-semibold'>Verta žinoti</Eyebrow>
 
         {faqItems.map((item, index) => {
           const isOpen = openFaq === index

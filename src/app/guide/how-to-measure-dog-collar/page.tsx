@@ -85,7 +85,7 @@ export default function MeasureGuidePage() {
 
           <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Dydžių gidas</p>
 
-          <h1 style={{ fontSize: 40, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>
+          <h1 style={{ fontSize: 40, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>
             Kaip išmatuoti šunį antkakliui
           </h1>
 
@@ -94,7 +94,7 @@ export default function MeasureGuidePage() {
           </p>
 
           {/* Steps */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 28, marginTop: 0, fontFamily: "'DM Sans', sans-serif" }}>5 žingsnių matavimo gidas</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 28, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>5 žingsnių matavimo gidas</h2>
 
           {howToSchema.step.map((step, i) => (
             <div key={i} style={{ display: 'flex', gap: 20, marginBottom: 28 }}>
@@ -109,7 +109,7 @@ export default function MeasureGuidePage() {
           ))}
 
           {/* Size chart */}
-          <h2 style={{ fontSize: 24, fontWeight: 700, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginTop: 56, marginBottom: 24, fontFamily: "'DM Sans', sans-serif" }}>Dydžių lentelė</h2>
+          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginTop: 56, marginBottom: 24, fontFamily: "'Luckiest Guy', cursive" }}>Dydžių lentelė</h2>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>

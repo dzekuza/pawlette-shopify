@@ -1,0 +1,437 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - paragraph [ref=e26]: Atsparus vandeniui antkaklis
+        - heading "Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m" [level=1] [ref=e27]
+        - generic [ref=e28]:
+          - generic [ref=e30]: €40
+          - generic [ref=e31]: Nemokamas pristatymas nuo €50
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]:
+              - img [ref=e35]
+              - img [ref=e37]
+              - img [ref=e39]
+              - img [ref=e41]
+              - img [ref=e43]
+            - generic [ref=e45]: 4.9 iš 9 atsiliepimų
+          - generic [ref=e46]: 2–4 d. pristatymas
+          - generic [ref=e47]: 30 d. grąžinimas
+          - generic [ref=e48]: Pagaminta Lietuvoje
+        - generic [ref=e49]:
+          - generic [ref=e51]:
+            - generic [ref=e54]:
+              - paragraph [ref=e55]: “Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.”
+              - text: Laima K.
+            - generic [ref=e58]:
+              - paragraph [ref=e59]: “Minkštas, lengvai valomas, o pakabukai laikėsi vietoje net po lietingo bėgimo parke.”
+              - text: Egle M.
+            - generic [ref=e62]:
+              - paragraph [ref=e63]: “Gyvai atrodo itin kokybiškai, o mūsų šuo pagaliau turi antkaklį, kuris ir žaismingas, ir tvarkingas.”
+              - text: Rasa T.
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - button "Rodyti atsiliepimą 1" [pressed] [ref=e66] [cursor=pointer]
+              - button "Rodyti atsiliepimą 2" [ref=e67] [cursor=pointer]
+              - button "Rodyti atsiliepimą 3" [ref=e68] [cursor=pointer]
+            - generic [ref=e69]:
+              - button "Ankstesnis atsiliepimas" [ref=e70] [cursor=pointer]: ‹
+              - button "Kitas atsiliepimas" [ref=e71] [cursor=pointer]: ›
+      - generic [ref=e73]:
+        - generic [ref=e75]: Įtraukti pakabukai
+        - button "Pasirinkite 5 pakabukus Įeina į šį rinkinį +" [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]:
+            - generic [ref=e78]: Pasirinkite 5 pakabukus
+            - generic [ref=e79]: Įeina į šį rinkinį
+          - generic [ref=e80]: +
+        - paragraph [ref=e81]: Jūsų rinkinyje jau yra penki pakabukai. Čia galite pasirinkti jų derinį prieš atsiskaitymą.
+      - button "Į krepšelį — €40" [ref=e82] [cursor=pointer]
+      - paragraph [ref=e83]: Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje
+      - generic [ref=e84]:
+        - button "Aprašymas +" [ref=e86] [cursor=pointer]:
+          - text: Aprašymas
+          - generic [ref=e87]: +
+        - button "Savybės +" [ref=e89] [cursor=pointer]:
+          - text: Savybės
+          - generic [ref=e90]: +
+        - button "Į rinkinį įeina +" [ref=e92] [cursor=pointer]:
+          - text: Į rinkinį įeina
+          - generic [ref=e93]: +
+        - button "Priežiūra +" [ref=e95] [cursor=pointer]:
+          - text: Priežiūra
+          - generic [ref=e96]: +
+        - button "Pristatymas ir grąžinimas +" [ref=e98] [cursor=pointer]:
+          - text: Pristatymas ir grąžinimas
+          - generic [ref=e99]: +
+    - generic [ref=e101]:
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: Medžiaga
+            - generic [ref=e106]:
+              - text: Atsparūs vandeniui.
+              - text: Be kvapo. Be dėmių.
+            - generic [ref=e107]: TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.
+          - generic [ref=e108]:
+            - generic [ref=e109]: Ežerai
+            - generic [ref=e110]: Purvas
+            - generic [ref=e111]: Lietus
+            - generic [ref=e112]: Sniegas
+        - generic [ref=e113]:
+          - generic [ref=e114]: Kilmė
+          - generic [ref=e115]:
+            - text: Pagaminta rankomis
+            - text: Vilniuje, Lietuvoje.
+          - generic [ref=e116]: Mažos partijos. Kerpama ir surenkama rankomis mūsų dirbtuvėse. Kiekvienas antkaklis išsiunčiamas lino maišelyje.
+          - generic [ref=e117]: Vandeniui atspari.
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - generic [ref=e120]: Dydžių gidas
+          - generic [ref=e121]:
+            - generic [ref=e122]: S
+            - generic [ref=e123]: 36 cm
+          - generic [ref=e124]: Beagle, Cocker Spaniel
+          - slider [ref=e127] [cursor=pointer]: "36"
+          - generic [ref=e128]:
+            - generic [ref=e129]:
+              - generic [ref=e130]: XS
+              - generic [ref=e131]: 20–28
+            - generic [ref=e132]:
+              - generic [ref=e133]: S
+              - generic [ref=e134]: 28–36
+            - generic [ref=e135]:
+              - generic [ref=e136]: M
+              - generic [ref=e137]: 36–44
+            - generic [ref=e138]:
+              - generic [ref=e139]: L
+              - generic [ref=e140]: 44–52
+        - generic [ref=e141]:
+          - generic [ref=e142]:
+            - generic [ref=e143]: Pakabukų sistema
+            - generic [ref=e144]: Prisisega per 5 sekundes.
+            - generic [ref=e145]: Magnetinė jungtis. Jokių segtukų. Jokių įrankių. Jokio vargo.
+          - generic [ref=e146]:
+            - generic [ref=e147]: 🌸
+            - generic [ref=e148]: ⭐
+            - generic [ref=e149]: 🦋
+            - generic [ref=e150]: 🌿
+            - generic [ref=e151]: +8 daugiau
+        - generic [ref=e152]:
+          - generic [ref=e153]: Priežiūra
+          - generic [ref=e156]:
+            - generic [ref=e157]: Nuplauk
+            - generic [ref=e158]: Po kiekvienų maudynių ar purvino pasivaikščiojimo.
+          - generic [ref=e161]:
+            - generic [ref=e162]: Džiovink ore
+            - generic [ref=e163]: Padėk lygiai. Nedžiovink džiovyklėje.
+          - generic [ref=e166]:
+            - generic [ref=e167]: Nuvalyk pakabukus
+            - generic [ref=e168]: Drėgna šluoste, tuomet palik išdžiūti.
+          - generic [ref=e171]:
+            - generic [ref=e172]: Laikyk lygiai
+            - generic [ref=e173]: Lino maišelyje.
+    - heading "Jūsų akimirkos" [level=2] [ref=e175]
+    - generic [ref=e206]:
+      - generic [ref=e207]:
+        - generic [ref=e208]:
+          - paragraph [ref=e209]: Klientų atsiliepimai
+          - heading "Patvirtinta šunų ir jų šeimininkų." [level=2] [ref=e210]
+        - generic [ref=e212]:
+          - button "Ankstesnis" [disabled] [ref=e213]: ←
+          - button "Kitas" [ref=e214]: →
+      - generic [ref=e216]:
+        - generic [ref=e217]:
+          - img "Laima K." [ref=e218]
+          - generic [ref=e220]:
+            - generic [ref=e221]:
+              - img [ref=e222]
+              - img [ref=e224]
+              - img [ref=e226]
+              - img [ref=e228]
+              - img [ref=e230]
+              - generic [ref=e232]: "5.0"
+            - paragraph [ref=e233]: “Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų vis dar atrodo kaip naujas.”
+            - generic [ref=e234]:
+              - img "Laima K." [ref=e235]
+              - generic [ref=e236]: Laima K.
+        - generic [ref=e237]:
+          - img "Marta S." [ref=e238]
+          - generic [ref=e240]:
+            - generic [ref=e241]:
+              - img [ref=e242]
+              - img [ref=e244]
+              - img [ref=e246]
+              - img [ref=e248]
+              - img [ref=e250]
+              - generic [ref=e252]: "5.0"
+            - paragraph [ref=e253]: “Maudomės kas savaitę, o antkaklis išlieka švarus, minkštas ir patogus.”
+            - generic [ref=e254]:
+              - img "Marta S." [ref=e255]
+              - generic [ref=e256]: Marta S.
+        - generic [ref=e257]:
+          - img "Rūta P." [ref=e258]
+          - generic [ref=e260]:
+            - generic [ref=e261]:
+              - img [ref=e262]
+              - img [ref=e264]
+              - img [ref=e266]
+              - img [ref=e268]
+              - img [ref=e270]
+              - generic [ref=e272]: "5.0"
+            - paragraph [ref=e273]: “Užsakiau tris dovanoms. Ir pakuotė, ir kokybė tikrai nuostabios.”
+            - generic [ref=e274]:
+              - img "Rūta P." [ref=e275]
+              - generic [ref=e276]: Rūta P.
+        - generic [ref=e277]:
+          - img "Aistė J." [ref=e278]
+          - generic [ref=e280]:
+            - generic [ref=e281]:
+              - img [ref=e282]
+              - img [ref=e284]
+              - img [ref=e286]
+              - img [ref=e288]
+              - img [ref=e290]
+              - generic [ref=e292]: "4.9"
+            - paragraph [ref=e293]: “Per mūsų kasdienį sustojimą kavinėje visada sulaukiame komplimentų.”
+            - generic [ref=e294]:
+              - img "Aistė J." [ref=e295]
+              - generic [ref=e296]: Aistė J.
+        - generic [ref=e297]:
+          - img "Monika T." [ref=e298]
+          - generic [ref=e300]:
+            - generic [ref=e301]:
+              - img [ref=e302]
+              - img [ref=e304]
+              - img [ref=e306]
+              - img [ref=e308]
+              - img [ref=e310]
+              - generic [ref=e312]: "5.0"
+            - paragraph [ref=e313]: “Pakankamai lengvas bėgimui ir pakankamai saugus pilnam sprintui.”
+            - generic [ref=e314]:
+              - img "Monika T." [ref=e315]
+              - generic [ref=e316]: Monika T.
+        - generic [ref=e317]:
+          - img "Greta N." [ref=e318]
+          - generic [ref=e320]:
+            - generic [ref=e321]:
+              - img [ref=e322]
+              - img [ref=e324]
+              - img [ref=e326]
+              - img [ref=e328]
+              - img [ref=e330]
+              - generic [ref=e332]: "5.0"
+            - paragraph [ref=e333]: “Auksinės valandos nuotraukose Blossom rinkinys atrodo nerealiai.”
+            - generic [ref=e334]:
+              - img "Greta N." [ref=e335]
+              - generic [ref=e336]: Greta N.
+        - generic [ref=e337]:
+          - img "Tomas V." [ref=e338]
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - img [ref=e342]
+              - img [ref=e344]
+              - img [ref=e346]
+              - img [ref=e348]
+              - img [ref=e350]
+              - generic [ref=e352]: "4.8"
+            - paragraph [ref=e353]: “Labai lengva pakeisti pakabukus savaitgalio ir darbo dienų deriniams.”
+            - generic [ref=e354]:
+              - img "Tomas V." [ref=e355]
+              - generic [ref=e356]: Tomas V.
+        - generic [ref=e357]:
+          - img "Eglė R." [ref=e358]
+          - generic [ref=e360]:
+            - generic [ref=e361]:
+              - img [ref=e362]
+              - img [ref=e364]
+              - img [ref=e366]
+              - img [ref=e368]
+              - img [ref=e370]
+              - generic [ref=e372]: "5.0"
+            - paragraph [ref=e373]: “Spalvos tobulos, o antkaklis patogus visai dienai.”
+            - generic [ref=e374]:
+              - img "Eglė R." [ref=e375]
+              - generic [ref=e376]: Eglė R.
+        - generic [ref=e377]:
+          - img "Karolis P." [ref=e378]
+          - generic [ref=e380]:
+            - generic [ref=e381]:
+              - img [ref=e382]
+              - img [ref=e384]
+              - img [ref=e386]
+              - img [ref=e388]
+              - img [ref=e390]
+              - generic [ref=e392]: "5.0"
+            - paragraph [ref=e393]: “Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo.”
+            - generic [ref=e394]:
+              - img "Karolis P." [ref=e395]
+              - generic [ref=e396]: Karolis P.
+      - generic [ref=e397]:
+        - button "Eiti į skaidrę 1" [ref=e398] [cursor=pointer]
+        - button "Eiti į skaidrę 2" [ref=e399] [cursor=pointer]
+        - button "Eiti į skaidrę 3" [ref=e400] [cursor=pointer]
+        - button "Eiti į skaidrę 4" [ref=e401] [cursor=pointer]
+        - button "Eiti į skaidrę 5" [ref=e402] [cursor=pointer]
+        - button "Eiti į skaidrę 6" [ref=e403] [cursor=pointer]
+        - button "Eiti į skaidrę 7" [ref=e404] [cursor=pointer]
+    - generic [ref=e406]:
+      - generic [ref=e407]:
+        - paragraph [ref=e408]: Rekomenduojami produktai
+        - heading "You might also like" [level=2] [ref=e409]
+      - generic [ref=e410]:
+        - link "Pakabukai Pakabukai Pakabukai Nuo €6 100+ variantų €6 Spalvos ir raidės Rinktis →" [ref=e411] [cursor=pointer]:
+          - /url: /products/charm-charms
+          - generic [ref=e412]:
+            - generic [ref=e413]:
+              - img "Pakabukai" [ref=e414]
+              - generic [ref=e415]: Pakabukai
+            - generic [ref=e416]:
+              - generic [ref=e417]: Pakabukai
+              - generic [ref=e418]:
+                - generic [ref=e419]: Nuo €6
+                - generic [ref=e420]: 100+ variantų
+              - generic [ref=e421]:
+                - generic [ref=e422]:
+                  - generic [ref=e424]: €6
+                  - generic [ref=e425]: Spalvos ir raidės
+                - generic [ref=e426]: Rinktis →
+        - link "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais Personalizuok Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais Antkaklio spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva 5 pakabukai įskaičiuoti Atsparus vandeniui €28 Kasdieniam nešiojimui Kurti savo" [ref=e427] [cursor=pointer]:
+          - /url: /products/collar-personalizuotas-vandeniui-atsparus-suns-antkaklis-su-pakabukais
+          - generic [ref=e428]:
+            - generic [ref=e429]:
+              - img "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais" [ref=e430]
+              - generic [ref=e431]:
+                - generic [ref=e432]: ✦
+                - text: Personalizuok
+            - generic [ref=e433]:
+              - generic [ref=e434]: Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais
+              - generic [ref=e435]:
+                - generic "Antkaklio spalva" [ref=e436]
+                - generic "Pakabuko spalva" [ref=e437]
+                - generic "Pakabuko spalva" [ref=e438]
+                - generic "Pakabuko spalva" [ref=e439]
+                - generic "Pakabuko spalva" [ref=e440]
+              - generic [ref=e441]:
+                - generic [ref=e442]: 5 pakabukai įskaičiuoti
+                - generic [ref=e443]: Atsparus vandeniui
+              - generic [ref=e444]:
+                - generic [ref=e445]:
+                  - generic [ref=e447]: €28
+                  - generic [ref=e448]: Kasdieniam nešiojimui
+                - generic [ref=e449]: Kurti savo
+    - contentinfo [ref=e450]:
+      - generic [ref=e451]:
+        - generic [ref=e452]:
+          - generic [ref=e453]:
+            - link "PawCharms home" [ref=e454] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e455]
+            - paragraph [ref=e456]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e457]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e458]:
+            - generic [ref=e459]: Parduotuvė
+            - generic [ref=e460]:
+              - link "Antkaklių rinkiniai" [ref=e461] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e462] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e463] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e464] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e465]:
+            - generic [ref=e466]: Pagalba
+            - generic [ref=e467]:
+              - link "Dydžių gidas" [ref=e468] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e469] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e470] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e471] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e472]:
+            - generic [ref=e473]: PawCharms
+            - generic [ref=e474]:
+              - link "Mūsų istorija" [ref=e475] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e476] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e477] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e478]:
+          - generic [ref=e479]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e480]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e486] [cursor=pointer]:
+    - img [ref=e487]
+  - alert [ref=e490]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

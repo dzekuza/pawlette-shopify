@@ -1,0 +1,176 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e22]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: Parduotuvė
+          - heading "Visi antkakliai, pakabukai ir deriniai vienoje vietoje." [level=1] [ref=e28]
+          - paragraph [ref=e29]: Rinkitės vandeniui atsparius antkaklius, naršykite keičiamus pakabukus ir palyginkite paruoštus rinkinius prieš keliaudami į produkto puslapį.
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - paragraph [ref=e33]: Asortimentas
+            - generic [ref=e34]: "3"
+            - paragraph [ref=e35]: aktyvūs pasiūlymai
+          - generic [ref=e36]:
+            - paragraph [ref=e37]: Pagaminta
+            - generic [ref=e38]: LT
+            - paragraph [ref=e39]: rankomis Vilniuje
+          - generic [ref=e40]:
+            - paragraph [ref=e41]: Paruošta
+            - generic [ref=e42]: 24h
+            - paragraph [ref=e43]: greitas išsiuntimas
+      - generic [ref=e44]:
+        - link "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais Personalizuok Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais Antkaklio spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva 5 pakabukai įskaičiuoti Atsparus vandeniui €28 Kasdieniam nešiojimui Kurti savo" [ref=e45] [cursor=pointer]:
+          - /url: /products/collar-personalizuotas-vandeniui-atsparus-suns-antkaklis-su-pakabukais
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - img "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais" [ref=e48]
+              - generic [ref=e49]:
+                - generic [ref=e50]: ✦
+                - text: Personalizuok
+            - generic [ref=e51]:
+              - generic [ref=e52]: Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais
+              - generic [ref=e53]:
+                - generic "Antkaklio spalva" [ref=e54]
+                - generic "Pakabuko spalva" [ref=e55]
+                - generic "Pakabuko spalva" [ref=e56]
+                - generic "Pakabuko spalva" [ref=e57]
+                - generic "Pakabuko spalva" [ref=e58]
+              - generic [ref=e59]:
+                - generic [ref=e60]: 5 pakabukai įskaičiuoti
+                - generic [ref=e61]: Atsparus vandeniui
+              - generic [ref=e62]:
+                - generic [ref=e63]:
+                  - generic [ref=e65]: €28
+                  - generic [ref=e66]: Kasdieniam nešiojimui
+                - generic [ref=e67]: Kurti savo
+        - link "Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m Personalizuok Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m Antkaklio spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva Pakabuko spalva 5 pakabukai įskaičiuoti Atsparus vandeniui €40 Kasdieniam nešiojimui Kurti savo" [ref=e68] [cursor=pointer]:
+          - /url: /products/collar-personalizuotas-vandeniui-atsparus-suns-pavadelis-su-pakabukais-15-m
+          - generic [ref=e69]:
+            - generic [ref=e70]:
+              - img "Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m" [ref=e71]
+              - generic [ref=e72]:
+                - generic [ref=e73]: ✦
+                - text: Personalizuok
+            - generic [ref=e74]:
+              - generic [ref=e75]: Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m
+              - generic [ref=e76]:
+                - generic "Antkaklio spalva" [ref=e77]
+                - generic "Pakabuko spalva" [ref=e78]
+                - generic "Pakabuko spalva" [ref=e79]
+                - generic "Pakabuko spalva" [ref=e80]
+                - generic "Pakabuko spalva" [ref=e81]
+              - generic [ref=e82]:
+                - generic [ref=e83]: 5 pakabukai įskaičiuoti
+                - generic [ref=e84]: Atsparus vandeniui
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - generic [ref=e88]: €40
+                  - generic [ref=e89]: Kasdieniam nešiojimui
+                - generic [ref=e90]: Kurti savo
+        - link "Pakabukai Pakabukai Pakabukai Nuo €6 100+ variantų €6 Spalvos ir raidės Rinktis →" [ref=e91] [cursor=pointer]:
+          - /url: /products/charm-charms
+          - generic [ref=e92]:
+            - generic [ref=e93]:
+              - img "Pakabukai" [ref=e94]
+              - generic [ref=e95]: Pakabukai
+            - generic [ref=e96]:
+              - generic [ref=e97]: Pakabukai
+              - generic [ref=e98]:
+                - generic [ref=e99]: Nuo €6
+                - generic [ref=e100]: 100+ variantų
+              - generic [ref=e101]:
+                - generic [ref=e102]:
+                  - generic [ref=e104]: €6
+                  - generic [ref=e105]: Spalvos ir raidės
+                - generic [ref=e106]: Rinktis →
+    - contentinfo [ref=e107]:
+      - generic [ref=e108]:
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - link "PawCharms home" [ref=e111] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e112]
+            - paragraph [ref=e113]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e114]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e115]:
+            - generic [ref=e116]: Parduotuvė
+            - generic [ref=e117]:
+              - link "Antkaklių rinkiniai" [ref=e118] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e119] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e120] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e121] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e122]:
+            - generic [ref=e123]: Pagalba
+            - generic [ref=e124]:
+              - link "Dydžių gidas" [ref=e125] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e126] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e127] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e128] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e129]:
+            - generic [ref=e130]: PawCharms
+            - generic [ref=e131]:
+              - link "Mūsų istorija" [ref=e132] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e133] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e134] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e135]:
+          - generic [ref=e136]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e137]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e143] [cursor=pointer]:
+    - img [ref=e144]

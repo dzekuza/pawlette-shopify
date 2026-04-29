@@ -1,0 +1,407 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🐾 Laima iš Vilniaus ką tik užsakė Blossom rinkinį
+      - generic [ref=e7]: ⭐ Marta Sage antkakliui skyrė 5 žvaigždutes
+      - generic [ref=e9]: 💧 Bruno išsimaudė ežere — antkaklis atrodo kaip naujas
+      - generic [ref=e11]: 🛍 Rūta užsakė 3 rinkinius dovanoms
+      - generic [ref=e13]: 🌸 Mochi šiandien segi naują Hibiscus pakabuką
+      - generic [ref=e15]: 🇱🇹 Papildėme atsargas — Honey rinkinys vėl prekyboje
+      - generic [ref=e17]: ⚡ „Pakeisti užtruko tiesiog 5 sekundes“ — Jurgita K.
+      - generic [ref=e19]: 🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų
+      - generic [ref=e21]: 🐾 Laima iš Vilniaus ką tik užsakė Blossom rinkinį
+      - generic [ref=e23]: ⭐ Marta Sage antkakliui skyrė 5 žvaigždutes
+      - generic [ref=e25]: 💧 Bruno išsimaudė ežere — antkaklis atrodo kaip naujas
+      - generic [ref=e27]: 🛍 Rūta užsakė 3 rinkinius dovanoms
+      - generic [ref=e29]: 🌸 Mochi šiandien segi naują Hibiscus pakabuką
+      - generic [ref=e31]: 🇱🇹 Papildėme atsargas — Honey rinkinys vėl prekyboje
+      - generic [ref=e33]: ⚡ „Pakeisti užtruko tiesiog 5 sekundes“ — Jurgita K.
+      - generic [ref=e35]: 🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų
+    - banner [ref=e37]:
+      - generic [ref=e38]:
+        - button "Atidaryti meniu" [ref=e40] [cursor=pointer]
+        - link "Žavesys home" [ref=e44] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e45]
+        - generic [ref=e46]:
+          - link "Paskyra" [ref=e47] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e48]
+          - button "Krepšelis" [ref=e52] [cursor=pointer]:
+            - img [ref=e53]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e56]:
+      - img
+      - img
+      - img
+      - img "Šalavijo pakabukas" [ref=e58]
+      - img "Gėlės pakabukas" [ref=e60]
+      - img "Žvaigždės pakabukas" [ref=e62]
+      - img "Širdelės pakabukas" [ref=e64]
+      - img "Žvaigždės pakabukas" [ref=e66]
+      - img "Lapelės pakabukas" [ref=e68]
+      - img:
+        - generic: sukurta
+        - generic: tavo šuniui ♥
+      - generic [ref=e69]:
+        - generic [ref=e70]: ✦ Pagaminta Lietuvoje · Atsparūs vandeniui
+        - heading "Antkakliai, skirti jiems." [level=1] [ref=e71]:
+          - text: Antkakliai,
+          - text: skirti jiems.
+        - paragraph [ref=e72]: Atsparūs vandeniui. Personalizuoti. Pakabukai keičiami vos per penkias sekundes.
+        - generic [ref=e73]:
+          - link "Kurk savo antkaklį →" [ref=e74] [cursor=pointer]:
+            - /url: /products
+          - link "Pirkti pakabukus" [ref=e75] [cursor=pointer]:
+            - /url: /products/charm-charms
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - img [ref=e106]
+        - generic [ref=e107]: Atsparūs vandeniui
+      - generic [ref=e108]:
+        - img [ref=e109]
+        - generic [ref=e110]: Paprasta naudoti
+      - generic [ref=e111]:
+        - img [ref=e112]
+        - generic [ref=e113]: Draugiška kasdienai
+      - generic [ref=e114]:
+        - img [ref=e115]
+        - generic [ref=e116]: Nemokamas pristatymas
+    - generic [ref=e120]:
+      - generic [ref=e121]:
+        - generic [ref=e122]: Antkaklių rinkiniai
+        - heading "Visi antkakliai" [level=2] [ref=e123]
+      - link "Peržiūrėti visus →" [ref=e124] [cursor=pointer]:
+        - /url: /products
+    - generic [ref=e128]:
+      - generic [ref=e129]:
+        - generic [ref=e130]: Pakabukų kolekcija
+        - heading "Tavo šuo. Tavo stilius." [level=2] [ref=e131]
+        - paragraph [ref=e132]: Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
+      - button "Visi pakabukai" [ref=e134] [cursor=pointer]
+    - heading "Jūsų akimirkos" [level=2] [ref=e137]
+    - generic [ref=e169]:
+      - generic [ref=e170]:
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - generic [ref=e173]: Medžiaga
+            - generic [ref=e174]:
+              - text: Atsparūs vandeniui.
+              - text: Be kvapo. Be dėmių.
+            - generic [ref=e175]: TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.
+          - generic [ref=e176]:
+            - generic [ref=e177]: Ežerai
+            - generic [ref=e178]: Purvas
+            - generic [ref=e179]: Lietus
+            - generic [ref=e180]: Sniegas
+        - generic [ref=e181]:
+          - generic [ref=e182]: Kilmė
+          - generic [ref=e183]:
+            - text: Pagaminta rankomis
+            - text: Vilniuje, Lietuvoje.
+          - generic [ref=e184]: Mažos partijos. Kerpama ir surenkama rankomis mūsų dirbtuvėse. Kiekvienas antkaklis išsiunčiamas lino maišelyje.
+          - generic [ref=e185]: Vandeniui atspari.
+      - generic [ref=e186]:
+        - generic [ref=e187]:
+          - generic [ref=e188]: Dydžių gidas
+          - generic [ref=e189]:
+            - generic [ref=e190]: S
+            - generic [ref=e191]: 36 cm
+          - generic [ref=e192]: Beagle, Cocker Spaniel
+          - slider [ref=e195] [cursor=pointer]: "36"
+          - generic [ref=e196]:
+            - generic [ref=e197]:
+              - generic [ref=e198]: XS
+              - generic [ref=e199]: 20–28
+            - generic [ref=e200]:
+              - generic [ref=e201]: S
+              - generic [ref=e202]: 28–36
+            - generic [ref=e203]:
+              - generic [ref=e204]: M
+              - generic [ref=e205]: 36–44
+            - generic [ref=e206]:
+              - generic [ref=e207]: L
+              - generic [ref=e208]: 44–52
+        - generic [ref=e209]:
+          - generic [ref=e210]:
+            - generic [ref=e211]: Pakabukų sistema
+            - generic [ref=e212]: Prisisega per 5 sekundes.
+            - generic [ref=e213]: Magnetinė jungtis. Jokių segtukų. Jokių įrankių. Jokio vargo.
+          - generic [ref=e214]:
+            - generic [ref=e215]: 🌸
+            - generic [ref=e216]: ⭐
+            - generic [ref=e217]: 🦋
+            - generic [ref=e218]: 🌿
+            - generic [ref=e219]: +8 daugiau
+        - generic [ref=e220]:
+          - generic [ref=e221]: Priežiūra
+          - generic [ref=e224]:
+            - generic [ref=e225]: Nuplauk
+            - generic [ref=e226]: Po kiekvienų maudynių ar purvino pasivaikščiojimo.
+          - generic [ref=e229]:
+            - generic [ref=e230]: Džiovink ore
+            - generic [ref=e231]: Padėk lygiai. Nedžiovink džiovyklėje.
+          - generic [ref=e234]:
+            - generic [ref=e235]: Nuvalyk pakabukus
+            - generic [ref=e236]: Drėgna šluoste, tuomet palik išdžiūti.
+          - generic [ref=e239]:
+            - generic [ref=e240]: Laikyk lygiai
+            - generic [ref=e241]: Lino maišelyje.
+    - generic [ref=e244]:
+      - generic [ref=e245]: Apie Žavesį
+      - heading "Sukurta su meile, čia, Lietuvoje." [level=2] [ref=e246]:
+        - text: Sukurta su meile,
+        - text: čia, Lietuvoje.
+      - paragraph [ref=e247]: Žavesys reiškia būtent tai, ką ir norėjome sukurti. Kiekvienas antkaklis gaminamas rankomis Vilniuje iš vandeniui atsparių medžiagų, kurios atlaiko purvą, lietų ir maudynes, nesugeria kvapų ir nesitepa.
+      - paragraph [ref=e248]: "Pakabukų sistema gimė iš paprastos idėjos: jūsų šuns antkaklis turėtų būti toks pat unikalus kaip jis pats, o pakeitimas turėtų trukti penkias sekundes, ne penkias minutes."
+      - generic [ref=e249]:
+        - button "Mūsų istorija" [ref=e250] [cursor=pointer]
+        - button "Raskite mus Etsy" [ref=e251] [cursor=pointer]
+    - generic [ref=e254]:
+      - generic [ref=e255]:
+        - generic [ref=e256]:
+          - generic [ref=e257]: Klientų atsiliepimai
+          - heading "Patvirtinta šunų ir jų šeimininkų." [level=2] [ref=e258]
+        - generic [ref=e259]:
+          - button "Ankstesnis" [disabled] [ref=e260] [cursor=pointer]: ←
+          - button "Kitas" [ref=e261] [cursor=pointer]: →
+      - generic [ref=e263]:
+        - generic [ref=e264]:
+          - img "Laima K." [ref=e265]
+          - generic [ref=e267]:
+            - generic [ref=e268]:
+              - img [ref=e269]
+              - img [ref=e270]
+              - img [ref=e271]
+              - img [ref=e272]
+              - img [ref=e273]
+              - generic [ref=e274]: "5.0"
+            - paragraph [ref=e275]: “Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų vis dar atrodo kaip naujas.”
+            - generic [ref=e276]:
+              - img "Laima K." [ref=e277]
+              - generic [ref=e278]: Laima K.
+        - generic [ref=e279]:
+          - img "Marta S." [ref=e280]
+          - generic [ref=e282]:
+            - generic [ref=e283]:
+              - img [ref=e284]
+              - img [ref=e285]
+              - img [ref=e286]
+              - img [ref=e287]
+              - img [ref=e288]
+              - generic [ref=e289]: "5.0"
+            - paragraph [ref=e290]: “Maudomės kas savaitę, o antkaklis išlieka švarus, minkštas ir patogus.”
+            - generic [ref=e291]:
+              - img "Marta S." [ref=e292]
+              - generic [ref=e293]: Marta S.
+        - generic [ref=e294]:
+          - img "Rūta P." [ref=e295]
+          - generic [ref=e297]:
+            - generic [ref=e298]:
+              - img [ref=e299]
+              - img [ref=e300]
+              - img [ref=e301]
+              - img [ref=e302]
+              - img [ref=e303]
+              - generic [ref=e304]: "5.0"
+            - paragraph [ref=e305]: “Užsakiau tris dovanoms. Ir pakuotė, ir kokybė tikrai nuostabios.”
+            - generic [ref=e306]:
+              - img "Rūta P." [ref=e307]
+              - generic [ref=e308]: Rūta P.
+        - generic [ref=e309]:
+          - img "Aistė J." [ref=e310]
+          - generic [ref=e312]:
+            - generic [ref=e313]:
+              - img [ref=e314]
+              - img [ref=e315]
+              - img [ref=e316]
+              - img [ref=e317]
+              - img [ref=e318]
+              - generic [ref=e319]: "4.9"
+            - paragraph [ref=e320]: “Per mūsų kasdienį sustojimą kavinėje visada sulaukiame komplimentų.”
+            - generic [ref=e321]:
+              - img "Aistė J." [ref=e322]
+              - generic [ref=e323]: Aistė J.
+        - generic [ref=e324]:
+          - img "Monika T." [ref=e325]
+          - generic [ref=e327]:
+            - generic [ref=e328]:
+              - img [ref=e329]
+              - img [ref=e330]
+              - img [ref=e331]
+              - img [ref=e332]
+              - img [ref=e333]
+              - generic [ref=e334]: "5.0"
+            - paragraph [ref=e335]: “Pakankamai lengvas bėgimui ir pakankamai saugus pilnam sprintui.”
+            - generic [ref=e336]:
+              - img "Monika T." [ref=e337]
+              - generic [ref=e338]: Monika T.
+        - generic [ref=e339]:
+          - img "Greta N." [ref=e340]
+          - generic [ref=e342]:
+            - generic [ref=e343]:
+              - img [ref=e344]
+              - img [ref=e345]
+              - img [ref=e346]
+              - img [ref=e347]
+              - img [ref=e348]
+              - generic [ref=e349]: "5.0"
+            - paragraph [ref=e350]: “Auksinės valandos nuotraukose Blossom rinkinys atrodo nerealiai.”
+            - generic [ref=e351]:
+              - img "Greta N." [ref=e352]
+              - generic [ref=e353]: Greta N.
+        - generic [ref=e354]:
+          - img "Tomas V." [ref=e355]
+          - generic [ref=e357]:
+            - generic [ref=e358]:
+              - img [ref=e359]
+              - img [ref=e360]
+              - img [ref=e361]
+              - img [ref=e362]
+              - img [ref=e363]
+              - generic [ref=e364]: "4.8"
+            - paragraph [ref=e365]: “Labai lengva pakeisti pakabukus savaitgalio ir darbo dienų deriniams.”
+            - generic [ref=e366]:
+              - img "Tomas V." [ref=e367]
+              - generic [ref=e368]: Tomas V.
+        - generic [ref=e369]:
+          - img "Eglė R." [ref=e370]
+          - generic [ref=e372]:
+            - generic [ref=e373]:
+              - img [ref=e374]
+              - img [ref=e375]
+              - img [ref=e376]
+              - img [ref=e377]
+              - img [ref=e378]
+              - generic [ref=e379]: "5.0"
+            - paragraph [ref=e380]: “Spalvos tobulos, o antkaklis patogus visai dienai.”
+            - generic [ref=e381]:
+              - img "Eglė R." [ref=e382]
+              - generic [ref=e383]: Eglė R.
+        - generic [ref=e384]:
+          - img "Karolis P." [ref=e385]
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - img [ref=e389]
+              - img [ref=e390]
+              - img [ref=e391]
+              - img [ref=e392]
+              - img [ref=e393]
+              - generic [ref=e394]: "5.0"
+            - paragraph [ref=e395]: “Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo.”
+            - generic [ref=e396]:
+              - img "Karolis P." [ref=e397]
+              - generic [ref=e398]: Karolis P.
+      - generic [ref=e399]:
+        - button "Eiti į skaidrę 1" [ref=e400] [cursor=pointer]
+        - button "Eiti į skaidrę 2" [ref=e401] [cursor=pointer]
+        - button "Eiti į skaidrę 3" [ref=e402] [cursor=pointer]
+        - button "Eiti į skaidrę 4" [ref=e403] [cursor=pointer]
+        - button "Eiti į skaidrę 5" [ref=e404] [cursor=pointer]
+        - button "Eiti į skaidrę 6" [ref=e405] [cursor=pointer]
+        - button "Eiti į skaidrę 7" [ref=e406] [cursor=pointer]
+    - generic [ref=e409]:
+      - heading "Dažniausi klausimai" [level=2] [ref=e410]
+      - generic [ref=e411]:
+        - generic [ref=e412]:
+          - button "Ar PawCharms antkakliai yra atsparūs vandeniui? +" [ref=e413] [cursor=pointer]:
+            - generic [ref=e414]: Ar PawCharms antkakliai yra atsparūs vandeniui?
+            - generic [ref=e415]: +
+          - paragraph [ref=e416]: Taip. Visi Žavesys antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.
+        - generic [ref=e417]:
+          - button "Kaip veikia keičiami pakabukai? +" [ref=e418] [cursor=pointer]:
+            - generic [ref=e419]: Kaip veikia keičiami pakabukai?
+            - generic [ref=e420]: +
+          - paragraph [ref=e421]: Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų tarp skirtingų antkaklių.
+        - generic [ref=e422]:
+          - button "Kaip pasirinkti tinkamą antkaklio dydį? +" [ref=e423] [cursor=pointer]:
+            - generic [ref=e424]: Kaip pasirinkti tinkamą antkaklio dydį?
+            - generic [ref=e425]: +
+          - paragraph [ref=e426]: Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm.
+        - generic [ref=e427]:
+          - button "Ar galiu išgraviruoti savo šuns vardą ant antkaklio? +" [ref=e428] [cursor=pointer]:
+            - generic [ref=e429]: Ar galiu išgraviruoti savo šuns vardą ant antkaklio?
+            - generic [ref=e430]: +
+          - paragraph [ref=e431]: Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti savo šuns vardą, trumpą žinutę arba telefono numerį saugumui.
+        - generic [ref=e432]:
+          - button "Kur gaminami PawCharms antkakliai? +" [ref=e433] [cursor=pointer]:
+            - generic [ref=e434]: Kur gaminami PawCharms antkakliai?
+            - generic [ref=e435]: +
+          - paragraph [ref=e436]: Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame nedidelė komanda, todėl kiekvienas užsakymas ruošiamas itin kruopščiai.
+    - contentinfo [ref=e438]:
+      - generic [ref=e439]:
+        - generic [ref=e440]:
+          - generic [ref=e441]:
+            - link "PawCharms home" [ref=e442] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e443]
+            - paragraph [ref=e444]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e445]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e446]:
+            - generic [ref=e447]: Parduotuvė
+            - generic [ref=e448]:
+              - link "Antkaklių rinkiniai" [ref=e449] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e450] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e451] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e452] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e453]:
+            - generic [ref=e454]: Pagalba
+            - generic [ref=e455]:
+              - link "Dydžių gidas" [ref=e456] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e457] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e458] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e459] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e460]:
+            - generic [ref=e461]: PawCharms
+            - generic [ref=e462]:
+              - link "Mūsų istorija" [ref=e463] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e464] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e465] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e466]:
+          - generic [ref=e467]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e468]: hello@pawcharms.lt · Vilnius, Lietuva
+    - generic [ref=e469]:
+      - generic [ref=e476]:
+        - generic [ref=e477]: Vandeniui atsparūs antkaklių rinkiniai — nuo 28 €
+        - generic [ref=e478]: 5 pakabukai įskaičiuoti · nemokamas pristatymas nuo 40 €
+      - generic [ref=e479]:
+        - generic [ref=e480]: Dabar perka 4 žmonės
+        - link "Kurk savo antkaklį →" [ref=e482] [cursor=pointer]:
+          - /url: /products
+  - button "Open Next.js Dev Tools" [ref=e488] [cursor=pointer]:
+    - img [ref=e489]

@@ -1,0 +1,125 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e22]:
+      - generic [ref=e26]:
+        - img [ref=e28]
+        - paragraph [ref=e33]: Cart
+        - heading "Jūsų krepšelis tuščias" [level=2] [ref=e34]
+        - paragraph [ref=e35]: Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.
+        - link "Kurti antkaklį" [ref=e36] [cursor=pointer]:
+          - /url: /products
+    - contentinfo [ref=e37]:
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]:
+            - link "PawCharms home" [ref=e41] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e42]
+            - paragraph [ref=e43]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e44]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e45]:
+            - generic [ref=e46]: Parduotuvė
+            - generic [ref=e47]:
+              - link "Antkaklių rinkiniai" [ref=e48] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e49] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e50] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e51] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e52]:
+            - generic [ref=e53]: Pagalba
+            - generic [ref=e54]:
+              - link "Dydžių gidas" [ref=e55] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e56] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e57] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e58] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e59]:
+            - generic [ref=e60]: PawCharms
+            - generic [ref=e61]:
+              - link "Mūsų istorija" [ref=e62] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e63] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e64] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e65]:
+          - generic [ref=e66]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e67]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e73] [cursor=pointer]:
+    - img [ref=e74]
+  - alert [ref=e77]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

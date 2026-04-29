@@ -1,0 +1,186 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e23]:
+      - generic [ref=e24]: FAQ
+      - heading "Turite klausimų?" [level=1] [ref=e25]
+      - paragraph [ref=e26]:
+        - text: Viskas, ką verta žinoti apie PawCharms antkaklius, pakabukus ir užsakymus. Neradote atsakymo?
+        - link "Parašykite mums." [ref=e27] [cursor=pointer]:
+          - /url: mailto:hello@pawcharms.lt
+    - generic [ref=e29]:
+      - generic [ref=e30]:
+        - heading "Produktai" [level=2] [ref=e32]
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - button "Ar PawCharms antkakliai yra atsparūs vandeniui? +" [ref=e36] [cursor=pointer]:
+              - generic [ref=e37]: Ar PawCharms antkakliai yra atsparūs vandeniui?
+              - generic [ref=e38]: +
+            - paragraph [ref=e39]: Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.
+          - generic [ref=e40]:
+            - button "Kaip veikia keičiami pakabukai? +" [ref=e41] [cursor=pointer]:
+              - generic [ref=e42]: Kaip veikia keičiami pakabukai?
+              - generic [ref=e43]: +
+            - paragraph [ref=e44]: Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawCharms antkaklio.
+          - generic [ref=e45]:
+            - button "Kaip pasirinkti tinkamą antkaklio dydį? +" [ref=e46] [cursor=pointer]:
+              - generic [ref=e47]: Kaip pasirinkti tinkamą antkaklio dydį?
+              - generic [ref=e48]: +
+            - paragraph [ref=e49]: Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm. Jei šuo tarp dydžių, rinkitės didesnį.
+          - generic [ref=e50]:
+            - button "Ar galiu išgraviruoti savo šuns vardą ant antkaklio? +" [ref=e51] [cursor=pointer]:
+              - generic [ref=e52]: Ar galiu išgraviruoti savo šuns vardą ant antkaklio?
+              - generic [ref=e53]: +
+            - paragraph [ref=e54]: Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti vardą, trumpą žinutę arba telefono numerį saugumui. Graviravimas lazeriu atliekamas tiesiai silikone.
+          - generic [ref=e55]:
+            - button "Kur gaminami PawCharms antkakliai? +" [ref=e56] [cursor=pointer]:
+              - generic [ref=e57]: Kur gaminami PawCharms antkakliai?
+              - generic [ref=e58]: +
+            - paragraph [ref=e59]: Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame maža komanda, todėl kiekvienas užsakymas ruošiamas kruopščiai.
+          - generic [ref=e60]:
+            - button "Kiek patvari silikoninė medžiaga? +" [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]: Kiek patvari silikoninė medžiaga?
+              - generic [ref=e63]: +
+            - paragraph [ref=e64]: PawCharms antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.
+          - generic [ref=e65]:
+            - button "Ar pakabukai tinka visiems antkaklių dydžiams? +" [ref=e66] [cursor=pointer]:
+              - generic [ref=e67]: Ar pakabukai tinka visiems antkaklių dydžiams?
+              - generic [ref=e68]: +
+            - paragraph [ref=e69]: Taip — visi PawCharms pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo XS iki L.
+      - generic [ref=e70]:
+        - heading "Užsakymai ir pristatymas" [level=2] [ref=e72]
+        - generic [ref=e74]:
+          - generic [ref=e75]:
+            - button "Kiek laiko trunka pristatymas? +" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]: Kiek laiko trunka pristatymas?
+              - generic [ref=e78]: +
+            - paragraph [ref=e79]: Standartinis pristatymas Lietuvoje trunka 1–3 darbo dienas. Į ES šalis siuntos paprastai keliauja 3–7 darbo dienas. Užsakymai išsiunčiami kitą darbo dieną po apmokėjimo.
+          - generic [ref=e80]:
+            - button "Kokia jūsų grąžinimo politika? +" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]: Kokia jūsų grąžinimo politika?
+              - generic [ref=e83]: +
+            - paragraph [ref=e84]: Grąžinimus priimame per 30 dienų nuo pristatymo, jei prekė nenaudota ir originalioje pakuotėje. Personalizuoti užsakymai negrąžinami, nebent prekė brokuota.
+          - generic [ref=e85]:
+            - button "Ar siūlote dovanų pakavimą? +" [ref=e86] [cursor=pointer]:
+              - generic [ref=e87]: Ar siūlote dovanų pakavimą?
+              - generic [ref=e88]: +
+            - paragraph [ref=e89]: Taip. Pasirinkite dovanų pakavimą atsiskaitymo metu, ir užsakymą supakuosime į mūsų firminę dėžutę su juostele bei ranka rašyta kortele.
+    - generic [ref=e90]:
+      - paragraph [ref=e91]: Dar abejojate?
+      - heading "Mielai padėsime." [level=2] [ref=e92]
+      - link "Parašykite el. paštu" [ref=e93] [cursor=pointer]:
+        - /url: mailto:hello@pawcharms.lt
+    - contentinfo [ref=e94]:
+      - generic [ref=e95]:
+        - generic [ref=e96]:
+          - generic [ref=e97]:
+            - link "PawCharms home" [ref=e98] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e99]
+            - paragraph [ref=e100]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e101]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e102]:
+            - generic [ref=e103]: Parduotuvė
+            - generic [ref=e104]:
+              - link "Antkaklių rinkiniai" [ref=e105] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e106] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e107] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e108] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e109]:
+            - generic [ref=e110]: Pagalba
+            - generic [ref=e111]:
+              - link "Dydžių gidas" [ref=e112] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e113] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e114] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e115] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e116]:
+            - generic [ref=e117]: PawCharms
+            - generic [ref=e118]:
+              - link "Mūsų istorija" [ref=e119] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e120] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e121] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e122]:
+          - generic [ref=e123]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e124]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e130] [cursor=pointer]:
+    - img [ref=e131]
+  - alert [ref=e134]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

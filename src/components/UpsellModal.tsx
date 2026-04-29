@@ -38,7 +38,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
 
         <div className="text-center mb-6">
           <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>Užbaikite savo rinkinį</div>
-          <h2 className="text-bark mb-2" style={{ fontSize: 22, lineHeight: 1.2 }}>Pridėkite papildomų pakabukų po €6.</h2>
+          <h2 className="font-display text-bark mb-2 font-normal" style={{ fontSize: 22, lineHeight: 1.2 }}>Pridėkite papildomų pakabukų po €6.</h2>
           <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>Keiskite pagal nuotaiką, sezoną ar progą. Dauguma šeimininkų renkasi dar 2–3 papildomus.</p>
         </div>
 

@@ -1,0 +1,131 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e24]:
+      - heading "Sveiki sugrįžę" [level=1] [ref=e25]
+      - paragraph [ref=e26]: Prisijunkite, kad matytumėte užsakymus, profilį ir išsaugotus adresus.
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - generic [ref=e29]: El. paštas
+          - textbox "you@example.com" [ref=e30]
+        - generic [ref=e31]:
+          - generic [ref=e32]: Slaptažodis
+          - textbox "••••••••" [ref=e33]
+        - generic [ref=e34]:
+          - button "Sukurti paskyrą" [ref=e35] [cursor=pointer]
+          - button "Pamiršote slaptažodį?" [ref=e36] [cursor=pointer]
+        - button "Prisijungti" [ref=e37] [cursor=pointer]
+    - contentinfo [ref=e38]:
+      - generic [ref=e39]:
+        - generic [ref=e40]:
+          - generic [ref=e41]:
+            - link "PawCharms home" [ref=e42] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e43]
+            - paragraph [ref=e44]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e45]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e46]:
+            - generic [ref=e47]: Parduotuvė
+            - generic [ref=e48]:
+              - link "Antkaklių rinkiniai" [ref=e49] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e50] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e51] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e52] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e53]:
+            - generic [ref=e54]: Pagalba
+            - generic [ref=e55]:
+              - link "Dydžių gidas" [ref=e56] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e57] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e58] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e59] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e60]:
+            - generic [ref=e61]: PawCharms
+            - generic [ref=e62]:
+              - link "Mūsų istorija" [ref=e63] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e64] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e65] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e66]:
+          - generic [ref=e67]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e68]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e74] [cursor=pointer]:
+    - img [ref=e75]
+  - alert [ref=e78]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

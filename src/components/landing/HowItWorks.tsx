@@ -17,7 +17,7 @@ export function HowItWorks() {
       <div style={{ maxWidth: 1160, margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-bark-muted)', marginBottom: 16 }}>Kaip tai veikia</div>
-          <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 'clamp(30px, 3.5vw, 40px)', fontWeight: 500, letterSpacing: '-0.02em', color: 'var(--color-bark)', lineHeight: 1.1 }}>
+          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 'clamp(30px, 3.5vw, 40px)', fontWeight: 400, letterSpacing: '-0.02em', color: 'var(--color-bark)', lineHeight: 1.1 }}>
             Užsekite.<br />Parodykite.
           </h2>
         </div>

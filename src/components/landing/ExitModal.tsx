@@ -39,7 +39,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Prieš išeinant</div>
-              <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 28, fontWeight: 500, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10 % nuolaida pirmajam antkakliui.</h2>
+              <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 28, fontWeight: 400, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10 % nuolaida pirmajam antkakliui.</h2>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7 }}>Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.</p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -71,7 +71,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 style={{ width: 40, height: 40, objectFit: 'contain' }}
               />
             </div>
-            <h2 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 24, fontWeight: 500, color: '#3D3530', marginBottom: 10 }}>Jūs sąraše!</h2>
+            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 24, fontWeight: 400, color: '#3D3530', marginBottom: 10 }}>Jūs sąraše!</h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>
             <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
           </div>

@@ -15,7 +15,7 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
     <section id="about" style={{ background: bg, padding: isMobile ? '52px 20px' : '100px 40px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}>
         <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textSecondary, marginBottom: 20 }}>Apie Žavesį</div>
-        <h2 className="font-sans font-medium tracking-[-0.02em] leading-[1.1]" style={{ fontSize: isMobile ? 30 : 40, color: textPrimary, marginBottom: isMobile ? 20 : 24 }}>
+        <h2 className="font-display font-normal tracking-[-0.02em] leading-[1.1]" style={{ fontSize: isMobile ? 30 : 40, color: textPrimary, marginBottom: isMobile ? 20 : 24 }}>
           Sukurta su meile,<br />čia, Lietuvoje.
         </h2>
         <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: textSecondary, lineHeight: 1.8, maxWidth: 640, margin: '0 auto 18px' }}>

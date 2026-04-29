@@ -1,0 +1,153 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Rinkiniai" [ref=e7] [cursor=pointer]:
+            - /url: /sets
+          - link "Pakabukai" [ref=e8] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e9] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e10] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e11]
+        - generic [ref=e12]:
+          - link "Paskyra" [ref=e13] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e14]
+          - button "Krepšelis" [ref=e18] [cursor=pointer]:
+            - img [ref=e19]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e22]:
+      - generic [ref=e24]:
+        - generic [ref=e25]: Rinkiniai
+        - heading "Suderinti antkakliai ir pavadėliai viename rinkinyje." [level=1] [ref=e26]
+        - paragraph [ref=e27]: Peržiūrėkite paruoštus derinius, palyginkite rinkinio kainą su pirkimu atskirai ir iškart atverkite derantį antkaklį bei pavadėlį.
+      - article [ref=e29]:
+        - generic [ref=e30]:
+          - generic [ref=e31]: 12% nuolaida rinkiniui
+          - generic [ref=e32]:
+            - img "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais" [ref=e34]
+            - generic [ref=e35]: +
+            - img "Personalizuotas vandeniui atsparus šuns pavadėlis su pakabukais – 1,5 m" [ref=e37]
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]: Pasivaikščiojimo rinkinys
+            - heading "Personalizuotas vandeniui atsparus šuns antkaklis su pakabukais pasivaikščiojimo rinkinys" [level=2] [ref=e41]
+            - paragraph [ref=e42]: Derinkite personalizuotas vandeniui atsparus šuns antkaklis su pakabukais su tinkančiu pavadėliu ir sutaupykite 12% lyginant su pirkimu atskirai.
+          - generic [ref=e43]:
+            - generic [ref=e44]:
+              - generic [ref=e45]: Antkaklis
+              - generic [ref=e46]: €28
+            - generic [ref=e47]:
+              - generic [ref=e48]: Pavadėlis
+              - generic [ref=e49]: €40
+            - generic [ref=e51]:
+              - generic [ref=e52]: Atskira kaina
+              - generic [ref=e53]: €68
+            - generic [ref=e54]:
+              - generic [ref=e55]: Rinkinio kaina
+              - generic [ref=e56]: €59.84
+            - generic [ref=e57]: Sutaupykite €8.16
+          - generic [ref=e58]:
+            - link "Žiūrėti antkaklį" [ref=e59] [cursor=pointer]:
+              - /url: /products/collar-personalizuotas-vandeniui-atsparus-suns-antkaklis-su-pakabukais
+            - link "Žiūrėti derantį pavadėlį" [ref=e60] [cursor=pointer]:
+              - /url: /products/collar-personalizuotas-vandeniui-atsparus-suns-pavadelis-su-pakabukais-15-m
+    - contentinfo [ref=e61]:
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - link "PawCharms home" [ref=e65] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e66]
+            - paragraph [ref=e67]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e68]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e69]:
+            - generic [ref=e70]: Parduotuvė
+            - generic [ref=e71]:
+              - link "Antkaklių rinkiniai" [ref=e72] [cursor=pointer]:
+                - /url: /products
+              - link "Pasivaikščiojimo rinkiniai" [ref=e73] [cursor=pointer]:
+                - /url: /sets
+              - link "Pakabukai" [ref=e74] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e75] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e76]:
+            - generic [ref=e77]: Pagalba
+            - generic [ref=e78]:
+              - link "Dydžių gidas" [ref=e79] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e80] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e81] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e82] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e83]:
+            - generic [ref=e84]: PawCharms
+            - generic [ref=e85]:
+              - link "Mūsų istorija" [ref=e86] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e87] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e88] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e89]:
+          - generic [ref=e90]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e91]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e97] [cursor=pointer]:
+    - img [ref=e98]
+  - alert [ref=e101]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

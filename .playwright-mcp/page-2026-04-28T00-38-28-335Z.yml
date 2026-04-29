@@ -1,0 +1,111 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: 🐾 Laima iš Vilniaus ką tik užsakė Blossom rinkinį
+      - generic [ref=e7]: ⭐ Marta Sage antkakliui skyrė 5 žvaigždutes
+      - generic [ref=e9]: 💧 Bruno išsimaudė ežere — antkaklis atrodo kaip naujas
+      - generic [ref=e11]: 🛍 Rūta užsakė 3 rinkinius dovanoms
+      - generic [ref=e13]: 🌸 Mochi šiandien segi naują Hibiscus pakabuką
+      - generic [ref=e15]: 🇱🇹 Papildėme atsargas — Honey rinkinys vėl prekyboje
+      - generic [ref=e17]: ⚡ „Pakeisti užtruko tiesiog 5 sekundes“ — Jurgita K.
+      - generic [ref=e19]: 🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų
+      - generic [ref=e21]: 🐾 Laima iš Vilniaus ką tik užsakė Blossom rinkinį
+      - generic [ref=e23]: ⭐ Marta Sage antkakliui skyrė 5 žvaigždutes
+      - generic [ref=e25]: 💧 Bruno išsimaudė ežere — antkaklis atrodo kaip naujas
+      - generic [ref=e27]: 🛍 Rūta užsakė 3 rinkinius dovanoms
+      - generic [ref=e29]: 🌸 Mochi šiandien segi naują Hibiscus pakabuką
+      - generic [ref=e31]: 🇱🇹 Papildėme atsargas — Honey rinkinys vėl prekyboje
+      - generic [ref=e33]: ⚡ „Pakeisti užtruko tiesiog 5 sekundes“ — Jurgita K.
+      - generic [ref=e35]: 🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų
+    - banner [ref=e37]:
+      - generic [ref=e38]:
+        - button "Atidaryti meniu" [ref=e40] [cursor=pointer]
+        - link "Žavesys home" [ref=e44] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e45]
+        - generic [ref=e46]:
+          - link "Paskyra" [ref=e47] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e48]
+          - button "Krepšelis" [ref=e52] [cursor=pointer]:
+            - img [ref=e53]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /sets
+          - text: Rinkiniai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - generic [ref=e56]:
+      - img
+      - img
+      - img
+      - img "Šalavijo pakabukas" [ref=e58]
+      - img "Gėlės pakabukas" [ref=e60]
+      - img "Žvaigždės pakabukas" [ref=e62]
+      - img "Širdelės pakabukas" [ref=e64]
+      - img "Žvaigždės pakabukas" [ref=e66]
+      - img "Lapelės pakabukas" [ref=e68]
+      - img:
+        - generic: sukurta
+        - generic: tavo šuniui ♥
+      - generic [ref=e69]:
+        - generic [ref=e70]: ✦ Pagaminta Lietuvoje · Atsparūs vandeniui
+        - heading "Antkakliai, skirti jiems." [level=1] [ref=e71]:
+          - text: Antkakliai,
+          - text: skirti jiems.
+        - paragraph [ref=e72]: Atsparūs vandeniui. Personalizuoti. Pakabukai keičiami vos per penkias sekundes.
+        - generic [ref=e73]:
+          - link "Kurk savo antkaklį →" [ref=e74] [cursor=pointer]:
+            - /url: /products
+          - link "Pirkti pakabukus" [ref=e75] [cursor=pointer]:
+            - /url: /products/charm-charms
+    - generic [ref=e103]:
+      - generic [ref=e104]: Dabar perka 4 žmonės
+      - link "Kurk savo antkaklį →" [ref=e106] [cursor=pointer]:
+        - /url: /products
+  - button "Open Next.js Dev Tools" [ref=e112] [cursor=pointer]:
+    - img [ref=e113]
+  - alert [ref=e116]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - button "Select element":
+                      - img
+                - generic:
+                  - generic:
+                    - button "Open comments":
+                      - generic:
+                        - img
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+              - generic:
+                - button "Disable React Grab" [pressed]
+          - button "Collapse toolbar":
+            - img

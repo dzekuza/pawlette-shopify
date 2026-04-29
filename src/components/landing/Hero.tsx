@@ -47,7 +47,7 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
       <div style={{ maxWidth: 1160, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center' }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
-          <h1 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: heroSize, fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#3D3530', marginBottom: 28 }}>
+          <h1 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: heroSize, fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#3D3530', marginBottom: 28 }}>
             Atsparu vandeniui.<br />Žaisminga.<br />
             <span style={{ color: '#A8D5A2' }}>Jūsų.</span>
           </h1>
@@ -113,7 +113,7 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
       <div style={{ maxWidth: 1160, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center', position: 'relative' }}>
         <div>
           <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
-          <h1 style={{ fontFamily: "'DM Sans',sans-serif", fontSize: heroSize, fontWeight: 500, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#FAF7F2', marginBottom: 28 }}>
+          <h1 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: heroSize, fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#FAF7F2', marginBottom: 28 }}>
             Užsekite.<br />Parodykite.
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: 'rgba(250,247,242,0.65)', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
