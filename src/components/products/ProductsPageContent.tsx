@@ -25,7 +25,7 @@ export function ProductsPageContent ({ collars, charms }: ProductsPageContentPro
     <div className="min-h-screen bg-cream text-bark pt-16">
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      <main className="mx-auto px-5 pb-[100px] md:px-10" style={{ maxWidth: 1160, paddingTop: 60 }}>
+      <main style={{ maxWidth: 1200, margin: '0 auto', padding: '64px 48px 100px' }}>
         <PageHero
           tone='hero'
           eyebrow='Parduotuvė'
@@ -33,7 +33,7 @@ export function ProductsPageContent ({ collars, charms }: ProductsPageContentPro
           description='Rinkitės vandeniui atsparius antkaklius, naršykite keičiamus pakabukus ir raskite paruoštą derinį vienoje vietoje.'
         />
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5">
           {collars.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

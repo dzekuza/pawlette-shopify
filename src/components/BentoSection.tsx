@@ -25,7 +25,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
     gap: 16,
     flexDirection: isMobile ? 'column' : 'row',
   };
-  const impactHeadingSize = isMobile ? 34 : 48;
+  const impactHeadingSize = isMobile ? 30 : 40;
   const sizingLabelSize = isMobile ? 38 : 48;
 
   return (

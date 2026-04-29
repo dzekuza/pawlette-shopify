@@ -92,28 +92,35 @@ export function LandingPage() {
             const photoSlider = q('[data-parallax="photo-slider"]');
 
             sections.forEach((section) => {
-              gsap.from(section, {
-                autoAlpha: 0, y: 40, duration: 0.8, ease: 'power2.out',
-                clearProps: 'transform,opacity,visibility',
-                scrollTrigger: { trigger: section, start: 'top 90%', toggleActions: 'play none none none', once: true },
-              });
+              gsap.fromTo(section,
+                { autoAlpha: 0, y: 28 },
+                {
+                  autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out',
+                  clearProps: 'transform,opacity,visibility',
+                  immediateRender: false,
+                  scrollTrigger: { trigger: section, start: 'top 82%', toggleActions: 'play none none none', once: true },
+                }
+              );
             });
 
-            const onLoad = () => ScrollTrigger.refresh();
             if (document.readyState === 'complete') {
               ScrollTrigger.refresh();
             } else {
-              window.addEventListener('load', onLoad, { once: true });
+              window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
             }
 
             ScrollTrigger.batch(cards, {
-              start: 'top 88%',
+              start: 'top 85%',
               once: true,
               onEnter: (batch) => {
-                gsap.from(batch, {
-                  autoAlpha: 0, y: 24, duration: 0.55, ease: 'power2.out',
-                  stagger: 0.08, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
-                });
+                gsap.fromTo(batch,
+                  { autoAlpha: 0, y: 16 },
+                  {
+                    autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out',
+                    stagger: 0.07, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
+                    immediateRender: false,
+                  }
+                );
               },
             });
 

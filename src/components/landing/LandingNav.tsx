@@ -8,7 +8,6 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products' },
-  { label: 'Rinkiniai', href: '/sets' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
   { label: 'Priežiūra ir medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
@@ -17,7 +16,6 @@ const NAV_LINKS = [
 
 const DESKTOP_NAV = [
   { label: 'Parduotuvė', href: '/products' },
-  { label: 'Rinkiniai', href: '/sets' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Priežiūra', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];

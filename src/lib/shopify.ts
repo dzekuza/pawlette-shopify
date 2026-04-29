@@ -316,13 +316,14 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
         const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
         const firstVariant = allVariants[0];
+        const saleVariant = allVariants.find(v => v.originalPrice) ?? firstVariant;
         return {
           id: node.handle,
           handle: node.handle,
           title: node.title,
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€28',
-          originalPrice: firstVariant?.originalPrice,
+          originalPrice: saleVariant?.originalPrice,
           color,
           bgTint: hexToRgba(color, 0.15),
           glowColor: hexToRgba(color, 0.5),

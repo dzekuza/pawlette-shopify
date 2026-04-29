@@ -25,7 +25,7 @@ export function ProductsFilterTabs ({ filter, onChange }: ProductsFilterTabsProp
         backdropFilter: 'blur(10px)'
       }}
     >
-      <div style={{ maxWidth: 1160, margin: '0 auto', padding: '14px 20px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '14px 48px' }}>
         <div style={{ display: 'flex', gap: 4 }}>
           {FILTER_OPTIONS.map(({ key, label }) => (
             <button

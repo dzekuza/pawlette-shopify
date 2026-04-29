@@ -69,7 +69,7 @@ export function Reviews() {
 
   return (
     <section className="py-[60px] md:py-[100px] bg-surface-2 overflow-hidden">
-      <div className="max-w-[1160px] mx-auto px-5 md:px-10">
+      <div className="max-w-[1200px] mx-auto px-5 md:px-10">
         <SectionIntro eyebrow='Klientų atsiliepimai' title='Patvirtinta šunų ir jų šeimininkų.' className='mb-12'>
           <div className="flex gap-2.5 shrink-0">
             {([[-1, '←'], [1, '→']] as const).map(([dir, label]) => (

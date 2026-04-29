@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
 import { DisplayHeading } from '@/components/storefront/Typography';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const ROW_ONE = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -23,12 +24,17 @@ const ROW_TWO = [
 ];
 
 export function PhotoSlider() {
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
+
   return (
-    <section className="bg-cream py-[60px] md:py-[100px] overflow-hidden">
-      <DisplayHeading as='h2' className="mb-10 text-center text-[36px] tracking-[-0.02em] md:text-[48px]">
-        Jūsų akimirkos
-      </DisplayHeading>
-      <div className="flex flex-col gap-4">
+    <section style={{ background: 'var(--color-cream)', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px 16px' : '64px 48px 24px' }}>
+        <DisplayHeading as='h2' className="m-0 text-left text-[36px] tracking-[-0.02em] md:text-[48px]">
+          Jūsų akimirkos
+        </DisplayHeading>
+      </div>
+      <div className="flex flex-col gap-4 pb-[60px] md:pb-[100px]">
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (
             <div key={src} className="relative w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">

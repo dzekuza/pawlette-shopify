@@ -1,81 +1,44 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { getCharms, type ShopifyCharm } from '@/lib/shopify';
-import { Button } from '@/components/ui/button';
 import { SectionIntro } from '@/components/storefront/SectionIntro';
+import { CharmCollectionCard } from '@/components/products/CharmCollectionCard';
 
 export function CharmGrid() {
-  const [selected, setSelected] = useState<string | null>(null);
-  const [charms, setCharms] = useState<ShopifyCharm[]>([]);
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
+  const [charmProduct, setCharmProduct] = useState<ShopifyCharm | null>(null);
 
   useEffect(() => {
     getCharms().then(items => {
-      const shuffled = [...items].sort(() => Math.random() - 0.5);
-      setCharms(shuffled.slice(0, 9));
-    })
-  }, [])
+      if (items.length > 0) setCharmProduct(items[0]);
+    });
+  }, []);
 
-  const selectedCharm = charms.find(c => c.id === selected);
+  if (!charmProduct) return null;
+
+  const image = charmProduct.productFeaturedImage || charmProduct.productImages?.[0] || charmProduct.image || '';
 
   return (
-    <section id="charms" className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
-      <div className="mx-auto max-w-[1160px]">
+    <section id="charms" style={{ background: 'var(--color-cream)' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         <SectionIntro
           eyebrow="Pakabukų kolekcija"
           title="Tavo šuo. Tavo stilius."
           description="Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą."
-          className="md:mb-10"
-        >
-          <Button className="btn-press rounded-full border-2 border-transparent bg-sage px-8 py-3.5 font-sans text-[15px] font-medium text-interactive-text hover:bg-sage-dark">
-            Visi pakabukai
-          </Button>
-          {selectedCharm && (
-            <div className="flex items-center gap-3">
-              <div
-                className="flex h-9 w-9 items-center justify-center rounded-full"
-                style={{ background: selectedCharm.bg }}
-              >
-                <img src={selectedCharm.image} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
-              </div>
-              <div>
-                <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title}</div>
-                <div className="font-sans text-xs text-bark-muted">€6 · prisegamas · atsparus vandeniui</div>
-              </div>
-            </div>
-          )}
-        </SectionIntro>
-
-        {/* 6-column charm grid */}
-        <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:gap-4 lg:grid-cols-6">
-          {charms.map(c => (
-            <div
-              key={c.id}
-              data-animate="card"
-              onClick={() => setSelected(c.id === selected ? null : c.id)}
-              className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl"
-              style={{
-                background: c.bg,
-                transition: 'transform 180ms ease-out, box-shadow 180ms ease-out, outline-color 120ms ease-out',
-                outline: c.id === selected ? '3px solid #3D3530' : '3px solid transparent',
-                outlineOffset: 3,
-                transform: c.id === selected ? 'scale(1.08)' : 'scale(1)',
-                boxShadow: c.id === selected ? '0 6px 20px rgba(0,0,0,0.12)' : 'none',
-              }}
-            >
-              <img
-                src={c.image}
-                alt=""
-                aria-hidden="true"
-                className="h-[52px] w-[52px] object-contain lg:h-[70px] lg:w-[70px]"
-              />
-              <span className="font-sans text-[8px] font-medium uppercase tracking-[0.06em] text-bark/55 md:text-[10px]">
-                {c.title}
-              </span>
-            </div>
-          ))}
+        />
+        <div style={{ maxWidth: isMobile ? '100%' : 320 }}>
+          <CharmCollectionCard
+            href="/products/charm-charms"
+            title={charmProduct.productTitle}
+            price={charmProduct.price}
+            originalPrice={charmProduct.originalPrice}
+            image={image}
+            imageAlt={charmProduct.productTitle}
+          />
         </div>
-
       </div>
     </section>
   );

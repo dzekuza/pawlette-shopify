@@ -160,7 +160,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           }}
         >
           <Link
-            href="/products"
+            href="/products/collar-personalizuotas-vandeniui-atsparus-suns-antkaklis-su-pakabukais"
             style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", whiteSpace: "nowrap", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}

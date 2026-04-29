@@ -85,7 +85,6 @@ export function ProductCard ({ product }: { product: ProductCardProduct }) {
             <ProductPrice
               currentPrice={price}
               originalPrice={originalPrice}
-              note='Kasdieniam nešiojimui'
               showSavingsBadge={hasSale}
             />
             <CatalogCardAction>{hasSale ? 'Pirkti su nuolaida' : 'Kurti savo'}</CatalogCardAction>

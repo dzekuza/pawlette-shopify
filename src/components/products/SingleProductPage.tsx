@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { Reviews } from '@/components/landing/Reviews'
+import { FAQ } from '@/components/landing/FAQ'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { BentoSection } from '@/components/BentoSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
@@ -432,17 +433,22 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {!isMobile && (
       <div
         className="w-full mx-auto px-5 md:px-10"
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 440px',
-          gap: 32,
-          minHeight: '80vh',
-          maxWidth: 1200,
-          marginTop: NAV_H,
-          paddingBottom: 64,
-          overflowX: 'hidden',
-        }}
+        style={{ maxWidth: 1200, marginTop: NAV_H, paddingBottom: 64 }}
       >
+        {/* Breadcrumb */}
+        <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 24, paddingBottom: 20, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+          <a href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</a>
+          <span style={{ opacity: 0.4 }}>/</span>
+          <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
+        </nav>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 440px',
+            gap: 32,
+            minHeight: '80vh',
+          }}
+        >
         {/* ── LEFT ── */}
         {isCollar ? (
           <div
@@ -486,12 +492,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
         {/* ── RIGHT (desktop only) ── */}
         {isCollar ? (
-          <div style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
+          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
             <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
           </div>
         ) : (
           /* Desktop charm right */
-          <div style={{ overflowY: 'auto', overflowX: 'hidden', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
+          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
               <h1 style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.14, color: '#3D3530' }}>{displayName}</h1>
@@ -513,12 +519,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
         )}
+        </div>
       </div>
       )} {/* end !isMobile */}
 
       <BentoSection isDark={false} />
       <PhotoSlider />
       <Reviews />
+      <FAQ />
       <RecommendedProductsSection products={recommendedProducts} />
       <LandingFooter />
 
@@ -671,7 +679,7 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
           </DisplayHeading>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5">
           {products.slice(0, 4).map((recommendedProduct) => (
             recommendedProduct.productType === 'charm'
               ? <CharmCollectionProductCard key={recommendedProduct.slug} product={recommendedProduct} />
@@ -779,7 +787,10 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
       {/* Title & price */}
       <div>
-        <p style={{ margin: '0 0 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: TEXT_MUTED }}>Atsparus vandeniui antkaklis</p>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
+          <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
+          <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
+        </div>
         <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>{name}</h1>
         <ProductPrice
           currentPrice={price}
@@ -788,10 +799,6 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
           size='detail'
         />
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY }}>
-            <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
-            <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
-          </div>
           {PDP_TRUST_POINTS.map((point) => (
             <div key={point} style={{ padding: '8px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
               {point}

@@ -6,7 +6,6 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 const FOOTER_COLS = [
   { title: 'Parduotuvė', links: [
     { label: 'Antkaklių rinkiniai', href: '/products' },
-    { label: 'Pasivaikščiojimo rinkiniai', href: '/sets' },
     { label: 'Pakabukai', href: '/products/charm-charms' },
     { label: 'Susikurk savo', href: '/products' },
   ]},
@@ -29,7 +28,7 @@ export function LandingFooter() {
 
   return (
     <footer style={{ background: '#3D3530', padding: isMobile ? '40px 20px 32px' : '60px 40px 40px' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
             <Link href="/" aria-label="PawCharms home" style={{ display: 'inline-flex', marginBottom: 16 }}>
