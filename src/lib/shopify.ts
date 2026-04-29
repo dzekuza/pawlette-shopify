@@ -12,6 +12,7 @@ export interface ShopifyCollarVariant {
   size: string;
   color: string;
   price: string;
+  originalPrice?: string;
   image?: string;
 }
 
@@ -21,6 +22,7 @@ export interface ShopifyCollar {
   title: string;
   variantId: string;
   price: string;
+  originalPrice?: string;
   color: string;
   bgTint: string;
   glowColor: string;
@@ -44,6 +46,7 @@ export interface ShopifyCharm {
   baseTitle: string;
   variantId: string;
   price: string;
+  originalPrice?: string;
   bg: string;
   category: string;
   color: string;
@@ -78,6 +81,9 @@ interface ShopifyVariantNode {
   price?: {
     amount: string;
   };
+  compareAtPrice?: {
+    amount: string;
+  } | null;
   selectedOptions?: ShopifySelectedOption[];
   image?: ShopifyImageNode;
 }
@@ -122,6 +128,15 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
+function formatEuroPrice(amount?: string | null, fallback = '') {
+  if (!amount) return fallback;
+
+  const parsed = parseFloat(amount);
+  if (Number.isNaN(parsed)) return fallback;
+
+  return `€${parsed.toFixed(0)}`;
+}
+
 const COLLARS_QUERY = `
   query GetCollars {
     products(first: 50, query: "product_type:collar") {
@@ -140,6 +155,7 @@ const COLLARS_QUERY = `
                 title
                 image { url }
                 price { amount }
+                compareAtPrice { amount }
                 selectedOptions { name value }
               }
             }
@@ -248,6 +264,7 @@ const CHARMS_QUERY = `
                 title
                 image { url }
                 price { amount }
+                compareAtPrice { amount }
               }
             }
           }
@@ -289,7 +306,11 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           title: variant.title,
           size: variant.selectedOptions?.find((option) => ['Size', 'Dydis'].includes(option.name))?.value ?? '',
           color: variant.selectedOptions?.find((option) => ['Colors', 'Color', 'Spalvos', 'Spalva'].includes(option.name))?.value ?? '',
-          price: variant.price ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€28',
+          price: formatEuroPrice(variant.price?.amount, '€28'),
+          originalPrice:
+            variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+              ? formatEuroPrice(variant.compareAtPrice.amount)
+              : undefined,
           image: variant.image?.url ?? '',
         }));
         const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
@@ -301,6 +322,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           title: node.title,
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€28',
+          originalPrice: firstVariant?.originalPrice,
           color,
           bgTint: hexToRgba(color, 0.15),
           glowColor: hexToRgba(color, 0.5),
@@ -388,7 +410,11 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           title: variant.title,
           baseTitle,
           variantId: variant.id ?? '',
-          price: variant.price ? `€${parseFloat(variant.price.amount).toFixed(0)}` : '€6',
+          price: formatEuroPrice(variant.price?.amount, '€6'),
+          originalPrice:
+            variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+              ? formatEuroPrice(variant.compareAtPrice.amount)
+              : undefined,
           bg,
           category,
           color,

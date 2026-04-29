@@ -2,6 +2,7 @@
 
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const FAQS: AccordionItem[] = [
   {
@@ -35,9 +36,9 @@ export function FAQ() {
   return (
     <section className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
       <div className="max-w-[720px] mx-auto">
-        <h2 className="font-sans text-[30px] md:text-[40px] font-medium text-bark tracking-[-0.02em] mb-10 mt-0">
+        <DisplayHeading as='h2' className="mb-10 mt-0 tracking-[-0.02em]">
           Dažniausi klausimai
-        </h2>
+        </DisplayHeading>
         <Accordion items={FAQS} />
       </div>
     </section>

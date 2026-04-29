@@ -4,6 +4,7 @@ export interface LandingCollar {
   id: string | number;
   name: string;
   price: string;
+  originalPrice?: string;
   collarColor: string;
   bg: string;
   image: string;
@@ -27,6 +28,7 @@ export async function getLandingCollars(): Promise<LandingCollar[]> {
         id: c.id,
         name: c.title,
         price: c.price,
+        originalPrice: c.originalPrice,
         collarColor: c.color,
         bg: c.bgTint,
         image: c.image,

@@ -2,13 +2,15 @@
 
 import { useMemo, useState, type ButtonHTMLAttributes, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Heart, LogOut, MapPin, Package, Plus, UserRound, type LucideIcon } from 'lucide-react';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { useCartCount } from '@/hooks/useCartCount';
 import type { CustomerAccount, CustomerAddress, CustomerOrder } from '@/lib/customer-types';
 import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
+import { EmptyState } from '@/components/storefront/EmptyState';
+import { SurfaceCard } from '@/components/storefront/SurfaceCard';
 
 type Tab = 'orders' | 'profile' | 'addresses' | 'wishlist';
 type AuthMode = 'sign-in' | 'create' | 'recover';
@@ -128,31 +130,14 @@ function AccountEmptyState({
   actionLabel?: string;
 }) {
   return (
-    <div
-      className="flex flex-col items-center justify-center rounded-[28px] bg-white px-6 py-14 text-center"
-      style={{ border: '1.5px solid #E8E3DC' }}
-    >
-      <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-2 text-bark">
-        <Icon className="h-7 w-7" strokeWidth={1.9} />
-      </div>
-      <div
-        className="mb-2 text-[18px] font-semibold"
-        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-      >
-        {title}
-      </div>
-      <div
-        className="mb-7 max-w-[32ch] text-[14px] leading-relaxed"
-        style={{ color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}
-      >
-        {description}
-      </div>
-      {actionHref && actionLabel && (
-        <Link href={actionHref} className={getAccountButtonClass({ variant: 'primary' })}>
-          {actionLabel}
-        </Link>
-      )}
-    </div>
+    <EmptyState
+      icon={Icon}
+      title={title}
+      description={description}
+      actionHref={actionHref}
+      actionLabel={actionLabel}
+      className='rounded-[28px] px-6 py-14'
+    />
   );
 }
 
@@ -223,10 +208,7 @@ async function readJson<T>(response: Response): Promise<T> {
 
 function OrderCard({ order }: { order: CustomerOrder }) {
   return (
-    <div
-      className="bg-white rounded-2xl px-6 py-5 flex items-center gap-5 mb-4"
-      style={{ border: '1.5px solid #E8E3DC' }}
-    >
+    <SurfaceCard className="mb-4 flex items-center gap-5 rounded-2xl px-6 py-5">
       <div
         className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center"
         style={{ background: 'var(--color-surface-2)', color: 'var(--color-bark)', fontSize: 18 }}
@@ -248,12 +230,9 @@ function OrderCard({ order }: { order: CustomerOrder }) {
         </div>
       </div>
       <div className="text-right shrink-0">
-        <div
-          className="inline-block rounded-[20px] px-3 py-[3px] text-[12px] font-semibold mb-1.5"
-          style={{ background: '#E8F5E6', color: '#3A7A35', fontFamily: "'DM Sans', sans-serif" }}
-        >
+        <Badge variant='sage' size='compact' className='mb-1.5 text-[12px]'>
           {prettifyStatus(order.financialStatus)}
-        </div>
+        </Badge>
         <div
           className="text-[14px] font-bold"
           style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
@@ -261,7 +240,7 @@ function OrderCard({ order }: { order: CustomerOrder }) {
           {formatMoney(order.totalAmount, order.currencyCode)}
         </div>
       </div>
-    </div>
+    </SurfaceCard>
   );
 }
 
@@ -273,17 +252,11 @@ function AddressCard({
   isDefault: boolean;
 }) {
   return (
-    <div
-      className="bg-white rounded-2xl px-6 py-5 mb-4 max-w-[420px] relative"
-      style={{ border: '1.5px solid #E8E3DC' }}
-    >
+    <SurfaceCard className="relative mb-4 max-w-[420px] rounded-2xl px-6 py-5">
       {isDefault && (
-        <div
-          className="absolute top-4 right-4 rounded-[20px] px-[10px] py-[2px] text-[11px] font-semibold"
-          style={{ background: '#E8F5E6', color: '#3A7A35', fontFamily: "'DM Sans', sans-serif" }}
-        >
+        <Badge variant='sage' size='compact' className='absolute right-4 top-4 text-[11px]'>
           Numatytasis
-        </div>
+        </Badge>
       )}
       <div
         className="font-bold text-[15px] mb-1.5"
@@ -306,7 +279,7 @@ function AddressCard({
           </>
         )}
       </div>
-    </div>
+    </SurfaceCard>
   );
 }
 
@@ -552,7 +525,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
         {customer ? (
           <div className="max-w-[980px] mx-auto px-4 md:px-6 pb-[60px] md:pb-20 flex flex-col md:flex-row gap-6 md:gap-8 items-start">
             <div className="w-full md:w-[240px] shrink-0">
-              <div className="rounded-[28px] bg-white p-4 md:p-5" style={{ border: '1.5px solid #E8E3DC' }}>
+              <SurfaceCard className="rounded-[28px] p-4 md:p-5">
                 <div className="flex flex-row md:flex-col items-center gap-4 md:gap-3 pb-5 md:pb-6 mb-0 md:mb-1">
                   <div
                     className="flex h-[56px] w-[56px] shrink-0 items-center justify-center rounded-[18px] text-[20px] font-bold md:h-[72px] md:w-[72px] md:text-[26px]"
@@ -601,7 +574,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                 >
                   Atsijungti
                 </AccountActionButton>
-              </div>
+              </SurfaceCard>
             </div>
 
             <div className="flex-1 min-w-0">
@@ -844,10 +817,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
           </div>
         ) : (
           <div className="max-w-[500px] w-full mx-auto px-4 pb-20">
-            <div
-              className="bg-white rounded-3xl px-6 md:px-9 py-10"
-              style={{ border: '1.5px solid #E8E3DC' }}
-            >
+            <SurfaceCard className="rounded-3xl px-6 py-10 md:px-9">
               <h1 className="account-heading-1 mb-3">
                 {authMode === 'sign-in' ? 'Sveiki sugrįžę' : authMode === 'create' ? 'Sukurkite paskyrą' : 'Atkurkite slaptažodį'}
               </h1>
@@ -988,7 +958,7 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
                   </button>
                 </form>
               )}
-            </div>
+            </SurfaceCard>
           </div>
         )}
       </div>

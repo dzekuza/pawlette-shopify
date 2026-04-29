@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { LandingNav } from '@/components/landing/LandingNav'
@@ -15,6 +16,9 @@ import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
 import { ProductCard } from '@/components/products/ProductCard'
 import { CharmCollectionProductCard } from '@/components/products/CharmCollectionCard'
+import { ProductPrice } from '@/components/storefront/ProductPrice'
+import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -71,10 +75,6 @@ function getCharmGallerySurface () {
   return GALLERY_PHOTO_BG
 }
 
-function getCharmGalleryImageStyle () {
-  return { width: '100%', height: '100%', objectFit: 'cover' as const, display: 'block' as const }
-}
-
 const DEFAULT_CHARM_ACCORDION = [
   { id: 'description', title: 'Aprašymas', content: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.' },
   { id: 'care', title: 'Priežiūra', content: 'Nuvalykite drėgna šluoste ir palikite išdžiūti. Nenaudokite abrazyvinių valiklių.' },
@@ -86,6 +86,7 @@ const PDP_REVIEW_COUNT = 9
 const PDP_TRUST_POINTS = ['2–4 d. pristatymas', '30 d. grąžinimas', 'Pagaminta Lietuvoje']
 const PDP_REVIEW_QUOTE = 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.'
 const DEFAULT_CHARM_COLOR = 'blue'
+const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', green: '#A8D5A2', red: '#F4B5C0', yellow: '#F9E4A0' }
 const PDP_REVIEWS = [
   {
     quote: PDP_REVIEW_QUOTE,
@@ -215,7 +216,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       }
     })
     getCharms().then(setCharms)
-  }, [isCollar, product.accentColor])
+  }, [isCollar, product.accentColor, product.id])
 
   // Collar add to cart → pick variant by color+size, redirect to /cart
   const addCollarToCart = async () => {
@@ -258,8 +259,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     if (charmQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(charmQuery.toLowerCase()))
     return list
   }, [product.charmVariants, charmTab, charmColor, charmQuery])
-
-  const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', green: '#A8D5A2', red: '#F4B5C0', yellow: '#F9E4A0' }
 
   // Filtered charms for the personalise dialog (collar product page)
   const filteredCollarCharms = useMemo(() => {
@@ -320,7 +319,15 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <div ref={sliderRef} style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
                 {gallery.map((src, i) => (
                   <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
-                    <img src={src} alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''} draggable={false} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', userSelect: 'none' }} />
+                    <Image
+                      src={src}
+                      alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
+                      fill
+                      sizes='100vw'
+                      priority={i === 0}
+                      draggable={false}
+                      className='select-none object-cover'
+                    />
                   </div>
                 ))}
               </div>
@@ -357,8 +364,16 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             >
               <div style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${safeCharmGalleryIndex * 100}%)` }}>
                 {visibleCharmGallery.map((src, index) => (
-                  <div key={`${src}-${index}`} style={{ flexShrink: 0, width: '100%', height: '100%' }}>
-                    <img src={src} alt={index === safeCharmGalleryIndex ? displayName : ''} draggable={false} style={{ ...getCharmGalleryImageStyle(), userSelect: 'none' }} />
+                  <div key={`${src}-${index}`} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
+                    <Image
+                      src={src}
+                      alt={index === safeCharmGalleryIndex ? displayName : ''}
+                      fill
+                      sizes='100vw'
+                      priority={index === safeCharmGalleryIndex && index === 0}
+                      draggable={false}
+                      className='select-none object-cover'
+                    />
                   </div>
                 ))}
               </div>
@@ -392,10 +407,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
               <h1 style={{ margin: 0, fontSize: 28, fontWeight: 600, lineHeight: 1.2, color: '#3D3530' }}>{displayName}</h1>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <span style={{ fontSize: 26, fontWeight: 700, color: '#3D3530' }}>{displayPrice}</span>
-                <span style={{ fontSize: 14, color: '#9B948F' }}>nemokamas pristatymas nuo €50</span>
-              </div>
+              <ProductPrice
+                currentPrice={displayPrice}
+                originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
+                note='Nemokamas pristatymas nuo €50'
+                size='detail'
+              />
             </div>
             {hasCharmVariants && (
               <>
@@ -437,21 +454,28 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {gallery.map((src, i) => (
               <div key={i} style={{ borderRadius: i === 0 ? '20px 8px 8px 8px' : i === 1 ? '8px 20px 8px 8px' : i === 2 ? '8px 8px 8px 20px' : '8px 8px 20px 8px', overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1' }}>
-                <img src={src} alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', position: 'absolute', inset: 0 }} />
+                <Image
+                  src={src}
+                  alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
+                  fill
+                  sizes='(max-width: 1280px) 50vw, 600px'
+                  priority={i === 0}
+                  className='object-cover'
+                />
               </div>
             ))}
           </div>
         ) : (
           /* Desktop charm left */
           <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1' }}>
-              {charmHeroImage ? <img src={charmHeroImage} alt={displayName} style={getCharmGalleryImageStyle()} /> : null}
+            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1', position: 'relative' }}>
+              {charmHeroImage ? <Image src={charmHeroImage} alt={displayName} fill sizes='(max-width: 1280px) 50vw, 600px' priority className='object-cover' /> : null}
             </div>
             {charmThumbnails.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 {charmThumbnails.map(({ src, index }, thumbIndex) => (
-                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none' }}>
-                    <img src={src} alt="" style={getCharmGalleryImageStyle()} />
+                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none', position: 'relative' }}>
+                    <Image src={src} alt="" fill sizes='(max-width: 1280px) 25vw, 300px' className='object-cover' />
                   </div>
                 ))}
               </div>
@@ -470,10 +494,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
               <h1 style={{ margin: 0, fontSize: 36, fontWeight: 600, lineHeight: 1.2, color: '#3D3530' }}>{displayName}</h1>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
-                <span style={{ fontSize: 26, fontWeight: 700, color: TEXT_PRIMARY }}>{displayPrice}</span>
-                <span style={{ fontSize: 14, color: TEXT_MUTED }}>nemokamas pristatymas nuo €50</span>
-              </div>
+              <ProductPrice
+                currentPrice={displayPrice}
+                originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
+                note='Nemokamas pristatymas nuo €50'
+                size='detail'
+              />
             </div>
             {hasCharmVariants && (
               <>
@@ -556,7 +582,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 700, color: TEXT_PRIMARY, fontFamily: "'DM Sans',sans-serif" }}>Pridėti pakabuką</h2>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>Pridėti pakabuką</h2>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -638,12 +664,10 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
     <section className="bg-cream py-[60px] md:py-[96px]">
       <div className="mx-auto max-w-[1160px] px-5 md:px-10">
         <div className="mb-10 md:mb-12">
-          <div className="mb-3.5 font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-bark-muted">
-            Rekomenduojami produktai
-          </div>
-          <h2 className="m-0 font-sans text-[28px] font-medium tracking-[-0.02em] text-bark md:text-[40px]">
+          <Eyebrow className="mb-3.5">Rekomenduojami produktai</Eyebrow>
+          <DisplayHeading as='h2' className="m-0 text-[28px] tracking-[-0.02em] md:text-[40px]">
             You might also like
-          </h2>
+          </DisplayHeading>
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-10">
@@ -681,7 +705,7 @@ function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: Shopify
       title={charm?.title}
     >
       {charm?.image
-        ? <img src={charm.image} alt={charm.title} style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+        ? <Image src={charm.image} alt={charm.title} width={52} height={52} style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
         : <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.2)', pointerEvents: 'none' }}>+</span>
       }
     </div>
@@ -756,13 +780,15 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
       <div>
         <p style={{ margin: '0 0 8px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: TEXT_MUTED }}>Atsparus vandeniui antkaklis</p>
         <h1 style={{ margin: '0 0 10px', fontSize: 34, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>{name}</h1>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-          <span style={{ fontWeight: 700, fontSize: 26, color: TEXT_PRIMARY }}>{price}</span>
-          <span style={{ fontSize: 14, color: TEXT_MUTED }}>nemokamas pristatymas nuo €50</span>
-        </div>
+        <ProductPrice
+          currentPrice={price}
+          originalPrice={collar?.originalPrice}
+          note='Nemokamas pristatymas nuo €50'
+          size='detail'
+        />
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 12px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY }}>
-            <span style={{ color: '#E2B93B', letterSpacing: '0.08em', fontSize: 13 }}>★★★★★</span>
+            <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
             <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
           </div>
           {PDP_TRUST_POINTS.map((point) => (
@@ -793,10 +819,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
             >
               {PDP_REVIEWS.map((review) => (
                 <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: TEXT_SECONDARY }}>
-                    “{review.quote}”
-                    <span style={{ color: TEXT_MUTED }}> — {review.author}</span>
-                  </p>
+                  <TestimonialQuoteCard author={review.author} quote={review.quote} />
                 </div>
               ))}
             </div>
@@ -898,9 +921,11 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
                   aria-pressed={isSelected}
                 >
                   {option.image ? (
-                    <img
+                    <Image
                       src={option.image}
                       alt=""
+                      width={52}
+                      height={52}
                       aria-hidden="true"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     />
@@ -1010,7 +1035,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, position: 'relative', zIndex: 1 }}>
               {selectedCharms.filter(Boolean).map((c, i) => (
                 <div key={i} style={{ width: 32, height: 32, borderRadius: 10, background: c!.bg + '66', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.4)' }}>
-                  {c!.image && <img src={c!.image} alt={c!.title} style={{ width: 24, height: 24, objectFit: 'contain' }} />}
+                  {c!.image && <Image src={c!.image} alt={c!.title} width={24} height={24} style={{ width: 24, height: 24, objectFit: 'contain' }} />}
                 </div>
               ))}
               <span style={{ fontSize: 13, color: TEXT_PRIMARY, marginLeft: 4 }}>Redaguoti</span>
@@ -1105,7 +1130,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>
                   Dydžių gidas
                 </div>
-                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'DM Sans',sans-serif", fontWeight: 700 }}>
+                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive", fontWeight: 400 }}>
                   Kaip išmatuoti savo šunį
                 </h3>
               </div>
@@ -1232,7 +1257,7 @@ function CharmPicker ({
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
               <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
-                <img src={charm.image} alt="" aria-hidden="true" style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
                 <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
               </button>
             )

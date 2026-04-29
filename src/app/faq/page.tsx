@@ -6,6 +6,9 @@ import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
+import { Button } from '@/components/ui/button';
+import { PageHero } from '@/components/storefront/PageHero';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const PRODUCT_FAQS: AccordionItem[] = [
   {
@@ -81,42 +84,13 @@ export default function FaqPage() {
     <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      {/* Hero */}
-      <section className="pt-[120px] pb-[60px] md:pb-[80px] px-5 md:px-10 text-center">
-        <div className="max-w-[640px] mx-auto">
-          {/* Section label */}
-          <span
-            className="inline-block text-[11px] font-medium tracking-[0.08em] uppercase opacity-50 mb-4"
-            style={{ color: 'var(--color-bark)' }}
-          >
-            FAQ
-          </span>
-
-          {/* Heading */}
-          <h1
-            className="text-[48px] md:text-[72px] font-normal leading-[1.05] mb-5"
-            style={{ color: 'var(--color-bark)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
-          >
-            Turite klausimų?
-          </h1>
-
-          {/* Subtext */}
-          <p
-            className="text-[16px] md:text-[18px] opacity-65 leading-relaxed m-0"
-            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-          >
-            Viskas, ką verta žinoti apie PawCharms antkaklius, pakabukus ir
-            užsakymus. Neradote atsakymo?{' '}
-            <a
-              href="mailto:hello@pawcharms.lt"
-              className="underline underline-offset-[3px]"
-              style={{ color: 'var(--color-bark)' }}
-            >
-              Parašykite mums.
-            </a>
-          </p>
-        </div>
-      </section>
+      <PageHero
+        centered
+        className="px-5 pb-[60px] pt-[120px] md:px-10 md:pb-[80px]"
+        eyebrow='FAQ'
+        title='Turite klausimų?'
+        description='Viskas, ką verta žinoti apie PawCharms antkaklius, pakabukus ir užsakymus. Neradote atsakymo? Parašykite mums.'
+      />
 
       {/* FAQ columns */}
       <section className="max-w-[1120px] mx-auto px-5 md:px-10 pb-[60px] md:pb-[100px]">
@@ -149,19 +123,14 @@ export default function FaqPage() {
         >
           Dar abejojate?
         </p>
-        <h2
-          className="font-normal mb-6"
-          style={{ color: 'var(--color-cream)', fontSize: 'clamp(32px, 5vw, 44px)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
-        >
+        <DisplayHeading as='h2' size='section' className="mb-6 text-cream">
           Mielai padėsime.
-        </h2>
-        <a
-          href="mailto:hello@pawcharms.lt"
-          className="inline-block font-bold text-[15px] tracking-[0.04em] uppercase no-underline px-8 py-[14px] rounded-full"
-          style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-        >
-          Parašykite el. paštu
-        </a>
+        </DisplayHeading>
+        <Button asChild variant='sage' size='pill-lg'>
+          <a href="mailto:hello@pawcharms.lt" className="no-underline">
+            Parašykite el. paštu
+          </a>
+        </Button>
       </section>
 
       <LandingFooter />
@@ -182,12 +151,7 @@ function CategoryBlock({ id, title, accent, items }: CategoryBlockProps) {
   return (
     <div id={id}>
       <div className="mb-8">
-        <h2
-          className="text-[22px] md:text-[26px] font-normal mb-2"
-          style={{ color: 'var(--color-bark)', letterSpacing: '-0.03em', fontFamily: "'DM Sans', sans-serif", fontWeight: 700 }}
-        >
-          {title}
-        </h2>
+        <DisplayHeading size='compact' className='mb-2'>{title}</DisplayHeading>
         <div
           className="w-10 h-[3px] rounded-[2px]"
           style={{ background: accent }}

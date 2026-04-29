@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { getCharms, type ShopifyCharm } from '@/lib/shopify';
+import { Button } from '@/components/ui/button';
+import { SectionIntro } from '@/components/storefront/SectionIntro';
 
 export function CharmGrid() {
   const [selected, setSelected] = useState<string | null>(null);
@@ -19,43 +21,30 @@ export function CharmGrid() {
   return (
     <section id="charms" className="bg-cream px-5 py-[60px] md:px-10 md:py-[100px]">
       <div className="mx-auto max-w-[1160px]">
-
-        {/* Header row */}
-        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div className="mb-3 font-sans text-[11px] font-medium uppercase tracking-[0.08em] text-bark-muted">
-              Pakabukų kolekcija
-            </div>
-            <h2 className="mb-4 font-display text-[40px] font-normal leading-[1.1] tracking-[-0.02em] text-bark md:text-[48px]">
-              Tavo šuo. Tavo stilius.
-            </h2>
-            <p className="max-w-[480px] font-sans text-base leading-[1.7] text-bark-light">
-              Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima.
-              Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
-            </p>
-          </div>
-          <div className="flex shrink-0 flex-col items-start gap-3 md:items-end">
-            <button
-              className="btn-press cursor-pointer rounded-full border-2 border-transparent bg-sage px-8 py-3.5 font-sans text-[15px] font-medium text-interactive-text transition-colors duration-150 ease-out hover:bg-[#8fc489]"
-            >
-              Visi pakabukai
-            </button>
-            {selectedCharm && (
-              <div className="flex items-center gap-3">
-                <div
-                  className="flex h-9 w-9 items-center justify-center rounded-full"
-                  style={{ background: selectedCharm.bg }}
-                >
-                  <img src={selectedCharm.image} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
-                </div>
-                <div>
-                  <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title}</div>
-                  <div className="font-sans text-xs text-bark-muted">€6 · prisegamas · atsparus vandeniui</div>
-                </div>
+        <SectionIntro
+          eyebrow="Pakabukų kolekcija"
+          title="Tavo šuo. Tavo stilius."
+          description="Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą."
+          className="md:mb-10"
+        >
+          <Button className="btn-press rounded-full border-2 border-transparent bg-sage px-8 py-3.5 font-sans text-[15px] font-medium text-interactive-text hover:bg-sage-dark">
+            Visi pakabukai
+          </Button>
+          {selectedCharm && (
+            <div className="flex items-center gap-3">
+              <div
+                className="flex h-9 w-9 items-center justify-center rounded-full"
+                style={{ background: selectedCharm.bg }}
+              >
+                <img src={selectedCharm.image} alt="" aria-hidden="true" className="h-5 w-5 object-contain" />
               </div>
-            )}
-          </div>
-        </div>
+              <div>
+                <div className="font-sans text-sm font-medium text-bark">{selectedCharm.title}</div>
+                <div className="font-sans text-xs text-bark-muted">€6 · prisegamas · atsparus vandeniui</div>
+              </div>
+            </div>
+          )}
+        </SectionIntro>
 
         {/* 6-column charm grid */}
         <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:gap-4 lg:grid-cols-6">

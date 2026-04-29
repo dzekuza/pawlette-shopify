@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PawPrint } from 'lucide-react';
@@ -7,8 +8,11 @@ import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
-import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { Button } from '@/components/ui/button';
 import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
+import { EmptyState } from '@/components/storefront/EmptyState';
+import { SurfaceCard } from '@/components/storefront/SurfaceCard';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const SHIPPING_THRESHOLD = 50;
 const SHIPPING_COST = 4.9;
@@ -53,9 +57,7 @@ export default function CartPage() {
 
           {/* Page heading */}
           {lines.length > 0 && (
-            <h1 className="font-sans text-[32px] md:text-[48px] font-semibold mb-2" style={{ color: 'var(--color-bark)', letterSpacing: '-0.02em' }}>
-              Jūsų krepšelis
-            </h1>
+            <DisplayHeading as='h1' className='mb-2 text-[32px] tracking-[-0.02em] md:text-[48px]'>Jūsų krepšelis</DisplayHeading>
           )}
 
           {lines.length > 0 && (
@@ -67,44 +69,14 @@ export default function CartPage() {
           {lines.length === 0 ? (
             /* Empty state */
             <div className="mx-auto max-w-[640px] pt-8 md:pt-12 pb-20">
-              <div
-                className="flex flex-col items-center justify-center rounded-[32px] px-7 py-12 md:px-12 md:py-14 text-center"
-                style={{
-                  background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(243,237,230,0.92) 100%)',
-                  border: '1.5px solid rgba(61,53,48,0.08)',
-                  boxShadow: '0 20px 48px rgba(61,53,48,0.06)',
-                }}
-              >
-                <div
-                  className="mb-5 flex h-[76px] w-[76px] items-center justify-center rounded-[24px]"
-                  style={{ background: 'rgba(168,213,162,0.18)', color: 'var(--color-bark)' }}
-                >
-                  <PawPrint className="h-9 w-9" strokeWidth={1.8} />
-                </div>
-                <p
-                  className="mb-3 text-[12px] font-semibold uppercase tracking-[0.18em]"
-                  style={{ color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  Cart
-                </p>
-                <h1
-                  className="m-0 text-[32px] md:text-[40px]"
-                  style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif", fontWeight: 700, lineHeight: 1.02, letterSpacing: '-0.03em', textWrap: 'balance' as const }}
-                >
-                  Jūsų krepšelis tuščias
-                </h1>
-                <p
-                  className="mt-4 mb-0 max-w-[32ch] text-[16px] leading-[1.6]"
-                  style={{ color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}
-                >
-                  Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.
-                </p>
-                <div className="mt-8">
-                  <PrimaryButton href="/products" variant="sage" size="lg">
-                    Kurti antkaklį
-                  </PrimaryButton>
-                </div>
-              </div>
+              <EmptyState
+                eyebrow='Cart'
+                icon={PawPrint}
+                title='Jūsų krepšelis tuščias'
+                description='Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.'
+                actionHref='/products'
+                actionLabel='Kurti antkaklį'
+              />
             </div>
           ) : (
             /* Two-column layout */
@@ -115,7 +87,7 @@ export default function CartPage() {
 
                 {/* Free shipping progress bar */}
                 {amountToFreeShipping > 0 && (
-                  <div className="bg-white rounded-2xl p-4 mb-4" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                  <SurfaceCard variant='white' padding='compact' className="mb-4 rounded-2xl border-bark/10">
                     <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
                       Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
                     </p>
@@ -128,7 +100,7 @@ export default function CartPage() {
                         }}
                       />
                     </div>
-                  </div>
+                  </SurfaceCard>
                 )}
 
                 {amountToFreeShipping === 0 && (
@@ -150,15 +122,16 @@ export default function CartPage() {
                     const lineTotal = parseFloat(line.merchandise.price.amount) * line.quantity;
                     const thumb = line.merchandise.image?.url ?? line.merchandise.product.featuredImage?.url;
                     return (
-                      <div
+                      <SurfaceCard
                         key={line.id}
-                        className="bg-white rounded-[16px] px-3 py-3 md:px-4 md:py-4 flex items-center gap-3 relative"
-                        style={{ border: '1.5px solid rgba(61,53,48,0.08)' }}
+                        variant='white'
+                        padding='compact'
+                        className="relative flex items-center gap-3 rounded-[16px] border-bark/8 px-3 py-3 md:px-4 md:py-4"
                       >
                         {/* Thumbnail */}
                         <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-[#F0EBE5] flex items-center justify-center">
                           {thumb
-                            ? <img src={thumb} alt="" className="w-full h-full object-cover" />
+                            ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-cover" />
                             : <span style={{ fontSize: 24 }}>🐾</span>
                           }
                         </div>
@@ -200,7 +173,7 @@ export default function CartPage() {
                             ×
                           </button>
                         </div>
-                      </div>
+                      </SurfaceCard>
                     );
                   })}
                 </div>
@@ -219,7 +192,7 @@ export default function CartPage() {
 
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
-                <div className="bg-white rounded-2xl px-5 pt-5 pb-6" style={{ border: '1.5px solid rgba(61,53,48,0.1)' }}>
+                <SurfaceCard variant='white' className="rounded-2xl border-bark/10 px-5 pt-5 pb-6">
                   <p className="text-[14px] font-semibold mb-4 uppercase tracking-widest opacity-50" style={{ color: 'var(--color-bark)' }}>
                     Užsakymo santrauka
                   </p>
@@ -286,20 +259,21 @@ export default function CartPage() {
 
                   {/* CTA */}
                   <div className="mt-5">
-                    <button
+                    <Button
                       onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }}
-                      className="w-full rounded-full py-4 text-[16px] font-bold cursor-pointer border-none"
-                      style={{ background: 'var(--color-sage)', color: 'var(--color-bark)' }}
+                      className="w-full"
+                      variant='sage'
+                      size='pill-lg'
                     >
                       Tęsti atsiskaitymą
-                    </button>
+                    </Button>
                   </div>
 
                   {/* Trust note */}
                   <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
                     Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹
                   </p>
-                </div>
+                </SurfaceCard>
               </div>
             </div>
           )}

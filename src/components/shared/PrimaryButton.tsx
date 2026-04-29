@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
 
 interface PrimaryButtonProps {
   children: React.ReactNode
@@ -20,56 +20,21 @@ export function PrimaryButton({
   variant = 'dark',
   size = 'md',
 }: PrimaryButtonProps) {
-  const bg = variant === 'dark' ? 'var(--color-bark)' : 'var(--color-sage)'
-  const color = variant === 'dark' ? 'var(--color-cream)' : 'var(--color-bark)'
-  const height = size === 'sm' ? 36 : size === 'lg' ? 52 : 45
-  const fontSize = size === 'sm' ? 13 : size === 'lg' ? 16 : 14
-
-  const sharedStyle = {
-    display: 'inline-flex' as const,
-    alignItems: 'center' as const,
-    justifyContent: 'center' as const,
-    width: fullWidth ? '100%' : undefined,
-    height,
-    borderRadius: 100,
-    background: bg,
-    color,
-    border: 'none',
-    fontSize,
-    fontWeight: 500,
-    cursor: 'pointer',
-    fontFamily: "'DM Sans', sans-serif",
-    letterSpacing: '0.01em',
-    padding: '0 24px',
-    textDecoration: 'none',
-    boxSizing: 'border-box' as const,
-  }
+  const buttonVariant = variant === 'dark' ? 'bark' : 'sage'
+  const buttonSize = size === 'sm' ? 'pill-sm' : size === 'lg' ? 'pill-lg' : 'pill'
+  const widthClass = fullWidth ? 'w-full' : undefined
 
   if (href) {
     return (
-      <motion.div
-        whileHover={{ scale: 1.02, opacity: 0.92 }}
-        whileTap={{ scale: 0.97 }}
-        transition={{ duration: 0.25 }}
-        style={{ display: fullWidth ? 'block' : 'inline-block', width: fullWidth ? '100%' : undefined }}
-      >
-        <Link href={href} style={sharedStyle}>
-          {children}
-        </Link>
-      </motion.div>
+      <Button asChild variant={buttonVariant} size={buttonSize} className={widthClass}>
+        <Link href={href}>{children}</Link>
+      </Button>
     )
   }
 
   return (
-    <motion.button
-      onClick={onClick}
-      animate={{ background: bg, color }}
-      whileHover={{ scale: 1.02, opacity: 0.92 }}
-      whileTap={{ scale: 0.97 }}
-      transition={{ duration: 0.25 }}
-      style={sharedStyle}
-    >
+    <Button onClick={onClick} variant={buttonVariant} size={buttonSize} className={widthClass}>
       {children}
-    </motion.button>
+    </Button>
   )
 }

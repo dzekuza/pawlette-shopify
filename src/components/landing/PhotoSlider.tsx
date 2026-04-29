@@ -1,6 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const ROW_ONE = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -23,21 +25,21 @@ const ROW_TWO = [
 export function PhotoSlider() {
   return (
     <section className="bg-cream py-[60px] md:py-[100px] overflow-hidden">
-      <h2 className="font-display text-[36px] md:text-[48px] text-bark text-center mb-10 tracking-[-0.02em]">
+      <DisplayHeading as='h2' className="mb-10 text-center text-[36px] tracking-[-0.02em] md:text-[48px]">
         Jūsų akimirkos
-      </h2>
+      </DisplayHeading>
       <div className="flex flex-col gap-4">
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (
-            <div key={src} className="w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
-              <img src={src} alt="" className="w-full h-full object-cover block" />
+            <div key={src} className="relative w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
+              <Image src={src} alt="" fill sizes='(max-width: 767px) 200px, 280px' className="w-full h-full object-cover block" />
             </div>
           ))}
         </InfiniteSlider>
         <InfiniteSlider gap={16} duration={30} reverse>
           {ROW_TWO.map((src) => (
-            <div key={src} className="w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
-              <img src={src} alt="" className="w-full h-full object-cover block" />
+            <div key={src} className="relative w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
+              <Image src={src} alt="" fill sizes='(max-width: 767px) 200px, 280px' className="w-full h-full object-cover block" />
             </div>
           ))}
         </InfiniteSlider>

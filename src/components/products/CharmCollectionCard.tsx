@@ -1,62 +1,47 @@
-import Link from 'next/link'
 import type { ProductDetail } from '@/lib/catalog'
+import { Badge } from '@/components/ui/badge'
+import { FeaturePillList } from '@/components/storefront/FeaturePillList'
+import { ProductPrice } from '@/components/storefront/ProductPrice'
+import {
+  CatalogCard,
+  CatalogCardAction,
+  CatalogCardBody,
+  CatalogCardFooter,
+  CatalogCardLink,
+  CatalogCardMedia,
+  CatalogCardTitle,
+} from '@/components/storefront/CatalogCard'
 
 interface CharmCollectionCardProps {
   href: string
   title: string
-  description?: string
   price: string
+  originalPrice?: string
   image: string
   imageAlt: string
 }
 
-export function CharmCollectionCard ({ href, title, description, price, image, imageAlt }: CharmCollectionCardProps) {
+export function CharmCollectionCard ({ href, title, price, originalPrice, image, imageAlt }: CharmCollectionCardProps) {
   return (
-    <Link
-      href={href}
-      data-animate='card'
-      className='group block rounded-[20px] transition-transform duration-200 ease-out hover:-translate-y-1 no-underline'
-    >
-      <article
-        style={{ cursor: 'pointer', borderRadius: 20, display: 'flex', flexDirection: 'column', height: '100%' }}
-      >
-        <div className='relative h-[200px] overflow-hidden rounded-[20px]' style={{ background: '#B8D8F4' }}>
-          {image && (
-            <img
-              src={image}
-              alt={imageAlt}
-              className='block h-full w-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-105'
-            />
-          )}
-          <div style={{ position: 'absolute', bottom: 14, left: 14, display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(250,247,242,0.9)', backdropFilter: 'blur(6px)', borderRadius: 100, padding: '6px 10px' }}>
-            <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.04em', color: '#3D3530' }}>{title}</span>
-          </div>
-        </div>
-        <div style={{ padding: '16px 4px 8px', display: 'flex', flexDirection: 'column', flex: 1 }}>
-          <div style={{ marginBottom: 6, fontSize: 16, fontWeight: 500, lineHeight: 1.35, color: '#3D3530' }}>{title}</div>
-          {description && (
-            <div
-              style={{
-                marginBottom: 14,
-                fontSize: 13,
-                lineHeight: 1.55,
-                color: '#9B948F',
-                display: '-webkit-box',
-                WebkitLineClamp: 4,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden',
-              }}
-            >
-              {description}
-            </div>
-          )}
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16, marginTop: 'auto' }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530' }}>{price}</div>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25', whiteSpace: 'nowrap' }}>Peržiūrėti →</span>
-          </div>
-        </div>
-      </article>
-    </Link>
+    <CatalogCardLink href={href}>
+      <CatalogCard>
+        <CatalogCardMedia alt={imageAlt} background='#B8D8F4' image={image}>
+          <Badge variant='glass' className='absolute bottom-3.5 left-3.5 px-2.5 py-1 normal-case tracking-[0.04em]'>
+            {title}
+          </Badge>
+        </CatalogCardMedia>
+        <CatalogCardBody className='pb-2'>
+          <CatalogCardTitle className='mb-2 line-clamp-2 text-[16px] leading-[1.35]'>{title}</CatalogCardTitle>
+          <FeaturePillList items={[`Nuo ${price}`, '100+ variantų']} className='mb-4' />
+          <CatalogCardFooter className='items-end'>
+            <ProductPrice currentPrice={price} originalPrice={originalPrice} note='Spalvos ir raidės' />
+            <CatalogCardAction variant='link' className='whitespace-nowrap'>
+              Rinktis →
+            </CatalogCardAction>
+          </CatalogCardFooter>
+        </CatalogCardBody>
+      </CatalogCard>
+    </CatalogCardLink>
   )
 }
 
@@ -65,8 +50,8 @@ export function CharmCollectionProductCard ({ product }: { product: ProductDetai
     <CharmCollectionCard
       href={`/products/${product.slug}`}
       title={product.name}
-      description={product.shortDescription}
       price={product.price}
+      originalPrice={product.originalPrice}
       image={product.image}
       imageAlt={product.name}
     />

@@ -7,6 +7,7 @@ export interface ProductDetail {
   productType: 'collar' | 'charm'
   name: string
   price: string
+  originalPrice?: string
   shortDescription: string
   longDescription: string
   image: string
@@ -119,6 +120,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     productType: 'charm',
     name: 'Pakabukai',
     price: '€6',
+    originalPrice: first.originalPrice,
     shortDescription: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams.',
     longDescription: 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.',
     image: images[0] ?? '',
@@ -144,6 +146,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
     productType: 'charm',
     name: charm.title,
     price: charm.price,
+    originalPrice: charm.originalPrice,
     shortDescription,
     longDescription: charm.description || `${charm.title} prisisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.`,
     image: images[0] ?? '',
@@ -170,6 +173,7 @@ function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
     productType: 'collar',
     name: collar.title,
     price: collar.price,
+    originalPrice: collar.originalPrice,
     shortDescription,
     longDescription: collar.description || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
     image: collar.image,
