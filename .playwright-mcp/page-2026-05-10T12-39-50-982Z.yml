@@ -1,0 +1,120 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - navigation [ref=e5]:
+          - link "Parduotuvė" [ref=e6] [cursor=pointer]:
+            - /url: /products
+          - link "Pakabukai" [ref=e7] [cursor=pointer]:
+            - /url: /products/charm-charms
+          - link "Priežiūra" [ref=e8] [cursor=pointer]:
+            - /url: /guide/silicone-vs-nylon-dog-collars
+        - link "Žavesys home" [ref=e9] [cursor=pointer]:
+          - /url: /
+          - img "Žavesys" [ref=e10]
+        - generic [ref=e11]:
+          - link "Paskyra" [ref=e12] [cursor=pointer]:
+            - /url: /account
+            - img [ref=e13]
+          - button "Krepšelis" [ref=e17] [cursor=pointer]:
+            - img [ref=e18]
+    - generic:
+      - navigation:
+        - link:
+          - /url: /products
+          - text: Antkakliai
+        - link:
+          - /url: /products/charm-charms
+          - text: Pakabukai
+        - link:
+          - /url: /guide/how-to-measure-dog-collar
+          - text: Dydžių gidas
+        - link:
+          - /url: /guide/silicone-vs-nylon-dog-collars
+          - text: Priežiūra ir medžiagos
+        - link:
+          - /url: /faq
+          - text: FAQ
+      - generic:
+        - generic: Pagaminta Vilniuje, Lietuvoje
+        - link:
+          - /url: mailto:hello@pawcharms.lt
+          - text: hello@pawcharms.lt
+    - main [ref=e21]:
+      - generic [ref=e25]:
+        - img [ref=e27]
+        - paragraph [ref=e32]: Cart
+        - heading "Jūsų krepšelis tuščias" [level=2] [ref=e33]
+        - paragraph [ref=e34]: Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.
+        - link "Kurti antkaklį" [ref=e35] [cursor=pointer]:
+          - /url: /products
+    - contentinfo [ref=e36]:
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - link "PawCharms home" [ref=e40] [cursor=pointer]:
+              - /url: /
+              - img "PawCharms" [ref=e41]
+            - paragraph [ref=e42]: Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.
+            - generic [ref=e43]: Pakabukai keičiami per 5 sekundes.
+          - generic [ref=e44]:
+            - generic [ref=e45]: Parduotuvė
+            - generic [ref=e46]:
+              - link "Antkaklių rinkiniai" [ref=e47] [cursor=pointer]:
+                - /url: /products
+              - link "Pakabukai" [ref=e48] [cursor=pointer]:
+                - /url: /products/charm-charms
+              - link "Susikurk savo" [ref=e49] [cursor=pointer]:
+                - /url: /products
+          - generic [ref=e50]:
+            - generic [ref=e51]: Pagalba
+            - generic [ref=e52]:
+              - link "Dydžių gidas" [ref=e53] [cursor=pointer]:
+                - /url: /guide/how-to-measure-dog-collar
+              - link "Silikonas ar nailonas" [ref=e54] [cursor=pointer]:
+                - /url: /guide/silicone-vs-nylon-dog-collars
+              - link "Pristatymas" [ref=e55] [cursor=pointer]:
+                - /url: /faq#orders
+              - link "Grąžinimas" [ref=e56] [cursor=pointer]:
+                - /url: /faq#orders
+          - generic [ref=e57]:
+            - generic [ref=e58]: PawCharms
+            - generic [ref=e59]:
+              - link "Mūsų istorija" [ref=e60] [cursor=pointer]:
+                - /url: /#about
+              - link "DUK" [ref=e61] [cursor=pointer]:
+                - /url: /faq#products
+              - link "Kontaktai" [ref=e62] [cursor=pointer]:
+                - /url: mailto:hello@pawcharms.lt
+        - generic [ref=e63]:
+          - generic [ref=e64]: © 2026 PawCharms. Pagaminta su meile Lietuvoje.
+          - generic [ref=e65]: hello@pawcharms.lt · Vilnius, Lietuva
+  - button "Open Next.js Dev Tools" [ref=e71] [cursor=pointer]:
+    - img [ref=e72]
+  - alert [ref=e75]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - button "Select element":
+                    - img
+                - generic:
+                  - generic:
+                    - button "Open comments (1 items)":
+                      - generic:
+                        - img
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: "1"
+                              - generic: "1"
+                - generic:
+                  - generic:
+                    - button "Copy all comments":
+                      - img
+          - button "Collapse toolbar":
+            - img

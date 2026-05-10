@@ -25,8 +25,10 @@ export function StickyCTA({ visible }: { visible: boolean }) {
       {!isMobile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex' }}>
-            {['#F4B5C0', '#A8D5A2', '#B8D8F4', '#F9E4A0'].map((c, i) => (
-              <div key={i} style={{ width: 28, height: 28, borderRadius: '50%', background: c, border: '2px solid #FAF7F2', marginLeft: i > 0 ? -8 : 0 }} />
+            {['/charm-flower.png', '/charm-star.png', '/charm-heart.png', '/charm-paw.png'].map((src, i) => (
+              <div key={src} style={{ width: 32, height: 32, borderRadius: '50%', background: '#F0EBE5', border: '2px solid #FAF7F2', marginLeft: i > 0 ? -10 : 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <img src={src} alt="" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
+              </div>
             ))}
           </div>
           <div>

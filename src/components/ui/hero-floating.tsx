@@ -42,7 +42,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   return (
     <section
       className={cn("relative w-full h-screen overflow-hidden flex justify-center", isMobile ? "items-center" : "items-start", className)}
-      style={{ background: "#FAF7F2" }}
+      style={{ background: "#FAF7F2", minHeight: isMobile ? undefined : 800 }}
     >
       {/* Background swirl — top-left pink */}
       <svg
@@ -122,7 +122,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           margin: "0 auto",
           padding: isMobile ? "0 24px" : "0",
           alignSelf: isMobile ? "center" : "flex-start",
-          marginTop: isMobile ? 0 : 120,
+          marginTop: isMobile ? 0 : 160,
         }}
       >
         {/* Badge */}

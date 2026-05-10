@@ -3,10 +3,52 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { getCharms, type ShopifyCharm } from '@/lib/shopify';
-import { addLineToCart } from '@/lib/cart';
+import { addLinesToCart } from '@/lib/cart';
 import { Eyebrow } from '@/components/storefront/Typography';
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, horizontalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const ROWS_DEFAULT = 3;
+const MAX_CHARMS = 5;
+
+function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: ShopifyCharm | null; onRemove: () => void }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      onClick={onRemove}
+      title={charm?.title}
+      style={{
+        flex: 1,
+        aspectRatio: '1/1',
+        maxWidth: 64,
+        borderRadius: 16,
+        border: charm ? '2px solid var(--color-bark)' : '2px dashed rgba(61,53,48,0.2)',
+        background: charm ? (charm.bg || '#EEE') + '44' : 'rgba(61,53,48,0.04)',
+        cursor: charm ? 'grab' : 'default',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 6,
+        transform: CSS.Transform.toString(transform),
+        transition,
+        opacity: isDragging ? 0.5 : 1,
+        touchAction: 'none',
+      }}
+    >
+      {charm?.image ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={charm.image} alt={charm.title}
+          style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
+      ) : (
+        <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.2)', pointerEvents: 'none' }}>+</span>
+      )}
+    </div>
+  );
+}
 
 export function CharmGrid() {
   const w = useWindowWidth() ?? 1200;
@@ -14,26 +56,57 @@ export function CharmGrid() {
   const cols = isMobile ? 6 : 8;
 
   const [charms, setCharms] = useState<ShopifyCharm[]>([]);
-  const [selected, setSelected] = useState<ShopifyCharm | null>(null);
+  const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null, null, null, null, null]);
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
   const [query, setQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
-  const [galleryIndex, setGalleryIndex] = useState(0);
+
+  const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }));
 
   useEffect(() => {
-    getCharms().then(items => {
-      setCharms(items);
-      if (items.length > 0) setSelected(items[0]);
-    });
+    getCharms().then(items => setCharms(items));
   }, []);
 
+  const toggleCharm = (charm: ShopifyCharm) => {
+    setSelectedCharms(prev => {
+      const idx = prev.findIndex(c => c?.id === charm.id);
+      if (idx !== -1) {
+        const next = [...prev];
+        next[idx] = null;
+        return next;
+      }
+      const empty = prev.findIndex(c => c === null);
+      if (empty === -1) return prev; // all 5 slots full
+      const next = [...prev];
+      next[empty] = charm;
+      return next;
+    });
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setSelectedCharms(prev => {
+        const oldIndex = prev.findIndex((_, i) => `slot-${i}` === active.id);
+        const newIndex = prev.findIndex((_, i) => `slot-${i}` === over.id);
+        return arrayMove(prev, oldIndex, newIndex);
+      });
+    }
+  };
+
+  const selectedCount = selectedCharms.filter(Boolean).length;
+
   async function handleAddToCart() {
-    if (!selected || adding) return;
+    if (!selectedCount || adding) return;
     setAdding(true);
     try {
-      await addLineToCart(selected.variantId);
+      const lines = (selectedCharms.filter(Boolean) as ShopifyCharm[]).map(c => ({
+        merchandiseId: c.variantId,
+        quantity: 1,
+      }));
+      await addLinesToCart(lines);
       setAdded(true);
       setTimeout(() => setAdded(false), 2200);
     } finally {
@@ -41,9 +114,8 @@ export function CharmGrid() {
     }
   }
 
-  // Derive unique colors from actual charm data
   const uniqueColors = useMemo(() => {
-    const seen = new Map<string, string>(); // bg -> label
+    const seen = new Map<string, string>();
     const COLOR_LABELS: Record<string, string> = {
       '#B8D8F4': 'Mėlyna',
       '#A8D5A2': 'Žalia',
@@ -70,24 +142,20 @@ export function CharmGrid() {
     });
   }, [charms, query, colorFilter]);
 
-  // Reset expanded when filters change
   useEffect(() => { setExpanded(false); }, [query, colorFilter]);
 
   const maxVisible = cols * ROWS_DEFAULT;
   const visible = expanded ? filtered : filtered.slice(0, maxVisible);
   const hasMore = !expanded && filtered.length > maxVisible;
+  const selectedIds = new Set(selectedCharms.filter(Boolean).map(c => c!.id));
 
   if (charms.length === 0) return null;
 
-  // Product-level gallery (same for all charms — use first charm's images)
   const productGallery = charms[0]?.productImages?.slice(0, 5) ?? [];
   const featuredImage = charms[0]?.productFeaturedImage || '';
   const allGalleryImages = featuredImage
     ? [featuredImage, ...productGallery.filter(u => u !== featuredImage)].slice(0, 5)
     : productGallery;
-  const mainImage = allGalleryImages[galleryIndex] || featuredImage;
-
-  const galleryBg = selected?.bg || '#EEE';
 
   return (
     <section id="charms" style={{ background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
@@ -105,7 +173,6 @@ export function CharmGrid() {
 
           {/* LEFT — Gallery */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {/* Product gallery — 2×2 grid, max 4 images */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(2, 1fr)',
@@ -134,7 +201,7 @@ export function CharmGrid() {
 
             <h2 style={{
               fontFamily: "'Luckiest Guy', cursive",
-              fontSize: isMobile ? 34 : 44,
+              fontSize: 'clamp(30px, 3.5vw, 44px)',
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
               color: 'var(--color-bark)',
@@ -143,7 +210,7 @@ export function CharmGrid() {
               Tavo šuo.<br />Tavo stilius.
             </h2>
 
-            <p style={{ marginTop: 14, fontSize: 15, lineHeight: 1.7, color: '#8f8680', maxWidth: 480 }}>
+            <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.7, color: 'var(--color-bark-muted)', maxWidth: 480 }}>
               Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
             </p>
 
@@ -166,14 +233,23 @@ export function CharmGrid() {
 
             {/* Charm selector */}
             <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid rgba(61,53,48,0.10)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-                <Eyebrow>Pasirinkite pakabuką</Eyebrow>
-                {selected && (
-                  <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>
-                    {selected.baseTitle || selected.title}
-                  </span>
-                )}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+                <Eyebrow>Rinktis pakabuką</Eyebrow>
+                <span style={{ fontSize: 12, color: '#9B948F', fontWeight: 500 }}>
+                  {selectedCount}/{MAX_CHARMS}
+                </span>
               </div>
+
+              {/* 5-slot sortable preview */}
+              <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                <SortableContext items={selectedCharms.map((_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
+                  <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                    {selectedCharms.map((charm, i) => (
+                      <SortableCharmSlot key={`slot-${i}`} id={`slot-${i}`} charm={charm} onRemove={() => charm && toggleCharm(charm)} />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
 
               {/* Color filters */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 10 }}>
@@ -283,16 +359,17 @@ export function CharmGrid() {
                     gap: 8,
                   }}>
                     {visible.map(charm => {
-                      const isSel = selected?.id === charm.id;
+                      const isSel = selectedIds.has(charm.id);
+                      const isFull = selectedCount >= MAX_CHARMS && !isSel;
                       return (
                         <button
                           key={charm.id}
-                          onClick={() => setSelected(charm)}
+                          onClick={() => !isFull && toggleCharm(charm)}
                           title={charm.baseTitle || charm.title}
                           style={{
                             border: 'none',
                             padding: 0,
-                            cursor: 'pointer',
+                            cursor: isFull ? 'not-allowed' : 'pointer',
                             background: charm.bg || '#EEE',
                             aspectRatio: '1 / 1',
                             borderRadius: 10,
@@ -300,7 +377,8 @@ export function CharmGrid() {
                             position: 'relative',
                             outline: isSel ? '2.5px solid var(--color-bark)' : '2.5px solid transparent',
                             outlineOffset: 1,
-                            transition: 'outline-color 0.15s',
+                            opacity: isFull ? 0.4 : 1,
+                            transition: 'outline-color 0.15s, opacity 0.15s',
                           } as React.CSSProperties}
                         >
                           {charm.image ? (
@@ -358,30 +436,29 @@ export function CharmGrid() {
             <div style={{ marginTop: 16 }}>
               <button
                 onClick={handleAddToCart}
-                disabled={adding}
+                disabled={!selectedCount || adding}
                 style={{
                   width: '100%',
-                  background: added ? '#4CAF50' : 'var(--color-bark)',
-                  color: 'var(--color-cream)',
+                  background: added ? '#4CAF50' : selectedCount ? 'var(--color-bark)' : '#E8E3DC',
+                  color: added ? '#fff' : selectedCount ? 'var(--color-cream)' : '#9B948F',
                   border: 'none',
                   borderRadius: 14,
                   padding: '16px 24px',
                   fontSize: 16,
                   fontWeight: 600,
-                  cursor: adding ? 'wait' : 'pointer',
+                  cursor: selectedCount && !adding ? 'pointer' : 'not-allowed',
                   fontFamily: "'DM Sans', sans-serif",
                   transition: 'background 0.2s',
                   letterSpacing: '-0.01em',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  gap: 12,
                 }}
               >
-                <span>{added ? '✓ Pridėta į krepšelį' : adding ? 'Pridedama...' : 'Pridėti į krepšelį →'}</span>
-                {!added && !adding && selected?.price && (
-                  <span style={{ opacity: 0.75, fontWeight: 500 }}>{selected.price}</span>
-                )}
+                {added
+                  ? '✓ Užsakymas gautas!'
+                  : adding
+                    ? 'Apdorojama...'
+                    : selectedCount
+                      ? `Užsakyti su ${selectedCount} pakabuk${selectedCount > 1 ? 'ais' : 'u'} →`
+                      : 'Pasirinkite iki 5 pakabukų'}
               </button>
             </div>
           </div>

@@ -46,7 +46,7 @@ export function BodyCopy ({
   ...props
 }: React.ComponentProps<'p'>) {
   return (
-    <p className={cn('font-sans text-[15px] leading-7 text-bark-light md:text-[17px]', className)} {...props}>
+    <p className={cn('font-sans text-[16px] leading-7 text-bark-light md:text-[17px]', className)} {...props}>
       {children}
     </p>
   )

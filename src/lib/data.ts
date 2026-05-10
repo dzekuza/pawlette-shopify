@@ -1,4 +1,4 @@
-export const SIZES = ['XS — 20–28 cm', 'S — 28–36 cm', 'M — 36–44 cm', 'L — 44–52 cm'] as const;
+export const SIZES = ['S — 28–36 cm', 'M — 36–44 cm', 'L — 44–52 cm'] as const;
 
 export const REVIEWS = [
   { name: 'Laima K.', dog: 'Luna, Biglis',   rating: 5, text: 'Antkaklis atlaikė du mėnesius maudynių ir purvinų pasivaikščiojimų. Jokio kvapo, jokių dėmių.' },

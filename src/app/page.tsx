@@ -26,7 +26,7 @@ const faqSchema = {
       name: 'Kaip pasirinkti tinkamą antkaklio dydį?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–54 cm.',
+        text: 'Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–52 cm.',
       },
     },
     {

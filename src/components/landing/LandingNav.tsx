@@ -10,14 +10,14 @@ const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
-  { label: 'Priežiūra ir medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
   { label: 'FAQ', href: '/faq' },
 ];
 
 const DESKTOP_NAV = [
-  { label: 'Parduotuvė', href: '/products' },
+  { label: 'Antkakliai', href: '/products' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
-  { label: 'Priežiūra', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];
 
 interface LandingNavProps {

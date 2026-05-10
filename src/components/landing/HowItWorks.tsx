@@ -26,7 +26,7 @@ export function HowItWorks() {
             <div key={i} style={{ background: 'rgba(255,255,255,0.7)', borderRadius: 20, padding: '36px 32px', border: '1px solid rgba(255,255,255,0.9)' }}>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 52, fontWeight: 500, color: 'var(--color-blossom)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 20 }}>{s.n}</div>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 10 }}>{s.title}</div>
-              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>{s.desc}</div>
+              <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>{s.desc}</div>
             </div>
           ))}
         </div>

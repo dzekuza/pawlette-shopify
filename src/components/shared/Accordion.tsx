@@ -1,11 +1,12 @@
 'use client'
 
 import { useState } from 'react'
+import type React from 'react'
 
 export interface AccordionItem {
   id: string
   title: string
-  content: string
+  content: React.ReactNode
 }
 
 interface AccordionProps {
@@ -73,7 +74,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                 transition: 'max-height 320ms ease, opacity 220ms ease',
               }}
             >
-              <p
+              <div
                 style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontSize: isMobile ? 14 : 15,
@@ -84,7 +85,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                 }}
               >
                 {item.content}
-              </p>
+              </div>
             </div>
           </div>
         )

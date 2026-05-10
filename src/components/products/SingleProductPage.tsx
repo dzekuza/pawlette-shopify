@@ -7,15 +7,16 @@ import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { Reviews } from '@/components/landing/Reviews'
+import { BentoSection } from '@/components/BentoSection'
 import { FAQ } from '@/components/landing/FAQ'
 import { LandingFooter } from '@/components/landing/LandingFooter'
-import { BentoSection } from '@/components/BentoSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
+import { Accordion } from '@/components/shared/Accordion'
 import { ProductCard } from '@/components/products/ProductCard'
 import { CharmCollectionProductCard } from '@/components/products/CharmCollectionCard'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
@@ -79,7 +80,6 @@ function getCharmGallerySurface () {
 
 const DEFAULT_CHARM_ACCORDION = [
   { id: 'description', title: 'Aprašymas', content: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.' },
-  { id: 'care', title: 'Priežiūra', content: 'Nuvalykite drėgna šluoste ir palikite išdžiūti. Nenaudokite abrazyvinių valiklių.' },
   { id: 'shipping', title: 'Pristatymas ir grąžinimas', content: 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimas per 30 dienų.' },
 ]
 
@@ -143,12 +143,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [selectedSize, setSelectedSize] = useState<string>('')
 
   // ── Charm page state ──
-  const [selectedCharm, setSelectedCharm] = useState<ShopifyCharm | null>(product.charmVariants?.[0] ?? null)
+  const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
   const [charmTab] = useState<CharmTab>('all')
   const [charmColor, setCharmColor] = useState<string>(product.charmVariants?.[0]?.color || DEFAULT_CHARM_COLOR)
   const [charmQuery, setCharmQuery] = useState('')
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
 
   // ── Personalise dialog ──
   const [personaliseOpen, setPersonaliseOpen] = useState(false)
@@ -232,19 +234,34 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     router.push('/cart')
   }
 
-  // When selecting a charm, also sync the color filter
-  const handleCharmSelect = (charm: ShopifyCharm) => {
-    setSelectedCharm(prev => prev?.id === charm.id ? null : charm)
+  const toggleCharm = (charm: ShopifyCharm) => {
+    setSelectedCharms(prev => {
+      const idx = prev.findIndex(c => c?.id === charm.id)
+      if (idx !== -1) { const next = [...prev]; next[idx] = null; return next }
+      const empty = prev.findIndex(c => c === null)
+      if (empty === -1) return prev
+      const next = [...prev]; next[empty] = charm; return next
+    })
     if (charm.color) setCharmColor(charm.color)
-    setCharmGalleryIndex(0)
+  }
+  const selectedCharmCount = selectedCharms.filter(Boolean).length
+  const handleCharmPageDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (over && active.id !== over.id) {
+      setSelectedCharms(prev => {
+        const oldIndex = prev.findIndex((_, i) => `charm-slot-${i}` === active.id)
+        const newIndex = prev.findIndex((_, i) => `charm-slot-${i}` === over.id)
+        return arrayMove(prev, oldIndex, newIndex)
+      })
+    }
   }
 
   // Charm add to cart → redirect to /cart
   const addCharmToCart = async () => {
-    const variantId = selectedCharm?.variantId ?? product.variantId
-    if (!variantId) return
+    const picked = selectedCharms.filter(Boolean) as ShopifyCharm[]
+    if (!picked.length) return
     setAdded(true)
-    await addLinesToCart([{ merchandiseId: variantId, quantity: 1 }])
+    await addLinesToCart(picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
     setTimeout(() => {
       setAdded(false)
       router.push('/cart')
@@ -284,12 +301,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const gallery = (collar?.images && collar.images.length > 0) ? collar.images : localGallery
 
   const NAV_H = 72
-  const displayName = selectedCharm?.title ?? product.name
-  const displayPrice = selectedCharm?.price ?? product.price
+  const firstSelectedCharm = selectedCharms.find(Boolean) ?? null
+  const displayName = selectedCharmCount === 1 ? (firstSelectedCharm?.title ?? product.name) : product.name
+  const displayPrice = firstSelectedCharm?.price ?? product.price
   const charmGallery = product.images.length > 0
     ? product.images
-    : selectedCharm?.image
-      ? [selectedCharm.image]
+    : firstSelectedCharm?.image
+      ? [firstSelectedCharm.image]
       : []
   const visibleCharmGallery = charmGallery.slice(0, 7)
   const safeCharmGalleryIndex = visibleCharmGallery[charmGalleryIndex] ? charmGalleryIndex : 0
@@ -411,7 +429,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: 1.18, color: '#3D3530' }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
-                originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
+                originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
                 note='Nemokamas pristatymas nuo €50'
                 size='detail'
               />
@@ -419,11 +437,30 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
-                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} query={charmQuery} onQueryChange={setCharmQuery} />
+                {mounted ? (
+                  <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
+                    <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        {selectedCharms.map((charm, i) => (
+                          <SortableCharmSlot key={`charm-slot-${i}`} id={`charm-slot-${i}`} charm={charm} onRemove={() => charm && toggleCharm(charm)} />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {selectedCharms.map((charm, i) => (
+                      <div key={i} style={{ flex: 1, aspectRatio: '1/1', maxWidth: 64, borderRadius: 16, border: charm ? '2px solid var(--color-bark)' : '2px dashed rgba(61,53,48,0.2)', background: charm ? (charm.bg || '#EEE') + '44' : 'rgba(61,53,48,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
+                        <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.2)' }}>+</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <CharmPicker charms={filteredCharms} selected={null} selectedIds={selectedCharms.filter(Boolean).map(c => c!.id)} onSelect={toggleCharm} query={charmQuery} onQueryChange={setCharmQuery} />
               </>
             )}
             <div style={{ height: 1, background: '#EDEAE4' }} />
-            <CharmCTA added={added} price={displayPrice} onClick={addCharmToCart} isMobile />
+            <CharmCTA added={added} count={selectedCharmCount} onClick={addCharmToCart} isMobile />
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
         </div>
@@ -503,7 +540,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <h1 style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.14, color: '#3D3530' }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
-                originalPrice={selectedCharm?.originalPrice ?? product.originalPrice}
+                originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
                 note='Nemokamas pristatymas nuo €50'
                 size='detail'
               />
@@ -511,11 +548,30 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
-                <CharmPicker charms={filteredCharms} selected={selectedCharm} onSelect={handleCharmSelect} query={charmQuery} onQueryChange={setCharmQuery} />
+                {mounted ? (
+                  <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
+                    <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
+                      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                        {selectedCharms.map((charm, i) => (
+                          <SortableCharmSlot key={`charm-slot-${i}`} id={`charm-slot-${i}`} charm={charm} onRemove={() => charm && toggleCharm(charm)} />
+                        ))}
+                      </div>
+                    </SortableContext>
+                  </DndContext>
+                ) : (
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    {selectedCharms.map((charm, i) => (
+                      <div key={i} style={{ flex: 1, aspectRatio: '1/1', maxWidth: 64, borderRadius: 16, border: charm ? '2px solid var(--color-bark)' : '2px dashed rgba(61,53,48,0.2)', background: charm ? (charm.bg || '#EEE') + '44' : 'rgba(61,53,48,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 6 }}>
+                        <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.2)' }}>+</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <CharmPicker charms={filteredCharms} selected={null} selectedIds={selectedCharms.filter(Boolean).map(c => c!.id)} onSelect={toggleCharm} query={charmQuery} onQueryChange={setCharmQuery} />
               </>
             )}
             <div style={{ height: 1, background: DIVIDER }} />
-            <CharmCTA added={added} price={displayPrice} onClick={addCharmToCart} isMobile={false} />
+            <CharmCTA added={added} count={selectedCharmCount} onClick={addCharmToCart} isMobile={false} />
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
         )}
@@ -555,7 +611,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 {(selectedColor ? translateColorLabel(selectedColor) : 'Spalva')}{selectedSize ? ` • ${selectedSize}` : ''}
               </div>
             </div>
-            <div style={{ fontSize: 22, fontWeight: 700, color: TEXT_PRIMARY, flexShrink: 0 }}>{collar.price}</div>
+            <div style={{ fontSize: 22, fontWeight: 600, color: TEXT_PRIMARY, flexShrink: 0 }}>{collar.price}</div>
           </div>
           <button
             onClick={addCollarToCart}
@@ -574,7 +630,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
             }}
           >
-            Į krepšelį
+            Užsakyti iš anksto
           </button>
         </div>
       )}
@@ -657,7 +713,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 transition: 'background 150ms',
               }}
             >
-              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Pridėti ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'us' : 'ą'} į krepšelį` : 'Pasirinkite iki 5 pakabukų'}
+              {charmAdded ? '✓ Užsakymas gautas!' : selectedCollarCharmCount ? `Užsakyti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
             </button>
           </div>
         </div>
@@ -674,8 +730,8 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
       <div className="mx-auto max-w-[1160px] px-5 md:px-10">
         <div className="mb-10 md:mb-12">
           <Eyebrow className="mb-3.5">Rekomenduojami produktai</Eyebrow>
-          <DisplayHeading as='h2' className="m-0 text-[28px] tracking-[-0.02em] md:text-[40px]">
-            You might also like
+          <DisplayHeading as='h2' className="m-0 text-[clamp(1.75rem,3.5vw,2.5rem)] tracking-[-0.02em]">
+            Jums taip pat gali patikti
           </DisplayHeading>
         </div>
 
@@ -779,7 +835,6 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
     { id: 'description', title: 'Aprašymas',       content: collar?.description  || 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.' },
     { id: 'features',    title: 'Savybės',  content: collar?.features     || 'Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.' },
     { id: 'includes',    title: 'Į rinkinį įeina',      content: collar?.set_includes || 'Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojama saugi sagtis. Lininis laikymo maišelis.' },
-    { id: 'care',        title: 'Priežiūra',              content: collar?.care         || 'Po maudynių ar purvino pasivaikščiojimo nuskalaukite. Džiovinkite padėję lygiai — ne džiovyklėje. Pakabukus nuvalykite drėgna šluoste.' },
     { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping    || 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės.' },
   ]
 
@@ -1001,7 +1056,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
         onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
         onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
-        {added ? '✓ Pridėta į krepšelį' : `Į krepšelį — ${price}`}
+        {added ? '✓ Užsakymas gautas!' : `Užsakyti iš anksto — ${price}`}
       </button>
       <p style={{ textAlign: 'center', margin: '-8px 0 0', fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>
         Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje
@@ -1106,7 +1161,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
                 style={{
                   width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   padding: '16px 0', background: 'none', border: 'none', cursor: 'pointer',
-                  fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: TEXT_PRIMARY, textAlign: 'left',
+                  fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, textAlign: 'left',
                 }}
               >
                 {item.title}
@@ -1175,7 +1230,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
                   <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(168,213,162,0.22)', color: '#2A5A25', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>
                     {index + 1}
                   </div>
-                  <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: TEXT_SECONDARY }}>
+                  <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: TEXT_SECONDARY }}>
                     {step}
                   </p>
                 </div>
@@ -1279,7 +1334,7 @@ function CharmPicker ({
             return (
               <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
                 <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
-                <span style={{ fontSize: 9, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
+                <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
               </button>
             )
           })}
@@ -1314,16 +1369,32 @@ function CharmPicker ({
   )
 }
 
-function CharmCTA ({ added, price, onClick, isMobile }: { added: boolean; price: string; onClick: () => void; isMobile: boolean }) {
+function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count: number; onClick: () => void; isMobile: boolean }) {
+  const label = added
+    ? '✓ Užsakymas gautas!'
+    : count > 0
+      ? `Užsakyti su ${count} pakabuk${count > 1 ? 'ais' : 'u'} →`
+      : 'Pasirinkite iki 5 pakabukų'
   return (
     <div>
-      <button onClick={onClick} style={{ width: '100%', padding: isMobile ? '14px' : '16px', borderRadius: 50, border: 'none', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em', background: '#A8D5A2', color: '#2a5a25', transition: 'background-color 150ms ease-out, transform 80ms ease-out', boxShadow: '0 4px 20px rgba(168,213,162,0.45)' }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' }}
-        onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
-        onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+      <button
+        onClick={onClick}
+        disabled={!count}
+        style={{
+          width: '100%', padding: isMobile ? '14px' : '16px', borderRadius: 50, border: 'none',
+          cursor: count ? 'pointer' : 'not-allowed',
+          fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+          background: count ? '#A8D5A2' : '#E8E3DC',
+          color: count ? '#2a5a25' : TEXT_MUTED,
+          transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+          boxShadow: count ? '0 4px 20px rgba(168,213,162,0.45)' : 'none',
+        }}
+        onMouseEnter={(e) => { if (count) { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' } }}
+        onMouseLeave={(e) => { if (count) { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' } }}
+        onMouseDown={(e) => { if (count) e.currentTarget.style.transform = 'translateY(1px)' }}
+        onMouseUp={(e) => { if (count) e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
-        {added ? '✓ Pridėta į krepšelį' : `Į krepšelį — ${price}`}
+        {label}
       </button>
       <p style={{ textAlign: 'center', marginTop: 2, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje</p>
     </div>
@@ -1331,35 +1402,18 @@ function CharmCTA ({ added, price, onClick, isMobile }: { added: boolean; price:
 }
 
 function CharmAccordion ({ product }: { product: ProductDetail }) {
-  const [open, setOpen] = useState<string | null>(null)
-
   const items = [
-    { id: 'description', title: 'Aprašymas', content: product.longDescription || DEFAULT_CHARM_ACCORDION[0].content },
-    { id: 'care', title: 'Priežiūra', content: product.care || DEFAULT_CHARM_ACCORDION[1].content },
-    { id: 'shipping', title: 'Pristatymas ir grąžinimas', content: product.shipping || DEFAULT_CHARM_ACCORDION[2].content },
+    {
+      id: 'description',
+      title: 'Aprašymas',
+      content: <RichText value={product.longDescription || DEFAULT_CHARM_ACCORDION[0].content} />,
+    },
+    {
+      id: 'shipping',
+      title: 'Pristatymas ir grąžinimas',
+      content: <RichText value={product.shipping || DEFAULT_CHARM_ACCORDION[1].content} />,
+    },
   ]
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-      {items.map((item) => {
-        const isOpen = open === item.id
-        return (
-          <div key={item.id} style={{ borderTop: '1px solid #EDEAE4' }}>
-            <button
-              onClick={() => setOpen(isOpen ? null : item.id)}
-              style={{
-                width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '16px 0', background: 'none', border: 'none', cursor: 'pointer',
-                fontFamily: "'DM Sans', sans-serif", fontSize: 14, fontWeight: 500, color: '#3D3530', textAlign: 'left',
-              }}
-            >
-              {item.title}
-              <span style={{ fontSize: 18, color: '#9B948F', lineHeight: 1, transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 200ms' }}>+</span>
-            </button>
-            {isOpen && <RichText value={item.content} style={{ margin: '0 0 16px', color: '#6B6460' }} />}
-          </div>
-        )
-      })}
-    </div>
-  )
+  return <Accordion items={items} />
 }

@@ -54,7 +54,7 @@ export function CatalogCardMedia ({
   image,
 }: CatalogCardMediaProps) {
   return (
-    <div className={cn('relative aspect-square overflow-hidden rounded-[20px]', className)} style={background ? { background } : undefined}>
+    <div className={cn('relative aspect-[4/5] overflow-hidden rounded-[20px]', className)} style={background ? { background } : undefined}>
       {image ? (
         <Image
           src={image}
@@ -78,7 +78,7 @@ export function CatalogCardBody ({ children, className }: React.ComponentProps<'
 }
 
 export function CatalogCardTitle ({ children, className }: React.ComponentProps<'div'>) {
-  return <div className={cn('mb-1 font-sans text-[15px] font-medium text-bark', className)}>{children}</div>
+  return <div className={cn('mb-1 font-sans text-[16px] font-medium text-bark', className)}>{children}</div>
 }
 
 export function CatalogCardDescription ({

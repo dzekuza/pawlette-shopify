@@ -52,13 +52,12 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 5,
       name: 'Palyginkite su dydžių lentele',
-      text: 'XS tinka 20–28 cm, S tinka 28–36 cm, M tinka 36–44 cm, L tinka 44–54 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
+      text: 'S tinka 28–36 cm, M tinka 36–44 cm, L tinka 44–52 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
     },
   ],
 };
 
 const SIZES = [
-  { size: 'XS', range: '20–28 cm', breeds: 'Čihuahua, toy pudelis, Jorkšyro terjeras' },
   { size: 'S',  range: '28–36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
   { size: 'M',  range: '36–44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
   { size: 'L',  range: '44–54 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },

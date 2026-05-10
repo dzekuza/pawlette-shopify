@@ -49,15 +49,15 @@ export default function CartPage() {
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
 
   return (
-    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+    <div className="min-h-screen font-sans pt-16" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      <main className="pt-[80px] pb-20">
-        <div className="max-w-[1100px] mx-auto px-5 md:px-10">
+      <main className="pb-16">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-12 pt-16">
 
           {/* Page heading */}
           {lines.length > 0 && (
-            <DisplayHeading as='h1' className='mb-2 text-[32px] tracking-[-0.02em] md:text-[48px]'>Jūsų krepšelis</DisplayHeading>
+            <DisplayHeading as='h1' size='section' className='mb-2'>Jūsų krepšelis</DisplayHeading>
           )}
 
           {lines.length > 0 && (
@@ -70,7 +70,7 @@ export default function CartPage() {
             /* Empty state */
             <div className="mx-auto max-w-[640px] pt-8 md:pt-12 pb-20">
               <EmptyState
-                eyebrow='Cart'
+                eyebrow='Krepšelis'
                 icon={PawPrint}
                 title='Jūsų krepšelis tuščias'
                 description='Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.'
@@ -199,7 +199,7 @@ export default function CartPage() {
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
                 <SurfaceCard variant='white' className="rounded-2xl border-bark/10 px-4 pt-4 pb-4">
-                  <p className="text-[14px] font-semibold mb-4 uppercase tracking-widest opacity-50" style={{ color: 'var(--color-bark)' }}>
+                  <p className="text-[11px] font-medium mb-4 uppercase tracking-[0.08em] opacity-50" style={{ color: 'var(--color-bark)' }}>
                     Užsakymo santrauka
                   </p>
 
@@ -237,8 +237,8 @@ export default function CartPage() {
                         Iš viso
                       </span>
                       <span
-                        className="text-[22px]"
-                        style={{ color: 'var(--color-bark)', letterSpacing: '0.01em', fontFamily: "'Luckiest Guy', cursive" }}
+                        className="text-[22px] font-semibold"
+                        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
                       >
                         €{total.toFixed(2)}
                       </span>

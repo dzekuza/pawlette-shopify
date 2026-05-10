@@ -2,7 +2,6 @@ import { slugFromProductName } from '@/lib/catalog'
 import type { ProductDetail } from '@/lib/catalog'
 import type { LandingCollar } from '@/lib/db'
 import { Badge } from '@/components/ui/badge'
-import { FeaturePillList } from '@/components/storefront/FeaturePillList'
 import { ProductPrice, hasDiscountedPrice } from '@/components/storefront/ProductPrice'
 import {
   CatalogCard,
@@ -35,7 +34,7 @@ export function ProductCard ({ product }: { product: ProductCardProduct }) {
     ? DEFAULT_CHARM_SWATCHES
     : product.charms.slice(0, 4).map((charm) => charm.bg)
   const hasSale = hasDiscountedPrice(price, originalPrice)
-  const featurePills = ['5 pakabukai įskaičiuoti', 'Atsparus vandeniui']
+  const desc = isDetail ? product.shortDescription : product.desc
 
   return (
     <CatalogCardLink href={href}>
@@ -80,14 +79,16 @@ export function ProductCard ({ product }: { product: ProductCardProduct }) {
               />
             ))}
           </div>
-          <FeaturePillList items={featurePills} className='mb-4' />
+          {desc ? (
+            <p className='mb-4 line-clamp-2 font-sans text-[13px] leading-[1.55] text-bark-muted'>{desc}</p>
+          ) : null}
           <CatalogCardFooter>
             <ProductPrice
               currentPrice={price}
               originalPrice={originalPrice}
               showSavingsBadge={hasSale}
             />
-            <CatalogCardAction>{hasSale ? 'Pirkti su nuolaida' : 'Kurti savo'}</CatalogCardAction>
+            <CatalogCardAction>Užsakyti iš anksto</CatalogCardAction>
           </CatalogCardFooter>
         </CatalogCardBody>
       </CatalogCard>
