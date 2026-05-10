@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Šunų antkakliai ir pakabukai',
   description: 'Peržiūrėkite visus PawCharms antkaklių rinkinius ir keičiamus pakabukus. Vandeniui atsparūs silikoniniai antkakliai 4 spalvų deriniuose.',
+  alternates: { canonical: 'https://pawcharms.lt/products' },
   openGraph: {
     title: 'Šunų antkakliai ir pakabukai | PawCharms',
     description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
@@ -40,12 +41,6 @@ const productListSchema = {
         priceCurrency: 'EUR',
         availability: 'https://schema.org/InStock',
         seller: { '@type': 'Organization', name: 'PawCharms' },
-      },
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: '5',
-        bestRating: '5',
-        reviewCount: '3',
       },
     },
   })),

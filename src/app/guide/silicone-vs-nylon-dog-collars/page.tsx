@@ -7,6 +7,7 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton';
 export const metadata: Metadata = {
   title: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
   description: 'Silikoninių ir nailoninių šunų antkaklių palyginimas pagal atsparumą vandeniui, patvarumą, patogumą, priežiūrą ir personalizavimą.',
+  alternates: { canonical: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars' },
   openGraph: {
     title: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
     description: 'Išsamus silikoninių ir nailoninių šunų antkaklių palyginimas.',

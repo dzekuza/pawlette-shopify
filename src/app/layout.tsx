@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     icon: '/pawcharmsfav.jpg',
     apple: '/pawcharmsfav.jpg',
   },
+  openGraph: {
+    images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
+  },
 };
 
 const organizationSchema = {

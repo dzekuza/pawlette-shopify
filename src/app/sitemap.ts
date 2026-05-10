@@ -36,12 +36,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly',
       priority: 0.6,
     },
-    {
-      url: 'https://pawcharms.lt/coming-soon',
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.5,
-    },
     ...productEntries,
   ]
 }

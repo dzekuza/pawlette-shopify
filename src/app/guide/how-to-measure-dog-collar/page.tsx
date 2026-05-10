@@ -7,9 +7,10 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton';
 export const metadata: Metadata = {
   title: 'Kaip išmatuoti šunį antkakliui',
   description: 'Žingsnis po žingsnio gidas, kaip išmatuoti šuns kaklą, kad antkaklis tiktų idealiai. Su dydžių lentele ir patarimais.',
+  alternates: { canonical: 'https://pawcharms.lt/guide/how-to-measure-dog-collar' },
   openGraph: {
     title: 'Kaip išmatuoti šunį antkakliui',
-    description: 'Tinkamą dydį pasirinkite per 5 žingsnius. Su XS, S, M ir L lentele.',
+    description: 'Tinkamą dydį pasirinkite per 5 žingsnius. Su S, M ir L dydžių lentele.',
     type: 'article',
     url: 'https://pawcharms.lt/guide/how-to-measure-dog-collar',
     siteName: 'PawCharms',

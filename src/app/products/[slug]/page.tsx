@@ -27,6 +27,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   return {
     title: product.name,
     description: product.shortDescription,
+    alternates: { canonical: `https://pawcharms.lt/products/${product.slug}` },
     openGraph: {
       title: `${product.name} | PawCharms`,
       description: product.shortDescription,
@@ -46,5 +47,38 @@ export default async function ProductPage ({ params }: ProductPageProps) {
 
   const recommendedProducts = await getRecommendedProductsForProductAsync(product)
 
-  return <SingleProductPage product={product} recommendedProducts={recommendedProducts} />
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.shortDescription,
+    image: product.image,
+    brand: { '@type': 'Brand', name: 'PawCharms' },
+    url: `https://pawcharms.lt/products/${product.slug}`,
+    offers: {
+      '@type': 'Offer',
+      price: product.price,
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      seller: { '@type': 'Organization', name: 'PawCharms' },
+    },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawcharms.lt' },
+      { '@type': 'ListItem', position: 2, name: 'Produktai', item: 'https://pawcharms.lt/products' },
+      { '@type': 'ListItem', position: 3, name: product.name, item: `https://pawcharms.lt/products/${product.slug}` },
+    ],
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <SingleProductPage product={product} recommendedProducts={recommendedProducts} />
+    </>
+  )
 }
