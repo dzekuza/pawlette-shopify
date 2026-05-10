@@ -115,18 +115,24 @@ export function Reviews() {
         </div>
 
         {/* Dot indicators */}
-        <div className="flex gap-1.5 justify-center mt-4">
+        <div className="flex justify-center mt-4">
           {Array.from({ length: maxIndex + 1 }).map((_, i) => (
             <button
               key={i}
               onClick={() => { setIndex(i); startTimers(); }}
               aria-label={`Eiti į skaidrę ${i + 1}`}
-              className="h-1.5 rounded-[3px] border-none cursor-pointer p-0 transition-[width,background] duration-[250ms] ease-[ease]"
-              style={{
-                width: i === index ? 20 : 6,
-                background: i === index ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)',
-              }}
-            />
+              className="border-none cursor-pointer bg-transparent p-0 flex items-center justify-center"
+              style={{ width: 24, height: 24 }}
+            >
+              <span
+                className="rounded-[3px] transition-[width,background] duration-[250ms] ease-[ease] block"
+                style={{
+                  height: 6,
+                  width: i === index ? 20 : 6,
+                  background: i === index ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)',
+                }}
+              />
+            </button>
           ))}
         </div>
       </div>

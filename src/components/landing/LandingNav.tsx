@@ -144,6 +144,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
               key={i}
               href={link.href}
               onClick={() => setMenuOpen(false)}
+              tabIndex={menuOpen ? 0 : -1}
               className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-[ease] block hover:text-sage"
               style={{
                 transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
@@ -167,6 +168,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
           <span className="font-sans text-[13px] text-bark-muted">Pagaminta Vilniuje, Lietuvoje</span>
           <a
             href="mailto:hello@pawcharms.lt"
+            tabIndex={menuOpen ? 0 : -1}
             className="font-sans text-[13px] text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
           >
             hello@pawcharms.lt

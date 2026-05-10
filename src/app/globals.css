@@ -31,7 +31,7 @@
   /* brand palette — generates bg-bark, text-cream, bg-sage, etc. */
   --color-bark: #3D3530;
   --color-bark-light: #6B6460;
-  --color-bark-muted: #9B948F;
+  --color-bark-muted: #706B68;
   --color-cream: #FAF7F2;
   --color-sage: #A8D5A2;
   --color-sage-dark: #8fc489;
@@ -55,7 +55,7 @@
   --color-cream: #FAF7F2;
   --color-bark: #3D3530;
   --color-bark-light: #6B6460;
-  --color-bark-muted: #9B948F;
+  --color-bark-muted: #706B68;
   --color-surface-2: #F3EDE6;
   --color-border: #E8E3DC;
   --color-interactive-text: #2a5a25;

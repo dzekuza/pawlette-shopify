@@ -155,6 +155,7 @@ export function LandingPage() {
       <SocialTicker />
       <LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />
 
+      <main>
       <FloatingHero />
 
       <div data-animate="section"><FeaturesStrip variant="cream" /></div>
@@ -165,6 +166,7 @@ export function LandingPage() {
       <div data-animate="section"><About variant="cream" /></div>
       <div data-animate="section"><Reviews /></div>
       <div data-animate="section"><FAQ /></div>
+      </main>
       <div data-animate="section"><LandingFooter /></div>
 
       <StickyCTA visible={showStickyCTA} />
