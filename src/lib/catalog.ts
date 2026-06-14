@@ -118,11 +118,11 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     id: 'charm-charms',
     variantId: first.variantId,
     productType: 'charm',
-    name: 'Pakabukai',
+    name: first.productTitle,
     price: first.price,
     originalPrice: first.originalPrice,
-    shortDescription: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams.',
-    longDescription: 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.',
+    shortDescription: first.productDescription,
+    longDescription: first.description ?? first.productDescription ?? 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes.',
     image: images[0] ?? '',
     images,
     accentColor: first.bg,
@@ -132,6 +132,8 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     compatibilityNote: 'Suderinama su kiekvienu PawCharms antkaklio rinkiniu.',
     tags: ['Pakabukas'],
     charmVariants: charms,
+    care: first.care,
+    shipping: first.shipping,
   }
 }
 

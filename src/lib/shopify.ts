@@ -338,41 +338,31 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
       if (errors || !data) return [];
 
-      const result = data.products.edges.map(({ node }) => {
+      // Hex colors for collar color names (used when a single product has a Color option)
+      const COLLAR_COLOR_HEX: Record<string, string> = {
+        sage:    '#A8D5A2',
+        blossom: '#F4B5C0',
+        sky:     '#B8D8F4',
+        honey:   '#F9E4A0',
+      };
+
+      const result = data.products.edges.flatMap(({ node }) => {
         const meta = (key: string) =>
           node.metafields?.find((metafield) => metafield?.key === key)?.value;
-        const color = meta('color') ?? '#A8D5A2';
         const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: variant }) => ({
           id: variant.id,
           title: variant.title,
           size: variant.selectedOptions?.find((option) => ['Size', 'Dydis'].includes(option.name))?.value ?? '',
           color: variant.selectedOptions?.find((option) => ['Colors', 'Color', 'Spalvos', 'Spalva'].includes(option.name))?.value ?? '',
-          price: formatEuroPrice(variant.price?.amount, '€28'),
+          price: formatEuroPrice(variant.price?.amount, '€24.99'),
           originalPrice:
             variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
               ? formatEuroPrice(variant.compareAtPrice.amount)
               : undefined,
           image: variant.image?.url ?? '',
         }));
-        const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
-        const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
-        const firstVariant = allVariants[0];
-        const saleVariant = allVariants.find(v => v.originalPrice) ?? firstVariant;
-        return {
-          id: node.handle,
-          handle: node.handle,
-          title: node.title,
-          variantId: firstVariant?.id ?? '',
-          price: firstVariant ? firstVariant.price : '€28',
-          originalPrice: saleVariant?.originalPrice,
-          color,
-          bgTint: hexToRgba(color, 0.15),
-          glowColor: hexToRgba(color, 0.5),
-          image: node.featuredImage?.url ?? '',
-          images: (node.images?.edges ?? []).map(({ node: image }) => image.url),
-          sizes,
-          colors,
-          variants: allVariants,
+        const productImages = (node.images?.edges ?? []).map(({ node: image }) => image.url);
+        const sharedMeta = {
           tags: (node.tags ?? []) as string[],
           description: meta('description') || undefined,
           features: meta('features') || undefined,
@@ -380,6 +370,61 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           care: meta('care') || undefined,
           shipping: meta('shipping') || undefined,
         };
+
+        // If the product has a Color option, expand into one ShopifyCollar per color
+        // so that slugs like collar-sage-collar still work with a single unified product.
+        const colorValues = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
+        if (colorValues.length > 0) {
+          return colorValues.map(colorName => {
+            const colorVariants = allVariants.filter(v => v.color === colorName);
+            const colorHex = COLLAR_COLOR_HEX[colorName.toLowerCase()] ?? '#A8D5A2';
+            const collarHandle = `${colorName.toLowerCase()}-collar`;
+            const collarTitle = `${colorName} Collar`;
+            const firstColorVariant = colorVariants[0];
+            const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
+            return {
+              id: collarHandle,
+              handle: collarHandle,
+              title: collarTitle,
+              variantId: firstColorVariant?.id ?? '',
+              price: firstColorVariant ? firstColorVariant.price : '€24.99',
+              originalPrice: saleColorVariant?.originalPrice,
+              color: colorHex,
+              bgTint: hexToRgba(colorHex, 0.15),
+              glowColor: hexToRgba(colorHex, 0.5),
+              image: node.featuredImage?.url ?? '',
+              images: productImages,
+              sizes: colorVariants.map(v => v.size).filter(Boolean),
+              colors: [colorName],
+              variants: colorVariants,
+              ...sharedMeta,
+            };
+          });
+        }
+
+        // Fallback: single-color product (old setup with one product per collar color)
+        const color = meta('color') ?? '#A8D5A2';
+        const sizes = [...new Set(allVariants.map(v => v.size).filter(Boolean))];
+        const colors = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
+        const firstVariant = allVariants[0];
+        const saleVariant = allVariants.find(v => v.originalPrice) ?? firstVariant;
+        return [{
+          id: node.handle,
+          handle: node.handle,
+          title: node.title,
+          variantId: firstVariant?.id ?? '',
+          price: firstVariant ? firstVariant.price : '€24.99',
+          originalPrice: saleVariant?.originalPrice,
+          color,
+          bgTint: hexToRgba(color, 0.15),
+          glowColor: hexToRgba(color, 0.5),
+          image: node.featuredImage?.url ?? '',
+          images: productImages,
+          sizes,
+          colors,
+          variants: allVariants,
+          ...sharedMeta,
+        }];
       });
       _collarsCache = result;
       _collarsCacheAt = Date.now();
