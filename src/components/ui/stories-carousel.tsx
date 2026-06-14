@@ -49,7 +49,7 @@ export const Story = ({ className, ...props }: StoryProps) => (
     <div
       className={cn(
         'group relative overflow-hidden rounded-xl bg-muted/40',
-        'cursor-pointer transition-all duration-200',
+        'cursor-pointer transition-[transform,box-shadow] duration-200 ease-out',
         'hover:scale-[1.02] hover:shadow-lg',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className
@@ -62,7 +62,7 @@ export const Story = ({ className, ...props }: StoryProps) => (
         width: 240,
         aspectRatio: '3 / 4',
         background: 'rgba(61, 53, 48, 0.08)',
-        transition: 'transform 200ms ease, box-shadow 200ms ease',
+        transition: 'transform 200ms ease-out, box-shadow 200ms ease-out',
         ...(props.style || {})
       }}
       role='button'

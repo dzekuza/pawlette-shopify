@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 export const metadata: Metadata = {
   title: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
@@ -29,7 +30,7 @@ const articleSchema = {
     url: 'https://pawcharms.lt',
   },
   datePublished: '2026-04-26',
-  dateModified: '2026-04-26',
+  dateModified: '2026-06-14',
   url: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars',
 };
 
@@ -106,6 +107,16 @@ const COMPARISON = [
   },
 ];
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawcharms.lt' },
+    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawcharms.lt/guide' },
+    { '@type': 'ListItem', position: 3, name: 'Silikoniniai ar nailoniniai šunų antkakliai', item: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars' },
+  ],
+};
+
 export default function ComparisonPage() {
   return (
     <>
@@ -117,8 +128,12 @@ export default function ComparisonPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(comparisonSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
+      <div style={{ background: 'var(--color-cream)', minHeight: '100dvh', fontFamily: "'DM Sans',sans-serif" }}>
         <LandingNav topOffset={0} />
 
         <main style={{ maxWidth: 800, margin: '0 auto', padding: '128px 24px 96px' }}>
@@ -130,20 +145,20 @@ export default function ComparisonPage() {
 
           <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Antkaklių gidas</p>
 
-          <h1 style={{ fontSize: 40, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>
+          <DisplayHeading as="h1" size="page" style={{ marginBottom: 20 }}>
             Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?
-          </h1>
+          </DisplayHeading>
 
           <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Nailonas dešimtmečius buvo įprastas šunų antkaklių pasirinkimas. Silikoniniai antkakliai yra naujesni, tačiau aktyviems šunims dažnai gerokai praktiškesni. Štai aiškus palyginimas, kad būtų lengviau apsispręsti.
           </p>
 
           <p style={{ fontSize: 14, color: '#9B948F', marginBottom: 48 }}>
-            Atnaujinta: 2026 m. balandį
+            Atnaujinta: 2026 m. birželį
           </p>
 
           {/* Comparison table */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 24, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>Palyginimas greta</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 24 }}>Palyginimas greta</DisplayHeading>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)', marginBottom: 56 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
@@ -167,7 +182,7 @@ export default function ComparisonPage() {
           </div>
 
           {/* Silicone pros/cons */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>Silikoniniai antkakliai</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 20 }}>Silikoniniai antkakliai</DisplayHeading>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Silikoniniai antkakliai gaminami iš maistinio silikono — tos pačios medžiagos, kuri naudojama virtuvės įrankiuose ir medicinos gaminiuose. Svarbiausias privalumas yra neporėtas paviršius: į jį neįsigeria vanduo, bakterijos ar kvapai.
@@ -189,7 +204,7 @@ export default function ComparisonPage() {
           </div>
 
           {/* Nylon pros/cons */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 20, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>Nailoniniai antkakliai</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 20 }}>Nailoniniai antkakliai</DisplayHeading>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Nailoniniai antkakliai audžiami iš poliamido pluošto ir yra vieni plačiausiai prieinamų. Kokybė stipriai skiriasi: pigesni gali greitai irti, o sustiprintas nailonas būna labai tvirtas.
@@ -211,7 +226,7 @@ export default function ComparisonPage() {
           </div>
 
           {/* Verdict */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 16, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>Ką rinktis?</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 16 }}>Ką rinktis?</DisplayHeading>
 
           <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             <strong style={{ color: 'var(--color-bark)' }}>Rinkitės silikoną, jei:</strong> jūsų šuo maudosi, dažnai išsipurvina ar turi jautrią odą. Vien atsparumas vandeniui ir kvapams dažnai pateisina didesnę kainą.

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const CHARM_IMAGES = [
   '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
@@ -13,10 +14,12 @@ const CHARM_IMAGES = [
 export function ExitModal({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
 
   return (
     <div className="fade-in" onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(61,53,48,0.5)', backdropFilter: 'blur(4px)' }}>
-      <div className="slide-up" onClick={e => e.stopPropagation()} style={{ width: 480, background: '#FAF7F2', borderRadius: 28, padding: '48px 44px', position: 'relative', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
+      <div className="slide-up" onClick={e => e.stopPropagation()} style={{ width: '90vw', maxWidth: 480, background: '#FAF7F2', borderRadius: 28, padding: isMobile ? '32px 24px' : '48px 44px', position: 'relative', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
         <button onClick={onClose} className="btn-press" style={{ position: 'absolute', top: 18, right: 20, background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: '#9B948F', lineHeight: 1, transition: 'transform 100ms ease-out' }}>×</button>
 
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 28 }}>
@@ -39,7 +42,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
               <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 12 }}>Prieš išeinant</div>
-              <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 28, fontWeight: 400, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10 % nuolaida pirmajam antkakliui.</h2>
+              <h2 style={{ fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontSize: 28, fontWeight: 400, letterSpacing: '-0.02em', color: '#3D3530', lineHeight: 1.2, marginBottom: 12 }}>10 % nuolaida pirmajam antkakliui.</h2>
               <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7 }}>Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.</p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
@@ -71,7 +74,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 style={{ width: 40, height: 40, objectFit: 'contain' }}
               />
             </div>
-            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 24, fontWeight: 400, color: '#3D3530', marginBottom: 10 }}>Jūs sąraše!</h2>
+            <h2 style={{ fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontSize: 24, fontWeight: 400, color: '#3D3530', marginBottom: 10 }}>Jūs sąraše!</h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#6B6460', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>
             <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
           </div>

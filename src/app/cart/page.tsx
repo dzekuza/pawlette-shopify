@@ -87,13 +87,13 @@ export default function CartPage() {
 
                 {/* Free shipping progress bar */}
                 {amountToFreeShipping > 0 && (
-                  <SurfaceCard variant='white' padding='compact' className="mb-4 rounded-2xl border-bark/10">
+                  <SurfaceCard variant='white' padding='compact' className="mb-4 border-bark/10">
                     <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
                       Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
                     </p>
                     <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
                       <div
-                        className="h-full rounded-full transition-[width] duration-[400ms] ease-[ease]"
+                        className="h-full rounded-full transition-[width] duration-[280ms] ease-out"
                         style={{
                           width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
                           background: 'var(--color-sage)',
@@ -105,11 +105,7 @@ export default function CartPage() {
 
                 {amountToFreeShipping === 0 && (
                   <div
-                    className="rounded-2xl px-4 py-3 mb-4 flex items-center gap-3"
-                    style={{
-                      background: 'rgba(168,213,162,0.15)',
-                      border: '1px solid rgba(168,213,162,0.5)',
-                    }}
+                    className="rounded-2xl px-4 py-3 mb-4 flex items-center gap-3 bg-sage/15 border border-sage/50"
                   >
                     <div style={{
                       width: 32, height: 32, borderRadius: '50%',
@@ -140,7 +136,7 @@ export default function CartPage() {
                         key={line.id}
                         variant='white'
                         padding='compact'
-                        className="relative flex items-center gap-3 rounded-[16px] border-bark/8 px-3 py-3 md:px-4 md:py-4"
+                        className="relative flex items-center gap-3 border-bark/8 px-3 py-3 md:px-4 md:py-4"
                       >
                         {/* Thumbnail */}
                         <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-[#F0EBE5] flex items-center justify-center">
@@ -198,7 +194,7 @@ export default function CartPage() {
 
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
-                <SurfaceCard variant='white' className="rounded-2xl border-bark/10 px-4 pt-4 pb-4">
+                <SurfaceCard variant='white' className="border-bark/10 px-4 pt-4 pb-4">
                   <p className="text-[11px] font-medium mb-4 uppercase tracking-[0.08em] opacity-50" style={{ color: 'var(--color-bark)' }}>
                     Užsakymo santrauka
                   </p>
@@ -219,7 +215,7 @@ export default function CartPage() {
                         Pristatymas
                       </span>
                       {shipping === 0 ? (
-                        <span className="text-[15px] font-semibold" style={{ color: '#4CAF50' }}>
+                        <span className="text-[15px] font-semibold" style={{ color: 'var(--color-interactive-text)' }}>
                           Nemokamai
                         </span>
                       ) : (

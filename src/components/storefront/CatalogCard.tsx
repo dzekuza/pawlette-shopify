@@ -29,7 +29,7 @@ export function CatalogCardLink ({ children, className, href }: CatalogCardLinkP
       href={href}
       data-animate='card'
       className={cn(
-        'group block rounded-[20px] no-underline transition-transform duration-200 ease-out hover:-translate-y-1',
+        'group block rounded-[20px] no-underline transition-transform duration-200 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1',
         className
       )}
     >
@@ -61,7 +61,7 @@ export function CatalogCardMedia ({
           alt={alt}
           fill
           sizes='(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw'
-          className='block h-full w-full object-cover transition-transform duration-[400ms] ease-out group-hover:scale-105'
+          className='block h-full w-full object-cover transition-transform duration-[250ms] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105'
         />
       ) : null}
       {children}

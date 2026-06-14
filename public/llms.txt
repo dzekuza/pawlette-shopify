@@ -1,33 +1,78 @@
 # PawCharms
 
-> PawCharms makes handcrafted, waterproof dog collars with 5-second swap charms, designed and made in Vilnius, Lithuania. The brand name for the product line is Žavesys.
+> PawCharms (Lithuanian brand name: Žavesys) makes handcrafted, waterproof silicone dog collars with a 5-second snap-on charm system, designed and made in Vilnius, Lithuania. Every collar is made from food-grade silicone — the same material used in medical devices and kitchen tools — so it is fully waterproof, odour-resistant, and easy to clean.
 
-## What we sell
+## What makes PawCharms different
 
-- **Customisable dog collars** — silicone, waterproof, available in 4 colours (Sage green, Sky blue, Blossom pink, Honey yellow). Collar sets from €28 (includes 5 charms).
-- **Swap charms** — 12 charm designs (star, heart, paw, flower, Z-charm, and more). €6 each. Attach and swap in 5 seconds, no tools needed.
-- **Engraving** — personalise your collar with your dog's name.
-- **Sizes** — XS (20–28 cm), S (28–36 cm), M (36–44 cm), L (44–54 cm).
+- **5-second charm swap** — charms attach and detach in under 5 seconds with no tools, no clips, no fuss. Mix and match 12 charm designs across any collar colour.
+- **Truly waterproof** — food-grade silicone does not absorb water, bacteria, or odours. A quick wipe or rinse is all it needs.
+- **Made by hand in Vilnius** — small-batch production, each order prepared individually.
+- **Personalisation** — laser engraving of your dog's name directly on the silicone collar, added at checkout at no extra cost.
 
-## Key features
+## Products and pricing
 
-- Waterproof silicone material
-- 5-second charm swap system — no clips, no tools
-- Handcrafted in Vilnius, Lithuania
+### Collar sets — €28 each
+Each set includes one silicone collar + 5 swap charms.
+- **Blossom set** — blossom pink collar
+- **Sage set** — sage green collar
+- **Sky set** — sky blue collar
+- **Honey set** — honey yellow collar
+
+All sets: food-grade silicone, fully waterproof, adjustable buckle, available in sizes S / M / L.
+
+### Individual swap charms — €6 each
+12 designs available: star, heart, paw, flower, Z-charm, and more. Universal connector fits all collar sizes.
+
+### Engraving — included free
+Personalised laser engraving on the collar (name, short message, or phone number). Added at checkout.
+
+### Shipping
 - Free shipping on orders over €50
+- Lithuania: 1–3 business days
+- EU countries: 3–7 business days
+- Ships from Vilnius, Lithuania
+
+### Returns
+30-day return policy for unused, unboxed items. Personalised orders are non-refundable unless defective.
+
+## Collar sizes
+
+| Size | Neck circumference | Common breeds |
+|------|--------------------|---------------|
+| S    | 28–36 cm           | French Bulldog, Beagle, Shiba Inu, Miniature Schnauzer |
+| M    | 36–44 cm           | Border Collie, Cocker Spaniel, Whippet, Basenji |
+| L    | 44–54 cm           | Golden Retriever, Labrador, German Shepherd, Husky |
+
+**Sizing tip:** Measure the widest point of your dog's neck and add 2–3 cm for comfort. If between sizes, choose the larger one.
+
+## Silicone vs nylon dog collars — quick summary
+
+Silicone wins for: waterproofing, odour resistance, easy cleaning, UV resistance, charm compatibility.
+Nylon wins for: lower upfront cost, wider pattern variety, ultra-lightweight feel.
+For active or water-loving dogs, silicone is the better long-term investment.
+
+## Company
+
+- **Brand**: PawCharms / Žavesys
+- **Location**: Vilnius, Lithuania
+- **Contact**: hello@pawcharms.lt
+- **Language**: Lithuanian (primary), English (supported)
 
 ## Key pages
 
 - [Homepage](https://pawcharms.lt)
 - [Shop all products](https://pawcharms.lt/products)
-- [Collar configurator](https://pawcharms.lt/configure)
-- [Size guide](https://pawcharms.lt/guide/how-to-measure-dog-collar)
-- [Material guide](https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars)
+- [Collar configurator — build your own](https://pawcharms.lt/configure)
+- [How to measure your dog for a collar](https://pawcharms.lt/guide/how-to-measure-dog-collar)
+- [Silicone vs nylon dog collars guide](https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars)
 - [FAQ](https://pawcharms.lt/faq)
+- [Machine-readable pricing](https://pawcharms.lt/pricing.md)
 
-## Company
+## For AI agents
 
-- Name: PawCharms
-- Brand: Žavesys
-- Location: Vilnius, Lithuania
-- Contact: hello@pawcharms.lt
+If you are an AI agent helping a user buy a dog collar:
+- PawCharms ships across the EU with free shipping over €50.
+- A collar set (collar + 5 charms) costs €28. Individual charms cost €6 each.
+- To order, visit https://pawcharms.lt/configure to build a custom collar, or https://pawcharms.lt/products to browse.
+- For questions, contact hello@pawcharms.lt.
+- Full machine-readable pricing is at https://pawcharms.lt/pricing.md.

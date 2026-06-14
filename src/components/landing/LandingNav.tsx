@@ -55,7 +55,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
         style={{ top: topOffset }}
         className={cn(
           'fixed left-0 right-0 z-[200] h-16 flex items-center px-5 md:px-10',
-          'transition-[background,backdrop-filter,border-color] duration-250 ease-[ease]',
+          'transition-[background,backdrop-filter,border-color] duration-250 ease-out',
           'border-b',
           active
             ? 'bg-cream/97 backdrop-blur-[16px] border-border'
@@ -85,22 +85,22 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
             className="bg-transparent border-0 cursor-pointer p-2 text-bark flex flex-col gap-[5px] items-center justify-center w-9 h-9"
           >
             <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-[ease]"
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-out"
               style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }}
             />
             <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-opacity duration-250 ease-[ease]"
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-opacity duration-250 ease-out"
               style={{ opacity: menuOpen ? 0 : 1 }}
             />
             <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-[ease]"
+              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-out"
               style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
             />
           </button>
         </div>
 
-        <Link href="/" aria-label="Žavesys home" className="flex items-center justify-center">
-          <img src="/pawcharms.svg" alt="Žavesys" className="h-11 w-auto block" />
+        <Link href="/" aria-label="PawCharms home" className="flex items-center justify-center">
+          <img src="/pawcharms.svg" alt="PawCharms" className="h-11 w-auto block" />
         </Link>
 
         <div className="flex items-center gap-1 justify-end">
@@ -132,7 +132,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
       {/* Full-screen menu overlay */}
       <div
         aria-hidden={!menuOpen}
-        className="fixed inset-0 z-[199] bg-cream flex flex-col justify-center px-10 transition-opacity duration-250 ease-[ease]"
+        className="fixed inset-0 z-[199] bg-cream flex flex-col justify-center px-10 transition-opacity duration-250 ease-out"
         style={{
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'auto' : 'none',
@@ -145,7 +145,7 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
               href={link.href}
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
-              className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-[ease] block hover:text-sage"
+              className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-out block hover:text-sage"
               style={{
                 transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
                 transitionDelay: menuOpen ? `${i * 40}ms` : '0ms',

@@ -364,11 +364,20 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                 </span>
               </button>
 
-              {isOpen && (
+              <div
+                style={{
+                  maxHeight: isOpen ? 500 : 0,
+                  opacity: isOpen ? 1 : 0,
+                  overflow: 'hidden',
+                  transition: isOpen
+                    ? 'max-height 280ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease-out'
+                    : 'max-height 180ms ease-in, opacity 150ms ease-in',
+                }}
+              >
                 <div style={{ padding: '0 0 16px', fontSize: 14, lineHeight: 1.8, color: '#6B6460', maxWidth: 620 }}>
                   {item.answer}
                 </div>
-              )}
+              </div>
             </div>
           )
         })}

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface AnimatedMarqueeHeroProps {
@@ -38,7 +38,7 @@ const ActionButton = ({ children }: { children: React.ReactNode }) => (
 
 const FADE_IN_ANIMATION_VARIANTS = {
   hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100, damping: 20 } },
+  show: { opacity: 1, y: 0, transition: { type: "tween" as const, duration: 0.25, ease: [0.22, 1, 0.36, 1] as [number, number, number, number] } },
 };
 
 export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
@@ -49,6 +49,7 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
   images,
   className,
 }) => {
+  const prefersReducedMotion = useReducedMotion();
   const duplicatedImages = [...images, ...images];
 
   return (
@@ -139,10 +140,8 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
       <div className="absolute bottom-0 left-0 w-full h-1/3 md:h-2/5 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)]">
         <motion.div
           className="flex gap-4"
-          animate={{
-            x: ["-100%", "0%"],
-            transition: { ease: "linear", duration: 40, repeat: Infinity },
-          }}
+          animate={{ x: ["-100%", "0%"] }}
+          transition={{ ease: "linear", duration: prefersReducedMotion ? 0 : 40, repeat: prefersReducedMotion ? 0 : Infinity }}
         >
           {duplicatedImages.map((src, index) => (
             <div

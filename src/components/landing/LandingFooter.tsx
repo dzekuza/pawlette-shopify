@@ -25,11 +25,12 @@ const FOOTER_COLS = [
 export function LandingFooter() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
+  const isDesktop = w >= 1024;
 
   return (
-    <footer style={{ background: '#3D3530', padding: isMobile ? '40px 20px 32px' : '60px 40px 40px' }}>
+    <footer style={{ background: 'var(--color-bark)', padding: isMobile ? '40px 0 32px' : '60px 0 40px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr 1fr 1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
             <Link href="/" aria-label="PawCharms home" style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }} />

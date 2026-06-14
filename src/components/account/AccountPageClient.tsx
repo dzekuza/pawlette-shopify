@@ -21,7 +21,7 @@ interface AccountPageClientProps {
 }
 
 const inputClass =
-  'account-input w-full rounded-[10px] border-[1.5px] border-[#E8E3DC] px-[14px] py-[11px] text-[15px] bg-white outline-none box-border';
+  'account-input w-full rounded-[10px] border-[1.5px] border-border px-[14px] py-[11px] text-[15px] bg-white outline-none box-border';
 
 const authLinkClass =
   'account-link bg-transparent border-none p-0 cursor-pointer';

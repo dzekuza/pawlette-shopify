@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { CartItem } from '@/lib/data';
 
 interface MiniCartProps {
@@ -11,18 +12,33 @@ interface MiniCartProps {
 
 export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProps) {
   const total = items.length * 28;
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleClose = () => {
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsClosing(false);
+      onClose();
+    }, 180);
+  };
 
   return (
     <>
-      <div onClick={onClose} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 400 }} />
-      <div className="slide-cart-in" style={{
+      <div onClick={handleClose} className="fade-in" style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 400 }} />
+      <div className={isClosing ? 'slide-cart-out' : 'slide-cart-in'} style={{
         position: 'fixed', top: 0, right: 0, bottom: 0, width: 400,
         background: '#FAF7F2', zIndex: 401, display: 'flex', flexDirection: 'column',
         boxShadow: '-8px 0 40px rgba(0,0,0,0.2)',
       }}>
         <div style={{ padding: '24px 28px', borderBottom: '1px solid #E8E3DC', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div style={{ fontSize: 18, fontWeight: 500, color: '#3D3530' }}>Jūsų krepšelis</div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9B948F', fontSize: 22, lineHeight: 1 }}>×</button>
+          <button
+            onClick={handleClose}
+            onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+            onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+            onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9B948F', fontSize: 22, lineHeight: 1, transition: 'transform 120ms ease-out' }}
+          >×</button>
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 28px', display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -44,7 +60,13 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
                 <div style={{ fontSize: 15, fontWeight: 500, color: '#3D3530' }}>€28</div>
-                <button onClick={() => onRemove(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#B0A8A2', fontFamily: "'DM Sans',sans-serif" }}>Pašalinti</button>
+                <button
+                  onClick={() => onRemove(i)}
+                  onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+                  onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+                  onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#B0A8A2', fontFamily: "'DM Sans',sans-serif", transition: 'transform 120ms ease-out' }}
+                >Pašalinti</button>
               </div>
             </div>
           ))}
@@ -61,7 +83,13 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
               {total >= 40 ? 'Nemokamas' : '€4.90'}
             </span>
           </div>
-          <button onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }} style={{ width: '100%', fontSize: 15, fontWeight: 500, padding: '14px', borderRadius: 100, border: 'none', background: '#A8D5A2', color: '#2a5a25', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif" }}>
+          <button
+            onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }}
+            onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+            onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+            onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+            style={{ width: '100%', fontSize: 15, fontWeight: 500, padding: '14px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-bark)', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", transition: 'transform 120ms ease-out' }}
+          >
             Apmokėti — €{total >= 40 ? total : total + 4.9}
           </button>
           <div style={{ textAlign: 'center', fontSize: 12, color: '#9B948F', marginTop: 10 }}>Nemokamas grąžinimas · saugus atsiskaitymas</div>

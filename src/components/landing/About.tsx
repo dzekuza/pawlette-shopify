@@ -25,22 +25,22 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
 
         {/* Left — text */}
         <div>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textSecondary, marginBottom: 20 }}>Apie Žavesį</div>
+          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: textSecondary, marginBottom: 20 }}>Apie PawCharms</div>
           <h2 className="font-display font-normal tracking-[-0.02em] leading-[1.1]" style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', color: textPrimary, marginBottom: isMobile ? 20 : 24 }}>
             Sukurta su meile,<br />čia, Lietuvoje.
           </h2>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: textSecondary, lineHeight: 1.8, marginBottom: 18 }}>
-            Žavesys reiškia būtent tai, ką ir norėjome sukurti. Kiekvienas antkaklis gaminamas rankomis Vilniuje iš vandeniui atsparių medžiagų, kurios atlaiko purvą, lietų ir maudynes, nesugeria kvapų ir nesitepa.
+            PawCharms reiškia būtent tai, ką ir norėjome sukurti. Kiekvienas antkaklis gaminamas rankomis Vilniuje iš vandeniui atsparių medžiagų, kurios atlaiko purvą, lietų ir maudynes, nesugeria kvapų ir nesitepa.
           </p>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, color: textSecondary, lineHeight: 1.8, marginBottom: 40 }}>
             Pakabukų sistema gimė iš paprastos idėjos: jūsų šuns antkaklis turėtų būti toks pat unikalus kaip jis pats, o pakeitimas turėtų trukti penkias sekundes, ne penkias minutes.
           </p>
           <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <button style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: subtleSurface, color: '#2a5a25', border: `1.5px solid ${subtleBorder}`, boxShadow: '0 10px 24px rgba(61,53,48,0.08)', transition: 'all 150ms' }}>
+            <button style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: subtleSurface, color: '#2a5a25', border: `1.5px solid ${subtleBorder}`, boxShadow: '0 10px 24px rgba(61,53,48,0.08)', transition: 'background-color 150ms ease-out, border-color 150ms ease-out' }}>
               Shop now
             </button>
             <button
-              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: 'transparent', border: `2px solid ${variant === 'bold' ? 'rgba(250,247,242,0.3)' : 'rgba(42,90,37,0.3)'}`, color: textPrimary, transition: 'all 150ms' }}
+              style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: 'transparent', border: `2px solid ${variant === 'bold' ? 'rgba(250,247,242,0.3)' : 'rgba(42,90,37,0.3)'}`, color: textPrimary, transition: 'border-color 150ms ease-out' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = textPrimary; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = variant === 'bold' ? 'rgba(250,247,242,0.3)' : 'rgba(42,90,37,0.3)'; }}
             >

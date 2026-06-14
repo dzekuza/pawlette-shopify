@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { cn } from '@/lib/utils';
 import { SectionIntro } from '@/components/storefront/SectionIntro';
 import { TestimonialMediaCard } from '@/components/storefront/TestimonialCard';
@@ -20,15 +21,7 @@ const stories = [
 ];
 
 export function Reviews() {
-  const [windowWidth, setWindowWidth] = useState<number>(1200);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setWindowWidth(window.innerWidth);
-    const handler = () => setWindowWidth(window.innerWidth);
-    window.addEventListener('resize', handler);
-    return () => window.removeEventListener('resize', handler);
-  }, []);
+  const windowWidth = useWindowWidth() ?? 1200;
 
   const isMobile = windowWidth < 640;
   const isTablet = windowWidth < 1024;
@@ -52,9 +45,11 @@ export function Reviews() {
     clearTimers();
     const tickMs = 30;
     progressRef.current = setInterval(() => {}, tickMs);
-    intervalRef.current = setInterval(() => {
-      setIndex(i => (i >= maxIndex ? 0 : i + 1));
-    }, INTERVAL);
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      intervalRef.current = setInterval(() => {
+        setIndex(i => (i >= maxIndex ? 0 : i + 1));
+      }, INTERVAL);
+    }
   }, [maxIndex]);
 
   useEffect(() => {
@@ -92,7 +87,7 @@ export function Reviews() {
         {/* Slider */}
         <div className="overflow-hidden">
           <div
-            className="flex transition-transform duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
+            className="flex transition-transform duration-[280ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{
               gap,
               transform: `translateX(-${index * (cardW + gap)}px)`,

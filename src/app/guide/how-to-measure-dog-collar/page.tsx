@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 export const metadata: Metadata = {
   title: 'Kaip išmatuoti šunį antkakliui',
@@ -22,6 +23,11 @@ const howToSchema = {
   '@type': 'HowTo',
   name: 'Kaip išmatuoti šuns kaklą antkakliui',
   description: 'Išmatuokite šuns kaklą per 5 žingsnius ir pasirinkite tinkamą antkaklio dydį.',
+  datePublished: '2026-04-26',
+  dateModified: '2026-06-14',
+  author: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawcharms.lt' },
+  publisher: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawcharms.lt' },
+  inLanguage: 'lt',
   totalTime: 'PT2M',
   tool: [{ '@type': 'HowToTool', name: 'Lanksti matavimo juosta (arba virvelė ir liniuotė)' }],
   step: [
@@ -58,6 +64,16 @@ const howToSchema = {
   ],
 };
 
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawcharms.lt' },
+    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawcharms.lt/guide' },
+    { '@type': 'ListItem', position: 3, name: 'Kaip išmatuoti šunį antkakliui', item: 'https://pawcharms.lt/guide/how-to-measure-dog-collar' },
+  ],
+};
+
 const SIZES = [
   { size: 'S',  range: '28–36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
   { size: 'M',  range: '36–44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
@@ -71,8 +87,12 @@ export default function MeasureGuidePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
 
-      <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans',sans-serif" }}>
+      <div style={{ background: 'var(--color-cream)', minHeight: '100dvh', fontFamily: "'DM Sans',sans-serif" }}>
         <LandingNav topOffset={0} />
 
         {/* Content */}
@@ -85,16 +105,20 @@ export default function MeasureGuidePage() {
 
           <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Dydžių gidas</p>
 
-          <h1 style={{ fontSize: 40, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 20, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>
+          <DisplayHeading as="h1" size="page" style={{ marginBottom: 20 }}>
             Kaip išmatuoti šunį antkakliui
-          </h1>
+          </DisplayHeading>
 
-          <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 48 }}>
+          <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
             Gerai tinkantis antkaklis patogiai laikosi kaklo viduryje — neveržia ir nenuslysta per galvą. Šis gidas užtruks apie 2 minutes.
           </p>
 
+          <p style={{ fontSize: 14, color: '#9B948F', marginBottom: 48 }}>
+            Atnaujinta: 2026 m. birželį
+          </p>
+
           {/* Steps */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginBottom: 28, marginTop: 0, fontFamily: "'Luckiest Guy', cursive" }}>5 žingsnių matavimo gidas</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 28 }}>5 žingsnių matavimo gidas</DisplayHeading>
 
           {howToSchema.step.map((step, i) => (
             <div key={i} style={{ display: 'flex', gap: 20, marginBottom: 28 }}>
@@ -109,7 +133,7 @@ export default function MeasureGuidePage() {
           ))}
 
           {/* Size chart */}
-          <h2 style={{ fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', letterSpacing: '-0.03em', marginTop: 56, marginBottom: 24, fontFamily: "'Luckiest Guy', cursive" }}>Dydžių lentelė</h2>
+          <DisplayHeading as="h2" size="compact" style={{ marginTop: 56, marginBottom: 24 }}>Dydžių lentelė</DisplayHeading>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)' }}>
             <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
@@ -140,7 +164,7 @@ export default function MeasureGuidePage() {
           <div style={{ background: '#EEF5EE', borderRadius: 16, padding: '24px 28px', marginTop: 48 }}>
             <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 8, marginTop: 0 }}>Ką daryti, jei šuo tarp dydžių?</p>
             <p style={{ fontSize: 14, color: '#4a6b47', lineHeight: 1.6, margin: 0 }}>
-              Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi Žavesys antkakliai turi kelias reguliavimo pozicijas.
+              Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi PawCharms antkakliai turi kelias reguliavimo pozicijas.
             </p>
           </div>
 

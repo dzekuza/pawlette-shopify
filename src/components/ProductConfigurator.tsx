@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
-import { CommerceFooter } from '@/components/shared/CommerceFooter'
+import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
 import { getCollars, getCollarsSync, getCharms, getCharmsSync, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
@@ -162,7 +162,7 @@ export function ProductConfigurator () {
         style={{
           display: isMobile ? 'flex' : 'grid',
           flexDirection: isMobile ? 'column' : undefined,
-          gridTemplateColumns: isMobile ? undefined : '1fr 440px',
+          gridTemplateColumns: isMobile ? undefined : '1fr minmax(320px, 440px)',
           gap: isMobile ? 0 : 32,
           minHeight: isMobile ? 'auto' : '80vh',
           maxWidth: 1200,
@@ -314,7 +314,7 @@ export function ProductConfigurator () {
       <BentoSection isDark={false} />
       <PhotoSlider />
       <Reviews />
-      <CommerceFooter />
+      <LandingFooter />
 
       {cartOpen && (
         <MiniCart

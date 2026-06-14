@@ -16,7 +16,7 @@ const sizeClasses = {
 
 export function Heading({ as: Tag = 'h2', size = 'md', children, className }: HeadingProps) {
   return (
-    <Tag className={cn('font-display text-bark leading-tight tracking-wide', sizeClasses[size], className)}>
+    <Tag className={cn('font-display text-bark leading-tight tracking-tight', sizeClasses[size], className)}>
       {children}
     </Tag>
   );

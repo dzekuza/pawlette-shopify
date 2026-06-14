@@ -307,7 +307,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
           borderRadius: isMobile ? 14 : 18,
           padding: isMobile ? '18px 16px' : '22px 24px',
           boxShadow: `0 0 40px ${collar?.glowColor ?? 'rgba(168,213,162,0.5)'}55, 0 4px 16px rgba(0,0,0,0.12)`,
-          transition: 'background-color 400ms, box-shadow 400ms',
+          transition: 'background-color 250ms ease-out, box-shadow 250ms ease-out',
           gap: 12,
         }}
       >

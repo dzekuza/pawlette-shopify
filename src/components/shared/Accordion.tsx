@@ -33,12 +33,16 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
               onClick={() => setOpenId(isOpen ? null : item.id)}
               aria-expanded={isOpen}
               aria-controls={`accordion-${item.id}`}
+              onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+              onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+              onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
               style={{
                 width: '100%', background: 'none', border: 'none',
                 padding: '12px 0', display: 'flex',
                 justifyContent: 'space-between', alignItems: 'center',
                 gap: 16, cursor: 'pointer', textAlign: 'left',
                 fontFamily: "'DM Sans', sans-serif",
+                transition: 'transform 120ms ease-out',
               }}
             >
               <span
@@ -57,7 +61,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                   flexShrink: 0, width: 28, height: 28, borderRadius: '50%',
                   background: isOpen ? 'var(--color-bark)' : '#F0EBE4',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background 200ms ease',
+                  transition: 'background-color 200ms ease-out',
                   fontSize: 18, lineHeight: 1,
                   color: isOpen ? 'var(--color-cream)' : 'var(--color-bark)',
                 }}
@@ -71,7 +75,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                 maxHeight: isOpen ? '400px' : '0px',
                 opacity: isOpen ? 1 : 0,
                 overflow: 'hidden',
-                transition: 'max-height 320ms ease, opacity 220ms ease',
+                transition: 'max-height 280ms cubic-bezier(0.23, 1, 0.32, 1), opacity 200ms ease-out',
               }}
             >
               <div

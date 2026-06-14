@@ -10,7 +10,7 @@ const faqSchema = {
       name: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Taip. Visi Žavesys antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių.',
+        text: 'Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių.',
       },
     },
     {

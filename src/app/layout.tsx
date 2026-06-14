@@ -9,6 +9,11 @@ export const metadata: Metadata = {
   },
   description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   metadataBase: new URL('https://pawcharms.lt'),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
   icons: {
     icon: '/pawcharmsfav.jpg',
     apple: '/pawcharmsfav.jpg',
@@ -22,19 +27,34 @@ const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'PawCharms',
-  alternateName: 'Žavesys',
+  alternateName: 'PawCharms',
   url: 'https://pawcharms.lt',
-  logo: 'https://pawcharms.lt/charm-z.png',
+  logo: {
+    '@type': 'ImageObject',
+    url: 'https://pawcharms.lt/pawcharms.svg',
+    width: 200,
+    height: 60,
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'hello@pawcharms.lt',
     contactType: 'customer service',
+    areaServed: ['LT', 'EU'],
+    availableLanguage: ['Lithuanian', 'English'],
   },
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Vilnius',
     addressCountry: 'LT',
   },
+  foundingLocation: {
+    '@type': 'Place',
+    name: 'Vilnius, Lithuania',
+  },
+  description: 'Rankų darbo, vandeniui atsparūs silikoniniai šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  sameAs: [
+    'https://www.instagram.com/pawcharms.lt',
+  ],
 };
 
 const websiteSchema = {
@@ -42,15 +62,26 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'PawCharms',
   url: 'https://pawcharms.lt',
+  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  inLanguage: 'lt',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: 'https://pawcharms.lt/products?q={search_term_string}',
+    },
+    'query-input': 'required name=search_term_string',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="lt" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
+        <link rel="preload" href="/LuckiestGuy-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Caveat:wght@400;500&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Caveat:wght@400&display=swap" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}

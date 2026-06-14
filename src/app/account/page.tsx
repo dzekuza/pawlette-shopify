@@ -6,6 +6,7 @@ import { getCustomerByAccessToken } from '@/lib/shopify-customer';
 export const metadata: Metadata = {
   title: 'Paskyra',
   description: 'Prisijunkite prie PawCharms paskyros, peržiūrėkite užsakymus ir tvarkykite adresus.',
+  robots: { index: false, follow: false },
 };
 
 export default async function AccountPage() {

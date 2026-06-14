@@ -53,7 +53,7 @@ export function ColourStep ({
             className='btn-press'
             onClick={() => {
               setCollar(option)
-              setTimeout(next, 200)
+              next()
             }}
             style={{
               width: 36,

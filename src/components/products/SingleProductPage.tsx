@@ -67,12 +67,12 @@ const COLLAR_GALLERY: Record<string, string[]> = {
 
 type CharmTab = 'all' | 'letter'
 
-const BORDER_COLOR = '#E8E3DC'
-const TEXT_PRIMARY = '#3D3530'
-const TEXT_MUTED = '#9B948F'
-const TEXT_SECONDARY = '#6B6460'
-const DIVIDER = '#EDEAE4'
-const GALLERY_PHOTO_BG = '#F4EFE8'
+const BORDER_COLOR = 'var(--color-border)'
+const TEXT_PRIMARY = 'var(--color-bark)'
+const TEXT_MUTED = 'var(--color-muted-foreground)'
+const TEXT_SECONDARY = 'var(--color-bark-light)'
+const DIVIDER = 'var(--color-border)'
+const GALLERY_PHOTO_BG = 'var(--color-surface-2)'
 
 function getCharmGallerySurface () {
   return GALLERY_PHOTO_BG
@@ -343,7 +343,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                       src={src}
                       alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
                       fill
-                      sizes='100vw'
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                       priority={i === 0}
                       draggable={false}
                       className='select-none object-cover'
@@ -389,7 +389,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                       src={src}
                       alt={index === safeCharmGalleryIndex ? displayName : ''}
                       fill
-                      sizes='100vw'
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                       priority={index === safeCharmGalleryIndex && index === 0}
                       draggable={false}
                       className='select-none object-cover'
@@ -580,6 +580,79 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       )} {/* end !isMobile */}
 
       <BentoSection isDark={false} />
+
+      {/* Section: left text, right image */}
+      <section style={{ background: 'var(--color-cream)', padding: '80px 24px' }}>
+        <div style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center',
+          gap: isMobile ? 40 : 80,
+        }}>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
+              Sukurta su meile
+            </p>
+            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+              Kiekvienas pakabuko detalė — tai istorija
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
+              Mūsų silikoniniai pakabukai pagaminti iš saugių, patvariomis medžiagomis — be toksinų, be aštrių briaunų. Kiekvienas dizainas atspindi charakterį: nuo žvaigždučių iki mažyčių širdžių.
+            </p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
+              Rink pakabuką, kuris atspindi tavo šuniuką — ir sukurk unikalų antkaklio rinkinį, kuris bus tikrai jūsų.
+            </p>
+          </div>
+          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520 }}>
+            <Image
+              src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp"
+              alt="Šeimininkė su šunimi"
+              width={520}
+              height={420}
+              style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Section: left image, right text */}
+      <section style={{ background: '#F0EDE8', padding: '80px 24px' }}>
+        <div style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'center',
+          gap: isMobile ? 40 : 80,
+        }}>
+          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520 }}>
+            <Image
+              src="/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp"
+              alt="Auksinė valanda su šunimi"
+              width={520}
+              height={420}
+              style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
+              Tavo stiliui
+            </p>
+            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+              Mix & match — be galo galimybių
+            </h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
+              Vienas antkaklis — dešimtys derinių. Keisk pakabukas pagal nuotaiką, sezoną ar progą. Mūsų antkakliai turi 5 specialias vietas, kurias gali pildyti kaip tik nori.
+            </p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
+              Sukurk rinkinį, kuris augs kartu su tavo šuniuku — ir visada atspindės jūsų ryšį.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <PhotoSlider />
       <Reviews />
       <FAQ />
@@ -647,7 +720,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>Pridėti pakabuką</h2>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif" }}>Pridėti pakabuką</h2>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -735,8 +808,8 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
           </DisplayHeading>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-5">
-          {products.slice(0, 4).map((recommendedProduct) => (
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+          {products.slice(0, 3).map((recommendedProduct) => (
             recommendedProduct.productType === 'charm'
               ? <CharmCollectionProductCard key={recommendedProduct.slug} product={recommendedProduct} />
               : <ProductCard key={recommendedProduct.slug} product={recommendedProduct} />
@@ -846,7 +919,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
         </div>
-        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive" }}>{name}</h1>
+        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif" }}>{name}</h1>
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
@@ -1206,7 +1279,7 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>
                   Dydžių gidas
                 </div>
-                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', cursive", fontWeight: 400 }}>
+                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontWeight: 400 }}>
                   Kaip išmatuoti savo šunį
                 </h3>
               </div>

@@ -109,10 +109,13 @@ export function ConfigPanel({
             border: `1.5px solid ${borderColor}`, background: 'transparent',
             cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
             fontSize: 14, color: textPrimary, display: 'flex', alignItems: 'center',
-            justifyContent: 'space-between', transition: 'border-color 150ms',
+            justifyContent: 'space-between', transition: 'border-color 150ms, transform 120ms ease-out',
           }}
           onMouseEnter={e => { e.currentTarget.style.borderColor = '#A8D5A2' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = borderColor }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = borderColor; (e.currentTarget as HTMLElement).style.transform = '' }}
+          onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+          onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+          onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
         >
           <span>{selectedCount > 0 ? `${selectedCount} pakab. pridėta` : 'Pridėti pakabukų'}</span>
           <span style={{ fontSize: 20, lineHeight: 1, color: textMuted }}>+</span>
@@ -144,19 +147,19 @@ export function ConfigPanel({
             color: '#2a5a25',
             fontSize: 16,
             letterSpacing: '0.01em',
-            transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+            transition: 'background-color 150ms ease-out, transform 120ms ease-out',
             boxShadow: '0 4px 20px rgba(168,213,162,0.45)',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.background = '#8fc489'
-            e.currentTarget.style.transform = 'translateY(-1px)'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = '#A8D5A2'
-            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.background = '#A8D5A2';
+            (e.currentTarget as HTMLElement).style.transform = ''
           }}
-          onMouseDown={e => { e.currentTarget.style.transform = 'translateY(1px)' }}
-          onMouseUp={e => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+          onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+          onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+          onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
         >
           Į krepšelį — €{totalPrice}
         </button>

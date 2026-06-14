@@ -53,7 +53,7 @@ function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: Shopify
 export function CharmGrid() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
-  const cols = isMobile ? 6 : 8;
+  const cols = w < 640 ? 5 : w < 1024 ? 7 : 8;
 
   const [charms, setCharms] = useState<ShopifyCharm[]>([]);
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null, null, null, null, null]);
@@ -200,7 +200,7 @@ export function CharmGrid() {
             <Eyebrow className="mb-3">Pakabukų kolekcija</Eyebrow>
 
             <h2 style={{
-              fontFamily: "'Luckiest Guy', cursive",
+              fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif",
               fontSize: 'clamp(30px, 3.5vw, 44px)',
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
@@ -265,7 +265,7 @@ export function CharmGrid() {
                     background: colorFilter === null ? 'var(--color-bark)' : 'transparent',
                     color: colorFilter === null ? 'var(--color-cream)' : 'var(--color-bark)',
                     fontFamily: "'DM Sans', sans-serif",
-                    transition: 'all 0.15s',
+                    transition: 'background-color 150ms ease-out, color 150ms ease-out',
                   }}
                 >
                   Visi
@@ -288,7 +288,7 @@ export function CharmGrid() {
                       background: 'transparent',
                       color: 'var(--color-bark)',
                       fontFamily: "'DM Sans', sans-serif",
-                      transition: 'border-color 0.15s',
+                      transition: 'border-color 150ms ease-out',
                     }}
                   >
                     <span style={{ width: 14, height: 14, borderRadius: '50%', background: bg, flexShrink: 0, border: '1px solid rgba(0,0,0,0.08)' }} />
@@ -448,7 +448,7 @@ export function CharmGrid() {
                   fontWeight: 600,
                   cursor: selectedCount && !adding ? 'pointer' : 'not-allowed',
                   fontFamily: "'DM Sans', sans-serif",
-                  transition: 'background 0.2s',
+                  transition: 'background-color 200ms ease-out',
                   letterSpacing: '-0.01em',
                 }}
               >

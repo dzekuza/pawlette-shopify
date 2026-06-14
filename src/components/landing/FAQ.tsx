@@ -9,7 +9,7 @@ const FAQS: AccordionItem[] = [
   {
     id: 'waterproof',
     title: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
-    content: 'Taip. Visi Žavesys antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
+    content: 'Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
     id: 'charms',
@@ -40,12 +40,10 @@ export function FAQ() {
   return (
     <section style={{ background: 'var(--color-cream)' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <div style={{ maxWidth: 720 }}>
           <DisplayHeading as='h2' className="mb-10 mt-0 tracking-[-0.02em]">
             Dažniausi klausimai
           </DisplayHeading>
           <Accordion items={FAQS} />
-        </div>
       </div>
     </section>
   );

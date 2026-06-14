@@ -44,7 +44,7 @@ export function SizeStep ({
             className='btn-press'
             onClick={() => {
               setSize(option)
-              setTimeout(next, 200)
+              next()
             }}
             style={{
               padding: '12px 14px',

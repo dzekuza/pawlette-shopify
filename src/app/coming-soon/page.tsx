@@ -202,7 +202,7 @@ export default function ComingSoonPage() {
           <h1
             className="animate-in-2"
             style={{
-              fontFamily: "'Luckiest Guy', cursive",
+              fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif",
               fontSize: 'clamp(52px, 10vw, 88px)',
               lineHeight: 1,
               color: 'var(--color-bark)',

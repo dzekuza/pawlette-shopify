@@ -55,7 +55,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
                   border: sel ? '2.5px solid #3D3530' : '2.5px solid transparent',
                   padding: '12px 8px',
                   transform: sel ? 'scale(1.05)' : 'scale(1)',
-                  transition: 'all 150ms',
+                  transition: 'transform 150ms ease-out, border-color 150ms ease-out',
                 }}
               >
                 {c.image

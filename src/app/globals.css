@@ -2,7 +2,8 @@
 
 @font-face {
   font-family: 'Luckiest Guy';
-  src: url('/LuckiestGuy-Regular.ttf') format('truetype');
+  src: url('/LuckiestGuy-Regular.woff2') format('woff2'),
+       url('/LuckiestGuy-Regular.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -43,7 +44,7 @@
 
   /* font families — generates font-sans, font-display, font-handwriting */
   --font-sans: 'DM Sans', sans-serif;
-  --font-display: 'Luckiest Guy', cursive;
+  --font-display: 'Luckiest Guy', 'DM Sans', sans-serif;
   --font-handwriting: 'Caveat', cursive;
 }
 
@@ -83,6 +84,8 @@
 
 body {
   font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
   background: var(--color-cream);
   color: var(--color-bark);
   -webkit-font-smoothing: antialiased;
@@ -268,7 +271,15 @@ body {
 .config-panel::-webkit-scrollbar-track { background: transparent; }
 .config-panel::-webkit-scrollbar-thumb { background: rgba(61,53,48,0.15); border-radius: 2px; }
 
-.slide-cart-in { animation: slideCartIn 300ms cubic-bezier(0.23, 1, 0.32, 1); }
+.slide-cart-in { animation: slideCartIn 250ms cubic-bezier(0.23, 1, 0.32, 1); }
+
+@keyframes slideCartOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(100%); opacity: 0; }
+}
+.slide-cart-out {
+  animation: slideCartOut 180ms cubic-bezier(0.4, 0, 1, 1);
+}
 .fade-in { animation: fadeIn 200ms ease-out; }
 .slide-up { animation: slideUp 250ms cubic-bezier(0.23, 1, 0.32, 1); }
 

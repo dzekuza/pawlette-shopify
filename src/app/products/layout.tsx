@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://pawcharms.lt/products',
     siteName: 'PawCharms',
+    images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
   },
 };
 
@@ -31,7 +32,7 @@ const productListSchema = {
     position: i + 1,
     item: {
       '@type': 'Product',
-      name: `Žavesys ${c.name}`,
+      name: `PawCharms ${c.name}`,
       description: c.color,
       brand: { '@type': 'Brand', name: 'PawCharms' },
       url: 'https://pawcharms.lt/products',

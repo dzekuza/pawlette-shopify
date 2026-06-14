@@ -7,9 +7,15 @@ export function CharmCard ({ charm }: { charm: ShopifyCharm }) {
     <Link href={`/products/${slugFromCharmId(charm.id)}`} style={{ textDecoration: 'none' }}>
       <article
         data-animate='card'
-        style={{ cursor: 'pointer', borderRadius: 20, transition: 'transform 200ms ease-out' }}
-        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)' }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)' }}
+        style={{ cursor: 'pointer', borderRadius: 20, transition: 'transform 150ms ease-out' }}
+        onPointerEnter={e => {
+          if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+            (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)'
+          }
+        }}
+        onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
+        onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+        onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
       >
         <div style={{ height: 280, position: 'relative', overflow: 'hidden', borderRadius: 20, background: charm.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img

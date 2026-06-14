@@ -20,11 +20,11 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
     gap: 16,
     flexDirection: isMobile ? 'column' : 'row',
   };
-  const impactHeadingSize = isMobile ? 30 : 40;
-  const sizingLabelSize = isMobile ? 38 : 48;
+  const impactHeadingSize = 'clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem)';
+  const sizingLabelSize = 'clamp(2.375rem, 2rem + 1.5vw, 3rem)';
 
   return (
-    <section style={{ background: bg, transition: 'background 400ms' }}>
+    <section style={{ background: bg, transition: 'background-color 250ms ease-out' }}>
       {/* max-width lives here, not on the section */}
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
 

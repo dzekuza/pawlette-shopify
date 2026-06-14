@@ -15,7 +15,7 @@ export function MenuToggleIcon({
   strokeWidth = 2.5,
   strokeLinecap = 'round',
   strokeLinejoin = 'round',
-  duration = 500,
+  duration = 250,
   ...props
 }: MenuToggleProps) {
   return (
@@ -32,7 +32,7 @@ export function MenuToggleIcon({
     >
       <path
         className={cn(
-          'transition-all ease-in-out',
+          'transition-[stroke-dasharray,stroke-dashoffset] ease-in-out',
           open
             ? '[stroke-dasharray:20_300] [stroke-dashoffset:-32.42px]'
             : '[stroke-dasharray:12_63]',
