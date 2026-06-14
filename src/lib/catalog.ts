@@ -4,7 +4,7 @@ export interface ProductDetail {
   slug: string
   id: string
   variantId: string
-  productType: 'collar' | 'charm'
+  productType: 'collar' | 'charm' | 'leash'
   name: string
   price: string
   originalPrice?: string
@@ -119,7 +119,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     variantId: first.variantId,
     productType: 'charm',
     name: 'Pakabukai',
-    price: '€6',
+    price: first.price,
     originalPrice: first.originalPrice,
     shortDescription: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams.',
     longDescription: 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.',
