@@ -177,32 +177,34 @@ const COLLARS_QUERY = `
   }
 `;
 
-// Local fallback images for charm variants (used when Shopify variant has no image)
+// Local fallback images for charm variants (used when Shopify variant has no image).
+// File contents verified by visual inspection — filenames do NOT reliably describe the image.
 const CHARM_LOCAL_IMAGES: Record<string, string> = {
   // Icon charms
   'paw-charm-blue':          '/charms/004_A_light_blue_paw_print_shaped_object_is_centrally_0i_pOMaJ Background Removed.png',
-  'paw-charm-pink':          '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
-  'paw-charm-green':         '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
+  'paw-charm-pink':          '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png', // no pink paw; pink heart is closest
+  'paw-charm-green':         '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',   // no green paw; green star is closest
   'heart-charm-pink':        '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png',
-  'heart-charm-blue':        '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'heart-charm-blue':        '/charms/009_A_smooth_matte_pink_heart_shape_is_centered_X6r9CPGM Background Removed.png',       // no blue heart; pink heart shape
   'star-charm-yellow':       '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  'star-charm-green':        '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
-  'bow-charm-pink':          '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
-  'bow-charm-blue':          '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'star-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',
+  'bow-charm-pink':          '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png', // no bow image; pink shape
+  'bow-charm-blue':          '/charms/010_A_stylized_blue_paw_print_is_centrally_positioned_l1z-Lcyk Background Removed.png', // no bow image; blue shape
   'sun-charm-yellow':        '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  'leaf-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',
+  'leaf-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',   // no leaf image; green star
   'butterfly-charm-purple':  '/charms/010_A_smooth_matte_lavender_butterfly_shape_is_FjmwAp0n Background Removed.png',
-  'mushroom-charm-pink':     '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
-  'drop-charm-blue':         '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'mushroom-charm-pink':     '/charms/009_A_smooth_matte_pink_heart_shape_is_centered_X6r9CPGM Background Removed.png',       // no mushroom image; pink shape
+  'drop-charm-blue':         '/charms/010_A_stylized_blue_paw_print_is_centrally_positioned_l1z-Lcyk Background Removed.png', // no drop image; blue shape
   'flower-charm-purple':     '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
-  // Letter charms
-  'letter-a-blue':           '/charms/001_The_letter_C_is_rendered_in_a_soft_pastel_XpEQ8qyU Background Removed.png',
+  // Letter charms — each key maps to the actual image for that letter
+  'letter-a-blue':           '/charms/001_In_a_3D_render_style_a_large_rounded_light_rJitw6c9 Background Removed.png',
   'letter-b-pink':           '/charms/002_A_soft_plush_pink_letter_B_is_centrally_iHYYGQpJ Background Removed.png',
   'letter-c-blue':           '/charms/001_The_letter_C_is_rendered_in_a_soft_pastel_XpEQ8qyU Background Removed.png',
   'letter-d-purple':         '/charms/003_A_soft_purple_letter_D_is_presented_on_a_plain_cTsglZyk Background Removed.png',
-  'letter-e-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png',
+  'letter-e-green':          '/charms/002_In_a_3D_rendered_style_a_soft_rounded_zSoOXavu Background Removed.png',
   'letter-g-purple':         '/charms/003_A_single_oversized_three-dimensional_letter_G_ISlrl-QI Background Removed.png',
-  'letter-i-pink':           '/charms/002_A_soft_plush_pink_letter_B_is_centrally_iHYYGQpJ Background Removed.png',
+  'letter-h-blue':           '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'letter-i-pink':           '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
   'letter-k-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png',
   'letter-l-blue':           '/charms/005_A_soft_blue_rounded_letter_L_is_centrally_BYREvDc Background Removed.png',
   'letter-m-green':          '/charms/004_A_smooth_rounded_letter_M_in_a_pale_green_hue_eS51RxOA Background Removed.png',
@@ -211,9 +213,9 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'letter-r-pink':           '/charms/007_A_large_rounded_pink_letter_R_is_presented_0sIURIE7 Background Removed.png',
   'letter-s-yellow':         '/charms/006_A_soft_matte_yellow_letter_S_stands_against_a_s0lt4jH Background Removed.png',
   'letter-t-blue':           '/charms/009_A_soft_light_blue_rounded_letter_T_is_UOMVagIa Background Removed.png',
-  'letter-u-pink':           '/charms/007_A_large_rounded_pink_letter_R_is_presented_0sIURIE7 Background Removed.png',
-  'letter-v-green':          '/charms/004_A_smooth_rounded_letter_M_in_a_pale_green_hue_eS51RxOA Background Removed.png',
-  'letter-z-blue':           '/charms/005_A_soft_blue_rounded_letter_L_is_centrally_BYREvDc Background Removed.png',
+  'letter-u-pink':           '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png', // no U image; I is closest shape
+  'letter-v-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png', // no V image; K is closest green letter
+  'letter-z-blue':           '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
 };
 
 // Static map from charm handle -> bg/category for legacy icon variants
