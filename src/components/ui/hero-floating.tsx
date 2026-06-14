@@ -167,7 +167,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           }}
         >
           <Link
-            href="/products/collar-sage-collar"
+            href="/products"
             style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", whiteSpace: "nowrap", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
@@ -205,7 +205,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               className="relative aspect-[3/4] h-48 md:h-56 flex-shrink-0"
               style={{ transform: `rotate(${i % 2 === 0 ? -2 : 4}deg)` }}
             >
-              <img src={src} alt="" className="w-full h-full object-cover rounded-2xl shadow-md" />
+              <img src={src} alt="" className="w-full h-full object-cover rounded-2xl shadow-md" loading={i === 0 ? 'eager' : 'lazy'} fetchPriority={i === 0 ? 'high' : 'auto'} />
             </div>
           ))}
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { getCharms, type ShopifyCharm } from '@/lib/shopify';
 import { addLinesToCart } from '@/lib/cart';
@@ -50,10 +51,14 @@ function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: Shopify
   );
 }
 
+const COLLAR_SLUG = 'collar-pawlette-collar';
+const CHARMS_SLUG = 'charm-charms';
+
 export function CharmGrid() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const cols = w < 640 ? 5 : w < 1024 ? 7 : 8;
+  const router = useRouter();
 
   const [charms, setCharms] = useState<ShopifyCharm[]>([]);
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null, null, null, null, null]);
@@ -107,8 +112,7 @@ export function CharmGrid() {
         quantity: 1,
       }));
       await addLinesToCart(lines);
-      setAdded(true);
-      setTimeout(() => setAdded(false), 2200);
+      router.push(`/products/${CHARMS_SLUG}`);
     } finally {
       setAdding(false);
     }
@@ -433,14 +437,14 @@ export function CharmGrid() {
             </div>
 
             {/* Add to cart */}
-            <div style={{ marginTop: 16 }}>
+            <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 10 }}>
               <button
                 onClick={handleAddToCart}
                 disabled={!selectedCount || adding}
                 style={{
                   width: '100%',
-                  background: added ? '#4CAF50' : selectedCount ? 'var(--color-bark)' : '#E8E3DC',
-                  color: added ? '#fff' : selectedCount ? 'var(--color-cream)' : '#9B948F',
+                  background: selectedCount ? 'var(--color-bark)' : '#E8E3DC',
+                  color: selectedCount ? 'var(--color-cream)' : '#9B948F',
                   border: 'none',
                   borderRadius: 14,
                   padding: '16px 24px',
@@ -452,14 +456,50 @@ export function CharmGrid() {
                   letterSpacing: '-0.01em',
                 }}
               >
-                {added
-                  ? '✓ Užsakymas gautas!'
-                  : adding
-                    ? 'Apdorojama...'
-                    : selectedCount
-                      ? `Užsakyti su ${selectedCount} pakabuk${selectedCount > 1 ? 'ais' : 'u'} →`
-                      : 'Pasirinkite iki 5 pakabukų'}
+                {adding
+                  ? 'Apdorojama...'
+                  : selectedCount
+                    ? `Užsakyti su ${selectedCount} pakabuk${selectedCount > 1 ? 'ais' : 'u'} →`
+                    : 'Pasirinkite iki 5 pakabukų'}
               </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <a
+                  href={`/products/${COLLAR_SLUG}`}
+                  style={{
+                    flex: 1,
+                    display: 'block',
+                    textAlign: 'center',
+                    padding: '11px 16px',
+                    border: '1.5px solid rgba(61,53,48,0.18)',
+                    borderRadius: 12,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: 'var(--color-bark)',
+                    textDecoration: 'none',
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                >
+                  Antkaklio produktas →
+                </a>
+                <a
+                  href={`/products/${CHARMS_SLUG}`}
+                  style={{
+                    flex: 1,
+                    display: 'block',
+                    textAlign: 'center',
+                    padding: '11px 16px',
+                    border: '1.5px solid rgba(61,53,48,0.18)',
+                    borderRadius: 12,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: 'var(--color-bark)',
+                    textDecoration: 'none',
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}
+                >
+                  Visi pakabukai →
+                </a>
+              </div>
             </div>
           </div>
         </div>
