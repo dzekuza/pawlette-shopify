@@ -7,7 +7,8 @@ import { cn } from '@/lib/utils';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
-  { label: 'Antkakliai', href: '/products' },
+  { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
+  { label: 'Pavadeliai', href: '/products/pawlette-leash' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
   { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
@@ -15,7 +16,8 @@ const NAV_LINKS = [
 ];
 
 const DESKTOP_NAV = [
-  { label: 'Antkakliai', href: '/products' },
+  { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
+  { label: 'Pavadeliai', href: '/products/pawlette-leash' },
   { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
 ];

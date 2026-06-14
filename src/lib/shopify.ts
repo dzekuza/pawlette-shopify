@@ -20,6 +20,7 @@ export interface ShopifyCollar {
   id: string;
   handle: string;
   title: string;
+  parentTitle: string;
   variantId: string;
   price: string;
   originalPrice?: string;
@@ -37,6 +38,7 @@ export interface ShopifyCollar {
   set_includes?: string;
   care?: string;
   shipping?: string;
+  nodeHandle?: string;
 }
 
 export interface ShopifyCharm {
@@ -340,10 +342,16 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
 
       // Hex colors for collar color names (used when a single product has a Color option)
       const COLLAR_COLOR_HEX: Record<string, string> = {
-        sage:    '#A8D5A2',
-        blossom: '#F4B5C0',
-        sky:     '#B8D8F4',
-        honey:   '#F9E4A0',
+        sage:        '#A8D5A2',
+        blossom:     '#F4B5C0',
+        sky:         '#B8D8F4',
+        honey:       '#F9E4A0',
+        // Current Shopify variant names
+        'dark blue': '#6B9FD4',
+        blue:        '#B8D8F4',
+        pink:        '#F4B5C0',
+        purple:      '#C3A8D5',
+        yellow:      '#F9E4A0',
       };
 
       const result = data.products.edges.flatMap(({ node }) => {
@@ -378,7 +386,8 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           return colorValues.map(colorName => {
             const colorVariants = allVariants.filter(v => v.color === colorName);
             const colorHex = COLLAR_COLOR_HEX[colorName.toLowerCase()] ?? '#A8D5A2';
-            const collarHandle = `${colorName.toLowerCase()}-collar`;
+            const colorSlug = colorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const collarHandle = `${colorSlug}-collar`;
             const collarTitle = `${colorName} Collar`;
             const firstColorVariant = colorVariants[0];
             const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
@@ -386,13 +395,14 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               id: collarHandle,
               handle: collarHandle,
               title: collarTitle,
+              parentTitle: node.title,
               variantId: firstColorVariant?.id ?? '',
               price: firstColorVariant ? firstColorVariant.price : '€24.99',
               originalPrice: saleColorVariant?.originalPrice,
               color: colorHex,
               bgTint: hexToRgba(colorHex, 0.15),
               glowColor: hexToRgba(colorHex, 0.5),
-              image: node.featuredImage?.url ?? '',
+              image: firstColorVariant?.image || (node.featuredImage?.url ?? ''),
               images: productImages,
               sizes: colorVariants.map(v => v.size).filter(Boolean),
               colors: [colorName],
@@ -412,6 +422,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           id: node.handle,
           handle: node.handle,
           title: node.title,
+          parentTitle: node.title,
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€24.99',
           originalPrice: saleVariant?.originalPrice,
@@ -522,4 +533,159 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
     })();
   }
   return _charmsInflight;
+}
+
+const LEASHES_QUERY = `
+  query GetLeashes {
+    products(first: 20, query: "product_type:leash") {
+      edges {
+        node {
+          id
+          handle
+          title
+          tags
+          featuredImage { url }
+          images(first: 10) { edges { node { url } } }
+          variants(first: 50) {
+            edges {
+              node {
+                id
+                title
+                image { url }
+                price { amount }
+                compareAtPrice { amount }
+                selectedOptions { name value }
+              }
+            }
+          }
+          metafields(identifiers: [
+            { namespace: "pawlette", key: "description" },
+            { namespace: "pawlette", key: "features" },
+            { namespace: "pawlette", key: "care" },
+            { namespace: "pawlette", key: "shipping" }
+          ]) {
+            key
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
+let _leashesCacheAt = 0;
+let _leashesCacheData: ShopifyCollar[] | null = null;
+let _leashesCacheInflight: Promise<ShopifyCollar[]> | null = null;
+
+export function getLeashesSync(): ShopifyCollar[] | null { return _leashesCacheData; }
+
+export async function getLeashes(): Promise<ShopifyCollar[]> {
+  if (_leashesCacheData && isFresh(_leashesCacheAt)) return _leashesCacheData;
+  if (_leashesCacheData && !isFresh(_leashesCacheAt)) {
+    _leashesCacheData = null;
+    _leashesCacheInflight = null;
+  }
+  if (!_leashesCacheInflight) {
+    _leashesCacheInflight = (async () => {
+      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(LEASHES_QUERY);
+      if (errors || !data) return [];
+
+      const LEASH_COLOR_HEX: Record<string, string> = {
+        pink:        '#F4B5C0',
+        purple:      '#C3A8D5',
+        'dark blue': '#6B9FD4',
+        blue:        '#B8D8F4',
+        yellow:      '#F9E4A0',
+        sage:        '#A8D5A2',
+        blossom:     '#F4B5C0',
+        sky:         '#B8D8F4',
+        honey:       '#F9E4A0',
+      };
+
+      const result = data.products.edges.flatMap(({ node }) => {
+        const meta = (key: string) =>
+          node.metafields?.find((metafield) => metafield?.key === key)?.value;
+        const allVariants: ShopifyCollarVariant[] = node.variants.edges.map(({ node: variant }) => ({
+          id: variant.id,
+          title: variant.title,
+          size: variant.selectedOptions?.find((o) => ['Size', 'Dydis'].includes(o.name))?.value ?? '',
+          color: variant.selectedOptions?.find((o) => ['Color', 'Spalva', 'Colors', 'Spalvos'].includes(o.name))?.value ?? '',
+          price: formatEuroPrice(variant.price?.amount, '€32.99'),
+          originalPrice:
+            variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+              ? formatEuroPrice(variant.compareAtPrice.amount)
+              : undefined,
+          image: variant.image?.url ?? '',
+        }));
+        const productImages = (node.images?.edges ?? []).map(({ node: img }) => img.url);
+        const sharedMeta = {
+          tags: (node.tags ?? []) as string[],
+          description: meta('description') || undefined,
+          features: meta('features') || undefined,
+          care: meta('care') || undefined,
+          shipping: meta('shipping') || undefined,
+        };
+        // Expand by color (same pattern as collars)
+        const colorValues = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
+        if (colorValues.length > 0) {
+          return colorValues.map(colorName => {
+            const colorVariants = allVariants.filter(v => v.color === colorName);
+            const colorHex = LEASH_COLOR_HEX[colorName.toLowerCase()] ?? '#A8D5A2';
+            const colorSlug = colorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const leashHandle = `${colorSlug}-leash`;
+            const firstColorVariant = colorVariants[0];
+            const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
+            return {
+              id: leashHandle,
+              handle: leashHandle,
+              title: `${colorName} Leash`,
+              parentTitle: node.title,
+              nodeHandle: node.handle,
+              variantId: firstColorVariant?.id ?? '',
+              price: firstColorVariant ? firstColorVariant.price : '€32.99',
+              originalPrice: saleColorVariant?.originalPrice,
+              color: colorHex,
+              bgTint: hexToRgba(colorHex, 0.15),
+              glowColor: hexToRgba(colorHex, 0.5),
+              image: firstColorVariant?.image || (node.featuredImage?.url ?? ''),
+              images: productImages,
+              sizes: [...new Set(colorVariants.map(v => v.size).filter(Boolean))],
+              colors: [colorName],
+              variants: colorVariants,
+              ...sharedMeta,
+            };
+          });
+        }
+        // Fallback: no color option — single entry
+        const firstVariant = allVariants[0];
+        const saleVariant = allVariants.find(v => v.originalPrice) ?? firstVariant;
+        const colorHex = LEASH_COLOR_HEX[firstVariant?.color?.toLowerCase() ?? ''] ?? '#A8D5A2';
+        return [{
+          id: node.handle,
+          handle: node.handle,
+          title: node.title,
+          parentTitle: node.title,
+          nodeHandle: node.handle,
+          variantId: firstVariant?.id ?? '',
+          price: firstVariant ? firstVariant.price : '€32.99',
+          originalPrice: saleVariant?.originalPrice,
+          color: colorHex,
+          bgTint: hexToRgba(colorHex, 0.15),
+          glowColor: hexToRgba(colorHex, 0.5),
+          image: node.featuredImage?.url ?? '',
+          images: productImages,
+          sizes: [...new Set(allVariants.map(v => v.size).filter(Boolean))],
+          colors: [...new Set(allVariants.map(v => v.color).filter(Boolean))],
+          variants: allVariants,
+          ...sharedMeta,
+        }];
+      });
+
+      _leashesCacheData = result;
+      _leashesCacheAt = Date.now();
+      _leashesCacheInflight = null;
+      return result;
+    })();
+  }
+  return _leashesCacheInflight;
 }

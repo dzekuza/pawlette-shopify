@@ -17,7 +17,7 @@ export function ReviewStars ({ rating, className, showValue = true, textClassNam
   return (
     <div className={cn('flex items-center gap-[3px]', className)}>
       {Array.from({ length: 5 }).map((_, index) => (
-        <Star key={index} aria-hidden className='size-4 fill-[#F9E4A0] text-[#F9E4A0]' strokeWidth={1.5} />
+        <Star key={index} aria-hidden className='size-4 fill-[#E8A000] text-[#E8A000]' strokeWidth={1.5} />
       ))}
       {showValue ? (
         <span className={cn('ml-1 font-sans text-xs font-semibold text-white/90', textClassName)}>

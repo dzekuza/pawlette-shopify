@@ -20,10 +20,10 @@ function isProductDetail (product: ProductCardProduct): product is ProductDetail
   return 'slug' in product
 }
 
-export function ProductCard ({ product }: { product: ProductCardProduct }) {
+export function ProductCard ({ product, href: hrefProp }: { product: ProductCardProduct; href?: string }) {
   const isDetail = isProductDetail(product)
   const isCollarProduct = isDetail ? product.productType === 'collar' : true
-  const href = isDetail ? `/products/${product.slug}` : `/products/${slugFromProductName(product.name)}`
+  const href = hrefProp ?? (isDetail ? `/products/${product.slug}` : `/products/${slugFromProductName(product.name)}`)
   const background = isDetail ? product.tintColor : product.bg
   const title = product.name
   const price = product.price

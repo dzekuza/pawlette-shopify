@@ -12,10 +12,11 @@ import { FAQ } from '@/components/landing/FAQ'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
-import { getCollars, getCharms, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
+import { UpsellSection } from '@/components/products/UpsellSection'
 import { Accordion } from '@/components/shared/Accordion'
 import { ProductCard } from '@/components/products/ProductCard'
 import { CharmCollectionProductCard } from '@/components/products/CharmCollectionCard'
@@ -132,11 +133,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const cartCount = useCartCount()
 
   const isCollar = product.productType === 'collar'
+  const isLeash = product.productType === 'leash'
+  const isCollarOrLeash = isCollar || isLeash
   const hasCharmVariants = !!product.charmVariants?.length
   const isCharmProduct = product.tags?.includes('Charm') || product.tags?.includes('Pakabukas') || product.productType === 'charm'
 
   // ── Collar PDP state ──
-  const [, setCollars] = useState<ShopifyCollar[]>([])
+  const [allCollars, setAllCollars] = useState<ShopifyCollar[]>([])
   const [charms, setCharms] = useState<ShopifyCharm[]>([])
   const [collar, setCollar] = useState<ShopifyCollar | null>(null)
   const [selectedColor, setSelectedColor] = useState<string>('')
@@ -206,21 +209,46 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   }
 
   useEffect(() => {
-    getCollars().then((data) => {
-      setCollars(data)
-      const collarId = product.id.replace(/^collar-/, '')
-      const match = data.find((c) => c.id === collarId || c.handle === collarId)
-        ?? data.find((c) => c.color === product.accentColor)
-        ?? data[0]
-        ?? null
-      setCollar(match)
-      if (match) {
-        setSelectedColor(match.colors[0] ?? '')
-        setSelectedSize(match.sizes[1] ?? match.sizes[0] ?? '')
-      }
-    })
+    if (isLeash) {
+      getLeashes().then((data) => {
+        setAllCollars(data)
+        const match = data.find((l) => l.handle === product.slug || l.id === product.slug)
+          ?? data.find((l) => l.color === product.accentColor)
+          ?? data[0]
+          ?? null
+        setCollar(match)
+        if (match) {
+          setSelectedColor(match.colors[0] ?? '')
+          setSelectedSize(match.sizes[1] ?? match.sizes[0] ?? '')
+        }
+      })
+    } else {
+      getCollars().then((data) => {
+        setAllCollars(data)
+        const collarId = product.id.replace(/^collar-/, '')
+        const match = data.find((c) => c.id === collarId || c.handle === collarId)
+          ?? data.find((c) => c.color === product.accentColor)
+          ?? data[0]
+          ?? null
+        setCollar(match)
+        if (match) {
+          setSelectedColor(match.colors[0] ?? '')
+          setSelectedSize(match.sizes[1] ?? match.sizes[0] ?? '')
+        }
+      })
+    }
     getCharms().then(setCharms)
-  }, [isCollar, product.accentColor, product.id])
+  }, [isCollar, isLeash, product.accentColor, product.id, product.slug])
+
+  const handleColorChange = (color: string) => {
+    setSelectedColor(color)
+    setActiveSlide(0)
+    const next = allCollars.find(c => c.colors.includes(color) || c.colors[0] === color)
+    if (next) {
+      setCollar(next)
+      setSelectedSize(s => next.sizes.includes(s) ? s : (next.sizes[1] ?? next.sizes[0] ?? ''))
+    }
+  }
 
   // Collar add to cart → pick variant by color+size, redirect to /cart
   const addCollarToCart = async () => {
@@ -336,12 +364,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── Mobile layout ── */}
-      {isMobile && isCollar && (
+      {isMobile && isCollarOrLeash && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ padding: '16px 20px 0' }}>
             {/* Slider */}
             <div
-              style={{ height: 320, borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
+              style={{ aspectRatio: '1 / 1', borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
               onPointerDown={(e) => {
                 if (e.pointerType === 'mouse' && e.button !== 0) return
                 handleSwipeStart(e.clientX)
@@ -377,13 +405,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
           </div>
         </div>
       )}
 
       {/* ── Mobile charm layout ── */}
-      {isMobile && !isCollar && (
+      {isMobile && !isCollarOrLeash && (
         <div style={{ paddingTop: NAV_H }}>
           <div style={{ margin: '16px 16px 0' }}>
             <div
@@ -501,7 +529,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           }}
         >
         {/* ── LEFT ── */}
-        {isCollar ? (
+        {isCollarOrLeash ? (
           <div
             style={{
               display: 'grid',
@@ -542,9 +570,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         )}
 
         {/* ── RIGHT (desktop only) ── */}
-        {isCollar ? (
+        {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={setSelectedColor} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={!isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -619,13 +647,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               Rink pakabuką, kuris atspindi tavo šuniuką — ir sukurk unikalų antkaklio rinkinį, kuris bus tikrai jūsų.
             </p>
           </div>
-          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520 }}>
+          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
             <Image
               src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp"
               alt="Šeimininkė su šunimi"
-              width={520}
-              height={420}
-              style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+              fill
+              sizes="(max-width: 768px) 100vw, 520px"
+              style={{ objectFit: 'cover' }}
             />
           </div>
         </div>
@@ -641,13 +669,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           alignItems: 'center',
           gap: isMobile ? 40 : 80,
         }}>
-          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520 }}>
+          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
             <Image
               src="/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp"
               alt="Auksinė valanda su šunimi"
-              width={520}
-              height={420}
-              style={{ width: '100%', height: 'auto', objectFit: 'cover', display: 'block' }}
+              fill
+              sizes="(max-width: 768px) 100vw, 520px"
+              style={{ objectFit: 'cover' }}
             />
           </div>
           <div style={{ flex: 1 }}>
@@ -876,6 +904,7 @@ const COLOR_SWATCHES: Record<string, string> = {
 
 interface CollarPDPProps {
   collar: ShopifyCollar | null
+  allCollars?: ShopifyCollar[]
   selectedColor: string
   selectedSize: string
   onColorChange: (c: string) => void
@@ -887,30 +916,31 @@ interface CollarPDPProps {
   price: string
   name: string
   showCharms?: boolean
+  upsellItems?: ProductDetail[]
+  upsellLabel?: string
 }
 
-function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, price, name, showCharms = true }: CollarPDPProps) {
+function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
   const [fitGuideOpen, setFitGuideOpen] = useState(false)
   const [activeReview, setActiveReview] = useState(0)
 
-  const hasColors = (collar?.colors?.length ?? 0) > 0
+  const sourceCollars = allCollars.length > 0 ? allCollars : (collar ? [collar] : [])
+  const hasColors = sourceCollars.length > 0
   const hasSizes = (collar?.sizes?.length ?? 0) > 0
   const colorOptions = useMemo(() => {
-    if (!collar) return []
-
-    return collar.colors.map((colorName) => {
-      const matchingVariants = collar.variants.filter((variant) => variant.color === colorName)
-      const representativeVariant = matchingVariants.find((variant) => variant.image) ?? matchingVariants[0]
-
+    return sourceCollars.map((c) => {
+      const colorName = c.colors[0] ?? ''
+      const representativeVariant = c.variants.find((v) => v.image) ?? c.variants[0]
       return {
         color: colorName,
-        image: representativeVariant?.image || collar.image,
+        image: representativeVariant?.image || c.image,
         fallback: COLOR_SWATCHES[colorName] ?? '#E8E3DC',
       }
     })
-  }, [collar])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allCollars, collar])
 
   const handleAddToCart = async () => {
     setAdded(true)
@@ -1148,6 +1178,11 @@ function CollarPDP ({ collar, selectedColor, selectedSize, onColorChange, onSize
       <p style={{ textAlign: 'center', margin: '-8px 0 0', fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>
         Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje
       </p>
+
+      {/* Upsell — cross-sell item */}
+      {upsellItems && upsellItems.length > 0 && (
+        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
+      )}
 
       <div
         style={{

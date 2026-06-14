@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Droplets, Ruler, Shield, Sparkles } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Accordion, type AccordionItem } from '@/components/shared/Accordion'
+import { UpsellSection } from '@/components/products/UpsellSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import type { ProductDetail } from '@/lib/catalog'
 
@@ -17,6 +18,22 @@ const SIZES: { label: string; neck: string }[] = [
   { label: 'M', neck: '36–44 cm' },
   { label: 'L', neck: '44–54 cm' },
 ]
+
+const LEASH_COLOR_HEX: Record<string, string> = {
+  pink:        '#F4B5C0',
+  purple:      '#C3A8D5',
+  'dark blue': '#6B9FD4',
+  blue:        '#B8D8F4',
+  yellow:      '#F9E4A0',
+  sage:        '#A8D5A2',
+  blossom:     '#F4B5C0',
+  sky:         '#B8D8F4',
+  honey:       '#F9E4A0',
+}
+
+function colorToHex (name: string) {
+  return LEASH_COLOR_HEX[name.toLowerCase()] ?? '#A8D5A2'
+}
 
 const LEASH_FEATURES = [
   { icon: Droplets, label: 'Vandeniui atsparus', desc: '100% atsparus vandeniui maistinė klasės silikonas' },
@@ -54,23 +71,55 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
   const w = useWindowWidth() ?? 1200
   const isMobile = w < 768
 
-  const gallery = product.images.length ? product.images : [product.image]
-  const [activeSlide, setActiveSlide] = useState(0)
+  const colors = product.leashColors ?? []
+  const [selectedColor, setSelectedColor] = useState(colors[0] ?? '')
   const [selectedSize, setSelectedSize] = useState(SIZES[1].label)
   const [cartCount, setCartCount] = useState(0)
   const [added, setAdded] = useState(false)
+  const [activeSlide, setActiveSlide] = useState(0)
   const swipeStart = useRef<number | null>(null)
 
+  // Show images for the selected color variant; fall back to product-level images
+  const colorVariants = product.leashVariants?.filter(v =>
+    !selectedColor || v.color.toLowerCase() === selectedColor.toLowerCase()
+  ) ?? []
+  const colorImages: string[] = [...new Set(colorVariants.map(v => v.image).filter((s): s is string => !!s))]
+  const gallery: string[] = colorImages.length > 0 ? colorImages : (product.images.length ? product.images : [product.image])
+
+  function handleColorChange (color: string) {
+    setSelectedColor(color)
+    setActiveSlide(0)
+  }
+
+  function getVariantId () {
+    if (!product.leashVariants) return product.variantId
+    const v = product.leashVariants.find(
+      lv => lv.color.toLowerCase() === selectedColor.toLowerCase() && lv.size === selectedSize
+    )
+    return v?.id ?? product.variantId
+  }
+
+  function getVariantPrice () {
+    if (!product.leashVariants) return product.price
+    const v = product.leashVariants.find(
+      lv => lv.color.toLowerCase() === selectedColor.toLowerCase() && lv.size === selectedSize
+    )
+    return v?.price ?? product.price
+  }
+
   function addToCart () {
+    const variantId = getVariantId()
+    const price = getVariantPrice()
     const cart = JSON.parse(localStorage.getItem('pawlette_cart') ?? '[]')
     const item = {
-      id: product.variantId,
+      id: variantId,
       productId: product.id,
       slug: product.slug,
       name: product.name,
+      color: selectedColor || undefined,
       size: selectedSize,
-      price: product.price,
-      image: product.image,
+      price,
+      image: gallery[0] ?? product.image,
       quantity: 1,
     }
     const idx = cart.findIndex((c: typeof item) => c.id === item.id && c.size === item.size)
@@ -90,7 +139,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
   ].filter(Boolean) as AccordionItem[]
 
   return (
-    <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif", WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── HERO ── */}
@@ -103,9 +152,13 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             setActiveSlide={setActiveSlide}
             selectedSize={selectedSize}
             setSelectedSize={setSelectedSize}
+            selectedColor={selectedColor}
+            onColorChange={handleColorChange}
+            colors={colors}
             added={added}
             onAddToCart={addToCart}
             swipeStart={swipeStart}
+            upsellCollars={recommendedProducts.filter(p => p.productType === 'collar').slice(0, 2)}
           />
         ) : (
           <DesktopLayout
@@ -115,8 +168,12 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             setActiveSlide={setActiveSlide}
             selectedSize={selectedSize}
             setSelectedSize={setSelectedSize}
+            selectedColor={selectedColor}
+            onColorChange={handleColorChange}
+            colors={colors}
             added={added}
             onAddToCart={addToCart}
+            upsellCollars={recommendedProducts.filter(p => p.productType === 'collar').slice(0, 2)}
           />
         )}
       </div>
@@ -130,7 +187,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
                 <Icon size={22} color="var(--color-bark)" strokeWidth={1.5} />
               </div>
               <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--color-bark)', letterSpacing: '0.01em' }}>{label}</span>
-              <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.6)', lineHeight: 1.5 }}>{desc}</span>
+              <span style={{ fontSize: 13, color: 'rgba(61,53,48,0.6)', lineHeight: 1.6 }}>{desc}</span>
             </div>
           ))}
         </div>
@@ -139,7 +196,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── DETAILS ACCORDION ── */}
       {accordionItems.length > 0 && (
         <section style={{ maxWidth: 720, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 28 : 36, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center' }}>
+          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Informacija
           </h2>
           <Accordion items={accordionItems} />
@@ -150,7 +207,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {recommendedProducts.filter(p => p.productType === 'collar').length > 0 && (
         <section style={{ background: '#fff' }}>
           <div style={{ maxWidth: 1160, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 28 : 36, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center' }}>
+            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
               Sukurk rinkinį
             </h2>
             <p style={{ textAlign: 'center', color: 'rgba(61,53,48,0.6)', fontSize: 15, marginBottom: 32 }}>
@@ -164,7 +221,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
                   </div>
                   <div style={{ padding: '16px 20px 20px' }}>
                     <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--color-bark)' }}>{p.name}</div>
-                    <div style={{ fontSize: 14, color: 'rgba(61,53,48,0.6)', marginTop: 4 }}>€{p.price}</div>
+                    <div style={{ fontSize: 14, color: 'rgba(61,53,48,0.6)', marginTop: 4 }}>{p.price}</div>
                   </div>
                 </a>
               ))}
@@ -176,7 +233,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── RECOMMENDED ── */}
       {recommendedProducts.length > 0 && (
         <section style={{ padding: isMobile ? '40px 20px' : '64px 40px', maxWidth: 1160, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 28 : 36, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center' }}>
+          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Gali patikti ir tai
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
@@ -187,7 +244,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
                 </div>
                 <div style={{ padding: '16px 20px 20px' }}>
                   <div style={{ fontWeight: 700, fontSize: 15, color: 'var(--color-bark)' }}>{p.name}</div>
-                  <div style={{ fontSize: 14, color: 'rgba(61,53,48,0.6)', marginTop: 4 }}>€{p.price}</div>
+                  <div style={{ fontSize: 14, color: 'rgba(61,53,48,0.6)', marginTop: 4 }}>{p.price}</div>
                 </div>
               </a>
             ))}
@@ -209,17 +266,20 @@ interface LayoutProps {
   setActiveSlide: (n: number) => void
   selectedSize: string
   setSelectedSize: (s: string) => void
+  selectedColor: string
+  onColorChange: (color: string) => void
+  colors: string[]
   added: boolean
   onAddToCart: () => void
   swipeStart?: React.MutableRefObject<number | null>
+  upsellCollars?: ProductDetail[]
 }
 
-function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, added, onAddToCart }: LayoutProps) {
+function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, upsellCollars }: LayoutProps) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 480px', maxWidth: 1160, margin: '0 auto', padding: '48px 40px', gap: 64, alignItems: 'start' }}>
       {/* Gallery column */}
       <div>
-        {/* Main image */}
         <div style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', marginBottom: 12 }}>
           <Image
             src={gallery[activeSlide]}
@@ -230,7 +290,6 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
             priority
           />
         </div>
-        {/* Thumbnail strip */}
         {gallery.length > 1 && (
           <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 4 }}>
             {gallery.map((src, i) => (
@@ -252,8 +311,12 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
           product={product}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
+          selectedColor={selectedColor}
+          onColorChange={onColorChange}
+          colors={colors}
           added={added}
           onAddToCart={onAddToCart}
+          upsellCollars={upsellCollars}
         />
       </div>
     </div>
@@ -262,10 +325,9 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
 
 /* ─────────────────── Mobile Layout ─────────────────── */
 
-function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, added, onAddToCart, swipeStart }: LayoutProps) {
+function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStart, upsellCollars }: LayoutProps) {
   return (
     <div>
-      {/* Full-width image slider */}
       <div
         style={{ position: 'relative', width: '100%', aspectRatio: '1/1', overflow: 'hidden', touchAction: 'pan-y' }}
         onPointerDown={e => swipeStart && handleSwipeStart(e.clientX, swipeStart)}
@@ -280,10 +342,8 @@ function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selected
             </div>
           ))}
         </div>
-        {/* Prev/next tap zones */}
         <button onClick={() => setActiveSlide(Math.max(0, activeSlide - 1))} style={{ position: 'absolute', left: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Ankstesnis" />
         <button onClick={() => setActiveSlide(Math.min(gallery.length - 1, activeSlide + 1))} style={{ position: 'absolute', right: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Kitas" />
-        {/* Dots */}
         {gallery.length > 1 && (
           <div style={{ position: 'absolute', bottom: 12, left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: 6 }}>
             {gallery.map((_, i) => (
@@ -293,14 +353,17 @@ function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selected
         )}
       </div>
 
-      {/* Info */}
       <div style={{ padding: '24px 20px 100px' }}>
         <InfoPanel
           product={product}
           selectedSize={selectedSize}
           setSelectedSize={setSelectedSize}
+          selectedColor={selectedColor}
+          onColorChange={onColorChange}
+          colors={colors}
           added={added}
           onAddToCart={onAddToCart}
+          upsellCollars={upsellCollars}
         />
       </div>
     </div>
@@ -313,11 +376,15 @@ interface InfoPanelProps {
   product: ProductDetail
   selectedSize: string
   setSelectedSize: (s: string) => void
+  selectedColor: string
+  onColorChange: (color: string) => void
+  colors: string[]
   added: boolean
   onAddToCart: () => void
+  upsellCollars?: ProductDetail[]
 }
 
-function InfoPanel ({ product, selectedSize, setSelectedSize, added, onAddToCart }: InfoPanelProps) {
+function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, upsellCollars }: InfoPanelProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Breadcrumb */}
@@ -336,25 +403,64 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, added, onAddToCart
             {product.badge}
           </div>
         )}
-        <h1 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 32, color: 'var(--color-bark)', lineHeight: 1.1, margin: 0 }}>
+        <h1 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 'clamp(2rem, 1.6rem + 1.2vw, 2.75rem)', color: 'var(--color-bark)', lineHeight: 1.05, margin: 0 }}>
           {product.name}
         </h1>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 12 }}>
           <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 26, color: 'var(--color-bark)' }}>
-            €{product.price}
+            {product.price}
           </span>
           {product.originalPrice && (
             <span style={{ fontSize: 16, color: 'rgba(61,53,48,0.4)', textDecoration: 'line-through' }}>
-              €{product.originalPrice}
+              {product.originalPrice}
             </span>
           )}
         </div>
       </div>
 
       {/* Short description */}
-      <p style={{ fontSize: 15, color: 'rgba(61,53,48,0.7)', lineHeight: 1.6, margin: 0 }}>
+      <p style={{ fontSize: 16, color: 'rgba(61,53,48,0.7)', lineHeight: 1.65, margin: 0 }}>
         {product.shortDescription}
       </p>
+
+      {/* Color picker */}
+      {colors.length > 0 && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--color-bark)', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+              Spalva
+            </span>
+            {selectedColor && (
+              <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)' }}>{selectedColor}</span>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {colors.map(color => (
+              <button
+                key={color}
+                onClick={() => onColorChange(color)}
+                title={color}
+                aria-label={color}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: '50%',
+                  background: colorToHex(color),
+                  border: selectedColor === color
+                    ? '3px solid var(--color-bark)'
+                    : '3px solid transparent',
+                  outline: selectedColor === color ? 'none' : '1.5px solid rgba(61,53,48,0.15)',
+                  outlineOffset: 2,
+                  cursor: 'pointer',
+                  padding: 0,
+                  transition: 'border 150ms, transform 150ms',
+                  transform: selectedColor === color ? 'scale(1.12)' : 'scale(1)',
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Size selector */}
       <div>
@@ -428,6 +534,11 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, added, onAddToCart
           </span>
         ))}
       </div>
+
+      {/* Upsell — collar recommendations */}
+      {upsellCollars && upsellCollars.length > 0 && (
+        <UpsellSection items={upsellCollars} label="Suderink su antkaklius" />
+      )}
     </div>
   )
 }

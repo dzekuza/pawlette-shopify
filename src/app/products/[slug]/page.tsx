@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
-import { LeashProductPage } from '@/components/products/LeashProductPage'
 import { getAllProductSlugs, getProductBySlugAsync, getRecommendedProductsForProductAsync } from '@/lib/catalog'
 
 export const revalidate = 300
@@ -81,15 +80,6 @@ export default async function ProductPage ({ params }: ProductPageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
     </>
   )
-
-  if (product.productType === 'leash') {
-    return (
-      <>
-        {schemas}
-        <LeashProductPage product={product} recommendedProducts={recommendedProducts} />
-      </>
-    )
-  }
 
   return (
     <>

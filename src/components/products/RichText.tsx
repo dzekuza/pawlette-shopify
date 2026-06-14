@@ -40,7 +40,7 @@ export function RichText({ value, style }: { value?: string; style?: React.CSSPr
   try {
     parsed = JSON.parse(value) as RichTextNode
   } catch {
-    return <span style={style}>{value}</span>
+    return <div style={{ fontSize: 14, lineHeight: 1.6, color: 'inherit', ...style }}>{value}</div>
   }
   return (
     <div style={{ fontSize: 14, lineHeight: 1.6, color: 'inherit', ...style }}>

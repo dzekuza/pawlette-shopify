@@ -1,9 +1,12 @@
 import { ProductsPageContent } from '@/components/products/ProductsPageContent'
 import { getLandingCollars } from '@/lib/db'
-import { getCharms } from '@/lib/shopify'
+import { getProductBySlugAsync } from '@/lib/catalog'
 
 export default async function ProductsPage () {
-  const [collars, charms] = await Promise.all([getLandingCollars(), getCharms()])
+  const [collars, charmCollection] = await Promise.all([
+    getLandingCollars(),
+    getProductBySlugAsync('charm-charms'),
+  ])
 
-  return <ProductsPageContent collars={collars} charms={charms} />
+  return <ProductsPageContent collars={collars} charmCollection={charmCollection ?? null} />
 }

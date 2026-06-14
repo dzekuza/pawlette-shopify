@@ -1,4 +1,4 @@
-import { getCollars, getCharms, type ShopifyCharm, type ShopifyCollar } from '@/lib/shopify'
+import { getCollars, getCharms, getLeashes, type ShopifyCharm, type ShopifyCollar, type ShopifyCollarVariant } from '@/lib/shopify'
 
 export interface ProductDetail {
   slug: string
@@ -24,6 +24,8 @@ export interface ProductDetail {
   care?: string
   shipping?: string
   charmVariants?: ShopifyCharm[]
+  leashVariants?: ShopifyCollarVariant[]
+  leashColors?: string[]
 }
 
 function slugifyText (value: string) {
@@ -193,6 +195,46 @@ function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
   }
 }
 
+export function buildLeashProduct (leash: ShopifyCollar): ProductDetail {
+  const shortDescription = extractPlainText(leash.description) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`
+
+  return {
+    slug: leash.handle,
+    id: `leash-${leash.id}`,
+    variantId: leash.variantId,
+    productType: 'leash',
+    name: leash.title,
+    price: leash.price,
+    originalPrice: leash.originalPrice,
+    shortDescription,
+    longDescription: leash.description || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
+    image: leash.image,
+    images: uniqueStrings([leash.image, ...leash.images]),
+    accentColor: leash.color,
+    tintColor: hexToRgba(leash.color, 0.15),
+    ctaHref: '/pavadeliai',
+    ctaLabel: 'Žiūrėti pavadėlius',
+    compatibilityNote: 'Suderinamas su visais PawCharms antkakliais.',
+    tags: leash.tags,
+    features: leash.features,
+    care: leash.care,
+    shipping: leash.shipping,
+    leashVariants: leash.variants,
+    leashColors: leash.colors.length > 0 ? leash.colors : undefined,
+  }
+}
+
+function buildGroupedLeashProduct (leashes: ShopifyCollar[]): ProductDetail {
+  const base = leashes[0]
+  const allColors = [...new Set(leashes.flatMap(l => l.colors))]
+  const allVariants = leashes.flatMap(l => l.variants)
+  return {
+    ...buildLeashProduct(base),
+    leashColors: allColors.length > 0 ? allColors : undefined,
+    leashVariants: allVariants,
+  }
+}
+
 // Static fallback catalog for generateStaticParams — populated at runtime via Shopify
 export const PRODUCT_CATALOG: ProductDetail[] = []
 
@@ -201,12 +243,13 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
 }
 
 export async function getAllProductSlugs (): Promise<string[]> {
-  const [collars, charms] = await Promise.all([getCollars(), getCharms()])
+  const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
 
   return [
     ...collars.map((collar) => slugFromProductName(collar.title)),
     'charm-charms',
     ...charms.map((charm) => slugFromCharmId(charm.id)),
+    ...leashes.map((leash) => leash.handle),
   ]
 }
 
@@ -234,13 +277,18 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     normalize(c.handle) === normalize(collarHandle) ||
     titleToSlug(c.title) === collarHandle
   )
-  if (!collar) return undefined
+  if (collar) return buildCollarProduct(collar)
 
-  return buildCollarProduct(collar)
+  const leashes = await getLeashes()
+  const leash = leashes.find((l) => l.handle === slug || l.id === slug)
+    ?? leashes.find((l) => l.nodeHandle === slug)  // parent handle fallback (e.g. "pawlette-leash")
+  if (leash) return buildLeashProduct(leash)
+
+  return undefined
 }
 
-export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 4): Promise<ProductDetail[]> {
-  const [collars, charms] = await Promise.all([getCollars(), getCharms()])
+export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 6): Promise<ProductDetail[]> {
+  const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
   const recommendations: ProductDetail[] = []
   const seen = new Set<string>([product.slug])
 
@@ -252,6 +300,9 @@ export async function getRecommendedProductsForProductAsync (product: ProductDet
 
   if (product.productType === 'collar') {
     addProduct(buildCharmCollectionProduct(charms))
+
+    // Include leash as upsell — grouped so all colors are available in the upsell picker
+    if (leashes.length > 0) addProduct(buildGroupedLeashProduct(leashes))
 
     for (const collar of collars) {
       addProduct(buildCollarProduct(collar))

@@ -1,4 +1,6 @@
 import { getCollars } from './shopify';
+import { getProductBySlugAsync, slugFromProductName, type ProductDetail } from './catalog';
+export type { ProductDetail };
 
 export interface LandingCollar {
   id: string | number;
@@ -19,6 +21,33 @@ let _cache: LandingCollar[] | null = null;
 let _inflight: Promise<LandingCollar[]> | null = null;
 
 export function getLandingCollarsSync(): LandingCollar[] | null { return _cache; }
+
+let _productsCache: ProductDetail[] | null = null;
+let _productsInflight: Promise<ProductDetail[]> | null = null;
+
+export function getLandingProductsSync(): ProductDetail[] | null { return _productsCache; }
+
+export async function getLandingProducts(): Promise<ProductDetail[]> {
+  if (_productsCache) return _productsCache;
+  if (!_productsInflight) {
+    _productsInflight = (async () => {
+      const [collars, charmCollection, leash] = await Promise.all([
+        getCollars(),
+        getProductBySlugAsync('charm-charms'),
+        getProductBySlugAsync('pawlette-leash'),
+      ]);
+      const firstCollar = collars[0]
+      const firstCollarSlug = firstCollar ? slugFromProductName(firstCollar.title) : null;
+      const collarProduct = firstCollarSlug ? await getProductBySlugAsync(firstCollarSlug) : null;
+      if (collarProduct && firstCollar) collarProduct.name = firstCollar.parentTitle;
+      const results = [collarProduct, charmCollection, leash].filter((p): p is ProductDetail => !!p);
+      _productsCache = results;
+      _productsInflight = null;
+      return results;
+    })();
+  }
+  return _productsInflight;
+}
 
 export async function getLandingCollars(): Promise<LandingCollar[]> {
   if (_cache) return _cache;
