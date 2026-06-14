@@ -273,7 +273,7 @@ function resolveCharmMeta(title: string): { bg: string; category: string; color:
 }
 
 function titleToHandle(title: string): string {
-  return title.toLowerCase().replace(/\s+/g, '-');
+  return title.toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
 const CHARMS_QUERY = `
