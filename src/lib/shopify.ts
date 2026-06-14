@@ -177,6 +177,45 @@ const COLLARS_QUERY = `
   }
 `;
 
+// Local fallback images for charm variants (used when Shopify variant has no image)
+const CHARM_LOCAL_IMAGES: Record<string, string> = {
+  // Icon charms
+  'paw-charm-blue':          '/charms/004_A_light_blue_paw_print_shaped_object_is_centrally_0i_pOMaJ Background Removed.png',
+  'paw-charm-pink':          '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
+  'paw-charm-green':         '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
+  'heart-charm-pink':        '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png',
+  'heart-charm-blue':        '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'star-charm-yellow':       '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
+  'star-charm-green':        '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
+  'bow-charm-pink':          '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
+  'bow-charm-blue':          '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'sun-charm-yellow':        '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
+  'leaf-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',
+  'butterfly-charm-purple':  '/charms/010_A_smooth_matte_lavender_butterfly_shape_is_FjmwAp0n Background Removed.png',
+  'mushroom-charm-pink':     '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
+  'drop-charm-blue':         '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
+  'flower-charm-purple':     '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
+  // Letter charms
+  'letter-a-blue':           '/charms/001_The_letter_C_is_rendered_in_a_soft_pastel_XpEQ8qyU Background Removed.png',
+  'letter-b-pink':           '/charms/002_A_soft_plush_pink_letter_B_is_centrally_iHYYGQpJ Background Removed.png',
+  'letter-c-blue':           '/charms/001_The_letter_C_is_rendered_in_a_soft_pastel_XpEQ8qyU Background Removed.png',
+  'letter-d-purple':         '/charms/003_A_soft_purple_letter_D_is_presented_on_a_plain_cTsglZyk Background Removed.png',
+  'letter-e-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png',
+  'letter-g-purple':         '/charms/003_A_single_oversized_three-dimensional_letter_G_ISlrl-QI Background Removed.png',
+  'letter-i-pink':           '/charms/002_A_soft_plush_pink_letter_B_is_centrally_iHYYGQpJ Background Removed.png',
+  'letter-k-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png',
+  'letter-l-blue':           '/charms/005_A_soft_blue_rounded_letter_L_is_centrally_BYREvDc Background Removed.png',
+  'letter-m-green':          '/charms/004_A_smooth_rounded_letter_M_in_a_pale_green_hue_eS51RxOA Background Removed.png',
+  'letter-n-yellow':         '/charms/007_A_soft_rounded_pale_yellow_letter_N_is_Ji0FDBaj Background Removed.png',
+  'letter-o-purple':         '/charms/008_A_soft_matte_lavender_letter_O_is_centered_on_9kzmsGFR Background Removed.png',
+  'letter-r-pink':           '/charms/007_A_large_rounded_pink_letter_R_is_presented_0sIURIE7 Background Removed.png',
+  'letter-s-yellow':         '/charms/006_A_soft_matte_yellow_letter_S_stands_against_a_s0lt4jH Background Removed.png',
+  'letter-t-blue':           '/charms/009_A_soft_light_blue_rounded_letter_T_is_UOMVagIa Background Removed.png',
+  'letter-u-pink':           '/charms/007_A_large_rounded_pink_letter_R_is_presented_0sIURIE7 Background Removed.png',
+  'letter-v-green':          '/charms/004_A_smooth_rounded_letter_M_in_a_pale_green_hue_eS51RxOA Background Removed.png',
+  'letter-z-blue':           '/charms/005_A_soft_blue_rounded_letter_L_is_centrally_BYREvDc Background Removed.png',
+};
+
 // Static map from charm handle -> bg/category for legacy icon variants
 export const CHARM_META: Record<string, { bg: string; category: string }> = {
   'blue-paw-charm':        { bg: '#B8D8F4', category: 'icon'   },
@@ -419,7 +458,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           bg,
           category,
           color,
-          image: variant.image?.url ?? '',
+          image: variant.image?.url || CHARM_LOCAL_IMAGES[titleToHandle(variant.title)] || '',
           productImages,
           productFeaturedImage,
           productTitle,
