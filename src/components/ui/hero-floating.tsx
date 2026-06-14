@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
@@ -34,6 +34,13 @@ const FADE_UP = {
 };
 
 export function FloatingHero({ className }: FloatingHeroProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const fadeUpVariants = prefersReducedMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: () => ({ opacity: 1, transition: { duration: 0 } }),
+      }
+    : FADE_UP;
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const isCompactMobile = w < 420;
@@ -41,7 +48,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
   return (
     <section
-      className={cn("relative w-full h-screen overflow-hidden flex justify-center", isMobile ? "items-center" : "items-start", className)}
+      className={cn("relative w-full min-h-dvh overflow-hidden flex justify-center", isMobile ? "items-center" : "items-start", className)}
       style={{ background: "#FAF7F2", minHeight: isMobile ? undefined : 800 }}
     >
       {/* Background swirl — top-left pink */}
@@ -127,7 +134,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
       >
         {/* Badge */}
         <motion.div
-          custom={0.1} variants={FADE_UP} initial="hidden" animate="show"
+          custom={0.1} variants={fadeUpVariants} initial="hidden" animate="show"
           style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "#F9E4A0", borderRadius: 100, padding: "6px 18px", fontSize: 13, fontWeight: 500, color: "#7a5010", marginBottom: 24 }}
         >
           ✦ Pagaminta Lietuvoje · Atsparūs vandeniui
@@ -135,7 +142,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
         {/* Headline */}
         <motion.h1
-          custom={0.2} variants={FADE_UP} initial="hidden" animate="show"
+          custom={0.2} variants={fadeUpVariants} initial="hidden" animate="show"
           style={{ fontFamily: "'Luckiest Guy', sans-serif", fontSize: "clamp(62px, 9vw, 78px)", fontWeight: 400, letterSpacing: "-0.02em", lineHeight: 1.02, color: "#3D3530", marginBottom: 8 }}
         >
           Antkakliai,<br />skirti <span style={{ color: "#A8D5A2" }}>jiems.</span>
@@ -143,7 +150,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
         {/* Subtext */}
         <motion.p
-          custom={0.3} variants={FADE_UP} initial="hidden" animate="show"
+          custom={0.3} variants={fadeUpVariants} initial="hidden" animate="show"
           style={{ fontSize: 18, color: "#6B6460", lineHeight: 1.7, maxWidth: 400, margin: "0 auto 20px" }}
         >
           Atsparūs vandeniui. Personalizuoti. Pakabukai keičiami vos per penkias sekundes.
@@ -151,7 +158,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
         {/* CTAs */}
         <motion.div
-          custom={0.4} variants={FADE_UP} initial="hidden" animate="show"
+          custom={0.4} variants={fadeUpVariants} initial="hidden" animate="show"
           style={{
             display: "grid",
             gridTemplateColumns: shouldStackCtas ? "1fr" : "repeat(2, minmax(0, 1fr))",
@@ -160,7 +167,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           }}
         >
           <Link
-            href="/products/collar-personalizuotas-vandeniui-atsparus-suns-antkaklis-su-pakabukais"
+            href="/products/collar-sage-collar"
             style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, padding: isCompactMobile ? "14px 24px" : "16px 32px", borderRadius: 100, background: "#A8D5A2", color: "#2a5a25", textDecoration: "none", display: "block", textAlign: "center", whiteSpace: "nowrap", transition: "background 150ms" }}
             onMouseOver={e => (e.currentTarget.style.background = "#8fc489")}
             onMouseOut={e => (e.currentTarget.style.background = "#A8D5A2")}
