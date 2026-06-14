@@ -268,6 +268,20 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     }, 800)
   }
 
+  // Unique color options derived from the real charm variants
+  const availableColorOptions = useMemo(() => {
+    if (!product.charmVariants) return []
+    const seen = new Set<string>()
+    const options: { value: string; label: string; dot: string }[] = []
+    for (const charm of product.charmVariants) {
+      if (charm.color && !seen.has(charm.color)) {
+        seen.add(charm.color)
+        options.push({ value: charm.color, label: translateColorLabel(charm.color), dot: charm.bg })
+      }
+    }
+    return options
+  }, [product.charmVariants])
+
   // Filtered charms for the charm picker (charm product page)
   const filteredCharms = useMemo(() => {
     if (!product.charmVariants) return []
@@ -436,7 +450,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             </div>
             {hasCharmVariants && (
               <>
-                <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
+                <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
                     <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
@@ -547,7 +561,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             </div>
             {hasCharmVariants && (
               <>
-                <CharmColorPicker color={charmColor} onColorChange={setCharmColor} />
+                <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
                     <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
@@ -1329,12 +1343,12 @@ const CHARM_COLOR_OPTIONS = [
   { value: 'yellow', label: 'Geltona',  dot: '#F9E4A0' },
 ]
 
-function CharmColorPicker ({ color, onColorChange }: { color: string; onColorChange: (c: string) => void }) {
+function CharmColorPicker ({ color, onColorChange, options }: { color: string; onColorChange: (c: string) => void; options: { value: string; label: string; dot: string }[] }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED, flexShrink: 0 }}>Spalva</span>
       <div style={{ display: 'flex', gap: 6 }}>
-        {CHARM_COLOR_OPTIONS.map(({ value, label, dot }) => (
+        {options.map(({ value, label, dot }) => (
           <button
             key={value}
             onClick={() => onColorChange(value)}

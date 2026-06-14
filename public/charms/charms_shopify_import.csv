@@ -1,0 +1,151 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Variant SKU,Variant Grams,Variant Inventory Tracker,Variant Inventory Qty,Variant Inventory Policy,Variant Fulfillment Service,Variant Price,Variant Requires Shipping,Variant Taxable,Status
+letter-a-charm,Letter A Charm,,,charms,charms,TRUE,Color,Blue,LETTER_A_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-a-charm,,,,,,,,Dark Blue,LETTER_A_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-a-charm,,,,,,,,Purple,LETTER_A_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-a-charm,,,,,,,,Pink,LETTER_A_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-a-charm,,,,,,,,Yellow,LETTER_A_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-b-charm,Letter B Charm,,,charms,charms,TRUE,Color,Blue,LETTER_B_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-b-charm,,,,,,,,Dark Blue,LETTER_B_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-b-charm,,,,,,,,Purple,LETTER_B_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-b-charm,,,,,,,,Pink,LETTER_B_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-b-charm,,,,,,,,Yellow,LETTER_B_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-c-charm,Letter C Charm,,,charms,charms,TRUE,Color,Blue,LETTER_C_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-c-charm,,,,,,,,Dark Blue,LETTER_C_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-c-charm,,,,,,,,Purple,LETTER_C_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-c-charm,,,,,,,,Pink,LETTER_C_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-c-charm,,,,,,,,Yellow,LETTER_C_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-d-charm,Letter D Charm,,,charms,charms,TRUE,Color,Blue,LETTER_D_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-d-charm,,,,,,,,Dark Blue,LETTER_D_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-d-charm,,,,,,,,Purple,LETTER_D_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-d-charm,,,,,,,,Pink,LETTER_D_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-d-charm,,,,,,,,Yellow,LETTER_D_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-e-charm,Letter E Charm,,,charms,charms,TRUE,Color,Blue,LETTER_E_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-e-charm,,,,,,,,Dark Blue,LETTER_E_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-e-charm,,,,,,,,Purple,LETTER_E_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-e-charm,,,,,,,,Pink,LETTER_E_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-e-charm,,,,,,,,Yellow,LETTER_E_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-f-charm,Letter F Charm,,,charms,charms,TRUE,Color,Blue,LETTER_F_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-f-charm,,,,,,,,Dark Blue,LETTER_F_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-f-charm,,,,,,,,Purple,LETTER_F_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-f-charm,,,,,,,,Pink,LETTER_F_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-f-charm,,,,,,,,Yellow,LETTER_F_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-g-charm,Letter G Charm,,,charms,charms,TRUE,Color,Blue,LETTER_G_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-g-charm,,,,,,,,Dark Blue,LETTER_G_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-g-charm,,,,,,,,Purple,LETTER_G_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-g-charm,,,,,,,,Pink,LETTER_G_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-g-charm,,,,,,,,Yellow,LETTER_G_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-h-charm,Letter H Charm,,,charms,charms,TRUE,Color,Blue,LETTER_H_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-h-charm,,,,,,,,Dark Blue,LETTER_H_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-h-charm,,,,,,,,Purple,LETTER_H_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-h-charm,,,,,,,,Pink,LETTER_H_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-h-charm,,,,,,,,Yellow,LETTER_H_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-i-charm,Letter I Charm,,,charms,charms,TRUE,Color,Blue,LETTER_I_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-i-charm,,,,,,,,Dark Blue,LETTER_I_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-i-charm,,,,,,,,Purple,LETTER_I_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-i-charm,,,,,,,,Pink,LETTER_I_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-i-charm,,,,,,,,Yellow,LETTER_I_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-j-charm,Letter J Charm,,,charms,charms,TRUE,Color,Blue,LETTER_J_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-j-charm,,,,,,,,Dark Blue,LETTER_J_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-j-charm,,,,,,,,Purple,LETTER_J_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-j-charm,,,,,,,,Pink,LETTER_J_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-j-charm,,,,,,,,Yellow,LETTER_J_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-k-charm,Letter K Charm,,,charms,charms,TRUE,Color,Blue,LETTER_K_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-k-charm,,,,,,,,Dark Blue,LETTER_K_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-k-charm,,,,,,,,Purple,LETTER_K_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-k-charm,,,,,,,,Pink,LETTER_K_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-k-charm,,,,,,,,Yellow,LETTER_K_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-l-charm,Letter L Charm,,,charms,charms,TRUE,Color,Blue,LETTER_L_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-l-charm,,,,,,,,Dark Blue,LETTER_L_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-l-charm,,,,,,,,Purple,LETTER_L_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-l-charm,,,,,,,,Pink,LETTER_L_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-l-charm,,,,,,,,Yellow,LETTER_L_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-m-charm,Letter M Charm,,,charms,charms,TRUE,Color,Blue,LETTER_M_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-m-charm,,,,,,,,Dark Blue,LETTER_M_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-m-charm,,,,,,,,Purple,LETTER_M_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-m-charm,,,,,,,,Pink,LETTER_M_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-m-charm,,,,,,,,Yellow,LETTER_M_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-n-charm,Letter N Charm,,,charms,charms,TRUE,Color,Blue,LETTER_N_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-n-charm,,,,,,,,Dark Blue,LETTER_N_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-n-charm,,,,,,,,Purple,LETTER_N_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-n-charm,,,,,,,,Pink,LETTER_N_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-n-charm,,,,,,,,Yellow,LETTER_N_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-o-charm,Letter O Charm,,,charms,charms,TRUE,Color,Blue,LETTER_O_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-o-charm,,,,,,,,Dark Blue,LETTER_O_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-o-charm,,,,,,,,Purple,LETTER_O_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-o-charm,,,,,,,,Pink,LETTER_O_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-o-charm,,,,,,,,Yellow,LETTER_O_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-p-charm,Letter P Charm,,,charms,charms,TRUE,Color,Blue,LETTER_P_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-p-charm,,,,,,,,Dark Blue,LETTER_P_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-p-charm,,,,,,,,Purple,LETTER_P_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-p-charm,,,,,,,,Pink,LETTER_P_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-p-charm,,,,,,,,Yellow,LETTER_P_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-q-charm,Letter Q Charm,,,charms,charms,TRUE,Color,Blue,LETTER_Q_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-q-charm,,,,,,,,Dark Blue,LETTER_Q_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-q-charm,,,,,,,,Purple,LETTER_Q_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-q-charm,,,,,,,,Pink,LETTER_Q_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-q-charm,,,,,,,,Yellow,LETTER_Q_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-r-charm,Letter R Charm,,,charms,charms,TRUE,Color,Blue,LETTER_R_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-r-charm,,,,,,,,Dark Blue,LETTER_R_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-r-charm,,,,,,,,Purple,LETTER_R_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-r-charm,,,,,,,,Pink,LETTER_R_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-r-charm,,,,,,,,Yellow,LETTER_R_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-s-charm,Letter S Charm,,,charms,charms,TRUE,Color,Blue,LETTER_S_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-s-charm,,,,,,,,Dark Blue,LETTER_S_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-s-charm,,,,,,,,Purple,LETTER_S_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-s-charm,,,,,,,,Pink,LETTER_S_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-s-charm,,,,,,,,Yellow,LETTER_S_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-t-charm,Letter T Charm,,,charms,charms,TRUE,Color,Blue,LETTER_T_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-t-charm,,,,,,,,Dark Blue,LETTER_T_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-t-charm,,,,,,,,Purple,LETTER_T_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-t-charm,,,,,,,,Pink,LETTER_T_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-t-charm,,,,,,,,Yellow,LETTER_T_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-u-charm,Letter U Charm,,,charms,charms,TRUE,Color,Blue,LETTER_U_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-u-charm,,,,,,,,Dark Blue,LETTER_U_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-u-charm,,,,,,,,Purple,LETTER_U_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-u-charm,,,,,,,,Pink,LETTER_U_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-u-charm,,,,,,,,Yellow,LETTER_U_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-v-charm,Letter V Charm,,,charms,charms,TRUE,Color,Blue,LETTER_V_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-v-charm,,,,,,,,Dark Blue,LETTER_V_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-v-charm,,,,,,,,Purple,LETTER_V_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-v-charm,,,,,,,,Pink,LETTER_V_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-v-charm,,,,,,,,Yellow,LETTER_V_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-w-charm,Letter W Charm,,,charms,charms,TRUE,Color,Blue,LETTER_W_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-w-charm,,,,,,,,Dark Blue,LETTER_W_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-w-charm,,,,,,,,Purple,LETTER_W_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-w-charm,,,,,,,,Pink,LETTER_W_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-w-charm,,,,,,,,Yellow,LETTER_W_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-x-charm,Letter X Charm,,,charms,charms,TRUE,Color,Blue,LETTER_X_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-x-charm,,,,,,,,Dark Blue,LETTER_X_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-x-charm,,,,,,,,Purple,LETTER_X_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-x-charm,,,,,,,,Pink,LETTER_X_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-x-charm,,,,,,,,Yellow,LETTER_X_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-y-charm,Letter Y Charm,,,charms,charms,TRUE,Color,Blue,LETTER_Y_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-y-charm,,,,,,,,Dark Blue,LETTER_Y_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-y-charm,,,,,,,,Purple,LETTER_Y_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-y-charm,,,,,,,,Pink,LETTER_Y_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-y-charm,,,,,,,,Yellow,LETTER_Y_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-z-charm,Letter Z Charm,,,charms,charms,TRUE,Color,Blue,LETTER_Z_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+letter-z-charm,,,,,,,,Dark Blue,LETTER_Z_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-z-charm,,,,,,,,Purple,LETTER_Z_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-z-charm,,,,,,,,Pink,LETTER_Z_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+letter-z-charm,,,,,,,,Yellow,LETTER_Z_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+star-charm,Star Charm,,,charms,charms,TRUE,Color,Blue,STAR_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+star-charm,,,,,,,,Dark Blue,STAR_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+star-charm,,,,,,,,Purple,STAR_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+star-charm,,,,,,,,Pink,STAR_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+star-charm,,,,,,,,Yellow,STAR_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+heart-charm,Heart Charm,,,charms,charms,TRUE,Color,Blue,HEART_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+heart-charm,,,,,,,,Dark Blue,HEART_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+heart-charm,,,,,,,,Purple,HEART_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+heart-charm,,,,,,,,Pink,HEART_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+heart-charm,,,,,,,,Yellow,HEART_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+paw-charm,Paw Charm,,,charms,charms,TRUE,Color,Blue,PAW_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+paw-charm,,,,,,,,Dark Blue,PAW_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+paw-charm,,,,,,,,Purple,PAW_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+paw-charm,,,,,,,,Pink,PAW_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+paw-charm,,,,,,,,Yellow,PAW_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
+butterfly-charm,Butterfly Charm,,,charms,charms,TRUE,Color,Blue,BUTTERFLY_CHARM_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,active
+butterfly-charm,,,,,,,,Dark Blue,BUTTERFLY_CHARM_DARK_BLUE,0,,10,deny,manual,3.39,FALSE,TRUE,
+butterfly-charm,,,,,,,,Purple,BUTTERFLY_CHARM_PURPLE,0,,10,deny,manual,3.39,FALSE,TRUE,
+butterfly-charm,,,,,,,,Pink,BUTTERFLY_CHARM_PINK,0,,10,deny,manual,3.39,FALSE,TRUE,
+butterfly-charm,,,,,,,,Yellow,BUTTERFLY_CHARM_YELLOW,0,,10,deny,manual,3.39,FALSE,TRUE,
