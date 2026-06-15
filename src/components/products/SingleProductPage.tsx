@@ -7,7 +7,6 @@ import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { Reviews } from '@/components/landing/Reviews'
-import { BentoSection } from '@/components/BentoSection'
 import { FAQ } from '@/components/landing/FAQ'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
@@ -89,7 +88,7 @@ const PDP_REVIEW_COUNT = 9
 const PDP_TRUST_POINTS = ['2–4 d. pristatymas', '30 d. grąžinimas', 'Pagaminta Lietuvoje']
 const PDP_REVIEW_QUOTE = 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.'
 const DEFAULT_CHARM_COLOR = 'blue'
-const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', green: '#A8D5A2', red: '#F4B5C0', yellow: '#F9E4A0' }
+const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', 'sky blue': '#B8D8F4', 'dark blue': '#6B9FD4', green: '#A8D5A2', red: '#F4B5C0', pink: '#F4B5C0', yellow: '#F9E4A0', purple: '#D4B8F4' }
 const PDP_REVIEWS = [
   {
     quote: PDP_REVIEW_QUOTE,
@@ -107,12 +106,15 @@ const PDP_REVIEWS = [
 
 const LT_COLOR_LABELS: Record<string, string> = {
   blue: 'Mėlyna',
+  'sky blue': 'Dangaus mėlyna',
+  'sky-blue': 'Dangaus mėlyna',
+  'dark blue': 'Tamsiai mėlyna',
+  'dark-blue': 'Tamsiai mėlyna',
   green: 'Žalia',
   red: 'Rausva',
+  pink: 'Rožinė',
   yellow: 'Geltona',
   purple: 'Violetinė',
-  pink: 'Rožinė',
-  'dark blue': 'Tamsiai mėlyna',
   'ligh blue': 'Šviesiai mėlyna',
   'light blue': 'Šviesiai mėlyna',
 }
@@ -365,7 +367,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
       {/* ── Mobile layout ── */}
       {isMobile && isCollarOrLeash && (
-        <div style={{ paddingTop: NAV_H }}>
+        <>
           <div style={{ padding: '16px 20px 0' }}>
             {/* Slider */}
             <div
@@ -407,12 +409,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           <div style={{ padding: '24px 20px 104px' }}>
             <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
           </div>
-        </div>
+        </>
       )}
 
       {/* ── Mobile charm layout ── */}
       {isMobile && !isCollarOrLeash && (
-        <div style={{ paddingTop: NAV_H }}>
+        <>
           <div style={{ margin: '16px 16px 0' }}>
             <div
               style={{ height: 'auto', borderRadius: 20, overflow: 'hidden', position: 'relative', background: getCharmGallerySurface(), aspectRatio: '1 / 1', touchAction: 'pan-y' }}
@@ -505,17 +507,17 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <CharmCTA added={added} count={selectedCharmCount} onClick={addCharmToCart} isMobile />
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
-        </div>
+        </>
       )}
 
       {/* ── Desktop layout ── */}
       {!isMobile && (
       <div
         className="w-full mx-auto px-5 md:px-10"
-        style={{ maxWidth: 1200, marginTop: NAV_H, paddingBottom: 64 }}
+        style={{ maxWidth: 1200, marginTop: 72, paddingBottom: 64 }}
       >
         {/* Breadcrumb */}
-        <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 24, paddingBottom: 20, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+        <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
           <a href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</a>
           <span style={{ opacity: 0.4 }}>/</span>
           <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
@@ -621,7 +623,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       </div>
       )} {/* end !isMobile */}
 
-      <BentoSection isDark={false} />
 
       {/* Section: left text, right image */}
       <section style={{ background: 'var(--color-cream)', padding: '80px 24px' }}>
@@ -637,7 +638,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Sukurta su meile
             </p>
-            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
               Kiekvienas pakabuko detalė — tai istorija
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
@@ -647,7 +648,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               Rink pakabuką, kuris atspindi tavo šuniuką — ir sukurk unikalų antkaklio rinkinį, kuris bus tikrai jūsų.
             </p>
           </div>
-          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
+          <div style={{ ...(isMobile ? { width: '100%' } : { flex: 1 }), borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
             <Image
               src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp"
               alt="Šeimininkė su šunimi"
@@ -669,7 +670,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           alignItems: 'center',
           gap: isMobile ? 40 : 80,
         }}>
-          <div style={{ flex: 1, borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
+          <div style={{ ...(isMobile ? { width: '100%' } : { flex: 1 }), borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
             <Image
               src="/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp"
               alt="Auksinė valanda su šunimi"
@@ -682,7 +683,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Tavo stiliui
             </p>
-            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
               Mix & match — be galo galimybių
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
@@ -762,7 +763,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif" }}>Pridėti pakabuką</h2>
+              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>Pridėti pakabuką</h2>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -780,10 +781,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {/* Color filter */}
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {[
-                { key: 'blue', label: 'Blue', hex: '#B8D8F4' },
-                { key: 'green', label: 'Green', hex: '#A8D5A2' },
-                { key: 'red', label: 'Pink', hex: '#F4B5C0' },
-                { key: 'yellow', label: 'Yellow', hex: '#F9E4A0' },
+                { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
+                { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
+                { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
+                { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
+                { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+                { key: 'green', label: 'Žalia', hex: '#A8D5A2' },
               ].map(({ key, label, hex }) => (
                 <button
                   key={key}
@@ -838,6 +841,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 }
 
 function RecommendedProductsSection ({ products }: { products: ProductDetail[] }) {
+  const width = useWindowWidth() ?? 1200
+  const isMobile = width < 768
+
   if (!products.length) return null
 
   return (
@@ -850,13 +856,39 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
           </DisplayHeading>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
-          {products.slice(0, 3).map((recommendedProduct) => (
-            recommendedProduct.productType === 'charm'
-              ? <CharmCollectionProductCard key={recommendedProduct.slug} product={recommendedProduct} />
-              : <ProductCard key={recommendedProduct.slug} product={recommendedProduct} />
-          ))}
-        </div>
+        {isMobile ? (
+          <div
+            className="hide-scrollbar"
+            style={{
+              display: 'flex',
+              gap: 12,
+              overflowX: 'auto',
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              marginLeft: -20,
+              marginRight: -20,
+              paddingLeft: 20,
+              paddingRight: 20,
+            }}
+          >
+            {products.slice(0, 3).map((recommendedProduct) => (
+              <div key={recommendedProduct.slug} style={{ flex: '0 0 calc((100% - 12px) / 1.4)', scrollSnapAlign: 'start' }}>
+                {recommendedProduct.productType === 'charm'
+                  ? <CharmCollectionProductCard product={recommendedProduct} />
+                  : <ProductCard product={recommendedProduct} />}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+            {products.slice(0, 3).map((recommendedProduct) => (
+              recommendedProduct.productType === 'charm'
+                ? <CharmCollectionProductCard key={recommendedProduct.slug} product={recommendedProduct} />
+                : <ProductCard key={recommendedProduct.slug} product={recommendedProduct} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )
@@ -963,7 +995,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
         </div>
-        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif" }}>{name}</h1>
+        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{name}</h1>
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
@@ -1328,7 +1360,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>
                   Dydžių gidas
                 </div>
-                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontWeight: 400 }}>
+                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif", fontWeight: 400 }}>
                   Kaip išmatuoti savo šunį
                 </h3>
               </div>
@@ -1457,7 +1489,7 @@ function CharmPicker ({
               <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
                 {charm.image
                   ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
-                  : <span aria-hidden="true" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Luckiest Guy', cursive", fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
+                  : <span aria-hidden="true" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
                 }
                 <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
               </button>

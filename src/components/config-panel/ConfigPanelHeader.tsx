@@ -27,7 +27,7 @@ export function ConfigPanelHeader ({
         <h1
           style={{
             fontSize: isMobile ? 32 : 22,
-            fontFamily: isMobile ? "'Luckiest Guy','DM Sans',sans-serif" : "'DM Sans',sans-serif",
+            fontFamily: isMobile ? "'Tomato Grotesk VF','DM Sans',sans-serif" : "'DM Sans',sans-serif",
             fontWeight: isMobile ? 400 : 500,
             letterSpacing: isMobile ? '-0.013em' : '-0.02em',
             color: textPrimary,

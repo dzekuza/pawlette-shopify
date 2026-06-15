@@ -196,7 +196,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── DETAILS ACCORDION ── */}
       {accordionItems.length > 0 && (
         <section style={{ maxWidth: 720, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+          <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Informacija
           </h2>
           <Accordion items={accordionItems} />
@@ -207,7 +207,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {recommendedProducts.filter(p => p.productType === 'collar').length > 0 && (
         <section style={{ background: '#fff' }}>
           <div style={{ maxWidth: 1160, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-            <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
               Sukurk rinkinį
             </h2>
             <p style={{ textAlign: 'center', color: 'rgba(61,53,48,0.6)', fontSize: 15, marginBottom: 32 }}>
@@ -233,7 +233,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── RECOMMENDED ── */}
       {recommendedProducts.length > 0 && (
         <section style={{ padding: isMobile ? '40px 20px' : '64px 40px', maxWidth: 1160, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+          <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Gali patikti ir tai
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
@@ -403,7 +403,7 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
             {product.badge}
           </div>
         )}
-        <h1 style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 'clamp(2rem, 1.6rem + 1.2vw, 2.75rem)', color: 'var(--color-bark)', lineHeight: 1.05, margin: 0 }}>
+        <h1 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 'clamp(2rem, 1.6rem + 1.2vw, 2.75rem)', color: 'var(--color-bark)', lineHeight: 1.05, margin: 0 }}>
           {product.name}
         </h1>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 12 }}>

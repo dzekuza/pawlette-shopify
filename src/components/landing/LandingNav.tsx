@@ -2,24 +2,18 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CircleUserRound } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
   { label: 'Pavadeliai', href: '/products/pawlette-leash' },
-  { label: 'Pakabukai', href: '/products/charm-charms' },
-  { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
-  { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
-  { label: 'FAQ', href: '/faq' },
+  { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
 const DESKTOP_NAV = [
   { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
   { label: 'Pavadeliai', href: '/products/pawlette-leash' },
-  { label: 'Pakabukai', href: '/products/charm-charms' },
-  { label: 'Medžiagos', href: '/guide/silicone-vs-nylon-dog-collars' },
+  { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
 interface LandingNavProps {
@@ -28,17 +22,10 @@ interface LandingNavProps {
   topOffset?: number;
 }
 
-export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNavProps) {
+export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
   const width = useWindowWidth() ?? 1200;
   const isMobile = width < 768;
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
-  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -49,129 +36,204 @@ export function LandingNav({ cartCount = 0, onCart, topOffset = 36 }: LandingNav
     if (!isMobile && menuOpen) setMenuOpen(false);
   }, [isMobile, menuOpen]);
 
-  const active = scrolled || menuOpen;
-
   return (
     <>
-      <header
-        style={{ top: topOffset }}
-        className={cn(
-          'fixed left-0 right-0 z-[200] h-16 flex items-center px-5 md:px-10',
-          'transition-[background,backdrop-filter,border-color] duration-250 ease-out',
-          'border-b',
-          active
-            ? 'bg-cream/97 backdrop-blur-[16px] border-border'
-            : 'bg-transparent backdrop-blur-none border-transparent'
-        )}
-      >
-        <div className="grid items-center grid-cols-[1fr_auto_1fr] w-full mx-auto" style={{ maxWidth: 1200 }}>
-        {/* Desktop nav links */}
-        <nav className="hidden md:flex gap-8">
-          {DESKTOP_NAV.map((link, i) => (
-            <Link
-              key={i}
-              href={link.href}
-              className="font-sans text-sm font-medium text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Mobile hamburger */}
-        <div className="md:hidden flex items-center">
-          <button
-            onClick={() => setMenuOpen(o => !o)}
-            aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
-            aria-expanded={menuOpen}
-            className="bg-transparent border-0 cursor-pointer p-2 text-bark flex flex-col gap-[5px] items-center justify-center w-9 h-9"
-          >
-            <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-out"
-              style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }}
-            />
-            <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-opacity duration-250 ease-out"
-              style={{ opacity: menuOpen ? 0 : 1 }}
-            />
-            <span
-              className="block w-5 h-[1.5px] bg-bark rounded-[2px] transition-[transform,opacity] duration-250 ease-out"
-              style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
-            />
-          </button>
-        </div>
-
-        <Link href="/" aria-label="PawCharms home" className="flex items-center justify-center">
-          <img src="/pawcharms.svg" alt="PawCharms" className="h-11 w-auto block" />
-        </Link>
-
-        <div className="flex items-center gap-1 justify-end">
-          <Link
-            href="/account"
-            aria-label="Paskyra"
-            className="p-2 text-bark transition-colors duration-150 hover:text-sage"
-          >
-            <CircleUserRound className="h-5 w-5" strokeWidth={1.75} />
+      <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 200,
+        padding: isMobile ? '12px 16px' : '12px 24px',
+      }}>
+        <div style={{
+          maxWidth: 1292,
+          margin: '0 auto',
+          width: '100%',
+        }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          background: '#FFFFFF',
+          borderRadius: 84,
+          padding: '12px 12px 12px 16px',
+          overflow: 'clip',
+        }}>
+          {/* Logo */}
+          <Link href="/" aria-label="PawCharms pagrindinis" style={{ flexShrink: 0, lineHeight: 0 }}>
+            <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
-          {/* Cart button */}
-          <button onClick={onCart} aria-label="Krepšelis" className="relative p-2 bg-transparent border-0 cursor-pointer text-bark">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <path d="M16 10a4 4 0 0 1-8 0" />
-            </svg>
-            {cartCount > 0 && (
-              <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-sage text-interactive-text text-[10px] font-semibold flex items-center justify-center font-sans">
-                {cartCount}
-              </span>
+          {/* Desktop nav links */}
+          {!isMobile && (
+            <nav style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+              {DESKTOP_NAV.map((link, i) => (
+                <Link
+                  key={i}
+                  href={link.href}
+                  className="nav-link"
+                  style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: 'var(--color-bark-light)',
+                    textDecoration: 'none',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          )}
+
+          {/* Right: cart + CTA */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Cart */}
+            <button
+              onClick={onCart}
+              aria-label="Krepšelis"
+              style={{
+                position: 'relative',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px 10px',
+                color: 'var(--color-bark)',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 0 1-8 0" />
+              </svg>
+              {cartCount > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: 4,
+                  right: 4,
+                  width: 16,
+                  height: 16,
+                  borderRadius: '50%',
+                  background: 'var(--color-sage)',
+                  color: 'var(--color-interactive-text)',
+                  fontSize: 10,
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: "'DM Sans', sans-serif",
+                }}>
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            {/* Mobile hamburger */}
+            {isMobile && (
+              <button
+                onClick={() => setMenuOpen(o => !o)}
+                aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
+                aria-expanded={menuOpen}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 5,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: 36,
+                  height: 36,
+                }}
+              >
+                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
+                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', opacity: menuOpen ? 0 : 1, transition: 'opacity 250ms ease-out' }} />
+                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
+              </button>
             )}
-          </button>
+
+            {/* Shop now CTA */}
+            <Link
+              href="/products"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'var(--color-sage)',
+                borderRadius: 100,
+                padding: '12px 24px',
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 16,
+                fontWeight: 500,
+                color: 'var(--color-interactive-text)',
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Pirkti dabar
+            </Link>
+          </div>
         </div>
         </div>
       </header>
 
-      {/* Full-screen menu overlay */}
+      {/* Mobile full-screen menu */}
       <div
         aria-hidden={!menuOpen}
-        className="fixed inset-0 z-[199] bg-cream flex flex-col justify-center px-10 transition-opacity duration-250 ease-out"
         style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 199,
+          background: 'var(--color-cream)',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          padding: '0 40px',
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'auto' : 'none',
+          transition: 'opacity 250ms ease-out',
         }}
       >
-        <nav className="flex flex-col gap-2">
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {NAV_LINKS.map((link, i) => (
             <a
               key={i}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
-              className="font-display text-[clamp(36px,8vw,64px)] text-bark no-underline leading-[1.15] transition-[color,transform] duration-150 ease-out block hover:text-sage"
               style={{
+                fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif",
+                fontSize: 'clamp(36px, 8vw, 64px)',
+                color: 'var(--color-bark)',
+                textDecoration: 'none',
+                lineHeight: 1.15,
+                display: 'block',
                 transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
-                transitionDelay: menuOpen ? `${i * 40}ms` : '0ms',
+                transition: `color 150ms ease-out, transform 250ms ease-out ${i * 40}ms`,
               }}
             >
               {link.label}
             </a>
           ))}
         </nav>
-
-        <div
-          className="absolute left-10 right-10 flex justify-between items-center"
-          style={{
-            bottom: isMobile ? 28 : 40,
-            flexDirection: isMobile ? 'column' : 'row',
-            alignItems: isMobile ? 'flex-start' : 'center',
-            gap: isMobile ? 10 : 0,
-          }}
-        >
-          <span className="font-sans text-[13px] text-bark-muted">Pagaminta Vilniuje, Lietuvoje</span>
+        <div style={{
+          position: 'absolute',
+          left: 40,
+          right: 40,
+          bottom: 28,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
           <a
             href="mailto:hello@pawcharms.lt"
             tabIndex={menuOpen ? 0 : -1}
-            className="font-sans text-[13px] text-bark-muted no-underline transition-colors duration-150 hover:text-bark"
+            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
           >
             hello@pawcharms.lt
           </a>

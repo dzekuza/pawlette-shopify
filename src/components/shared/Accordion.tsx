@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type React from 'react'
+import { Plus, Minus } from 'lucide-react'
 
 export interface AccordionItem {
   id: string
@@ -25,20 +26,23 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
           <div
             key={item.id}
             style={{
-              borderTop: '1px solid rgba(61,53,48,0.1)',
-              ...(i === items.length - 1 ? { borderBottom: '1px solid rgba(61,53,48,0.1)' } : {}),
+              background: isOpen ? 'var(--color-surface-2)' : 'var(--color-cream)',
+              borderRadius: 12,
+              marginBottom: 8,
+              border: '1px solid rgba(61,53,48,0.08)',
+              transition: 'background 200ms ease-out',
             }}
           >
             <button
               onClick={() => setOpenId(isOpen ? null : item.id)}
               aria-expanded={isOpen}
               aria-controls={`accordion-${item.id}`}
-              onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
+              onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.98)' }}
               onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
               onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
               style={{
                 width: '100%', background: 'none', border: 'none',
-                padding: '12px 0', display: 'flex',
+                padding: '16px 20px', display: 'flex',
                 justifyContent: 'space-between', alignItems: 'center',
                 gap: 16, cursor: 'pointer', textAlign: 'left',
                 fontFamily: "'DM Sans', sans-serif",
@@ -61,12 +65,15 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                   flexShrink: 0, width: 28, height: 28, borderRadius: '50%',
                   background: isOpen ? 'var(--color-bark)' : '#F0EBE4',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'background-color 200ms ease-out',
-                  fontSize: 18, lineHeight: 1,
+                  transition: 'background-color 220ms cubic-bezier(0.32,0.72,0,1), transform 220ms cubic-bezier(0.32,0.72,0,1)',
                   color: isOpen ? 'var(--color-cream)' : 'var(--color-bark)',
+                  transform: isOpen ? 'rotate(0deg)' : 'rotate(0deg)',
                 }}
               >
-                {isOpen ? '−' : '+'}
+                {isOpen
+                  ? <Minus size={14} strokeWidth={2.5} />
+                  : <Plus size={14} strokeWidth={2.5} />
+                }
               </span>
             </button>
             <div
@@ -84,8 +91,8 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                   fontSize: isMobile ? 14 : 15,
                   color: 'var(--color-bark-light)',
                   lineHeight: 1.7,
-                  margin: '0 0 22px',
-                  paddingRight: 44,
+                  padding: '0 20px 16px',
+                  paddingRight: 64,
                 }}
               >
                 {item.content}

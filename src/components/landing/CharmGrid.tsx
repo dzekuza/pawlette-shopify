@@ -122,13 +122,13 @@ export function CharmGrid() {
     const seen = new Map<string, string>();
     const COLOR_LABELS: Record<string, string> = {
       '#B8D8F4': 'Mėlyna',
-      '#A8D5A2': 'Žalia',
+      '#6B9FD4': 'Tamsiai mėlyna',
       '#F4B5C0': 'Rožinė',
       '#F9E4A0': 'Geltona',
       '#D4B8F4': 'Violetinė',
     };
     charms.forEach(c => {
-      if (c.bg && !seen.has(c.bg)) seen.set(c.bg, COLOR_LABELS[c.bg] ?? c.color);
+      if (c.bg && !seen.has(c.bg) && COLOR_LABELS[c.bg]) seen.set(c.bg, COLOR_LABELS[c.bg]);
     });
     return Array.from(seen.entries()).map(([bg, label]) => ({ bg, label }));
   }, [charms]);
@@ -162,53 +162,43 @@ export function CharmGrid() {
     : productGallery;
 
   return (
-    <section id="charms" style={{ background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
+    <section id="charms" style={{ background: '#F0EDE8', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{
-        maxWidth: 1200,
+        maxWidth: 1292,
         margin: '0 auto',
-        padding: isMobile ? '48px 16px' : '80px 48px',
+        padding: isMobile ? '48px 16px' : '64px 64px',
       }}>
         <div style={{
           display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '1fr 0.7fr',
-          gap: isMobile ? 32 : 64,
-          alignItems: 'start',
+          gridTemplateColumns: isMobile ? '1fr' : '614px 1fr',
+          gap: 32,
+          alignItems: 'flex-start',
         }}>
 
-          {/* LEFT — Gallery */}
+          {/* LEFT — Featured image */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(2, 1fr)',
-              gap: 8,
+              borderRadius: 20,
+              overflow: 'hidden',
+              aspectRatio: '1 / 1',
+              background: '#f5f3f0',
             }}>
-              {allGalleryImages.slice(0, 4).map((url, i) => (
-                <div
-                  key={url}
-                  style={{
-                    borderRadius: i === 0 ? '20px 10px 10px 10px' : i === 1 ? '10px 20px 10px 10px' : i === 2 ? '10px 10px 10px 20px' : '10px 10px 20px 10px',
-                    overflow: 'hidden',
-                    aspectRatio: '1 / 1',
-                    background: '#f5f3f0',
-                  }}
-                >
-                  <img src={url} alt={`Nuotrauka ${i + 1}`}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-                </div>
-              ))}
+              {allGalleryImages[0] && (
+                <img
+                  src={allGalleryImages[0]}
+                  alt="PawCharms pakabukai"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                />
+              )}
             </div>
           </div>
 
           {/* RIGHT — Info + Selector */}
           <div style={{ paddingTop: isMobile ? 0 : 8, display: 'flex', flexDirection: 'column' }}>
-            <Eyebrow className="mb-3">Pakabukų kolekcija</Eyebrow>
-
             <h2 style={{
-              fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif",
               fontSize: 'clamp(30px, 3.5vw, 44px)',
               lineHeight: 1.05,
               letterSpacing: '-0.01em',
-              color: 'var(--color-bark)',
               margin: 0,
             }}>
               Tavo šuo.<br />Tavo stilius.
@@ -218,28 +208,11 @@ export function CharmGrid() {
               Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
             </p>
 
-            <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {['Keičiamas per ~5 sekundes', 'Tinka visiems antkaklių rinkiniams', '25+ variantų'].map(point => (
-                <span key={point} style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  borderRadius: 999,
-                  padding: '7px 12px',
-                  background: 'rgba(61,53,48,0.045)',
-                  color: '#6B6460',
-                  fontSize: 12,
-                  fontWeight: 500,
-                }}>
-                  {point}
-                </span>
-              ))}
-            </div>
-
             {/* Charm selector */}
             <div style={{ marginTop: 28, paddingTop: 24, borderTop: '1px solid rgba(61,53,48,0.10)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
                 <Eyebrow>Rinktis pakabuką</Eyebrow>
-                <span style={{ fontSize: 12, color: '#9B948F', fontWeight: 500 }}>
+                <span style={{ fontSize: 12, color: 'var(--color-muted-foreground)', fontWeight: 500 }}>
                   {selectedCount}/{MAX_CHARMS}
                 </span>
               </div>
@@ -305,7 +278,7 @@ export function CharmGrid() {
               <div style={{ position: 'relative', marginBottom: 12 }}>
                 <svg
                   width="15" height="15" viewBox="0 0 15 15" fill="none"
-                  style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#9B948F' }}
+                  style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: 'var(--color-muted-foreground)' }}
                 >
                   <path d="M10 6.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM9.5 10.207l3.146 3.147" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
                 </svg>
@@ -342,7 +315,7 @@ export function CharmGrid() {
                       background: 'none',
                       cursor: 'pointer',
                       padding: 2,
-                      color: '#9B948F',
+                      color: 'var(--color-muted-foreground)',
                       fontSize: 16,
                       lineHeight: 1,
                     }}
@@ -354,7 +327,7 @@ export function CharmGrid() {
 
               {/* Grid */}
               {filtered.length === 0 ? (
-                <p style={{ fontSize: 14, color: '#9B948F', padding: '12px 0' }}>Nieko nerasta.</p>
+                <p style={{ fontSize: 14, color: 'var(--color-muted-foreground)', padding: '12px 0' }}>Nieko nerasta.</p>
               ) : (
                 <>
                   <div style={{
@@ -415,6 +388,10 @@ export function CharmGrid() {
                   {hasMore && (
                     <button
                       onClick={() => setExpanded(true)}
+                      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(61,53,48,0.06)'; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+                      onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.98)'; }}
+                      onMouseUp={e => { e.currentTarget.style.transform = 'scale(1)'; }}
                       style={{
                         marginTop: 10,
                         width: '100%',
@@ -427,6 +404,7 @@ export function CharmGrid() {
                         color: 'var(--color-bark)',
                         cursor: 'pointer',
                         fontFamily: "'DM Sans', sans-serif",
+                        transition: 'background-color 150ms ease-out, transform 100ms ease-out',
                       }}
                     >
                       Rodyti visus ({filtered.length - maxVisible} daugiau)
@@ -441,10 +419,14 @@ export function CharmGrid() {
               <button
                 onClick={handleAddToCart}
                 disabled={!selectedCount || adding}
+                onMouseEnter={e => { if (selectedCount && !adding) { e.currentTarget.style.background = '#5a4f4a'; e.currentTarget.style.transform = 'scale(0.99)'; }}}
+                onMouseLeave={e => { e.currentTarget.style.background = selectedCount ? 'var(--color-bark)' : '#E8E3DC'; e.currentTarget.style.transform = 'scale(1)'; }}
+                onMouseDown={e => { if (selectedCount && !adding) e.currentTarget.style.transform = 'scale(0.97)'; }}
+                onMouseUp={e => { e.currentTarget.style.transform = selectedCount && !adding ? 'scale(0.99)' : 'scale(1)'; }}
                 style={{
                   width: '100%',
                   background: selectedCount ? 'var(--color-bark)' : '#E8E3DC',
-                  color: selectedCount ? 'var(--color-cream)' : '#9B948F',
+                  color: selectedCount ? 'var(--color-cream)' : 'var(--color-muted-foreground)',
                   border: 'none',
                   borderRadius: 14,
                   padding: '16px 24px',
@@ -452,7 +434,7 @@ export function CharmGrid() {
                   fontWeight: 600,
                   cursor: selectedCount && !adding ? 'pointer' : 'not-allowed',
                   fontFamily: "'DM Sans', sans-serif",
-                  transition: 'background-color 200ms ease-out',
+                  transition: 'background-color 150ms ease-out, transform 100ms ease-out',
                   letterSpacing: '-0.01em',
                 }}
               >
@@ -465,6 +447,8 @@ export function CharmGrid() {
               <div style={{ display: 'flex', gap: 8 }}>
                 <a
                   href={`/products/${COLLAR_SLUG}`}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(61,53,48,0.06)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                   style={{
                     flex: 1,
                     display: 'block',
@@ -477,12 +461,15 @@ export function CharmGrid() {
                     color: 'var(--color-bark)',
                     textDecoration: 'none',
                     fontFamily: "'DM Sans', sans-serif",
+                    transition: 'background-color 150ms ease-out',
                   }}
                 >
                   Antkaklio produktas →
                 </a>
                 <a
                   href={`/products/${CHARMS_SLUG}`}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(61,53,48,0.06)'; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
                   style={{
                     flex: 1,
                     display: 'block',
@@ -495,6 +482,7 @@ export function CharmGrid() {
                     color: 'var(--color-bark)',
                     textDecoration: 'none',
                     fontFamily: "'DM Sans', sans-serif",
+                    transition: 'background-color 150ms ease-out',
                   }}
                 >
                   Visi pakabukai →

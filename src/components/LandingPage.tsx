@@ -3,21 +3,65 @@
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCartCount } from '@/hooks/useCartCount';
-import { SocialTicker } from './landing/SocialTicker';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { CharmGrid } from './landing/CharmGrid';
-import { PhotoSlider } from './landing/PhotoSlider';
-import { BentoSection } from './BentoSection';
-import { Reviews } from './landing/Reviews';
 import { FAQ } from './landing/FAQ';
 import { About } from './landing/About';
 import { LandingFooter } from './landing/LandingFooter';
 import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
+
+function StatementSection() {
+  const w = useWindowWidth() ?? 1200;
+  const isMobile = w < 768;
+
+  return (
+    <section style={{ background: '#F0EDE8' }}>
+      <div style={{
+        maxWidth: 1292,
+        margin: '0 auto',
+        padding: isMobile ? '48px 16px' : '80px 64px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: isMobile ? 32 : 48,
+      }}>
+        {/* Large centered statement */}
+        <h2 style={{
+          fontSize: isMobile ? 'clamp(28px, 5vw, 40px)' : 56,
+          letterSpacing: '-0.02em',
+          lineHeight: '120%',
+          textAlign: 'center',
+          margin: 0,
+          maxWidth: 900,
+          alignSelf: 'center',
+        }}>
+          Sukūrėme PawCharms — lengvai personalizuojamus antkaklių rinkinius jūsų šuniui.
+        </h2>
+
+        {/* Full-width image */}
+        <div style={{
+          borderRadius: 24,
+          overflow: 'hidden',
+          aspectRatio: isMobile ? '4/3' : '16/7',
+          background: 'var(--color-surface-2)',
+        }}>
+          <img
+            src="/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp"
+            alt="PawCharms šeima"
+            loading="lazy"
+            decoding="async"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function LandingPage() {
   const router = useRouter();
@@ -34,14 +78,18 @@ export function LandingPage() {
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fn = () => setShowStickyCTA(window.scrollY > 500);
+    let rafId = 0;
+    const fn = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => setShowStickyCTA(window.scrollY > 500));
+    };
     window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    return () => { window.removeEventListener('scroll', fn); cancelAnimationFrame(rafId); };
   }, []);
 
   useEffect(() => {
     const fn = (e: MouseEvent) => {
-      if (e.clientY < 20 && !exitShown.current) {
+      if (e.clientY < 20 && !exitShown.current && window.scrollY > 300) {
         setShowExitModal(true);
         exitShown.current = true;
       }
@@ -89,16 +137,15 @@ export function LandingPage() {
             const q = gsap.utils.selector(pageRef);
             const sections = q('[data-animate="section"]');
             const cards = q('[data-animate="card"]');
-            const photoSlider = q('[data-parallax="photo-slider"]');
 
             sections.forEach((section) => {
               gsap.fromTo(section,
-                { autoAlpha: 0, y: 28 },
+                { autoAlpha: 0, y: 20 },
                 {
-                  autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out',
+                  autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out',
                   clearProps: 'transform,opacity,visibility',
                   immediateRender: false,
-                  scrollTrigger: { trigger: section, start: 'top 82%', toggleActions: 'play none none none', once: true },
+                  scrollTrigger: { trigger: section, start: 'top 84%', toggleActions: 'play none none none', once: true },
                 }
               );
             });
@@ -110,26 +157,19 @@ export function LandingPage() {
             }
 
             ScrollTrigger.batch(cards, {
-              start: 'top 85%',
+              start: 'top 84%',
               once: true,
               onEnter: (batch) => {
                 gsap.fromTo(batch,
                   { autoAlpha: 0, y: 16 },
                   {
-                    autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out',
-                    stagger: 0.07, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
+                    autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out',
+                    stagger: 0.05, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
                     immediateRender: false,
                   }
                 );
               },
             });
-
-            if (photoSlider[0]) {
-              gsap.fromTo(photoSlider[0], { y: 18 }, {
-                y: -18, ease: 'none',
-                scrollTrigger: { trigger: photoSlider[0], start: 'top bottom', end: 'bottom top', scrub: 1 },
-              });
-            }
           }
         );
       }
@@ -151,22 +191,19 @@ export function LandingPage() {
   }, [pathname]);
 
   return (
-    <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif" }}>
-      <SocialTicker />
+    <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif", background: 'var(--color-cream)' }}>
       <LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main>
-      <FloatingHero />
+        <FloatingHero />
 
-      <div data-animate="section"><FeaturesStrip variant="cream" /></div>
-      <div data-animate="section"><ProductGrid products={products} /></div>
-      <div data-animate="section"><CharmGrid /></div>
-      <div data-animate="section" data-parallax="photo-slider"><PhotoSlider /></div>
-      <div data-animate="section"><BentoSection isDark={false} /></div>
-      <div data-animate="section"><About variant="cream" /></div>
-      <div data-animate="section"><Reviews /></div>
-      <div data-animate="section"><FAQ /></div>
+        <div data-animate="section"><StatementSection /></div>
+        <div data-animate="section"><ProductGrid products={products} /></div>
+        <div data-animate="section"><About variant="cream" /></div>
+        <div data-animate="section"><CharmGrid /></div>
+        <div data-animate="section"><FAQ /></div>
       </main>
+
       <div data-animate="section"><LandingFooter /></div>
 
       <StickyCTA visible={showStickyCTA} />

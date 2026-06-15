@@ -36,7 +36,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 Medžiaga
               </div>
-              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'var(--color-interactive-text)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
+              <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-interactive-text)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
                 Atsparūs vandeniui.<br />Be kvapo. Be dėmių.
               </div>
               <div style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: 1.7 }}>
@@ -57,7 +57,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
               Kilmė
             </div>
-            <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'var(--color-cream)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em' }}>
+            <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-cream)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em' }}>
               Pagaminta rankomis<br />Vilniuje, Lietuvoje.
             </div>
             <div style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: 1.7 }}>
@@ -77,7 +77,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
                 Pakabukų sistema
               </div>
-              <div style={{ fontFamily: "'Luckiest Guy',cursive", fontSize: impactHeadingSize, color: 'rgba(61,20,30,0.85)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
+              <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'rgba(61,20,30,0.85)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
                 Prisisega per 5 sekundes.
               </div>
               <div style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: 1.6 }}>

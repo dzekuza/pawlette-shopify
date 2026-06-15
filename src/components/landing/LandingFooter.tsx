@@ -46,7 +46,7 @@ export function LandingFooter() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {col.links.map(l => (
                       <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.75)', textDecoration: 'none', transition: 'color 150ms' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = '#FAF7F2')}
+                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-cream)')}
                         onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.75)')}>
                         {l.label}
                       </a>
@@ -62,7 +62,7 @@ export function LandingFooter() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
                     <a key={l.label} href={l.href} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: 'rgba(250,247,242,0.75)', textDecoration: 'none', transition: 'color 150ms' }}
-                      onMouseEnter={e => (e.currentTarget.style.color = '#FAF7F2')}
+                      onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-cream)')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,247,242,0.75)')}>
                       {l.label}
                     </a>

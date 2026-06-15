@@ -54,7 +54,7 @@ export function CatalogCardMedia ({
   image,
 }: CatalogCardMediaProps) {
   return (
-    <div className={cn('relative aspect-[4/5] overflow-hidden rounded-[20px]', className)} style={background ? { background } : undefined}>
+    <div className={cn('relative aspect-square overflow-hidden rounded-[20px]', className)} style={background ? { background } : undefined}>
       {image ? (
         <Image
           src={image}

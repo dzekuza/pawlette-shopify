@@ -182,42 +182,45 @@ const COLLARS_QUERY = `
 // Local fallback images for charm variants (used when Shopify variant has no image).
 // File contents verified by visual inspection — filenames do NOT reliably describe the image.
 const CHARM_LOCAL_IMAGES: Record<string, string> = {
-  // Icon charms
-  'paw-charm-blue':          '/charms/004_A_light_blue_paw_print_shaped_object_is_centrally_0i_pOMaJ Background Removed.png',
-  'paw-charm-pink':          '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png', // no pink paw; pink heart is closest
-  'paw-charm-green':         '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',   // no green paw; green star is closest
-  'heart-charm-pink':        '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png',
-  'heart-charm-blue':        '/charms/009_A_smooth_matte_pink_heart_shape_is_centered_X6r9CPGM Background Removed.png',       // no blue heart; pink heart shape
-  'star-charm-yellow':       '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  'star-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',
-  'bow-charm-pink':          '/charms/003_A_soft_pink_heart-shaped_object_is_presented_with_TtBIxLMs Background Removed.png', // no bow image; pink shape
-  'bow-charm-blue':          '/charms/010_A_stylized_blue_paw_print_is_centrally_positioned_l1z-Lcyk Background Removed.png', // no bow image; blue shape
-  'sun-charm-yellow':        '/charms/002_A_pale_yellow_star-shaped_object_floats_against_-1rXjWFC Background Removed.png',
-  'leaf-charm-green':        '/charms/008_In_a_minimalist_style_a_smooth_matte_sage_green_oqryxWtd Background Removed.png',   // no leaf image; green star
-  'butterfly-charm-purple':  '/charms/010_A_smooth_matte_lavender_butterfly_shape_is_FjmwAp0n Background Removed.png',
-  'mushroom-charm-pink':     '/charms/009_A_smooth_matte_pink_heart_shape_is_centered_X6r9CPGM Background Removed.png',       // no mushroom image; pink shape
-  'drop-charm-blue':         '/charms/010_A_stylized_blue_paw_print_is_centrally_positioned_l1z-Lcyk Background Removed.png', // no drop image; blue shape
-  'flower-charm-purple':     '/charms/005_A_smooth_matte_lavender_flower-shaped_object_is_VsK9Nys5 Background Removed.png',
-  // Letter charms — each key maps to the actual image for that letter
-  'letter-a-blue':           '/charms/001_In_a_3D_render_style_a_large_rounded_light_rJitw6c9 Background Removed.png',
-  'letter-b-pink':           '/charms/002_A_soft_plush_pink_letter_B_is_centrally_iHYYGQpJ Background Removed.png',
-  'letter-c-blue':           '/charms/001_The_letter_C_is_rendered_in_a_soft_pastel_XpEQ8qyU Background Removed.png',
-  'letter-d-purple':         '/charms/003_A_soft_purple_letter_D_is_presented_on_a_plain_cTsglZyk Background Removed.png',
-  'letter-e-green':          '/charms/002_In_a_3D_rendered_style_a_soft_rounded_zSoOXavu Background Removed.png',
-  'letter-g-purple':         '/charms/003_A_single_oversized_three-dimensional_letter_G_ISlrl-QI Background Removed.png',
-  'letter-h-blue':           '/charms/004_In_a_3D_rendering_style_a_soft_light_blue_ybSe5ekF Background Removed.png',
-  'letter-i-pink':           '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png',
-  'letter-k-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png',
-  'letter-l-blue':           '/charms/005_A_soft_blue_rounded_letter_L_is_centrally_BYREvDc Background Removed.png',
-  'letter-m-green':          '/charms/004_A_smooth_rounded_letter_M_in_a_pale_green_hue_eS51RxOA Background Removed.png',
-  'letter-n-yellow':         '/charms/007_A_soft_rounded_pale_yellow_letter_N_is_Ji0FDBaj Background Removed.png',
-  'letter-o-purple':         '/charms/008_A_soft_matte_lavender_letter_O_is_centered_on_9kzmsGFR Background Removed.png',
-  'letter-r-pink':           '/charms/007_A_large_rounded_pink_letter_R_is_presented_0sIURIE7 Background Removed.png',
-  'letter-s-yellow':         '/charms/006_A_soft_matte_yellow_letter_S_stands_against_a_s0lt4jH Background Removed.png',
-  'letter-t-blue':           '/charms/009_A_soft_light_blue_rounded_letter_T_is_UOMVagIa Background Removed.png',
-  'letter-u-pink':           '/charms/005_In_a_minimalist_3D_render_style_a_soft_pink_uQlhzSdQ Background Removed.png', // no U image; I is closest shape
-  'letter-v-green':          '/charms/006_A_soft_muted_green_lowercase_letter_k_floats_VUpysPf Background Removed.png', // no V image; K is closest green letter
-  'letter-z-blue':           '/charms/001_In_a_minimalist_style_a_single_matte_sage_green_er7Mx31d Background Removed.png',
+  // Icon charms — keys match titleToHandle(variant.title) from Shopify
+  // "Blue Paw Charm" → "blue-paw-charm", "Green Star Charm" → "green-star-charm", etc.
+  'blue-paw-charm':          '/charms/Paw_blue.png',
+  'light-paw-charm':         '/charms/Paw_light_blue.png',
+  'green-star-charm':        '/charms/Star_sage_green.png',
+  'sage-leaf-charm':         '/charms/Star_sage_green.png',
+  'sage-sun-charm':          '/charms/Star_sage_green.png',
+  'pink-heart-charm':        '/charms/Heart_pink.png',
+  'mini-heart-charm':        '/charms/Heart_pink_2.png',
+  'pink-bow-charm':          '/charms/Heart_pink.png',
+  'yellow-star-charm':       '/charms/Star_pale_yellow.png',
+  'lavender-flower-charm':   '/charms/Flower_lavender.png',
+  'butterfly-charm':         '/charms/Butterfly_lavender.png',
+  'pink-mushroom-charm':     '/charms/Heart_pink_2.png',
+  'blue-drop-charm':         '/charms/Paw_light_blue_2.png',
+  // Also handle "Paw Charm - Blue" style (iconColorMatch format)
+  'paw-charm-blue':          '/charms/Paw_blue.png',
+  'paw-charm-green':         '/charms/Star_sage_green.png',
+  'heart-charm-pink':        '/charms/Heart_pink.png',
+  'star-charm-yellow':       '/charms/Star_pale_yellow.png',
+  'flower-charm-purple':     '/charms/Flower_lavender.png',
+  // Letter charms — local fallbacks for letters without Shopify images
+  'letter-a-yellow':         '/charms/A_yellow.png',
+  'letter-b-pink':           '/charms/B_pink.png',
+  'letter-c-blue':           '/charms/C.png',
+  'letter-d-purple':         '/charms/D_purple.png',
+  'letter-g-green':          '/charms/G_green.png',
+  'letter-i-pink':           '/charms/I_pink.png',
+  'letter-k-green':          '/charms/K_green.png',
+  'letter-l-blue':           '/charms/L_blue.png',
+  'letter-m-green':          '/charms/M_pale_green.png',
+  'letter-n-yellow':         '/charms/N_yellow.png',
+  'letter-o-purple':         '/charms/O_lavender.png',
+  'letter-r-pink':           '/charms/R_pink.png',
+  'letter-s-yellow':         '/charms/S_yellow.png',
+  'letter-t-blue':           '/charms/T_light_blue.png',
+  'letter-u-pink':           '/charms/I_pink.png',
+  'letter-v-green':          '/charms/K_green.png',
+  'letter-z-blue':           '/charms/Z.png',
 };
 
 // Static map from charm handle -> bg/category for legacy icon variants
@@ -238,21 +241,27 @@ export const CHARM_META: Record<string, { bg: string; category: string }> = {
 };
 
 const COLOR_BG: Record<string, string> = {
-  blue:   '#B8D8F4',
-  mėlyna: '#B8D8F4',
-  melyna: '#B8D8F4',
-  green:  '#A8D5A2',
-  žalia:  '#A8D5A2',
-  zalia:  '#A8D5A2',
-  red:    '#F4B5C0',
-  rausva: '#F4B5C0',
-  rožinė: '#F4B5C0',
-  rozine: '#F4B5C0',
-  yellow: '#F9E4A0',
-  geltona:'#F9E4A0',
-  purple: '#D4B8F4',
-  violetinė: '#D4B8F4',
-  violetine: '#D4B8F4',
+  blue:         '#B8D8F4',
+  'sky blue':   '#B8D8F4',
+  'sky-blue':   '#B8D8F4',
+  mėlyna:       '#B8D8F4',
+  melyna:       '#B8D8F4',
+  'dark blue':  '#6B9FD4',
+  'dark-blue':  '#6B9FD4',
+  'tamsiai mėlyna': '#6B9FD4',
+  green:        '#A8D5A2',
+  žalia:        '#A8D5A2',
+  zalia:        '#A8D5A2',
+  red:          '#F4B5C0',
+  pink:         '#F4B5C0',
+  rausva:       '#F4B5C0',
+  rožinė:       '#F4B5C0',
+  rozine:       '#F4B5C0',
+  yellow:       '#F9E4A0',
+  geltona:      '#F9E4A0',
+  purple:       '#D4B8F4',
+  violetinė:    '#D4B8F4',
+  violetine:    '#D4B8F4',
 };
 
 // Resolves bg/category/color/baseTitle from variant title.
@@ -526,12 +535,18 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
         );
         const productImages = allProductImages.filter(u => !variantImageUrls.has(u.split('?')[0]));
 
+        const productFeaturedImageBase = productFeaturedImage.split('?')[0];
         for (const { node: variant } of mainProduct.variants.edges) {
           const { bg, category, color, baseTitle } = resolveCharmMeta(variant.title);
           if (category === 'letter') continue; // letter charms come from separate products
+          const handle = titleToHandle(variant.title);
+          const shopifyVariantImage = variant.image?.url;
+          // Skip Shopify image if it's the same as the product featured image (no per-variant image set)
+          const hasOwnImage = shopifyVariantImage && shopifyVariantImage.split('?')[0] !== productFeaturedImageBase;
+          const localImage = CHARM_LOCAL_IMAGES[handle];
           iconCharms.push({
-            id: titleToHandle(variant.title),
-            handle: titleToHandle(variant.title),
+            id: handle,
+            handle,
             title: variant.title,
             baseTitle,
             variantId: variant.id ?? '',
@@ -543,7 +558,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
             bg,
             category,
             color,
-            image: variant.image?.url || CHARM_LOCAL_IMAGES[titleToHandle(variant.title)] || '',
+            image: (hasOwnImage ? shopifyVariantImage : null) || localImage || shopifyVariantImage || '',
             productImages,
             productFeaturedImage,
             productTitle,
@@ -557,7 +572,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
 
       // Letter charms: one product per letter (A–Z), each with 5 color variants
       const letterCharms: ShopifyCharm[] = [];
-      const COLOR_NAMES_SET = new Set(['blue', 'dark blue', 'purple', 'pink', 'yellow', 'green']);
+      const COLOR_NAMES_SET = new Set(['blue', 'sky blue', 'dark blue', 'purple', 'pink', 'yellow', 'green']);
       for (const { node: product } of (letterRes.data?.products.edges ?? [])) {
         const productFeaturedImage = product.featuredImage?.url ?? '';
         // Extract the letter from "Letter A Charm" → "A"

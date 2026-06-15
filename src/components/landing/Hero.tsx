@@ -6,17 +6,17 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const HERO_CHARMS = [
   { bg: '#F4B5C0', e: '🌸' },
-  { bg: '#A8D5A2', e: '🌿' },
+  { bg: 'var(--color-sage)', e: '🌿' },
   { bg: '#B8D8F4', e: '⭐' },
   { bg: '#F9E4A0', e: '☀️' },
   { bg: '#D4B8F4', e: '🦋' },
 ];
 
 const BOLD_COLLARS = [
-  { name: 'Žiedlapis', color: '#F4B5C0', charms: [{ bg: '#A8D5A2', e: '🌿' }, { bg: '#B8D8F4', e: '⭐' }, { bg: '#D4B8F4', e: '🌸' }] },
-  { name: 'Šalavijas', color: '#A8D5A2', charms: [{ bg: '#F4B5C0', e: '🌸' }, { bg: '#D4B8F4', e: '🦋' }, { bg: '#F9E4A0', e: '🍃' }] },
-  { name: 'Dangus', color: '#B8D8F4', charms: [{ bg: '#D4B8F4', e: '💎' }, { bg: '#A8D5A2', e: '🌊' }, { bg: '#F4B5C0', e: '🐾' }] },
-  { name: 'Medus', color: '#F9E4A0', charms: [{ bg: '#F4B5C0', e: '🌻' }, { bg: '#A8D5A2', e: '🍀' }, { bg: '#D4B8F4', e: '⭐' }] },
+  { name: 'Žiedlapis', color: '#F4B5C0', charms: [{ bg: 'var(--color-sage)', e: '🌿' }, { bg: '#B8D8F4', e: '⭐' }, { bg: '#D4B8F4', e: '🌸' }] },
+  { name: 'Šalavijas', color: 'var(--color-sage)', charms: [{ bg: '#F4B5C0', e: '🌸' }, { bg: '#D4B8F4', e: '🦋' }, { bg: '#F9E4A0', e: '🍃' }] },
+  { name: 'Dangus', color: '#B8D8F4', charms: [{ bg: '#D4B8F4', e: '💎' }, { bg: 'var(--color-sage)', e: '🌊' }, { bg: '#F4B5C0', e: '🐾' }] },
+  { name: 'Medus', color: '#F9E4A0', charms: [{ bg: '#F4B5C0', e: '🌻' }, { bg: 'var(--color-sage)', e: '🍀' }, { bg: '#D4B8F4', e: '⭐' }] },
 ];
 
 function Pill({ children, onClick, variant = 'primary', size = 'md' }: {
@@ -26,8 +26,8 @@ function Pill({ children, onClick, variant = 'primary', size = 'md' }: {
   const pad = size === 'lg' ? '14px 32px' : '11px 24px';
   const fs = size === 'lg' ? 15 : 14;
   const base = variant === 'primary'
-    ? { background: hov ? '#8fc489' : '#A8D5A2', color: '#2a5a25', border: '2px solid transparent' }
-    : { background: hov ? '#D4EDD1' : 'transparent', color: '#A8D5A2', border: '2px solid #A8D5A2' };
+    ? { background: hov ? '#8fc489' : 'var(--color-sage)', color: '#2a5a25', border: '2px solid transparent' }
+    : { background: hov ? '#D4EDD1' : 'transparent', color: 'var(--color-sage)', border: '2px solid #A8D5A2' };
   return (
     <button onClick={onClick} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
       className="btn-press"
@@ -43,15 +43,15 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
   const [activeCharm, setActiveCharm] = useState(0);
 
   return (
-    <section style={{ minHeight: '100dvh', background: '#FAF7F2', display: 'flex', alignItems: 'center', padding: isMobile ? '100px 20px 60px' : '120px 40px 60px' }}>
+    <section style={{ minHeight: '100dvh', background: 'var(--color-cream)', display: 'flex', alignItems: 'center', padding: isMobile ? '100px 20px 60px' : '120px 40px 60px' }}>
       <div style={{ maxWidth: 1160, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center' }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
-          <h1 style={{ fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontSize: heroSize, fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#3D3530', marginBottom: 28 }}>
+          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-foreground)', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
+          <h1 style={{ fontSize: heroSize, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: 28 }}>
             Atsparu vandeniui.<br />Žaisminga.<br />
-            <span style={{ color: '#A8D5A2' }}>Jūsų.</span>
+            <span style={{ color: 'var(--color-sage)' }}>Jūsų.</span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: '#6B6460', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: 'var(--color-bark-light)', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
             Užsekite pakabuką ir pakeiskite savo šuns įvaizdį. Penkios sekundės, ir viskas.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
@@ -61,8 +61,8 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
           <div style={{ marginTop: 48, display: 'flex', gap: 32, flexWrap: 'wrap', rowGap: 16 }}>
             {[['€28', 'už rinkinį'], ['5 pakabukai', 'įskaičiuota'], ['Nemokamas prist.', 'nuo €40']].map(([v, l]) => (
               <div key={l}>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 22, fontWeight: 500, color: '#3D3530' }}>{v}</div>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#9B948F', marginTop: 2 }}>{l}</div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 22, fontWeight: 500, color: 'var(--color-bark)' }}>{v}</div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'var(--color-muted-foreground)', marginTop: 2 }}>{l}</div>
               </div>
             ))}
           </div>
@@ -108,12 +108,12 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
   const c = BOLD_COLLARS[activeCollar];
 
   return (
-    <section style={{ minHeight: '100dvh', background: '#3D3530', display: 'flex', alignItems: 'center', padding: isMobile ? '100px 20px 60px' : '120px 40px 60px', position: 'relative', overflow: 'hidden' }}>
+    <section style={{ minHeight: '100dvh', background: 'var(--color-bark)', display: 'flex', alignItems: 'center', padding: isMobile ? '100px 20px 60px' : '120px 40px 60px', position: 'relative', overflow: 'hidden' }}>
       <div style={{ position: 'absolute', top: -120, right: -120, width: 600, height: 600, borderRadius: '50%', background: c.color, opacity: 0.18, transition: 'background-color 300ms ease-out' }} />
       <div style={{ maxWidth: 1160, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: isMobile ? 40 : 80, alignItems: 'center', position: 'relative' }}>
         <div>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#9B948F', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
-          <h1 style={{ fontFamily: "'Luckiest Guy', 'DM Sans', sans-serif", fontSize: heroSize, fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, color: '#FAF7F2', marginBottom: 28 }}>
+          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-foreground)', marginBottom: 20 }}>Pagaminta Lietuvoje · rankų darbo</div>
+          <h1 style={{ fontSize: heroSize, letterSpacing: '-0.03em', lineHeight: 1.05, color: 'var(--color-cream)', marginBottom: 28 }}>
             Užsekite.<br />Parodykite.
           </h1>
           <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 18, color: 'rgba(250,247,242,0.65)', lineHeight: 1.7, maxWidth: 400, marginBottom: 40 }}>
@@ -123,7 +123,7 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
             <Link href="/products" style={{ textDecoration: 'none' }}><Pill size="lg">Pirkti antkaklius</Pill></Link>
             <button className="btn-press"
               style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 500, padding: '14px 32px', borderRadius: 100, cursor: 'pointer', background: 'transparent', border: '2px solid rgba(250,247,242,0.3)', color: 'rgba(250,247,242,0.7)', transition: 'border-color 150ms ease-out, color 150ms ease-out, transform 100ms ease-out' }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,247,242,0.7)'; e.currentTarget.style.color = '#FAF7F2'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,247,242,0.7)'; e.currentTarget.style.color = 'var(--color-cream)'; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(250,247,242,0.3)'; e.currentTarget.style.color = 'rgba(250,247,242,0.7)'; }}>
               Peržiūrėti pakabukus
             </button>
@@ -161,7 +161,7 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
                     </div>
                   ))}
                 </div>
-                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 20, fontWeight: 500, color: '#FAF7F2' }}>€28 <span style={{ fontSize: 13, fontWeight: 400, color: 'rgba(250,247,242,0.55)' }}>· 5 pakabukai įsk.</span></div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 20, fontWeight: 500, color: 'var(--color-cream)' }}>€28 <span style={{ fontSize: 13, fontWeight: 400, color: 'rgba(250,247,242,0.55)' }}>· 5 pakabukai įsk.</span></div>
               </div>
             </div>
           </div>
