@@ -21,7 +21,7 @@ function StatementSection() {
   const isMobile = w < 768;
 
   return (
-    <section style={{ background: '#F0EDE8' }}>
+    <section style={{ background: 'var(--color-bark)', color: 'var(--color-cream)' }}>
       <div style={{
         maxWidth: 1292,
         margin: '0 auto',
@@ -32,15 +32,17 @@ function StatementSection() {
       }}>
         {/* Large centered statement */}
         <h2 style={{
+          fontFamily: "'Luckiest Guy', cursive",
           fontSize: isMobile ? 'clamp(28px, 5vw, 40px)' : 56,
-          letterSpacing: '-0.02em',
-          lineHeight: '120%',
+          letterSpacing: '0.02em',
+          lineHeight: '115%',
           textAlign: 'center',
           margin: 0,
           maxWidth: 900,
           alignSelf: 'center',
+          color: 'var(--color-cream)',
         }}>
-          Sukūrėme PawCharms — lengvai personalizuojamus antkaklių rinkinius jūsų šuniui.
+          Sukūrėme PawCharms — lengvai <span style={{ color: 'var(--color-sage)' }}>personalizuojamus</span> antkaklių rinkinius jūsų šuniui.
         </h2>
 
         {/* Full-width image */}

@@ -43,11 +43,12 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           gap: 16,
         }}>
           <h2 style={{
+            fontFamily: "'Luckiest Guy', cursive",
             fontSize: isMobile ? 36 : 48,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
+            letterSpacing: '0.02em',
+            lineHeight: 1.05,
           }}>
-            Mūsų produktai
+            Mūsų <span style={{ color: 'var(--color-blossom)' }}>produktai</span>
           </h2>
 
           {/* Tabs */}

@@ -16,7 +16,7 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
   const isMobile = w < 768;
 
   return (
-    <section id="about" style={{ background: 'var(--color-cream)' }}>
+    <section id="about" style={{ background: '#F3EDE6' }}>
       <div style={{
         maxWidth: 1292,
         margin: '0 auto',
@@ -31,11 +31,12 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
         {/* Left — text */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
           <h2 style={{
+            fontFamily: "'Luckiest Guy', cursive",
             fontSize: isMobile ? 32 : 48,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
+            letterSpacing: '0.02em',
+            lineHeight: 1.05,
           }}>
-            Sukurta su meile, čia, Lietuvoje.
+            Sukurta su <span style={{ color: 'var(--color-blossom)' }}>meile</span>, čia, Lietuvoje.
           </h2>
 
           <p style={{

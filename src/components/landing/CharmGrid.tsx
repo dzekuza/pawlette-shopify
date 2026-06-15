@@ -162,7 +162,7 @@ export function CharmGrid() {
     : productGallery;
 
   return (
-    <section id="charms" style={{ background: '#F0EDE8', fontFamily: "'DM Sans', sans-serif" }}>
+    <section id="charms" style={{ background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{
         maxWidth: 1292,
         margin: '0 auto',
@@ -181,7 +181,7 @@ export function CharmGrid() {
               borderRadius: 20,
               overflow: 'hidden',
               aspectRatio: '1 / 1',
-              background: '#f5f3f0',
+              background: 'rgba(61,53,48,0.08)',
             }}>
               {allGalleryImages[0] && (
                 <img
@@ -196,12 +196,13 @@ export function CharmGrid() {
           {/* RIGHT — Info + Selector */}
           <div style={{ paddingTop: isMobile ? 0 : 8, display: 'flex', flexDirection: 'column' }}>
             <h2 style={{
+              fontFamily: "'Luckiest Guy', cursive",
               fontSize: 'clamp(30px, 3.5vw, 44px)',
               lineHeight: 1.05,
-              letterSpacing: '-0.01em',
+              letterSpacing: '0.02em',
               margin: 0,
             }}>
-              Tavo šuo.<br />Tavo stilius.
+              Tavo šuo.<br /><span style={{ color: 'var(--color-bark)' }}>Tavo stilius.</span>
             </h2>
 
             <p style={{ marginTop: 14, fontSize: 16, lineHeight: 1.7, color: 'var(--color-bark-muted)', maxWidth: 480 }}>

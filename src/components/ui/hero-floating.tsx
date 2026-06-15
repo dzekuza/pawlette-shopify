@@ -48,11 +48,12 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           flex: "1 1 auto",
         }}>
           <h1 style={{
+            fontFamily: "'Luckiest Guy', cursive",
             fontSize: isMobile ? "clamp(40px, 9vw, 56px)" : 72,
-            letterSpacing: "-0.02em",
-            lineHeight: "120%",
+            letterSpacing: "0.02em",
+            lineHeight: "110%",
           }}>
-            Antkakliai skirti jims ir jų seinininkams
+            Antkakliai skirti <span style={{ color: 'var(--color-sage)' }}>jiems ir jų</span> šeimininkams
           </h1>
 
           <p style={{
@@ -68,7 +69,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
           <div style={{ display: "flex", gap: isMobile ? 12 : 24, alignItems: "center" }}>
             <Link
-              href="/configure"
+              href="https://pawcharms.lt/products/collar-melyna-collar"
               style={{
                 display: "flex",
                 alignItems: "center",
