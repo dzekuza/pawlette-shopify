@@ -1455,7 +1455,10 @@ function CharmPicker ({
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
               <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
-                <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                {charm.image
+                  ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                  : <span aria-hidden="true" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Luckiest Guy', cursive", fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
+                }
                 <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
               </button>
             )

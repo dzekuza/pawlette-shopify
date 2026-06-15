@@ -280,6 +280,32 @@ function titleToHandle(title: string): string {
   return title.toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
+// Letter charm products are separate products (one per letter) tagged "charms"
+const LETTER_CHARMS_QUERY = `
+  query GetLetterCharms {
+    products(first: 50, query: "tag:charms") {
+      edges {
+        node {
+          id
+          title
+          featuredImage { url }
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                title
+                image { url }
+                price { amount }
+                compareAtPrice { amount }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 const CHARMS_QUERY = `
   query GetCharms {
     products(first: 1, query: "product_type:charm") {
@@ -460,72 +486,127 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
   }
   if (!_charmsInflight) {
     _charmsInflight = (async () => {
-      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
-      if (errors || !data) return [];
-
-      const product = data.products.edges[0]?.node;
-      if (!product) return [];
-
-      const productMeta = (key: string) =>
-        product.metafields?.find((metafield) => metafield?.key === key)?.value;
-      const productTitle: string = product.title ?? 'Charms';
-      const productFeaturedImage: string = product.featuredImage?.url ?? '';
-      const productDescriptionHtml: string = product.descriptionHtml ?? '';
-      const rawDesc = productMeta('description');
-      // Shopify rich-text metafields are JSON — extract plain text recursively
       const extractText = (node: RichTextNode | null | undefined): string => {
         if (!node) return '';
         if (typeof node.value === 'string') return node.value;
         if (Array.isArray(node.children)) return node.children.map(extractText).join(' ');
         return '';
       };
-      let productDescriptionPlain = '';
-      if (rawDesc) {
-        try { productDescriptionPlain = extractText(JSON.parse(rawDesc)).trim(); }
-        catch { productDescriptionPlain = rawDesc; }
-      }
-      if (!productDescriptionPlain) {
-        productDescriptionPlain = productDescriptionHtml.replace(/<[^>]*>/g, '').trim();
-      }
-      const productDescription = rawDesc || undefined;
-      const productCare = productMeta('care') || undefined;
-      const productShipping = productMeta('shipping') || undefined;
-      const allProductImages: string[] = (product.images?.edges ?? []).map(({ node: image }) => image.url);
-      const variantImageUrls = new Set(
-        product.variants.edges
-          .map(({ node: variant }) => variant.image?.url)
-          .filter((url): url is string => Boolean(url))
-          .map((url) => url.split('?')[0])
-      );
-      // Gallery images = product-level images that are NOT variant images (compare base URLs, ignore CDN query params)
-      const productImages = allProductImages.filter(url => !variantImageUrls.has(url.split('?')[0]));
 
-      const result = product.variants.edges.map(({ node: variant }) => {
-        const { bg, category, color, baseTitle } = resolveCharmMeta(variant.title);
-        return {
-          id: titleToHandle(variant.title),
-          handle: titleToHandle(variant.title),
-          title: variant.title,
-          baseTitle,
-          variantId: variant.id ?? '',
-          price: formatEuroPrice(variant.price?.amount, '€6'),
-          originalPrice:
-            variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
-              ? formatEuroPrice(variant.compareAtPrice.amount)
-              : undefined,
-          bg,
-          category,
-          color,
-          image: variant.image?.url || CHARM_LOCAL_IMAGES[titleToHandle(variant.title)] || '',
-          productImages,
-          productFeaturedImage,
-          productTitle,
-          productDescription: productDescriptionPlain,
-          description: productDescription,
-          care: productCare,
-          shipping: productShipping,
-        };
+      // Fetch icon charms from the main "Pawlette Charms" product
+      const [charmsRes, letterRes] = await Promise.all([
+        shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY),
+        shopifyClient.request<ShopifyProductsResponse>(LETTER_CHARMS_QUERY),
+      ]);
+      if (charmsRes.errors && letterRes.errors) return [];
+
+      // Icon charms: only non-letter variants from the main product
+      const iconCharms: ShopifyCharm[] = [];
+      const mainProduct = charmsRes.data?.products.edges[0]?.node;
+      if (mainProduct) {
+        const productMeta = (key: string) =>
+          mainProduct.metafields?.find((metafield) => metafield?.key === key)?.value;
+        const productTitle = mainProduct.title ?? 'Charms';
+        const productFeaturedImage = mainProduct.featuredImage?.url ?? '';
+        const productDescriptionHtml = mainProduct.descriptionHtml ?? '';
+        const rawDesc = productMeta('description');
+        let productDescriptionPlain = '';
+        if (rawDesc) {
+          try { productDescriptionPlain = extractText(JSON.parse(rawDesc)).trim(); }
+          catch { productDescriptionPlain = rawDesc; }
+        }
+        if (!productDescriptionPlain) {
+          productDescriptionPlain = productDescriptionHtml.replace(/<[^>]*>/g, '').trim();
+        }
+        const allProductImages = (mainProduct.images?.edges ?? []).map(({ node: img }) => img.url);
+        const variantImageUrls = new Set(
+          mainProduct.variants.edges
+            .map(({ node: v }) => v.image?.url).filter((u): u is string => Boolean(u))
+            .map((u) => u.split('?')[0])
+        );
+        const productImages = allProductImages.filter(u => !variantImageUrls.has(u.split('?')[0]));
+
+        for (const { node: variant } of mainProduct.variants.edges) {
+          const { bg, category, color, baseTitle } = resolveCharmMeta(variant.title);
+          if (category === 'letter') continue; // letter charms come from separate products
+          iconCharms.push({
+            id: titleToHandle(variant.title),
+            handle: titleToHandle(variant.title),
+            title: variant.title,
+            baseTitle,
+            variantId: variant.id ?? '',
+            price: formatEuroPrice(variant.price?.amount, '€4'),
+            originalPrice:
+              variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+                ? formatEuroPrice(variant.compareAtPrice.amount)
+                : undefined,
+            bg,
+            category,
+            color,
+            image: variant.image?.url || CHARM_LOCAL_IMAGES[titleToHandle(variant.title)] || '',
+            productImages,
+            productFeaturedImage,
+            productTitle,
+            productDescription: productDescriptionPlain,
+            description: rawDesc || undefined,
+            care: productMeta('care') || undefined,
+            shipping: productMeta('shipping') || undefined,
+          });
+        }
+      }
+
+      // Letter charms: one product per letter (A–Z), each with 5 color variants
+      const letterCharms: ShopifyCharm[] = [];
+      const COLOR_NAMES_SET = new Set(['blue', 'dark blue', 'purple', 'pink', 'yellow', 'green']);
+      for (const { node: product } of (letterRes.data?.products.edges ?? [])) {
+        const productFeaturedImage = product.featuredImage?.url ?? '';
+        // Extract the letter from "Letter A Charm" → "A"
+        const letterExtract = product.title.match(/^Letter\s+([A-Z])\s+Charm/i);
+        if (!letterExtract) continue;
+        const letter = letterExtract[1].toUpperCase();
+
+        for (const { node: variant } of product.variants.edges) {
+          // Build composite title "A - Blue" that resolveCharmMeta can parse
+          const colorName = variant.title; // e.g. "Blue", "Dark Blue", "Purple"
+          if (!COLOR_NAMES_SET.has(colorName.toLowerCase())) continue;
+          const charmTitle = `Letter ${letter} - ${colorName}`;
+          const { bg, category, color, baseTitle } = resolveCharmMeta(charmTitle);
+          const handle = titleToHandle(charmTitle);
+          letterCharms.push({
+            id: handle,
+            handle,
+            title: charmTitle,
+            baseTitle,
+            variantId: variant.id ?? '',
+            price: formatEuroPrice(variant.price?.amount, '€4'),
+            originalPrice:
+              variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+                ? formatEuroPrice(variant.compareAtPrice.amount)
+                : undefined,
+            bg,
+            category,
+            color,
+            image: variant.image?.url || CHARM_LOCAL_IMAGES[handle] || '',
+            productImages: [],
+            productFeaturedImage,
+            productTitle: product.title,
+            productDescription: '',
+            description: undefined,
+            care: undefined,
+            shipping: undefined,
+          });
+        }
+      }
+
+      // Sort letter charms: A-Z then by color order
+      const COLOR_ORDER = ['blue', 'dark-blue', 'purple', 'pink', 'yellow', 'green'];
+      letterCharms.sort((a, b) => {
+        const letterCmp = a.baseTitle.localeCompare(b.baseTitle);
+        if (letterCmp !== 0) return letterCmp;
+        return COLOR_ORDER.indexOf(a.color) - COLOR_ORDER.indexOf(b.color);
       });
+
+      const result = [...iconCharms, ...letterCharms];
       _charmsCache = result;
       _charmsCacheAt = Date.now();
       _charmsInflight = null;

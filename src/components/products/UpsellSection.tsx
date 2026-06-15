@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
 
@@ -34,20 +33,20 @@ function PriceLine ({ price }: { price: string }) {
   )
 }
 
-function AddButton ({ adding, onClick, label }: { adding: boolean; onClick: () => void; label: string }) {
+function AddButton ({ adding, added, onClick, label }: { adding: boolean; added: boolean; onClick: () => void; label: string }) {
   return (
     <button
       onClick={onClick}
-      disabled={adding}
+      disabled={adding || added}
       aria-label={label}
       style={{
         flexShrink: 0, width: 36, height: 36, borderRadius: 10, border: 'none',
-        background: 'var(--color-bark)', color: '#fff', fontSize: 20, lineHeight: 1,
-        cursor: adding ? 'default' : 'pointer', display: 'flex', alignItems: 'center',
-        justifyContent: 'center', opacity: adding ? 0.6 : 1, transition: 'opacity 150ms',
+        background: added ? '#2a5a25' : 'var(--color-bark)', color: '#fff', fontSize: added ? 16 : 20, lineHeight: 1,
+        cursor: (adding || added) ? 'default' : 'pointer', display: 'flex', alignItems: 'center',
+        justifyContent: 'center', opacity: adding ? 0.6 : 1, transition: 'background 200ms, opacity 150ms',
       }}
     >
-      +
+      {added ? '✓' : '+'}
     </button>
   )
 }
@@ -78,21 +77,22 @@ export function UpsellSection ({ items, label }: UpsellSectionProps) {
 /* ── Collar upsell: each ProductDetail = one color ─────────────────── */
 
 function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
-  const router = useRouter()
   const [selectedIdx, setSelectedIdx] = useState(0)
   const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState(false)
 
   const item = items[selectedIdx]
 
   async function handleAdd () {
-    if (adding || !item.variantId) return
+    if (adding || added || !item.variantId) return
     setAdding(true)
     try {
       await addLinesToCart([{ merchandiseId: item.variantId, quantity: 1 }])
+      setAdded(true)
+      setTimeout(() => setAdded(false), 2000)
     } finally {
       setAdding(false)
     }
-    router.push('/cart')
   }
 
   return (
@@ -107,7 +107,7 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
           </div>
           <PriceLine price={item.price} />
         </div>
-        <AddButton adding={adding} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
+        <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
       </div>
 
       {items.length > 1 && (
@@ -138,10 +138,10 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
 /* ── Leash upsell: single item with leashColors + leashVariants ─────── */
 
 function LeashUpsellCard ({ item }: { item: ProductDetail }) {
-  const router = useRouter()
   const colors = item.leashColors ?? []
   const [selectedColor, setSelectedColor] = useState(colors[0] ?? '')
   const [adding, setAdding] = useState(false)
+  const [added, setAdded] = useState(false)
 
   const variant = item.leashVariants?.find(v => v.color.toLowerCase() === selectedColor.toLowerCase())
   const variantId = variant?.id ?? item.variantId
@@ -149,14 +149,15 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
   const image = variant?.image ?? item.image
 
   async function handleAdd () {
-    if (adding || !variantId) return
+    if (adding || added || !variantId) return
     setAdding(true)
     try {
       await addLinesToCart([{ merchandiseId: variantId, quantity: 1 }])
+      setAdded(true)
+      setTimeout(() => setAdded(false), 2000)
     } finally {
       setAdding(false)
     }
-    router.push('/cart')
   }
 
   return (
@@ -171,7 +172,7 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
           </div>
           <PriceLine price={price} />
         </div>
-        <AddButton adding={adding} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
+        <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
       </div>
 
       {colors.length > 1 && (
