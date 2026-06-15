@@ -107,38 +107,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </div>
         </div>
 
-        {/* Right: Trusted by */}
-        {!isMobile && (
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 12,
-            flexShrink: 0,
-            alignSelf: "flex-end",
-            paddingBottom: 8,
-          }}>
-            <span style={{ fontSize: 16, color: "var(--color-bark-muted)", lineHeight: 1.7 }}>
-              Mums pasitiki
-            </span>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              {[0, 1, 2].map(i => (
-                <div
-                  key={i}
-                  style={{
-                    width: 64,
-                    height: 64,
-                    borderRadius: "50%",
-                    background: "#CDCDCD",
-                    boxShadow: "0 0 4px rgba(0,0,0,0.25)",
-                    flexShrink: 0,
-                    marginLeft: i > 0 ? -28 : 0,
-                    overflow: "clip",
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Two images below */}
@@ -168,7 +136,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         </div>
 
         {/* Right smaller image with product card */}
-        <div style={{
+        <Link href="/products/collar-melyna-collar" style={{
           flexShrink: 0,
           width: isMobile ? "100%" : 396,
           aspectRatio: isMobile ? "16/9" : undefined,
@@ -181,6 +149,8 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           justifyContent: "flex-end",
           padding: isMobile ? 16 : 24,
           gap: 10,
+          textDecoration: "none",
+          cursor: "pointer",
         }}>
             <img
               src={HERO_IMAGES.right}
@@ -221,11 +191,11 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                   <span style={{ fontSize: 18, fontWeight: 600, color: "var(--color-bark-light)", lineHeight: 1.1 }}>
-                    Paprasta naudoti
+                    Pawlette antkaklis
                   </span>
                   <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
                     <span style={{ fontSize: 14, fontWeight: 500, color: "var(--color-bark-light)" }}>Kaina:</span>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: "var(--color-bark-light)" }}>€12</span>
+                    <span style={{ fontSize: 14, fontWeight: 600, color: "var(--color-bark-light)" }}>€24.99</span>
                   </div>
                 </div>
               </div>
@@ -244,7 +214,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 </svg>
               </div>
             </div>
-        </div>
+        </Link>
       </div>
     </section>
   );

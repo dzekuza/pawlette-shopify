@@ -28,7 +28,7 @@ export function PhotoSlider() {
   const isMobile = w < 768;
 
   return (
-    <section style={{ background: 'var(--color-cream)', overflow: 'hidden' }}>
+    <section style={{ background: '#F0EDE8', overflow: 'hidden' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px 16px' : '64px 48px 24px' }}>
         <DisplayHeading as='h2' className="m-0 text-left text-[36px] tracking-[-0.02em] md:text-[48px]">
           Jūsų akimirkos

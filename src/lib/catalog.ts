@@ -115,6 +115,13 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
 
   if (!first) return undefined
 
+  // Icon charm variants all share the same image as productFeaturedImage (collection shot).
+  // Letter charms have real per-variant Shopify CDN images — use those for the card thumbnail.
+  const charmWithUniqueImage = charms.find(
+    c => c.image && c.productFeaturedImage && c.image !== c.productFeaturedImage
+  )
+  const cardImage = charmWithUniqueImage?.image || first.productFeaturedImage || images[0] || ''
+
   return {
     slug: 'charm-charms',
     id: 'charm-charms',
@@ -125,7 +132,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     originalPrice: first.originalPrice,
     shortDescription: first.productDescription,
     longDescription: first.description ?? first.productDescription ?? 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes.',
-    image: images[0] ?? '',
+    image: cardImage,
     images,
     accentColor: first.bg,
     tintColor: `${first.bg}33`,
@@ -167,7 +174,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
   }
 }
 
-function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
+export function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
   const shortDescription = extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`
 
   return {
@@ -224,7 +231,7 @@ export function buildLeashProduct (leash: ShopifyCollar): ProductDetail {
   }
 }
 
-function buildGroupedLeashProduct (leashes: ShopifyCollar[]): ProductDetail {
+export function buildGroupedLeashProduct (leashes: ShopifyCollar[]): ProductDetail {
   const base = leashes[0]
   const allColors = [...new Set(leashes.flatMap(l => l.colors))]
   const allVariants = leashes.flatMap(l => l.variants)

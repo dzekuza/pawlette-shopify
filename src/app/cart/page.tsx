@@ -53,7 +53,7 @@ export default function CartPage() {
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className="pb-16">
-        <div className="max-w-[1200px] mx-auto px-4 md:px-12 pt-16">
+        <div className="max-w-[1200px] mx-auto px-4 md:px-12">
 
           {/* Page heading */}
           {lines.length > 0 && (

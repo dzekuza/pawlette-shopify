@@ -272,7 +272,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       if (empty === -1) return prev
       const next = [...prev]; next[empty] = charm; return next
     })
-    if (charm.color) setCharmColor(charm.color)
   }
   const selectedCharmCount = selectedCharms.filter(Boolean).length
   const handleCharmPageDragEnd = (event: DragEndEvent) => {
@@ -548,7 +547,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {!isMobile && (
       <div
         className="w-full mx-auto px-5 md:px-10"
-        style={{ maxWidth: 1200 }}
+        style={{ maxWidth: 1200, paddingBottom: 48 }}
       >
         {/* Breadcrumb */}
         <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
@@ -691,7 +690,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
 
       {/* Section: left text, right image */}
-      <section style={{ background: 'var(--color-cream)', padding: '80px 24px' }}>
+      <section style={{ background: '#F0EDE8', padding: '80px 24px' }}>
         <div style={{
           maxWidth: 1100,
           margin: '0 auto',
@@ -722,6 +721,65 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               sizes="(max-width: 768px) 100vw, 520px"
               style={{ objectFit: 'cover' }}
             />
+          </div>
+        </div>
+      </section>
+
+      {/* Section: 3-col features */}
+      <section style={{ padding: isMobile ? '60px 24px' : '80px 24px' }}>
+        <div style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+          gap: isMobile ? 40 : 48,
+          alignItems: 'center',
+        }}>
+          {/* Left column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <div>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Sauga pirmiausia</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Visi pakabukai pagaminti iš maistinio silikono — be toksinų, be aštrių briaunų, saugu net jautriai odai.</p>
+            </div>
+            <div>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Per 5 sekundes</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukas prisegamas ir nusegamas akimirksniu — be įrankių, be vargo, tiesiog spustelk.</p>
+            </div>
+          </div>
+
+          {/* Middle column: image */}
+          <div style={{ borderRadius: 24, overflow: 'hidden', aspectRatio: '3 / 4', position: 'relative', width: '100%' }}>
+            <Image
+              src="/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp"
+              alt="Šuo su PawCharms antkakliu"
+              fill
+              sizes="(max-width: 768px) 100vw, 360px"
+              style={{ objectFit: 'cover' }}
+            />
+          </div>
+
+          {/* Right column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+            <div>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </div>
+              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Unikalus stilius</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>5 vietos pakabukams — rink derinį pagal nuotaiką, sezoną ar charakterį. Mix &amp; match be galo.</p>
+            </div>
+            <div>
+              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l1.5-1.5"/><path d="M7 13l1.5-1.5"/><path d="M11 9l1.5-1.5"/><path d="M15 5l1.5-1.5"/><path d="M17 17l2-2-7-7-2 2"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
+              </div>
+              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Vandeniui atsparus</h3>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukai ir antkaklis atlaiko lietų, balą ir vonią — lengvai nuplaunami, spalva neflysta.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -759,6 +817,46 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               Sukurk rinkinį, kuris augs kartu su tavo šuniuku — ir visada atspindės jūsų ryšį.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Section: 4-col feature strip */}
+      <section style={{ padding: isMobile ? '52px 24px' : '72px 24px', background: 'var(--color-cream)' }}>
+        <div style={{
+          maxWidth: 1100,
+          margin: '0 auto',
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
+          gap: isMobile ? 32 : 40,
+        }}>
+          {[
+            {
+              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+              heading: 'Saugios medžiagos',
+              body: 'Maistinis silikonas be toksinų — saugu net jautriai šunų odai.',
+            },
+            {
+              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+              heading: '5 vietos pakabukams',
+              body: 'Rink iki 5 pakabukų ir keisk derinius kaip tik nori — be galo.',
+            },
+            {
+              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a5 5 0 0 1 5 5c0 5-5 11-5 11S7 12 7 7a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2"/></svg>,
+              heading: 'Pagaminta Lietuvoje',
+              body: 'Kiekvienas antkaklis sukurtas ir gaminamas čia — su rūpesčiu ir kokybe.',
+            },
+            {
+              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
+              heading: 'Nemokamas pristatymas',
+              body: 'Užsakymams nuo 40 € — pristatymas per 2–4 darbo dienas.',
+            },
+          ].map(({ icon, heading, body }) => (
+            <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div>{icon}</div>
+              <h4 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 17, color: 'var(--color-bark)', lineHeight: 1.2, margin: 0 }}>{heading}</h4>
+              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.7, margin: 0 }}>{body}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -844,7 +942,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             </DndContext>
 
             {/* Color filter */}
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: 8, alignItems: 'center', overflowX: 'auto', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
               {[
                 { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
                 { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
@@ -860,6 +958,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                     padding: '6px 12px 6px 8px',
                     borderRadius: 50, border: 'none', cursor: 'pointer',
                     fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 500,
+                    whiteSpace: 'nowrap',
                     background: collarCharmColor === key ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
                     color: collarCharmColor === key ? '#FAF7F2' : TEXT_PRIMARY,
                     transition: 'background 150ms, color 150ms',
@@ -1553,7 +1652,7 @@ function CharmPicker ({
                   ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
                   : <span aria-hidden="true" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
                 }
-                <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.title}</span>
+                <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.baseTitle}</span>
               </button>
             )
           })}

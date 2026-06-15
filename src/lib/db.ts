@@ -1,5 +1,5 @@
-import { getCollars } from './shopify';
-import { getProductBySlugAsync, slugFromProductName, type ProductDetail } from './catalog';
+import { getCollars, getLeashes } from './shopify';
+import { getProductBySlugAsync, buildCollarProduct, buildGroupedLeashProduct, type ProductDetail } from './catalog';
 export type { ProductDetail };
 
 export interface LandingCollar {
@@ -31,16 +31,18 @@ export async function getLandingProducts(): Promise<ProductDetail[]> {
   if (_productsCache) return _productsCache;
   if (!_productsInflight) {
     _productsInflight = (async () => {
-      const [collars, charmCollection, leash] = await Promise.all([
+      const [collars, leashes, charmCollection] = await Promise.all([
         getCollars(),
+        getLeashes(),
         getProductBySlugAsync('charm-charms'),
-        getProductBySlugAsync('pawlette-leash'),
       ]);
-      const firstCollar = collars[0]
-      const firstCollarSlug = firstCollar ? slugFromProductName(firstCollar.title) : null;
-      const collarProduct = firstCollarSlug ? await getProductBySlugAsync(firstCollarSlug) : null;
-      if (collarProduct && firstCollar) collarProduct.name = firstCollar.parentTitle;
-      const results = [collarProduct, charmCollection, leash].filter((p): p is ProductDetail => !!p);
+      const collarProduct = collars[0] ? (() => {
+        const p = buildCollarProduct(collars[0]);
+        p.name = collars[0].parentTitle;
+        return p;
+      })() : null;
+      const leashProduct = leashes.length > 0 ? buildGroupedLeashProduct(leashes) : null;
+      const results = [collarProduct, charmCollection, leashProduct].filter((p): p is ProductDetail => !!p);
       _productsCache = results;
       _productsInflight = null;
       return results;
