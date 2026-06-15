@@ -15,7 +15,13 @@ const TAB_TYPE: Partial<Record<Tab, ProductDetail['productType']>> = {
   Pakabukai: 'charm',
 };
 
-const COLOR_SWATCHES = ['#B8D8F4', '#A8D5A2', '#F9E4A0', '#F4B5C0', '#D4B8F4'];
+const COLOR_SWATCHES = [
+  'var(--color-sky)',
+  'var(--color-sage)',
+  'var(--color-honey)',
+  'var(--color-blossom)',
+  'var(--color-lavender)',
+];
 
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   const w = useWindowWidth() ?? 1200;
@@ -26,7 +32,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
       <div style={{
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px 64px',
         display: 'flex',
@@ -125,7 +131,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <div style={{
-                  background: '#E8E3DC',
+                  background: 'var(--color-border)',
                   borderRadius: 16,
                   aspectRatio: '1 / 1',
                   position: 'relative',
@@ -134,12 +140,12 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                     position: 'absolute',
                     top: 12,
                     left: 12,
-                    background: '#F4B5C0',
+                    background: 'var(--color-blossom)',
                     borderRadius: 100,
                     padding: '4px 10px',
                     fontSize: 11,
                     fontWeight: 700,
-                    color: '#8B3A4A',
+                    color: 'var(--color-bark)',
                     letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                   }}>
@@ -152,8 +158,8 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                   </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>Pawlette Antkaklis</span>
-                  <span style={{ fontSize: 14, color: '#706B68', fontFamily: "'DM Sans', sans-serif" }}>Kaina: €25</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>PawCharms Antkaklis</span>
+                  <span style={{ fontSize: 14, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>Kaina: €25</span>
                 </div>
                 <Link
                   href="/products"

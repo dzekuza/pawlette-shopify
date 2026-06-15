@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { cn } from '@/lib/utils';
 import { SectionIntro } from '@/components/storefront/SectionIntro';
 import { TestimonialMediaCard } from '@/components/storefront/TestimonialCard';
 
@@ -20,6 +19,21 @@ const stories = [
   { id: 9, author: 'Karolis P.', avatar: 'https://images.unsplash.com/photo-1504593811423-6dd665756598?w=80&h=80&fit=crop&crop=face', preview: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', quote: 'Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo.', rating: 5 },
 ];
 
+const BTN_BASE: React.CSSProperties = {
+  display: 'flex',
+  width: 44,
+  height: 44,
+  alignItems: 'center',
+  justifyContent: 'center',
+  borderRadius: '50%',
+  border: '1.5px solid var(--color-border)',
+  background: 'var(--color-cream)',
+  fontSize: 18,
+  color: 'var(--color-bark)',
+  cursor: 'pointer',
+  transition: 'background 150ms ease-out, opacity 150ms ease-out',
+};
+
 export function Reviews() {
   const windowWidth = useWindowWidth() ?? 1200;
 
@@ -34,17 +48,13 @@ export function Reviews() {
 
   const [index, setIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const progressRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const clearTimers = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    if (progressRef.current) clearInterval(progressRef.current);
   };
 
   const startTimers = useCallback(() => {
     clearTimers();
-    const tickMs = 30;
-    progressRef.current = setInterval(() => {}, tickMs);
     if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       intervalRef.current = setInterval(() => {
         setIndex(i => (i >= maxIndex ? 0 : i + 1));
@@ -63,34 +73,35 @@ export function Reviews() {
   };
 
   return (
-    <section className="py-[60px] md:py-[100px] bg-surface-2 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-5 md:px-10">
+    <section style={{ padding: isMobile ? '60px 0' : '100px 0', background: 'var(--color-surface-2)', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 20px' : '0 40px' }}>
         <SectionIntro eyebrow='Klientų atsiliepimai' title='Patvirtinta šunų ir jų šeimininkų.' className='mb-12'>
-          <div className="flex gap-2.5 shrink-0">
-            {([[-1, '←'], [1, '→']] as const).map(([dir, label]) => (
-              <button
-                key={label}
-                onClick={() => go(dir)}
-                disabled={dir === -1 ? index === 0 : index >= maxIndex}
-                aria-label={dir === -1 ? 'Ankstesnis' : 'Kitas'}
-                className={cn(
-                  'flex size-11 items-center justify-center rounded-full border-[1.5px] border-border bg-white text-[18px] text-bark transition-[background,opacity] duration-150 hover:enabled:bg-surface-2',
-                  (dir === -1 ? index === 0 : index >= maxIndex) ? 'opacity-30' : 'opacity-100'
-                )}
-              >
-                {label}
-              </button>
-            ))}
+          <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
+            {([[-1, '←'], [1, '→']] as const).map(([dir, label]) => {
+              const disabled = dir === -1 ? index === 0 : index >= maxIndex;
+              return (
+                <button
+                  key={label}
+                  onClick={() => go(dir)}
+                  disabled={disabled}
+                  aria-label={dir === -1 ? 'Ankstesnis' : 'Kitas'}
+                  style={{ ...BTN_BASE, opacity: disabled ? 0.3 : 1 }}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
         </SectionIntro>
 
         {/* Slider */}
-        <div className="overflow-hidden">
+        <div style={{ overflow: 'hidden' }}>
           <div
-            className="flex transition-transform duration-[280ms] ease-[cubic-bezier(0.22,1,0.36,1)]"
             style={{
+              display: 'flex',
               gap,
               transform: `translateX(-${index * (cardW + gap)}px)`,
+              transition: 'transform 280ms cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           >
             {stories.map(story => (
@@ -101,30 +112,30 @@ export function Reviews() {
                 preview={story.preview}
                 quote={story.quote}
                 rating={story.rating}
-                className="shrink-0"
                 sizes='(max-width: 639px) 260px, (max-width: 1023px) 280px, 300px'
-                style={{ width: cardW, aspectRatio: '3 / 4' }}
+                style={{ width: cardW, aspectRatio: '3 / 4', flexShrink: 0 }}
               />
             ))}
           </div>
         </div>
 
         {/* Dot indicators */}
-        <div className="flex justify-center mt-4">
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
           {Array.from({ length: maxIndex + 1 }).map((_, i) => (
             <button
               key={i}
               onClick={() => { setIndex(i); startTimers(); }}
               aria-label={`Eiti į skaidrę ${i + 1}`}
-              className="border-none cursor-pointer bg-transparent p-0 flex items-center justify-center"
-              style={{ width: 24, height: 24 }}
+              style={{ border: 'none', cursor: 'pointer', background: 'transparent', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', width: 24, height: 24 }}
             >
               <span
-                className="rounded-[3px] transition-[width,background] duration-[250ms] ease-[ease] block"
                 style={{
                   height: 6,
                   width: i === index ? 20 : 6,
+                  borderRadius: 3,
                   background: i === index ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)',
+                  transition: 'width 250ms ease, background 250ms ease',
+                  display: 'block',
                 }}
               />
             </button>

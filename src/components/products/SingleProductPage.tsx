@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { FAQ } from '@/components/landing/FAQ'
+import { ComparisonTable } from '@/components/landing/ComparisonTable'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
@@ -860,6 +861,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         </div>
       </section>
 
+      <ComparisonTable />
       <PhotoSlider />
       <FAQ />
       <RecommendedProductsSection products={recommendedProducts} />
@@ -1029,10 +1031,6 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
               scrollbarWidth: 'none',
-              marginLeft: -20,
-              marginRight: -20,
-              paddingLeft: 20,
-              paddingRight: 20,
             }}
           >
             {products.slice(0, 3).map((recommendedProduct) => (

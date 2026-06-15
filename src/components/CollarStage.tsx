@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify';
 import {
@@ -76,12 +77,14 @@ function SortableSlot({
         }}
       >
         {showFilled ? (
-          <img
+          <Image
             src={charm!.image}
             alt=""
             aria-hidden="true"
             draggable={false}
-            style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }}
+            width={charmSize}
+            height={charmSize}
+            style={{ objectFit: 'contain', maxWidth: '120%', maxHeight: '120%' }}
           />
         ) : (
           <span className="text-lg" style={{ color: 'rgba(61,53,48,0.22)' }}>+</span>
@@ -122,11 +125,13 @@ function DragPreview({ charmId, charms, slotSize, charmSize }: { charmId: string
         boxShadow: '0 12px 32px rgba(0,0,0,0.3)',
       }}
     >
-      <img
+      <Image
         src={charm.image}
         alt=""
         draggable={false}
-        style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }}
+        width={charmSize}
+        height={charmSize}
+        style={{ objectFit: 'contain', maxWidth: '120%', maxHeight: '120%' }}
       />
     </div>
   );
@@ -206,7 +211,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
             }}
           >
             {charm
-              ? <img src={charm.image} alt="" style={{ width: charmSize, height: charmSize, maxWidth: '120%', maxHeight: '120%', objectFit: 'contain' }} />
+              ? <Image src={charm.image} alt="" width={charmSize} height={charmSize} style={{ objectFit: 'contain', maxWidth: '120%', maxHeight: '120%' }} />
               : <span className="text-lg" style={{ color: 'rgba(61,53,48,0.22)' }}>+</span>}
           </div>
         );
@@ -242,7 +247,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
                     transform: activeImg === i ? 'scale(1.04)' : 'scale(1)',
                   }}
                 >
-                  <img src={img} alt="" draggable={false} className="w-full h-full object-cover block" />
+                  <Image src={img} alt="" draggable={false} width={62} height={62} className="object-cover block" style={{ width: '100%', height: '100%' }} />
                 </button>
               ))}
             </div>
@@ -257,11 +262,12 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
               minHeight: isMobile ? 260 : 0,
             }}
           >
-            <img
+            <Image
               key={gallery[activeImg]}
               src={gallery[activeImg]}
               alt={`${collar?.title ?? ''} collar`}
-              className="w-full h-full object-cover block"
+              fill
+              className="object-cover block"
             />
             <div
               className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
@@ -293,7 +299,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
                 border: `2px solid ${activeImg === i ? (collar?.color ?? '#A8D5A2') : 'rgba(61,53,48,0.12)'}`,
               }}
             >
-              <img src={img} alt="" draggable={false} className="w-full h-full object-cover block" />
+              <Image src={img} alt="" draggable={false} width={56} height={56} className="object-cover block" style={{ width: '100%', height: '100%' }} />
             </button>
           ))}
         </div>

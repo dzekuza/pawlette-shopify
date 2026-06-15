@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify';
 
 interface UpsellModalProps {
@@ -59,7 +60,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
                 }}
               >
                 {c.image
-                  ? <img src={c.image} alt={c.title} style={{ width: 32, height: 32, objectFit: 'contain' }} />
+                  ? <Image src={c.image} alt={c.title} width={32} height={32} style={{ objectFit: 'contain' }} />
                   : <span style={{ fontSize: 24 }}>✦</span>}
                 <span className="font-medium uppercase" style={{ fontSize: 10, letterSpacing: '0.05em', color: 'rgba(61,53,48,0.6)' }}>{c.title}</span>
               </button>

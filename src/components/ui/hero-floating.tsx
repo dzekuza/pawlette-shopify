@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useWindowWidth } from "@/hooks/useWindowWidth";
 
 const HERO_IMAGES = {
@@ -22,7 +23,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
       style={{
         background: "var(--color-cream)",
         padding: isMobile ? "32px 16px 48px" : "32px 24px 64px",
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: "0 auto",
         width: "100%",
         display: "flex",
@@ -127,12 +128,13 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           background: "#DDD",
           position: "relative",
         }}>
-          <img
+          <Image
             src={HERO_IMAGES.left}
             alt="Auksaspalvė retriverė su PawCharms antkakleliu"
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            fill
+            style={{ objectFit: "cover" }}
             loading="eager"
-            fetchPriority="high"
+            priority
           />
         </div>
 
@@ -153,17 +155,11 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           textDecoration: "none",
           cursor: "pointer",
         }}>
-            <img
+            <Image
               src={HERO_IMAGES.right}
               alt="Žalias PawCharms antkaklis su vardu"
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-              }}
+              fill
+              style={{ objectFit: "cover" }}
             />
             {/* Floating product card */}
             <div style={{
@@ -183,11 +179,13 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                   background: "#DDD",
                   overflow: "clip",
                   flexShrink: 0,
+                  position: "relative",
                 }}>
-                  <img
+                  <Image
                     src={HERO_IMAGES.right}
                     alt=""
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    fill
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>

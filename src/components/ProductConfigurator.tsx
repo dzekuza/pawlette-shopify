@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
@@ -222,11 +223,12 @@ export function ProductConfigurator () {
             >
               {/* Featured image — spans both rows */}
               <div className="rounded-[20px] overflow-hidden relative" style={{ gridRow: '1 / 3' }}>
-                <img
+                <Image
                   key={COLLAR_GALLERY[collar?.id ?? '']?.[0]}
-                  src={COLLAR_GALLERY[collar?.id ?? '']?.[0]}
+                  src={COLLAR_GALLERY[collar?.id ?? '']?.[0] ?? ''}
                   alt={`${collar?.title ?? ''} collar`}
-                  className="w-full h-full object-cover block"
+                  fill
+                  className="object-cover block"
                 />
                 <div
                   className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
@@ -241,11 +243,11 @@ export function ProductConfigurator () {
                   {collar?.title ?? ''}
                 </div>
               </div>
-              <div className="rounded-2xl overflow-hidden">
-                <img src={COLLAR_GALLERY[collar?.id ?? '']?.[1]} alt="" className="w-full h-full object-cover block" />
+              <div className="rounded-2xl overflow-hidden relative">
+                <Image src={COLLAR_GALLERY[collar?.id ?? '']?.[1] ?? ''} alt="" fill className="object-cover block" />
               </div>
-              <div className="rounded-2xl overflow-hidden">
-                <img src={COLLAR_GALLERY[collar?.id ?? '']?.[2]} alt="" className="w-full h-full object-cover block" />
+              <div className="rounded-2xl overflow-hidden relative">
+                <Image src={COLLAR_GALLERY[collar?.id ?? '']?.[2] ?? ''} alt="" fill className="object-cover block" />
               </div>
             </div>
           )}

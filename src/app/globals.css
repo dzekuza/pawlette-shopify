@@ -1,6 +1,15 @@
 @import "tailwindcss";
 
 @font-face {
+  font-family: 'Luckiest Guy';
+  src: url('/LuckiestGuy-Regular.woff2') format('woff2'),
+       url('/LuckiestGuy-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Tomato Grotesk VF';
   src: url('/TomatoGroteskVF.woff2') format('woff2');
   font-style: normal;
@@ -39,6 +48,11 @@
   --color-sky: #B8D8F4;
   --color-honey: #F9E4A0;
   --color-surface-2: #F3EDE6;
+  --color-lavender: #D4B8F4;
+  --color-bark-divider: rgba(61, 53, 48, 0.08);
+  --color-bark-border: rgba(61, 53, 48, 0.15);
+  --color-bark-overlay: rgba(61, 53, 48, 0.50);
+  --color-cream-glass: rgba(250, 247, 242, 0.96);
   --color-interactive-text: #2a5a25;
 
   /* font families — generates font-sans, font-display, font-handwriting */
@@ -48,6 +62,8 @@
 }
 
 :root {
+  --font-dm-sans: 'DM Sans', sans-serif;
+  --font-caveat: 'Caveat', cursive;
   --color-sage: #A8D5A2;
   --color-blossom: #F4B5C0;
   --color-sky: #B8D8F4;
@@ -58,6 +74,11 @@
   --color-bark-muted: #706B68;
   --color-surface-2: #F3EDE6;
   --color-border: #E8E3DC;
+  --color-lavender: #D4B8F4;
+  --color-bark-divider: rgba(61, 53, 48, 0.08);
+  --color-bark-border: rgba(61, 53, 48, 0.15);
+  --color-bark-overlay: rgba(61, 53, 48, 0.50);
+  --color-cream-glass: rgba(250, 247, 242, 0.96);
   --color-interactive-text: #2a5a25;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }

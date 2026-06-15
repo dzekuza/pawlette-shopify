@@ -49,7 +49,7 @@ export default function CartPage() {
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
 
   return (
-    <div className="min-h-screen font-sans pt-16" style={{ background: 'var(--color-cream)' }}>
+    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className="pb-16">
@@ -68,7 +68,7 @@ export default function CartPage() {
 
           {lines.length === 0 ? (
             /* Empty state */
-            <div className="mx-auto max-w-[640px] pt-8 md:pt-12 pb-20">
+            <div className="mx-auto max-w-[640px] pt-6 md:pt-8 pb-20">
               <EmptyState
                 eyebrow='Krepšelis'
                 icon={PawPrint}

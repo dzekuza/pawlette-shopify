@@ -6,6 +6,7 @@ import type {
   VideoHTMLAttributes
 } from 'react'
 import { useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   Carousel,
@@ -139,28 +140,26 @@ export const StoryVideo = ({ className, ...props }: StoryVideoProps) => {
   )
 }
 
-export type StoryImageProps = ComponentProps<'img'> & {
+export type StoryImageProps = Omit<ComponentProps<'img'>, 'src'> & {
+  src: string
   alt: string
 }
 
-export const StoryImage = ({ className, alt, ...props }: StoryImageProps) => (
-  <img
+export const StoryImage = ({ className, alt, src, style, ...props }: StoryImageProps) => (
+  <Image
+    src={src}
     alt={alt}
+    fill
     className={cn(
-      'absolute inset-0 h-full w-full object-cover',
+      'object-cover',
       'transition-opacity duration-200',
       'group-hover:opacity-90',
       className
     )}
     style={{
-      position: 'absolute',
-      inset: 0,
-      width: '100%',
-      height: '100%',
       objectFit: 'cover',
-      ...(props.style || {})
+      ...style,
     }}
-    {...props}
   />
 )
 

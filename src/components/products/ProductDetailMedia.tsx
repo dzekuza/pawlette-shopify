@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import type { ProductDetail } from '@/lib/catalog'
 
 interface ProductDetailMediaProps {
@@ -41,14 +42,17 @@ export function ProductDetailMedia ({ isMobile, product }: ProductDetailMediaPro
         </span>
       </div>
 
-      <img
+      <Image
         src={product.image}
         alt={product.name}
+        width={800}
+        height={800}
         style={{
           display: 'block',
           width: '100%',
           aspectRatio: imageAspectRatio,
-          objectFit: imageFit
+          objectFit: imageFit,
+          height: 'auto',
         }}
       />
     </div>

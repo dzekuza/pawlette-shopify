@@ -2,7 +2,6 @@
 
 import Image from 'next/image';
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
-import { DisplayHeading } from '@/components/storefront/Typography';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const ROW_ONE = [
@@ -27,25 +26,36 @@ export function PhotoSlider() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
+  const imgW = isMobile ? 200 : 280;
+  const imgH = isMobile ? 250 : 340;
+
   return (
-    <section style={{ background: '#F0EDE8', overflow: 'hidden' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px 16px' : '64px 48px 24px' }}>
-        <DisplayHeading as='h2' className="m-0 text-left text-[36px] tracking-[-0.02em] md:text-[48px]">
+    <section style={{ background: 'var(--color-surface-2)', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px 16px' : '64px 0 24px' }}>
+        <h2 style={{
+          fontFamily: "'Luckiest Guy', cursive",
+          fontSize: isMobile ? 36 : 48,
+          letterSpacing: '-0.02em',
+          lineHeight: 1.1,
+          margin: 0,
+          textAlign: 'left',
+          color: 'var(--color-bark)',
+        }}>
           Jūsų akimirkos
-        </DisplayHeading>
+        </h2>
       </div>
-      <div className="flex flex-col gap-4 pb-[60px] md:pb-[100px]">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: isMobile ? 60 : 100 }}>
         <InfiniteSlider gap={16} duration={30}>
           {ROW_ONE.map((src) => (
-            <div key={src} className="relative w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
-              <Image src={src} alt="" fill sizes='(max-width: 767px) 200px, 280px' className="w-full h-full object-cover block" />
+            <div key={src} style={{ position: 'relative', width: imgW, height: imgH, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+              <Image src={src} alt="" fill sizes="(max-width: 767px) 200px, 280px" style={{ objectFit: 'cover' }} />
             </div>
           ))}
         </InfiniteSlider>
         <InfiniteSlider gap={16} duration={30} reverse>
           {ROW_TWO.map((src) => (
-            <div key={src} className="relative w-[200px] h-[250px] md:w-[280px] md:h-[340px] shrink-0 rounded-2xl overflow-hidden">
-              <Image src={src} alt="" fill sizes='(max-width: 767px) 200px, 280px' className="w-full h-full object-cover block" />
+            <div key={src} style={{ position: 'relative', width: imgW, height: imgH, flexShrink: 0, borderRadius: 16, overflow: 'hidden' }}>
+              <Image src={src} alt="" fill sizes="(max-width: 767px) 200px, 280px" style={{ objectFit: 'cover' }} />
             </div>
           ))}
         </InfiniteSlider>

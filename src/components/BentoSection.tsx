@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function BentoSection({ isDark }: { isDark: boolean }) {
@@ -87,7 +88,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {['/charm-flower.png', '/charm-star.png', '/charm-heart.png', '/charm-paw.png'].map((src) => (
                 <div key={src} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: 4 }}>
-                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <Image src={src} alt="" width={36} height={36} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
               ))}
               <span style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)', marginLeft: 4 }}>+8 daugiau</span>

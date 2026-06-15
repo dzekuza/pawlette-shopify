@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const CHARM_IMAGES = [
@@ -24,13 +25,15 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
 
         <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 28 }}>
           {CHARM_IMAGES.map((src, i) => (
-            <img
+            <Image
               key={i}
               src={encodeURI(src)}
               alt=""
               aria-hidden="true"
+              width={52}
+              height={52}
               style={{
-                width: 52, height: 52, objectFit: 'contain',
+                objectFit: 'contain',
                 animation: 'slideUp 300ms cubic-bezier(0.23, 1, 0.32, 1) both',
                 animationDelay: `${i * 60}ms`,
               }}
@@ -49,34 +52,36 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
               <input
                 type="email" value={email} onChange={e => setEmail(e.target.value)}
                 placeholder="jusu@email.com"
-                style={{ flex: 1, fontFamily: "'DM Sans',sans-serif", fontSize: 14, boxSizing: 'border-box' as const, padding: '12px 16px', borderRadius: 100, border: '1.5px solid #E8E3DC', background: 'white', color: 'var(--color-bark)', outline: 'none', transition: 'border-color 150ms ease-out' }}
+                style={{ flex: 1, fontFamily: "'DM Sans',sans-serif", fontSize: 14, boxSizing: 'border-box' as const, padding: '12px 16px', borderRadius: 100, border: '1.5px solid var(--color-border)', background: 'var(--color-cream)', color: 'var(--color-bark)', outline: 'none', transition: 'border-color 150ms ease-out' }}
                 onFocus={e => (e.target.style.borderColor = 'var(--color-sage)')}
-                onBlur={e => (e.target.style.borderColor = '#E8E3DC')}
+                onBlur={e => (e.target.style.borderColor = 'var(--color-border)')}
               />
               <button
                 className="btn-press"
                 onClick={() => email && setSent(true)}
-                style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 22px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: '#2a5a25', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'transform 100ms ease-out' }}>
+                style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 22px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'transform 100ms ease-out' }}>
                 Gauti 10 % nuolaidą
               </button>
             </div>
             <div style={{ textAlign: 'center', marginTop: 14, fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'var(--color-muted-foreground)' }}>
-              <span onClick={onClose} style={{ cursor: 'pointer', textDecoration: 'underline' }}>Ne, mokėsiu pilną kainą</span>
+              <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'var(--color-muted-foreground)', padding: 0 }}>Ne, mokėsiu pilną kainą</button>
             </div>
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
             <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }}>
-              <img
+              <Image
                 src={encodeURI(CHARM_IMAGES[0])}
                 alt=""
                 aria-hidden="true"
-                style={{ width: 40, height: 40, objectFit: 'contain' }}
+                width={40}
+                height={40}
+                style={{ objectFit: 'contain' }}
               />
             </div>
             <h2 style={{ fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif", fontSize: 24, fontWeight: 400, color: 'var(--color-bark)', marginBottom: 10 }}>Jūs sąraše!</h2>
             <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>
-            <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: '#2a5a25', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
+            <button className="btn-press" onClick={onClose} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
           </div>
         )}
       </div>

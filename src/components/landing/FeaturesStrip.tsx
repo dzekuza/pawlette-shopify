@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const FEATURES = [
@@ -21,14 +22,14 @@ const FEATURES = [
   },
 ];
 
-export function FeaturesStrip({ variant }: { variant: 'cream' | 'bold' }) {
+export function FeaturesStrip() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (
     <section style={{ background: 'var(--color-cream)' }}>
       <div style={{
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '0 16px 48px' : '0 64px 64px',
         display: 'grid',
@@ -43,22 +44,24 @@ export function FeaturesStrip({ variant }: { variant: 'cream' | 'bold' }) {
               flexDirection: 'column',
               alignItems: 'flex-start',
               gap: 12,
-              background: '#F0EDE7',
+              background: 'var(--color-surface-2)',
               borderRadius: 20,
               padding: isMobile ? '20px 16px' : '24px 20px',
             }}
           >
-            <img
+            <Image
               src={encodeURI(f.iconSrc)}
               alt=""
               aria-hidden="true"
-              style={{ width: 56, height: 56, objectFit: 'contain', flexShrink: 0 }}
+              width={56}
+              height={56}
+              style={{ objectFit: 'contain', flexShrink: 0 }}
             />
             <span style={{
               fontFamily: "'DM Sans', sans-serif",
               fontSize: 14,
               fontWeight: 500,
-              color: variant === 'bold' ? 'rgba(250,247,242,0.6)' : 'var(--color-bark-light)',
+              color: 'var(--color-bark-light)',
               lineHeight: 1.4,
             }}>
               {f.text}

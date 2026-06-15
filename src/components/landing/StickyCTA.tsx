@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
@@ -10,11 +11,11 @@ export function StickyCTA({ visible }: { visible: boolean }) {
   return (
     <div style={{
       position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 150,
-      background: 'rgba(250,247,242,0.96)', backdropFilter: 'blur(16px)',
+      background: 'var(--color-cream-glass)', backdropFilter: 'blur(16px)',
       borderTop: '1px solid var(--color-border)',
       transform: visible ? 'translateY(0)' : 'translateY(100%)',
       transition: 'transform 280ms cubic-bezier(0.23, 1, 0.32, 1)',
-      boxShadow: '0 -4px 24px rgba(61,53,48,0.08)',
+      boxShadow: '0 -4px 24px var(--color-bark-divider)',
     }}>
       <div style={{
         maxWidth: 1200,
@@ -27,7 +28,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           <div style={{ display: 'flex' }}>
             {['/charm-flower.png', '/charm-star.png', '/charm-heart.png', '/charm-paw.png'].map((src, i) => (
               <div key={src} style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--color-surface-2)', border: '2px solid var(--color-cream)', marginLeft: i > 0 ? -10 : 0, overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <img src={src} alt="" style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
+                <Image src={src} alt="" width={24} height={24} style={{ width: '75%', height: '75%', objectFit: 'contain' }} />
               </div>
             ))}
           </div>

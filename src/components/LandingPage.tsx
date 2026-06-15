@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
-import { FeaturesStrip } from './landing/FeaturesStrip';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { CharmGrid } from './landing/CharmGrid';
@@ -23,7 +23,7 @@ function StatementSection() {
   return (
     <section style={{ background: 'var(--color-bark)', color: 'var(--color-cream)' }}>
       <div style={{
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '80px 64px',
         display: 'flex',
@@ -51,13 +51,13 @@ function StatementSection() {
           overflow: 'hidden',
           aspectRatio: isMobile ? '4/3' : '16/7',
           background: 'var(--color-surface-2)',
+          position: 'relative',
         }}>
-          <img
+          <Image
             src="/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp"
             alt="PawCharms šeima"
-            loading="lazy"
-            decoding="async"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
       </div>
@@ -201,7 +201,7 @@ export function LandingPage() {
 
         <div data-animate="section"><StatementSection /></div>
         <div data-animate="section"><ProductGrid products={products} /></div>
-        <div data-animate="section"><About variant="cream" /></div>
+        <div data-animate="section"><About /></div>
         <div data-animate="section"><CharmGrid /></div>
         <div data-animate="section"><FAQ /></div>
       </main>

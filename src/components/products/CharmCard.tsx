@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { slugFromCharmId } from '@/lib/catalog'
 import type { ShopifyCharm } from '@/lib/shopify'
 
@@ -18,9 +19,11 @@ export function CharmCard ({ charm }: { charm: ShopifyCharm }) {
         onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
       >
         <div style={{ height: 280, position: 'relative', overflow: 'hidden', borderRadius: 20, background: charm.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <img
+          <Image
             src={encodeURI(charm.image)}
             alt={charm.baseTitle}
+            width={196}
+            height={196}
             style={{ width: '70%', height: '70%', objectFit: 'contain' }}
           />
         </div>

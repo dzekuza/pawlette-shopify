@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { getCharms, type ShopifyCharm } from '@/lib/shopify';
 import { addLinesToCart } from '@/lib/cart';
@@ -20,7 +21,7 @@ function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: Shopify
       ref={setNodeRef}
       {...attributes}
       {...listeners}
-      onClick={onRemove}
+      onClick={() => { if (!isDragging) onRemove(); }}
       title={charm?.title}
       style={{
         flex: 1,
@@ -41,8 +42,7 @@ function SortableCharmSlot({ id, charm, onRemove }: { id: string; charm: Shopify
       }}
     >
       {charm?.image ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={charm.image} alt={charm.title}
+        <Image src={charm.image} alt={charm.title} width={80} height={80}
           style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
       ) : (
         <span style={{ fontSize: 18, color: 'rgba(61,53,48,0.2)', pointerEvents: 'none' }}>+</span>
@@ -63,8 +63,7 @@ export function CharmGrid() {
   const [charms, setCharms] = useState<ShopifyCharm[]>([]);
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null, null, null, null, null]);
   const [adding, setAdding] = useState(false);
-  const [added, setAdded] = useState(false);
-  const [query, setQuery] = useState('');
+const [query, setQuery] = useState('');
   const [colorFilter, setColorFilter] = useState<string | null>(null);
   const [expanded, setExpanded] = useState(false);
 
@@ -164,7 +163,7 @@ export function CharmGrid() {
   return (
     <section id="charms" style={{ background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px 64px',
       }}>
@@ -181,13 +180,15 @@ export function CharmGrid() {
               borderRadius: 20,
               overflow: 'hidden',
               aspectRatio: '1 / 1',
-              background: 'rgba(61,53,48,0.08)',
+              background: 'var(--color-bark-divider)',
+              position: 'relative',
             }}>
               {allGalleryImages[0] && (
-                <img
+                <Image
                   src={allGalleryImages[0]}
                   alt="PawCharms pakabukai"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  fill
+                  style={{ objectFit: 'cover' }}
                 />
               )}
             </div>
@@ -234,7 +235,7 @@ export function CharmGrid() {
                 <button
                   onClick={() => setColorFilter(null)}
                   style={{
-                    border: colorFilter === null ? '2px solid var(--color-bark)' : '2px solid rgba(61,53,48,0.15)',
+                    border: colorFilter === null ? '2px solid var(--color-bark)' : '2px solid var(--color-bark-border)',
                     borderRadius: 999,
                     padding: '4px 12px',
                     fontSize: 12,
@@ -257,7 +258,7 @@ export function CharmGrid() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: 6,
-                      border: colorFilter === bg ? '2px solid var(--color-bark)' : '2px solid rgba(61,53,48,0.15)',
+                      border: colorFilter === bg ? '2px solid var(--color-bark)' : '2px solid var(--color-bark-border)',
                       borderRadius: 999,
                       padding: '4px 10px 4px 6px',
                       fontSize: 12,
@@ -296,8 +297,8 @@ export function CharmGrid() {
                     paddingTop: 10,
                     paddingBottom: 10,
                     borderRadius: 10,
-                    border: '1px solid rgba(61,53,48,0.15)',
-                    background: '#fff',
+                    border: '1px solid var(--color-bark-border)',
+                    background: 'var(--color-cream)',
                     fontSize: 14,
                     color: 'var(--color-bark)',
                     fontFamily: "'DM Sans', sans-serif",
@@ -313,7 +314,7 @@ export function CharmGrid() {
                       top: '50%',
                       transform: 'translateY(-50%)',
                       border: 'none',
-                      background: 'none',
+                      background: 'transparent',
                       cursor: 'pointer',
                       padding: 2,
                       color: 'var(--color-muted-foreground)',
@@ -360,7 +361,7 @@ export function CharmGrid() {
                           } as React.CSSProperties}
                         >
                           {charm.image ? (
-                            <img src={charm.image} alt={charm.baseTitle || charm.title}
+                            <Image src={charm.image} alt={charm.baseTitle || charm.title} width={120} height={120}
                               style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', padding: 12, boxSizing: 'border-box' }} />
                           ) : (
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', fontSize: 18 }}>
@@ -374,7 +375,7 @@ export function CharmGrid() {
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              background: 'rgba(61,53,48,0.18)',
+                              background: 'rgba(61,53,48,0.18)', // no exact token — kept as-is
                             }}>
                               <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
                                 <path d="M1.5 5.5l3.5 3.5L12.5 1.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -421,12 +422,12 @@ export function CharmGrid() {
                 onClick={handleAddToCart}
                 disabled={!selectedCount || adding}
                 onMouseEnter={e => { if (selectedCount && !adding) { e.currentTarget.style.background = '#5a4f4a'; e.currentTarget.style.transform = 'scale(0.99)'; }}}
-                onMouseLeave={e => { e.currentTarget.style.background = selectedCount ? 'var(--color-bark)' : '#E8E3DC'; e.currentTarget.style.transform = 'scale(1)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = selectedCount ? 'var(--color-bark)' : 'var(--color-border)'; e.currentTarget.style.transform = 'scale(1)'; }}
                 onMouseDown={e => { if (selectedCount && !adding) e.currentTarget.style.transform = 'scale(0.97)'; }}
                 onMouseUp={e => { e.currentTarget.style.transform = selectedCount && !adding ? 'scale(0.99)' : 'scale(1)'; }}
                 style={{
                   width: '100%',
-                  background: selectedCount ? 'var(--color-bark)' : '#E8E3DC',
+                  background: selectedCount ? 'var(--color-bark)' : 'var(--color-border)',
                   color: selectedCount ? 'var(--color-cream)' : 'var(--color-muted-foreground)',
                   border: 'none',
                   borderRadius: 14,
@@ -445,50 +446,6 @@ export function CharmGrid() {
                     ? `Užsakyti su ${selectedCount} pakabuk${selectedCount > 1 ? 'ais' : 'u'} →`
                     : 'Pasirinkite iki 5 pakabukų'}
               </button>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <a
-                  href={`/products/${COLLAR_SLUG}`}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(61,53,48,0.06)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                  style={{
-                    flex: 1,
-                    display: 'block',
-                    textAlign: 'center',
-                    padding: '11px 16px',
-                    border: '1.5px solid rgba(61,53,48,0.18)',
-                    borderRadius: 12,
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: 'var(--color-bark)',
-                    textDecoration: 'none',
-                    fontFamily: "'DM Sans', sans-serif",
-                    transition: 'background-color 150ms ease-out',
-                  }}
-                >
-                  Antkaklio produktas →
-                </a>
-                <a
-                  href={`/products/${CHARMS_SLUG}`}
-                  onMouseEnter={e => { e.currentTarget.style.background = 'rgba(61,53,48,0.06)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
-                  style={{
-                    flex: 1,
-                    display: 'block',
-                    textAlign: 'center',
-                    padding: '11px 16px',
-                    border: '1.5px solid rgba(61,53,48,0.18)',
-                    borderRadius: 12,
-                    fontSize: 13,
-                    fontWeight: 600,
-                    color: 'var(--color-bark)',
-                    textDecoration: 'none',
-                    fontFamily: "'DM Sans', sans-serif",
-                    transition: 'background-color 150ms ease-out',
-                  }}
-                >
-                  Visi pakabukai →
-                </a>
-              </div>
             </div>
           </div>
         </div>

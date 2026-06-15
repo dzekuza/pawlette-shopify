@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
@@ -10,15 +11,10 @@ const NAV_LINKS = [
   { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
-const DESKTOP_NAV = [
-  { label: 'Antkakliai', href: '/products/collar-melyna-collar' },
-  { label: 'Pavadeliai', href: '/products/roin-leash' },
-  { label: "Charm'sai", href: '/products/charm-charms' },
-];
-
 interface LandingNavProps {
   cartCount?: number;
   onCart?: () => void;
+  /** @deprecated unused — kept for backwards compatibility with callers */
   topOffset?: number;
 }
 
@@ -45,7 +41,7 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
         padding: isMobile ? '12px 16px' : '12px 24px',
       }}>
         <div style={{
-          maxWidth: 1292,
+          maxWidth: 1200,
           margin: '0 auto',
           width: '100%',
         }}>
@@ -53,24 +49,23 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: '#FFFFFF',
+          background: 'var(--color-cream)',
           borderRadius: 84,
           padding: '12px 12px 12px 16px',
           overflow: 'clip',
         }}>
           {/* Logo */}
           <Link href="/" aria-label="PawCharms pagrindinis" style={{ flexShrink: 0, lineHeight: 0 }}>
-            <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
+            <Image src="/pawcharms.svg" alt="PawCharms" width={120} height={42} style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
           {/* Desktop nav links */}
           {!isMobile && (
             <nav style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-              {DESKTOP_NAV.map((link, i) => (
+              {NAV_LINKS.map((link, i) => (
                 <Link
                   key={i}
                   href={link.href}
-                  className="nav-link"
                   style={{
                     fontFamily: "'DM Sans', sans-serif",
                     fontSize: 14,

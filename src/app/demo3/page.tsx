@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const CHARMS = [
@@ -93,8 +94,8 @@ export default function Demo3Page() {
 
         {/* Floating charms — desktop only */}
         {mounted && !isMobile && FLOAT_CHARMS.map((c, i) => (
-          <img key={i} src={c.src} alt="" style={{
-            position: 'absolute', width: c.size, height: c.size,
+          <Image key={i} src={c.src} alt="" width={c.size} height={c.size} style={{
+            position: 'absolute',
             objectFit: 'contain', zIndex: 1,
             top: c.top, left: c.left, right: (c as { right?: string }).right, bottom: (c as { bottom?: string }).bottom,
             transform: `rotate(${c.rotate}deg)`,
@@ -178,8 +179,9 @@ export default function Demo3Page() {
                 overflow: 'hidden',
                 transform: `translateY(${img.offset}px)`,
                 border: '1px solid rgba(250,247,242,0.08)',
+                position: 'relative',
               }}>
-                <img src={img.src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <Image src={img.src} alt="" fill style={{ objectFit: 'cover' }} />
               </div>
             ))}
           </div>
@@ -187,8 +189,8 @@ export default function Demo3Page() {
 
         {isMobile && (
           <div style={{ marginTop: 56, width: '100%', position: 'relative', zIndex: 2 }}>
-            <div style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/3' }}>
-              <img src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <div style={{ borderRadius: 20, overflow: 'hidden', aspectRatio: '4/3', position: 'relative' }}>
+              <Image src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp" alt="" fill style={{ objectFit: 'cover' }} />
             </div>
           </div>
         )}
@@ -270,8 +272,9 @@ export default function Demo3Page() {
                 aspectRatio: '1/1', borderRadius: 16, overflow: 'hidden',
                 transform: i % 2 === 1 ? 'translateY(16px)' : 'translateY(0)',
                 border: '1px solid rgba(250,247,242,0.07)',
+                position: 'relative',
               }}>
-                <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <Image src={src} alt="" fill style={{ objectFit: 'cover' }} />
               </div>
             ))}
           </div>
@@ -320,7 +323,7 @@ export default function Demo3Page() {
                   transition: 'all 0.2s ease',
                   transform: activeCharm === i ? 'translateY(-4px) scale(1.02)' : 'translateY(0) scale(1)',
                 }}>
-                <img src={charm.src} alt={charm.name} style={{
+                <Image src={charm.src} alt={charm.name} width={60} height={60} style={{
                   width: isMobile ? 44 : 60, height: isMobile ? 44 : 60,
                   objectFit: 'contain',
                   filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.35))',
@@ -357,8 +360,8 @@ export default function Demo3Page() {
                 border: `1px solid ${step.color}25`,
                 borderRadius: 24, overflow: 'hidden',
               }}>
-                <div style={{ aspectRatio: '4/3', overflow: 'hidden' }}>
-                  <img src={step.img} alt={step.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <div style={{ aspectRatio: '4/3', overflow: 'hidden', position: 'relative' }}>
+                  <Image src={step.img} alt={step.title} fill style={{ objectFit: 'cover' }} />
                 </div>
                 <div style={{ padding: '28px 28px 32px' }}>
                   <span style={{ fontFamily: "'Luckiest Guy', cursive", fontSize: 52, color: step.color, lineHeight: 1, opacity: 0.4, display: 'block', marginBottom: 12 }}>{step.num}</span>
@@ -423,10 +426,10 @@ export default function Demo3Page() {
         {/* Decorative charms */}
         {!isMobile && (
           <>
-            <img src="/charms/Heart_pink.png" alt="" style={{ position: 'absolute', left: '8%', top: '20%', width: 64, opacity: 0.6, animation: 'pawFloat 5s ease-in-out infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
-            <img src="/charms/Star_sage_green.png" alt="" style={{ position: 'absolute', right: '8%', top: '30%', width: 56, opacity: 0.6, animation: 'pawFloat 6s ease-in-out 1s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
-            <img src="/charms/Butterfly_lavender.png" alt="" style={{ position: 'absolute', left: '15%', bottom: '25%', width: 72, opacity: 0.5, animation: 'pawFloat 4.5s ease-in-out 0.5s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
-            <img src="/charms/Paw_blue.png" alt="" style={{ position: 'absolute', right: '12%', bottom: '20%', width: 60, opacity: 0.55, animation: 'pawFloat 5.5s ease-in-out 1.5s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
+            <Image src="/charms/Heart_pink.png" alt="" width={64} height={64} style={{ position: 'absolute', left: '8%', top: '20%', opacity: 0.6, animation: 'pawFloat 5s ease-in-out infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
+            <Image src="/charms/Star_sage_green.png" alt="" width={56} height={56} style={{ position: 'absolute', right: '8%', top: '30%', opacity: 0.6, animation: 'pawFloat 6s ease-in-out 1s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
+            <Image src="/charms/Butterfly_lavender.png" alt="" width={72} height={72} style={{ position: 'absolute', left: '15%', bottom: '25%', opacity: 0.5, animation: 'pawFloat 4.5s ease-in-out 0.5s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
+            <Image src="/charms/Paw_blue.png" alt="" width={60} height={60} style={{ position: 'absolute', right: '12%', bottom: '20%', opacity: 0.55, animation: 'pawFloat 5.5s ease-in-out 1.5s infinite alternate', filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))' }} />
           </>
         )}
 

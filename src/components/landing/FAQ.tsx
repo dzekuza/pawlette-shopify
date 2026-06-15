@@ -46,6 +46,7 @@ export function FAQ() {
       }}>
         {/* Heading */}
         <h2 style={{
+          fontFamily: "'Luckiest Guy', cursive",
           fontSize: isMobile ? 32 : 40,
           letterSpacing: '-0.02em',
           lineHeight: 1.15,

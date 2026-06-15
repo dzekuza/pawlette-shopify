@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import type { ShopifyCharm } from '@/lib/shopify'
 
 type CharmTab = 'all' | 'letter' | 'icon'
@@ -149,11 +150,13 @@ export function CharmsStep ({
                   boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none'
                 }}
               >
-                <img
+                <Image
                   src={charm.image}
                   alt=''
                   aria-hidden='true'
-                  style={{ width: 52, height: 52, objectFit: 'contain' }}
+                  width={52}
+                  height={52}
+                  style={{ objectFit: 'contain' }}
                 />
                 <span
                   style={{

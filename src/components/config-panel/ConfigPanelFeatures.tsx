@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { TrustBadges } from '@/components/TrustBadges'
 
 const MOBILE_FEATURES = [
@@ -33,11 +34,13 @@ export function ConfigPanelFeatures ({
             gap: 4
           }}
         >
-          <img
+          <Image
             src={encodeURI(feature.iconSrc)}
             alt=''
             aria-hidden='true'
-            style={{ width: 64, height: 64, objectFit: 'contain' }}
+            width={64}
+            height={64}
+            style={{ objectFit: 'contain' }}
           />
           <span
             style={{

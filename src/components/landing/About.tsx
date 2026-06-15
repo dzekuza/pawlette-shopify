@@ -11,14 +11,14 @@ const BENTO_IMAGES = [
   { src: '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp', alt: 'PawCharms šuo lauke' },
 ];
 
-export function About({ variant }: { variant: 'cream' | 'bold' }) {
+export function About() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (
-    <section id="about" style={{ background: '#F3EDE6' }}>
+    <section id="about" style={{ background: 'var(--color-surface-2)' }}>
       <div style={{
-        maxWidth: 1292,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px 64px',
         display: 'grid',
@@ -74,7 +74,7 @@ export function About({ variant }: { variant: 'cream' | 'bold' }) {
                 width: 44,
                 height: 44,
                 borderRadius: '50%',
-                border: '1.5px solid rgba(61,53,48,0.15)',
+                border: '1.5px solid var(--color-bark-border)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

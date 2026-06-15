@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -149,10 +150,11 @@ export const AnimatedMarqueeHero: React.FC<AnimatedMarqueeHeroProps> = ({
               className="relative aspect-[3/4] h-48 md:h-64 flex-shrink-0"
               style={{ rotate: `${index % 2 === 0 ? -2 : 5}deg` }}
             >
-              <img
+              <Image
                 src={src}
                 alt={`Showcase image ${index + 1}`}
-                className="w-full h-full object-cover rounded-2xl shadow-md"
+                fill
+                className="object-cover rounded-2xl shadow-md"
               />
             </div>
           ))}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const HERO_CHARMS = [
@@ -71,10 +72,11 @@ export function HeroCream({ heroSize }: { heroSize: number }) {
         {!isMobile && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ width: 440, height: 420, borderRadius: 28, overflow: 'hidden', position: 'relative' }}>
-              <img
+              <Image
                 src="/In_a_minimalist_style_a_delicate_pink_hzs32ACd.webp"
                 alt="Rožinis antkaklio rinkinys"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                fill
+                style={{ objectFit: 'cover' }}
               />
               <div style={{ position: 'absolute', top: 16, right: 16, background: 'white', borderRadius: 20, padding: '4px 12px', fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#3a7a3a' }}>Atsparus vandeniui</div>
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 20px 20px', background: 'linear-gradient(to top, rgba(0,0,0,0.45), transparent)' }}>
@@ -145,10 +147,11 @@ export function HeroBold({ heroSize }: { heroSize: number }) {
         {!isMobile && (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: 420, height: 400, borderRadius: 28, overflow: 'hidden', position: 'relative' }}>
-              <img
+              <Image
                 src="/In_a_cute_and_playful_style_pastel-colored_dog_plHj2W1q.webp"
                 alt="Žaismingas šuo su antkakliu"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                fill
+                style={{ objectFit: 'cover' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(61,53,48,0.75) 0%, transparent 55%)' }} />
               <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 24px 24px' }}>

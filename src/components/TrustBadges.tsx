@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export function TrustBadges({ isDark }: { isDark: boolean }) {
   const textColor = isDark ? 'rgba(250,247,242,0.45)' : '#9B948F';
 
@@ -35,7 +37,7 @@ export function TrustBadges({ isDark }: { isDark: boolean }) {
     >
       {badges.map(b => (
         <div key={b.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: 6 }}>
-          <img src={encodeURI(b.iconSrc)} alt="" aria-hidden="true" style={{ width: 64, height: 64, objectFit: 'contain' }} />
+          <Image src={encodeURI(b.iconSrc)} alt="" aria-hidden="true" width={64} height={64} style={{ objectFit: 'contain' }} />
           <span style={{ fontSize: 11, fontWeight: 500, color: textColor, textAlign: 'center', lineHeight: 1.25 }}>{b.label}</span>
         </div>
       ))}
