@@ -7,6 +7,13 @@ function parseEuroPrice (value?: string) {
   return Number.isFinite(parsed) ? parsed : null
 }
 
+function formatPrice (value?: string): string {
+  if (!value) return value ?? ''
+  const num = parseEuroPrice(value)
+  if (num === null) return value
+  return `€${num.toFixed(2)}`
+}
+
 function getSaleMeta (currentPrice: string, originalPrice?: string) {
   const current = parseEuroPrice(currentPrice)
   const original = parseEuroPrice(originalPrice)
@@ -60,11 +67,11 @@ export function ProductPrice ({
     <div className={cn('flex min-w-0 flex-col', className)}>
       <div className='flex flex-wrap items-baseline gap-x-2 gap-y-1 font-sans'>
         <span className={cn('font-semibold text-bark', currentSizeClass, currentPriceClassName)}>
-          {currentPrice}
+          {formatPrice(currentPrice)}
         </span>
         {hasSale && originalPrice ? (
           <span className={cn('font-medium text-bark-muted line-through', originalSizeClass, originalPriceClassName)}>
-            {originalPrice}
+            {formatPrice(originalPrice)}
           </span>
         ) : null}
         {showSavingsBadge && hasSale && savingsPercent ? (

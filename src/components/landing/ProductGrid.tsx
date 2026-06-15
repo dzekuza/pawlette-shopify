@@ -4,6 +4,7 @@ import { useState } from 'react';
 import type { ProductDetail } from '@/lib/db';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
+import { ProductCard } from '@/components/products/ProductCard';
 
 const TABS = ['Visi', 'Antkakliai', 'Pavadeliai', 'Pakabukai'] as const;
 type Tab = (typeof TABS)[number];
@@ -15,113 +16,6 @@ const TAB_TYPE: Partial<Record<Tab, ProductDetail['productType']>> = {
 };
 
 const COLOR_SWATCHES = ['#B8D8F4', '#A8D5A2', '#F9E4A0', '#F4B5C0', '#D4B8F4'];
-
-function ProductCard({ product }: { product: ProductDetail }) {
-  const image = product.image;
-  const price = product.price ?? '25';
-  const [ctaHover, setCtaHover] = useState(false);
-  const swatches = product.leashColors ?? COLOR_SWATCHES;
-
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 12,
-      fontFamily: "'DM Sans', sans-serif",
-    }}>
-      {/* Image */}
-      <Link href={`/products/${product.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
-      <div style={{
-        position: 'relative',
-        borderRadius: 16,
-        overflow: 'clip',
-        background: '#E8E3DC',
-        aspectRatio: '1 / 1',
-      }}>
-        {image && (
-          <img
-            src={image}
-            alt={product.name}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-        )}
-        {/* PERSONALIZUOK badge */}
-        <div style={{
-          position: 'absolute',
-          top: 12,
-          left: 12,
-          background: '#F4B5C0',
-          borderRadius: 100,
-          padding: '4px 10px',
-          fontSize: 11,
-          fontWeight: 700,
-          color: '#8B3A4A',
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-        }}>
-          ✦ PERSONALIZUOK
-        </div>
-        {/* Color swatches */}
-        <div style={{
-          position: 'absolute',
-          bottom: 12,
-          left: 12,
-          display: 'flex',
-          gap: 4,
-        }}>
-          {swatches.map(c => (
-            <div
-              key={c}
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: '50%',
-                background: c,
-                border: '1px solid rgba(255,255,255,0.6)',
-              }}
-            />
-          ))}
-        </div>
-      </div>
-      </Link>
-
-      {/* Info */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-        <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)' }}>
-          {product.name}
-        </span>
-        <span style={{ fontSize: 14, color: '#706B68' }}>
-          Kaina: {price}
-        </span>
-      </div>
-
-      {/* CTA */}
-      <Link
-        href={`/products/${product.slug}`}
-        onMouseEnter={() => setCtaHover(true)}
-        onMouseLeave={() => setCtaHover(false)}
-        style={{
-          display: 'block',
-          textAlign: 'center',
-          background: ctaHover ? '#8fc488' : 'var(--color-sage)',
-          borderRadius: 100,
-          padding: '12px 16px',
-          fontSize: 14,
-          fontWeight: 600,
-          color: 'var(--color-interactive-text)',
-          textDecoration: 'none',
-          transition: 'background-color 150ms ease-out, transform 100ms ease-out',
-          transform: ctaHover ? 'scale(0.99)' : 'scale(1)',
-        }}
-      >
-        Užsakyti iš anksto
-      </Link>
-    </div>
-  );
-}
 
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   const w = useWindowWidth() ?? 1200;

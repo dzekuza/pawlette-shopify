@@ -203,6 +203,22 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'heart-charm-pink':        '/charms/Heart_pink.png',
   'star-charm-yellow':       '/charms/Star_pale_yellow.png',
   'flower-charm-purple':     '/charms/Flower_lavender.png',
+  // Lithuanian variant titles (Shopify uses em dash – which titleToHandle normalises to -)
+  'letenėlės-pakabučiukas-mėlyna':     '/charms/Paw_blue.png',
+  'letenėlės-pakabučiukas-rožinė':     '/charms/Heart_pink.png',
+  'letenėlės-pakabučiukas-žalia':      '/charms/Star_sage_green.png',
+  'širdutės-pakabučiukas-rožinė':      '/charms/Heart_pink.png',
+  'širdutės-pakabučiukas-mėlyna':      '/charms/Paw_light_blue.png',
+  'žvaigždutės-pakabučiukas-geltona':  '/charms/Star_pale_yellow.png',
+  'žvaigždutės-pakabučiukas-žalia':    '/charms/Star_sage_green.png',
+  'kaspino-pakabučiukas-rožinė':       '/charms/Heart_pink.png',
+  'kaspino-pakabučiukas-mėlyna':       '/charms/Paw_light_blue.png',
+  'saulutės-pakabučiukas-geltona':     '/charms/Star_pale_yellow.png',
+  'lapelio-pakabučiukas-žalia':        '/charms/Star_sage_green.png',
+  'drugelio-pakabučiukas-violetinė':   '/charms/Butterfly_lavender.png',
+  'grybuko-pakabučiukas-rožinė':       '/charms/Heart_pink_2.png',
+  'lašelio-pakabučiukas-mėlyna':       '/charms/Paw_light_blue_2.png',
+  'gėlytės-pakabučiukas-violetinė':    '/charms/Flower_lavender.png',
   // Letter charms — local fallbacks for letters without Shopify images
   'letter-a-yellow':         '/charms/A_yellow.png',
   'letter-b-pink':           '/charms/B_pink.png',
@@ -267,7 +283,7 @@ const COLOR_BG: Record<string, string> = {
 // Resolves bg/category/color/baseTitle from variant title.
 // Handles "Letter A - Blue", "Paw Charm - Blue", and legacy icon names.
 function resolveCharmMeta(title: string): { bg: string; category: string; color: string; baseTitle: string } {
-  const letterMatch = title.match(/^((?:Letter|Raidė)\s+[A-ZĄČĘĖĮŠŲŪŽ])\s+-\s+([\p{L}\s]+)$/iu);
+  const letterMatch = title.match(/^((?:Letter|Raidė)\s+[A-ZĄČĘĖĮŠŲŪŽ])\s+[–-]\s+([\p{L}\s]+)$/iu);
   if (letterMatch) {
     const color = letterMatch[2].toLowerCase();
     return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'letter', color, baseTitle: letterMatch[1] };
@@ -275,7 +291,7 @@ function resolveCharmMeta(title: string): { bg: string; category: string; color:
   if (/^(letter|raidė)\s+\w+\s+(charm|pakabukas)$/iu.test(title)) {
     return { bg: '#B8D8F4', category: 'letter', color: '', baseTitle: title };
   }
-  const iconColorMatch = title.match(/^(.+?)\s+-\s+([\p{L}\s]+)$/iu);
+  const iconColorMatch = title.match(/^(.+?)\s+[–-]\s+([\p{L}\s]+)$/iu);
   if (iconColorMatch) {
     const color = iconColorMatch[2].toLowerCase();
     return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'icon', color, baseTitle: iconColorMatch[1] };
@@ -286,7 +302,7 @@ function resolveCharmMeta(title: string): { bg: string; category: string; color:
 }
 
 function titleToHandle(title: string): string {
-  return title.toLowerCase().replace(/\s+/g, '-').replace(/-+/g, '-');
+  return title.toLowerCase().replace(/\s*–\s*/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
 // Letter charm products are separate products (one per letter) tagged "charms"
@@ -381,12 +397,23 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         blossom:     '#F4B5C0',
         sky:         '#B8D8F4',
         honey:       '#F9E4A0',
-        // Current Shopify variant names
+        // English Shopify variant names
         'dark blue': '#6B9FD4',
         blue:        '#B8D8F4',
         pink:        '#F4B5C0',
         purple:      '#C3A8D5',
         yellow:      '#F9E4A0',
+        // Lithuanian ASCII (no diacritics)
+        'melyna':         '#B8D8F4',
+        'tamsiai melyna': '#6B9FD4',
+        'rozine':         '#F4B5C0',
+        'geltona':        '#F9E4A0',
+        'violetine':      '#C3A8D5',
+        // Lithuanian with diacritics
+        'mėlyna':         '#B8D8F4',
+        'tamsiai mėlyna': '#6B9FD4',
+        'rožinė':         '#F4B5C0',
+        'violetinė':      '#C3A8D5',
       };
 
       const result = data.products.edges.flatMap(({ node }) => {
@@ -570,21 +597,39 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
         }
       }
 
-      // Letter charms: one product per letter (A–Z), each with 5 color variants
+      // Letter charms: one product per letter (A–Z), each with color variants.
+      // Shopify titles are Lithuanian: "Raidės A pakabučiukas" with variants "Mėlyna", "Tamsiai mėlyna", etc.
       const letterCharms: ShopifyCharm[] = [];
-      const COLOR_NAMES_SET = new Set(['blue', 'sky blue', 'dark blue', 'purple', 'pink', 'yellow', 'green']);
+      // Map Lithuanian variant color titles → English (used to build a stable handle + resolveCharmMeta key)
+      const LT_COLOR_TO_EN: Record<string, string> = {
+        'mėlyna': 'Blue',
+        'tamsiai mėlyna': 'Dark Blue',
+        'violetinė': 'Purple',
+        'rožinė': 'Pink',
+        'geltona': 'Yellow',
+        'žalia': 'Green',
+        'blue': 'Blue',
+        'sky blue': 'Sky Blue',
+        'dark blue': 'Dark Blue',
+        'purple': 'Purple',
+        'pink': 'Pink',
+        'yellow': 'Yellow',
+        'green': 'Green',
+      };
       for (const { node: product } of (letterRes.data?.products.edges ?? [])) {
         const productFeaturedImage = product.featuredImage?.url ?? '';
-        // Extract the letter from "Letter A Charm" → "A"
-        const letterExtract = product.title.match(/^Letter\s+([A-Z])\s+Charm/i);
+        // Match "Letter A Charm" (English legacy) OR "Raidės A pakabučiukas" (Lithuanian)
+        const letterExtract = product.title.match(
+          /^(?:Letter\s+([A-Z])\s+Charm|Raidės\s+([A-ZĄČĘĖĮŠŲŪŽ])\s+pakabučiukas)$/i
+        );
         if (!letterExtract) continue;
-        const letter = letterExtract[1].toUpperCase();
+        const letter = (letterExtract[1] || letterExtract[2]).toUpperCase();
 
         for (const { node: variant } of product.variants.edges) {
-          // Build composite title "A - Blue" that resolveCharmMeta can parse
-          const colorName = variant.title; // e.g. "Blue", "Dark Blue", "Purple"
-          if (!COLOR_NAMES_SET.has(colorName.toLowerCase())) continue;
-          const charmTitle = `Letter ${letter} - ${colorName}`;
+          const englishColor = LT_COLOR_TO_EN[variant.title.toLowerCase()];
+          if (!englishColor) continue; // skip unknown color variants
+          // Build stable English title so resolveCharmMeta + CHARM_LOCAL_IMAGES keys work
+          const charmTitle = `Letter ${letter} - ${englishColor}`;
           const { bg, category, color, baseTitle } = resolveCharmMeta(charmTitle);
           const handle = titleToHandle(charmTitle);
           letterCharms.push({
@@ -696,6 +741,17 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
         blossom:     '#F4B5C0',
         sky:         '#B8D8F4',
         honey:       '#F9E4A0',
+        // Lithuanian ASCII (no diacritics)
+        'melyna':         '#B8D8F4',
+        'tamsiai melyna': '#6B9FD4',
+        'rozine':         '#F4B5C0',
+        'geltona':        '#F9E4A0',
+        'violetine':      '#C3A8D5',
+        // Lithuanian with diacritics
+        'mėlyna':         '#B8D8F4',
+        'tamsiai mėlyna': '#6B9FD4',
+        'rožinė':         '#F4B5C0',
+        'violetinė':      '#C3A8D5',
       };
 
       const result = data.products.edges.flatMap(({ node }) => {

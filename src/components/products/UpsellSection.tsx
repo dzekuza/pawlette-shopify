@@ -15,6 +15,17 @@ const LEASH_COLOR_HEX: Record<string, string> = {
   blossom:     '#F4B5C0',
   sky:         '#B8D8F4',
   honey:       '#F9E4A0',
+  // Lithuanian ASCII (no diacritics)
+  'melyna':         '#B8D8F4',
+  'tamsiai melyna': '#6B9FD4',
+  'rozine':         '#F4B5C0',
+  'geltona':        '#F9E4A0',
+  'violetine':      '#C3A8D5',
+  // Lithuanian with diacritics
+  'mėlyna':         '#B8D8F4',
+  'tamsiai mėlyna': '#6B9FD4',
+  'rožinė':         '#F4B5C0',
+  'violetinė':      '#C3A8D5',
 }
 
 function discounted (price: string): { orig: number; disc: number } {

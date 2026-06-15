@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
-import { Reviews } from '@/components/landing/Reviews'
 import { FAQ } from '@/components/landing/FAQ'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
@@ -150,7 +149,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   // ── Charm page state ──
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
   const [charmTab] = useState<CharmTab>('all')
-  const [charmColor, setCharmColor] = useState<string>(product.charmVariants?.[0]?.color || DEFAULT_CHARM_COLOR)
+  const [charmColor, setCharmColor] = useState<string>(product.charmVariants?.[0]?.bg || '#B8D8F4')
   const [charmQuery, setCharmQuery] = useState('')
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
@@ -189,6 +188,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   // ── Mobile gallery slider ──
   const [activeSlide, setActiveSlide] = useState(0)
+  const [activeCharmReview, setActiveCharmReview] = useState(0)
   const sliderRef = useRef<HTMLDivElement>(null)
   const swipeStartX = useRef<number | null>(null)
 
@@ -298,34 +298,36 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     }, 800)
   }
 
-  // Unique color options derived from the real charm variants
+  // Unique color options derived from the real charm variants (green excluded)
   const availableColorOptions = useMemo(() => {
     if (!product.charmVariants) return []
-    const seen = new Set<string>()
+    const seenBg = new Set<string>()
     const options: { value: string; label: string; dot: string }[] = []
     for (const charm of product.charmVariants) {
-      if (charm.color && !seen.has(charm.color)) {
-        seen.add(charm.color)
-        options.push({ value: charm.color, label: translateColorLabel(charm.color), dot: charm.bg })
+      if (charm.bg && charm.bg !== '#A8D5A2' && !seenBg.has(charm.bg)) {
+        seenBg.add(charm.bg)
+        options.push({ value: charm.bg, label: translateColorLabel(charm.color), dot: charm.bg })
       }
     }
     return options
   }, [product.charmVariants])
 
-  // Filtered charms for the charm picker (charm product page)
+  // Filtered charms for the charm picker (charm product page) — green excluded
   const filteredCharms = useMemo(() => {
     if (!product.charmVariants) return []
-    let list = charmTab === 'all'
+    let list = (charmTab === 'all'
       ? [...product.charmVariants]
       : product.charmVariants.filter((c) => c.category === charmTab)
-    if (charmColor) list = list.filter((c) => c.color === charmColor)
+    ).filter((c) => c.bg !== '#A8D5A2')
+    if (charmColor) list = list.filter((c) => c.bg === charmColor)
     if (charmQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(charmQuery.toLowerCase()))
     return list
   }, [product.charmVariants, charmTab, charmColor, charmQuery])
 
-  // Filtered charms for the personalise dialog (collar product page)
+  // Filtered charms for the personalise dialog (collar product page) — green excluded
   const filteredCollarCharms = useMemo(() => {
-    let list = collarCharmTab === 'all' ? [...charms] : charms.filter((c) => c.category === collarCharmTab)
+    let list = (collarCharmTab === 'all' ? [...charms] : charms.filter((c) => c.category === collarCharmTab))
+      .filter((c) => c.bg !== '#A8D5A2')
     if (collarCharmColor) list = list.filter((c) => c.bg === COLOR_BG_MAP[collarCharmColor])
     if (collarCharmQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(collarCharmQuery.toLowerCase()))
     return list
@@ -362,7 +364,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     .slice(0, 6)
 
   return (
-    <div className="bg-cream min-h-screen font-sans">
+    <div className="bg-cream min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── Mobile layout ── */}
@@ -407,7 +409,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
           </div>
         </>
       )}
@@ -468,9 +470,12 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           </div>
           <div style={{ padding: '24px 20px 80px', display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
             {/* charm right panel content — same as desktop below */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
-              <h1 style={{ margin: 0, fontSize: 24, fontWeight: 600, lineHeight: 1.18, color: '#3D3530' }}>{displayName}</h1>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
+                <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
+                <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
+              </div>
+              <h1 style={{ margin: '0 0 10px', fontSize: 24, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -504,7 +509,36 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </>
             )}
             <div style={{ height: 1, background: '#EDEAE4' }} />
+            {/* Review carousel */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ overflow: 'hidden' }}>
+                <div style={{ display: 'flex', transform: `translateX(-${activeCharmReview * 100}%)`, transition: 'transform 280ms ease' }}>
+                  {PDP_REVIEWS.map((review) => (
+                    <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
+                      <TestimonialQuoteCard author={review.author} quote={review.quote} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {PDP_REVIEWS.map((review, index) => (
+                    <button key={review.author} type="button" onClick={() => setActiveCharmReview(index)} aria-label={`Rodyti atsiliepimą ${index + 1}`} aria-pressed={activeCharmReview === index} style={{ width: activeCharmReview === index ? 20 : 7, height: 7, borderRadius: 999, border: 'none', padding: 0, cursor: 'pointer', background: activeCharmReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)', transition: 'width 180ms ease, background 180ms ease' }} />
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button type="button" onClick={() => setActiveCharmReview((c) => (c === 0 ? PDP_REVIEWS.length - 1 : c - 1))} aria-label="Ankstesnis atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>‹</button>
+                  <button type="button" onClick={() => setActiveCharmReview((c) => (c + 1) % PDP_REVIEWS.length)} aria-label="Kitas atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>›</button>
+                </div>
+              </div>
+            </div>
             <CharmCTA added={added} count={selectedCharmCount} onClick={addCharmToCart} isMobile />
+            {/* Trust strip */}
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+              {PDP_TRUST_POINTS.map((point) => (
+                <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+              ))}
+            </div>
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
         </>
@@ -514,7 +548,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {!isMobile && (
       <div
         className="w-full mx-auto px-5 md:px-10"
-        style={{ maxWidth: 1200, marginTop: 72, paddingBottom: 64 }}
+        style={{ maxWidth: 1200 }}
       >
         {/* Breadcrumb */}
         <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
@@ -574,14 +608,17 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.title ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
           </div>
         ) : (
           /* Desktop charm right */
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <p style={{ margin: 0, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', fontSize: 12, color: '#9B948F' }}>Prisegamas pakabukas</p>
-              <h1 style={{ margin: 0, fontSize: 30, fontWeight: 600, lineHeight: 1.14, color: '#3D3530' }}>{displayName}</h1>
+            <div>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
+                <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
+                <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
+              </div>
+              <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{displayName}</h1>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -615,7 +652,36 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </>
             )}
             <div style={{ height: 1, background: DIVIDER }} />
+            {/* Review carousel */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ overflow: 'hidden' }}>
+                <div style={{ display: 'flex', transform: `translateX(-${activeCharmReview * 100}%)`, transition: 'transform 280ms ease' }}>
+                  {PDP_REVIEWS.map((review) => (
+                    <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
+                      <TestimonialQuoteCard author={review.author} quote={review.quote} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {PDP_REVIEWS.map((review, index) => (
+                    <button key={review.author} type="button" onClick={() => setActiveCharmReview(index)} aria-label={`Rodyti atsiliepimą ${index + 1}`} aria-pressed={activeCharmReview === index} style={{ width: activeCharmReview === index ? 20 : 7, height: 7, borderRadius: 999, border: 'none', padding: 0, cursor: 'pointer', background: activeCharmReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)', transition: 'width 180ms ease, background 180ms ease' }} />
+                  ))}
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button type="button" onClick={() => setActiveCharmReview((c) => (c === 0 ? PDP_REVIEWS.length - 1 : c - 1))} aria-label="Ankstesnis atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>‹</button>
+                  <button type="button" onClick={() => setActiveCharmReview((c) => (c + 1) % PDP_REVIEWS.length)} aria-label="Kitas atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>›</button>
+                </div>
+              </div>
+            </div>
             <CharmCTA added={added} count={selectedCharmCount} onClick={addCharmToCart} isMobile={false} />
+            {/* Trust strip */}
+            <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+              {PDP_TRUST_POINTS.map((point) => (
+                <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+              ))}
+            </div>
             {product.charmVariants && <CharmAccordion product={product} />}
           </div>
         )}
@@ -697,7 +763,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       </section>
 
       <PhotoSlider />
-      <Reviews />
       <FAQ />
       <RecommendedProductsSection products={recommendedProducts} />
       <LandingFooter />
@@ -721,7 +786,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
-                Includes 5 charms
+                Į rinkinį įeina 5 pakabukai
               </div>
               <div style={{ fontSize: 13, fontWeight: 500, color: TEXT_PRIMARY, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {(selectedColor ? translateColorLabel(selectedColor) : 'Spalva')}{selectedSize ? ` • ${selectedSize}` : ''}
@@ -786,7 +851,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
                 { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
                 { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
-                { key: 'green', label: 'Žalia', hex: '#A8D5A2' },
               ].map(({ key, label, hex }) => (
                 <button
                   key={key}
@@ -1002,13 +1066,6 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           note='Nemokamas pristatymas nuo €50'
           size='detail'
         />
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-          {PDP_TRUST_POINTS.map((point) => (
-            <div key={point} style={{ padding: '8px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-              {point}
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Color swatches */}
@@ -1191,34 +1248,9 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       </div>
       )}
 
-      {/* Add to cart */}
-      <button
-        onClick={handleAddToCart}
-        style={{
-          width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
-          fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
-          background: '#A8D5A2', color: '#2a5a25',
-          boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' }}
-        onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
-        onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
-      >
-        {added ? '✓ Užsakymas gautas!' : `Užsakyti iš anksto — ${price}`}
-      </button>
-      <p style={{ textAlign: 'center', margin: '-8px 0 0', fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>
-        Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje
-      </p>
-
-      {/* Upsell — cross-sell item */}
-      {upsellItems && upsellItems.length > 0 && (
-        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
-      )}
-
+      {/* Review carousel — above CTA for conversion lift */}
       <div
         style={{
-          marginTop: 14,
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
@@ -1303,6 +1335,36 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           </div>
         </div>
       </div>
+
+      {/* Add to cart */}
+      <button
+        onClick={handleAddToCart}
+        style={{
+          width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
+          fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+          background: '#A8D5A2', color: '#2a5a25',
+          boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' }}
+        onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
+        onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+      >
+        {added ? '✓ Užsakymas gautas!' : `Užsakyti iš anksto — ${price}`}
+      </button>
+      {/* Trust strip — purchase reassurance below CTA */}
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+        {PDP_TRUST_POINTS.map((point) => (
+          <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
+            {point}
+          </div>
+        ))}
+      </div>
+
+      {/* Upsell — cross-sell item */}
+      {upsellItems && upsellItems.length > 0 && (
+        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
+      )}
 
       {/* Accordion */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>

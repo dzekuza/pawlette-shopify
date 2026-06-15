@@ -96,7 +96,7 @@ export default function MeasureGuidePage() {
         <LandingNav topOffset={0} />
 
         {/* Content */}
-        <main style={{ maxWidth: 720, margin: '0 auto', padding: '128px 24px 96px' }}>
+        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 96px' }}>
           <div style={{ marginBottom: 24 }}>
             <Link href="/guide/silicone-vs-nylon-dog-collars" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
               Palyginti antkaklių medžiagas →

@@ -55,7 +55,7 @@ export async function getLandingCollars(): Promise<LandingCollar[]> {
     _inflight = getCollars().then(collars => {
       _cache = collars.map((c) => ({
         id: c.id,
-        name: c.title,
+        name: c.parentTitle,
         price: c.price,
         originalPrice: c.originalPrice,
         collarColor: c.color,
