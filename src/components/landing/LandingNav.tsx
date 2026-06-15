@@ -5,14 +5,14 @@ import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
-  { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
-  { label: 'Pavadeliai', href: '/products/pawlette-leash' },
+  { label: 'Antkakliai', href: '/products/collar-melyna-collar' },
+  { label: 'Pavadeliai', href: '/products/roin-leash' },
   { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
 const DESKTOP_NAV = [
-  { label: 'Antkakliai', href: '/products/collar-dark-blue-collar' },
-  { label: 'Pavadeliai', href: '/products/pawlette-leash' },
+  { label: 'Antkakliai', href: '/products/collar-melyna-collar' },
+  { label: 'Pavadeliai', href: '/products/roin-leash' },
   { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
