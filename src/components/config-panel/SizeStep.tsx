@@ -57,15 +57,14 @@ export function SizeStep ({
               gap: 2,
               border: size === option ? `2px solid ${textPrimary}` : `1.5px solid ${borderColor}`,
               background: size === option ? textPrimary : 'transparent',
-              transition: 'border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out, transform 100ms ease-out',
-              fontFamily: "'DM Sans',sans-serif"
+              transition: 'border-color 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out, transform 100ms ease-out'
             }}
           >
             <span
               style={{
                 fontSize: 14,
                 fontWeight: 600,
-                color: size === option ? (isDark ? '#3D3530' : '#FAF7F2') : textPrimary
+                color: size === option ? (isDark ? 'var(--color-bark)' : 'var(--color-cream)') : textPrimary
               }}
             >
               {option.split(' — ')[0]}
@@ -75,7 +74,7 @@ export function SizeStep ({
                 fontSize: 11,
                 fontWeight: 400,
                 color: size === option
-                  ? (isDark ? 'rgba(61,53,48,0.65)' : 'rgba(250,247,242,0.65)')
+                  ? (isDark ? 'rgba(61,53,48,0.65)' : 'rgba(250,247,242,0.65)') /* bark/cream with opacity — no token available */
                   : textMuted
               }}
             >
@@ -84,7 +83,7 @@ export function SizeStep ({
           </button>
         ))}
       </div>
-      <div style={{ marginTop: 10, fontSize: 12, color: '#A8D5A2', cursor: 'pointer' }}>
+      <div style={{ marginTop: 10, fontSize: 12, color: 'var(--color-sage)', cursor: 'pointer' }}>
         Sizing guide →
       </div>
     </div>

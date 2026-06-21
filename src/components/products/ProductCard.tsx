@@ -14,7 +14,7 @@ import {
 } from '@/components/storefront/CatalogCard'
 
 type ProductCardProduct = LandingCollar | ProductDetail
-const DEFAULT_CHARM_SWATCHES = ['#A8D5A2', '#B8D8F4', '#F9E4A0', '#D4B8F4']
+const DEFAULT_CHARM_SWATCHES = ['var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
 
 function isProductDetail (product: ProductCardProduct): product is ProductDetail {
   return 'slug' in product
@@ -54,8 +54,8 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
               size='compact'
               className='absolute right-3.5 top-3.5'
               style={{
-                backgroundColor: product.badgeBg || '#eef7ee',
-                color: product.badgeColor || '#3a7a3a',
+                backgroundColor: product.badgeBg || 'rgba(168,213,162,0.2)',
+                color: product.badgeColor || 'var(--color-interactive-text)',
               }}
             >
               {badge}

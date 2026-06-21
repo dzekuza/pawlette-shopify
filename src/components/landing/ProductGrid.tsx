@@ -113,7 +113,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           ) : (
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(4, 1fr)',
+              gridTemplateColumns: 'repeat(3, 1fr)',
               gap: 20,
             }}>
               {filteredProducts.map(p => (
@@ -125,7 +125,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           /* Placeholder cards when no products loaded */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
             gap: isMobile ? 12 : 20,
           }}>
             {Array.from({ length: 4 }).map((_, i) => (

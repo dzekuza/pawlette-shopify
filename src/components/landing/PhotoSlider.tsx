@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const ROW_ONE = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -30,19 +31,11 @@ export function PhotoSlider() {
   const imgH = isMobile ? 250 : 340;
 
   return (
-    <section style={{ background: 'var(--color-surface-2)', overflow: 'hidden' }}>
+    <section className="bg-surface-2 overflow-hidden">
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px 16px' : '64px 0 24px' }}>
-        <h2 style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: isMobile ? 36 : 48,
-          letterSpacing: '-0.02em',
-          lineHeight: 1.1,
-          margin: 0,
-          textAlign: 'left',
-          color: 'var(--color-bark)',
-        }}>
+        <DisplayHeading as="h2" size="section" className="text-bark text-left" style={{ fontSize: isMobile ? 36 : 48 }}>
           Jūsų akimirkos
-        </h2>
+        </DisplayHeading>
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: isMobile ? 60 : 100 }}>
         <InfiniteSlider gap={16} duration={30}>

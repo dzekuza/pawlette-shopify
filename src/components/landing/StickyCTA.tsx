@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
   const w = useWindowWidth() ?? 1200;
@@ -33,25 +33,19 @@ export function StickyCTA({ visible }: { visible: boolean }) {
             ))}
           </div>
           <div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 28 €</div>
-            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · nemokamas pristatymas nuo 40 €</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 28 €</div>
+            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · nemokamas pristatymas nuo 40 €</div>
           </div>
         </div>
       )}
       <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
-        <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: 'var(--color-sage)', display: 'flex', alignItems: 'center', gap: 6 }}>
+        <div style={{ fontSize: 12, color: 'var(--color-sage)', display: 'flex', alignItems: 'center', gap: 6 }}>
           <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--color-sage)', animation: 'pulse 2s ease-in-out infinite' }} />
           Dabar perka 4 žmonės
         </div>
-        <Link href="/products" style={{
-          fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500,
-          padding: '10px 24px', borderRadius: 100, background: 'var(--color-sage)', color: 'var(--color-interactive-text)',
-          textDecoration: 'none', transition: 'background-color 150ms ease-out', whiteSpace: 'nowrap',
-        }}
-          onMouseEnter={e => (e.currentTarget.style.background = 'var(--color-sage-dark)')}
-          onMouseLeave={e => (e.currentTarget.style.background = 'var(--color-sage)')}>
+        <PrimaryButton href="/products" variant="sage" size="md">
           Kurk savo antkaklį →
-        </Link>
+        </PrimaryButton>
       </div>
       </div>
     </div>

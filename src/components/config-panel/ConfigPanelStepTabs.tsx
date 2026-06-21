@@ -33,7 +33,6 @@ export function ConfigPanelStepTabs ({
               borderRadius: 10,
               border: 'none',
               cursor: currentStep <= step ? 'pointer' : 'default',
-              fontFamily: "'DM Sans',sans-serif",
               fontSize: 11,
               fontWeight: 500,
               letterSpacing: '0.04em',
@@ -41,11 +40,11 @@ export function ConfigPanelStepTabs ({
                 ? textPrimary
                 : done
                   ? (isDark ? 'rgba(168,213,162,0.2)' : '#E8F5E6')
-                  : (isDark ? 'rgba(255,255,255,0.06)' : '#F3EDE6'),
+                  : (isDark ? 'rgba(255,255,255,0.06)' : 'var(--color-surface-2)'),
               color: active
-                ? (isDark ? '#3D3530' : '#FAF7F2')
+                ? (isDark ? 'var(--color-bark)' : 'var(--color-cream)')
                 : done
-                  ? '#A8D5A2'
+                  ? 'var(--color-sage)'
                   : textMuted,
               transition: 'background-color 200ms ease-out, color 200ms ease-out, transform 100ms ease-out',
               display: 'flex',

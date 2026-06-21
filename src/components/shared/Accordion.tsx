@@ -25,13 +25,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
         return (
           <div
             key={item.id}
-            style={{
-              background: isOpen ? 'var(--color-surface-2)' : 'var(--color-cream)',
-              borderRadius: 12,
-              marginBottom: 8,
-              border: '1px solid rgba(61,53,48,0.08)',
-              transition: 'background 200ms ease-out',
-            }}
+            className={`rounded-xl mb-2 border border-bark/[0.08] transition-[background] duration-200 ease-out ${isOpen ? 'bg-surface-2' : 'bg-cream'}`}
           >
             <button
               onClick={() => setOpenId(isOpen ? null : item.id)}
@@ -45,13 +39,11 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
                 padding: '16px 20px', display: 'flex',
                 justifyContent: 'space-between', alignItems: 'center',
                 gap: 16, cursor: 'pointer', textAlign: 'left',
-                fontFamily: "'DM Sans', sans-serif",
                 transition: 'transform 120ms ease-out',
               }}
             >
               <span
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
                   fontSize: isMobile ? 15 : 17,
                   fontWeight: 500,
                   color: 'var(--color-bark)',
@@ -63,7 +55,7 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
               <span
                 style={{
                   flexShrink: 0, width: 28, height: 28, borderRadius: '50%',
-                  background: isOpen ? 'var(--color-bark)' : '#F0EBE4',
+                  background: isOpen ? 'var(--color-bark)' : 'var(--color-surface-2)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   transition: 'background-color 220ms cubic-bezier(0.32,0.72,0,1), transform 220ms cubic-bezier(0.32,0.72,0,1)',
                   color: isOpen ? 'var(--color-cream)' : 'var(--color-bark)',
@@ -87,7 +79,6 @@ export function Accordion({ items, isMobile = false }: AccordionProps) {
             >
               <div
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
                   fontSize: isMobile ? 14 : 15,
                   color: 'var(--color-bark-light)',
                   lineHeight: 1.7,

@@ -49,7 +49,7 @@ export default function CartPage() {
   const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
 
   return (
-    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+    <div className="min-h-screen font-sans bg-cream">
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main className="pb-16">
@@ -91,12 +91,11 @@ export default function CartPage() {
                     <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
                       Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
                     </p>
-                    <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
+                    <div className="h-2 rounded-full overflow-hidden bg-bark/10">
                       <div
-                        className="h-full rounded-full transition-[width] duration-[280ms] ease-out"
+                        className="h-full rounded-full transition-[width] duration-[280ms] ease-out bg-sage"
                         style={{
                           width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
-                          background: 'var(--color-sage)',
                         }}
                       />
                     </div>
@@ -119,7 +118,7 @@ export default function CartPage() {
                       <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--color-bark)' }}>
                         Nemokamas pristatymas!
                       </p>
-                      <p style={{ margin: 0, fontSize: 12, color: '#6B6460' }}>
+                      <p className="text-bark-muted" style={{ margin: 0, fontSize: 12 }}>
                         Jūsų užsakymui priklauso nemokamas pristatymas.
                       </p>
                     </div>
@@ -139,7 +138,7 @@ export default function CartPage() {
                         className="relative flex items-center gap-3 border-bark/8 px-3 py-3 md:px-4 md:py-4"
                       >
                         {/* Thumbnail */}
-                        <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-[#F0EBE5] flex items-center justify-center">
+                        <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-surface-2 flex items-center justify-center">
                           {thumb
                             ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-contain p-[10px]" />
                             : <span style={{ fontSize: 24 }}>🐾</span>
@@ -147,13 +146,13 @@ export default function CartPage() {
                         </div>
                         {/* Item details */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-[15px] font-semibold mb-1 truncate" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>
+                          <p className="text-[15px] font-semibold mb-1 truncate text-bark">
                             {line.merchandise.product.title}
                           </p>
                           <div className="flex flex-wrap gap-1.5 items-center">
                             <Eyebrow className="text-[11px]">Kiekis {line.quantity}</Eyebrow>
                             {line.merchandise.title && line.merchandise.title !== 'Default Title' && (
-                              <span className="text-[12px] opacity-50" style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>{line.merchandise.title}</span>
+                              <span className="text-[12px] opacity-50 text-bark">{line.merchandise.title}</span>
                             )}
                           </div>
                         </div>
@@ -161,8 +160,7 @@ export default function CartPage() {
                         {/* Price + remove */}
                         <div className="flex flex-col items-end gap-2 shrink-0">
                           <span
-                            className="text-[16px] font-medium"
-                            style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+                            className="text-[16px] font-medium text-bark"
                           >
                             €{lineTotal.toFixed(2)}
                           </span>
@@ -226,15 +224,14 @@ export default function CartPage() {
                     </div>
 
                     {/* Divider */}
-                    <div className="h-px my-1" style={{ background: 'rgba(61,53,48,0.1)' }} />
+                    <div className="h-px my-1 bg-bark/10" />
 
                     <div className="flex justify-between items-center">
                       <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)' }}>
                         Iš viso
                       </span>
                       <span
-                        className="text-[22px] font-semibold"
-                        style={{ color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
+                        className="text-[22px] font-semibold text-bark"
                       >
                         €{total.toFixed(2)}
                       </span>
@@ -247,12 +244,11 @@ export default function CartPage() {
                       <p className="text-[13px] opacity-65 mb-2" style={{ color: 'var(--color-bark)' }}>
                         Iki nemokamo pristatymo liko €{amountToFreeShipping.toFixed(2)}
                       </p>
-                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(61,53,48,0.1)' }}>
+                      <div className="h-1.5 rounded-full overflow-hidden bg-bark/10">
                         <div
-                          className="h-full rounded-full"
+                          className="h-full rounded-full bg-sage"
                           style={{
                             width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
-                            background: 'var(--color-sage)',
                           }}
                         />
                       </div>

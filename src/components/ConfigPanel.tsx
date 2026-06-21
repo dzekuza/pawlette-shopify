@@ -50,10 +50,10 @@ export function ConfigPanel({
   const isMobile = width < 768
   const [showCharmsModal, setShowCharmsModal] = useState(false)
 
-  const textPrimary = isDark ? '#FAF7F2' : '#3D3530'
-  const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : '#6B6460'
-  const textMuted = isDark ? 'rgba(250,247,242,0.35)' : '#9B948F'
-  const borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#E8E3DC'
+  const textPrimary = isDark ? 'var(--color-cream)' : 'var(--color-bark)'
+  const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : 'var(--color-bark-muted)'
+  const textMuted = isDark ? 'rgba(250,247,242,0.35)' : 'var(--color-bark-muted)'
+  const borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'var(--color-border)'
   const divider = isDark ? 'rgba(255,255,255,0.08)' : '#EDEAE4'
   const panelBg = isDark ? 'rgba(30,22,18,0.85)' : 'transparent'
 
@@ -97,9 +97,9 @@ export function ConfigPanel({
       {/* ── Charms button ── */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Pakabukai</span>
+          <span style={{ fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Pakabukai</span>
           {selectedCount > 0 && (
-            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: textSecondary }}>{selectedCount} pasirinkta</span>
+            <span style={{ fontSize: 12, color: textSecondary }}>{selectedCount} pasirinkta</span>
           )}
         </div>
         <button
@@ -107,11 +107,11 @@ export function ConfigPanel({
           style={{
             width: '100%', padding: '13px 16px', borderRadius: 12,
             border: `1.5px solid ${borderColor}`, background: 'transparent',
-            cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600,
+            cursor: 'pointer', fontWeight: 600,
             fontSize: 14, color: textPrimary, display: 'flex', alignItems: 'center',
             justifyContent: 'space-between', transition: 'border-color 150ms, transform 120ms ease-out',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = '#A8D5A2' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--color-sage)' }}
           onMouseLeave={e => { e.currentTarget.style.borderColor = borderColor; (e.currentTarget as HTMLElement).style.transform = '' }}
           onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
           onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
@@ -143,18 +143,18 @@ export function ConfigPanel({
           className="w-full rounded-full border-none cursor-pointer font-sans font-semibold"
           style={{
             padding: isMobile ? '14px' : '16px',
-            background: '#A8D5A2',
-            color: '#2a5a25',
+            background: 'var(--color-sage)',
+            color: '#2a5a25', /* no token for dark sage text */
             fontSize: 16,
             letterSpacing: '0.01em',
             transition: 'background-color 150ms ease-out, transform 120ms ease-out',
             boxShadow: '0 4px 20px rgba(168,213,162,0.45)',
           }}
           onMouseEnter={e => {
-            e.currentTarget.style.background = '#8fc489'
+            e.currentTarget.style.background = 'var(--color-sage-dark)'
           }}
           onMouseLeave={e => {
-            e.currentTarget.style.background = '#A8D5A2';
+            e.currentTarget.style.background = 'var(--color-sage)';
             (e.currentTarget as HTMLElement).style.transform = ''
           }}
           onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
@@ -195,7 +195,7 @@ export function ConfigPanel({
           />
           {/* Panel */}
           <div style={{
-            position: 'relative', background: '#FAF7F2',
+            position: 'relative', background: 'var(--color-cream)',
             borderRadius: isMobile ? '24px 24px 0 0' : 24,
             maxHeight: isMobile ? '90vh' : '80vh',
             width: isMobile ? '100%' : 560,
@@ -204,10 +204,10 @@ export function ConfigPanel({
           }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0', flexShrink: 0 }}>
-              <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 700, fontSize: 17, color: '#3D3530' }}>Pridėti pakabukų</span>
+              <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--color-bark)' }}>Pridėti pakabukų</span>
               <button
                 onClick={() => setShowCharmsModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: '#9B948F', lineHeight: 1, padding: '0 4px' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: 'var(--color-bark-muted)', lineHeight: 1, padding: '0 4px' }}
                 aria-label="Uždaryti"
               >
                 ×
@@ -228,21 +228,21 @@ export function ConfigPanel({
             {/* Charm picker scrollable area */}
             <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px 16px' }}>
               <CharmsStep
-                borderColor='#E8E3DC'
+                borderColor='var(--color-border)'
                 charms={charms}
                 isDark={false}
                 selectedCharms={selectedCharms}
-                textMuted='#9B948F'
-                textPrimary='#3D3530'
-                textSecondary='#6B6460'
+                textMuted='var(--color-bark-muted)'
+                textPrimary='var(--color-bark)'
+                textSecondary='var(--color-bark-muted)'
                 toggleCharm={toggleCharm}
               />
             </div>
             {/* Done */}
-            <div style={{ padding: '12px 20px 28px', flexShrink: 0, borderTop: '1px solid #EDEAE4' }}>
+            <div style={{ padding: '12px 20px 28px', flexShrink: 0, borderTop: '1px solid var(--color-border)' }}>
               <button
                 onClick={() => setShowCharmsModal(false)}
-                style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 15, background: '#A8D5A2', color: '#2a5a25', letterSpacing: '0.01em' }}
+                style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15, background: 'var(--color-sage)', color: '#2a5a25', letterSpacing: '0.01em' }}
               >
                 Baigta{selectedCount > 0 ? ` — ${selectedCount} pakab.` : ''}
               </button>

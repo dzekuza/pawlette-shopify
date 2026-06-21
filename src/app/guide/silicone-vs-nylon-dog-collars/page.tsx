@@ -133,10 +133,10 @@ export default function ComparisonPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div style={{ background: 'var(--color-cream)', minHeight: '100dvh', fontFamily: "'DM Sans',sans-serif" }}>
+      <div className="bg-cream min-h-dvh">
         <LandingNav topOffset={0} />
 
-        <main style={{ maxWidth: 800, margin: '0 auto', padding: '128px 24px 96px' }}>
+        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 96px' }}>
           <div style={{ marginBottom: 24 }}>
             <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
               Skaityti dydžių gidą →
@@ -161,7 +161,7 @@ export default function ComparisonPage() {
           <DisplayHeading as="h2" size="compact" style={{ marginBottom: 24 }}>Palyginimas greta</DisplayHeading>
 
           <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)', marginBottom: 56 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr style={{ background: 'var(--color-bark)' }}>
                   <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-cream)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '22%' }}>Kriterijus</th>

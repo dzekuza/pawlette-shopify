@@ -30,14 +30,14 @@ export function ProductDetailMedia ({ isMobile, product }: ProductDetailMediaPro
           gap: 8,
           borderRadius: 999,
           border: '1px solid rgba(61,53,48,0.08)',
-          background: '#fff',
+          background: 'var(--color-cream)',
           padding: '7px 12px'
         }}
       >
         <span
           style={{ width: 8, height: 8, borderRadius: '50%', background: product.accentColor }}
         />
-        <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#6f6761' }}>
+        <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.07em', color: 'var(--color-bark-muted)' }}>
           {productLabel}
         </span>
       </div>

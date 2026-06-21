@@ -30,7 +30,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
         </button>
 
         <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
-          <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: '#A8D5A2', fontSize: 14, color: '#2a5a25' }}>✓</div>
+          <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: 'var(--color-sage)', fontSize: 14, color: '#2a5a25' }}>✓</div>
           <div>
             <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar?.title ?? ''} pridėtas į krepšelį</div>
             <div style={{ fontSize: 12, color: '#5a9a55' }}>Jūsų 5 įtraukti pakabukai jau paruošti pasirinkimui.</div>
@@ -53,7 +53,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
                 className="rounded-[14px] cursor-pointer flex flex-col items-center gap-1 font-sans"
                 style={{
                   background: c.bg,
-                  border: sel ? '2.5px solid #3D3530' : '2.5px solid transparent',
+                  border: sel ? '2.5px solid var(--color-bark)' : '2.5px solid transparent',
                   padding: '12px 8px',
                   transform: sel ? 'scale(1.05)' : 'scale(1)',
                   transition: 'transform 150ms ease-out, border-color 150ms ease-out',
@@ -72,14 +72,14 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
           <button
             onClick={onClose}
             className="flex-1 font-medium cursor-pointer rounded-full font-sans text-bark-light bg-white"
-            style={{ fontSize: 14, padding: '13px', border: '2px solid #E8E3DC' }}
+            style={{ fontSize: 14, padding: '13px', border: '2px solid var(--color-border)' }}
           >
             Ne, ačiū
           </button>
           <button
             onClick={() => { onAddCharms(picked); onClose(); }}
             className="flex-[2] font-medium cursor-pointer rounded-full border-none font-sans"
-            style={{ fontSize: 14, padding: '13px', background: '#A8D5A2', color: '#2a5a25' }}
+            style={{ fontSize: 14, padding: '13px', background: 'var(--color-sage)', color: '#2a5a25' }}
           >
             {picked.length > 0 ? `Pridėti ${picked.length} pakab. — +€${picked.length * 6}` : 'Eiti į krepšelį →'}
           </button>

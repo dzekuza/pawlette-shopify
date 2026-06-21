@@ -38,8 +38,8 @@ function PriceLine ({ price }: { price: string }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
       <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.4)', textDecoration: 'line-through' }}>€{orig.toFixed(2)}</span>
-      <span style={{ fontSize: 13, fontWeight: 700, color: '#2a5a25' }}>€{disc.toFixed(2)}</span>
-      <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(168,213,162,0.3)', color: '#2a5a25', borderRadius: 99, padding: '1px 6px' }}>−10%</span>
+      <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-interactive-text)' }}>€{disc.toFixed(2)}</span>
+      <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(168,213,162,0.3)', color: 'var(--color-interactive-text)', borderRadius: 99, padding: '1px 6px' }}>−10%</span>
     </div>
   )
 }
@@ -52,7 +52,7 @@ function AddButton ({ adding, added, onClick, label }: { adding: boolean; added:
       aria-label={label}
       style={{
         flexShrink: 0, width: 36, height: 36, borderRadius: 10, border: 'none',
-        background: added ? '#2a5a25' : 'var(--color-bark)', color: '#fff', fontSize: added ? 16 : 20, lineHeight: 1,
+        background: added ? 'var(--color-interactive-text)' : 'var(--color-bark)', color: 'var(--color-cream)', fontSize: added ? 16 : 20, lineHeight: 1,
         cursor: (adding || added) ? 'default' : 'pointer', display: 'flex', alignItems: 'center',
         justifyContent: 'center', opacity: adding ? 0.6 : 1, transition: 'background 200ms, opacity 150ms',
       }}
@@ -107,7 +107,7 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
   }
 
   return (
-    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: '#fff' }}>
+    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: 'var(--color-cream)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href={`/products/${item.slug}`} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 10, overflow: 'hidden', position: 'relative', display: 'block' }}>
           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
@@ -172,7 +172,7 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
   }
 
   return (
-    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: '#fff' }}>
+    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: 'var(--color-cream)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href={`/products/${item.slug}`} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 10, overflow: 'hidden', position: 'relative', display: 'block' }}>
           <Image src={image} alt={item.name} fill className="object-cover" sizes="56px" />

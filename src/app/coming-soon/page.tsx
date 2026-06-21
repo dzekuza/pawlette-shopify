@@ -116,6 +116,7 @@ export default function ComingSoonPage() {
       `}</style>
 
       <main
+        className="font-sans"
         style={{
           minHeight: '100dvh',
           background: 'var(--color-cream)',
@@ -126,7 +127,6 @@ export default function ComingSoonPage() {
           position: 'relative',
           overflow: 'hidden',
           padding: '40px 24px',
-          fontFamily: "'DM Sans', sans-serif",
         }}
       >
         {/* Floating paws */}
@@ -180,12 +180,11 @@ export default function ComingSoonPage() {
           {/* Tag badge */}
           <div className="animate-in-1" style={{ marginBottom: 24 }}>
             <span
-              className="tag-wiggle"
+              className="tag-wiggle font-sans"
               style={{
                 display: 'inline-block',
                 background: 'var(--color-bark)',
                 color: 'var(--color-cream)',
-                fontFamily: "'DM Sans', sans-serif",
                 fontSize: 13,
                 fontWeight: 600,
                 letterSpacing: '0.12em',
@@ -200,9 +199,8 @@ export default function ComingSoonPage() {
 
           {/* Heading */}
           <h1
-            className="animate-in-2"
+            className="animate-in-2 font-display"
             style={{
-              fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif",
               fontSize: 'clamp(52px, 10vw, 88px)',
               lineHeight: 1,
               color: 'var(--color-bark)',
@@ -215,9 +213,8 @@ export default function ComingSoonPage() {
 
           {/* Accent line */}
           <p
-            className="animate-in-2"
+            className="animate-in-2 font-handwriting"
             style={{
-              fontFamily: "'Caveat', cursive",
               fontSize: 'clamp(22px, 4vw, 30px)',
               color: 'var(--color-sage)',
               margin: '0 0 20px',
@@ -276,7 +273,7 @@ export default function ComingSoonPage() {
                 onChange={(e) => { setEmail(e.target.value); setStatus('idle'); }}
                 placeholder="jusu@elpastas.lt"
                 disabled={status === 'loading' || status === 'success'}
-                className={status === 'error' ? 'input-shake' : ''}
+                className={`font-sans${status === 'error' ? ' input-shake' : ''}`}
                 style={{
                   flex: 1,
                   height: 52,
@@ -286,7 +283,6 @@ export default function ComingSoonPage() {
                   background: 'rgba(255,255,255,0.75)',
                   backdropFilter: 'blur(8px)',
                   fontSize: 15,
-                  fontFamily: "'DM Sans', sans-serif",
                   color: 'var(--color-bark)',
                   outline: 'none',
                   transition: 'border-color 0.2s',
@@ -296,7 +292,7 @@ export default function ComingSoonPage() {
               <button
                 type="submit"
                 disabled={status === 'loading' || status === 'success'}
-                className={status !== 'success' ? 'shimmer-btn' : ''}
+                className={`font-sans${status !== 'success' ? ' shimmer-btn' : ''}`}
                 style={{
                   height: 52,
                   padding: '0 26px',
@@ -306,7 +302,6 @@ export default function ComingSoonPage() {
                   color: 'var(--color-bark)',
                   fontSize: 15,
                   fontWeight: 700,
-                  fontFamily: "'DM Sans', sans-serif",
                   cursor: status === 'loading' || status === 'success' ? 'default' : 'pointer',
                   whiteSpace: 'nowrap',
                   transition: 'opacity 0.2s, background 0.3s',
@@ -368,13 +363,12 @@ export default function ComingSoonPage() {
 
           {/* Bottom note */}
           <p
-            className="animate-in-5"
+            className="animate-in-5 font-sans"
             style={{
               marginTop: 48,
               fontSize: 12,
               color: 'var(--color-bark)',
               opacity: 0.3,
-              fontFamily: "'DM Sans', sans-serif",
             }}
           >
             © 2026 PawCharms · Vilnius, Lietuva

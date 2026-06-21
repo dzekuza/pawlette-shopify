@@ -81,7 +81,7 @@ export default function FaqPage() {
   const cartCount = useCartCount();
 
   return (
-    <div className="min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+    <div className="min-h-screen font-sans bg-cream">
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <PageHero
@@ -93,7 +93,7 @@ export default function FaqPage() {
       />
 
       {/* FAQ columns */}
-      <section className="max-w-[1120px] mx-auto px-5 md:px-10 pb-[60px] md:pb-[100px]">
+      <section className="max-w-[1200px] mx-auto px-5 md:px-10 pb-[60px] md:pb-[100px]">
         {/* Single column on mobile, two columns on desktop */}
         <div className="block md:grid md:grid-cols-2 md:gap-16 md:items-start">
           <CategoryBlock
@@ -114,12 +114,10 @@ export default function FaqPage() {
 
       {/* Bottom CTA band */}
       <section
-        className="px-5 md:px-10 py-[60px] md:py-[80px] text-center"
-        style={{ background: 'var(--color-bark)' }}
+        className="px-5 md:px-10 py-[60px] md:py-[80px] text-center bg-bark"
       >
         <p
-          className="text-[22px] md:text-[28px] mb-2"
-          style={{ color: 'var(--color-sage)', fontFamily: "'Caveat', cursive", letterSpacing: '0.01em' }}
+          className="font-handwriting text-[22px] md:text-[28px] mb-2 text-sage tracking-[0.01em]"
         >
           Dar abejojate?
         </p>

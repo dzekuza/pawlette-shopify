@@ -25,7 +25,7 @@ export function ProductsPageContent ({ collars, charmCollection }: ProductsPageC
     <>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
-      <main style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px' }}>
+      <main className="max-w-[1200px] mx-auto" style={{ padding: isMobile ? '32px 16px' : '64px 48px' }}>
         <PageHero
           tone='hero'
           eyebrow='Parduotuvė'

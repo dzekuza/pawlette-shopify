@@ -4,6 +4,8 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
 import Link from 'next/link';
+import { DisplayHeading } from '@/components/storefront/Typography';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 const FAQS: AccordionItem[] = [
   {
@@ -33,7 +35,7 @@ export function FAQ() {
   const isMobile = w < 768;
 
   return (
-    <section style={{ background: 'var(--color-cream)' }}>
+    <section className="bg-cream">
       <div style={{
         maxWidth: 760,
         margin: '0 auto',
@@ -42,19 +44,11 @@ export function FAQ() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: 40,
-        fontFamily: "'DM Sans', sans-serif",
       }}>
         {/* Heading */}
-        <h2 style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: isMobile ? 32 : 40,
-          letterSpacing: '-0.02em',
-          lineHeight: 1.15,
-          textAlign: 'center',
-          margin: 0,
-        }}>
+        <DisplayHeading as="h2" size="section" className="text-bark text-center">
           Turite klausimų?
-        </h2>
+        </DisplayHeading>
 
         {/* Accordion */}
         <div style={{ width: '100%' }}>
@@ -62,22 +56,9 @@ export function FAQ() {
         </div>
 
         {/* CTA */}
-        <Link
-          href="/products"
-          style={{
-            display: 'inline-block',
-            textAlign: 'center',
-            background: 'var(--color-sage)',
-            borderRadius: 100,
-            padding: '14px 32px',
-            fontSize: 16,
-            fontWeight: 500,
-            color: 'var(--color-interactive-text)',
-            textDecoration: 'none',
-          }}
-        >
+        <PrimaryButton href="/products" variant="sage" size="md">
           Užsakyti iš anksto
-        </Link>
+        </PrimaryButton>
       </div>
     </section>
   );

@@ -22,13 +22,13 @@ export function UrgencyBar({ collar, isDark }: { collar: ShopifyCollar | null; i
       marginBottom: 16,
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#e8a020', flexShrink: 0 }} />
+        <div className="w-[7px] h-[7px] rounded-full bg-honey shrink-0" />
         <span suppressHydrationWarning style={{ fontSize: 13, fontWeight: 500, color: isDark ? 'rgba(250,247,242,0.8)' : '#7a5010' }}>
           Liko tik {count} rink. {collar?.title ?? ''} sandėlyje
         </span>
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 7, height: 7, borderRadius: '50%', background: '#A8D5A2', animation: 'pulse 2s ease-in-out infinite', flexShrink: 0 }} />
+        <div className="w-[7px] h-[7px] rounded-full bg-sage shrink-0" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
         <span suppressHydrationWarning style={{ fontSize: 12, color: isDark ? 'rgba(250,247,242,0.5)' : '#6B6460' }}>
           Dabar šį produktą žiūri {viewers} žmonės
         </span>

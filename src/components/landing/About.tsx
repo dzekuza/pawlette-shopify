@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const BENTO_IMAGES = [
   { src: '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp', alt: 'Auksinė retriverė su antkakleliu' },
@@ -16,7 +17,7 @@ export function About() {
   const isMobile = w < 768;
 
   return (
-    <section id="about" style={{ background: 'var(--color-surface-2)' }}>
+    <section id="about" className="bg-surface-2">
       <div style={{
         maxWidth: 1200,
         margin: '0 auto',
@@ -25,19 +26,13 @@ export function About() {
         gridTemplateColumns: isMobile ? '1fr' : '614px 1fr',
         gap: isMobile ? 40 : 32,
         alignItems: 'center',
-        fontFamily: "'DM Sans', sans-serif",
       }}>
 
         {/* Left — text */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <h2 style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 32 : 48,
-            letterSpacing: '0.02em',
-            lineHeight: 1.05,
-          }}>
+          <DisplayHeading as="h2" size="section" className="text-bark" style={{ fontSize: isMobile ? 32 : 48 }}>
             Sukurta su <span style={{ color: 'var(--color-blossom)' }}>meile</span>, čia, Lietuvoje.
-          </h2>
+          </DisplayHeading>
 
           <p style={{
             fontSize: 16,

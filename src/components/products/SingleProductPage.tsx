@@ -468,14 +468,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </div>
             )}
           </div>
-          <div style={{ padding: '24px 20px 80px', display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
+          <div style={{ padding: '24px 20px 80px', display: 'flex', flexDirection: 'column', gap: 24 }}>
             {/* charm right panel content — same as desktop below */}
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
                 <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
                 <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
               </div>
-              <h1 style={{ margin: '0 0 10px', fontSize: 24, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{displayName}</h1>
+              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 24, lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -508,7 +508,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 <CharmPicker charms={filteredCharms} selected={null} selectedIds={selectedCharms.filter(Boolean).map(c => c!.id)} onSelect={toggleCharm} query={charmQuery} onQueryChange={setCharmQuery} />
               </>
             )}
-            <div style={{ height: 1, background: '#EDEAE4' }} />
+            <div style={{ height: 1, background: 'var(--color-surface-2)' }} />
             {/* Review carousel */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ overflow: 'hidden' }}>
@@ -536,7 +536,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {/* Trust strip */}
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
               {PDP_TRUST_POINTS.map((point) => (
-                <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+                <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
               ))}
             </div>
             {product.charmVariants && <CharmAccordion product={product} />}
@@ -547,11 +547,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {/* ── Desktop layout ── */}
       {!isMobile && (
       <div
-        className="w-full mx-auto px-5 md:px-10"
+        className="w-full mx-auto px-6"
         style={{ maxWidth: 1200, paddingBottom: 48 }}
       >
         {/* Breadcrumb */}
-        <nav aria-label="breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>
+        <nav aria-label="breadcrumb" className="font-sans" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)' }}>
           <a href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</a>
           <span style={{ opacity: 0.4 }}>/</span>
           <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
@@ -596,7 +596,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {charmThumbnails.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 {charmThumbnails.map(({ src, index }, thumbIndex) => (
-                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid #3D3530' : 'none', position: 'relative' }}>
+                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid var(--color-bark)' : 'none', position: 'relative' }}>
                     <Image src={src} alt="" fill sizes='(max-width: 1280px) 25vw, 300px' className='object-cover' />
                   </div>
                 ))}
@@ -612,13 +612,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           </div>
         ) : (
           /* Desktop charm right */
-          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
+          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
             <div>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
                 <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
                 <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
               </div>
-              <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{displayName}</h1>
+              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -679,7 +679,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {/* Trust strip */}
             <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
               {PDP_TRUST_POINTS.map((point) => (
-                <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+                <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
               ))}
             </div>
             {product.charmVariants && <CharmAccordion product={product} />}
@@ -691,9 +691,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
 
       {/* Section: left text, right image */}
-      <section style={{ background: '#F0EDE8', padding: '80px 24px' }}>
+      <section className="bg-surface-2" style={{ padding: '80px 24px' }}>
         <div style={{
-          maxWidth: 1100,
+          maxWidth: 1200,
           margin: '0 auto',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
@@ -701,16 +701,16 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           gap: isMobile ? 40 : 80,
         }}>
           <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
+            <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Sukurta su meile
             </p>
-            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+            <DisplayHeading as="h2" size="section" className="mb-5" style={{ fontSize: isMobile ? 32 : 44, lineHeight: 1.15 }}>
               Kiekvienas pakabuko detalė — tai istorija
-            </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
+            </DisplayHeading>
+            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
               Mūsų silikoniniai pakabukai pagaminti iš saugių, patvariomis medžiagomis — be toksinų, be aštrių briaunų. Kiekvienas dizainas atspindi charakterį: nuo žvaigždučių iki mažyčių širdžių.
             </p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
+            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
               Rink pakabuką, kuris atspindi tavo šuniuką — ir sukurk unikalų antkaklio rinkinį, kuris bus tikrai jūsų.
             </p>
           </div>
@@ -729,7 +729,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {/* Section: 3-col features */}
       <section style={{ padding: isMobile ? '60px 24px' : '80px 24px' }}>
         <div style={{
-          maxWidth: 1100,
+          maxWidth: 1200,
           margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
@@ -742,15 +742,15 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
-              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Sauga pirmiausia</h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Visi pakabukai pagaminti iš maistinio silikono — be toksinų, be aštrių briaunų, saugu net jautriai odai.</p>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Sauga pirmiausia</DisplayHeading>
+              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Visi pakabukai pagaminti iš maistinio silikono — be toksinų, be aštrių briaunų, saugu net jautriai odai.</p>
             </div>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
               </div>
-              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Per 5 sekundes</h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukas prisegamas ir nusegamas akimirksniu — be įrankių, be vargo, tiesiog spustelk.</p>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Per 5 sekundes</DisplayHeading>
+              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukas prisegamas ir nusegamas akimirksniu — be įrankių, be vargo, tiesiog spustelk.</p>
             </div>
           </div>
 
@@ -771,24 +771,24 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </div>
-              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Unikalus stilius</h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>5 vietos pakabukams — rink derinį pagal nuotaiką, sezoną ar charakterį. Mix &amp; match be galo.</p>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Unikalus stilius</DisplayHeading>
+              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>5 vietos pakabukams — rink derinį pagal nuotaiką, sezoną ar charakterį. Mix &amp; match be galo.</p>
             </div>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l1.5-1.5"/><path d="M7 13l1.5-1.5"/><path d="M11 9l1.5-1.5"/><path d="M15 5l1.5-1.5"/><path d="M17 17l2-2-7-7-2 2"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
               </div>
-              <h3 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 20, color: 'var(--color-bark)', lineHeight: 1.2, marginBottom: 8 }}>Vandeniui atsparus</h3>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukai ir antkaklis atlaiko lietų, balą ir vonią — lengvai nuplaunami, spalva neflysta.</p>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Vandeniui atsparus</DisplayHeading>
+              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukai ir antkaklis atlaiko lietų, balą ir vonią — lengvai nuplaunami, spalva neflysta.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Section: left image, right text */}
-      <section style={{ background: '#F0EDE8', padding: '80px 24px' }}>
+      <section className="bg-surface-2" style={{ padding: '80px 24px' }}>
         <div style={{
-          maxWidth: 1100,
+          maxWidth: 1200,
           margin: '0 auto',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
@@ -805,16 +805,16 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             />
           </div>
           <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
+            <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Tavo stiliui
             </p>
-            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 32 : 44, color: 'var(--color-bark)', lineHeight: 1.15, marginBottom: 20 }}>
+            <DisplayHeading as="h2" size="section" className="mb-5" style={{ fontSize: isMobile ? 32 : 44, lineHeight: 1.15 }}>
               Mix & match — be galo galimybių
-            </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
+            </DisplayHeading>
+            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
               Vienas antkaklis — dešimtys derinių. Keisk pakabukas pagal nuotaiką, sezoną ar progą. Mūsų antkakliai turi 5 specialias vietas, kurias gali pildyti kaip tik nori.
             </p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
+            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
               Sukurk rinkinį, kuris augs kartu su tavo šuniuku — ir visada atspindės jūsų ryšį.
             </p>
           </div>
@@ -824,7 +824,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {/* Section: 4-col feature strip */}
       <section style={{ padding: isMobile ? '52px 24px' : '72px 24px', background: 'var(--color-cream)' }}>
         <div style={{
-          maxWidth: 1100,
+          maxWidth: 1200,
           margin: '0 auto',
           display: 'grid',
           gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
@@ -854,8 +854,8 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           ].map(({ icon, heading, body }) => (
             <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div>{icon}</div>
-              <h4 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 17, color: 'var(--color-bark)', lineHeight: 1.2, margin: 0 }}>{heading}</h4>
-              <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.7, margin: 0 }}>{body}</p>
+              <DisplayHeading as="h3" size="compact" className="m-0" style={{ fontSize: 17, lineHeight: 1.2 }}>{heading}</DisplayHeading>
+              <p className="font-sans" style={{ fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.7, margin: 0 }}>{body}</p>
             </div>
           ))}
         </div>
@@ -902,11 +902,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               borderRadius: 999,
               border: 'none',
               cursor: 'pointer',
-              fontFamily: "'DM Sans',sans-serif",
               fontWeight: 600,
               fontSize: 15,
               letterSpacing: '0.01em',
-              background: '#A8D5A2',
+              background: 'var(--color-sage)',
               color: '#2A5A25',
               boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
             }}
@@ -924,11 +923,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            style={{ background: '#FAF7F2', borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 600, padding: '28px 24px 40px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', gap: 20 }}
+            className="bg-cream" style={{ borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 600, padding: '28px 24px 40px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', gap: 20 }}
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>Pridėti pakabuką</h2>
+              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY }}>Pridėti pakabuką</DisplayHeading>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -959,10 +958,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                     display: 'flex', alignItems: 'center', gap: 6,
                     padding: '6px 12px 6px 8px',
                     borderRadius: 50, border: 'none', cursor: 'pointer',
-                    fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 500,
+                    fontSize: 13, fontWeight: 500,
                     whiteSpace: 'nowrap',
                     background: collarCharmColor === key ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
-                    color: collarCharmColor === key ? '#FAF7F2' : TEXT_PRIMARY,
+                    color: collarCharmColor === key ? 'var(--color-cream)' : TEXT_PRIMARY,
                     transition: 'background 150ms, color 150ms',
                   }}
                 >
@@ -990,8 +989,8 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               disabled={!selectedCollarCharmCount}
               style={{
                 width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: selectedCollarCharmCount ? 'pointer' : 'not-allowed',
-                fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16,
-                background: selectedCollarCharmCount ? '#A8D5A2' : '#E8E3DC',
+                fontWeight: 600, fontSize: 16,
+                background: selectedCollarCharmCount ? 'var(--color-sage)' : '#E8E3DC',
                 color: selectedCollarCharmCount ? '#2A5A25' : TEXT_MUTED,
                 transition: 'background 150ms',
               }}
@@ -1013,10 +1012,10 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
 
   return (
     <section className="bg-cream py-[60px] md:py-[96px]">
-      <div className="mx-auto max-w-[1160px] px-5 md:px-10">
-        <div className="mb-10 md:mb-12">
-          <Eyebrow className="mb-3.5">Rekomenduojami produktai</Eyebrow>
-          <DisplayHeading as='h2' className="m-0 text-[clamp(1.75rem,3.5vw,2.5rem)] tracking-[-0.02em]">
+      <div className="mx-auto max-w-[1200px] px-6">
+        <div style={{ marginBottom: 40 }}>
+          <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, margin: '0 0 8px' }}>Rekomenduojami produktai</p>
+          <DisplayHeading as="h2" size="section" className="m-0" style={{ fontSize: 36, lineHeight: 1.15 }}>
             Jums taip pat gali patikti
           </DisplayHeading>
         </div>
@@ -1149,14 +1148,14 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
   ]
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, fontFamily: "'DM Sans',sans-serif" }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Title & price */}
       <div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
         </div>
-        <h1 style={{ margin: '0 0 10px', fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif" }}>{name}</h1>
+        <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
@@ -1228,10 +1227,10 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   onClick={() => onSizeChange(s)}
                   style={{
                     minWidth: 48, padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
-                    fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 14,
+                    fontWeight: 600, fontSize: 14,
                     border: `2px solid ${isSelected ? TEXT_PRIMARY : BORDER_COLOR}`,
                     background: isSelected ? TEXT_PRIMARY : 'transparent',
-                    color: isSelected ? '#FAF7F2' : TEXT_PRIMARY,
+                    color: isSelected ? 'var(--color-cream)' : TEXT_PRIMARY,
                     transition: 'background 150ms, border-color 150ms, color 150ms',
                   }}
                 >
@@ -1257,7 +1256,6 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 fontWeight: 600,
                 color: '#2A5A25',
                 textDecoration: 'none',
-                fontFamily: "'DM Sans',sans-serif",
               }}
             >
               Kaip išmatuoti tinkamą dydį →
@@ -1271,8 +1269,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       {showCharms && (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>Įtraukti pakabukai</span>
-          {!!selectedCharmCount && <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: TEXT_SECONDARY }}>{selectedCharmCount} pasirinkti</span>}
+          <span style={{ fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>Įtraukti pakabukai</span>
+          {!!selectedCharmCount && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selectedCharmCount} pasirinkti</span>}
         </div>
         <button
           onClick={onPersonalise}
@@ -1281,7 +1279,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             padding: '14px 16px', borderRadius: 16, border: '1px solid rgba(255,255,255,0.55)',
             background: 'linear-gradient(135deg, rgba(255,214,165,0.95) 0%, rgba(255,182,193,0.92) 34%, rgba(184,216,244,0.94) 68%, rgba(168,213,162,0.92) 100%)',
             boxShadow: '0 14px 28px rgba(196,165,145,0.18), inset 0 1px 0 rgba(255,255,255,0.45)',
-            cursor: 'pointer', fontFamily: "'DM Sans',sans-serif",
+            cursor: 'pointer',
             fontSize: 14, fontWeight: 500, color: TEXT_PRIMARY, transition: 'transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease',
             position: 'relative',
             overflow: 'hidden',
@@ -1438,12 +1436,12 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         onClick={handleAddToCart}
         style={{
           width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
-          fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
-          background: '#A8D5A2', color: '#2a5a25',
+          fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+          background: 'var(--color-sage)', color: '#2a5a25',
           boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
         }}
         onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'translateY(0)' }}
         onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
         onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
@@ -1452,7 +1450,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       {/* Trust strip — purchase reassurance below CTA */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
         {PDP_TRUST_POINTS.map((point) => (
-          <div key={point} style={{ padding: '7px 12px', borderRadius: 999, background: '#FFFDF9', border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
+          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
             {point}
           </div>
         ))}
@@ -1474,7 +1472,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 style={{
                   width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                   padding: '16px 0', background: 'none', border: 'none', cursor: 'pointer',
-                  fontFamily: "'DM Sans',sans-serif", fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, textAlign: 'left',
+                  fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, textAlign: 'left',
                 }}
               >
                 {item.title}
@@ -1506,7 +1504,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
               width: '100%',
               maxWidth: 420,
               borderRadius: 24,
-              background: '#FFFDF9',
+              background: 'var(--color-cream)',
               boxShadow: '0 24px 60px rgba(61,53,48,0.18)',
               padding: '24px 22px 22px',
               display: 'flex',
@@ -1519,9 +1517,9 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>
                   Dydžių gidas
                 </div>
-                <h3 style={{ margin: '6px 0 0', fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif", fontWeight: 400 }}>
+                <DisplayHeading as="h3" size="compact" className="mt-[6px] m-0" style={{ fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontWeight: 400 }}>
                   Kaip išmatuoti savo šunį
-                </h3>
+                </DisplayHeading>
               </div>
               <button
                 type="button"
@@ -1550,7 +1548,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
               ))}
             </div>
 
-            <div style={{ borderRadius: 16, background: '#F7F2EB', padding: '14px 16px' }}>
+            <div style={{ borderRadius: 16, background: 'var(--color-surface-2)', padding: '14px 16px' }}>
               <p style={{ margin: 0, fontSize: 13, lineHeight: 1.55, color: TEXT_PRIMARY }}>
                 <strong>Patarimas:</strong> Matuokite dienos pabaigoje, kai šuo atsipalaidavęs. Jei kailis purus, matuokite po juo, o ne virš jo.
               </p>
@@ -1580,7 +1578,7 @@ function CharmColorPicker ({ color, onColorChange, options }: { color: string; o
             onClick={() => onColorChange(value)}
             title={label}
             style={{
-              width: 28, height: 28, borderRadius: '50%', border: color === value ? '2px solid #3D3530' : '2px solid transparent',
+              width: 28, height: 28, borderRadius: '50%', border: color === value ? '2px solid var(--color-bark)' : '2px solid transparent',
               background: dot, cursor: 'pointer', outline: 'none',
               boxShadow: color === value ? '0 0 0 1px rgba(61,53,48,0.15)' : 'none',
               transition: 'border-color 120ms',
@@ -1629,7 +1627,7 @@ function CharmPicker ({
         <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>Rinktis pakabuką</span>
         {selected && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selected.title}</span>}
       </div>
-<input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Ieškoti pakabukų…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: '#F8F5F1', color: TEXT_PRIMARY, fontSize: 13, fontFamily: "'DM Sans',sans-serif", outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = '#A8D5A2' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
+<input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Ieškoti pakabukų…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)', color: TEXT_PRIMARY, fontSize: 13, outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = 'var(--color-sage)' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minHeight: 0 }}>
         <div
@@ -1645,10 +1643,10 @@ function CharmPicker ({
           {charms.map((charm) => {
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
-              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: '#F0EBE5', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
+              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: 'var(--color-surface-2)', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
                 {charm.image
                   ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
-                  : <span aria-hidden="true" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
+                  : <span aria-hidden="true" className="font-display" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
                 }
                 <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.baseTitle}</span>
               </button>
@@ -1667,10 +1665,9 @@ function CharmPicker ({
               height: 34,
               borderRadius: 999,
               border: `1.5px solid ${BORDER_COLOR}`,
-              background: '#FFFDF9',
+              background: 'var(--color-cream)',
               color: TEXT_PRIMARY,
               cursor: 'pointer',
-              fontFamily: "'DM Sans',sans-serif",
               fontSize: 12,
               fontWeight: 600,
               letterSpacing: '0.03em',
@@ -1699,14 +1696,14 @@ function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count:
         style={{
           width: '100%', padding: isMobile ? '14px' : '16px', borderRadius: 50, border: 'none',
           cursor: count ? 'pointer' : 'not-allowed',
-          fontFamily: "'DM Sans',sans-serif", fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
-          background: count ? '#A8D5A2' : '#E8E3DC',
+          fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+          background: count ? 'var(--color-sage)' : '#E8E3DC',
           color: count ? '#2a5a25' : TEXT_MUTED,
           transition: 'background-color 150ms ease-out, transform 80ms ease-out',
           boxShadow: count ? '0 4px 20px rgba(168,213,162,0.45)' : 'none',
         }}
         onMouseEnter={(e) => { if (count) { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' } }}
-        onMouseLeave={(e) => { if (count) { e.currentTarget.style.background = '#A8D5A2'; e.currentTarget.style.transform = 'translateY(0)' } }}
+        onMouseLeave={(e) => { if (count) { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'translateY(0)' } }}
         onMouseDown={(e) => { if (count) e.currentTarget.style.transform = 'translateY(1px)' }}
         onMouseUp={(e) => { if (count) e.currentTarget.style.transform = 'translateY(-1px)' }}
       >

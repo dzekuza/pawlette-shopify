@@ -139,7 +139,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
   ].filter(Boolean) as AccordionItem[]
 
   return (
-    <div style={{ background: 'var(--color-cream)', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif", WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
+    <div style={{ background: 'var(--color-cream)', minHeight: '100vh', WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale' }}>
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── HERO ── */}
@@ -179,8 +179,8 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       </div>
 
       {/* ── FEATURES STRIP ── */}
-      <section style={{ background: '#fff', borderTop: '1px solid rgba(61,53,48,0.08)', borderBottom: '1px solid rgba(61,53,48,0.08)' }}>
-        <div style={{ maxWidth: 1160, margin: '0 auto', padding: isMobile ? '32px 20px' : '48px 40px', display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: isMobile ? 24 : 40 }}>
+      <section style={{ background: 'white', borderTop: '1px solid rgba(61,53,48,0.08)', borderBottom: '1px solid rgba(61,53,48,0.08)' }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 20px' : '48px 40px', display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)', gap: isMobile ? 24 : 40 }}>
           {LEASH_FEATURES.map(({ icon: Icon, label, desc }) => (
             <div key={label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 10 }}>
               <div style={{ width: 48, height: 48, borderRadius: 12, background: 'var(--color-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -196,7 +196,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── DETAILS ACCORDION ── */}
       {accordionItems.length > 0 && (
         <section style={{ maxWidth: 720, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-          <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+          <h2 className="font-display" style={{ fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 24, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Informacija
           </h2>
           <Accordion items={accordionItems} />
@@ -205,9 +205,9 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
 
       {/* ── COMPLETE THE LOOK ── */}
       {recommendedProducts.filter(p => p.productType === 'collar').length > 0 && (
-        <section style={{ background: '#fff' }}>
-          <div style={{ maxWidth: 1160, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
-            <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+        <section style={{ background: 'white' }}>
+          <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '40px 20px' : '64px 40px' }}>
+            <h2 className="font-display" style={{ fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 8, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
               Sukurk rinkinį
             </h2>
             <p style={{ textAlign: 'center', color: 'rgba(61,53,48,0.6)', fontSize: 15, marginBottom: 32 }}>
@@ -215,7 +215,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
               {recommendedProducts.filter(p => p.productType === 'collar').slice(0, 3).map(p => (
-                <a key={p.slug} href={`/products/${p.slug}`} style={{ display: 'block', borderRadius: 16, overflow: 'hidden', background: p.tintColor || 'var(--color-cream)', textDecoration: 'none', transition: 'transform 200ms', boxShadow: '0 2px 12px rgba(61,53,48,0.08)' }}>
+                <a key={p.slug} href={`/products/${p.slug}`} style={{ display: 'block', borderRadius: 16, overflow: 'hidden', background: p.tintColor ?? 'var(--color-cream)', textDecoration: 'none', transition: 'transform 200ms', boxShadow: '0 2px 12px rgba(61,53,48,0.08)' }}>
                   <div style={{ position: 'relative', aspectRatio: '4/3' }}>
                     <Image src={p.image} alt={p.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" />
                   </div>
@@ -232,13 +232,13 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
 
       {/* ── RECOMMENDED ── */}
       {recommendedProducts.length > 0 && (
-        <section style={{ padding: isMobile ? '40px 20px' : '64px 40px', maxWidth: 1160, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
+        <section style={{ padding: isMobile ? '40px 20px' : '64px 40px', maxWidth: 1200, margin: '0 auto' }}>
+          <h2 className="font-display" style={{ fontSize: isMobile ? 22 : 28, lineHeight: 1.15, color: 'var(--color-bark)', marginBottom: 32, textAlign: 'center', textWrap: 'balance' } as React.CSSProperties}>
             Gali patikti ir tai
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
             {recommendedProducts.slice(0, 3).map(p => (
-              <a key={p.slug} href={`/products/${p.slug}`} style={{ display: 'block', borderRadius: 16, overflow: 'hidden', background: p.tintColor || '#fff', textDecoration: 'none', boxShadow: '0 2px 12px rgba(61,53,48,0.08)' }}>
+              <a key={p.slug} href={`/products/${p.slug}`} style={{ display: 'block', borderRadius: 16, overflow: 'hidden', background: p.tintColor ?? 'var(--color-cream)', textDecoration: 'none', boxShadow: '0 2px 12px rgba(61,53,48,0.08)' }}>
                 <div style={{ position: 'relative', aspectRatio: '4/3' }}>
                   <Image src={p.image} alt={p.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 400px" />
                 </div>
@@ -277,7 +277,7 @@ interface LayoutProps {
 
 function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, upsellCollars }: LayoutProps) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 480px', maxWidth: 1160, margin: '0 auto', padding: '48px 40px', gap: 64, alignItems: 'start' }}>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 480px', maxWidth: 1200, margin: '0 auto', padding: '48px 40px', gap: 64, alignItems: 'start' }}>
       {/* Gallery column */}
       <div>
         <div style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', aspectRatio: '4/5', marginBottom: 12 }}>
@@ -403,11 +403,11 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
             {product.badge}
           </div>
         )}
-        <h1 style={{ fontFamily: "'Tomato Grotesk VF', cursive", fontSize: 'clamp(2rem, 1.6rem + 1.2vw, 2.75rem)', color: 'var(--color-bark)', lineHeight: 1.05, margin: 0 }}>
+        <h1 className="font-display" style={{ fontSize: 'clamp(2rem, 1.6rem + 1.2vw, 2.75rem)', color: 'var(--color-bark)', lineHeight: 1.05, margin: 0 }}>
           {product.name}
         </h1>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginTop: 12 }}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 700, fontSize: 26, color: 'var(--color-bark)' }}>
+          <span style={{ fontWeight: 700, fontSize: 26, color: 'var(--color-bark)' }}>
             {product.price}
           </span>
           {product.originalPrice && (
@@ -484,8 +484,7 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
                 borderRadius: 12,
                 border: selectedSize === label ? '2px solid var(--color-bark)' : '1.5px solid rgba(61,53,48,0.2)',
                 background: selectedSize === label ? 'var(--color-bark)' : 'transparent',
-                color: selectedSize === label ? '#fff' : 'var(--color-bark)',
-                fontFamily: "'DM Sans', sans-serif",
+                color: selectedSize === label ? 'var(--color-cream)' : 'var(--color-bark)',
                 fontWeight: 700,
                 fontSize: 14,
                 cursor: 'pointer',
@@ -509,8 +508,7 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
           height: 56,
           borderRadius: 16,
           background: added ? 'var(--color-sage)' : 'var(--color-bark)',
-          color: added ? 'var(--color-bark)' : '#fff',
-          fontFamily: "'DM Sans', sans-serif",
+          color: added ? 'var(--color-bark)' : 'var(--color-cream)',
           fontWeight: 700,
           fontSize: 16,
           border: 'none',

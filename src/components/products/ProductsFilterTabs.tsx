@@ -34,7 +34,6 @@ export function ProductsFilterTabs ({ filter, onChange }: ProductsFilterTabsProp
               onClick={() => onChange(key)}
               style={{
                 flex: 1,
-                fontFamily: "'DM Sans',sans-serif",
                 fontSize: 13,
                 fontWeight: 500,
                 padding: '9px 10px',
@@ -42,8 +41,8 @@ export function ProductsFilterTabs ({ filter, onChange }: ProductsFilterTabsProp
                 border: 'none',
                 cursor: 'pointer',
                 letterSpacing: '0.04em',
-                background: filter === key ? '#3D3530' : '#F3EDE6',
-                color: filter === key ? '#FAF7F2' : '#9B948F',
+                background: filter === key ? 'var(--color-bark)' : 'var(--color-surface-2)',
+                color: filter === key ? 'var(--color-cream)' : 'var(--color-bark-muted)',
                 transition: 'background-color 200ms ease-out, color 200ms ease-out, transform 100ms ease-out'
               }}
             >

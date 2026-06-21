@@ -38,11 +38,11 @@ const ACCORDION_ITEMS = [
 export function ProductInfoTabs({ isDark }: ProductInfoTabsProps) {
   const windowWidth = useWindowWidth() ?? 1200
   const isMobile = windowWidth < 768
-  const sectionBg = isDark ? '#241A16' : '#FFFFFF'
+  const sectionBg = isDark ? '#241A16' : 'white'
 
   return (
     <section style={{ background: sectionBg, padding: isMobile ? '28px 16px' : '28px 40px 36px' }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         <Accordion items={ACCORDION_ITEMS} isMobile={isMobile} />
       </div>
     </section>

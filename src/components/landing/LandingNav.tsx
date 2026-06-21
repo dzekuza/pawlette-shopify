@@ -67,7 +67,6 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
                   key={i}
                   href={link.href}
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
                     fontSize: 14,
                     fontWeight: 500,
                     color: 'var(--color-bark-light)',
@@ -118,7 +117,6 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontFamily: "'DM Sans', sans-serif",
                 }}>
                   {cartCount}
                 </span>
@@ -161,7 +159,6 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
                 background: 'var(--color-sage)',
                 borderRadius: 100,
                 padding: '12px 24px',
-                fontFamily: "'DM Sans', sans-serif",
                 fontSize: 16,
                 fontWeight: 500,
                 color: 'var(--color-interactive-text)',
@@ -200,8 +197,8 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
               href={link.href}
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
+              className="font-display"
               style={{
-                fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif",
                 fontSize: 'clamp(36px, 8vw, 64px)',
                 color: 'var(--color-bark)',
                 textDecoration: 'none',
@@ -224,11 +221,11 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
+          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
           <a
             href="mailto:hello@pawcharms.lt"
             tabIndex={menuOpen ? 0 : -1}
-            style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
+            style={{ fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
           >
             hello@pawcharms.lt
           </a>

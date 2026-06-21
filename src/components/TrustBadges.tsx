@@ -3,7 +3,7 @@
 import Image from 'next/image';
 
 export function TrustBadges({ isDark }: { isDark: boolean }) {
-  const textColor = isDark ? 'rgba(250,247,242,0.45)' : '#9B948F';
+  const textClass = isDark ? 'text-cream/45' : 'text-bark-muted';
 
   const badges = [
     {
@@ -25,20 +25,11 @@ export function TrustBadges({ isDark }: { isDark: boolean }) {
   ];
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
-        gap: 12,
-        width: '100%',
-        padding: '16px 0 4px',
-        flexShrink: 0,
-      }}
-    >
+    <div className="grid grid-cols-4 gap-3 w-full pt-4 pb-1 shrink-0">
       {badges.map(b => (
-        <div key={b.label} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', gap: 6 }}>
+        <div key={b.label} className="flex flex-col items-center justify-start gap-1.5">
           <Image src={encodeURI(b.iconSrc)} alt="" aria-hidden="true" width={64} height={64} style={{ objectFit: 'contain' }} />
-          <span style={{ fontSize: 11, fontWeight: 500, color: textColor, textAlign: 'center', lineHeight: 1.25 }}>{b.label}</span>
+          <span className={`text-[11px] font-medium text-center leading-[1.25] ${textClass}`}>{b.label}</span>
         </div>
       ))}
     </div>
