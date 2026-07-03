@@ -6,11 +6,11 @@
     },
     "shopify-storefront": {
       "type": "http",
-      "url": "https://paws-rvycxg3u.myshopify.com/api/mcp"
+      "url": "https://pawcharms-2.myshopify.com/api/mcp"
     },
     "shopify-storefront-ucp": {
       "type": "http",
-      "url": "https://paws-rvycxg3u.myshopify.com/api/ucp/mcp"
+      "url": "https://pawcharms-2.myshopify.com/api/ucp/mcp"
     }
   }
 }
