@@ -1,6 +1,6 @@
 import { createHash } from 'crypto'
 
-const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '1754814685843543'
+const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '27330734433257068'
 const GRAPH_API_VERSION = 'v21.0'
 
 export interface MetaCapiEvent {

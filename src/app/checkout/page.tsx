@@ -17,7 +17,11 @@ export default function CheckoutPage() {
           currency: cart.cost.totalAmount.currencyCode,
           num_items: cart.totalQuantity,
         });
-        window.location.href = cart.checkoutUrl;
+        // Give the pixel beacon + CAPI fetch a moment to leave the page before
+        // the cross-origin navigation to Shopify checkout cancels them mid-flight.
+        setTimeout(() => {
+          window.location.href = cart.checkoutUrl;
+        }, 300);
       }
     });
   }, []);
