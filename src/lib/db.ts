@@ -1,9 +1,10 @@
 import { getCollars, getLeashes } from './shopify';
-import { getProductBySlugAsync, buildCollarProduct, buildGroupedLeashProduct, type ProductDetail } from './catalog';
+import { getProductBySlugAsync, buildCollarProduct, buildGroupedLeashProduct, slugFromProductName, type ProductDetail } from './catalog';
 export type { ProductDetail };
 
 export interface LandingCollar {
   id: string | number;
+  slug: string;
   name: string;
   price: string;
   originalPrice?: string;
@@ -57,6 +58,7 @@ export async function getLandingCollars(): Promise<LandingCollar[]> {
     _inflight = getCollars().then(collars => {
       _cache = collars.map((c) => ({
         id: c.id,
+        slug: slugFromProductName(c.title),
         name: c.parentTitle,
         price: c.price,
         originalPrice: c.originalPrice,

@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
-  { label: 'Antkakliai', href: '/products/collar-melyna-collar' },
-  { label: 'Pavadeliai', href: '/products/roin-leash' },
+  { label: 'Antkakliai', href: '/products' },
+  { label: 'Pavadeliai', href: '/pavadeliai' },
   { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 

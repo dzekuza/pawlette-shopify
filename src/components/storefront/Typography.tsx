@@ -34,7 +34,7 @@ export function DisplayHeading ({
   }
 
   return (
-    <Tag className={cn('font-display font-normal text-interactive-text', sizeClasses[size], className)} {...props}>
+    <Tag className={cn('font-display font-medium text-interactive-text', sizeClasses[size], className)} {...props}>
       {children}
     </Tag>
   )

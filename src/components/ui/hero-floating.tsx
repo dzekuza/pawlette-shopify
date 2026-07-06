@@ -139,7 +139,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         </div>
 
         {/* Right smaller image with product card */}
-        <Link href="/products/collar-melyna-collar" style={{
+        <Link href="/products" style={{
           flexShrink: 0,
           width: isMobile ? "100%" : 396,
           aspectRatio: isMobile ? "16/9" : undefined,

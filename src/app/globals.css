@@ -96,7 +96,7 @@
   h2,
   h3 {
     font-family: 'Tomato Grotesk VF', 'DM Sans', sans-serif !important;
-    font-weight: 400 !important;
+    font-weight: 500 !important;
     color: var(--color-bark);
     letter-spacing: -0.02em;
     text-wrap: balance;
@@ -126,14 +126,14 @@ body {
 .account-page .account-heading-1,
 .account-page h1 {
   font-size: clamp(2rem, 1.8rem + 0.9vw, 2.4rem) !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 1.02 !important;
 }
 
 .account-page .account-heading-2,
 .account-page h2 {
   font-size: clamp(1.5rem, 1.35rem + 0.5vw, 1.85rem) !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 1.08 !important;
 }
 
@@ -185,7 +185,7 @@ body {
 
 .sets-page .sets-display {
   font-size: clamp(2.25rem, 1.75rem + 2vw, 4rem);
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 1.04 !important;
   width: 100%;
   max-width: none;
@@ -194,7 +194,7 @@ body {
 
 .sets-page .sets-heading {
   font-size: clamp(1.35rem, 1.12rem + 0.72vw, 1.95rem);
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   line-height: 1.08 !important;
   width: 100%;
   max-width: none;
@@ -218,7 +218,7 @@ body {
 
 .font-display-heading {
   font-family: 'Tomato Grotesk VF', 'DM Sans', sans-serif !important;
-  font-weight: 400 !important;
+  font-weight: 500 !important;
   letter-spacing: 0.01em;
 }
 
