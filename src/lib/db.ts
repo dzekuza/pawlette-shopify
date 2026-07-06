@@ -42,7 +42,11 @@ export async function getLandingProducts(): Promise<ProductDetail[]> {
         p.name = collars[0].parentTitle;
         return p;
       })() : null;
-      const leashProduct = leashes.length > 0 ? buildGroupedLeashProduct(leashes) : null;
+      const leashProduct = leashes.length > 0 ? (() => {
+        const p = buildGroupedLeashProduct(leashes)
+        p.name = leashes[0].parentTitle
+        return p
+      })() : null;
       const results = [collarProduct, charmCollection, leashProduct].filter((p): p is ProductDetail => !!p);
       _productsCache = results;
       _productsInflight = null;

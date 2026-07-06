@@ -2,68 +2,17 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
-import { CharmGrid } from './landing/CharmGrid';
+import { PhotoSlider } from './landing/PhotoSlider';
 import { FAQ } from './landing/FAQ';
 import { About } from './landing/About';
 import { LandingFooter } from './landing/LandingFooter';
 import { StickyCTA } from './landing/StickyCTA';
 import { ExitModal } from './landing/ExitModal';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
-
-function StatementSection() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
-  return (
-    <section style={{ background: 'var(--color-bark)', color: 'var(--color-cream)' }}>
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: isMobile ? '48px 16px' : '80px 64px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: isMobile ? 32 : 48,
-      }}>
-        {/* Large centered statement */}
-        <h2 style={{
-          fontFamily: "'Luckiest Guy', cursive",
-          fontSize: isMobile ? 'clamp(28px, 5vw, 40px)' : 56,
-          letterSpacing: '0.02em',
-          lineHeight: '115%',
-          textAlign: 'center',
-          margin: 0,
-          maxWidth: 900,
-          alignSelf: 'center',
-          color: 'var(--color-cream)',
-        }}>
-          Sukūrėme PawCharms — lengvai <span style={{ color: 'var(--color-sage)' }}>personalizuojamus</span> antkaklių rinkinius jūsų šuniui.
-        </h2>
-
-        {/* Full-width image */}
-        <div style={{
-          borderRadius: 24,
-          overflow: 'hidden',
-          aspectRatio: isMobile ? '4/3' : '16/7',
-          background: 'var(--color-surface-2)',
-          position: 'relative',
-        }}>
-          <Image
-            src="/A_man_and_a_woman_sit_on_a_couch_with_a_small_wj6F8xDr.webp"
-            alt="PawCharms šeima"
-            fill
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
 
 export function LandingPage() {
   const router = useRouter();
@@ -199,10 +148,9 @@ export function LandingPage() {
       <main>
         <FloatingHero />
 
-        <div data-animate="section"><StatementSection /></div>
         <div data-animate="section"><ProductGrid products={products} /></div>
         <div data-animate="section"><About /></div>
-        <div data-animate="section"><CharmGrid /></div>
+        <div data-animate="section"><PhotoSlider /></div>
         <div data-animate="section"><FAQ /></div>
       </main>
 

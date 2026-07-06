@@ -1,19 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import type { ProductDetail } from '@/lib/db';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
 import { ProductCard } from '@/components/products/ProductCard';
-
-const TABS = ['Visi', 'Antkakliai', 'Pavadeliai', 'Pakabukai'] as const;
-type Tab = (typeof TABS)[number];
-
-const TAB_TYPE: Partial<Record<Tab, ProductDetail['productType']>> = {
-  Antkakliai: 'collar',
-  Pavadeliai: 'leash',
-  Pakabukai: 'charm',
-};
+import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 const COLOR_SWATCHES = [
   'var(--color-sky)',
@@ -26,13 +18,12 @@ const COLOR_SWATCHES = [
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
-  const [activeTab, setActiveTab] = useState<Tab>('Visi');
-  const filteredProducts = activeTab === 'Visi' ? products : products.filter(p => p.productType === TAB_TYPE[activeTab]);
+  const filteredProducts = products;
 
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
       <div style={{
-        maxWidth: 1200,
+        maxWidth: 1328,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px 64px',
         display: 'flex',
@@ -40,49 +31,27 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         gap: 32,
         fontFamily: "'DM Sans', sans-serif",
       }}>
-        {/* Heading + tabs row */}
+        {/* Heading + description/CTA row */}
         <div style={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: isMobile ? 'flex-start' : 'center',
           justifyContent: 'space-between',
-          flexWrap: isMobile ? 'wrap' : 'nowrap',
-          gap: 16,
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? 24 : 64,
         }}>
-          <h2 style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? 36 : 48,
-            letterSpacing: '0.02em',
-            lineHeight: 1.05,
-          }}>
-            Mūsų <span style={{ color: 'var(--color-blossom)' }}>produktai</span>
-          </h2>
+          <DisplayHeading as="h2" size="section" className="text-bark" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
+            Mūsų produktai – antkakliai, pavadeliai ir pakabukai kiekvienai progai
+          </DisplayHeading>
 
-          {/* Tabs */}
-          <div style={{ display: 'flex', gap: 8 }}>
-            {TABS.map(tab => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                onMouseEnter={e => { if (activeTab !== tab) e.currentTarget.style.background = 'rgba(61,53,48,0.07)'; }}
-                onMouseLeave={e => { if (activeTab !== tab) e.currentTarget.style.background = 'transparent'; }}
-                onMouseDown={e => { e.currentTarget.style.transform = 'scale(0.97)'; }}
-                onMouseUp={e => { e.currentTarget.style.transform = 'scale(1)'; }}
-                style={{
-                  background: activeTab === tab ? 'var(--color-sage)' : 'transparent',
-                  border: activeTab === tab ? 'none' : '1.5px solid rgba(61,53,48,0.2)',
-                  borderRadius: 100,
-                  padding: '10px 20px',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  color: activeTab === tab ? 'var(--color-interactive-text)' : 'var(--color-bark)',
-                  cursor: 'pointer',
-                  fontFamily: "'DM Sans', sans-serif",
-                  transition: 'background 150ms ease-out, color 150ms ease-out, transform 100ms ease-out',
-                }}
-              >
-                {tab}
-              </button>
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flexShrink: 0, maxWidth: isMobile ? '100%' : 400 }}>
+            <BodyCopy>
+              Kiekvienas pakabukas prisisega per kelias sekundes ir lengvai nusiima. Rinkite, derinkite ir keiskite pagal nuotaiką, sezoną ar progą.
+            </BodyCopy>
+            <div>
+              <PrimaryButton href="/configure" variant="sage" size="md">
+                Sukurkite savo unikalų antkaklį →
+              </PrimaryButton>
+            </div>
           </div>
         </div>
 

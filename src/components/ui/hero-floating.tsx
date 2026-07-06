@@ -1,219 +1,251 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useWindowWidth } from "@/hooks/useWindowWidth";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { DisplayHeading } from "@/components/storefront/Typography";
+import { LANDING_REVIEWS } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
-const HERO_IMAGES = {
-  left: "/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp",
-  right: "/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp",
+const HERO_GALLERY = {
+  left: "/hero-figma/hero-dsc01458.jpg",
+  colTopLeft: "/hero-figma/hero-dsc02225.jpg",
+  colBottomLeft: "/hero-figma/hero-dsc01440.jpg",
+  center: "/hero-figma/hero-dsc03015.jpg",
+  colTopRight: "/hero-figma/hero-dsc00912.jpg",
+  colBottomRight: "/hero-figma/hero-dsc01798.jpg",
+  right: "/hero-figma/hero-dsc02865.jpg",
 };
+
+const HERO_STICKERS = {
+  collar: "/hero-figma/hero-sticker-collar.png",
+  paw: "/hero-figma/hero-sticker-paw.png",
+  letterS: "/hero-figma/hero-sticker-s.png",
+};
+
+const TAGLINE_SLIDES = [
+  "Antkakliai – stilingi ir patogūs tiek šunims, tiek jų šeimininkams",
+  "BioThane medžiaga – atspari vandeniui, purvui ir dilimui",
+  "Personalizuok pakabukais ir sukurk unikalų antkaklio dizainą",
+];
 
 interface FloatingHeroProps {
   className?: string;
 }
 
 export function FloatingHero({ className }: FloatingHeroProps) {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
+  const stickersRef = useRef<HTMLDivElement>(null);
+  const [taglineIndex, setTaglineIndex] = useState(0);
+  const [reviewIndex, setReviewIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTaglineIndex((i) => (i + 1) % TAGLINE_SLIDES.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [taglineIndex]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setReviewIndex((i) => (i + 1) % LANDING_REVIEWS.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [reviewIndex]);
+
+  const goToTagline = (dir: 1 | -1) => {
+    setTaglineIndex((i) => (i + dir + TAGLINE_SLIDES.length) % TAGLINE_SLIDES.length);
+  };
+
+  const goToReview = (dir: 1 | -1) => {
+    setReviewIndex((i) => (i + dir + LANDING_REVIEWS.length) % LANDING_REVIEWS.length);
+  };
+
+  useEffect(() => {
+    if (!stickersRef.current) return;
+    const stickers = stickersRef.current;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mm: any = null;
+
+    import("gsap").then(({ gsap }) => {
+      if (!stickersRef.current) return;
+      mm = gsap.matchMedia();
+
+      mm.add(
+        {
+          allowMotion: "(prefers-reduced-motion: no-preference)",
+          reduceMotion: "(prefers-reduced-motion: reduce)",
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (context: any) => {
+          const { allowMotion } = context.conditions as { allowMotion?: boolean };
+          if (!allowMotion) return;
+
+          const items = stickers.querySelectorAll<HTMLElement>("[data-hero-sticker]");
+          items.forEach((el, i) => {
+            gsap.to(el, {
+              y: "+=16",
+              duration: 2.6 + i * 0.4,
+              ease: "sine.inOut",
+              yoyo: true,
+              repeat: -1,
+              delay: i * 0.3,
+            });
+          });
+        }
+      );
+    });
+
+    return () => mm?.revert();
+  }, []);
 
   return (
-    <section
-      className={className}
-      style={{
-        background: "var(--color-cream)",
-        padding: isMobile ? "32px 16px 48px" : "32px 24px 64px",
-        maxWidth: 1200,
-        margin: "0 auto",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        gap: 32,
-        fontFamily: "'DM Sans', sans-serif",
-      }}
-    >
-      {/* Text + Trusted by row */}
-      <div style={{
-        display: "flex",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
-        flexWrap: isMobile ? "wrap" : "nowrap",
-        gap: 32,
-      }}>
-        {/* Left text block */}
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 24,
-          maxWidth: isMobile ? "100%" : 960,
-          flex: "1 1 auto",
-        }}>
-          <h1 style={{
-            fontFamily: "'Luckiest Guy', cursive",
-            fontSize: isMobile ? "clamp(40px, 9vw, 56px)" : 72,
-            letterSpacing: "0.02em",
-            lineHeight: "110%",
-          }}>
-            Antkakliai skirti <span style={{ color: 'var(--color-sage)' }}>jiems ir jų</span> šeimininkams
-          </h1>
+    <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:overflow-visible lg:py-20", className)}>
+      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
+        <div data-hero-sticker className="absolute left-[20%] top-[19%] w-[190px] -rotate-[17deg]">
+          <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
+        </div>
+        <div data-hero-sticker className="absolute left-[85%] top-[60%] w-[120px] -rotate-[23deg]">
+          <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
+        </div>
+        <div data-hero-sticker className="absolute left-[12%] top-[55%] w-[140px] -rotate-[17deg]">
+          <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
+        </div>
+      </div>
 
-          <p style={{
-            fontSize: 20,
-            fontWeight: 500,
-            lineHeight: "150%",
-            color: "var(--color-bark-muted)",
-            margin: 0,
-            maxWidth: 560,
-          }}>
-            Kiekvienas pakabukas prisisega per kelias sekundes ir taip pat lengvai nusiima. Rink, derink ir keisk pagal nuotaiką, sezoną ar progą.
-          </p>
+      <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col gap-10 lg:gap-[100px]">
+        <div className="flex flex-col items-center gap-8">
+          <DisplayHeading
+            as="h1"
+            size="floatingHero"
+            className="mx-auto max-w-[868px] text-center font-normal leading-[1.1] tracking-[0.02em] text-bark"
+          >
+            Antkakliai – stilingi ir patogūs tiek šunims, tiek jų šeimininkams
+          </DisplayHeading>
 
-          <div style={{ display: "flex", gap: isMobile ? 12 : 24, alignItems: "center" }}>
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
             <Link
               href="https://pawcharms.lt/products/collar-melyna-collar"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                background: "var(--color-sage)",
-                borderRadius: 100,
-                padding: "12px 24px",
-                fontSize: 16,
-                fontWeight: 500,
-                color: "var(--color-interactive-text)",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-              }}
+              className="whitespace-nowrap rounded-full bg-sage px-6 py-3 text-base font-medium text-interactive-text no-underline"
             >
               Kurk savo antkaklį →
             </Link>
             <Link
               href="/products/charm-charms"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                background: "rgba(255,253,249,0.88)",
-                border: "1.5px solid rgba(168,213,162,0.42)",
-                borderRadius: 100,
-                padding: "12px 24px",
-                fontSize: 16,
-                fontWeight: 500,
-                color: "var(--color-interactive-text)",
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-              }}
+              className="whitespace-nowrap rounded-full border-[1.5px] border-sage/40 bg-cream/90 px-6 py-3 text-base font-medium text-interactive-text no-underline"
             >
               Pirkti pakabukus
             </Link>
           </div>
         </div>
 
-      </div>
-
-      {/* Two images below */}
-      <div style={{
-        display: "flex",
-        gap: 16,
-        height: isMobile ? "auto" : 400,
-        flexDirection: isMobile ? "column" : "row",
-      }}>
-        {/* Left big image */}
-        <div style={{
-          ...(isMobile
-            ? { width: "100%", aspectRatio: "3/4", maxHeight: 300 }
-            : { flex: "1 1 0", minWidth: 0, alignSelf: "stretch" }),
-          borderRadius: 24,
-          overflow: "clip",
-          background: "#DDD",
-          position: "relative",
-        }}>
-          <Image
-            src={HERO_IMAGES.left}
-            alt="Auksaspalvė retriverė su PawCharms antkakleliu"
-            fill
-            style={{ objectFit: "cover" }}
-            loading="eager"
-            priority
-          />
+        <div className="flex justify-center gap-3 lg:h-[460px]">
+          <div className="relative hidden w-[160px] shrink-0 overflow-hidden rounded-3xl lg:block lg:h-[60%] lg:self-center">
+            <Image src={HERO_GALLERY.left} alt="Šuo su PawCharms antkakliu" fill sizes="160px" className="object-cover" />
+          </div>
+          <div className="hidden flex-1 flex-col gap-3 lg:flex lg:h-[80%] lg:self-center">
+            <div className="relative overflow-hidden rounded-3xl" style={{ flex: '42 1 0%' }}>
+              <Image src={HERO_GALLERY.colTopLeft} alt="PawCharms antkaklio detalė" fill sizes="309px" className="object-cover" />
+            </div>
+            <div className="relative overflow-hidden rounded-3xl" style={{ flex: '58 1 0%' }}>
+              <Image src={HERO_GALLERY.colBottomLeft} alt="Šuo su PawCharms antkakliu ilsisi" fill sizes="309px" className="object-cover" />
+            </div>
+          </div>
+          <div className="relative aspect-[4/5] w-full max-w-[360px] shrink-0 overflow-hidden rounded-3xl lg:aspect-auto lg:h-full lg:w-[386px] lg:max-w-none">
+            <Image src={HERO_GALLERY.center} alt="Šuo sėdi žolėje su PawCharms antkakliu" fill sizes="(max-width: 1023px) 360px, 386px" className="object-cover" priority />
+          </div>
+          <div className="hidden flex-1 flex-col gap-3 lg:flex lg:h-[80%] lg:self-center">
+            <div className="relative flex-1 overflow-hidden rounded-3xl">
+              <Image src={HERO_GALLERY.colTopRight} alt="Šuo su geltonu PawCharms antkakliu" fill sizes="309px" className="object-cover" />
+            </div>
+            <div className="relative flex-1 overflow-hidden rounded-3xl">
+              <Image src={HERO_GALLERY.colBottomRight} alt="Šuo šokinėja su PawCharms antkakliu" fill sizes="309px" className="object-cover" />
+            </div>
+          </div>
+          <div className="relative hidden w-[160px] shrink-0 overflow-hidden rounded-3xl lg:block lg:h-[60%] lg:self-center">
+            <Image src={HERO_GALLERY.right} alt="Šuo su PawCharms antkakliu" fill sizes="160px" className="object-cover" />
+          </div>
         </div>
 
-        {/* Right smaller image with product card */}
-        <Link href="/products" style={{
-          flexShrink: 0,
-          width: isMobile ? "100%" : 396,
-          aspectRatio: isMobile ? "16/9" : undefined,
-          borderRadius: 24,
-          overflow: "clip",
-          background: "#DDD",
-          position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          padding: isMobile ? 16 : 24,
-          gap: 10,
-          textDecoration: "none",
-          cursor: "pointer",
-        }}>
-            <Image
-              src={HERO_IMAGES.right}
-              alt="Žalias PawCharms antkaklis su vardu"
-              fill
-              style={{ objectFit: "cover" }}
-            />
-            {/* Floating product card */}
-            <div style={{
-              position: "relative",
-              background: "#FAFAFA",
-              borderRadius: 12,
-              padding: 12,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div style={{
-                  width: 52,
-                  height: 52,
-                  borderRadius: 8,
-                  background: "#DDD",
-                  overflow: "clip",
-                  flexShrink: 0,
-                  position: "relative",
-                }}>
-                  <Image
-                    src={HERO_IMAGES.right}
-                    alt=""
-                    fill
-                    style={{ objectFit: "cover" }}
+        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
+          <div className="flex flex-1 flex-col items-start gap-6">
+            <p className="max-w-sm font-tomato text-2xl font-semibold tracking-[0.02em] text-bark">
+              {TAGLINE_SLIDES[taglineIndex]}
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                aria-label="Ankstesnis šūkis"
+                onClick={() => goToTagline(-1)}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+              >
+                <ChevronLeft className="size-4" />
+              </button>
+              <div className="flex gap-6">
+                {TAGLINE_SLIDES.map((slide, i) => (
+                  <span
+                    key={slide}
+                    className={cn(
+                      "h-[10px] w-[77px] rounded-full transition-colors duration-300",
+                      i === taglineIndex ? "bg-sage" : "bg-sage/30"
+                    )}
                   />
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <span style={{ fontSize: 18, fontWeight: 600, color: "var(--color-bark-light)", lineHeight: 1.1 }}>
-                    Pawlette antkaklis
-                  </span>
-                  <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-                    <span style={{ fontSize: 14, fontWeight: 500, color: "var(--color-bark-light)" }}>Kaina:</span>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: "var(--color-bark-light)" }}>€24.99</span>
-                  </div>
-                </div>
+                ))}
               </div>
-              <div style={{
-                width: 36,
-                height: 36,
-                borderRadius: "50%",
-                background: "#2D2D2D",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M2 7h10M7 2l5 5-5 5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
+              <button
+                type="button"
+                aria-label="Kitas šūkis"
+                onClick={() => goToTagline(1)}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+              >
+                <ChevronRight className="size-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex w-full flex-col gap-6 lg:w-[420px]">
+            <div className="flex w-full flex-col gap-[10px] rounded-3xl border border-sage bg-sage/10 px-6 py-3">
+              <p className="font-tomato text-lg font-medium tracking-[0.02em] text-bark">
+                „{LANDING_REVIEWS[reviewIndex].text}“
+              </p>
+              <div className="flex items-center gap-6">
+                <span className="h-12 w-12 shrink-0 rounded-full bg-[#B15A5A]" />
+                <span className="font-tomato text-lg font-semibold tracking-[0.02em] text-bark">
+                  {LANDING_REVIEWS[reviewIndex].name}
+                </span>
               </div>
             </div>
-        </Link>
+            <div className="flex w-full items-center gap-3">
+              <button
+                type="button"
+                aria-label="Ankstesnė atsiliepimo kortelė"
+                onClick={() => goToReview(-1)}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+              >
+                <ChevronLeft className="size-4" />
+              </button>
+              <div className="flex flex-1 gap-6">
+                {LANDING_REVIEWS.map((review, i) => (
+                  <span
+                    key={review.name}
+                    className={cn(
+                      "h-[10px] flex-1 rounded-full transition-colors duration-300",
+                      i === reviewIndex ? "bg-sage" : "bg-sage/30"
+                    )}
+                  />
+                ))}
+              </div>
+              <button
+                type="button"
+                aria-label="Kita atsiliepimo kortelė"
+                onClick={() => goToReview(1)}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+              >
+                <ChevronRight className="size-4" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
