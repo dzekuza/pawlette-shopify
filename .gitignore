@@ -46,3 +46,6 @@ next-env.d.ts
 
 # Claude agent worktrees
 .claude/worktrees/
+
+# Playwright MCP debug output
+.playwright-mcp/
