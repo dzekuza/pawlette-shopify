@@ -15,7 +15,7 @@ const FAQS: AccordionItem[] = [
   },
   {
     id: 'material',
-    title: 'Iš kokio medžiagos gaminami antkakliai?',
+    title: 'Iš kokių medžiagų gaminami antkakliai?',
     content: 'Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
@@ -25,7 +25,7 @@ const FAQS: AccordionItem[] = [
   },
   {
     id: 'size',
-    title: 'Kaip pasirinkti teisingą antkaklio dydį?',
+    title: 'Kaip pasirinkti tinkamą antkaklio dydį?',
     content: 'Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–52 cm.',
   },
 ];

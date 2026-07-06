@@ -49,7 +49,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
             </BodyCopy>
             <div>
               <PrimaryButton href="/configure" variant="sage" size="md">
-                Sukurkite savo unikalų antkaklį →
+                Kurk savo antkaklį →
               </PrimaryButton>
             </div>
           </div>

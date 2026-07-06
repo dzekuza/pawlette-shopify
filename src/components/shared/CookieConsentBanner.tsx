@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { COOKIE_CONSENT_EVENT, COOKIE_CONSENT_KEY } from '@/components/shared/MetaPixel'
 
 export function CookieConsentBanner () {
   const [visible, setVisible] = useState(false)
+  const bannerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (!localStorage.getItem(COOKIE_CONSENT_KEY)) {
@@ -13,6 +14,25 @@ export function CookieConsentBanner () {
       setVisible(true)
     }
   }, [])
+
+  useEffect(() => {
+    if (!visible) {
+      document.documentElement.style.setProperty('--cookie-banner-height', '0px')
+      return
+    }
+    const el = bannerRef.current
+    if (!el) return
+    const updateHeight = () => {
+      document.documentElement.style.setProperty('--cookie-banner-height', `${el.offsetHeight}px`)
+    }
+    updateHeight()
+    const observer = new ResizeObserver(updateHeight)
+    observer.observe(el)
+    return () => {
+      observer.disconnect()
+      document.documentElement.style.setProperty('--cookie-banner-height', '0px')
+    }
+  }, [visible])
 
   const decide = (decision: 'granted' | 'denied') => {
     localStorage.setItem(COOKIE_CONSENT_KEY, decision)
@@ -25,7 +45,7 @@ export function CookieConsentBanner () {
   if (!visible) return null
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-cream/98 px-4 py-4 shadow-[0_-4px_20px_rgba(61,53,48,0.08)] backdrop-blur-sm md:px-8">
+    <div ref={bannerRef} className="fixed inset-x-0 bottom-0 z-[250] border-t border-border bg-cream/98 px-4 py-4 shadow-[0_-4px_20px_rgba(61,53,48,0.08)] backdrop-blur-sm md:px-8">
       <div className="mx-auto flex max-w-[1200px] flex-col items-start gap-3 md:flex-row md:items-center md:justify-between md:gap-6">
         <p className="font-sans text-[13px] leading-[1.5] text-bark-light md:text-[14px]">
           Naudojame slapukus, kad pagerintume jūsų naršymo patirtį ir matuotume rinkodaros kampanijų efektyvumą. Pasirinkite, ar sutinkate.

@@ -7,6 +7,7 @@ import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { FAQ } from '@/components/landing/FAQ'
+import { About } from '@/components/landing/About'
 import { ComparisonTable } from '@/components/landing/ComparisonTable'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
@@ -356,7 +357,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const collarHandle = product.id.replace(/^collar-/, '')
   const galleryKey = collarHandle.replace(/-collar$/, '')
   const localGallery = COLLAR_GALLERY[galleryKey] ?? COLLAR_GALLERY[collarHandle] ?? COLLAR_GALLERY[collar?.handle ?? ''] ?? []
-  const gallery = (collar?.images && collar.images.length > 0) ? collar.images : localGallery
+  const rawGallery = (collar?.images && collar.images.length > 0) ? collar.images : localGallery
+  const gallery = rawGallery.length > 0
+    ? Array.from({ length: 8 }, (_, i) => rawGallery[i % rawGallery.length])
+    : []
 
   const NAV_H = 72
   const firstSelectedCharm = selectedCharms.find(Boolean) ?? null
@@ -702,176 +706,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       )} {/* end !isMobile */}
 
 
-      {/* Section: left text, right image */}
-      <section className="bg-surface-2" style={{ padding: '80px 24px' }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          alignItems: 'center',
-          gap: isMobile ? 40 : 80,
-        }}>
-          <div style={{ flex: 1 }}>
-            <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
-              Sukurta su meile
-            </p>
-            <DisplayHeading as="h2" size="section" className="mb-5" style={{ lineHeight: 1.15 }}>
-              Kiekvienas pakabuko detalė — tai istorija
-            </DisplayHeading>
-            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
-              Mūsų silikoniniai pakabukai pagaminti iš saugių, patvariomis medžiagomis — be toksinų, be aštrių briaunų. Kiekvienas dizainas atspindi charakterį: nuo žvaigždučių iki mažyčių širdžių.
-            </p>
-            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
-              Rink pakabuką, kuris atspindi tavo šuniuką — ir sukurk unikalų antkaklio rinkinį, kuris bus tikrai jūsų.
-            </p>
-          </div>
-          <div style={{ ...(isMobile ? { width: '100%' } : { flex: 1 }), borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
-            <Image
-              src="/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp"
-              alt="Šeimininkė su šunimi"
-              fill
-              sizes="(max-width: 768px) 100vw, 520px"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Section: 3-col features */}
-      <section style={{ padding: isMobile ? '60px 24px' : '80px 24px' }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
-          gap: isMobile ? 40 : 48,
-          alignItems: 'center',
-        }}>
-          {/* Left column */}
-          <div style={isMobile ? { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 } : { display: 'flex', flexDirection: 'column', gap: 32 }}>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Sauga pirmiausia</DisplayHeading>
-              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Visi pakabukai pagaminti iš maistinio silikono — be toksinų, be aštrių briaunų, saugu net jautriai odai.</p>
-            </div>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-              </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Per 5 sekundes</DisplayHeading>
-              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukas prisegamas ir nusegamas akimirksniu — be įrankių, be vargo, tiesiog spustelk.</p>
-            </div>
-          </div>
-
-          {/* Middle column: image */}
-          <div style={{ borderRadius: 24, overflow: 'hidden', aspectRatio: '3 / 4', position: 'relative', width: '100%' }}>
-            <Image
-              src="/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp"
-              alt="Šuo su PawCharms antkakliu"
-              fill
-              sizes="(max-width: 768px) 100vw, 360px"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-
-          {/* Right column */}
-          <div style={isMobile ? { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 } : { display: 'flex', flexDirection: 'column', gap: 32 }}>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Unikalus stilius</DisplayHeading>
-              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>5 vietos pakabukams — rink derinį pagal nuotaiką, sezoną ar charakterį. Mix &amp; match be galo.</p>
-            </div>
-            <div>
-              <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l1.5-1.5"/><path d="M7 13l1.5-1.5"/><path d="M11 9l1.5-1.5"/><path d="M15 5l1.5-1.5"/><path d="M17 17l2-2-7-7-2 2"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
-              </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Vandeniui atsparus</DisplayHeading>
-              <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukai ir antkaklis atlaiko lietų, balą ir vonią — lengvai nuplaunami, spalva neflysta.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Section: left image, right text */}
-      <section className="bg-surface-2" style={{ padding: '80px 24px' }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          alignItems: 'center',
-          gap: isMobile ? 40 : 80,
-        }}>
-          <div style={{ ...(isMobile ? { width: '100%' } : { flex: 1 }), borderRadius: 24, overflow: 'hidden', maxWidth: isMobile ? '100%' : 520, aspectRatio: '1 / 1', position: 'relative' }}>
-            <Image
-              src="/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp"
-              alt="Auksinė valanda su šunimi"
-              fill
-              sizes="(max-width: 768px) 100vw, 520px"
-              style={{ objectFit: 'cover' }}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
-              Tavo stiliui
-            </p>
-            <DisplayHeading as="h2" size="section" className="mb-5" style={{ lineHeight: 1.15 }}>
-              Mix & match — be galo galimybių
-            </DisplayHeading>
-            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
-              Vienas antkaklis — dešimtys derinių. Keisk pakabukas pagal nuotaiką, sezoną ar progą. Mūsų antkakliai turi 5 specialias vietas, kurias gali pildyti kaip tik nori.
-            </p>
-            <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480, marginTop: 16 }}>
-              Sukurk rinkinį, kuris augs kartu su tavo šuniuku — ir visada atspindės jūsų ryšį.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Section: 4-col feature strip */}
-      <section style={{ padding: isMobile ? '52px 24px' : '72px 24px', background: 'var(--color-cream)' }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4, 1fr)',
-          gap: isMobile ? 32 : 40,
-        }}>
-          {[
-            {
-              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
-              heading: 'Saugios medžiagos',
-              body: 'Maistinis silikonas be toksinų — saugu net jautriai šunų odai.',
-            },
-            {
-              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
-              heading: '5 vietos pakabukams',
-              body: 'Rink iki 5 pakabukų ir keisk derinius kaip tik nori — be galo.',
-            },
-            {
-              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a5 5 0 0 1 5 5c0 5-5 11-5 11S7 12 7 7a5 5 0 0 1 5-5z"/><circle cx="12" cy="7" r="2"/></svg>,
-              heading: 'Pagaminta Lietuvoje',
-              body: 'Kiekvienas antkaklis sukurtas ir gaminamas čia — su rūpesčiu ir kokybe.',
-            },
-            {
-              icon: <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-sage)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>,
-              heading: 'Nemokamas pristatymas',
-              body: 'Užsakymams nuo 40 € — pristatymas per 2–4 darbo dienas.',
-            },
-          ].map(({ icon, heading, body }) => (
-            <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <div>{icon}</div>
-              <DisplayHeading as="h3" size="compact" className="m-0" style={{ lineHeight: 1.2 }}>{heading}</DisplayHeading>
-              <p className="font-sans" style={{ fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.7, margin: 0 }}>{body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <About />
 
       <ComparisonTable />
       <PhotoSlider />
@@ -1281,77 +1116,50 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       {showCharms && (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <Eyebrow className="font-semibold tracking-[0.1em]">Įtraukti pakabukai</Eyebrow>
-          {!!selectedCharmCount && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selectedCharmCount} pasirinkti</span>}
+          <span style={{ fontSize: 16, fontWeight: 600, color: TEXT_PRIMARY }}>
+            Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
+          </span>
         </div>
         <button
+          type="button"
           onClick={onPersonalise}
+          aria-label="Pasirinkti pakabukus"
+          className="bg-white"
           style={{
-            width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '14px 16px', borderRadius: 16, border: '1px solid rgba(255,255,255,0.55)',
-            background: 'linear-gradient(135deg, rgba(255,214,165,0.95) 0%, rgba(255,182,193,0.92) 34%, rgba(184,216,244,0.94) 68%, rgba(168,213,162,0.92) 100%)',
-            boxShadow: '0 14px 28px rgba(196,165,145,0.18), inset 0 1px 0 rgba(255,255,255,0.45)',
+            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+            padding: 16, borderRadius: 16, border: '1px solid rgba(255,214,165,0.95)',
             cursor: 'pointer',
-            fontSize: 14, fontWeight: 500, color: TEXT_PRIMARY, transition: 'transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.8)'
-            e.currentTarget.style.transform = 'translateY(-1px)'
-            e.currentTarget.style.boxShadow = '0 18px 34px rgba(196,165,145,0.24), inset 0 1px 0 rgba(255,255,255,0.55)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.55)'
-            e.currentTarget.style.transform = 'translateY(0)'
-            e.currentTarget.style.boxShadow = '0 14px 28px rgba(196,165,145,0.18), inset 0 1px 0 rgba(255,255,255,0.45)'
           }}
         >
-          <div
+          {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
+            <div
+              key={i}
+              className="bg-surface-2"
+              style={{
+                aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}
+            >
+              <Image
+                src={c?.image || '/charms/S_yellow.png'}
+                alt={c?.title ?? ''}
+                width={48}
+                height={48}
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
+            </div>
+          ))}
+          <span
             aria-hidden="true"
             style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(120deg, rgba(255,255,255,0.26), rgba(255,255,255,0) 45%, rgba(255,255,255,0.18) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-          {selectedCharmCount && selectedCharms ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, position: 'relative', zIndex: 1 }}>
-              {selectedCharms.filter(Boolean).map((c, i) => (
-                <div key={i} style={{ width: 32, height: 32, borderRadius: 10, background: c!.bg + '66', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.4)' }}>
-                  {c!.image && <Image src={c!.image} alt={c!.title} width={24} height={24} style={{ width: 24, height: 24, objectFit: 'contain' }} />}
-                </div>
-              ))}
-              <span style={{ fontSize: 13, color: TEXT_PRIMARY, marginLeft: 4 }}>Redaguoti</span>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2, position: 'relative', zIndex: 1 }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: TEXT_PRIMARY }}>Pasirinkite 5 pakabukus</span>
-              <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.76)' }}>Įeina į šį rinkinį</span>
-            </div>
-          )}
-          <span
-            style={{
-              color: TEXT_PRIMARY,
-              position: 'relative',
-              zIndex: 1,
-              width: 34,
-              height: 34,
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              background: 'rgba(255,253,249,0.55)',
-              boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.45)',
+              width: 36, height: 36, flexShrink: 0, borderRadius: 10,
+              background: TEXT_PRIMARY, color: 'var(--color-cream)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
-            <Plus aria-hidden size={18} strokeWidth={2.2} />
+            <Plus size={18} strokeWidth={2.2} />
           </span>
         </button>
-        <p style={{ margin: '8px 0 0', fontSize: 12, lineHeight: 1.45, color: TEXT_MUTED }}>
-          Jūsų rinkinyje jau yra penki pakabukai. Čia galite pasirinkti jų derinį prieš atsiskaitymą.
-        </p>
       </div>
       )}
 
@@ -1369,7 +1177,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
         onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
-        {added ? '✓ Pridėta į krepšelį!' : `Pirkti — ${price}`}
+        {added ? '✓ Pridėta į krepšelį!' : `Pirkti · ${price}`}
       </button>
       {/* Trust strip — purchase reassurance below CTA */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
@@ -1474,23 +1282,34 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       </div>
 
       {/* Accordion */}
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {accordionItems.map((item) => {
           const isOpen = open === item.id
           return (
-            <div key={item.id} style={{ borderTop: `1px solid ${DIVIDER}` }}>
+            <div key={item.id} className="bg-white" style={{ borderRadius: 12 }}>
               <button
+                type="button"
                 onClick={() => setOpen(isOpen ? null : item.id)}
                 style={{
                   width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '16px 0', background: 'none', border: 'none', cursor: 'pointer',
+                  padding: 16, background: 'none', border: 'none', cursor: 'pointer',
                   fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, textAlign: 'left',
                 }}
               >
                 {item.title}
-                <span style={{ fontSize: 18, color: TEXT_MUTED, lineHeight: 1, transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 200ms' }}>+</span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    width: 36, height: 36, flexShrink: 0, borderRadius: 10,
+                    background: TEXT_PRIMARY, color: 'var(--color-cream)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transform: isOpen ? 'rotate(45deg)' : 'none', transition: 'transform 200ms',
+                  }}
+                >
+                  <Plus size={18} strokeWidth={2.2} />
+                </span>
               </button>
-              {isOpen && <RichText value={item.content} style={{ margin: '0 0 16px', color: TEXT_SECONDARY }} />}
+              {isOpen && <RichText value={item.content} style={{ margin: '0 16px 16px', color: TEXT_SECONDARY }} />}
             </div>
           )
         })}

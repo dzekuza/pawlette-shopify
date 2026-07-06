@@ -117,7 +117,9 @@ export function InfiniteSlider({
         {...hoverProps}
       >
         {children}
-        {children}
+        <div aria-hidden="true" style={{ display: 'contents' }}>
+          {children}
+        </div>
       </motion.div>
     </div>
   );

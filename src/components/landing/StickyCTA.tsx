@@ -10,11 +10,11 @@ export function StickyCTA({ visible }: { visible: boolean }) {
 
   return (
     <div style={{
-      position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 150,
+      position: 'fixed', bottom: 'var(--cookie-banner-height, 0px)', left: 0, right: 0, zIndex: 150,
       background: 'var(--color-cream-glass)', backdropFilter: 'blur(16px)',
       borderTop: '1px solid var(--color-border)',
       transform: visible ? 'translateY(0)' : 'translateY(100%)',
-      transition: 'transform 280ms cubic-bezier(0.23, 1, 0.32, 1)',
+      transition: 'transform 280ms cubic-bezier(0.23, 1, 0.32, 1), bottom 200ms ease-out',
       boxShadow: '0 -4px 24px var(--color-bark-divider)',
     }}>
       <div style={{
@@ -39,8 +39,8 @@ export function StickyCTA({ visible }: { visible: boolean }) {
         </div>
       )}
       <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
-        <div style={{ fontSize: 12, color: 'var(--color-sage)', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--color-sage)', animation: 'pulse 2s ease-in-out infinite' }} />
+        <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--color-interactive-text)', animation: 'pulse 2s ease-in-out infinite' }} />
           Dabar perka 4 žmonės
         </div>
         <PrimaryButton href="/products" variant="sage" size="md">

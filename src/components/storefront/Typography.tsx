@@ -30,7 +30,7 @@ export function DisplayHeading ({
     page: 'text-[clamp(2.4rem,5vw,4.4rem)] leading-[1.1] tracking-[-0.02em]',
     section: 'text-[30px] leading-[1.2] tracking-[-0.02em] md:text-[40px]',
     compact: 'text-[22px] leading-[1.2] tracking-[-0.02em] md:text-[26px]',
-    floatingHero: 'text-[clamp(3.9rem,8vw,6.8rem)] leading-[0.92] tracking-[-0.05em] md:text-[72px]',
+    floatingHero: 'text-[clamp(2.1rem,8vw,6.8rem)] leading-[1.08] tracking-[-0.02em] md:text-[72px] md:leading-[0.92] md:tracking-[-0.05em]',
   }
 
   return (

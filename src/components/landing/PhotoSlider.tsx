@@ -76,7 +76,7 @@ export function PhotoSlider() {
         margin: '0 auto',
         padding: isMobile ? '32px 16px 16px' : '64px 64px 24px',
         display: 'flex',
-        alignItems: 'flex-end',
+        alignItems: isMobile ? 'flex-start' : 'flex-end',
         justifyContent: 'space-between',
         flexDirection: isMobile ? 'column' : 'row',
         gap: isMobile ? 20 : 40,
@@ -103,7 +103,7 @@ export function PhotoSlider() {
       </div>
       <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: isMobile ? 'wrap' : 'nowrap', paddingLeft: isMobile ? 16 : 0, paddingRight: isMobile ? 16 : 0, paddingBottom: isMobile ? 48 : 100 }}>
         <PrimaryButton href="/configure" variant="sage" size="md">
-          Sukurkite savo unikalų antkaklį →
+          Kurk savo antkaklį →
         </PrimaryButton>
         <Button asChild variant="pillOutline" size="pill">
           <Link href="/products/charm-charms">Pirkti pakabukus</Link>

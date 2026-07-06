@@ -32,11 +32,11 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
       style={{
         position: 'fixed',
         right: 16,
-        bottom: 16 + bottomOffset,
+        bottom: `calc(${16 + bottomOffset}px + var(--cookie-banner-height, 0px))`,
         zIndex: 400,
         width: expanded ? 220 : 84,
         height: expanded ? 391 : 112,
-        transition: 'width 320ms cubic-bezier(0.23, 1, 0.32, 1), height 320ms cubic-bezier(0.23, 1, 0.32, 1)',
+        transition: 'width 320ms cubic-bezier(0.23, 1, 0.32, 1), height 320ms cubic-bezier(0.23, 1, 0.32, 1), bottom 200ms ease-out',
       }}
     >
       {!expanded && (

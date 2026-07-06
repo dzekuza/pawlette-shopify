@@ -47,7 +47,7 @@ export function About() {
 
   const rowTop = (
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
-      <BentoCard background="white" heading="Kiekvienas antkaklis gaminamas rankomis" flex={isMobile ? '1' : '0 0 380px'}>
+      <BentoCard background="var(--color-surface-2)" heading="Kiekvienas antkaklis gaminamas rankomis" flex={isMobile ? '1' : '0 0 380px'}>
         <div aria-hidden="true" style={{ position: 'absolute', top: -70, right: -20, width: 230, height: 230, transform: 'rotate(-17deg)' }}>
           <Image src="/hero-figma/bento-collar-charm.png" alt="" fill sizes="230px" style={{ objectFit: 'contain' }} />
         </div>
@@ -68,13 +68,13 @@ export function About() {
 
   const rowBottom = (
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
-      <BentoCard background="var(--color-cream)" heading="Kiekvienas antkaklis gaminamas rankomis" flex="1 0 0" align="start">
-        <div aria-hidden="true" style={{ position: 'absolute', right: 0, bottom: 0, top: -24, width: '55%' }}>
-          <Image src="/hero-figma/bento-dog-photo.png" alt="Šuo su PawCharms antkakliu" fill sizes="300px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
+      <BentoCard background="var(--color-cream)" heading="Atsparus vandeniui, purvui ir kasdienei avantiūrai" flex="1 0 0" align="start">
+        <div aria-hidden="true" style={{ position: 'absolute', right: 0, bottom: -30, top: 20, width: '68%' }}>
+          <Image src="/hero-figma/bento-dog-photo.png" alt="Šuo su PawCharms antkakliu" fill sizes="340px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
         </div>
       </BentoCard>
-      <BentoCard background="white" heading="Sukurkite antkaklį, kuris atspindi jūsų šunį" flex={isMobile ? '1' : '0 0 380px'} align="start">
-        <div aria-hidden="true" style={{ position: 'absolute', top: 20, left: '50%', width: 260, height: 260, transform: 'translateX(-50%) rotate(53deg)' }}>
+      <BentoCard background="var(--color-surface-2)" heading="Sukurkite antkaklį, kuris atspindi jūsų šunį" flex={isMobile ? '1' : '0 0 380px'} align="start">
+        <div aria-hidden="true" style={{ position: 'absolute', top: 20, left: '68%', width: 260, height: 260, transform: 'translateX(-50%) rotate(53deg)' }}>
           <Image src="/hero-figma/bento-leash-blue.png" alt="" fill sizes="260px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>

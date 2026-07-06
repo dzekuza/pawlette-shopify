@@ -177,7 +177,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 type="button"
                 aria-label="Ankstesnis šūkis"
                 onClick={() => goToTagline(-1)}
-                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
               >
                 <ChevronLeft className="size-4" />
               </button>
@@ -196,7 +196,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 type="button"
                 aria-label="Kitas šūkis"
                 onClick={() => goToTagline(1)}
-                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
               >
                 <ChevronRight className="size-4" />
               </button>
@@ -220,7 +220,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 type="button"
                 aria-label="Ankstesnė atsiliepimo kortelė"
                 onClick={() => goToReview(-1)}
-                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
               >
                 <ChevronLeft className="size-4" />
               </button>
@@ -239,7 +239,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 type="button"
                 aria-label="Kita atsiliepimo kortelė"
                 onClick={() => goToReview(1)}
-                className="flex size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10"
+                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
               >
                 <ChevronRight className="size-4" />
               </button>

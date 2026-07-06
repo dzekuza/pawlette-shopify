@@ -32,7 +32,7 @@ export function LandingFooter() {
   return (
     <footer className="bg-surface-2 text-bark" style={{ padding: isMobile ? '40px 0 32px' : '60px 0 40px' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 36 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
             <Link href="/" aria-label="PawCharms pagrindinis" style={{ display: 'inline-flex', marginBottom: 16 }}>
               <Image src="/pawcharms.svg" alt="PawCharms" width={100} height={32} style={{ height: 32, width: 'auto', display: 'block' }} />

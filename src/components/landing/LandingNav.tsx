@@ -7,8 +7,8 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products' },
+  { label: 'Pakabukai', href: '/products/charm-charms' },
   { label: 'Pavadeliai', href: '/pavadeliai' },
-  { label: "Charm'sai", href: '/products/charm-charms' },
 ];
 
 interface LandingNavProps {
@@ -166,7 +166,7 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
                 whiteSpace: 'nowrap',
               }}
             >
-              Pirkti dabar
+              Apsipirkti
             </Link>
           </div>
         </div>
