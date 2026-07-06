@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Droplets, Ruler, Shield, Sparkles } from 'lucide-react'
@@ -9,6 +9,7 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Accordion, type AccordionItem } from '@/components/shared/Accordion'
 import { UpsellSection } from '@/components/products/UpsellSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
 
 const NAV_H = 72
@@ -73,6 +74,17 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
 
   const colors = product.leashColors ?? []
   const [selectedColor, setSelectedColor] = useState(colors[0] ?? '')
+
+  useEffect(() => {
+    trackMetaEvent('ViewContent', {
+      content_ids: [product.id],
+      content_type: 'product',
+      content_name: product.name,
+      value: parseFloat(product.price),
+      currency: 'EUR',
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id])
   const [selectedSize, setSelectedSize] = useState(SIZES[1].label)
   const [cartCount, setCartCount] = useState(0)
   const [added, setAdded] = useState(false)

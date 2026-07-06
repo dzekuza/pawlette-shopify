@@ -1,4 +1,5 @@
 import { shopifyClient } from './shopify';
+import { trackMetaEvent } from '@/components/shared/MetaPixel';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -143,6 +144,23 @@ export async function addLineToCart(variantId: string, quantity = 1): Promise<Sh
   return addLinesToCart([{ merchandiseId: variantId, quantity }]);
 }
 
+function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; quantity: number }[]): void {
+  const addedIds = addedLines.map((l) => l.merchandiseId);
+  const value = cart.lines
+    .filter((l) => addedIds.includes(l.merchandise.id))
+    .reduce((sum, l) => {
+      const requested = addedLines.find((rl) => rl.merchandiseId === l.merchandise.id);
+      return sum + parseFloat(l.merchandise.price.amount) * (requested?.quantity ?? l.quantity);
+    }, 0);
+
+  trackMetaEvent('AddToCart', {
+    content_ids: addedIds,
+    content_type: 'product',
+    value,
+    currency: cart.cost.totalAmount.currencyCode,
+  });
+}
+
 export async function addLinesToCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
   const cartId = getStoredCartId();
 
@@ -152,6 +170,7 @@ export async function addLinesToCart(lines: { merchandiseId: string; quantity: n
     });
     const cart = parseCart(data.cartLinesAdd.cart);
     emitCartUpdated(cart);
+    trackAddToCart(cart, lines);
     return cart;
   }
 
@@ -161,6 +180,7 @@ export async function addLinesToCart(lines: { merchandiseId: string; quantity: n
   const cart = parseCart(data.cartCreate.cart);
   setStoredCartId(cart.id);
   emitCartUpdated(cart);
+  trackAddToCart(cart, lines);
   return cart;
 }
 

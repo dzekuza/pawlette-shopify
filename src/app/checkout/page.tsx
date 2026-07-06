@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { fetchCart } from '@/lib/cart';
+import { trackMetaEvent } from '@/components/shared/MetaPixel';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
@@ -9,6 +10,13 @@ export default function CheckoutPage() {
   useEffect(() => {
     fetchCart().then(cart => {
       if (cart?.checkoutUrl) {
+        trackMetaEvent('InitiateCheckout', {
+          content_ids: cart.lines.map((l) => l.merchandise.id),
+          content_type: 'product',
+          value: parseFloat(cart.cost.totalAmount.amount),
+          currency: cart.cost.totalAmount.currencyCode,
+          num_items: cart.totalQuantity,
+        });
         window.location.href = cart.checkoutUrl;
       }
     });

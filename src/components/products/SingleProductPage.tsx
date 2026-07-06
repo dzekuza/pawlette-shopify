@@ -13,6 +13,7 @@ import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart } from '@/lib/cart'
+import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
 import { UpsellSection } from '@/components/products/UpsellSection'
@@ -156,6 +157,17 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
+
+  useEffect(() => {
+    trackMetaEvent('ViewContent', {
+      content_ids: [product.id],
+      content_type: 'product',
+      content_name: product.name,
+      value: parseFloat(product.price),
+      currency: 'EUR',
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.id])
 
   // ── Personalise dialog ──
   const [personaliseOpen, setPersonaliseOpen] = useState(false)
