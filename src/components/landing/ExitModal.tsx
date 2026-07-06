@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { DisplayHeading } from '@/components/storefront/Typography';
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
 const CHARM_IMAGES = [
   '/charms/Flower_lavender.png',
@@ -45,7 +45,7 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
         {!sent ? (
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-foreground)', marginBottom: 12 }}>Prieš išeinant</div>
+              <Eyebrow className="mb-3">Prieš išeinant</Eyebrow>
               <DisplayHeading as="h2" size="compact" className="text-bark mb-3">10 % nuolaida pirmajam antkakliui.</DisplayHeading>
               <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.</p>
             </div>

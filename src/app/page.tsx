@@ -49,8 +49,8 @@ const faqSchema = {
 };
 
 export const metadata: Metadata = {
-  title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais | Pagaminta Vilniuje',
-  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Rinkitės spalvą, pridėkite pakabukus, išgraviruokite vardą. Nemokamas pristatymas nuo 50 €.',
+  title: 'PawCharms — šunų antkakliai su keičiamais pakabukais',
+  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo 50 €.',
   alternates: { canonical: 'https://pawcharms.lt' },
   openGraph: {
     title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',

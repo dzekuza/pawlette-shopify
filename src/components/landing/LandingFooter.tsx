@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { Eyebrow } from '@/components/storefront/Typography';
 
 const FOOTER_COLS = [
   { title: 'Parduotuvė', links: [
@@ -30,7 +31,7 @@ export function LandingFooter() {
 
   return (
     <footer className="bg-surface-2 text-bark" style={{ padding: isMobile ? '40px 0 32px' : '60px 0 40px' }}>
-      <div style={{ maxWidth: 1296, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 28 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
             <Link href="/" aria-label="PawCharms pagrindinis" style={{ display: 'inline-flex', marginBottom: 16 }}>
@@ -43,7 +44,7 @@ export function LandingFooter() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 24 }}>
               {FOOTER_COLS.map((col, index) => (
                 <div key={col.title} style={{ gridColumn: index === FOOTER_COLS.length - 1 ? '1 / -1' : 'auto' }}>
-                  <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-foreground)', marginBottom: 16 }}>{col.title}</div>
+                  <Eyebrow className="mb-4">{col.title}</Eyebrow>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                     {col.links.map(l => (
                       <Link key={l.label} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
@@ -59,7 +60,7 @@ export function LandingFooter() {
           ) : (
             FOOTER_COLS.map((col) => (
               <div key={col.title}>
-                <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-foreground)', marginBottom: 16 }}>{col.title}</div>
+                <Eyebrow className="mb-4">{col.title}</Eyebrow>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
                     <Link key={l.label} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}

@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
+import { Eyebrow } from '@/components/storefront/Typography'
 
 const LEASH_COLOR_HEX: Record<string, string> = {
   pink:        '#F4B5C0',
@@ -73,10 +74,8 @@ export function UpsellSection ({ items, label }: UpsellSectionProps) {
   const isLeashGroup = items[0].productType === 'leash' && (items[0].leashColors?.length ?? 0) > 0
 
   return (
-    <div style={{ borderTop: '1px solid rgba(61,53,48,0.1)', paddingTop: 20 }}>
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.45)', marginBottom: 12 }}>
-        {label}
-      </div>
+    <div style={{ borderTop: '1px solid var(--color-bark-divider)', paddingTop: 20 }}>
+      <Eyebrow className="mb-3">{label}</Eyebrow>
       {isLeashGroup
         ? <LeashUpsellCard item={items[0]} />
         : <CollarUpsellCard items={items} />
@@ -107,7 +106,7 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
   }
 
   return (
-    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: 'var(--color-cream)' }}>
+    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid var(--color-bark-divider)', background: 'var(--color-cream)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href={`/products/${item.slug}`} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 10, overflow: 'hidden', position: 'relative', display: 'block' }}>
           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
@@ -133,7 +132,7 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
                 width: 24, height: 24, borderRadius: '50%', padding: 0, border: 'none',
                 cursor: 'pointer',
                 background: it.accentColor ?? '#ccc',
-                outline: i === selectedIdx ? '2.5px solid var(--color-bark)' : '1.5px solid rgba(61,53,48,0.15)',
+                outline: i === selectedIdx ? '2.5px solid var(--color-bark)' : '1.5px solid var(--color-bark-border)',
                 outlineOffset: 2,
                 transform: i === selectedIdx ? 'scale(1.15)' : 'scale(1)',
                 transition: 'transform 120ms',
@@ -172,7 +171,7 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
   }
 
   return (
-    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid rgba(61,53,48,0.1)', background: 'var(--color-cream)' }}>
+    <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid var(--color-bark-divider)', background: 'var(--color-cream)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href={`/products/${item.slug}`} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 10, overflow: 'hidden', position: 'relative', display: 'block' }}>
           <Image src={image} alt={item.name} fill className="object-cover" sizes="56px" />
@@ -198,7 +197,7 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
                 width: 24, height: 24, borderRadius: '50%', padding: 0, border: 'none',
                 cursor: 'pointer',
                 background: LEASH_COLOR_HEX[color.toLowerCase()] ?? '#ccc',
-                outline: color === selectedColor ? '2.5px solid var(--color-bark)' : '1.5px solid rgba(61,53,48,0.15)',
+                outline: color === selectedColor ? '2.5px solid var(--color-bark)' : '1.5px solid var(--color-bark-border)',
                 outlineOffset: 2,
                 transform: color === selectedColor ? 'scale(1.15)' : 'scale(1)',
                 transition: 'transform 120ms',

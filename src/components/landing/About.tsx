@@ -47,14 +47,20 @@ export function About() {
 
   const rowTop = (
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
-      <BentoCard background="var(--color-surface-2)" heading="Kiekvienas antkaklis gaminamas rankomis" flex={isMobile ? '1' : '0 0 380px'}>
-        <div aria-hidden="true" style={{ position: 'absolute', top: -24, right: 4, width: 150, height: 150, transform: 'rotate(-15deg)' }}>
-          <Image src="/hero-figma/hero-sticker-collar.png" alt="" fill sizes="150px" style={{ objectFit: 'contain' }} />
+      <BentoCard background="white" heading="Kiekvienas antkaklis gaminamas rankomis" flex={isMobile ? '1' : '0 0 380px'}>
+        <div aria-hidden="true" style={{ position: 'absolute', top: -70, right: -20, width: 230, height: 230, transform: 'rotate(-17deg)' }}>
+          <Image src="/hero-figma/bento-collar-charm.png" alt="" fill sizes="230px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>
       <BentoCard background="rgba(168,213,162,0.3)" heading="Personalizuojamas išskirtinais pakabukais" flex="1 0 0">
-        <div aria-hidden="true" style={{ position: 'absolute', top: '50%', right: 24, width: 190, height: 190, transform: 'translateY(-50%) rotate(-8deg)' }}>
-          <Image src="/hero-figma/hero-sticker-paw.png" alt="" fill sizes="190px" style={{ objectFit: 'contain' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', top: -70, right: 40, width: 200, height: 200, transform: 'rotate(-17deg)' }}>
+          <Image src="/hero-figma/bento-letter-s.png" alt="" fill sizes="200px" style={{ objectFit: 'contain' }} />
+        </div>
+        <div aria-hidden="true" style={{ position: 'absolute', bottom: 40, right: 20, width: 110, height: 110 }}>
+          <Image src="/hero-figma/bento-letter-k.png" alt="" fill sizes="110px" style={{ objectFit: 'contain' }} />
+        </div>
+        <div aria-hidden="true" style={{ position: 'absolute', top: '50%', right: -20, width: 220, height: 220, transform: 'translateY(-50%) rotate(-23deg)' }}>
+          <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="220px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>
     </div>
@@ -64,10 +70,14 @@ export function About() {
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
       <BentoCard background="var(--color-cream)" heading="Kiekvienas antkaklis gaminamas rankomis" flex="1 0 0" align="start">
         <div aria-hidden="true" style={{ position: 'absolute', right: 0, bottom: 0, top: -24, width: '55%' }}>
-          <Image src="/dog-jumping-cutout.png" alt="Šuo su PawCharms antkakliu" fill sizes="300px" style={{ objectFit: 'contain', objectPosition: 'bottom' }} />
+          <Image src="/hero-figma/bento-dog-photo.png" alt="Šuo su PawCharms antkakliu" fill sizes="300px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
         </div>
       </BentoCard>
-      <BentoCard background="var(--color-surface-2)" heading="Sukurkite antkaklį, kuris atspindi jūsų šunį" flex={isMobile ? '1' : '0 0 380px'} align="start" />
+      <BentoCard background="white" heading="Sukurkite antkaklį, kuris atspindi jūsų šunį" flex={isMobile ? '1' : '0 0 380px'} align="start">
+        <div aria-hidden="true" style={{ position: 'absolute', top: 20, left: '50%', width: 260, height: 260, transform: 'translateX(-50%) rotate(53deg)' }}>
+          <Image src="/hero-figma/bento-leash-blue.png" alt="" fill sizes="260px" style={{ objectFit: 'contain' }} />
+        </div>
+      </BentoCard>
     </div>
   );
 
@@ -97,7 +107,7 @@ export function About() {
   return (
     <section id="about" className="bg-white">
       <div style={{
-        maxWidth: 1328,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px',
         display: 'flex',

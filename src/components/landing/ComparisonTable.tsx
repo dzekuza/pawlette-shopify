@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { DisplayHeading } from '@/components/storefront/Typography'
 
 const FEATURES: { label: string; us: true | string; them: false | string }[] = [
   { label: 'Vandeniui atsparus silikonas',        us: true,           them: false },
@@ -30,7 +31,7 @@ function Cell({ value }: { value: true | false | string }) {
   return <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)', opacity: 0.7 }}>{value}</span>
 }
 
-const DIVIDER = 'rgba(61,53,48,0.08)'
+const DIVIDER = 'var(--color-bark-divider)'
 const COL_W = 140
 
 export function ComparisonTable() {
@@ -38,7 +39,7 @@ export function ComparisonTable() {
   const isMobile = w < 640
 
   return (
-    <section style={{ background: '#F0EDE8', padding: isMobile ? '56px 0' : '80px 24px', fontFamily: "'DM Sans', sans-serif" }}>
+    <section style={{ background: 'var(--color-surface-2)', padding: isMobile ? '56px 0' : '80px 24px', fontFamily: "'DM Sans', sans-serif" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
 
         {/* Heading */}
@@ -46,23 +47,24 @@ export function ComparisonTable() {
           <p style={{ fontFamily: "'Caveat', cursive", fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, margin: '0 0 8px' }}>
             Kodėl PawCharms?
           </p>
-          <h2 style={{ fontFamily: "'Tomato Grotesk VF', 'DM Sans', sans-serif", fontSize: isMobile ? 28 : 36, color: 'var(--color-bark)', lineHeight: 1.15, margin: 0 }}>
+          <DisplayHeading size="section" className="text-bark" style={{ margin: 0 }}>
             Ne visi antkakliai vienodi
-          </h2>
+          </DisplayHeading>
         </div>
 
         {/* Table */}
         <div style={{
-          borderRadius: isMobile ? 0 : 20,
+          margin: isMobile ? '0 20px' : 0,
+          borderRadius: isMobile ? 12 : 20,
           overflow: 'hidden',
           border: `1px solid ${DIVIDER}`,
           background: '#FFFDF9',
         }}>
 
           {/* Header row */}
-          <div style={{ display: 'grid', gridTemplateColumns: `1fr ${COL_W}px ${COL_W}px`, borderBottom: `1px solid ${DIVIDER}` }}>
+          <div style={{ display: 'grid', gridTemplateColumns: `minmax(0, 1fr) ${COL_W}px ${COL_W}px`, borderBottom: `1px solid ${DIVIDER}` }}>
             {/* Feature label col header */}
-            <div style={{ padding: '28px 24px 24px', borderRight: `1px solid ${DIVIDER}` }}>
+            <div style={{ padding: isMobile ? '28px 12px 24px' : '28px 24px 24px', borderRight: `1px solid ${DIVIDER}` }}>
               <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.4)' }}>
                 Savybė
               </span>
@@ -72,25 +74,6 @@ export function ComparisonTable() {
             <div style={{ padding: '28px 16px 24px', borderRight: `1px solid ${DIVIDER}`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, textAlign: 'center' }}>
               <Image src="/pawcharms.svg" alt="PawCharms" width={100} height={32} style={{ height: 32, width: 'auto', display: 'block' }} />
               <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)', lineHeight: 1.5 }}>Silikonas · Lietuva</span>
-              <a
-                href="/products"
-                style={{
-                  display: 'block',
-                  marginTop: 4,
-                  width: '100%',
-                  padding: '9px 0',
-                  borderRadius: 50,
-                  background: 'var(--color-bark)',
-                  color: '#FAF7F2',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  textDecoration: 'none',
-                  textAlign: 'center',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Užsakyti →
-              </a>
             </div>
 
             {/* Others col header */}
@@ -106,12 +89,12 @@ export function ComparisonTable() {
               key={row.label}
               style={{
                 display: 'grid',
-                gridTemplateColumns: `1fr ${COL_W}px ${COL_W}px`,
+                gridTemplateColumns: `minmax(0, 1fr) ${COL_W}px ${COL_W}px`,
                 borderTop: i > 0 ? `1px solid ${DIVIDER}` : undefined,
               }}
             >
-              <div style={{ padding: '18px 24px', borderRight: `1px solid ${DIVIDER}`, display: 'flex', alignItems: 'center' }}>
-                <span style={{ fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.4 }}>{row.label}</span>
+              <div style={{ padding: isMobile ? '18px 12px' : '18px 24px', borderRight: `1px solid ${DIVIDER}`, display: 'flex', alignItems: 'center', minWidth: 0 }}>
+                <span style={{ fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.4, overflowWrap: 'break-word', wordBreak: 'break-word' }}>{row.label}</span>
               </div>
               <div style={{ borderRight: `1px solid ${DIVIDER}`, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '18px 0' }}>
                 <Cell value={row.us} />

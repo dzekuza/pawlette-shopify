@@ -23,7 +23,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
       <div style={{
-        maxWidth: 1328,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '48px 16px' : '64px 64px',
         display: 'flex',
@@ -65,10 +65,6 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
               scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'],
-              marginLeft: -16,
-              marginRight: -16,
-              paddingLeft: 16,
-              paddingRight: 16,
             }}>
               {filteredProducts.map(p => (
                 <div key={p.id} style={{
@@ -148,7 +144,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                     transition: 'background-color 150ms ease-out, transform 100ms ease-out',
                   }}
                 >
-                  Užsakyti iš anksto
+                  Apsipirkti
                 </Link>
               </div>
             ))}

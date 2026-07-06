@@ -28,10 +28,10 @@ export function CharmCard ({ charm }: { charm: ShopifyCharm }) {
           />
         </div>
         <div style={{ padding: '16px 4px 8px' }}>
-          <div style={{ marginBottom: 4, fontSize: 16, fontWeight: 500, color: '#3D3530' }}>{charm.baseTitle}</div>
+          <div className="text-bark" style={{ marginBottom: 4, fontSize: 16, fontWeight: 500 }}>{charm.baseTitle}</div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-            <div style={{ fontSize: 20, fontWeight: 500, color: '#3D3530' }}>{charm.price}</div>
-            <span style={{ fontSize: 13, fontWeight: 500, color: '#2a5a25' }}>Peržiūrėti →</span>
+            <div className="text-bark" style={{ fontSize: 20, fontWeight: 500 }}>{charm.price}</div>
+            <span className="text-interactive-text" style={{ fontSize: 13, fontWeight: 500 }}>Peržiūrėti →</span>
           </div>
         </div>
       </article>

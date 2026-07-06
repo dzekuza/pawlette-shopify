@@ -57,7 +57,7 @@ export function FAQ() {
 
         {/* CTA */}
         <PrimaryButton href="/products" variant="sage" size="md">
-          Užsakyti iš anksto
+          Apsipirkti
         </PrimaryButton>
       </div>
     </section>

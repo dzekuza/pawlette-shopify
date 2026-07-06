@@ -87,7 +87,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
               originalPrice={originalPrice}
               showSavingsBadge={hasSale}
             />
-            <CatalogCardAction>Užsakyti iš anksto</CatalogCardAction>
+            <CatalogCardAction>Pirkti</CatalogCardAction>
           </CatalogCardFooter>
         </CatalogCardBody>
       </CatalogCard>

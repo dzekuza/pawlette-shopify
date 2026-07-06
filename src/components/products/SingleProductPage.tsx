@@ -414,7 +414,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
               {gallery.map((_, i) => (
-                <div key={i} onClick={() => setActiveSlide(i)} style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? '#3D3530' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
+                <div key={i} onClick={() => setActiveSlide(i)} style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
               ))}
             </div>
           </div>
@@ -475,7 +475,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {visibleCharmGallery.length > 1 && (
               <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
                 {visibleCharmGallery.map((_, index) => (
-                  <div key={index} onClick={() => setCharmGalleryIndex(index)} style={{ width: index === safeCharmGalleryIndex ? 20 : 6, height: 6, borderRadius: 3, background: index === safeCharmGalleryIndex ? '#3D3530' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
+                  <div key={index} onClick={() => setCharmGalleryIndex(index)} style={{ width: index === safeCharmGalleryIndex ? 20 : 6, height: 6, borderRadius: 3, background: index === safeCharmGalleryIndex ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
                 ))}
               </div>
             )}
@@ -487,7 +487,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
                 <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
               </div>
-              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 24, lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
+              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -630,7 +630,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
                 <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
               </div>
-              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
+              <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
@@ -716,7 +716,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Sukurta su meile
             </p>
-            <DisplayHeading as="h2" size="section" className="mb-5" style={{ fontSize: isMobile ? 32 : 44, lineHeight: 1.15 }}>
+            <DisplayHeading as="h2" size="section" className="mb-5" style={{ lineHeight: 1.15 }}>
               Kiekvienas pakabuko detalė — tai istorija
             </DisplayHeading>
             <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
@@ -749,19 +749,19 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           alignItems: 'center',
         }}>
           {/* Left column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div style={isMobile ? { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 } : { display: 'flex', flexDirection: 'column', gap: 32 }}>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Sauga pirmiausia</DisplayHeading>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Sauga pirmiausia</DisplayHeading>
               <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Visi pakabukai pagaminti iš maistinio silikono — be toksinų, be aštrių briaunų, saugu net jautriai odai.</p>
             </div>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
               </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Per 5 sekundes</DisplayHeading>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Per 5 sekundes</DisplayHeading>
               <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukas prisegamas ir nusegamas akimirksniu — be įrankių, be vargo, tiesiog spustelk.</p>
             </div>
           </div>
@@ -778,19 +778,19 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           </div>
 
           {/* Right column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div style={isMobile ? { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 } : { display: 'flex', flexDirection: 'column', gap: 32 }}>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Unikalus stilius</DisplayHeading>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Unikalus stilius</DisplayHeading>
               <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>5 vietos pakabukams — rink derinį pagal nuotaiką, sezoną ar charakterį. Mix &amp; match be galo.</p>
             </div>
             <div>
               <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16 }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-cream)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 17l1.5-1.5"/><path d="M7 13l1.5-1.5"/><path d="M11 9l1.5-1.5"/><path d="M15 5l1.5-1.5"/><path d="M17 17l2-2-7-7-2 2"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/></svg>
               </div>
-              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ fontSize: 20, lineHeight: 1.2 }}>Vandeniui atsparus</DisplayHeading>
+              <DisplayHeading as="h3" size="compact" className="mb-2" style={{ lineHeight: 1.2 }}>Vandeniui atsparus</DisplayHeading>
               <p className="font-sans" style={{ fontSize: 15, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.72 }}>Pakabukai ir antkaklis atlaiko lietų, balą ir vonią — lengvai nuplaunami, spalva neflysta.</p>
             </div>
           </div>
@@ -820,7 +820,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, marginBottom: 12 }}>
               Tavo stiliui
             </p>
-            <DisplayHeading as="h2" size="section" className="mb-5" style={{ fontSize: isMobile ? 32 : 44, lineHeight: 1.15 }}>
+            <DisplayHeading as="h2" size="section" className="mb-5" style={{ lineHeight: 1.15 }}>
               Mix & match — be galo galimybių
             </DisplayHeading>
             <p className="font-sans" style={{ fontSize: 16, color: 'var(--color-bark)', lineHeight: 1.7, opacity: 0.75, maxWidth: 480 }}>
@@ -866,7 +866,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           ].map(({ icon, heading, body }) => (
             <div key={heading} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div>{icon}</div>
-              <DisplayHeading as="h3" size="compact" className="m-0" style={{ fontSize: 17, lineHeight: 1.2 }}>{heading}</DisplayHeading>
+              <DisplayHeading as="h3" size="compact" className="m-0" style={{ lineHeight: 1.2 }}>{heading}</DisplayHeading>
               <p className="font-sans" style={{ fontSize: 14, color: 'var(--color-bark)', lineHeight: 1.65, opacity: 0.7, margin: 0 }}>{body}</p>
             </div>
           ))}
@@ -888,7 +888,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             bottom: 12,
             zIndex: 450,
             borderRadius: 22,
-            border: `1px solid rgba(61,53,48,0.08)`,
+            border: `1px solid var(--color-bark-divider)`,
             background: 'rgba(255,253,249,0.96)',
             backdropFilter: 'blur(14px)',
             boxShadow: '0 14px 30px rgba(61,53,48,0.16)',
@@ -918,11 +918,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               fontSize: 15,
               letterSpacing: '0.01em',
               background: 'var(--color-sage)',
-              color: '#2A5A25',
+              color: 'var(--color-interactive-text)',
               boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
             }}
           >
-            Užsakyti iš anksto
+            Pirkti
           </button>
         </div>
       )}
@@ -931,7 +931,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {personaliseOpen && (
         <div
           onClick={() => setPersonaliseOpen(false)}
-          style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'rgba(61,53,48,0.45)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+          style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'var(--color-bark-overlay)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -939,7 +939,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontSize: 22, fontWeight: 400, color: TEXT_PRIMARY }}>Pridėti pakabuką</DisplayHeading>
+              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Pridėti pakabuką</DisplayHeading>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -1003,11 +1003,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: selectedCollarCharmCount ? 'pointer' : 'not-allowed',
                 fontWeight: 600, fontSize: 16,
                 background: selectedCollarCharmCount ? 'var(--color-sage)' : '#E8E3DC',
-                color: selectedCollarCharmCount ? '#2A5A25' : TEXT_MUTED,
+                color: selectedCollarCharmCount ? 'var(--color-interactive-text)' : TEXT_MUTED,
                 transition: 'background 150ms',
               }}
             >
-              {charmAdded ? '✓ Užsakymas gautas!' : selectedCollarCharmCount ? `Užsakyti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
+              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
             </button>
           </div>
         </div>
@@ -1027,7 +1027,7 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
       <div className="mx-auto max-w-[1200px] px-6">
         <div style={{ marginBottom: 40 }}>
           <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, margin: '0 0 8px' }}>Rekomenduojami produktai</p>
-          <DisplayHeading as="h2" size="section" className="m-0" style={{ fontSize: 36, lineHeight: 1.15 }}>
+          <DisplayHeading as="h2" size="section" className="m-0" style={{ lineHeight: 1.15 }}>
             Jums taip pat gali patikti
           </DisplayHeading>
         </div>
@@ -1103,7 +1103,7 @@ const COLOR_SWATCHES: Record<string, string> = {
   Cyan:       '#A8E6E6',
   'Blue/Green': '#A8D5C8',
   Green:      '#A8D5A2',
-  Black:      '#3D3530',
+  Black:      'var(--color-bark)',
 }
 
 interface CollarPDPProps {
@@ -1167,7 +1167,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
         </div>
-        <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ fontSize: 30, lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
+        <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
@@ -1200,7 +1200,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                     overflow: 'hidden',
                     cursor: 'pointer',
                     background: option.fallback,
-                    boxShadow: isSelected ? `0 0 0 2px #FAF7F2, 0 0 0 4px ${TEXT_PRIMARY}` : '0 0 0 1.5px rgba(61,53,48,0.15)',
+                    boxShadow: isSelected ? `0 0 0 2px var(--color-cream), 0 0 0 4px ${TEXT_PRIMARY}` : '0 0 0 1.5px var(--color-bark-border)',
                     transition: 'box-shadow 150ms, transform 150ms',
                   }}
                   aria-label={option.color}
@@ -1266,7 +1266,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 cursor: 'pointer',
                 fontSize: 13,
                 fontWeight: 600,
-                color: '#2A5A25',
+                color: 'var(--color-interactive-text)',
                 textDecoration: 'none',
               }}
             >
@@ -1281,7 +1281,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       {showCharms && (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>Įtraukti pakabukai</span>
+          <Eyebrow className="font-semibold tracking-[0.1em]">Įtraukti pakabukai</Eyebrow>
           {!!selectedCharmCount && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selectedCharmCount} pasirinkti</span>}
         </div>
         <button
@@ -1355,7 +1355,37 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       </div>
       )}
 
-      {/* Review carousel — above CTA for conversion lift */}
+      {/* Add to cart */}
+      <button
+        onClick={handleAddToCart}
+        style={{
+          width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
+          fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
+          background: 'var(--color-sage)', color: 'var(--color-interactive-text)',
+          boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'translateY(0)' }}
+        onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
+        onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
+      >
+        {added ? '✓ Pridėta į krepšelį!' : `Pirkti — ${price}`}
+      </button>
+      {/* Trust strip — purchase reassurance below CTA */}
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+        {PDP_TRUST_POINTS.map((point) => (
+          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
+            {point}
+          </div>
+        ))}
+      </div>
+
+      {/* Upsell — cross-sell item */}
+      {upsellItems && upsellItems.length > 0 && (
+        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
+      )}
+
+      {/* Review carousel — below upsell for conversion lift */}
       <div
         style={{
           display: 'flex',
@@ -1443,36 +1473,6 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         </div>
       </div>
 
-      {/* Add to cart */}
-      <button
-        onClick={handleAddToCart}
-        style={{
-          width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
-          fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
-          background: 'var(--color-sage)', color: '#2a5a25',
-          boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-        onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'translateY(0)' }}
-        onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
-        onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
-      >
-        {added ? '✓ Užsakymas gautas!' : `Užsakyti iš anksto — ${price}`}
-      </button>
-      {/* Trust strip — purchase reassurance below CTA */}
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {PDP_TRUST_POINTS.map((point) => (
-          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-            {point}
-          </div>
-        ))}
-      </div>
-
-      {/* Upsell — cross-sell item */}
-      {upsellItems && upsellItems.length > 0 && (
-        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
-      )}
-
       {/* Accordion */}
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {accordionItems.map((item) => {
@@ -1503,7 +1503,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             position: 'fixed',
             inset: 0,
             zIndex: 700,
-            background: 'rgba(61,53,48,0.42)',
+            background: 'var(--color-bark-overlay)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -1526,10 +1526,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
               <div>
-                <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: TEXT_MUTED }}>
-                  Dydžių gidas
-                </div>
-                <DisplayHeading as="h3" size="compact" className="mt-[6px] m-0" style={{ fontSize: 24, lineHeight: 1.15, color: TEXT_PRIMARY, fontWeight: 400 }}>
+                <Eyebrow className="font-semibold tracking-[0.1em]">Dydžių gidas</Eyebrow>
+                <DisplayHeading as="h3" size="compact" className="mt-[6px] m-0" style={{ lineHeight: 1.15, color: TEXT_PRIMARY, fontWeight: 400 }}>
                   Kaip išmatuoti savo šunį
                 </DisplayHeading>
               </div>
@@ -1550,7 +1548,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 'Jei matmuo patenka tarp dydžių, kasdieniam patogumui rinkitės didesnį.',
               ].map((step, index) => (
                 <div key={step} style={{ display: 'grid', gridTemplateColumns: '28px 1fr', gap: 10, alignItems: 'start' }}>
-                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(168,213,162,0.22)', color: '#2A5A25', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>
+                  <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(168,213,162,0.22)', color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>
                     {index + 1}
                   </div>
                   <p style={{ margin: 0, fontSize: 15, lineHeight: 1.6, color: TEXT_SECONDARY }}>
@@ -1592,7 +1590,7 @@ function CharmColorPicker ({ color, onColorChange, options }: { color: string; o
             style={{
               width: 28, height: 28, borderRadius: '50%', border: color === value ? '2px solid var(--color-bark)' : '2px solid transparent',
               background: dot, cursor: 'pointer', outline: 'none',
-              boxShadow: color === value ? '0 0 0 1px rgba(61,53,48,0.15)' : 'none',
+              boxShadow: color === value ? '0 0 0 1px var(--color-bark-border)' : 'none',
               transition: 'border-color 120ms',
               padding: 0,
             }}
@@ -1655,7 +1653,7 @@ function CharmPicker ({
           {charms.map((charm) => {
             const isSelected = selected?.id === charm.id || selectedIds?.includes(charm.id)
             return (
-              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: 'var(--color-surface-2)', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px rgba(61,53,48,0.08)' : 'none', transition: 'border-color 120ms' }}>
+              <button key={charm.id} onClick={() => onSelect(charm)} title={charm.title} style={{ minHeight: 82, borderRadius: 10, background: 'var(--color-surface-2)', cursor: 'pointer', padding: '8px 6px 7px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4, outline: 'none', border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent', boxShadow: isSelected ? '0 0 0 1px var(--color-bark-divider)' : 'none', transition: 'border-color 120ms' }}>
                 {charm.image
                   ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
                   : <span aria-hidden="true" className="font-display" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>
@@ -1696,9 +1694,9 @@ function CharmPicker ({
 
 function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count: number; onClick: () => void; isMobile: boolean }) {
   const label = added
-    ? '✓ Užsakymas gautas!'
+    ? '✓ Pridėta į krepšelį!'
     : count > 0
-      ? `Užsakyti su ${count} pakabuk${count > 1 ? 'ais' : 'u'} →`
+      ? `Pirkti su ${count} pakabuk${count > 1 ? 'ais' : 'u'} →`
       : 'Pasirinkite iki 5 pakabukų'
   return (
     <div>
@@ -1710,7 +1708,7 @@ function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count:
           cursor: count ? 'pointer' : 'not-allowed',
           fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
           background: count ? 'var(--color-sage)' : '#E8E3DC',
-          color: count ? '#2a5a25' : TEXT_MUTED,
+          color: count ? 'var(--color-interactive-text)' : TEXT_MUTED,
           transition: 'background-color 150ms ease-out, transform 80ms ease-out',
           boxShadow: count ? '0 4px 20px rgba(168,213,162,0.45)' : 'none',
         }}

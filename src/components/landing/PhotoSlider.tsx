@@ -53,7 +53,7 @@ function ProductPromoCard({ width, height }: { width: number; height: number }) 
         <div className="flex w-full items-center justify-between">
           <span className="font-sans font-semibold text-[22px] text-bark">€33.00</span>
           <Button asChild variant="sage" size="pill-sm">
-            <Link href="/products">Užsisakyti iš anksto</Link>
+            <Link href="/products">Apsipirkti</Link>
           </Button>
         </div>
       </div>
@@ -65,14 +65,14 @@ export function PhotoSlider() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
-  const imgW = isMobile ? 200 : 280;
-  const imgH = isMobile ? 250 : 340;
-  const promoW = isMobile ? 240 : 312;
+  const imgW = isMobile ? 260 : 280;
+  const imgH = isMobile ? 320 : 340;
+  const promoW = isMobile ? 300 : 312;
 
   return (
     <section className="bg-surface-2 overflow-hidden">
       <div style={{
-        maxWidth: 1328,
+        maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '32px 16px 16px' : '64px 64px 24px',
         display: 'flex',
@@ -95,13 +95,13 @@ export function PhotoSlider() {
               <ProductPromoCard key={`promo-${i}`} width={promoW} height={imgH} />
             ) : (
               <div key={slide.src} style={{ position: 'relative', width: imgW, height: imgH, flexShrink: 0, borderRadius: 40, overflow: 'hidden' }}>
-                <Image src={slide.src} alt="" fill sizes="(max-width: 767px) 200px, 280px" style={{ objectFit: 'cover' }} />
+                <Image src={slide.src} alt="" fill sizes="(max-width: 767px) 260px, 280px" style={{ objectFit: 'cover' }} />
               </div>
             )
           )}
         </InfiniteSlider>
       </div>
-      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', paddingBottom: isMobile ? 48 : 100 }}>
+      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: isMobile ? 'wrap' : 'nowrap', paddingLeft: isMobile ? 16 : 0, paddingRight: isMobile ? 16 : 0, paddingBottom: isMobile ? 48 : 100 }}>
         <PrimaryButton href="/configure" variant="sage" size="md">
           Sukurkite savo unikalų antkaklį →
         </PrimaryButton>
