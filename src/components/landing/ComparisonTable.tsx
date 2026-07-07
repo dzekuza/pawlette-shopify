@@ -1,13 +1,14 @@
 'use client'
 
 import Image from 'next/image'
+import { useEffect, useRef } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 
 const BADGES = [
-  { label: 'Personalizuojamas dizainas',      top: 116.54, left: 72 },
-  { label: 'Keičiami pakabukai per 5 sek.',   top: 211.54, left: 100 },
-  { label: 'Nesugeria kvapų ir dėmių',        top: 270.54, left: 187 },
-  { label: 'Vandeniui atsparus silikonas',    top: 318.54, left: 40 },
+  { label: 'Personalizuojamas dizainas',      bottom: 109, left: 155, rotate: 9 },
+  { label: 'Nesugeria kvapų ir dėmių',        bottom: 27,  left: 170, rotate: 5 },
+  { label: 'Keičiami pakabukai per 5 sek.',   bottom: 118, left: 9,   rotate: -8 },
+  { label: 'Vandeniui atsparus silikonas',    bottom: 18,  left: 14,  rotate: -3 },
 ]
 
 const CARD_SIZE = 454
@@ -18,19 +19,22 @@ function BadgeCard ({ badgeBg }: { badgeBg: string }) {
       {BADGES.map((badge) => (
         <div
           key={badge.label}
+          data-compare-badge
+          data-fall={CARD_SIZE - badge.bottom}
+          data-rotate={badge.rotate}
           style={{
             position: 'absolute',
-            top: `${(badge.top / CARD_SIZE) * 100}%`,
+            bottom: `${(badge.bottom / CARD_SIZE) * 100}%`,
             left: `${(badge.left / CARD_SIZE) * 100}%`,
             background: badgeBg,
-            borderRadius: 40,
-            padding: '12px',
+            borderRadius: 'clamp(6px, 6cqw, 40px)',
+            padding: 'clamp(3px, 2.5cqw, 12px)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <span style={{ fontSize: 16, fontWeight: 500, color: 'var(--color-bark)', whiteSpace: 'nowrap' }}>
+          <span style={{ fontSize: 'clamp(7px, 3.5cqw, 16px)', fontWeight: 500, color: 'var(--color-bark)', whiteSpace: 'nowrap' }}>
             {badge.label}
           </span>
         </div>
@@ -42,9 +46,75 @@ function BadgeCard ({ badgeBg }: { badgeBg: string }) {
 export function ComparisonTable () {
   const w = useWindowWidth() ?? 1200
   const isMobile = w < 768
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let mm: any
+
+    Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(
+      ([{ gsap }, { ScrollTrigger }]) => {
+        if (!sectionRef.current) return
+        gsap.registerPlugin(ScrollTrigger)
+        mm = gsap.matchMedia()
+
+        mm.add(
+          {
+            allowMotion: '(prefers-reduced-motion: no-preference)',
+            reduceMotion: '(prefers-reduced-motion: reduce)',
+          },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (context: any) => {
+            const { allowMotion } = context.conditions as { allowMotion?: boolean }
+            const badges = gsap.utils.selector(sectionRef)('[data-compare-badge]')
+            if (!badges.length) return
+
+            if (!allowMotion) {
+              gsap.set(badges, { clearProps: 'all' })
+              return
+            }
+
+            gsap.set(badges, {
+              transformOrigin: 'left center',
+              rotation: (_i: number, el: Element) => parseFloat((el as HTMLElement).dataset.rotate || '0'),
+              y: (_i: number, el: Element) => -(parseFloat((el as HTMLElement).dataset.fall || '0') + 48),
+              autoAlpha: 0,
+            })
+
+            ScrollTrigger.create({
+              trigger: sectionRef.current,
+              start: 'top 75%',
+              once: true,
+              onEnter: () => {
+                gsap.to(badges, {
+                  y: 0,
+                  autoAlpha: 1,
+                  duration: (_i: number, el: Element) => 0.55 + parseFloat((el as HTMLElement).dataset.fall || '0') / 260,
+                  ease: 'bounce.out',
+                  stagger: 0.06,
+                  clearProps: 'visibility',
+                })
+              },
+            })
+          }
+        )
+
+        if (document.readyState === 'complete') {
+          ScrollTrigger.refresh()
+        } else {
+          window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true })
+        }
+      }
+    )
+
+    return () => { mm?.revert() }
+  }, [])
 
   return (
-    <section className="bg-white" style={{ padding: isMobile ? '56px 20px' : '120px 64px' }}>
+    <section ref={sectionRef} className="bg-white" style={{ padding: isMobile ? '56px 20px' : '120px 64px' }}>
       <div
         style={{
           maxWidth: 1200,
@@ -82,6 +152,7 @@ export function ComparisonTable () {
                 borderRadius: 24,
                 aspectRatio: '1 / 1',
                 width: '100%',
+                containerType: 'inline-size',
                 backgroundImage: 'linear-gradient(153deg, rgb(168, 213, 162) 0%, rgb(248, 248, 248) 107.09%)',
               }}
             >
@@ -105,6 +176,7 @@ export function ComparisonTable () {
                 borderRadius: 24,
                 aspectRatio: '1 / 1',
                 width: '100%',
+                containerType: 'inline-size',
                 background: '#e1e1e1',
               }}
             >
