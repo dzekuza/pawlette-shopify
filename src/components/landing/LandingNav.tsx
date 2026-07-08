@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 const NAV_LINKS = [
-  { label: 'Antkakliai', href: '/products' },
-  { label: 'Pakabukai', href: '/products/charm-charms' },
-  { label: 'Pavadeliai', href: '/pavadeliai' },
+  { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
+  { label: 'Pakabukai', href: '/products/pawcharms-pakabuciai' },
+  { label: 'Pavadeliai', href: '/products/pawcharms-pavadelis' },
 ];
 
 interface LandingNavProps {

@@ -248,7 +248,7 @@ export default function CartPage() {
                         <div
                           className="h-full rounded-full bg-sage"
                           style={{
-                            width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
+                            width: `${Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)}%`,
                           }}
                         />
                       </div>

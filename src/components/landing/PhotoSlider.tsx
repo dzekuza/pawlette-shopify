@@ -20,7 +20,7 @@ const SLIDER_IMAGES = [
   '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
 ];
 
-const PROMO_SLUGS = ['collar-melyna-collar', 'charm-charms', 'roin-leash'];
+const PROMO_SLUGS = ['pawcharms-antkaklis', 'pawcharms-pakabuciai', 'pawcharms-pavadelis'];
 
 type Slide =
   | { type: 'image'; src: string }

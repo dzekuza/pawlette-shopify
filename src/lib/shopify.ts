@@ -39,6 +39,8 @@ export interface ShopifyCollar {
   care?: string;
   shipping?: string;
   nodeHandle?: string;
+  parentImage?: string;
+  parentDescription?: string;
 }
 
 export interface ShopifyCharm {
@@ -147,6 +149,7 @@ const COLLARS_QUERY = `
           id
           handle
           title
+          descriptionHtml
           tags
           featuredImage { url }
           images(first: 10) { edges { node { url } } }
@@ -432,6 +435,8 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           image: variant.image?.url ?? '',
         }));
         const productImages = (node.images?.edges ?? []).map(({ node: image }) => image.url);
+        const parentImage = node.featuredImage?.url ?? '';
+        const parentDescription = (node.descriptionHtml ?? '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
         const sharedMeta = {
           tags: (node.tags ?? []) as string[],
           description: meta('description') || undefined,
@@ -459,6 +464,9 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               handle: collarHandle,
               title: collarTitle,
               parentTitle: node.title,
+              nodeHandle: node.handle,
+              parentImage,
+              parentDescription,
               variantId: firstColorVariant?.id ?? '',
               price: firstColorVariant ? firstColorVariant.price : '€24.99',
               originalPrice: saleColorVariant?.originalPrice,

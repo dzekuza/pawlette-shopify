@@ -174,8 +174,11 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
   }
 }
 
-export function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
-  const shortDescription = extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`
+export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMedia?: boolean }): ProductDetail {
+  const shortDescription = opts?.useParentMedia
+    ? (collar.parentDescription || extractPlainText(collar.description) || `${collar.parentTitle} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
+    : (extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
+  const image = opts?.useParentMedia ? (collar.parentImage || collar.image) : collar.image
 
   return {
     slug: slugFromProductName(collar.title),
@@ -186,9 +189,9 @@ export function buildCollarProduct (collar: ShopifyCollar): ProductDetail {
     price: collar.price,
     originalPrice: collar.originalPrice,
     shortDescription,
-    longDescription: collar.description || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
-    image: collar.image,
-    images: uniqueStrings([collar.image, ...collar.images]),
+    longDescription: (opts?.useParentMedia ? collar.parentDescription : collar.description) || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
+    image,
+    images: uniqueStrings([image, ...collar.images]),
     accentColor: collar.color,
     tintColor: hexToRgba(collar.color, 0.15),
     ctaHref: '/products',
@@ -261,7 +264,7 @@ export async function getAllProductSlugs (): Promise<string[]> {
 }
 
 export async function getProductBySlugAsync (slug: string): Promise<ProductDetail | undefined> {
-  if (slug === 'charm-charms') {
+  if (slug === 'charm-charms' || slug === 'pawcharms-pakabuciai') {
     const charms = await getCharms()
     return buildCharmCollectionProduct(charms)
   }
@@ -285,6 +288,10 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     titleToSlug(c.title) === collarHandle
   )
   if (collar) return buildCollarProduct(collar)
+
+  // Raw Shopify product handle (e.g. "pawcharms-antkaklis") — use the main product's own image/description, not a color variant's
+  const parentCollar = collars.find((c) => c.nodeHandle === collarHandle || c.nodeHandle === slug)
+  if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true })
 
   const leashes = await getLeashes()
   const leash = leashes.find((l) => l.handle === slug || l.id === slug)

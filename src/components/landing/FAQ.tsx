@@ -19,7 +19,7 @@ const FAQS: AccordionItem[] = [
   {
     id: 'personalize',
     title: 'Ar galima personalizuoti pakabuką?',
-    content: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokių įrankių ir jokio vargo. Galite laisvai derinti visus dizainus tarp skirtingų antkaklių.',
+    content: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokių įrankių ir jokio vargo. Galite laisvai derinti visus pakabukus tarp skirtingų antkaklių.',
   },
   {
     id: 'size',
