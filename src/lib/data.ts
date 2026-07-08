@@ -30,9 +30,9 @@ export const CHARM_POSITIONS = [
 export const FLOAT_DURATIONS = [3.8, 4.2, 3.5, 4.8, 3.2] as const;
 
 export const LANDING_REVIEWS = [
-  { name: 'Laima K.', dog: 'Luna (Biglis)', rating: 5, text: 'Užsakiau Sage rinkinį ir mano šuo sulaukia komplimentų per kiekvieną pasivaikščiojimą. Pakabukai tikrai prisitvirtina per kelias sekundes.' },
-  { name: 'Marta S.', dog: 'Bruno (Auksaspalvis retriveris)', rating: 5, text: 'Antkaklis atlaikė du mėnesius maudynių, purvinų pasivaikščiojimų ir ypač audringą dieną paplūdimyje. Jokio kvapo, jokių dėmių.' },
-  { name: 'Rūta P.', dog: 'Mochi (Šiba inu)', rating: 5, text: 'Nusipirkau vieną ir iškart užsakiau dar du dovanoms. Blossom antkaklis ypač gražus. Patinka, kad jis gaminamas Lietuvoje.' },
+  { name: 'Laima K.', dog: 'Luna (Biglis)', rating: 5, text: 'Užsakiau Sage rinkinį ir mano šuo sulaukia komplimentų per kiekvieną pasivaikščiojimą. Pakabukai tikrai prisitvirtina per kelias sekundes.', avatar: '/testimonials/avatar-laima-luna.jpg' },
+  { name: 'Marta S.', dog: 'Bruno (Auksaspalvis retriveris)', rating: 5, text: 'Antkaklis atlaikė du mėnesius maudynių, purvinų pasivaikščiojimų ir ypač audringą dieną paplūdimyje. Jokio kvapo, jokių dėmių.', avatar: '/testimonials/avatar-marta-bruno.jpg' },
+  { name: 'Rūta P.', dog: 'Mochi (Šiba inu)', rating: 5, text: 'Nusipirkau vieną ir iškart užsakiau dar du dovanoms. Blossom antkaklis ypač gražus. Patinka, kad jis gaminamas Lietuvoje.', avatar: '/testimonials/avatar-ruta-mochi.jpg' },
 ] as const;
 
 export const TICKER_ITEMS = [

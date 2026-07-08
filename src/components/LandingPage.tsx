@@ -11,6 +11,7 @@ import { PhotoSlider } from './landing/PhotoSlider';
 import { FAQ } from './landing/FAQ';
 import { About } from './landing/About';
 import { LandingFooter } from './landing/LandingFooter';
+import { NewsletterSignup } from './landing/NewsletterSignup';
 import { StickyCTA } from './landing/StickyCTA';
 import { StickyVideoWidget } from './landing/StickyVideoWidget';
 import { ExitModal } from './landing/ExitModal';
@@ -153,6 +154,7 @@ export function LandingPage() {
         <div data-animate="section"><About /></div>
         <div data-animate="section"><PhotoSlider /></div>
         <div data-animate="section"><FAQ /></div>
+        <div data-animate="section"><NewsletterSignup /></div>
       </main>
 
       <div data-animate="section"><LandingFooter /></div>

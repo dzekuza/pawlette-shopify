@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LandingPage } from '@/components/LandingPage';
+import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config';
 
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -50,7 +51,7 @@ const faqSchema = {
 
 export const metadata: Metadata = {
   title: 'PawCharms — šunų antkakliai su keičiamais pakabukais',
-  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo 50 €.',
+  description: `Vandeniui atsparūs, personalizuojami šunų antkakliai su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`,
   alternates: { canonical: 'https://pawcharms.lt' },
   openGraph: {
     title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',

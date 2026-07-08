@@ -245,7 +245,7 @@ const CHARM_STYLES = [
 
 const CHARM_DESC = 'Magnetiniai silikono pakabukai lengvai prisitvirtina prie bet kokio Pawlette BioThane antkaklio. Vandeniui atsparūs, saugūs šunims.';
 const CHARM_CARE = 'Plaukite po tekančiu vandeniu arba valykite drėgna šluoste.';
-const CHARM_SHIP = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €50.';
+const CHARM_SHIP = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €40.';
 
 function seedCharms(locationId) {
   console.log('\n✨  Creating Charms product...');

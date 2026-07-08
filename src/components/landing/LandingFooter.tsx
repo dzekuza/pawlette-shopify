@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Eyebrow } from '@/components/storefront/Typography';
+import { FREE_SHIPPING_COPY } from '@/lib/site-config';
 
 const FOOTER_COLS = [
   { title: 'Parduotuvė', links: [
@@ -31,7 +32,7 @@ export function LandingFooter() {
 
   return (
     <footer className="bg-surface-2 text-bark" style={{ padding: isMobile ? '40px 0 32px' : '60px 0 40px' }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '0 16px' : '0 48px' }}>
+      <div className="mx-auto max-w-[1200px] px-4 md:px-6">
         <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 36 : 48, marginBottom: isMobile ? 32 : 56 }}>
           <div>
             <Link href="/" aria-label="PawCharms pagrindinis" style={{ display: 'inline-flex', marginBottom: 16 }}>
@@ -39,6 +40,23 @@ export function LandingFooter() {
             </Link>
             <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.</p>
             <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>Pakabukai keičiami per 5 sekundes.</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 18 }}>
+              {[FREE_SHIPPING_COPY, '30 d. grąžinimas'].map((item) => (
+                <span
+                  key={item}
+                  style={{
+                    borderRadius: 999,
+                    border: '1px solid rgba(168, 213, 162, 0.5)',
+                    background: 'rgba(255,255,255,0.75)',
+                    padding: '7px 12px',
+                    fontSize: 12,
+                    color: 'var(--color-bark)',
+                  }}
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
           {isMobile ? (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 24 }}>

@@ -86,7 +86,7 @@ const COLLAR_DESC  = 'Vandeniui atsparus BioThane antkaklis su magnetiniais sili
 const COLLAR_FEATS = '• Vandeniui atspari BioThane medžiaga\n• 5 magnetinių pakabukų laikikliai\n• Lengva valyti\n• Pagaminta Lietuvoje';
 const COLLAR_SET   = '• 1× BioThane antkaklis\n• 5× magnetinių pakabukų laikikliai\n• Dovanų dėžutė';
 const COLLAR_CARE  = 'Valykite drėgna šluoste arba plaukite po tekančiu vandeniu. Nedžiovinkite džiovintuvu.';
-const COLLAR_SHIP  = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €50.';
+const COLLAR_SHIP  = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €40.';
 
 function seedCollars() {
   console.log('\n🐾  Creating collars...');
@@ -149,7 +149,7 @@ const CHARM_STYLES = [
 
 const CHARM_DESC = 'Magnetiniai silikono pakabukai lengvai prisitvirtina prie bet kokio Pawlette BioThane antkaklio. Vandeniui atsparūs, saugūs šunims.';
 const CHARM_CARE = 'Plaukite po tekančiu vandeniu arba valykite drėgna šluoste.';
-const CHARM_SHIP = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €50.';
+const CHARM_SHIP = 'Pristatymas per 2–5 darbo dienas. Nemokamas pristatymas nuo €40.';
 
 function seedCharms() {
   console.log('\n✨  Creating charms product...');

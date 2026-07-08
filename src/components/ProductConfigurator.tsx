@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
+import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { getCollars, getCollarsSync, getCharms, getCharmsSync, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { BentoSection } from './BentoSection'
@@ -293,7 +294,7 @@ export function ProductConfigurator () {
                 €28
               </span>
               <span className="text-bark-muted" style={{ fontSize: 13 }}>
-                nemokamas pristatymas nuo €50
+                {FREE_SHIPPING_COPY.toLowerCase()}
               </span>
             </div>
           </div>

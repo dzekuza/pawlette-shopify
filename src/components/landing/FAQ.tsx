@@ -1,9 +1,7 @@
 'use client';
 
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
-import Link from 'next/link';
 import { DisplayHeading } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
@@ -31,34 +29,29 @@ const FAQS: AccordionItem[] = [
 ];
 
 export function FAQ() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
   return (
     <section className="bg-cream">
-      <div style={{
-        maxWidth: 760,
-        margin: '0 auto',
-        padding: isMobile ? '48px 16px' : '64px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 40,
-      }}>
-        {/* Heading */}
-        <DisplayHeading as="h2" size="section" className="text-bark text-center">
-          Turite klausimų?
-        </DisplayHeading>
+      <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16">
+        <div style={{
+          maxWidth: 760,
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 40,
+        }}>
+          <DisplayHeading as="h2" size="section" className="text-bark text-center">
+            Turite klausimų?
+          </DisplayHeading>
 
-        {/* Accordion */}
-        <div style={{ width: '100%' }}>
-          <Accordion items={FAQS} />
+          <div style={{ width: '100%' }}>
+            <Accordion items={FAQS} />
+          </div>
+
+          <PrimaryButton href="/products" variant="sage" size="md">
+            Apsipirkti
+          </PrimaryButton>
         </div>
-
-        {/* CTA */}
-        <PrimaryButton href="/products" variant="sage" size="md">
-          Apsipirkti
-        </PrimaryButton>
       </div>
     </section>
   );

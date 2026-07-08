@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
@@ -24,6 +25,7 @@ import { CharmCollectionProductCard } from '@/components/products/CharmCollectio
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
+import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -157,6 +159,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
   const [mounted, setMounted] = useState(false)
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), [])
 
   useEffect(() => {
@@ -357,7 +360,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const collarHandle = product.id.replace(/^collar-/, '')
   const galleryKey = collarHandle.replace(/-collar$/, '')
   const localGallery = COLLAR_GALLERY[galleryKey] ?? COLLAR_GALLERY[collarHandle] ?? COLLAR_GALLERY[collar?.handle ?? ''] ?? []
-  const rawGallery = (collar?.images && collar.images.length > 0) ? collar.images : localGallery
+  const selectedVariantImage = collar?.variants.find((variant) =>
+    (selectedColor ? variant.color === selectedColor : true) &&
+    (selectedSize ? variant.size === selectedSize : true)
+  )?.image ?? collar?.variants.find((variant) => selectedColor ? variant.color === selectedColor : true)?.image ?? ''
+  const rawGallery = [
+    selectedVariantImage,
+    ...((collar?.images && collar.images.length > 0) ? collar.images : localGallery),
+  ].filter((image, index, list): image is string => Boolean(image) && list.indexOf(image) === index)
   const gallery = rawGallery.length > 0
     ? Array.from({ length: 8 }, (_, i) => rawGallery[i % rawGallery.length])
     : []
@@ -495,7 +505,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
-                note='Nemokamas pristatymas nuo €50'
+                note={FREE_SHIPPING_COPY}
                 size='detail'
               />
             </div>
@@ -526,7 +536,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             )}
             <div style={{ height: 1, background: 'var(--color-surface-2)' }} />
             {/* Review carousel */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div id="reviews" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ overflow: 'hidden' }}>
                 <div style={{ display: 'flex', transform: `translateX(-${activeCharmReview * 100}%)`, transition: 'transform 280ms ease' }}>
                   {PDP_REVIEWS.map((review) => (
@@ -568,7 +578,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       >
         {/* Breadcrumb */}
         <nav aria-label="breadcrumb" className="font-sans" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)' }}>
-          <a href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</a>
+          <Link href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</Link>
           <span style={{ opacity: 0.4 }}>/</span>
           <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
         </nav>
@@ -638,7 +648,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <ProductPrice
                 currentPrice={displayPrice}
                 originalPrice={firstSelectedCharm?.originalPrice ?? product.originalPrice}
-                note='Nemokamas pristatymas nuo €50'
+                note={FREE_SHIPPING_COPY}
                 size='detail'
               />
             </div>
@@ -669,7 +679,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             )}
             <div style={{ height: 1, background: DIVIDER }} />
             {/* Review carousel */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div id="reviews" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div style={{ overflow: 'hidden' }}>
                 <div style={{ display: 'flex', transform: `translateX(-${activeCharmReview * 100}%)`, transition: 'transform 280ms ease' }}>
                   {PDP_REVIEWS.map((review) => (
@@ -1006,7 +1016,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
-          note='Nemokamas pristatymas nuo €50'
+          note={FREE_SHIPPING_COPY}
           size='detail'
         />
       </div>
@@ -1195,6 +1205,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
 
       {/* Review carousel — below upsell for conversion lift */}
       <div
+        id="reviews"
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -1538,7 +1549,7 @@ function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count:
       >
         {label}
       </button>
-      <p style={{ textAlign: 'center', marginTop: 2, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>Nemokamas pristatymas nuo 50 € · Pagaminta Lietuvoje</p>
+      <p style={{ textAlign: 'center', marginTop: 2, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>{FREE_SHIPPING_COPY} · Pagaminta Lietuvoje</p>
     </div>
   )
 }

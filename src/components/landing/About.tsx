@@ -69,12 +69,12 @@ export function About() {
   const rowBottom = (
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
       <BentoCard background="var(--color-cream)" heading="Atsparus vandeniui, purvui ir kasdienei avantiūrai" flex="1 0 0" align="start">
-        <div aria-hidden="true" style={{ position: 'absolute', right: 0, bottom: -30, top: 20, width: '68%' }}>
+        <div aria-hidden="true" style={{ position: 'absolute', right: -20, bottom: -30, top: 60, width: '68%' }}>
           <Image src="/hero-figma/bento-dog-photo.png" alt="Šuo su PawCharms antkakliu" fill sizes="340px" style={{ objectFit: 'cover', objectPosition: 'top' }} />
         </div>
       </BentoCard>
       <BentoCard background="var(--color-surface-2)" heading="Sukurkite antkaklį, kuris atspindi jūsų šunį" flex={isMobile ? '1' : '0 0 380px'} align="start">
-        <div aria-hidden="true" style={{ position: 'absolute', top: 20, left: '68%', width: 260, height: 260, transform: 'translateX(-50%) rotate(53deg)' }}>
+        <div aria-hidden="true" style={{ position: 'absolute', top: 60, left: '78%', width: 260, height: 260, transform: 'translateX(-50%) rotate(53deg)' }}>
           <Image src="/hero-figma/bento-leash-blue.png" alt="" fill sizes="260px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>
@@ -106,14 +106,9 @@ export function About() {
 
   return (
     <section id="about" className="bg-white">
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: isMobile ? '48px 16px' : '64px',
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: 16,
-      }}>
+      <div
+        className="mx-auto flex max-w-[1200px] flex-col gap-4 px-4 py-12 md:px-6 md:py-16 lg:flex-row"
+      >
         {isMobile ? (
           <>
             {rowTop}

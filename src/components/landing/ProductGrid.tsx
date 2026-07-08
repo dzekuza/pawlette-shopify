@@ -22,15 +22,10 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
 
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: isMobile ? '48px 16px' : '64px 64px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 32,
-        fontFamily: "'DM Sans', sans-serif",
-      }}>
+      <div
+        className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-12 md:px-6 md:py-16"
+        style={{ fontFamily: "'DM Sans', sans-serif" }}
+      >
         {/* Heading + description/CTA row */}
         <div style={{
           display: 'flex',
@@ -40,12 +35,12 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           gap: isMobile ? 24 : 64,
         }}>
           <DisplayHeading as="h2" size="section" className="text-bark" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
-            Mūsų produktai – antkakliai, pavadeliai ir pakabukai kiekvienai progai
+            Antkakliai, pavadeliai ir pakabukai kiekvienai progai
           </DisplayHeading>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flexShrink: 0, maxWidth: isMobile ? '100%' : 400 }}>
             <BodyCopy>
-              Kiekvienas pakabukas prisisega per kelias sekundes ir lengvai nusiima. Rinkite, derinkite ir keiskite pagal nuotaiką, sezoną ar progą.
+              Kurkite unikalų stilių savo šuniui. Pakabukus lengvai užmausite ir pakeisite vos per kelias sekundes.
             </BodyCopy>
             <div>
               <PrimaryButton href="/configure" variant="sage" size="md">

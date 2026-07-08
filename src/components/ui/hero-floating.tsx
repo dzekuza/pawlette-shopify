@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DisplayHeading } from "@/components/storefront/Typography";
 import { LANDING_REVIEWS } from "@/lib/data";
+import { FREE_SHIPPING_COPY } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 const HERO_GALLERY = {
@@ -25,9 +26,16 @@ const HERO_STICKERS = {
 };
 
 const TAGLINE_SLIDES = [
-  "Antkakliai – stilingi ir patogūs tiek šunims, tiek jų šeimininkams",
+  "Pakabukus pakeisite per 5 sekundes ir be jokių įrankių",
   "BioThane medžiaga – atspari vandeniui, purvui ir dilimui",
   "Personalizuok pakabukais ir sukurk unikalų antkaklio dizainą",
+];
+
+const HERO_TRUST_BADGES = [
+  { label: "⭐ 4.9/5 — 9 atsiliepimų", href: "/products/charm-charms#reviews" },
+  { label: "🇱🇹 Rankų darbo Vilniuje" },
+  { label: `🚚 ${FREE_SHIPPING_COPY}` },
+  { label: "↩ 30 d. grąžinimas" },
 ];
 
 interface FloatingHeroProps {
@@ -120,7 +128,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             size="floatingHero"
             className="mx-auto max-w-[868px] text-center font-normal leading-[1.1] tracking-[0.02em] text-bark"
           >
-            Antkakliai – stilingi ir patogūs tiek šunims, tiek jų šeimininkams
+            Vienas antkaklis. Begalė stilių.
           </DisplayHeading>
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
@@ -136,6 +144,27 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             >
               Pirkti pakabukus
             </Link>
+          </div>
+
+          <div className="flex max-w-[920px] flex-wrap items-center justify-center gap-2.5 md:gap-3">
+            {HERO_TRUST_BADGES.map((badge) =>
+              badge.href ? (
+                <Link
+                  key={badge.label}
+                  href={badge.href}
+                  className="rounded-full border border-sage/35 bg-white/80 px-4 py-2 text-[13px] font-medium text-bark no-underline transition-colors hover:bg-sage/10"
+                >
+                  {badge.label}
+                </Link>
+              ) : (
+                <span
+                  key={badge.label}
+                  className="rounded-full border border-sage/30 bg-surface-2/90 px-4 py-2 text-[13px] font-medium text-bark"
+                >
+                  {badge.label}
+                </span>
+              )
+            )}
           </div>
         </div>
 
@@ -209,7 +238,15 @@ export function FloatingHero({ className }: FloatingHeroProps) {
                 „{LANDING_REVIEWS[reviewIndex].text}“
               </p>
               <div className="flex items-center gap-6">
-                <span className="h-12 w-12 shrink-0 rounded-full bg-[#B15A5A]" />
+                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
+                  <Image
+                    src={LANDING_REVIEWS[reviewIndex].avatar}
+                    alt={LANDING_REVIEWS[reviewIndex].name}
+                    fill
+                    sizes="48px"
+                    className="object-cover"
+                  />
+                </span>
                 <span className="font-tomato text-lg font-semibold tracking-[0.02em] text-bark">
                   {LANDING_REVIEWS[reviewIndex].name}
                 </span>

@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Droplets, Ruler, Shield, Sparkles } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
@@ -11,6 +12,7 @@ import { UpsellSection } from '@/components/products/UpsellSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
+import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 
 const NAV_H = 72
 
@@ -89,7 +91,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
   const [cartCount, setCartCount] = useState(0)
   const [added, setAdded] = useState(false)
   const [activeSlide, setActiveSlide] = useState(0)
-  const swipeStart = useRef<number | null>(null)
+  const swipeStartRef = useRef<number | null>(null)
 
   // Show images for the selected color variant; fall back to product-level images
   const colorVariants = product.leashVariants?.filter(v =>
@@ -169,7 +171,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             colors={colors}
             added={added}
             onAddToCart={addToCart}
-            swipeStart={swipeStart}
+            swipeStartRef={swipeStartRef}
             upsellCollars={recommendedProducts.filter(p => p.productType === 'collar').slice(0, 2)}
           />
         ) : (
@@ -283,7 +285,7 @@ interface LayoutProps {
   colors: string[]
   added: boolean
   onAddToCart: () => void
-  swipeStart?: React.MutableRefObject<number | null>
+  swipeStartRef?: React.MutableRefObject<number | null>
   upsellCollars?: ProductDetail[]
 }
 
@@ -337,15 +339,19 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
 
 /* ─────────────────── Mobile Layout ─────────────────── */
 
-function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStart, upsellCollars }: LayoutProps) {
+function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStartRef, upsellCollars }: LayoutProps) {
   return (
     <div>
       <div
         style={{ position: 'relative', width: '100%', aspectRatio: '1/1', overflow: 'hidden', touchAction: 'pan-y' }}
-        onPointerDown={e => swipeStart && handleSwipeStart(e.clientX, swipeStart)}
-        onPointerUp={e => swipeStart && handleSwipeEnd(e.clientX, swipeStart, gallery.length, activeSlide, setActiveSlide)}
-        onPointerCancel={() => swipeStart && (swipeStart.current = null)}
-        onPointerLeave={() => swipeStart && (swipeStart.current = null)}
+        onPointerDown={e => swipeStartRef && handleSwipeStart(e.clientX, swipeStartRef)}
+        onPointerUp={e => swipeStartRef && handleSwipeEnd(e.clientX, swipeStartRef, gallery.length, activeSlide, setActiveSlide)}
+        onPointerCancel={() => {
+          if (swipeStartRef) swipeStartRef.current = null
+        }}
+        onPointerLeave={() => {
+          if (swipeStartRef) swipeStartRef.current = null
+        }}
       >
         <div style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
           {gallery.map((src, i) => (
@@ -401,9 +407,9 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Breadcrumb */}
       <nav style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)', display: 'flex', gap: 6 }}>
-        <a href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Pradžia</a>
+        <Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>Pradžia</Link>
         <span>/</span>
-        <a href="/products" style={{ color: 'inherit', textDecoration: 'none' }}>Produktai</a>
+        <Link href="/products" style={{ color: 'inherit', textDecoration: 'none' }}>Produktai</Link>
         <span>/</span>
         <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
       </nav>
@@ -538,7 +544,7 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
 
       {/* Trust badges */}
       <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
-        {['Nemokamas pristatymas nuo €50', '30 dienų grąžinimas', 'Pagaminta Vilniuje'].map(text => (
+        {[FREE_SHIPPING_COPY, '30 dienų grąžinimas', 'Pagaminta Vilniuje'].map(text => (
           <span key={text} style={{ fontSize: 12, color: 'rgba(61,53,48,0.55)', display: 'flex', alignItems: 'center', gap: 5 }}>
             <span style={{ color: 'var(--color-sage)' }}>✓</span> {text}
           </span>

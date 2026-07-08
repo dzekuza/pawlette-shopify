@@ -453,6 +453,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
             const collarTitle = `${colorName} Collar`;
             const firstColorVariant = colorVariants[0];
             const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
+            const colorImage = firstColorVariant?.image || node.featuredImage?.url || '';
             return {
               id: collarHandle,
               handle: collarHandle,
@@ -464,8 +465,8 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               color: colorHex,
               bgTint: hexToRgba(colorHex, 0.15),
               glowColor: hexToRgba(colorHex, 0.5),
-              image: node.featuredImage?.url || firstColorVariant?.image || '',
-              images: productImages,
+              image: colorImage,
+              images: [colorImage, ...productImages.filter((image) => image !== colorImage)].filter(Boolean),
               sizes: colorVariants.map(v => v.size).filter(Boolean),
               colors: [colorName],
               variants: colorVariants,
@@ -787,6 +788,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
             const leashHandle = `${colorSlug}-leash`;
             const firstColorVariant = colorVariants[0];
             const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
+            const colorImage = firstColorVariant?.image || node.featuredImage?.url || '';
             return {
               id: leashHandle,
               handle: leashHandle,
@@ -799,8 +801,8 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
               color: colorHex,
               bgTint: hexToRgba(colorHex, 0.15),
               glowColor: hexToRgba(colorHex, 0.5),
-              image: node.featuredImage?.url || firstColorVariant?.image || '',
-              images: productImages,
+              image: colorImage,
+              images: [colorImage, ...productImages.filter((image) => image !== colorImage)].filter(Boolean),
               sizes: [...new Set(colorVariants.map(v => v.size).filter(Boolean))],
               colors: [colorName],
               variants: colorVariants,

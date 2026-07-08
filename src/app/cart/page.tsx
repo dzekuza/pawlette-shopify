@@ -13,8 +13,8 @@ import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
+import { FREE_SHIPPING_THRESHOLD } from '@/lib/site-config';
 
-const SHIPPING_THRESHOLD = 50;
 const SHIPPING_COST = 4.9;
 
 export default function CartPage() {
@@ -44,9 +44,9 @@ export default function CartPage() {
     (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
     0
   );
-  const shipping = subtotal >= SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
   const total = subtotal + shipping;
-  const amountToFreeShipping = Math.max(0, SHIPPING_THRESHOLD - subtotal);
+  const amountToFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - subtotal);
 
   return (
     <div className="min-h-screen font-sans bg-cream">
@@ -95,7 +95,7 @@ export default function CartPage() {
                       <div
                         className="h-full rounded-full transition-[width] duration-[280ms] ease-out bg-sage"
                         style={{
-                          width: `${Math.min(100, (subtotal / SHIPPING_THRESHOLD) * 100)}%`,
+                          width: `${Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)}%`,
                         }}
                       />
                     </div>

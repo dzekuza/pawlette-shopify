@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify'
+import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { Accordion } from '@/components/shared/Accordion'
 import { CharmsStep } from './config-panel/CharmsStep'
 import { ColourStep } from './config-panel/ColourStep'
@@ -14,7 +15,7 @@ const DEFAULT_ACCORDION = {
   features: 'Vandeniui atsparus silikonas, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams.',
   set_includes: 'Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojamas saugus užsegimas. Lininis laikymo maišelis.',
   care: 'Po kiekvieno maudymosi ar purvino pasivaikščiojimo nuplaukite. Džiovinkite paguldę, nedėkite į džiovyklę. Pakabukus valykite drėgna šluoste ir leiskite išdžiūti.',
-  shipping: 'Nemokamas pristatymas užsakymams nuo €40. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės.',
+  shipping: 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės.',
 }
 
 interface ConfigPanelProps {
@@ -171,7 +172,7 @@ export function ConfigPanel({
             letterSpacing: '0.02em',
           }}
         >
-          Nemokamas pristatymas nuo €50 · Pagaminta Lietuvoje
+          {FREE_SHIPPING_COPY} · Pagaminta Lietuvoje
         </p>
       </div>
 

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { FREE_SHIPPING_COPY } from '@/lib/site-config';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
   const w = useWindowWidth() ?? 1200;
@@ -34,7 +35,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           </div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 28 €</div>
-            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · nemokamas pristatymas nuo 40 €</div>
+            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · {FREE_SHIPPING_COPY.toLowerCase()}</div>
           </div>
         </div>
       )}

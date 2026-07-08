@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { InfiniteSlider } from '@/components/ui/infinite-slider-horizontal';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
@@ -7,6 +8,7 @@ import Link from 'next/link';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { Button } from '@/components/ui/button';
+import { getProductBySlugAsync } from '@/lib/catalog';
 
 const SLIDER_IMAGES = [
   '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
@@ -18,42 +20,53 @@ const SLIDER_IMAGES = [
   '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
 ];
 
+const PROMO_SLUGS = ['collar-melyna-collar', 'charm-charms', 'roin-leash'];
+
 type Slide =
   | { type: 'image'; src: string }
-  | { type: 'promo' };
+  | { type: 'promo'; product: PromoProduct };
 
-const SLIDES: Slide[] = [
-  { type: 'image', src: SLIDER_IMAGES[0] },
-  { type: 'image', src: SLIDER_IMAGES[1] },
-  { type: 'image', src: SLIDER_IMAGES[2] },
-  { type: 'promo' },
-  { type: 'image', src: SLIDER_IMAGES[3] },
-  { type: 'promo' },
-  { type: 'image', src: SLIDER_IMAGES[4] },
-  { type: 'image', src: SLIDER_IMAGES[5] },
-  { type: 'image', src: SLIDER_IMAGES[6] },
-];
+interface PromoProduct {
+  image: string;
+  name: string;
+  description: string;
+  price: string;
+  href: string;
+}
 
-function ProductPromoCard({ width, height }: { width: number; height: number }) {
+function buildSlides(products: PromoProduct[]): Slide[] {
+  const slides: Slide[] = [];
+  let productIndex = 0;
+  SLIDER_IMAGES.forEach((src) => {
+    slides.push({ type: 'image', src });
+    if (products.length > 0) {
+      slides.push({ type: 'promo', product: products[productIndex % products.length] });
+      productIndex += 1;
+    }
+  });
+  return slides;
+}
+
+function ProductPromoCard({ product, width, height }: { product: PromoProduct; width: number; height: number }) {
   return (
     <div
       className="relative flex flex-col items-center justify-end overflow-hidden rounded-[40px] shrink-0"
       style={{ width, height }}
     >
-      <Image src="/collar-pink.png" alt="" fill sizes={`${width}px`} className="object-cover rounded-[40px]" />
+      <Image src={product.image} alt="" fill sizes={`${width}px`} className="object-cover rounded-[40px]" />
       <div
         className="absolute inset-0 rounded-[40px]"
         style={{ background: 'linear-gradient(to bottom, rgba(250,247,242,0) 50%, var(--color-cream) 65%)' }}
       />
       <div className="relative flex flex-col items-start gap-4 w-full px-5 pb-2 pt-4">
-        <p className="font-sans font-medium text-xl text-bark">Rožinis Pavadėlis</p>
+        <p className="font-sans font-medium text-xl text-bark">{product.name}</p>
         <p className="text-[13px] leading-snug text-bark-muted">
-          Rožinis pavadėlis iš vandeniui atsparaus silikono su patogia rankena – komfortas ir stilius kiekvienam pasivaikščiojimui.
+          {product.description}
         </p>
         <div className="flex w-full items-center justify-between">
-          <span className="font-sans font-semibold text-[22px] text-bark">€33.00</span>
+          <span className="font-sans font-semibold text-[22px] text-bark">{product.price}</span>
           <Button asChild variant="sage" size="pill-sm">
-            <Link href="/products">Apsipirkti</Link>
+            <Link href={product.href}>Apsipirkti</Link>
           </Button>
         </div>
       </div>
@@ -64,6 +77,27 @@ function ProductPromoCard({ width, height }: { width: number; height: number }) 
 export function PhotoSlider() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
+  const [promoProducts, setPromoProducts] = useState<PromoProduct[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all(PROMO_SLUGS.map((slug) => getProductBySlugAsync(slug))).then((results) => {
+      if (cancelled) return;
+      const products = results
+        .filter((p): p is NonNullable<typeof p> => !!p)
+        .map((p) => ({
+          image: p.image,
+          name: p.name,
+          description: p.shortDescription,
+          price: p.price,
+          href: `/products/${p.slug}`,
+        }));
+      if (products.length > 0) setPromoProducts(products);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const slides = buildSlides(promoProducts);
 
   const imgW = isMobile ? 260 : 280;
   const imgH = isMobile ? 320 : 340;
@@ -71,28 +105,21 @@ export function PhotoSlider() {
 
   return (
     <section className="bg-surface-2 overflow-hidden">
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: isMobile ? '32px 16px 16px' : '64px 64px 24px',
-        display: 'flex',
-        alignItems: isMobile ? 'flex-start' : 'flex-end',
-        justifyContent: 'space-between',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? 20 : 40,
-      }}>
+      <div
+        className="mx-auto flex max-w-[1200px] flex-col gap-5 px-4 pt-8 md:px-6 md:pt-16 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
+      >
         <DisplayHeading as="h2" size="section" className="text-bark text-left" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
-          Vienas antkaklis. Begalė stilių.
+          Jūsų spalvotos akimirkos.
         </DisplayHeading>
         <BodyCopy style={{ maxWidth: 434 }}>
-          Vandeniui atsparus silikonas, patogi rankena ir spalvos, tinkančios kiekvienam šuniui.
+          Sukurtas kasdieniam komfortui, vandeniui atsparus silikonas.
         </BodyCopy>
       </div>
       <div style={{ paddingTop: isMobile ? 32 : 48, paddingBottom: isMobile ? 32 : 48 }}>
         <InfiniteSlider gap={16} duration={40} pauseOnHover>
-          {SLIDES.map((slide, i) =>
+          {slides.map((slide, i) =>
             slide.type === 'promo' ? (
-              <ProductPromoCard key={`promo-${i}`} width={promoW} height={imgH} />
+              <ProductPromoCard key={`promo-${i}`} product={slide.product} width={promoW} height={imgH} />
             ) : (
               <div key={slide.src} style={{ position: 'relative', width: imgW, height: imgH, flexShrink: 0, borderRadius: 40, overflow: 'hidden' }}>
                 <Image src={slide.src} alt="" fill sizes="(max-width: 767px) 260px, 280px" style={{ objectFit: 'cover' }} />
@@ -101,7 +128,7 @@ export function PhotoSlider() {
           )}
         </InfiniteSlider>
       </div>
-      <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: isMobile ? 'wrap' : 'nowrap', paddingLeft: isMobile ? 16 : 0, paddingRight: isMobile ? 16 : 0, paddingBottom: isMobile ? 48 : 100 }}>
+      <div className="flex flex-wrap justify-center gap-4 px-4 pb-12 md:px-6 md:pb-[100px]">
         <PrimaryButton href="/configure" variant="sage" size="md">
           Kurk savo antkaklį →
         </PrimaryButton>
