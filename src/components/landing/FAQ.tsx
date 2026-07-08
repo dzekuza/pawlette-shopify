@@ -30,7 +30,7 @@ const FAQS: AccordionItem[] = [
 
 export function FAQ() {
   return (
-    <section className="bg-cream">
+    <section className="bg-white">
       <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16">
         <div style={{
           maxWidth: 760,

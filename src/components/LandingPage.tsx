@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
+import { TopBar } from './landing/TopBar';
 import { FloatingHero } from './ui/hero-floating';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
@@ -145,6 +146,7 @@ export function LandingPage() {
 
   return (
     <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif", background: 'var(--color-cream)' }}>
+      <TopBar />
       <LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main>
@@ -152,9 +154,9 @@ export function LandingPage() {
 
         <div data-animate="section"><ProductGrid products={products} /></div>
         <div data-animate="section"><About /></div>
+        <div data-animate="section"><NewsletterSignup /></div>
         <div data-animate="section"><PhotoSlider /></div>
         <div data-animate="section"><FAQ /></div>
-        <div data-animate="section"><NewsletterSignup /></div>
       </main>
 
       <div data-animate="section"><LandingFooter /></div>

@@ -6,6 +6,8 @@ export interface ProductDetail {
   variantId: string
   productType: 'collar' | 'charm' | 'leash'
   name: string
+  /** Real Shopify product title, before per-color synthesis (e.g. "Blue Leash"). */
+  parentTitle?: string
   price: string
   originalPrice?: string
   shortDescription: string
@@ -214,6 +216,7 @@ export function buildLeashProduct (leash: ShopifyCollar): ProductDetail {
     variantId: leash.variantId,
     productType: 'leash',
     name: leash.title,
+    parentTitle: leash.parentTitle,
     price: leash.price,
     originalPrice: leash.originalPrice,
     shortDescription,

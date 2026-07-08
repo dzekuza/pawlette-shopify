@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
@@ -150,24 +151,9 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
             )}
 
             {/* Shop now CTA */}
-            <Link
-              href="/products"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: 'var(--color-sage)',
-                borderRadius: 100,
-                padding: '12px 24px',
-                fontSize: 16,
-                fontWeight: 500,
-                color: 'var(--color-interactive-text)',
-                textDecoration: 'none',
-                whiteSpace: 'nowrap',
-              }}
-            >
+            <PrimaryButton href="/products" variant="sage" size="md">
               Apsipirkti
-            </Link>
+            </PrimaryButton>
           </div>
         </div>
         </div>

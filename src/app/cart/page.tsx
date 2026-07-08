@@ -8,7 +8,7 @@ import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
-import { Button } from '@/components/ui/button';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
@@ -257,14 +257,14 @@ export default function CartPage() {
 
                   {/* CTA */}
                   <div className="mt-5">
-                    <Button
+                    <PrimaryButton
                       onClick={() => { if (checkoutUrl) window.location.href = checkoutUrl; }}
-                      className="w-full"
-                      variant='sage'
-                      size='pill-lg'
+                      variant="sage"
+                      size="lg"
+                      fullWidth
                     >
                       Tęsti atsiskaitymą
-                    </Button>
+                    </PrimaryButton>
                   </div>
 
                   {/* Trust note */}

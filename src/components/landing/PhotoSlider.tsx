@@ -60,14 +60,9 @@ function ProductPromoCard({ product, width, height }: { product: PromoProduct; w
       />
       <div className="relative flex flex-col items-start gap-4 w-full px-5 pb-2 pt-4">
         <p className="font-sans font-medium text-xl text-bark">{product.name}</p>
-        <p className="text-[13px] leading-snug text-bark-muted">
-          {product.description}
-        </p>
         <div className="flex w-full items-center justify-between">
           <span className="font-sans font-semibold text-[22px] text-bark">{product.price}</span>
-          <Button asChild variant="sage" size="pill-sm">
-            <Link href={product.href}>Apsipirkti</Link>
-          </Button>
+          <PrimaryButton href={product.href} variant="sage" size="sm">Apsipirkti</PrimaryButton>
         </div>
       </div>
     </div>
@@ -108,7 +103,7 @@ export function PhotoSlider() {
       <div
         className="mx-auto flex max-w-[1200px] flex-col gap-5 px-4 pt-8 md:px-6 md:pt-16 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
       >
-        <DisplayHeading as="h2" size="section" className="text-bark text-left" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
+        <DisplayHeading as="h2" size="section" className="text-left text-bark" style={{ flex: '1 0 0' }}>
           Jūsų spalvotos akimirkos.
         </DisplayHeading>
         <BodyCopy style={{ maxWidth: 434 }}>

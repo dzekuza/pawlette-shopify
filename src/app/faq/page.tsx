@@ -6,7 +6,7 @@ import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
-import { Button } from '@/components/ui/button';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { PageHero } from '@/components/storefront/PageHero';
 import { DisplayHeading } from '@/components/storefront/Typography';
 
@@ -124,11 +124,9 @@ export default function FaqPage() {
         <DisplayHeading as='h2' size='section' className="mb-6 text-cream">
           Mielai padėsime.
         </DisplayHeading>
-        <Button asChild variant='sage' size='pill-lg'>
-          <a href="mailto:hello@pawcharms.lt" className="no-underline">
-            Parašykite el. paštu
-          </a>
-        </Button>
+        <PrimaryButton href="mailto:hello@pawcharms.lt" variant="sage" size="lg">
+          Parašykite el. paštu
+        </PrimaryButton>
       </section>
 
       <LandingFooter />

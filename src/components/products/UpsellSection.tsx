@@ -157,6 +157,7 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
   const variantId = variant?.id ?? item.variantId
   const price = variant?.price ?? item.price
   const image = variant?.image ?? item.image
+  const title = item.parentTitle ?? item.name
 
   async function handleAdd () {
     if (adding || added || !variantId) return
@@ -174,15 +175,15 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
     <div style={{ padding: 12, borderRadius: 14, border: '1.5px solid var(--color-bark-divider)', background: 'var(--color-cream)' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a href={`/products/${item.slug}`} style={{ flexShrink: 0, width: 56, height: 56, borderRadius: 10, overflow: 'hidden', position: 'relative', display: 'block' }}>
-          <Image src={image} alt={item.name} fill className="object-cover" sizes="56px" />
+          <Image src={image} alt={title} fill className="object-cover" sizes="56px" />
         </a>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {item.name}
+            {title}
           </div>
           <PriceLine price={price} />
         </div>
-        <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
+        <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${title} į krepšelį`} />
       </div>
 
       {colors.length > 1 && (

@@ -6,9 +6,12 @@ import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
+import { TopBar } from '@/components/landing/TopBar'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
 import { FAQ } from '@/components/landing/FAQ'
 import { About } from '@/components/landing/About'
+import { ProductValueShowcase } from '@/components/products/ProductValueShowcase'
+import { ProductStorySection } from '@/components/products/ProductStorySection'
 import { ComparisonTable } from '@/components/landing/ComparisonTable'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
@@ -391,6 +394,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   return (
     <div className="bg-cream min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+      <TopBar />
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       {/* ── Mobile layout ── */}
@@ -718,6 +722,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
       <About />
 
+      <ProductStorySection />
+
+      <ProductValueShowcase name={displayName} />
+
       <ComparisonTable />
       <PhotoSlider />
       <FAQ />
@@ -871,8 +879,8 @@ function RecommendedProductsSection ({ products }: { products: ProductDetail[] }
     <section className="bg-cream py-[60px] md:py-[96px]">
       <div className="mx-auto max-w-[1200px] px-6">
         <div style={{ marginBottom: 40 }}>
-          <p className="font-handwriting" style={{ fontSize: 18, color: 'var(--color-sage)', fontWeight: 600, margin: '0 0 8px' }}>Rekomenduojami produktai</p>
-          <DisplayHeading as="h2" size="section" className="m-0" style={{ lineHeight: 1.15 }}>
+          <Eyebrow className="mb-3">Rekomenduojami produktai</Eyebrow>
+          <DisplayHeading as="h2" size="section" className="m-0 text-bark" style={{ lineHeight: 1.15 }}>
             Jums taip pat gali patikti
           </DisplayHeading>
         </div>
@@ -1150,13 +1158,17 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              <Image
-                src={c?.image || '/charms/S_yellow.png'}
-                alt={c?.title ?? ''}
-                width={48}
-                height={48}
-                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              />
+              {c?.image
+                ? (
+                  <Image
+                    src={c.image}
+                    alt={c.title}
+                    width={48}
+                    height={48}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  />
+                )
+                : <Plus size={18} strokeWidth={2.2} color="rgba(61,53,48,0.2)" />}
             </div>
           ))}
           <span

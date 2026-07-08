@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DisplayHeading } from "@/components/storefront/Typography";
-import { LANDING_REVIEWS } from "@/lib/data";
 import { FREE_SHIPPING_COPY } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -25,12 +23,6 @@ const HERO_STICKERS = {
   letterS: "/hero-figma/hero-sticker-s.png",
 };
 
-const TAGLINE_SLIDES = [
-  "Pakabukus pakeisite per 5 sekundes ir be jokių įrankių",
-  "BioThane medžiaga – atspari vandeniui, purvui ir dilimui",
-  "Personalizuok pakabukais ir sukurk unikalų antkaklio dizainą",
-];
-
 const HERO_TRUST_BADGES = [
   { label: "⭐ 4.9/5 — 9 atsiliepimų", href: "/products/charm-charms#reviews" },
   { label: "🇱🇹 Rankų darbo Vilniuje" },
@@ -44,30 +36,6 @@ interface FloatingHeroProps {
 
 export function FloatingHero({ className }: FloatingHeroProps) {
   const stickersRef = useRef<HTMLDivElement>(null);
-  const [taglineIndex, setTaglineIndex] = useState(0);
-  const [reviewIndex, setReviewIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTaglineIndex((i) => (i + 1) % TAGLINE_SLIDES.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [taglineIndex]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setReviewIndex((i) => (i + 1) % LANDING_REVIEWS.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [reviewIndex]);
-
-  const goToTagline = (dir: 1 | -1) => {
-    setTaglineIndex((i) => (i + dir + TAGLINE_SLIDES.length) % TAGLINE_SLIDES.length);
-  };
-
-  const goToReview = (dir: 1 | -1) => {
-    setReviewIndex((i) => (i + dir + LANDING_REVIEWS.length) % LANDING_REVIEWS.length);
-  };
 
   useEffect(() => {
     if (!stickersRef.current) return;
@@ -193,94 +161,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </div>
           <div className="relative hidden w-[160px] shrink-0 overflow-hidden rounded-3xl lg:block lg:h-[60%] lg:self-center">
             <Image src={HERO_GALLERY.right} alt="Šuo su PawCharms antkakliu" fill sizes="160px" className="object-cover" />
-          </div>
-        </div>
-
-        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-end">
-          <div className="flex flex-1 flex-col items-start gap-6">
-            <p className="max-w-sm font-tomato text-2xl font-semibold tracking-[0.02em] text-bark">
-              {TAGLINE_SLIDES[taglineIndex]}
-            </p>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                aria-label="Ankstesnis šūkis"
-                onClick={() => goToTagline(-1)}
-                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
-              >
-                <ChevronLeft className="size-4" />
-              </button>
-              <div className="flex gap-6">
-                {TAGLINE_SLIDES.map((slide, i) => (
-                  <span
-                    key={slide}
-                    className={cn(
-                      "h-[10px] w-[77px] rounded-full transition-colors duration-300",
-                      i === taglineIndex ? "bg-sage" : "bg-sage/30"
-                    )}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                aria-label="Kitas šūkis"
-                onClick={() => goToTagline(1)}
-                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
-              >
-                <ChevronRight className="size-4" />
-              </button>
-            </div>
-          </div>
-
-          <div className="flex w-full flex-col gap-6 lg:w-[420px]">
-            <div className="flex w-full flex-col gap-[10px] rounded-3xl border border-sage bg-sage/10 px-6 py-3">
-              <p className="font-tomato text-lg font-medium tracking-[0.02em] text-bark">
-                „{LANDING_REVIEWS[reviewIndex].text}“
-              </p>
-              <div className="flex items-center gap-6">
-                <span className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full">
-                  <Image
-                    src={LANDING_REVIEWS[reviewIndex].avatar}
-                    alt={LANDING_REVIEWS[reviewIndex].name}
-                    fill
-                    sizes="48px"
-                    className="object-cover"
-                  />
-                </span>
-                <span className="font-tomato text-lg font-semibold tracking-[0.02em] text-bark">
-                  {LANDING_REVIEWS[reviewIndex].name}
-                </span>
-              </div>
-            </div>
-            <div className="flex w-full items-center gap-3">
-              <button
-                type="button"
-                aria-label="Ankstesnė atsiliepimo kortelė"
-                onClick={() => goToReview(-1)}
-                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
-              >
-                <ChevronLeft className="size-4" />
-              </button>
-              <div className="flex flex-1 gap-6">
-                {LANDING_REVIEWS.map((review, i) => (
-                  <span
-                    key={review.name}
-                    className={cn(
-                      "h-[10px] flex-1 rounded-full transition-colors duration-300",
-                      i === reviewIndex ? "bg-sage" : "bg-sage/30"
-                    )}
-                  />
-                ))}
-              </div>
-              <button
-                type="button"
-                aria-label="Kita atsiliepimo kortelė"
-                onClick={() => goToReview(1)}
-                className="hidden size-8 shrink-0 items-center justify-center rounded-full border border-sage/40 text-bark transition-colors hover:bg-sage/10 md:flex"
-              >
-                <ChevronRight className="size-4" />
-              </button>
-            </div>
           </div>
         </div>
       </div>

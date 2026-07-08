@@ -264,6 +264,12 @@ body {
   50% { transform: translateY(-10px) rotate(-2deg); }
 }
 
+@keyframes levitate {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-16px); }
+}
+.animate-levitate { animation: levitate 4s ease-in-out infinite; }
+
 @keyframes slideCartIn {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
@@ -341,7 +347,8 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .float-a, .float-b, .float-c, .float-d, .float-e, .float-f,
-  .charm-float-0, .charm-float-1, .charm-float-2, .charm-float-3, .charm-float-4 {
+  .charm-float-0, .charm-float-1, .charm-float-2, .charm-float-3, .charm-float-4,
+  .animate-levitate {
     animation: none;
   }
   .ticker-track {

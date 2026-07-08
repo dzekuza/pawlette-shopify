@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography'
 
 const BADGES = [
   { label: 'Personalizuojamas dizainas',      bottom: 109, left: 155, rotate: 9 },
@@ -187,12 +188,12 @@ export function ComparisonTable () {
 
         {/* Right — heading + copy */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center', width: isMobile ? '100%' : 468, flexShrink: 0 }}>
-          <p className="font-display" style={{ fontSize: 48, lineHeight: 1.2, letterSpacing: '0.03em', color: 'var(--color-bark)', margin: 0 }}>
+          <DisplayHeading as="h2" size="section" className="m-0 text-bark">
             Palyginkime
-          </p>
-          <p className="font-sans" style={{ fontSize: 20, lineHeight: 1.5, fontWeight: 500, color: 'var(--color-bark-light)', margin: 0 }}>
+          </DisplayHeading>
+          <BodyCopy className="m-0">
             Vandeniui atsparus silikonas, patogi rankena ir spalvos, tinkančios kiekvienam šuniui.
-          </p>
+          </BodyCopy>
         </div>
       </div>
     </section>

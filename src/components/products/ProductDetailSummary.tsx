@@ -5,6 +5,7 @@ import Link from 'next/link'
 import type { ProductDetail } from '@/lib/catalog'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 
 interface ProductDetailSummaryProps {
@@ -240,9 +241,9 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                 alignItems: 'stretch'
               }}
             >
-              <Button asChild variant='sage' size='pill' className={isMobile ? 'w-full flex-1' : 'min-w-[220px]'}>
-                <Link href={product.ctaHref}>{product.ctaLabel}</Link>
-              </Button>
+              <PrimaryButton href={product.ctaHref} variant="sage" size="md" className={isMobile ? 'w-full flex-1' : 'min-w-[220px]'}>
+                {product.ctaLabel}
+              </PrimaryButton>
               <Button asChild variant='pillOutline' size='pill' className={isMobile ? 'w-full flex-1' : 'min-w-[220px]'}>
                 <Link href='/products'>Peržiūrėti daugiau produktų</Link>
               </Button>

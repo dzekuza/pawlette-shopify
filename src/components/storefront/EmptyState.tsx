@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import type { LucideIcon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { SurfaceCard, SurfaceCardBody } from '@/components/storefront/SurfaceCard'
 import { BodyCopy, DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 
@@ -37,9 +36,9 @@ export function EmptyState ({
           {description}
         </BodyCopy>
         {actionHref && actionLabel ? (
-          <Button asChild variant='sage' size='pill-lg' className='mt-8'>
-            <Link href={actionHref}>{actionLabel}</Link>
-          </Button>
+          <PrimaryButton href={actionHref} variant="sage" size="lg" className="mt-8">
+            {actionLabel}
+          </PrimaryButton>
         ) : null}
       </SurfaceCardBody>
     </SurfaceCard>
