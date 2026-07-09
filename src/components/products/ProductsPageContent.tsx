@@ -3,7 +3,6 @@
 import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useCartCount } from '@/hooks/useCartCount'
-import type { LandingCollar } from '@/lib/db'
 import type { ProductDetail } from '@/lib/catalog'
 import { ProductCard } from './ProductCard'
 import { useRouter } from 'next/navigation'
@@ -11,11 +10,10 @@ import { PageHero } from '@/components/storefront/PageHero'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 
 interface ProductsPageContentProps {
-  collars: LandingCollar[]
-  charmCollection: ProductDetail | null
+  products: ProductDetail[]
 }
 
-export function ProductsPageContent ({ collars, charmCollection }: ProductsPageContentProps) {
+export function ProductsPageContent ({ products }: ProductsPageContentProps) {
   const router = useRouter()
   const cartCount = useCartCount()
   const width = useWindowWidth() ?? 1200
@@ -34,12 +32,9 @@ export function ProductsPageContent ({ collars, charmCollection }: ProductsPageC
         />
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {collars.map((product) => (
+          {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
-          {charmCollection && (
-            <ProductCard product={charmCollection} />
-          )}
         </div>
       </main>
 

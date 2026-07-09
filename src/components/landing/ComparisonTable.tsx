@@ -5,19 +5,26 @@ import { useEffect, useRef } from 'react'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography'
 
-const BADGES = [
-  { label: 'Personalizuojamas dizainas',      bottom: 109, left: 155, rotate: 9 },
-  { label: 'Nesugeria kvapų ir dėmių',        bottom: 27,  left: 170, rotate: 5 },
-  { label: 'Keičiami pakabukai per 5 sek.',   bottom: 118, left: 9,   rotate: -8 },
-  { label: 'Vandeniui atsparus silikonas',    bottom: 18,  left: 14,  rotate: -3 },
+const PAWCHARMS_BADGES = [
+  { label: 'Keičiami pakabukai per 5 sek.',   bottom: 340, left: 20,  rotate: -8 },
+  { label: 'Personalizuojamas dizainas',      bottom: 250, left: 200, rotate: 9 },
+  { label: 'Nesugeria kvapų ir dėmių',        bottom: 130, left: 190, rotate: 5 },
+  { label: 'Vandeniui atsparus silikonas',    bottom: 20,  left: 20,  rotate: -3 },
+]
+
+const COMPETITOR_BADGES = [
+  { label: 'Pakabukų nepakeisi',              bottom: 340, left: 20,  rotate: -8 },
+  { label: 'Vienodas dizainas visiems',       bottom: 250, left: 200, rotate: 9 },
+  { label: 'Sugeria kvapus ir dėmes',         bottom: 130, left: 190, rotate: 5 },
+  { label: 'Neatsparus vandeniui',            bottom: 20,  left: 20,  rotate: -3 },
 ]
 
 const CARD_SIZE = 454
 
-function BadgeCard ({ badgeBg }: { badgeBg: string }) {
+function BadgeCard ({ badges, badgeBg }: { badges: typeof PAWCHARMS_BADGES, badgeBg: string }) {
   return (
     <>
-      {BADGES.map((badge) => (
+      {badges.map((badge) => (
         <div
           key={badge.label}
           data-compare-badge
@@ -82,21 +89,31 @@ export function ComparisonTable () {
               transformOrigin: 'left center',
               rotation: (_i: number, el: Element) => parseFloat((el as HTMLElement).dataset.rotate || '0'),
               y: (_i: number, el: Element) => -(parseFloat((el as HTMLElement).dataset.fall || '0') + 48),
-              autoAlpha: 0,
+              autoAlpha: 1,
+            })
+
+            // Resting state: badges gently float near the top of the card until triggered.
+            const floatTween = gsap.to(badges, {
+              y: '+=12',
+              duration: 2.4,
+              ease: 'sine.inOut',
+              repeat: -1,
+              yoyo: true,
+              stagger: { each: 0.3, from: 'random' },
             })
 
             ScrollTrigger.create({
               trigger: sectionRef.current,
-              start: 'top 75%',
+              start: 'bottom 85%',
               once: true,
               onEnter: () => {
+                floatTween.kill()
                 gsap.to(badges, {
                   y: 0,
-                  autoAlpha: 1,
+                  delay: 2,
                   duration: (_i: number, el: Element) => 0.55 + parseFloat((el as HTMLElement).dataset.fall || '0') / 260,
                   ease: 'bounce.out',
                   stagger: 0.06,
-                  clearProps: 'visibility',
                 })
               },
             })
@@ -134,6 +151,7 @@ export function ComparisonTable () {
             minWidth: 0,
             flexDirection: isMobile ? 'column' : 'row',
             gap: 32,
+            order: isMobile ? 2 : 0,
           }}
         >
           {/* PawCharms panel */}
@@ -157,7 +175,7 @@ export function ComparisonTable () {
                 backgroundImage: 'linear-gradient(153deg, rgb(168, 213, 162) 0%, rgb(248, 248, 248) 107.09%)',
               }}
             >
-              <BadgeCard badgeBg="#fff" />
+              <BadgeCard badges={PAWCHARMS_BADGES} badgeBg="#fff" />
             </div>
           </div>
 
@@ -181,13 +199,13 @@ export function ComparisonTable () {
                 background: '#e1e1e1',
               }}
             >
-              <BadgeCard badgeBg="#f5f5f5" />
+              <BadgeCard badges={COMPETITOR_BADGES} badgeBg="#f5f5f5" />
             </div>
           </div>
         </div>
 
         {/* Right — heading + copy */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center', width: isMobile ? '100%' : 468, flexShrink: 0 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'center', width: isMobile ? '100%' : 468, flexShrink: 0, order: isMobile ? 1 : 0 }}>
           <DisplayHeading as="h2" size="section" className="m-0 text-bark">
             Palyginkime
           </DisplayHeading>

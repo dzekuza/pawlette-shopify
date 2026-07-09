@@ -181,13 +181,14 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
     ? (collar.parentDescription || extractPlainText(collar.description) || `${collar.parentTitle} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
     : (extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
   const image = opts?.useParentMedia ? (collar.parentImage || collar.image) : collar.image
+  const name = opts?.useParentMedia ? (collar.parentTitle || collar.title) : collar.title
 
   return {
     slug: slugFromProductName(collar.title),
     id: `collar-${collar.id}`,
     variantId: collar.variantId,
     productType: 'collar',
-    name: collar.title,
+    name,
     price: collar.price,
     originalPrice: collar.originalPrice,
     shortDescription,
@@ -207,22 +208,26 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
   }
 }
 
-export function buildLeashProduct (leash: ShopifyCollar): ProductDetail {
-  const shortDescription = extractPlainText(leash.description) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`
+export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia?: boolean }): ProductDetail {
+  const shortDescription = opts?.useParentMedia
+    ? (leash.parentDescription || extractPlainText(leash.description) || `${leash.parentTitle} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
+    : (extractPlainText(leash.description) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
+  const image = opts?.useParentMedia ? (leash.parentImage || leash.image) : leash.image
+  const name = opts?.useParentMedia ? (leash.parentTitle || leash.title) : leash.title
 
   return {
     slug: leash.handle,
     id: `leash-${leash.id}`,
     variantId: leash.variantId,
     productType: 'leash',
-    name: leash.title,
+    name,
     parentTitle: leash.parentTitle,
     price: leash.price,
     originalPrice: leash.originalPrice,
     shortDescription,
-    longDescription: leash.description || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
-    image: leash.image,
-    images: uniqueStrings([leash.image, ...leash.images]),
+    longDescription: (opts?.useParentMedia ? leash.parentDescription : leash.description) || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
+    image,
+    images: uniqueStrings([image, ...leash.images]),
     accentColor: leash.color,
     tintColor: hexToRgba(leash.color, 0.15),
     ctaHref: '/pavadeliai',
@@ -297,9 +302,11 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
   if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true })
 
   const leashes = await getLeashes()
-  const leash = leashes.find((l) => l.handle === slug || l.id === slug)
-    ?? leashes.find((l) => l.nodeHandle === slug)  // parent handle fallback (e.g. "pawlette-leash")
-  if (leash) return buildLeashProduct(leash)
+  const directLeash = leashes.find((l) => l.handle === slug || l.id === slug)
+  if (directLeash) return buildLeashProduct(directLeash)
+
+  const parentLeash = leashes.find((l) => l.nodeHandle === slug)  // parent handle fallback (e.g. "pawlette-leash")
+  if (parentLeash) return buildLeashProduct(parentLeash, { useParentMedia: true })
 
   return undefined
 }

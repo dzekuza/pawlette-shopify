@@ -727,7 +727,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       <ProductValueShowcase name={displayName} />
 
       <ComparisonTable />
-      <PhotoSlider />
+      <PhotoSlider product={product} />
       <FAQ />
       <RecommendedProductsSection products={recommendedProducts} />
       <LandingFooter />

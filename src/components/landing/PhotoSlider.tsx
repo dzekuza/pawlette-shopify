@@ -8,16 +8,14 @@ import Link from 'next/link';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { Button } from '@/components/ui/button';
-import { getProductBySlugAsync } from '@/lib/catalog';
+import { getProductBySlugAsync, type ProductDetail } from '@/lib/catalog';
 
 const SLIDER_IMAGES = [
-  '/A_golden_retriever_sits_contentedly_on_a_grassy_QlXAm7ix.webp',
-  '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp',
-  '/A_woman_and_her_golden_retriever_sit_together_on_jKVk75j-.webp',
-  '/In_a_cute_and_playful_style_pastel-colored_dog_plHj2W1q.webp',
-  '/A_yellow_star-shaped_charm_is_attached_to_a_pink_jWdEg3nN.webp',
-  '/In_a_gentle_golden-hour_light_a_woman_with_FmObGqWG.webp',
-  '/A_soft_sage_green_silicone_toy_with_a_sun-shaped_TAoMQ7Zb.webp',
+  'https://cdn.shopify.com/s/files/1/1031/6326/5372/files/Pet_Collar_Collection_In_a_naturalistic_golden_hour_style_this_ahGYGZJg_Large_f4468f39-18ca-4e02-825d-c001b10f8cc1.jpg?v=1783096006',
+  'https://cdn.shopify.com/s/files/1/1031/6326/5372/files/Pet_Collar_Collection_A_chocolate_Labrador_retriever_with_a_light_blue_W2XEVQRN_Large_9dccf8d6-6ad5-4d1a-88a1-eebe0930a06f.jpg?v=1783096006',
+  'https://cdn.shopify.com/s/files/1/1031/6326/5372/files/DSC03015_Large_c5038a3f-a1bd-46a0-a87e-9480c1574e6a.jpg?v=1783616965',
+  'https://cdn.shopify.com/s/files/1/1031/6326/5372/files/IMG_5529.jpg?v=1783616952',
+  'https://cdn.shopify.com/s/files/1/1031/6326/5372/files/DSC01695_Large_4cba13cc-9ff7-4ba8-b12d-a03890c4fb9b.jpg?v=1783616972',
 ];
 
 const PROMO_SLUGS = ['pawcharms-antkaklis', 'pawcharms-pakabuciai', 'pawcharms-pavadelis'];
@@ -69,12 +67,23 @@ function ProductPromoCard({ product, width, height }: { product: PromoProduct; w
   );
 }
 
-export function PhotoSlider() {
+export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [promoProducts, setPromoProducts] = useState<PromoProduct[]>([]);
 
   useEffect(() => {
+    if (product) {
+      setPromoProducts([{
+        image: product.image,
+        name: product.name,
+        description: product.shortDescription,
+        price: product.price,
+        href: `/products/${product.slug}`,
+      }]);
+      return;
+    }
+
     let cancelled = false;
     Promise.all(PROMO_SLUGS.map((slug) => getProductBySlugAsync(slug))).then((results) => {
       if (cancelled) return;
@@ -90,7 +99,7 @@ export function PhotoSlider() {
       if (products.length > 0) setPromoProducts(products);
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [product]);
 
   const slides = buildSlides(promoProducts);
 

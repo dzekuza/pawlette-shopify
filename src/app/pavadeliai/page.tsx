@@ -20,5 +20,5 @@ export const metadata: Metadata = {
 
 export default async function PavadeliaiPage () {
   const leashes = await getLeashes()
-  return <PavadeliaiPageContent leashes={leashes.map(buildLeashProduct)} />
+  return <PavadeliaiPageContent leashes={leashes.map((leash) => buildLeashProduct(leash))} />
 }
