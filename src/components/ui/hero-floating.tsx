@@ -25,7 +25,6 @@ const HERO_STICKERS = {
 
 const HERO_TRUST_BADGES = [
   { label: "⭐ 4.9/5 — 9 atsiliepimų", href: "/products/charm-charms#reviews" },
-  { label: "🇱🇹 Rankų darbo Vilniuje" },
   { label: `🚚 ${FREE_SHIPPING_COPY}` },
   { label: "↩ 30 d. grąžinimas" },
 ];
@@ -77,14 +76,14 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
   return (
     <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:overflow-visible lg:py-20", className)}>
-      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20 hidden lg:block">
-        <div data-hero-sticker className="absolute left-[20%] top-[19%] w-[190px] -rotate-[17deg]">
+      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20">
+        <div data-hero-sticker className="absolute left-[5%] top-[57%] w-[120px] -rotate-[17deg] lg:left-[20%] lg:top-[19%] lg:w-[190px]">
           <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
         </div>
-        <div data-hero-sticker className="absolute left-[85%] top-[60%] w-[120px] -rotate-[23deg]">
+        <div data-hero-sticker className="absolute left-[76%] top-[86%] w-[100px] -rotate-[23deg] lg:left-[85%] lg:top-[60%] lg:w-[120px]">
           <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
         </div>
-        <div data-hero-sticker className="absolute left-[12%] top-[55%] w-[140px] -rotate-[17deg]">
+        <div data-hero-sticker className="absolute left-[72%] top-[48%] w-[104px] -rotate-[17deg] lg:left-[12%] lg:top-[55%] lg:w-[140px]">
           <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
         </div>
       </div>
@@ -114,20 +113,20 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             </Link>
           </div>
 
-          <div className="flex max-w-[920px] flex-wrap items-center justify-center gap-2.5 md:gap-3">
+          <div className="flex max-w-[920px] flex-wrap items-center justify-center gap-2">
             {HERO_TRUST_BADGES.map((badge) =>
               badge.href ? (
                 <Link
                   key={badge.label}
                   href={badge.href}
-                  className="rounded-full border border-sage/35 bg-white/80 px-4 py-2 text-[13px] font-medium text-bark no-underline transition-colors hover:bg-sage/10"
+                  className="rounded-full border border-sage/35 bg-white/80 px-3 py-1.5 text-xs font-medium text-bark no-underline transition-colors hover:bg-sage/10"
                 >
                   {badge.label}
                 </Link>
               ) : (
                 <span
                   key={badge.label}
-                  className="rounded-full border border-sage/30 bg-surface-2/90 px-4 py-2 text-[13px] font-medium text-bark"
+                  className="rounded-full border border-sage/30 bg-surface-2/90 px-3 py-1.5 text-xs font-medium text-bark"
                 >
                   {badge.label}
                 </span>

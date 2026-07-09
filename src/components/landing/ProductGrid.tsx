@@ -5,7 +5,6 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
 import { ProductCard } from '@/components/products/ProductCard';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
-import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 const COLOR_SWATCHES = [
   'var(--color-sky)',
@@ -42,11 +41,6 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
             <BodyCopy>
               Kurkite unikalų stilių savo šuniui. Pakabukus lengvai užmausite ir pakeisite vos per kelias sekundes.
             </BodyCopy>
-            <div>
-              <PrimaryButton href="/configure" variant="sage" size="md">
-                Kurk savo antkaklį →
-              </PrimaryButton>
-            </div>
           </div>
         </div>
 

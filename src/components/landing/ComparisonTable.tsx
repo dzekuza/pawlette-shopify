@@ -110,7 +110,7 @@ export function ComparisonTable () {
                 floatTween.kill()
                 gsap.to(badges, {
                   y: 0,
-                  delay: 2,
+                  delay: 0.3,
                   duration: (_i: number, el: Element) => 0.55 + parseFloat((el as HTMLElement).dataset.fall || '0') / 260,
                   ease: 'bounce.out',
                   stagger: 0.06,
