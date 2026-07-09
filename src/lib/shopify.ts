@@ -143,9 +143,9 @@ function formatEuroPrice(amount?: string | null, fallback = '') {
   return `€${parsed.toFixed(0)}`;
 }
 
-// The "pawlette.social_video" metafield is a "List of single line text" definition in
-// Shopify Admin, so its raw value is a JSON-stringified array. Falls back to a comma-
-// separated string in case the definition is ever changed to plain text.
+// The "custom.pawlette_social_video" metafield holds one video URL as a plain string
+// (Single line text). Also handles a JSON array or comma-separated string, in case the
+// definition is ever changed to a list type or multiple URLs are pasted into one field.
 function parseVideoList(value?: string | null): string[] {
   if (!value) return [];
   try {
@@ -188,7 +188,7 @@ const COLLARS_QUERY = `
             { namespace: "pawlette", key: "set_includes" },
             { namespace: "pawlette", key: "care" },
             { namespace: "pawlette", key: "shipping" },
-            { namespace: "pawlette", key: "social_video" }
+            { namespace: "custom", key: "pawlette_social_video" }
           ]) {
             key
             value
@@ -342,7 +342,7 @@ const CHARMS_QUERY = `
             { namespace: "pawlette", key: "description" },
             { namespace: "pawlette", key: "care" },
             { namespace: "pawlette", key: "shipping" },
-            { namespace: "pawlette", key: "social_video" }
+            { namespace: "custom", key: "pawlette_social_video" }
           ]) {
             key
             value
@@ -438,7 +438,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           set_includes: meta('set_includes') || undefined,
           care: meta('care') || undefined,
           shipping: meta('shipping') || undefined,
-          socialVideos: parseVideoList(meta('social_video')),
+          socialVideos: parseVideoList(meta('pawlette_social_video')),
         };
 
         // If the product has a Color option, expand into one ShopifyCollar per color
@@ -606,7 +606,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           description: rawDesc || undefined,
           care: productMeta('care') || undefined,
           shipping: productMeta('shipping') || undefined,
-          socialVideos: parseVideoList(productMeta('social_video')),
+          socialVideos: parseVideoList(productMeta('pawlette_social_video')),
         });
       }
 
@@ -657,7 +657,7 @@ const LEASHES_QUERY = `
             { namespace: "pawlette", key: "features" },
             { namespace: "pawlette", key: "care" },
             { namespace: "pawlette", key: "shipping" },
-            { namespace: "pawlette", key: "social_video" }
+            { namespace: "custom", key: "pawlette_social_video" }
           ]) {
             key
             value
@@ -730,7 +730,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           features: meta('features') || undefined,
           care: meta('care') || undefined,
           shipping: meta('shipping') || undefined,
-          socialVideos: parseVideoList(meta('social_video')),
+          socialVideos: parseVideoList(meta('pawlette_social_video')),
         };
         // Expand by color (same pattern as collars)
         const colorValues = [...new Set(allVariants.map(v => v.color).filter(Boolean))];

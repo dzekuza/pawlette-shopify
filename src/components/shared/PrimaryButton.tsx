@@ -20,9 +20,9 @@ const SIZE_CLASSES: Record<NonNullable<PrimaryButtonProps['size']>, string> = {
   lg: 'h-12 px-8 text-[15px]',
 }
 
-const VARIANT_CLASSES: Record<NonNullable<PrimaryButtonProps['variant']>, { base: string; dot: string; reveal: string }> = {
-  dark: { base: 'bg-bark text-cream', dot: 'bg-cream', reveal: 'text-bark' },
-  sage: { base: 'bg-sage text-interactive-text', dot: 'bg-bark', reveal: 'text-cream' },
+const VARIANT_CLASSES: Record<NonNullable<PrimaryButtonProps['variant']>, { base: string; reveal: string }> = {
+  dark: { base: 'bg-bark text-cream', reveal: 'text-bark' },
+  sage: { base: 'bg-sage text-interactive-text', reveal: 'text-cream' },
 }
 
 export function PrimaryButton({
@@ -47,7 +47,6 @@ export function PrimaryButton({
   const content = (
     <>
       <span className="flex items-center justify-center gap-2">
-        <span className={cn('h-2 w-2 rounded-full transition-transform duration-300 group-hover:scale-[100.8]', v.dot)} />
         <span className="inline-block transition-all duration-300 group-hover:translate-x-12 group-hover:opacity-0">
           {children}
         </span>

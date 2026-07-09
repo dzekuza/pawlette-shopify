@@ -222,7 +222,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       </div>
       <div style={{ paddingTop: isMobile ? 32 : 48, paddingBottom: isMobile ? 32 : 48 }}>
         <Carousel opts={{ align: 'start', loop: false, dragFree: true }} className="mx-auto max-w-[1200px] px-4 md:px-6">
-          <CarouselContent style={{ gap: 16 }}>
+          <CarouselContent className="justify-center" style={{ gap: 16 }}>
             {slides.map((slide, i) => (
               <SocialProductSlide key={`social-${i}`} video={slide.video} product={slide.product} width={videoW} height={videoH} autoPlay={i === 0} />
             ))}
