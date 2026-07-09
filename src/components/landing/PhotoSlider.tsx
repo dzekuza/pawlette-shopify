@@ -97,16 +97,18 @@ function AddToCartButton({ variantId, label }: { variantId: string; label: strin
   );
 }
 
-function SocialVideoCard({ video, width, height, autoPlay }: { video: string; width: number; height: number; autoPlay: boolean }) {
+function SocialVideoCard({ video, width, height, autoPlay, isMobile }: { video: string; width: number; height: number; autoPlay: boolean; isMobile: boolean }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hovered, setHovered] = useState(false);
 
   const handleEnter = () => {
+    if (isMobile) return;
     setHovered(true);
     if (!autoPlay) videoRef.current?.play().catch(() => {});
   };
 
   const handleLeave = () => {
+    if (isMobile) return;
     setHovered(false);
     if (!autoPlay) {
       const el = videoRef.current;
@@ -117,10 +119,13 @@ function SocialVideoCard({ video, width, height, autoPlay }: { video: string; wi
     }
   };
 
+  // On mobile all slides autoplay (muted, playsInline) — no overlay, no hover scale.
+  const effectiveAutoPlay = autoPlay || isMobile;
+
   return (
     <div
       className="relative overflow-hidden rounded-[28px] bg-bark transition-transform duration-300 ease-out"
-      style={{ width, height, transform: hovered ? 'scale(1.04)' : 'scale(1)' }}
+      style={{ width, height, transform: (!isMobile && hovered) ? 'scale(1.04)' : 'scale(1)' }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
@@ -128,13 +133,13 @@ function SocialVideoCard({ video, width, height, autoPlay }: { video: string; wi
         ref={videoRef}
         src={video}
         className="absolute inset-0 h-full w-full object-cover"
-        autoPlay={autoPlay}
+        autoPlay={effectiveAutoPlay}
         loop
         muted
         playsInline
         preload="metadata"
       />
-      {!autoPlay && (
+      {!effectiveAutoPlay && (
         <div
           className="pointer-events-none absolute inset-0 transition-opacity duration-300"
           style={{ background: 'rgba(250,247,242,0.32)', opacity: hovered ? 0 : 1 }}
@@ -144,11 +149,11 @@ function SocialVideoCard({ video, width, height, autoPlay }: { video: string; wi
   );
 }
 
-function SocialProductSlide({ video, product, width, height, autoPlay }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean }) {
+function SocialProductSlide({ video, product, width, height, autoPlay, isMobile }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean; isMobile: boolean }) {
   return (
     <CarouselItem className="basis-auto shrink-0 grow-0" style={{ flex: '0 0 auto', width }}>
       <div className="flex flex-col gap-3" style={{ width }}>
-        <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} />
+        <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} isMobile={isMobile} />
         <div className="flex items-center gap-2">
           <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
             <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
@@ -222,9 +227,9 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       </div>
       <div style={{ paddingTop: isMobile ? 32 : 48, paddingBottom: isMobile ? 32 : 48 }}>
         <Carousel opts={{ align: 'start', loop: false, dragFree: true }} className="mx-auto max-w-[1200px] px-4 md:px-6">
-          <CarouselContent className="justify-center" style={{ gap: 16 }}>
+          <CarouselContent style={{ gap: 16 }}>
             {slides.map((slide, i) => (
-              <SocialProductSlide key={`social-${i}`} video={slide.video} product={slide.product} width={videoW} height={videoH} autoPlay={i === 0} />
+              <SocialProductSlide key={`social-${i}`} video={slide.video} product={slide.product} width={videoW} height={videoH} autoPlay={i === 0} isMobile={isMobile} />
             ))}
           </CarouselContent>
         </Carousel>
