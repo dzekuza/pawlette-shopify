@@ -729,7 +729,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       <ComparisonTable />
       <PhotoSlider product={product} />
       <FAQ />
-      <RecommendedProductsSection products={recommendedProducts} />
       <LandingFooter />
 
       {isMobile && isCollar && collar && (
@@ -866,56 +865,6 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         </div>
       )}
     </div>
-  )
-}
-
-function RecommendedProductsSection ({ products }: { products: ProductDetail[] }) {
-  const width = useWindowWidth() ?? 1200
-  const isMobile = width < 768
-
-  if (!products.length) return null
-
-  return (
-    <section className="bg-cream py-[60px] md:py-[96px]">
-      <div className="mx-auto max-w-[1200px] px-6">
-        <div style={{ marginBottom: 40 }}>
-          <Eyebrow className="mb-3">Rekomenduojami produktai</Eyebrow>
-          <DisplayHeading as="h2" size="section" className="m-0 text-bark" style={{ lineHeight: 1.15 }}>
-            Jums taip pat gali patikti
-          </DisplayHeading>
-        </div>
-
-        {isMobile ? (
-          <div
-            className="hide-scrollbar"
-            style={{
-              display: 'flex',
-              gap: 12,
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch',
-              scrollbarWidth: 'none',
-            }}
-          >
-            {products.slice(0, 3).map((recommendedProduct) => (
-              <div key={recommendedProduct.slug} style={{ flex: '0 0 calc((100% - 12px) / 1.4)', scrollSnapAlign: 'start' }}>
-                {recommendedProduct.productType === 'charm'
-                  ? <CharmCollectionProductCard product={recommendedProduct} />
-                  : <ProductCard product={recommendedProduct} />}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
-            {products.slice(0, 3).map((recommendedProduct) => (
-              recommendedProduct.productType === 'charm'
-                ? <CharmCollectionProductCard key={recommendedProduct.slug} product={recommendedProduct} />
-                : <ProductCard key={recommendedProduct.slug} product={recommendedProduct} />
-            ))}
-          </div>
-        )}
-      </div>
-    </section>
   )
 }
 
