@@ -9,7 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 import { addLinesToCart } from '@/lib/cart';
 import { getProductBySlugAsync, type ProductDetail } from '@/lib/catalog';
+import { getCollectionProductHandles } from '@/lib/shopify';
 
+// Fallback videos, used only until the "pawlette.social_video" metafield is set on a
+// product, or until the "spalvotos-akimirkos" collection exists in Shopify Admin.
 const SOCIAL_VIDEOS = [
   'https://cdn.shopify.com/videos/c/o/v/a32c10206bf546289fe5d8bcb6cef346.mp4',
   'https://cdn.shopify.com/videos/c/o/v/eaad51df2ebc4bdd81140870ab6f1534.mp4',
@@ -21,6 +24,10 @@ const PRODUCT_PAGE_VIDEOS = [
   'https://cdn.shopify.com/videos/c/o/v/b89078d83042422ab668a75204d51caa.mov',
 ];
 
+// Which products show in the "Jūsų spalvotos akimirkos" carousel is managed in Shopify
+// Admin via a manual collection with this handle — merchants add/remove/reorder products
+// there. This list is only a fallback for while that collection doesn't exist yet.
+const SOCIAL_CAROUSEL_COLLECTION_HANDLE = 'spalvotos-akimirkos';
 const PROMO_SLUGS = ['pawcharms-antkaklis', 'pawcharms-pakabuciai', 'pawcharms-pavadelis'];
 
 interface PromoProduct {
@@ -30,6 +37,7 @@ interface PromoProduct {
   price: string;
   href: string;
   variantId: string;
+  videos: string[];
 }
 
 interface SocialSlide {
@@ -40,13 +48,14 @@ interface SocialSlide {
 function buildSlides(products: PromoProduct[]): SocialSlide[] {
   if (products.length === 0) return [];
   return products.map((product, i) => ({
-    video: SOCIAL_VIDEOS[i % SOCIAL_VIDEOS.length],
+    video: product.videos[0] ?? SOCIAL_VIDEOS[i % SOCIAL_VIDEOS.length],
     product,
   }));
 }
 
 function buildProductSlides(product: PromoProduct): SocialSlide[] {
-  return PRODUCT_PAGE_VIDEOS.map((video) => ({ video, product }));
+  const videos = product.videos.length > 0 ? product.videos : PRODUCT_PAGE_VIDEOS;
+  return videos.map((video) => ({ video, product }));
 }
 
 function AddToCartButton({ variantId, label }: { variantId: string; label: string }) {
@@ -164,7 +173,9 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
     if (product) return;
 
     let cancelled = false;
-    Promise.all(PROMO_SLUGS.map((slug) => getProductBySlugAsync(slug))).then((results) => {
+    getCollectionProductHandles(SOCIAL_CAROUSEL_COLLECTION_HANDLE).then(async (handles) => {
+      const slugs = handles.length > 0 ? handles : PROMO_SLUGS;
+      const results = await Promise.all(slugs.map((slug) => getProductBySlugAsync(slug)));
       if (cancelled) return;
       const products = results
         .filter((p): p is NonNullable<typeof p> => !!p)
@@ -175,6 +186,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
           price: p.price,
           href: `/products/${p.slug}`,
           variantId: p.variantId,
+          videos: p.videos ?? [],
         }));
       if (products.length > 0) setPromoProducts(products);
     });
@@ -189,6 +201,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
         price: product.price,
         href: `/products/${product.slug}`,
         variantId: product.variantId,
+        videos: product.videos ?? [],
       })
     : buildSlides(promoProducts);
 

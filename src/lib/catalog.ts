@@ -28,6 +28,8 @@ export interface ProductDetail {
   charmVariants?: ShopifyCharm[]
   leashVariants?: ShopifyCollarVariant[]
   leashColors?: string[]
+  /** Video URLs from the "pawlette.social_video" metafield, managed per-product in Shopify Admin. */
+  videos?: string[]
 }
 
 function slugifyText (value: string) {
@@ -145,6 +147,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     charmVariants: charms,
     care: first.care,
     shipping: first.shipping,
+    videos: first.socialVideos,
   }
 }
 
@@ -173,6 +176,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
     features: charm.features,
     care: charm.care,
     shipping: charm.shipping,
+    videos: charm.socialVideos,
   }
 }
 
@@ -205,6 +209,7 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
     set_includes: collar.set_includes,
     care: collar.care,
     shipping: collar.shipping,
+    videos: collar.socialVideos,
   }
 }
 
@@ -239,6 +244,7 @@ export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia
     shipping: leash.shipping,
     leashVariants: leash.variants,
     leashColors: leash.colors.length > 0 ? leash.colors : undefined,
+    videos: leash.socialVideos,
   }
 }
 

@@ -41,6 +41,7 @@ export interface ShopifyCollar {
   nodeHandle?: string;
   parentImage?: string;
   parentDescription?: string;
+  socialVideos?: string[];
 }
 
 export interface ShopifyCharm {
@@ -63,6 +64,7 @@ export interface ShopifyCharm {
   features?: string;
   care?: string;
   shipping?: string;
+  socialVideos?: string[];
 }
 
 interface ShopifyMetafield {
@@ -141,6 +143,20 @@ function formatEuroPrice(amount?: string | null, fallback = '') {
   return `€${parsed.toFixed(0)}`;
 }
 
+// The "pawlette.social_video" metafield is a "List of single line text" definition in
+// Shopify Admin, so its raw value is a JSON-stringified array. Falls back to a comma-
+// separated string in case the definition is ever changed to plain text.
+function parseVideoList(value?: string | null): string[] {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) return parsed.filter((v): v is string => typeof v === 'string' && v.length > 0);
+  } catch {
+    // not JSON — fall through to comma-split
+  }
+  return value.split(',').map((v) => v.trim()).filter(Boolean);
+}
+
 const COLLARS_QUERY = `
   query GetCollars {
     products(first: 50, query: "product_type:collar") {
@@ -171,7 +187,8 @@ const COLLARS_QUERY = `
             { namespace: "pawlette", key: "features" },
             { namespace: "pawlette", key: "set_includes" },
             { namespace: "pawlette", key: "care" },
-            { namespace: "pawlette", key: "shipping" }
+            { namespace: "pawlette", key: "shipping" },
+            { namespace: "pawlette", key: "social_video" }
           ]) {
             key
             value
@@ -324,7 +341,8 @@ const CHARMS_QUERY = `
           metafields(identifiers: [
             { namespace: "pawlette", key: "description" },
             { namespace: "pawlette", key: "care" },
-            { namespace: "pawlette", key: "shipping" }
+            { namespace: "pawlette", key: "shipping" },
+            { namespace: "pawlette", key: "social_video" }
           ]) {
             key
             value
@@ -420,6 +438,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           set_includes: meta('set_includes') || undefined,
           care: meta('care') || undefined,
           shipping: meta('shipping') || undefined,
+          socialVideos: parseVideoList(meta('social_video')),
         };
 
         // If the product has a Color option, expand into one ShopifyCollar per color
@@ -587,6 +606,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           description: rawDesc || undefined,
           care: productMeta('care') || undefined,
           shipping: productMeta('shipping') || undefined,
+          socialVideos: parseVideoList(productMeta('social_video')),
         });
       }
 
@@ -636,7 +656,8 @@ const LEASHES_QUERY = `
             { namespace: "pawlette", key: "description" },
             { namespace: "pawlette", key: "features" },
             { namespace: "pawlette", key: "care" },
-            { namespace: "pawlette", key: "shipping" }
+            { namespace: "pawlette", key: "shipping" },
+            { namespace: "pawlette", key: "social_video" }
           ]) {
             key
             value
@@ -709,6 +730,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           features: meta('features') || undefined,
           care: meta('care') || undefined,
           shipping: meta('shipping') || undefined,
+          socialVideos: parseVideoList(meta('social_video')),
         };
         // Expand by color (same pattern as collars)
         const colorValues = [...new Set(allVariants.map(v => v.color).filter(Boolean))];
@@ -774,4 +796,51 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
     })();
   }
   return _leashesCacheInflight;
+}
+
+const COLLECTION_PRODUCT_HANDLES_QUERY = `
+  query GetCollectionProductHandles($handle: String!) {
+    collection(handle: $handle) {
+      products(first: 50) {
+        edges {
+          node {
+            handle
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface CollectionProductHandlesResponse {
+  collection: { products: { edges: Array<{ node: { handle: string } }> } } | null;
+}
+
+const _collectionHandlesCache = new Map<string, { data: string[]; at: number }>();
+const _collectionHandlesInflight = new Map<string, Promise<string[]>>();
+
+// Lets merchants control which products appear (and in what order) in a storefront
+// carousel purely from Shopify Admin, by adding/reordering products in a manual collection.
+export async function getCollectionProductHandles(handle: string): Promise<string[]> {
+  const cached = _collectionHandlesCache.get(handle);
+  if (cached && isFresh(cached.at)) return cached.data;
+
+  const inflight = _collectionHandlesInflight.get(handle);
+  if (inflight) return inflight;
+
+  const promise = (async () => {
+    const { data, errors } = await shopifyClient.request<CollectionProductHandlesResponse>(
+      COLLECTION_PRODUCT_HANDLES_QUERY,
+      { variables: { handle } }
+    );
+    _collectionHandlesInflight.delete(handle);
+    if (errors || !data?.collection) return [];
+
+    const result = data.collection.products.edges.map(({ node }) => node.handle);
+    _collectionHandlesCache.set(handle, { data: result, at: Date.now() });
+    return result;
+  })();
+
+  _collectionHandlesInflight.set(handle, promise);
+  return promise;
 }
