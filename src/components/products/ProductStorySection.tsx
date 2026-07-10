@@ -7,7 +7,7 @@ export function ProductStorySection() {
   return (
     <section className="bg-cream">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-4 py-12 md:grid-cols-2 md:gap-16 md:px-6 md:py-20">
-        <div className="relative aspect-square w-full overflow-hidden rounded-[28px] bg-surface-2">
+        <div className="relative order-2 aspect-square w-full overflow-hidden rounded-[28px] bg-surface-2 md:order-1">
           <Image
             src="/hero-figma/hero-dsc01798.jpg"
             alt="Rankų darbo PawCharms antkaklis"
@@ -17,7 +17,7 @@ export function ProductStorySection() {
           />
         </div>
 
-        <div>
+        <div className="order-1 md:order-2">
           <Eyebrow className="mb-3">Mūsų istorija</Eyebrow>
           <DisplayHeading size="section" className="mb-5 max-w-[440px] text-bark">
             Gaminama rankomis, kad tarnautų metų metus

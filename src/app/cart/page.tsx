@@ -140,7 +140,7 @@ export default function CartPage() {
                         {/* Thumbnail */}
                         <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-surface-2 flex items-center justify-center">
                           {thumb
-                            ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-contain p-[10px]" />
+                            ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-contain" />
                             : <span style={{ fontSize: 24 }}>🐾</span>
                           }
                         </div>

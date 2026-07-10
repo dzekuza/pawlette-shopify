@@ -6,7 +6,7 @@ import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { Button } from '@/components/ui/button';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { addLinesToCart } from '@/lib/cart';
 import { getProductBySlugAsync, type ProductDetail } from '@/lib/catalog';
 import { getCollectionProductHandles } from '@/lib/shopify';
@@ -97,9 +97,20 @@ function AddToCartButton({ variantId, label }: { variantId: string; label: strin
   );
 }
 
-function SocialVideoCard({ video, width, height, autoPlay }: { video: string; width: number; height: number; autoPlay: boolean }) {
+function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: string; width: number; height: number; autoPlay: boolean; onEnded?: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (autoPlay) {
+      el.currentTime = 0;
+      el.play().catch(() => {});
+    } else {
+      el.pause();
+    }
+  }, [autoPlay]);
 
   const handleEnter = () => {
     setHovered(true);
@@ -129,10 +140,11 @@ function SocialVideoCard({ video, width, height, autoPlay }: { video: string; wi
         src={video}
         className="absolute inset-0 h-full w-full object-cover"
         autoPlay={autoPlay}
-        loop
+        loop={!autoPlay}
         muted
         playsInline
         preload="metadata"
+        onEnded={autoPlay ? onEnded : undefined}
       />
       {!autoPlay && (
         <div
@@ -144,21 +156,23 @@ function SocialVideoCard({ video, width, height, autoPlay }: { video: string; wi
   );
 }
 
-function SocialProductSlide({ video, product, width, height, autoPlay }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean }) {
+function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, showInfo = true }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean; onEnded?: () => void; showInfo?: boolean }) {
   return (
     <CarouselItem className="basis-auto shrink-0 grow-0" style={{ flex: '0 0 auto', width }}>
       <div className="flex flex-col gap-3" style={{ width }}>
-        <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} />
-        <div className="flex items-center gap-2">
-          <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
-            <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
-          </Link>
-          <div className="min-w-0 flex-1">
-            <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
-            <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
+        <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} onEnded={onEnded} />
+        {showInfo && (
+          <div className="flex items-center gap-2">
+            <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
+              <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
+            </Link>
+            <div className="min-w-0 flex-1">
+              <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
+              <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
+            </div>
+            <AddToCartButton variantId={product.variantId} label={`Pridėti ${product.name} į krepšelį`} />
           </div>
-          <AddToCartButton variantId={product.variantId} label={`Pridėti ${product.name} į krepšelį`} />
-        </div>
+        )}
       </div>
     </CarouselItem>
   );
@@ -168,6 +182,8 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [promoProducts, setPromoProducts] = useState<PromoProduct[]>([]);
+  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     if (product) return;
@@ -208,6 +224,17 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   const videoW = isMobile ? 220 : 260;
   const videoH = isMobile ? 320 : 360;
 
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [slides.length]);
+
+  const handleVideoEnded = () => {
+    if (slides.length === 0) return;
+    const next = (activeIndex + 1) % slides.length;
+    setActiveIndex(next);
+    carouselApi?.scrollTo(next);
+  };
+
   return (
     <section className="bg-surface-2 overflow-hidden">
       <div
@@ -221,10 +248,19 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
         </BodyCopy>
       </div>
       <div style={{ paddingTop: isMobile ? 32 : 48, paddingBottom: isMobile ? 32 : 48 }}>
-        <Carousel opts={{ align: 'start', loop: false, dragFree: true }} className="mx-auto max-w-[1200px] px-4 md:px-6">
-          <CarouselContent className="justify-center" style={{ gap: 16 }}>
+        <Carousel opts={{ align: 'start', loop: false, dragFree: true }} setApi={setCarouselApi} className="mx-auto max-w-[1200px] px-4 md:px-6">
+          <CarouselContent className="justify-start md:justify-center" style={{ gap: 16 }}>
             {slides.map((slide, i) => (
-              <SocialProductSlide key={`social-${i}`} video={slide.video} product={slide.product} width={videoW} height={videoH} autoPlay={i === 0} />
+              <SocialProductSlide
+                key={`social-${i}`}
+                video={slide.video}
+                product={slide.product}
+                width={videoW}
+                height={videoH}
+                autoPlay={i === activeIndex}
+                onEnded={handleVideoEnded}
+                showInfo={!product}
+              />
             ))}
           </CarouselContent>
         </Carousel>

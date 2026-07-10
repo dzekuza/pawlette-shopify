@@ -4,7 +4,6 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { addLinesToCart } from '@/lib/cart'
 import type { ProductDetail } from '@/lib/catalog'
-import { Eyebrow } from '@/components/storefront/Typography'
 
 const LEASH_COLOR_HEX: Record<string, string> = {
   pink:        '#F4B5C0',
@@ -75,7 +74,7 @@ export function UpsellSection ({ items, label }: UpsellSectionProps) {
 
   return (
     <div style={{ borderTop: '1px solid var(--color-bark-divider)', paddingTop: 20 }}>
-      <Eyebrow className="mb-3">{label}</Eyebrow>
+      <span style={{ display: 'block', marginBottom: 12, fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>{label}</span>
       {isLeashGroup
         ? <LeashUpsellCard item={items[0]} />
         : <CollarUpsellCard items={items} />
@@ -112,9 +111,9 @@ function CollarUpsellCard ({ items }: { items: ProductDetail[] }) {
           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
         </a>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p className="truncate font-sans text-sm font-medium text-bark">
             {item.name}
-          </div>
+          </p>
           <PriceLine price={item.price} />
         </div>
         <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${item.name} į krepšelį`} />
@@ -178,9 +177,9 @@ function LeashUpsellCard ({ item }: { item: ProductDetail }) {
           <Image src={image} alt={title} fill className="object-cover" sizes="56px" />
         </a>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p className="truncate font-sans text-sm font-medium text-bark">
             {title}
-          </div>
+          </p>
           <PriceLine price={price} />
         </div>
         <AddButton adding={adding} added={added} onClick={handleAdd} label={`Pridėti ${title} į krepšelį`} />

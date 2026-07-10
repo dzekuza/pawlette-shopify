@@ -50,8 +50,8 @@ export function ProductValueShowcase({ name }: { name: string }) {
 
         {isMobile ? (
           <div className="flex flex-col items-center gap-6">
-            <div className="animate-levitate relative aspect-square w-full max-w-[280px] overflow-hidden rounded-[28px]">
-              <Image src={SHOWCASE_IMAGE} alt={name} fill sizes="280px" className="object-contain p-6" />
+            <div className="animate-levitate relative aspect-square w-full max-w-[400px] overflow-hidden rounded-[28px]">
+              <Image src={SHOWCASE_IMAGE} alt={name} fill sizes="400px" className="object-contain p-6" />
             </div>
             <div className="grid w-full grid-cols-2 gap-3">
               {VALUES.map((value) => (

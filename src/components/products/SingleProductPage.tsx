@@ -23,6 +23,7 @@ import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
 import { UpsellSection } from '@/components/products/UpsellSection'
 import { Accordion } from '@/components/shared/Accordion'
+import { GalleryLightbox } from '@/components/products/GalleryLightbox'
 import { ProductCard } from '@/components/products/ProductCard'
 import { CharmCollectionProductCard } from '@/components/products/CharmCollectionCard'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
@@ -162,6 +163,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
   const [mounted, setMounted] = useState(false)
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setMounted(true), [])
 
@@ -439,7 +441,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         </>
       )}
@@ -516,6 +518,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
+                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
+                  Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
+                </span>
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
                     <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
@@ -605,7 +610,13 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             }}
           >
             {gallery.map((src, i) => (
-              <div key={i} style={{ borderRadius: i === 0 ? '20px 8px 8px 8px' : i === 1 ? '8px 20px 8px 8px' : i === 2 ? '8px 8px 8px 20px' : '8px 8px 20px 8px', overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1' }}>
+              <button
+                key={i}
+                type='button'
+                onClick={() => setLightboxIndex(i)}
+                aria-label='Padidinti nuotrauką'
+                style={{ borderRadius: i === 0 ? '20px 8px 8px 8px' : i === 1 ? '8px 20px 8px 8px' : i === 2 ? '8px 8px 8px 20px' : '8px 8px 20px 8px', overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in' }}
+              >
                 <Image
                   src={src}
                   alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
@@ -614,7 +625,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                   priority={i === 0}
                   className='object-cover'
                 />
-              </div>
+              </button>
             ))}
           </div>
         ) : (
@@ -638,7 +649,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadą su nuolaida'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -659,6 +670,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {hasCharmVariants && (
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
+                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
+                  Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
+                </span>
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
                     <SortableContext items={selectedCharms.map((_, i) => `charm-slot-${i}`)} strategy={horizontalListSortingStrategy}>
@@ -749,10 +763,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
             <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 10, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
+              <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
                 Į rinkinį įeina 5 pakabukai
               </div>
-              <div style={{ fontSize: 13, fontWeight: 500, color: TEXT_PRIMARY, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {(selectedColor ? translateColorLabel(selectedColor) : 'Spalva')}{selectedSize ? ` • ${selectedSize}` : ''}
               </div>
             </div>
@@ -863,6 +877,15 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             </button>
           </div>
         </div>
+      )}
+
+      {lightboxIndex !== null && (
+        <GalleryLightbox
+          images={gallery}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onIndexChange={setLightboxIndex}
+        />
       )}
     </div>
   )
@@ -1083,7 +1106,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       {showCharms && (
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: 16, fontWeight: 600, color: TEXT_PRIMARY }}>
+          <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
             Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
           </span>
         </div>
@@ -1369,9 +1392,11 @@ const CHARM_COLOR_OPTIONS = [
 ]
 
 function CharmColorPicker ({ color, onColorChange, options }: { color: string; onColorChange: (c: string) => void; options: { value: string; label: string; dot: string }[] }) {
+  const selectedLabel = options.find((option) => option.value === color)?.label
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED, flexShrink: 0 }}>Spalva</span>
+      {selectedLabel && <span style={{ fontSize: 13, color: TEXT_SECONDARY, flexShrink: 0 }}>{selectedLabel}</span>}
       <div style={{ display: 'flex', gap: 6 }}>
         {options.map(({ value, label, dot }) => (
           <button

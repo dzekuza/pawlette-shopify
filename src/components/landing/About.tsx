@@ -85,7 +85,7 @@ export function About() {
     <div
       style={{
         flex: isMobile ? '1' : '0 0 340px',
-        aspectRatio: isMobile ? '9 / 19' : undefined,
+        aspectRatio: isMobile ? '3 / 4' : undefined,
         minHeight: isMobile ? 'auto' : undefined,
         borderRadius: 24,
         position: 'relative',
