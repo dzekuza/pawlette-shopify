@@ -3,6 +3,7 @@ import Script from "next/script";
 import { DM_Sans, Caveat } from 'next/font/google';
 import { MetaPixel } from "@/components/shared/MetaPixel";
 import { CookieConsentBanner } from "@/components/shared/CookieConsentBanner";
+import { ScratchGiftWidget } from "@/components/shared/ScratchGiftWidget";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -119,6 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MetaPixel />
         {children}
         <CookieConsentBanner />
+        <ScratchGiftWidget />
       </body>
     </html>
   );
