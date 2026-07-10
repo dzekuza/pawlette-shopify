@@ -5,7 +5,6 @@ import { Gift, X, Copy, Check } from 'lucide-react';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { InputField } from '@/components/shared/InputField';
 import { DisplayHeading, Eyebrow, BodyCopy } from '@/components/storefront/Typography';
-import { cn } from '@/lib/utils';
 import { NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
 
 const GIFT_CLAIMED_KEY = 'pawlette_gift_claimed';
@@ -33,6 +32,7 @@ export function ScratchGiftWidget() {
   const isDrawingRef = useRef(false);
   const revealedRef = useRef(false);
   const sampleCounterRef = useRef(0);
+  const revealTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (localStorage.getItem(GIFT_CLAIMED_KEY)) {
@@ -58,10 +58,15 @@ export function ScratchGiftWidget() {
     revealedRef.current = false;
     sampleCounterRef.current = 0;
 
+    // Canvas fillStyle can't parse CSS var() — resolve the token to its computed color first.
+    const rootStyles = getComputedStyle(document.documentElement);
+    const sageColor = rootStyles.getPropertyValue('--color-sage').trim() || '#A8D5A2';
+    const creamColor = rootStyles.getPropertyValue('--color-cream').trim() || '#FAF7F2';
+
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.fillStyle = 'var(--color-sage)';
+    ctx.fillStyle = sageColor;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.fillStyle = 'var(--color-cream)';
+    ctx.fillStyle = creamColor;
     ctx.font = '600 20px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -96,7 +101,7 @@ export function ScratchGiftWidget() {
     if (percentCleared > REVEAL_THRESHOLD) {
       revealedRef.current = true;
       ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-      setTimeout(() => setStep('email'), 600);
+      revealTimeoutRef.current = setTimeout(() => setStep('email'), 600);
     }
   }
 
@@ -156,11 +161,21 @@ export function ScratchGiftWidget() {
   }
 
   function closeDialog() {
+    if (revealTimeoutRef.current) {
+      clearTimeout(revealTimeoutRef.current);
+      revealTimeoutRef.current = null;
+    }
     setStep('closed');
     setEmail('');
     setErrorMessage('');
     setCopied(false);
   }
+
+  useEffect(() => {
+    return () => {
+      if (revealTimeoutRef.current) clearTimeout(revealTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (step === 'closed') return;
@@ -209,25 +224,26 @@ export function ScratchGiftWidget() {
                 <DisplayHeading as="h2" size="compact" className="mb-4">
                   Nubraukite ir laimėkite nuolaidą
                 </DisplayHeading>
-                <canvas
-                  ref={canvasRef}
-                  width={CANVAS_SIZE}
-                  height={CANVAS_SIZE}
-                  className="mx-auto touch-none rounded-2xl"
-                  style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
-                  onPointerDown={handlePointerDown}
-                  onPointerMove={handlePointerMove}
-                  onPointerUp={handlePointerUp}
-                  onPointerLeave={handlePointerUp}
-                />
-                <div
-                  aria-hidden
-                  className="mx-auto -mt-[280px] flex h-[280px] w-[280px] items-center justify-center rounded-2xl"
-                  style={{ width: CANVAS_SIZE, height: CANVAS_SIZE, pointerEvents: 'none' }}
-                >
-                  <DisplayHeading as="h3" size="page" className="text-bark">
-                    {NEWSLETTER_DISCOUNT_PERCENT}%
-                  </DisplayHeading>
+                <div className="relative mx-auto" style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 z-0 flex items-center justify-center rounded-2xl bg-sage"
+                  >
+                    <DisplayHeading as="h3" size="page" className="text-bark">
+                      {NEWSLETTER_DISCOUNT_PERCENT}%
+                    </DisplayHeading>
+                  </div>
+                  <canvas
+                    ref={canvasRef}
+                    width={CANVAS_SIZE}
+                    height={CANVAS_SIZE}
+                    className="absolute inset-0 z-10 touch-none rounded-2xl"
+                    style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
+                    onPointerDown={handlePointerDown}
+                    onPointerMove={handlePointerMove}
+                    onPointerUp={handlePointerUp}
+                    onPointerLeave={handlePointerUp}
+                  />
                 </div>
               </>
             ) : null}
