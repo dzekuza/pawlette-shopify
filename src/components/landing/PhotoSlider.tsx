@@ -104,12 +104,44 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
   useEffect(() => {
     const el = videoRef.current;
     if (!el) return;
+
     if (autoPlay) {
       el.currentTime = 0;
+      el.muted = true;
       el.play().catch(() => {});
-    } else {
-      el.pause();
+      return;
     }
+
+    el.pause();
+
+    // iOS Safari won't paint a preview frame from preload="metadata" alone —
+    // it needs to actually play a frame — and it blocks programmatic play()
+    // for elements that aren't yet visible in the viewport. So wait until the
+    // card scrolls into view, then play+pause once to render a static
+    // thumbnail instead of a blank box.
+    const primeFrame = () => {
+      el.muted = true;
+      el.play()
+        .then(() => {
+          el.pause();
+          el.currentTime = 0;
+        })
+        .catch(() => {});
+    }
+
+    if (typeof IntersectionObserver === 'undefined') {
+      primeFrame();
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0]?.isIntersecting) {
+        primeFrame();
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [autoPlay]);
 
   const handleEnter = () => {
@@ -143,7 +175,7 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
         loop={!autoPlay}
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         onEnded={autoPlay ? onEnded : undefined}
       />
       {!autoPlay && (
