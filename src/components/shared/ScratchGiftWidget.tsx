@@ -58,15 +58,27 @@ export function ScratchGiftWidget() {
     revealedRef.current = false;
     sampleCounterRef.current = 0;
 
-    // Canvas fillStyle can't parse CSS var() — resolve the token to its computed color first.
+    // Canvas fillStyle can't parse CSS var() — resolve the tokens to computed colors first.
     const rootStyles = getComputedStyle(document.documentElement);
-    const sageColor = rootStyles.getPropertyValue('--color-sage').trim() || '#A8D5A2';
-    const creamColor = rootStyles.getPropertyValue('--color-cream').trim() || '#FAF7F2';
+    const coverBgColor = rootStyles.getPropertyValue('--color-surface-2').trim() || '#F3EDE6';
+    const coverTextColor = rootStyles.getPropertyValue('--color-bark-muted').trim() || '#706B68';
+    const borderColor = rootStyles.getPropertyValue('--color-bark-border').trim() || 'rgba(61, 53, 48, 0.15)';
 
     ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.fillStyle = sageColor;
+    
+    // Draw background cover
+    ctx.fillStyle = coverBgColor;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-    ctx.fillStyle = creamColor;
+    
+    // Draw a dashed border to look like a ticket coupon
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 2;
+    ctx.setLineDash([8, 6]);
+    ctx.strokeRect(16, 16, CANVAS_SIZE - 32, CANVAS_SIZE - 32);
+    ctx.setLineDash([]); // Reset line dash
+    
+    // Draw text
+    ctx.fillStyle = coverTextColor;
     ctx.font = '600 20px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -208,7 +220,7 @@ export function ScratchGiftWidget() {
             if (event.target === event.currentTarget) closeDialog();
           }}
         >
-          <div className="relative w-[90vw] max-w-[420px] rounded-[28px] bg-cream p-8 text-center shadow-[0_24px_80px_rgba(61,53,48,0.2)]">
+          <div className="relative w-[90vw] max-w-[420px] rounded-[28px] bg-cream px-5 py-8 sm:p-8 text-center shadow-[0_24px_80px_rgba(61,53,48,0.2)]">
             <button
               type="button"
               onClick={closeDialog}
@@ -224,10 +236,10 @@ export function ScratchGiftWidget() {
                 <DisplayHeading as="h2" size="compact" className="mb-4">
                   Nubraukite ir laimėkite nuolaidą
                 </DisplayHeading>
-                <div className="relative mx-auto" style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
+                <div className="relative mx-auto overflow-hidden rounded-2xl" style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}>
                   <div
                     aria-hidden
-                    className="absolute inset-0 z-0 flex items-center justify-center rounded-2xl bg-sage"
+                    className="absolute inset-0 z-0 flex items-center justify-center bg-sage"
                   >
                     <DisplayHeading as="h3" size="page" className="text-bark">
                       {NEWSLETTER_DISCOUNT_PERCENT}%
@@ -237,7 +249,7 @@ export function ScratchGiftWidget() {
                     ref={canvasRef}
                     width={CANVAS_SIZE}
                     height={CANVAS_SIZE}
-                    className="absolute inset-0 z-10 touch-none rounded-2xl"
+                    className="absolute inset-0 z-10 touch-none cursor-pointer"
                     style={{ width: CANVAS_SIZE, height: CANVAS_SIZE }}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
