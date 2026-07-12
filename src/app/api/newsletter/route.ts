@@ -9,6 +9,7 @@ interface CustomerCreateResponse {
       id: string;
     } | null;
     customerUserErrors: Array<{
+      code?: string;
       message: string;
     }>;
   };
@@ -21,6 +22,7 @@ const NEWSLETTER_CUSTOMER_CREATE_MUTATION = `
         id
       }
       customerUserErrors {
+        code
         message
       }
     }
@@ -40,7 +42,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Įveskite galiojantį el. pašto adresą.' }, { status: 400 });
   }
 
-  const password = `PawCharms-${randomUUID()}-Aa1!`;
+  // Shopify limits password length to a maximum of 40 characters.
+  const password = `PC-${randomUUID().slice(0, 16)}-Aa1!`;
 
   const { data, errors } = await shopifyClient.request<CustomerCreateResponse>(
     NEWSLETTER_CUSTOMER_CREATE_MUTATION,
@@ -61,7 +64,10 @@ export async function POST(request: Request) {
     ...(errors?.message ? [errors.message] : []),
   ].filter(Boolean);
 
-  const duplicate = messages.some(isExistingCustomerError);
+  const hasTakenError = (data?.customerCreate.customerUserErrors ?? []).some(
+    (error) => error.code === 'TAKEN'
+  );
+  const duplicate = hasTakenError || messages.some(isExistingCustomerError);
   if (!data?.customerCreate.customer && !duplicate) {
     return NextResponse.json(
       { error: messages[0] ?? 'Nepavyko užregistruoti el. pašto.' },
