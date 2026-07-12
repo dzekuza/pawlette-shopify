@@ -356,9 +356,17 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   const addCollarCharmToCart = async () => {
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
-    if (!picked.length) return
+    if (!collar) return
+    const variant = collar.variants.find(v =>
+      (selectedColor ? v.color === selectedColor : true) &&
+      (selectedSize ? v.size === selectedSize : true)
+    ) ?? collar.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar.variants[0]
+    const variantId = variant?.id ?? collar.variantId
     setCharmAdded(true)
-    await addLinesToCart(picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
+    await addLinesToCart([
+      { merchandiseId: variantId, quantity: 1 },
+      ...picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })),
+    ])
     setTimeout(() => { setCharmAdded(false); setPersonaliseOpen(false) }, 800)
   }
 
@@ -873,7 +881,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 transition: 'background 150ms',
               }}
             >
-              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
+              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Į krepšelį su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
             </button>
           </div>
         </div>
