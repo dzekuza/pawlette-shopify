@@ -9,8 +9,8 @@ import { NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
 
 const GIFT_CLAIMED_KEY = 'pawlette_gift_claimed';
 const CANVAS_SIZE = 280;
-const SCRATCH_RADIUS = 22;
-const REVEAL_THRESHOLD = 0.5;
+const SCRATCH_RADIUS = 32;
+const REVEAL_THRESHOLD = 0.3;
 
 type Step = 'closed' | 'scratch' | 'email' | 'code';
 
