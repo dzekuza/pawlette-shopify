@@ -76,7 +76,6 @@ const organizationSchema = {
   ],
 };
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-CD28613MD9';
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
 
 const websiteSchema = {
@@ -110,11 +109,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         {/*
-          Google tag (gtag.js) — bootstrapped unconditionally so Google's tag
-          verifier can detect it, but Consent Mode v2 defaults every storage
-          type to "denied". No analytics cookies are set until the user
-          accepts via CookieConsentBanner, which calls gtag('consent','update', ...)
-          through the GoogleAnalytics component.
+          Consent Mode v2 defaults — must be pushed to dataLayer before GTM
+          boots below. GA4 itself is now configured as a tag inside the GTM
+          container (not loaded directly here), so this only sets consent
+          state; GoogleAnalytics calls gtag('consent','update', ...) on accept.
         */}
         <script
           dangerouslySetInnerHTML={{
@@ -128,12 +126,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 ad_personalization: 'denied',
                 wait_for_update: 500
               });
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}');
             `,
           }}
         />
-        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
         {/*
           Google Tag Manager — reuses the same dataLayer, so it inherits the
           Consent Mode v2 defaults set above and stays gated the same way.
