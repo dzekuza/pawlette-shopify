@@ -76,6 +76,8 @@ const organizationSchema = {
   ],
 };
 
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-CD28613MD9';
+
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -106,6 +108,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        {/*
+          Google tag (gtag.js) — bootstrapped unconditionally so Google's tag
+          verifier can detect it, but Consent Mode v2 defaults every storage
+          type to "denied". No analytics cookies are set until the user
+          accepts via CookieConsentBanner, which calls gtag('consent','update', ...)
+          through the GoogleAnalytics component.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('consent', 'default', {
+                ad_storage: 'denied',
+                analytics_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                wait_for_update: 500
+              });
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}');
+            `,
+          }}
+        />
+        <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} strategy="afterInteractive" />
         {process.env.NODE_ENV === "development" && (
           <>
             <Script
