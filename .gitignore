@@ -49,3 +49,6 @@ next-env.d.ts
 
 # Playwright MCP debug output
 .playwright-mcp/
+
+# standalone scaffold project (own repo/deps, not part of this app)
+/collar-customiser/

@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { Plus } from 'lucide-react'
+import { Collar3DModal } from '@/components/products/Collar3DModal'
+import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { TopBar } from '@/components/landing/TopBar'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
@@ -17,6 +19,7 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
@@ -101,6 +104,14 @@ const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-ho
 const PDP_REVIEW_QUOTE = 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.'
 const DEFAULT_CHARM_COLOR = 'blue'
 const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', 'sky blue': '#B8D8F4', 'dark blue': '#6B9FD4', green: '#A8D5A2', red: '#F4B5C0', pink: '#F4B5C0', yellow: '#F9E4A0', purple: '#D4B8F4' }
+// Per-letter colour swatches offered when tapping an individual charm slot on the Personalise tile
+const CHARM_LETTER_COLOURS = [
+  { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
+  { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
+  { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
+  { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
+  { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+]
 const PDP_REVIEWS = [
   {
     quote: PDP_REVIEW_QUOTE,
@@ -184,6 +195,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   // ── Personalise dialog ──
   const [personaliseOpen, setPersonaliseOpen] = useState(false)
+  const [preview3DOpen, setPreview3DOpen] = useState(false)
   const [selectedCollarCharms, setSelectedCollarCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
   const [collarCharmTab] = useState<CharmTab>('all')
   const [collarCharmColor, setCollarCharmColor] = useState<string>(DEFAULT_CHARM_COLOR)
@@ -409,6 +421,32 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     setSelectedCollarCharms(slots)
   }
 
+  // Typed word/number entry → maps each character to a matching letter charm,
+  // keeping any already-selected icon charms after the typed letters.
+  const collarCharmName = collar3DLetters(selectedCollarCharms).name
+  const applyCollarLetters = (rawName: string) => {
+    const clean = rawName.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5)
+    const colourHex = COLOR_BG_MAP[collarCharmColor]
+    const { iconCharms } = collar3DLetters(selectedCollarCharms)
+    const newLetterCharms = [...clean]
+      .map((letter) => charms.find((c) => c.category === 'letter' && extractLetter(c.baseTitle) === letter && c.bg === colourHex))
+      .filter((c): c is ShopifyCharm => !!c)
+    const combined = [...newLetterCharms, ...iconCharms].slice(0, 5)
+    const padded: (ShopifyCharm | null)[] = [...combined, ...Array(5 - combined.length).fill(null)]
+    setSelectedCollarCharms(padded)
+  }
+
+  // Recolours a single already-placed letter charm in place, without touching its slot position.
+  const applyCollarLetterColour = (charmId: string, colourKey: string) => {
+    const target = selectedCollarCharms.find((c) => c?.id === charmId)
+    if (!target || target.category !== 'letter') return
+    const letter = extractLetter(target.baseTitle)
+    const colourHex = COLOR_BG_MAP[colourKey]
+    const replacement = charms.find((c) => c.category === 'letter' && extractLetter(c.baseTitle) === letter && c.bg === colourHex)
+    if (!replacement) return
+    setSelectedCollarCharms((prev) => prev.map((c) => (c?.id === charmId ? replacement : c)))
+  }
+
   const collarHandle = product.id.replace(/^collar-/, '')
   const galleryKey = collarHandle.replace(/-collar$/, '')
   const localGallery = COLLAR_GALLERY[galleryKey] ?? COLLAR_GALLERY[collarHandle] ?? COLLAR_GALLERY[collar?.handle ?? ''] ?? []
@@ -489,7 +527,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         </>
       )}
@@ -657,13 +695,20 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               position: 'sticky', top: NAV_H, alignSelf: 'start', overflow: 'hidden',
             }}
           >
+            {isCollar && !isCharmProduct && (
+              <Collar3DGalleryTile
+                collar={collar}
+                selectedCharms={selectedCollarCharms}
+                onEdit={() => setPreview3DOpen(true)}
+              />
+            )}
             {gallery.map((src, i) => (
               <button
                 key={i}
                 type='button'
                 onClick={() => setLightboxIndex(i)}
                 aria-label='Padidinti nuotrauką'
-                style={{ borderRadius: i === 0 ? '20px 8px 8px 8px' : i === 1 ? '8px 20px 8px 8px' : i === 2 ? '8px 8px 8px 20px' : '8px 8px 20px 8px', overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in' }}
+                style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in' }}
               >
                 <Image
                   src={src}
@@ -697,7 +742,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -957,6 +1002,20 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         </div>
       )}
 
+      <Collar3DModal
+        open={preview3DOpen}
+        onClose={() => setPreview3DOpen(false)}
+        collar={collar}
+        allCollars={allCollars}
+        selectedColor={selectedColor}
+        onColorChange={handleColorChange}
+        charms={charms}
+        selectedCharms={selectedCollarCharms}
+        onCharmsChange={setSelectedCollarCharms}
+        charmColorKey={collarCharmColor}
+        onCharmColorChange={setCollarCharmColor}
+      />
+
       {lightboxIndex !== null && (
         <GalleryLightbox
           images={gallery}
@@ -1020,6 +1079,9 @@ interface CollarPDPProps {
   onPersonalise: () => void
   selectedCharmCount?: number
   selectedCharms?: (ShopifyCharm | null)[]
+  charmName?: string
+  onCharmNameChange?: (name: string) => void
+  onCharmColourAt?: (charmId: string, colourKey: string) => void
   price: string
   name: string
   showCharms?: boolean
@@ -1027,11 +1089,14 @@ interface CollarPDPProps {
   upsellLabel?: string
 }
 
-function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
+function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
   const [fitGuideOpen, setFitGuideOpen] = useState(false)
   const [activeReview, setActiveReview] = useState(0)
+  const [activeColourSlot, setActiveColourSlot] = useState<number | null>(null)
+  const [charmRowFocused, setCharmRowFocused] = useState(false)
+  const charmRowRef = useRef<HTMLDivElement>(null)
 
   const sourceCollars = allCollars.length > 0 ? allCollars : (collar ? [collar] : [])
   const hasColors = sourceCollars.length > 0
@@ -1190,54 +1255,108 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Papuoškite savo antkaklį</span>
           <Badge variant="sage">Nemokama</Badge>
         </div>
-        <p style={{ margin: '0 0 12px', fontSize: 13, lineHeight: 1.5, color: TEXT_SECONDARY }}>
-          Pridėkite iki 5 pakabukų — kaip Crocs facharmus. Bet kada pakeisite per 5 sekundes.
-        </p>
+        <div
+          ref={charmRowRef}
+          tabIndex={0}
+          role="group"
+          aria-label="Pasirinkti pakabukus"
+          onClick={() => charmRowRef.current?.focus()}
+          onFocus={() => setCharmRowFocused(true)}
+          onBlur={() => setCharmRowFocused(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Backspace') {
+              e.preventDefault()
+              onCharmNameChange?.(charmName.slice(0, -1))
+              return
+            }
+            if (/^[a-zA-Z0-9]$/.test(e.key)) {
+              e.preventDefault()
+              onCharmNameChange?.(charmName + e.key)
+            }
+          }}
+          style={{
+            width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
+            padding: 10, borderRadius: 16, cursor: 'text',
+            border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'rgba(255,214,165,0.95)'}`,
+            outline: 'none',
+          }}
+        >
+          {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
+            const isLetter = c?.category === 'letter'
+            const isActive = activeColourSlot === i && isLetter
+            const Tag = isLetter ? 'button' : 'div'
+            return (
+              <Tag
+                key={i}
+                type={isLetter ? 'button' : undefined}
+                onClick={isLetter ? () => setActiveColourSlot((s) => (s === i ? null : i)) : undefined}
+                aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}“ spalvą` : undefined}
+                aria-pressed={isLetter ? isActive : undefined}
+                style={{
+                  aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
+                  transition: 'transform 150ms, background 150ms, border-color 150ms',
+                  transform: c ? 'scale(1)' : 'scale(0.96)',
+                  border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+                  padding: 0,
+                  cursor: isLetter ? 'pointer' : 'default',
+                }}
+              >
+                {c?.image
+                  ? (
+                    <Image
+                      src={c.image}
+                      alt={c.title}
+                      width={48}
+                      height={48}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                  )
+                  : charmRowFocused && i === charmName.length
+                    ? <span aria-hidden="true" className="animate-pulse" style={{ width: 2, height: '44%', background: TEXT_PRIMARY, display: 'inline-block' }} />
+                    : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+              </Tag>
+            )
+          })}
+        </div>
+        <span style={{ display: 'block', marginTop: 6, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>Įrašykite raides</span>
+        {activeColourSlot !== null && selectedCharms?.[activeColourSlot]?.category === 'letter' && (
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
+            {CHARM_LETTER_COLOURS.map(({ key, label, hex }) => {
+              const charm = selectedCharms[activeColourSlot]!
+              const isActiveColour = charm.bg === hex
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  title={label}
+                  onClick={() => onCharmColourAt?.(charm.id, key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 12px 6px 8px', borderRadius: 50, border: 'none', cursor: 'pointer',
+                    fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap',
+                    background: isActiveColour ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
+                    color: isActiveColour ? 'var(--color-cream)' : TEXT_PRIMARY,
+                    transition: 'background 150ms, color 150ms',
+                  }}
+                >
+                  <span style={{ width: 14, height: 14, borderRadius: '50%', background: hex, flexShrink: 0, display: 'inline-block' }} />
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+        )}
         <button
           type="button"
           onClick={onPersonalise}
-          aria-label="Pasirinkti pakabukus"
-          className="bg-white"
           style={{
-            width: '100%', display: 'flex', alignItems: 'center', gap: 10,
-            padding: 16, borderRadius: 16, border: '1px solid rgba(255,214,165,0.95)',
-            cursor: 'pointer',
+            marginTop: 10, padding: 0, background: 'none', border: 'none', cursor: 'pointer',
+            fontSize: 13, fontWeight: 600, color: 'var(--color-interactive-text)',
           }}
         >
-          {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
-            <div
-              key={i}
-              style={{
-                aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
-                transition: 'transform 150ms, background 150ms',
-                transform: c ? 'scale(1)' : 'scale(0.96)',
-              }}
-            >
-              {c?.image
-                ? (
-                  <Image
-                    src={c.image}
-                    alt={c.title}
-                    width={48}
-                    height={48}
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                  />
-                )
-                : <Plus size={18} strokeWidth={2.2} color={CHARM_TINTS[i]} />}
-            </div>
-          ))}
-          <span
-            aria-hidden="true"
-            style={{
-              width: 36, height: 36, flexShrink: 0, borderRadius: 10,
-              background: TEXT_PRIMARY, color: 'var(--color-cream)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}
-          >
-            <Plus size={18} strokeWidth={2.2} />
-          </span>
+          Rinktis pakabukus rankiniu būdu →
         </button>
       </div>
       )}
