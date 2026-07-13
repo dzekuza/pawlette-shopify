@@ -17,7 +17,7 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
-import { addLinesToCart } from '@/lib/cart'
+import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
@@ -356,17 +356,20 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   const addCollarCharmToCart = async () => {
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
-    if (!collar) return
-    const variant = collar.variants.find(v =>
+    if (!picked.length) return
+    setCharmAdded(true)
+    const variant = collar?.variants.find(v =>
       (selectedColor ? v.color === selectedColor : true) &&
       (selectedSize ? v.size === selectedSize : true)
-    ) ?? collar.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar.variants[0]
-    const variantId = variant?.id ?? collar.variantId
-    setCharmAdded(true)
-    await addLinesToCart([
-      { merchandiseId: variantId, quantity: 1 },
+    ) ?? collar?.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar?.variants[0]
+    const variantId = variant?.id ?? collar?.variantId
+    const existingCart = await fetchCart()
+    const collarAlreadyInCart = !!variantId && !!existingCart?.lines.some(l => l.merchandise.id === variantId)
+    const lines = [
+      ...(variantId && !collarAlreadyInCart ? [{ merchandiseId: variantId, quantity: 1 }] : []),
       ...picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })),
-    ])
+    ]
+    await addLinesToCart(lines)
     setTimeout(() => { setCharmAdded(false); setPersonaliseOpen(false) }, 800)
   }
 
