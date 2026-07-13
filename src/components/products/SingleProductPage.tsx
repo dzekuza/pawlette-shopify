@@ -1010,6 +1010,9 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           note={FREE_SHIPPING_COPY}
           size='detail'
         />
+        <p style={{ margin: '4px 0 0', fontSize: 12, fontWeight: 500, color: TEXT_MUTED }}>
+          Galutinė kaina skaičiuojama atsiskaitant
+        </p>
       </div>
 
       {/* Color swatches */}
