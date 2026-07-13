@@ -236,6 +236,10 @@ export default function CartPage() {
                         €{total.toFixed(2)}
                       </span>
                     </div>
+
+                    <p className="text-[12px] opacity-55 -mt-1" style={{ color: 'var(--color-bark)' }}>
+                      Galutinė kaina skaičiuojama atsiskaitant
+                    </p>
                   </div>
 
                   {/* Free shipping progress inside summary on mobile */}
