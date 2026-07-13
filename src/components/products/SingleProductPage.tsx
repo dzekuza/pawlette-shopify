@@ -29,6 +29,9 @@ import { CharmCollectionProductCard } from '@/components/products/CharmCollectio
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
+import { TrustNote } from '@/components/shared/TrustNote'
+import { CartToast, type CartToastItem } from '@/components/shared/CartToast'
+import { Badge } from '@/components/ui/badge'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
@@ -94,6 +97,7 @@ const DEFAULT_CHARM_ACCORDION = [
 const PDP_REVIEW_RATING = 4.9
 const PDP_REVIEW_COUNT = 9
 const PDP_TRUST_POINTS = ['2–4 d. pristatymas', '30 d. grąžinimas', 'Pagaminta Lietuvoje']
+const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)']
 const PDP_REVIEW_QUOTE = 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.'
 const DEFAULT_CHARM_COLOR = 'blue'
 const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', 'sky blue': '#B8D8F4', 'dark blue': '#6B9FD4', green: '#A8D5A2', red: '#F4B5C0', pink: '#F4B5C0', yellow: '#F9E4A0', purple: '#D4B8F4' }
@@ -185,6 +189,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [collarCharmColor, setCollarCharmColor] = useState<string>(DEFAULT_CHARM_COLOR)
   const [collarCharmQuery, setCollarCharmQuery] = useState('')
   const [charmAdded, setCharmAdded] = useState(false)
+  const [cartToastItems, setCartToastItems] = useState<CartToastItem[] | null>(null)
 
   const toggleCollarCharm = (charm: ShopifyCharm) => {
     setSelectedCollarCharms(prev => {
@@ -274,16 +279,43 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     }
   }
 
-  // Collar add to cart → pick variant by color+size, redirect to /cart
-  const addCollarToCart = async () => {
-    if (!collar) return
+  // Builds the collar line (deduped against the current cart) plus any charms already
+  // picked in the Personalise flow, so every "Pirkti" entry point adds the same bundle.
+  const buildCollarBundleLines = async () => {
+    if (!collar) return { lines: [] as { merchandiseId: string; quantity: number }[], collarAdded: false }
     const variant = collar.variants.find(v =>
       (selectedColor ? v.color === selectedColor : true) &&
       (selectedSize ? v.size === selectedSize : true)
     ) ?? collar.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar.variants[0]
     const variantId = variant?.id ?? collar.variantId
-    await addLinesToCart([{ merchandiseId: variantId, quantity: 1 }])
-    router.push('/cart')
+    const existingCart = await fetchCart()
+    const collarAlreadyInCart = !!variantId && !!existingCart?.lines.some(l => l.merchandise.id === variantId)
+    const collarAdded = !!variantId && !collarAlreadyInCart
+    const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
+    return {
+      lines: [
+        ...(collarAdded ? [{ merchandiseId: variantId!, quantity: 1 }] : []),
+        ...picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })),
+      ],
+      collarAdded,
+    }
+  }
+
+  // Collar add to cart → bundles the collar + any selected charms in one operation, redirect to /cart
+  const addCollarToCart = async () => {
+    const { lines, collarAdded } = await buildCollarBundleLines()
+    if (!lines.length) return
+    await addLinesToCart(lines)
+    const pickedCharms = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
+    if (pickedCharms.length) {
+      setCartToastItems([
+        ...(collarAdded ? [{ id: collar!.id, title: collar!.parentTitle || collar!.title, image: selectedVariantImage || collar!.image }] : []),
+        ...pickedCharms.map(c => ({ id: c.id, title: c.title, image: c.image })),
+      ])
+      setTimeout(() => router.push('/cart'), 1400)
+    } else {
+      router.push('/cart')
+    }
   }
 
   const toggleCharm = (charm: ShopifyCharm) => {
@@ -313,10 +345,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     if (!picked.length) return
     setAdded(true)
     await addLinesToCart(picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
+    setCartToastItems(picked.map(c => ({ id: c.id, title: c.title, image: c.image })))
     setTimeout(() => {
       setAdded(false)
       router.push('/cart')
-    }, 800)
+    }, 1400)
   }
 
   // Unique color options derived from the real charm variants (green excluded)
@@ -358,19 +391,22 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
     if (!picked.length) return
     setCharmAdded(true)
-    const variant = collar?.variants.find(v =>
-      (selectedColor ? v.color === selectedColor : true) &&
-      (selectedSize ? v.size === selectedSize : true)
-    ) ?? collar?.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar?.variants[0]
-    const variantId = variant?.id ?? collar?.variantId
-    const existingCart = await fetchCart()
-    const collarAlreadyInCart = !!variantId && !!existingCart?.lines.some(l => l.merchandise.id === variantId)
-    const lines = [
-      ...(variantId && !collarAlreadyInCart ? [{ merchandiseId: variantId, quantity: 1 }] : []),
-      ...picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })),
-    ]
+    const { lines, collarAdded } = await buildCollarBundleLines()
     await addLinesToCart(lines)
+    setCartToastItems([
+      ...(collarAdded ? [{ id: collar!.id, title: collar!.parentTitle || collar!.title, image: selectedVariantImage || collar!.image }] : []),
+      ...picked.map(c => ({ id: c.id, title: c.title, image: c.image })),
+    ])
     setTimeout(() => { setCharmAdded(false); setPersonaliseOpen(false) }, 800)
+  }
+
+  const applyStarterPack = (offset: number) => {
+    const pool = charms.filter(c => c.bg !== '#A8D5A2')
+    const pack = pool.slice(offset, offset + 5)
+    if (!pack.length) return
+    const slots: (ShopifyCharm | null)[] = [null, null, null, null, null]
+    pack.forEach((c, i) => { if (i < 5) slots[i] = c })
+    setSelectedCollarCharms(slots)
   }
 
   const collarHandle = product.id.replace(/^collar-/, '')
@@ -407,6 +443,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   return (
     <div className="bg-cream min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
+      <CartToast items={cartToastItems} onClose={() => setCartToastItems(null)} />
       <TopBar />
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 
@@ -775,7 +812,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
-                Į rinkinį įeina 5 pakabukai
+                Iki 5 pakabukų nemokamai
               </div>
               <div style={{ fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {(selectedColor ? translateColorLabel(selectedColor) : 'Spalva')}{selectedSize ? ` • ${selectedSize}` : ''}
@@ -799,7 +836,9 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
             }}
           >
-            Pirkti
+            {selectedCollarCharmCount
+              ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}`
+              : 'Pirkti'}
           </button>
         </div>
       )}
@@ -816,7 +855,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           >
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Pridėti pakabuką</DisplayHeading>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Pridėkite pakabukų</DisplayHeading>
+                <Badge variant="sage">Nemokama</Badge>
+              </div>
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
@@ -830,6 +872,24 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 </div>
               </SortableContext>
             </DndContext>
+
+            {/* Starter packs — one tap fills all 5 slots for shoppers who don't want to hand-pick */}
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button
+                type="button"
+                onClick={() => applyStarterPack(0)}
+                style={{ padding: '6px 14px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                ✨ Populiariausias rinkinys
+              </button>
+              <button
+                type="button"
+                onClick={() => applyStarterPack(5)}
+                style={{ padding: '6px 14px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              >
+                🌸 Gėlių rinkinys
+              </button>
+            </div>
 
             {/* Color filter */}
             <div className="hide-scrollbar" style={{ display: 'flex', gap: 8, alignItems: 'center', overflowX: 'auto', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
@@ -884,7 +944,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                 transition: 'background 150ms',
               }}
             >
-              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Į krepšelį su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite iki 5 pakabukų'}
+              {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Į krepšelį su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite bent 1 pakabuką'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setPersonaliseOpen(false)}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: 'underline', textAlign: 'center' }}
+            >
+              Praleisti ir pirkti be pakabukų
             </button>
           </div>
         </div>
@@ -1119,11 +1186,13 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
 
       {showCharms && (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
-            Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+          <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Papuoškite savo antkaklį</span>
+          <Badge variant="sage">Nemokama</Badge>
         </div>
+        <p style={{ margin: '0 0 12px', fontSize: 13, lineHeight: 1.5, color: TEXT_SECONDARY }}>
+          Pridėkite iki 5 pakabukų — kaip Crocs facharmus. Bet kada pakeisite per 5 sekundes.
+        </p>
         <button
           type="button"
           onClick={onPersonalise}
@@ -1138,10 +1207,12 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
             <div
               key={i}
-              className="bg-surface-2"
               style={{
                 aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
+                transition: 'transform 150ms, background 150ms',
+                transform: c ? 'scale(1)' : 'scale(0.96)',
               }}
             >
               {c?.image
@@ -1154,7 +1225,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                     style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                   />
                 )
-                : <Plus size={18} strokeWidth={2.2} color="rgba(61,53,48,0.2)" />}
+                : <Plus size={18} strokeWidth={2.2} color={CHARM_TINTS[i]} />}
             </div>
           ))}
           <span
@@ -1171,7 +1242,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       </div>
       )}
 
-      {/* Add to cart */}
+      {/* Add to cart — label reflects any charms already picked so the payoff of customizing is visible at purchase */}
       <button
         onClick={handleAddToCart}
         style={{
@@ -1185,16 +1256,16 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
         onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
-        {added ? '✓ Pridėta į krepšelį!' : `Pirkti · ${price}`}
+        {added
+          ? '✓ Pridėta į krepšelį!'
+          : selectedCharmCount
+            ? `Pirkti su ${selectedCharmCount} pakabuk${selectedCharmCount > 1 ? 'ais' : 'u'} · ${price}`
+            : `Pirkti · ${price}`}
       </button>
       {/* Trust strip — purchase reassurance below CTA */}
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {PDP_TRUST_POINTS.map((point) => (
-          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-            {point}
-          </div>
-        ))}
-      </div>
+      <TrustNote>
+        {PDP_TRUST_POINTS.join(' · ')} · ⭐ {PDP_REVIEW_RATING.toFixed(1)} ({PDP_REVIEW_COUNT} atsiliepimai)
+      </TrustNote>
 
       {/* Upsell — cross-sell item */}
       {upsellItems && upsellItems.length > 0 && (
