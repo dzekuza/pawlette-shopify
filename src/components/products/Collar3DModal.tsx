@@ -1,10 +1,13 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
+
+const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)']
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
@@ -57,6 +60,8 @@ export function Collar3DModal({
   )
 
   const [selectedCharmIndex, setSelectedCharmIndex] = useState<number | null>(null)
+  const [charmRowFocused, setCharmRowFocused] = useState(false)
+  const charmNameInputRef = useRef<HTMLInputElement>(null)
 
   // Clear the selection if the name shrinks past the selected letter (e.g. after backspacing).
   useEffect(() => {
@@ -181,21 +186,75 @@ export function Collar3DModal({
             </span>
           </div>
           <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)' }}>
-            Spustelėkite raidę 3D peržiūroje, jei norite jai pritaikyti kitą spalvą.
+            Spustelėkite raidę 3D peržiūroje arba žemiau, jei norite jai pritaikyti kitą spalvą.
           </p>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => applyLetters(e.target.value, charmColorKey)}
-            maxLength={5}
-            placeholder="pvz. REKS"
-            aria-label="Raidės ant antkaklio"
+          <div
+            onClick={() => charmNameInputRef.current?.focus()}
             style={{
-              width: '100%', padding: '10px 14px', borderRadius: 12, border: '1px solid var(--color-border)',
-              background: 'var(--color-cream)', color: 'var(--color-bark)', fontSize: 15, fontWeight: 600,
-              letterSpacing: '0.08em', textTransform: 'uppercase',
+              width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
+              padding: 10, borderRadius: 16, cursor: 'text', position: 'relative',
+              border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'var(--color-border)'}`,
+              outline: 'none',
             }}
-          />
+          >
+            <input
+              ref={charmNameInputRef}
+              type="text"
+              inputMode="text"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              maxLength={5}
+              value={name}
+              aria-label="Raidės ant antkaklio"
+              onChange={(e) => applyLetters(e.target.value, charmColorKey)}
+              onFocus={() => setCharmRowFocused(true)}
+              onBlur={() => setCharmRowFocused(false)}
+              style={{
+                position: 'absolute', inset: 0, width: '100%', height: '100%',
+                opacity: 0, border: 'none', outline: 'none', padding: 0, fontSize: 16,
+                background: 'transparent', cursor: 'text', pointerEvents: 'none',
+              }}
+            />
+            {Array.from({ length: 5 }, (_, i) => letterCharms[i] ?? null).map((c, i) => {
+              const isActive = selectedCharmIndex === i && !!c
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  disabled={!c}
+                  onClick={c ? () => setSelectedCharmIndex((s) => (s === i ? null : i)) : undefined}
+                  aria-label={c ? `Keisti raidės „${extractLetter(c.baseTitle)}“ spalvą` : undefined}
+                  aria-pressed={c ? isActive : undefined}
+                  style={{
+                    aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
+                    transition: 'transform 150ms, background 150ms, border-color 150ms',
+                    transform: c ? 'scale(1)' : 'scale(0.96)',
+                    border: isActive ? '2px solid var(--color-bark)' : '2px solid transparent',
+                    padding: 0,
+                    cursor: c ? 'pointer' : 'default',
+                  }}
+                >
+                  {c?.image
+                    ? (
+                      <Image
+                        src={c.image}
+                        alt={c.title}
+                        width={48}
+                        height={48}
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      />
+                    )
+                    : charmRowFocused && i === name.length
+                      ? <span aria-hidden="true" className="animate-pulse" style={{ width: 2, height: '44%', background: 'var(--color-bark)', display: 'inline-block' }} />
+                      : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+                </button>
+              )
+            })}
+          </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {LETTER_COLOURS.map(({ key, label, hex }) => (
               <button
