@@ -36,7 +36,7 @@ export function CartToast ({ items, onClose, duration = 3500 }: CartToastProps) 
           aria-live="polite"
           style={{
             position: 'fixed',
-            top: 16,
+            top: 'calc(128px + env(safe-area-inset-top, 0px))',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 900,
