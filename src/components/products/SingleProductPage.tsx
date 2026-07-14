@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus } from 'lucide-react'
+import { Box, Plus } from 'lucide-react'
 import { Collar3DModal } from '@/components/products/Collar3DModal'
 import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile'
 import { LandingNav } from '@/components/landing/LandingNav'
@@ -517,6 +517,23 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </div>
               <button onClick={() => setActiveSlide(s => Math.max(0, s - 1))} style={{ position: 'absolute', left: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Ankstesnis" />
               <button onClick={() => setActiveSlide(s => Math.min(gallery.length - 1, s + 1))} style={{ position: 'absolute', right: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Kitas" />
+              {isCollar && !isCharmProduct && (
+                <button
+                  type="button"
+                  onClick={() => setPreview3DOpen(true)}
+                  style={{
+                    position: 'absolute', top: 14, left: 14, display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 12px 6px 9px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                    background: 'var(--color-bark)', color: 'var(--color-cream)',
+                    fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
+                  }}
+                  aria-label="Peržiūrėti 3D modelį"
+                >
+                  <Box size={13} strokeWidth={2.2} />
+                  3D
+                </button>
+              )}
             </div>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
               {gallery.map((_, i) => (
