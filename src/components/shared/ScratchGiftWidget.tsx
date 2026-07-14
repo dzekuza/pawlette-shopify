@@ -207,7 +207,7 @@ export function ScratchGiftWidget() {
           type="button"
           onClick={() => setStep('scratch')}
           aria-label="Atidaryti nuolaidos dovaną"
-          className="fixed bottom-[calc(88px+env(safe-area-inset-bottom,0px))] left-5 z-[400] flex h-14 w-14 items-center justify-center rounded-full bg-sage text-interactive-text shadow-[0_8px_24px_rgba(61,53,48,0.2)] transition-transform hover:scale-105 md:bottom-5"
+          className="fixed bottom-[calc(88px+env(safe-area-inset-bottom,0px))] left-5 z-[200] flex h-14 w-14 items-center justify-center rounded-full bg-sage text-interactive-text shadow-[0_8px_24px_rgba(61,53,48,0.2)] transition-transform hover:scale-105 md:bottom-5"
         >
           <Gift className="h-6 w-6" />
         </button>
