@@ -1097,6 +1097,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
   const [activeColourSlot, setActiveColourSlot] = useState<number | null>(null)
   const [charmRowFocused, setCharmRowFocused] = useState(false)
   const charmRowRef = useRef<HTMLDivElement>(null)
+  const charmNameInputRef = useRef<HTMLInputElement>(null)
 
   const sourceCollars = allCollars.length > 0 ? allCollars : (collar ? [collar] : [])
   const hasColors = sourceCollars.length > 0
@@ -1257,30 +1258,39 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         </div>
         <div
           ref={charmRowRef}
-          tabIndex={0}
           role="group"
           aria-label="Pasirinkti pakabukus"
-          onClick={() => charmRowRef.current?.focus()}
-          onFocus={() => setCharmRowFocused(true)}
-          onBlur={() => setCharmRowFocused(false)}
-          onKeyDown={(e) => {
-            if (e.key === 'Backspace') {
-              e.preventDefault()
-              onCharmNameChange?.(charmName.slice(0, -1))
-              return
-            }
-            if (/^[a-zA-Z0-9]$/.test(e.key)) {
-              e.preventDefault()
-              onCharmNameChange?.(charmName + e.key)
-            }
-          }}
+          onClick={() => charmNameInputRef.current?.focus()}
           style={{
             width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
-            padding: 10, borderRadius: 16, cursor: 'text',
+            padding: 10, borderRadius: 16, cursor: 'text', position: 'relative',
             border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'rgba(255,214,165,0.95)'}`,
             outline: 'none',
           }}
         >
+          <input
+            ref={charmNameInputRef}
+            type="text"
+            inputMode="text"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="characters"
+            spellCheck={false}
+            maxLength={5}
+            value={charmName}
+            aria-label="Įrašykite raides"
+            onChange={(e) => {
+              const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5)
+              onCharmNameChange?.(next)
+            }}
+            onFocus={() => setCharmRowFocused(true)}
+            onBlur={() => setCharmRowFocused(false)}
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%',
+              opacity: 0, border: 'none', outline: 'none', padding: 0,
+              background: 'transparent', cursor: 'text', pointerEvents: 'none',
+            }}
+          />
           {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
             const isLetter = c?.category === 'letter'
             const isActive = activeColourSlot === i && isLetter
