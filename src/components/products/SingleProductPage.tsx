@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Box, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { Collar3DModal } from '@/components/products/Collar3DModal'
 import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile'
 import { LandingNav } from '@/components/landing/LandingNav'
@@ -489,57 +489,56 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       {isMobile && isCollarOrLeash && (
         <>
           <div style={{ padding: '16px 20px 0' }}>
-            {/* Slider */}
-            <div
-              style={{ aspectRatio: '1 / 1', borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
-              onPointerDown={(e) => {
-                if (e.pointerType === 'mouse' && e.button !== 0) return
-                handleSwipeStart(e.clientX)
-              }}
-              onPointerUp={(e) => handleSwipeEnd(e.clientX, gallery.length, setActiveSlide)}
-              onPointerCancel={clearSwipe}
-              onPointerLeave={clearSwipe}
-            >
-              <div ref={sliderRef} style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
-                {gallery.map((src, i) => (
-                  <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
-                    <Image
-                      src={src}
-                      alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      priority={i === 0}
-                      draggable={false}
-                      className='select-none object-cover'
-                    />
+            {/* Slider — the 3D preview is slide 0 when this is a collar, so it's visible without any extra tap */}
+            {(() => {
+              const show3DSlide = isCollar && !isCharmProduct
+              const totalSlides = gallery.length + (show3DSlide ? 1 : 0)
+              return (
+                <>
+                  <div
+                    style={{ aspectRatio: '1 / 1', borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
+                    onPointerDown={(e) => {
+                      if (e.pointerType === 'mouse' && e.button !== 0) return
+                      handleSwipeStart(e.clientX)
+                    }}
+                    onPointerUp={(e) => handleSwipeEnd(e.clientX, totalSlides, setActiveSlide)}
+                    onPointerCancel={clearSwipe}
+                    onPointerLeave={clearSwipe}
+                  >
+                    <div ref={sliderRef} style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
+                      {show3DSlide && (
+                        <Collar3DGalleryTile
+                          collar={collar}
+                          selectedCharms={selectedCollarCharms}
+                          onEdit={() => setPreview3DOpen(true)}
+                          variant="slide"
+                        />
+                      )}
+                      {gallery.map((src, i) => (
+                        <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
+                          <Image
+                            src={src}
+                            alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
+                            fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                            priority={i === 0 && !show3DSlide}
+                            draggable={false}
+                            className='select-none object-cover'
+                          />
+                        </div>
+                      ))}
+                    </div>
+                    <button onClick={() => setActiveSlide(s => Math.max(0, s - 1))} style={{ position: 'absolute', left: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Ankstesnis" />
+                    <button onClick={() => setActiveSlide(s => Math.min(totalSlides - 1, s + 1))} style={{ position: 'absolute', right: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Kitas" />
                   </div>
-                ))}
-              </div>
-              <button onClick={() => setActiveSlide(s => Math.max(0, s - 1))} style={{ position: 'absolute', left: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Ankstesnis" />
-              <button onClick={() => setActiveSlide(s => Math.min(gallery.length - 1, s + 1))} style={{ position: 'absolute', right: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Kitas" />
-              {isCollar && !isCharmProduct && (
-                <button
-                  type="button"
-                  onClick={() => setPreview3DOpen(true)}
-                  style={{
-                    position: 'absolute', top: 14, left: 14, display: 'flex', alignItems: 'center', gap: 6,
-                    padding: '6px 12px 6px 9px', borderRadius: 999, border: 'none', cursor: 'pointer',
-                    background: 'var(--color-bark)', color: 'var(--color-cream)',
-                    fontSize: 11, fontWeight: 700, letterSpacing: '0.04em',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
-                  }}
-                  aria-label="Peržiūrėti 3D modelį"
-                >
-                  <Box size={13} strokeWidth={2.2} />
-                  3D
-                </button>
-              )}
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
-              {gallery.map((_, i) => (
-                <div key={i} onClick={() => setActiveSlide(i)} style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
-              ))}
-            </div>
+                  <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
+                    {Array.from({ length: totalSlides }, (_, i) => (
+                      <div key={i} onClick={() => setActiveSlide(i)} style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
+                    ))}
+                  </div>
+                </>
+              )
+            })()}
           </div>
 
           {/* Right panel on mobile */}

@@ -20,22 +20,34 @@ type Collar3DGalleryTileProps = {
   collar: ShopifyCollar | null
   selectedCharms?: (ShopifyCharm | null)[]
   onEdit: () => void
+  /** 'grid' (default) sizes itself for the desktop 2x2 image grid. 'slide' fills a mobile gallery slide instead. */
+  variant?: 'grid' | 'slide'
 }
 
-export function Collar3DGalleryTile({ collar, selectedCharms, onEdit }: Collar3DGalleryTileProps) {
+export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid' }: Collar3DGalleryTileProps) {
   const { name, charmColours } = useMemo(() => collar3DLetters(selectedCharms), [selectedCharms])
 
   return (
     <div
-      style={{
-        gridColumn: 'span 2',
-        gridRow: 'span 2',
-        aspectRatio: '1 / 1',
-        borderRadius: 20,
-        overflow: 'hidden',
-        position: 'relative',
-        background: 'var(--color-surface-2)',
-      }}
+      style={variant === 'grid'
+        ? {
+          gridColumn: 'span 2',
+          gridRow: 'span 2',
+          aspectRatio: '1 / 1',
+          borderRadius: 20,
+          overflow: 'hidden',
+          position: 'relative',
+          background: 'var(--color-surface-2)',
+        }
+        : {
+          flexShrink: 0,
+          width: '100%',
+          height: '100%',
+          borderRadius: 20,
+          overflow: 'hidden',
+          position: 'relative',
+          background: 'var(--color-surface-2)',
+        }}
     >
       <Collar3DScene
         name={name}
