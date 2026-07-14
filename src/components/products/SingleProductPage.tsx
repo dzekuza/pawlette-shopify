@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import { Plus } from 'lucide-react'
+import { Plus, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Collar3DModal } from '@/components/products/Collar3DModal'
 import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile'
 import { LandingNav } from '@/components/landing/LandingNav'
@@ -32,7 +32,6 @@ import { CharmCollectionProductCard } from '@/components/products/CharmCollectio
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
-import { TrustNote } from '@/components/shared/TrustNote'
 import { CartToast, type CartToastItem } from '@/components/shared/CartToast'
 import { Badge } from '@/components/ui/badge'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
@@ -493,15 +492,20 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
             {(() => {
               const show3DSlide = isCollar && !isCharmProduct
               const totalSlides = gallery.length + (show3DSlide ? 1 : 0)
+              const on3DSlide = show3DSlide && activeSlide === 0
               return (
                 <>
                   <div
-                    style={{ aspectRatio: '1 / 1', borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: 'pan-y' }}
+                    style={{ aspectRatio: '1 / 1', borderRadius: 20, overflow: 'hidden', position: 'relative', touchAction: on3DSlide ? 'none' : 'pan-y' }}
                     onPointerDown={(e) => {
+                      if (on3DSlide) return
                       if (e.pointerType === 'mouse' && e.button !== 0) return
                       handleSwipeStart(e.clientX)
                     }}
-                    onPointerUp={(e) => handleSwipeEnd(e.clientX, totalSlides, setActiveSlide)}
+                    onPointerUp={(e) => {
+                      if (on3DSlide) return
+                      handleSwipeEnd(e.clientX, totalSlides, setActiveSlide)
+                    }}
                     onPointerCancel={clearSwipe}
                     onPointerLeave={clearSwipe}
                   >
@@ -528,14 +532,62 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
                         </div>
                       ))}
                     </div>
-                    <button onClick={() => setActiveSlide(s => Math.max(0, s - 1))} style={{ position: 'absolute', left: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Ankstesnis" />
-                    <button onClick={() => setActiveSlide(s => Math.min(totalSlides - 1, s + 1))} style={{ position: 'absolute', right: 0, top: 0, width: '30%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }} aria-label="Kitas" />
+                    {activeSlide > 0 && (
+                      <button
+                        onClick={() => setActiveSlide(s => Math.max(0, s - 1))}
+                        aria-label="Ankstesnis"
+                        style={{
+                          position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
+                          width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.8)',
+                          border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: 'var(--color-bark)',
+                        }}
+                      >
+                        <ChevronLeft size={16} strokeWidth={2.2} />
+                      </button>
+                    )}
+                    {activeSlide < totalSlides - 1 && (
+                      <button
+                        onClick={() => setActiveSlide(s => Math.min(totalSlides - 1, s + 1))}
+                        aria-label="Kitas"
+                        style={{
+                          position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
+                          width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.8)',
+                          border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          color: 'var(--color-bark)',
+                        }}
+                      >
+                        <ChevronRight size={16} strokeWidth={2.2} />
+                      </button>
+                    )}
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
                     {Array.from({ length: totalSlides }, (_, i) => (
                       <div key={i} onClick={() => setActiveSlide(i)} style={{ width: i === activeSlide ? 20 : 6, height: 6, borderRadius: 3, background: i === activeSlide ? 'var(--color-bark)' : 'rgba(61,53,48,0.2)', cursor: 'pointer', transition: 'width 200ms' }} />
                     ))}
                   </div>
+                  {gallery.length > 1 && (
+                    <div style={{ display: 'flex', gap: 12, marginTop: 12 }}>
+                      {gallery.slice(0, 4).map((src, i) => {
+                        const slideIndex = show3DSlide ? i + 1 : i
+                        return (
+                          <button
+                            key={`${src}-${i}`}
+                            type="button"
+                            onClick={() => setActiveSlide(slideIndex)}
+                            aria-label={`Rodyti nuotrauką ${i + 1}`}
+                            style={{
+                              flex: '1 0 0', aspectRatio: '1 / 1', borderRadius: 12, overflow: 'hidden', position: 'relative',
+                              border: `1px solid ${activeSlide === slideIndex ? 'var(--color-bark)' : 'var(--color-border)'}`,
+                              padding: 0, cursor: 'pointer', background: 'none',
+                            }}
+                          >
+                            <Image src={src} alt="" fill sizes="25vw" className="object-cover" />
+                          </button>
+                        )
+                      })}
+                    </div>
+                  )}
                 </>
               )
             })()}
@@ -855,53 +907,30 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
       <LandingFooter />
 
       {isMobile && isCollar && collar && (
-        <div
+        <button
+          onClick={addCollarToCart}
           style={{
             position: 'fixed',
             left: 12,
             right: 12,
-            bottom: 12,
+            bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
             zIndex: 450,
-            borderRadius: 22,
-            border: `1px solid var(--color-bark-divider)`,
-            background: 'rgba(255,253,249,0.96)',
-            backdropFilter: 'blur(14px)',
-            boxShadow: '0 14px 30px rgba(61,53,48,0.16)',
-            padding: '12px 12px calc(12px + env(safe-area-inset-bottom, 0px))',
+            padding: '14px 16px',
+            borderRadius: 999,
+            border: 'none',
+            cursor: 'pointer',
+            fontWeight: 600,
+            fontSize: 15,
+            letterSpacing: '0.01em',
+            background: 'var(--color-sage)',
+            color: 'var(--color-interactive-text)',
+            boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>
-                Iki 5 pakabukų nemokamai
-              </div>
-              <div style={{ fontSize: 16, fontWeight: 500, color: TEXT_PRIMARY, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                {(selectedColor ? translateColorLabel(selectedColor) : 'Spalva')}{selectedSize ? ` • ${selectedSize}` : ''}
-              </div>
-            </div>
-            <div style={{ fontSize: 22, fontWeight: 600, color: TEXT_PRIMARY, flexShrink: 0 }}>{collar.price}</div>
-          </div>
-          <button
-            onClick={addCollarToCart}
-            style={{
-              width: '100%',
-              padding: '14px 16px',
-              borderRadius: 999,
-              border: 'none',
-              cursor: 'pointer',
-              fontWeight: 600,
-              fontSize: 15,
-              letterSpacing: '0.01em',
-              background: 'var(--color-sage)',
-              color: 'var(--color-interactive-text)',
-              boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
-            }}
-          >
-            {selectedCollarCharmCount
-              ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}`
-              : 'Pirkti'}
-          </button>
-        </div>
+          {selectedCollarCharmCount
+            ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}`
+            : 'Pirkti'}
+        </button>
       )}
 
       {/* ── Personalise charm dialog ── */}
@@ -1408,9 +1437,11 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             : `Pirkti · ${price}`}
       </button>
       {/* Trust strip — purchase reassurance below CTA */}
-      <TrustNote>
-        {PDP_TRUST_POINTS.join(' · ')} · ⭐ {PDP_REVIEW_RATING.toFixed(1)} ({PDP_REVIEW_COUNT} atsiliepimai)
-      </TrustNote>
+      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
+        {PDP_TRUST_POINTS.map((point) => (
+          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+        ))}
+      </div>
 
       {/* Upsell — cross-sell item */}
       {upsellItems && upsellItems.length > 0 && (
