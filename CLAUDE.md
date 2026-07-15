@@ -56,7 +56,7 @@ Fully server-rendered — **no `'use client'`**. These are the only pages in the
 
 ## Cart persistence
 
-Cart items are stored in `localStorage` under key `pawlette_cart` as a JSON array of `CartItem`. Read on mount via `useEffect` (hydration-safe pattern used in `/cart` and `/checkout`). `LandingNav`'s `onCart` prop should always call `router.push('/cart')` — it navigates, not opens a modal.
+Cart items are stored in `localStorage` under key `pawlette_cart` as a JSON array of `CartItem`. Read on mount via `useEffect` (hydration-safe pattern used in `/cart` and `/checkout`). `LandingNav`'s cart icon opens the global `CartDrawer` (`src/components/shared/CartDrawer.tsx`, mounted once in `src/app/layout.tsx`) by dispatching the `CART_DRAWER_OPEN_EVENT` window event — it no longer navigates directly. The `onCart` prop on `LandingNav` is deprecated/unused, kept only for backwards compatibility with existing callers. The `/cart` page still exists and is linked from the drawer's footer ("Peržiūrėti visą krepšelį").
 
 ## Data layer
 

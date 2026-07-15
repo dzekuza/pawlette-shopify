@@ -5,6 +5,7 @@ import { MetaPixel } from "@/components/shared/MetaPixel";
 import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
 import { CookieConsentBanner } from "@/components/shared/CookieConsentBanner";
 import { ScratchGiftWidget } from "@/components/shared/ScratchGiftWidget";
+import { CartDrawer } from "@/components/shared/CartDrawer";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -169,6 +170,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <CookieConsentBanner />
         <ScratchGiftWidget />
+        <CartDrawer />
       </body>
     </html>
   );

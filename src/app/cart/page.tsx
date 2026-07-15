@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { PawPrint } from 'lucide-react';
+import { PawPrint, Lock } from 'lucide-react';
 import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
@@ -13,6 +13,7 @@ import { fetchCart, removeCartLine, type ShopifyCart } from '@/lib/cart';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
+import { PaymentBadges } from '@/components/storefront/PaymentBadges';
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/site-config';
 
 const SHIPPING_COST = 4.9;
@@ -272,9 +273,13 @@ export default function CartPage() {
                   </div>
 
                   {/* Trust note */}
-                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
+                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed flex items-center justify-center gap-1.5" style={{ color: 'var(--color-bark)' }}>
+                    <Lock size={13} strokeWidth={2} />
                     Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹
                   </p>
+
+                  {/* Payment method badges */}
+                  <PaymentBadges className="mt-2.5" />
                 </SurfaceCard>
               </div>
             </div>

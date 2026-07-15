@@ -95,7 +95,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             size="floatingHero"
             className="mx-auto max-w-[868px] text-center font-normal leading-[1.1] tracking-[0.02em] text-bark"
           >
-            Vienas antkaklis. Begalė stilių.
+            Vienas šuns antkaklis. Begalė stilių.
           </DisplayHeading>
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">

@@ -21,6 +21,7 @@ import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
+import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
@@ -312,7 +313,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     }
   }
 
-  // Collar add to cart → bundles the collar + any selected charms in one operation, redirect to /cart
+  // Collar add to cart → bundles the collar + any selected charms in one operation, opens the cart drawer
   const addCollarToCart = async () => {
     const { lines, collarAdded } = await buildCollarBundleLines()
     if (!lines.length) return
@@ -323,10 +324,8 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         ...(collarAdded ? [{ id: collar!.id, title: collar!.parentTitle || collar!.title, image: selectedVariantImage || collar!.image }] : []),
         ...pickedCharms.map(c => ({ id: c.id, title: c.title, image: c.image })),
       ])
-      setTimeout(() => router.push('/cart'), 1400)
-    } else {
-      router.push('/cart')
     }
+    window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))
   }
 
   const toggleCharm = (charm: ShopifyCharm) => {
@@ -350,17 +349,15 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     }
   }
 
-  // Charm add to cart → redirect to /cart
+  // Charm add to cart → opens the cart drawer
   const addCharmToCart = async () => {
     const picked = selectedCharms.filter(Boolean) as ShopifyCharm[]
     if (!picked.length) return
     setAdded(true)
     await addLinesToCart(picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
     setCartToastItems(picked.map(c => ({ id: c.id, title: c.title, image: c.image })))
-    setTimeout(() => {
-      setAdded(false)
-      router.push('/cart')
-    }, 1400)
+    window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))
+    setTimeout(() => setAdded(false), 1400)
   }
 
   // Unique color options derived from the real charm variants (green excluded)

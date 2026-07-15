@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
@@ -14,12 +15,13 @@ const NAV_LINKS = [
 
 interface LandingNavProps {
   cartCount?: number;
+  /** @deprecated unused — the cart icon now opens the global CartDrawer instead of navigating. Kept for backwards compatibility with callers. */
   onCart?: () => void;
   /** @deprecated unused — kept for backwards compatibility with callers */
   topOffset?: number;
 }
 
-export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
+export function LandingNav({ cartCount = 0 }: LandingNavProps) {
   const width = useWindowWidth() ?? 1200;
   const isMobile = width < 768;
   const [menuOpen, setMenuOpen] = useState(false);
@@ -85,7 +87,7 @@ export function LandingNav({ cartCount = 0, onCart }: LandingNavProps) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             {/* Cart */}
             <button
-              onClick={onCart}
+              onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
               aria-label="Krepšelis"
               style={{
                 position: 'relative',
