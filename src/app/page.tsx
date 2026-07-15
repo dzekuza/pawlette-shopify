@@ -50,11 +50,12 @@ const faqSchema = {
 };
 
 export const metadata: Metadata = {
-  title: 'PawCharms — šunų antkakliai su keičiamais pakabukais',
+  title: 'Šunų antkakliai su keičiamais pakabukais',
   description: `Vandeniui atsparūs, personalizuojami šunų antkakliai su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`,
   alternates: { canonical: 'https://pawcharms.lt' },
+  keywords: ['šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawCharms'],
   openGraph: {
-    title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
+    title: 'Šunų antkakliai su keičiamais pakabukais | PawCharms',
     description: 'Vandeniui atsparūs šunų antkakliai su per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.',
     type: 'website',
     url: 'https://pawcharms.lt',
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
+    title: 'Šunų antkakliai su keičiamais pakabukais | PawCharms',
     description: 'Vandeniui atsparūs šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   },
 };
