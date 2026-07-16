@@ -626,7 +626,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         </>
       )}
@@ -841,7 +841,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -1315,9 +1315,70 @@ interface CollarPDPProps {
   showCharms?: boolean
   upsellItems?: ProductDetail[]
   upsellLabel?: string
+  videos?: string[]
 }
 
-function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, onCharmReorder, onNeedMoreCharms, mounted = false, allCharms = [], price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
+// Small circular video previews shown above the color swatches — tapping one
+// opens it larger in a bottom-sheet player, mirroring the Personalise dialog.
+function VideoCircles ({ videos }: { videos: string[] }) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+
+  return (
+    <div>
+      <div className="hide-scrollbar" style={{ display: 'flex', gap: 12, overflowX: 'auto', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
+        {videos.map((video, i) => (
+          <button
+            key={video + i}
+            type="button"
+            onClick={() => setActiveIndex(i)}
+            aria-label={`Peržiūrėti vaizdo įrašą ${i + 1}`}
+            style={{
+              flexShrink: 0, width: 64, height: 64, borderRadius: '50%', overflow: 'hidden',
+              border: `2px solid ${BORDER_COLOR}`, padding: 0, cursor: 'pointer', background: 'var(--color-surface-2)',
+            }}
+          >
+            <video
+              src={video}
+              className="h-full w-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+            />
+          </button>
+        ))}
+      </div>
+
+      {activeIndex !== null && (
+        <div
+          onClick={() => setActiveIndex(null)}
+          style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'var(--color-bark-overlay)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-cream" style={{ borderRadius: 24, width: '100%', maxWidth: 420, padding: '20px 20px 24px', display: 'flex', flexDirection: 'column', gap: 14 }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <button onClick={() => setActiveIndex(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
+            </div>
+            <video
+              key={videos[activeIndex]}
+              src={videos[activeIndex]}
+              style={{ width: '100%', borderRadius: 16, maxHeight: '70vh' }}
+              autoPlay
+              loop
+              controls
+              playsInline
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, onCharmReorder, onNeedMoreCharms, mounted = false, allCharms = [], price, name, showCharms = true, upsellItems, upsellLabel, videos = [] }: CollarPDPProps) {
   const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
@@ -1397,6 +1458,9 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           Galutinė kaina skaičiuojama atsiskaitant
         </p>
       </div>
+
+      {/* Video circles */}
+      {videos.length > 0 && <VideoCircles videos={videos} />}
 
       {/* Color swatches */}
       {hasColors && (

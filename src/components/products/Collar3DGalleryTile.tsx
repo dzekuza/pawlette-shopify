@@ -25,7 +25,7 @@ type Collar3DGalleryTileProps = {
 }
 
 export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid' }: Collar3DGalleryTileProps) {
-  const { name, charmColours } = useMemo(() => collar3DLetters(selectedCharms), [selectedCharms])
+  const { name, charmColours, iconCharms } = useMemo(() => collar3DLetters(selectedCharms), [selectedCharms])
 
   return (
     <div
@@ -67,11 +67,16 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
         3D
       </div>
 
-      <p
-        style={{ position: 'absolute', bottom: 14, left: 14, margin: 0, fontSize: 11, color: 'var(--color-bark-muted)', pointerEvents: 'none' }}
-      >
-        Vilkite, kad pasuktumėte
-      </p>
+      <div style={{ position: 'absolute', bottom: 14, left: 14, display: 'flex', flexDirection: 'column', gap: 2, pointerEvents: 'none' }}>
+        <p style={{ margin: 0, fontSize: 11, color: 'var(--color-bark-muted)' }}>
+          Vilkite, kad pasuktumėte
+        </p>
+        {iconCharms.length > 0 && (
+          <p style={{ margin: 0, fontSize: 10.5, color: 'var(--color-bark-muted)', maxWidth: 200 }}>
+            Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje
+          </p>
+        )}
+      </div>
 
       <button
         type="button"
