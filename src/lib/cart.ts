@@ -1,5 +1,6 @@
 import { shopifyClient } from './shopify';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
+import { trackShopifyAddToCart } from './shopifyAnalytics';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -159,6 +160,8 @@ function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; 
     value,
     currency: cart.cost.totalAmount.currencyCode,
   });
+
+  trackShopifyAddToCart(cart, addedLines).catch(() => {});
 }
 
 export async function addLinesToCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
