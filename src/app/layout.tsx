@@ -78,6 +78,7 @@ const organizationSchema = {
 };
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-CD28613MD9';
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -127,6 +128,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 ad_personalization: 'denied',
                 wait_for_update: 500
               });
+            `,
+          }}
+        />
+        {/*
+          GA4 (gtag.js) — loaded directly so this property gets pageviews
+          even if it isn't also wired up as a tag inside GTM. Reuses the same
+          dataLayer/gtag defined above, so it inherits the Consent Mode v2
+          defaults and stays gated the same way.
+        */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              gtag('js', new Date());
+              gtag('config', '${GA_MEASUREMENT_ID}');
             `,
           }}
         />
