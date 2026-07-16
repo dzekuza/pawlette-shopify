@@ -1300,7 +1300,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Papuoškite savo antkaklį</span>
-          <Badge variant=”sage”>Nemokama</Badge>
+          <Badge variant="sage">Nemokama</Badge>
         </div>
 
         {/* Tab switcher */}
@@ -1310,11 +1310,11 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             return (
               <button
                 key={tab}
-                type=”button”
+                type="button"
                 onClick={() => setCharmTab(tab)}
                 style={{
                   padding: '7px 16px', borderRadius: 999, border: 'none', cursor: 'pointer',
-                  fontSize: 13, fontWeight: 600, fontFamily: “'DM Sans', sans-serif”,
+                  fontSize: 13, fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
                   background: active ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
                   color: active ? 'var(--color-cream)' : TEXT_PRIMARY,
                   transition: 'background 150ms, color 150ms',
@@ -1330,8 +1330,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           <>
             <div
               ref={charmRowRef}
-              role=”group”
-              aria-label=”Pasirinkti pakabukus”
+              role="group"
+              aria-label="Pasirinkti pakabukus"
               onClick={() => charmNameInputRef.current?.focus()}
               style={{
                 width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
@@ -1342,15 +1342,15 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             >
               <input
                 ref={charmNameInputRef}
-                type=”text”
-                inputMode=”text”
-                autoComplete=”off”
-                autoCorrect=”off”
-                autoCapitalize=”characters”
+                type="text"
+                inputMode="text"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="characters"
                 spellCheck={false}
                 maxLength={5}
                 value={charmName}
-                aria-label=”Įrašykite raides”
+                aria-label="Įrašykite raides"
                 onChange={(e) => {
                   const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5)
                   onCharmNameChange?.(next)
@@ -1372,7 +1372,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                     key={i}
                     type={isLetter ? 'button' : undefined}
                     onClick={isLetter ? () => setActiveColourSlot((s) => (s === i ? null : i)) : undefined}
-                    aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}” spalvą` : undefined}
+                    aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą` : undefined}
                     aria-pressed={isLetter ? isActive : undefined}
                     style={{
                       aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
@@ -1396,8 +1396,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                         />
                       )
                       : charmRowFocused && i === charmName.length
-                        ? <span aria-hidden=”true” className=”animate-pulse” style={{ width: 2, height: '44%', background: TEXT_PRIMARY, display: 'inline-block' }} />
-                        : <span aria-hidden=”true” style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+                        ? <span aria-hidden="true" className="animate-pulse" style={{ width: 2, height: '44%', background: TEXT_PRIMARY, display: 'inline-block' }} />
+                        : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
                   </Tag>
                 )
               })}
@@ -1411,7 +1411,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   return (
                     <button
                       key={key}
-                      type=”button”
+                      type="button"
                       title={label}
                       onClick={() => onCharmColourAt?.(charm.id, key)}
                       style={{
@@ -1450,10 +1450,10 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 >
                   {c?.image
                     ? <Image src={c.image} alt={c.title} width={48} height={48} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                    : <span aria-hidden=”true” style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+                    : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
                   {c && onToggleCharm && (
                     <button
-                      type=”button”
+                      type="button"
                       aria-label={`Pašalinti ${c.title}`}
                       onClick={() => onToggleCharm(c)}
                       style={{
@@ -1470,10 +1470,10 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
 
             {/* Search */}
             <input
-              type=”search”
+              type="search"
               value={charmPickerQuery}
               onChange={(e) => setCharmPickerQuery(e.target.value)}
-              placeholder=”Ieškoti pakabukų…”
+              placeholder="Ieškoti pakabukų…"
               style={{
                 width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10,
                 border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)',
@@ -1494,7 +1494,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   return (
                     <button
                       key={charm.id}
-                      type=”button”
+                      type="button"
                       title={charm.title}
                       disabled={isFull}
                       onClick={() => onToggleCharm?.(charm)}
@@ -1507,8 +1507,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                       }}
                     >
                       {charm.image
-                        ? <Image src={charm.image} alt=”” aria-hidden=”true” width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
-                        : <span aria-hidden=”true” className=”font-display” style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>}
+                        ? <Image src={charm.image} alt="" aria-hidden="true" width={34} height={34} style={{ width: 34, height: 34, objectFit: 'contain' }} />
+                        : <span aria-hidden="true" className="font-display" style={{ width: 34, height: 34, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22, color: charm.bg ?? 'rgba(61,53,48,0.75)', lineHeight: 1 }}>{charm.baseTitle.replace(/^(?:Letter|Raidė)\s+/i, '')}</span>}
                       <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: '0.03em', textTransform: 'uppercase', color: 'rgba(61,53,48,0.6)', textAlign: 'center', lineHeight: 1.2, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{charm.baseTitle}</span>
                     </button>
                   )
