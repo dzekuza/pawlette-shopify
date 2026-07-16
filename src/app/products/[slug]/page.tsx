@@ -41,7 +41,9 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
     alternates: { canonical: productUrl },
     keywords: [
       product.name,
-      product.productType === 'collar' ? 'šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'pakabukai šunims',
+      product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',
+      product.productType === 'collar' ? 'silikoninis antkaklis šuniui' : product.productType === 'leash' ? 'silikoninis pavadėlis šuniui' : 'pakabukai šunų antkakliams',
+      product.productType === 'collar' ? 'graviruotas šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'raidiniai pakabukai šunims',
       'PawCharms',
       'Vilnius',
     ],

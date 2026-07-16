@@ -38,13 +38,16 @@ export async function getLandingProducts(): Promise<ProductDetail[]> {
         getProductBySlugAsync('charm-charms'),
       ]);
       const collarProduct = collars[0] ? (() => {
-        const p = buildCollarProduct(collars[0]);
-        p.name = collars[0].parentTitle;
-        return p;
+        return buildCollarProduct(collars[0], {
+          useParentMedia: true,
+          slugOverride: collars[0].nodeHandle || collars[0].handle,
+        })
       })() : null;
       const leashProduct = leashes.length > 0 ? (() => {
         const p = buildGroupedLeashProduct(leashes)
         p.name = leashes[0].parentTitle
+        p.slug = leashes[0].nodeHandle || leashes[0].handle
+        p.parentHandle = leashes[0].nodeHandle
         return p
       })() : null;
       const results = [collarProduct, charmCollection, leashProduct].filter((p): p is ProductDetail => !!p);

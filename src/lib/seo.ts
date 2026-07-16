@@ -31,16 +31,39 @@ function clampDescription(value: string, maxLength = 160) {
   return `${(lastSpace > 100 ? truncated.slice(0, lastSpace) : truncated).trimEnd()}…`
 }
 
+function toTitleCase(value?: string) {
+  if (!value) return ''
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+function isParentProductPage(product: ProductDetail) {
+  return Boolean(product.parentHandle && product.slug === product.parentHandle)
+}
+
 function getProductKeyword(product: ProductDetail) {
-  if (product.productType === 'collar') return 'silikoninis šuns antkaklis su pakabukais'
-  if (product.productType === 'leash') return 'silikoninis pavadėlis šuniui'
+  if (product.productType === 'collar') {
+    return isParentProductPage(product)
+      ? 'personalizuotas silikoninis šuns antkaklis su pakabukais'
+      : `${product.colorLabel?.toLowerCase() ?? ''} silikoninis šuns antkaklis su pakabukais`.trim()
+  }
+  if (product.productType === 'leash') {
+    return isParentProductPage(product)
+      ? 'vandeniui atsparus silikoninis pavadėlis šuniui'
+      : `${product.colorLabel?.toLowerCase() ?? ''} silikoninis pavadėlis šuniui`.trim()
+  }
   if (product.slug === 'charm-charms') return 'keičiami pakabukai šunų antkakliams'
   return 'pakabukas šuns antkakliui'
 }
 
 export function buildProductSeoTitle(product: ProductDetail) {
-  if (product.productType === 'collar') return `${product.name} - silikoninis šuns antkaklis su pakabukais`
-  if (product.productType === 'leash') return `${product.name} - vandeniui atsparus pavadėlis šuniui`
+  if (product.productType === 'collar') {
+    if (isParentProductPage(product)) return 'Personalizuotas silikoninis šuns antkaklis su pakabukais'
+    return `${toTitleCase(product.colorLabel) || product.name} silikoninis šuns antkaklis su pakabukais`
+  }
+  if (product.productType === 'leash') {
+    if (isParentProductPage(product)) return 'Vandeniui atsparus silikoninis pavadėlis šuniui'
+    return `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui`
+  }
   if (product.slug === 'charm-charms') return 'Keičiami pakabukai šunų antkakliams'
   return `${product.name} - pakabukas šuns antkakliui`
 }
@@ -49,14 +72,26 @@ export function buildProductSeoDescription(product: ProductDetail) {
   const baseDescription = trimText(product.shortDescription || product.longDescription)
 
   if (product.productType === 'collar') {
+    if (isParentProductPage(product)) {
+      return clampDescription(
+        `Personalizuotas silikoninis šuns antkaklis su keičiamais pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+      )
+    }
+
     return clampDescription(
-      `${product.name} - vandeniui atsparus silikoninis šuns antkaklis su keičiamiems pakabukams pritaikyta sistema. Personalizavimas, rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+      `${toTitleCase(product.colorLabel) || product.name} silikoninis šuns antkaklis su pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
     )
   }
 
   if (product.productType === 'leash') {
+    if (isParentProductPage(product)) {
+      return clampDescription(
+        `Vandeniui atsparus silikoninis pavadėlis šuniui, derantis su PawCharms antkakliais. Lengvai valomas, patvarus ir sukurtas kasdieniams pasivaikščiojimams.`
+      )
+    }
+
     return clampDescription(
-      `${product.name} - lengvai valomas silikoninis pavadėlis šuniui, derantis su PawCharms antkakliais. Sukurtas kasdieniams pasivaikščiojimams ir pagamintas Lietuvoje.`
+      `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui, derantis su PawCharms antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
     )
   }
 
@@ -109,11 +144,12 @@ export function buildProductFaqSchema(product: ProductDetail) {
 export function buildProductJsonLd(product: ProductDetail) {
   const productUrl = `${SITE_URL}/products/${product.slug}`
   const description = buildProductSeoDescription(product)
+  const keywordName = buildProductSeoTitle(product)
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: product.name,
+    name: keywordName,
     description,
     image: product.images.length > 0 ? product.images : [product.image].filter(Boolean),
     sku: product.slug,
@@ -170,7 +206,7 @@ export function buildProductJsonLd(product: ProductDetail) {
     offers: {
       '@type': 'Offer',
       url: productUrl,
-      price: product.price,
+      price: product.price.replace(/[^\d.]/g, ''),
       priceCurrency: 'EUR',
       availability: 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition',

@@ -8,6 +8,8 @@ export interface ProductDetail {
   name: string
   /** Real Shopify product title, before per-color synthesis (e.g. "Blue Leash"). */
   parentTitle?: string
+  parentHandle?: string
+  colorLabel?: string
   price: string
   originalPrice?: string
   shortDescription: string
@@ -72,6 +74,10 @@ function uniqueStrings (values: string[]) {
   return [...new Set(values.filter(Boolean))]
 }
 
+function isNonEmptyString (value: string | undefined): value is string {
+  return typeof value === 'string' && value.length > 0
+}
+
 function extractPlainText (value?: string) {
   if (!value) return ''
 
@@ -92,6 +98,16 @@ function extractPlainText (value?: string) {
   }
 
   return value.replace(/\s+/g, ' ').trim()
+}
+
+function normalizeMarketingCopy (value?: string) {
+  if (!value) return ''
+
+  return value
+    .replace(/\bPawlette\b/gi, 'PawCharms')
+    .replace(/\bantkakli\b/gi, 'antkaklį')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 function getCharmGallery (charm: ShopifyCharm) {
@@ -134,8 +150,8 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     name: first.productTitle,
     price: first.price,
     originalPrice: first.originalPrice,
-    shortDescription: first.productDescription,
-    longDescription: first.description ?? first.productDescription ?? 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes.',
+    shortDescription: normalizeMarketingCopy(first.productDescription),
+    longDescription: normalizeMarketingCopy(first.description ?? first.productDescription) || 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes.',
     image: cardImage,
     images,
     accentColor: first.bg,
@@ -153,7 +169,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
 
 function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
   const images = getCharmGallery(charm)
-  const shortDescription = extractPlainText(charm.productDescription) || 'Prisegamas pakabukas visiems PawCharms antkakliams.'
+  const shortDescription = normalizeMarketingCopy(extractPlainText(charm.productDescription)) || 'Prisegamas pakabukas visiems PawCharms antkakliams.'
 
   return {
     slug: slugFromCharmId(charm.id),
@@ -164,7 +180,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
     price: charm.price,
     originalPrice: charm.originalPrice,
     shortDescription,
-    longDescription: charm.description || `${charm.title} prisisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.`,
+    longDescription: normalizeMarketingCopy(charm.description) || `${charm.title} prisisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.`,
     image: images[0] ?? '',
     images,
     accentColor: charm.bg,
@@ -180,23 +196,26 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
   }
 }
 
-export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMedia?: boolean }): ProductDetail {
+export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }): ProductDetail {
   const shortDescription = opts?.useParentMedia
-    ? (collar.parentDescription || extractPlainText(collar.description) || `${collar.parentTitle} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
-    : (extractPlainText(collar.description) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
+    ? (normalizeMarketingCopy(collar.parentDescription) || normalizeMarketingCopy(extractPlainText(collar.description)) || `${collar.parentTitle} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
+    : (normalizeMarketingCopy(extractPlainText(collar.description)) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
   const image = opts?.useParentMedia ? (collar.parentImage || collar.image) : collar.image
   const name = opts?.useParentMedia ? (collar.parentTitle || collar.title) : collar.title
 
   return {
-    slug: slugFromProductName(collar.title),
+    slug: opts?.slugOverride || slugFromProductName(collar.title),
     id: `collar-${collar.id}`,
     variantId: collar.variantId,
     productType: 'collar',
     name,
+    parentTitle: collar.parentTitle,
+    parentHandle: collar.nodeHandle,
+    colorLabel: collar.colors[0],
     price: collar.price,
     originalPrice: collar.originalPrice,
     shortDescription,
-    longDescription: (opts?.useParentMedia ? collar.parentDescription : collar.description) || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
+    longDescription: normalizeMarketingCopy(opts?.useParentMedia ? collar.parentDescription : collar.description) || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
     image,
     images: uniqueStrings([image, ...collar.images]),
     accentColor: collar.color,
@@ -213,24 +232,26 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
   }
 }
 
-export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia?: boolean }): ProductDetail {
+export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }): ProductDetail {
   const shortDescription = opts?.useParentMedia
-    ? (leash.parentDescription || extractPlainText(leash.description) || `${leash.parentTitle} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
-    : (extractPlainText(leash.description) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
+    ? (normalizeMarketingCopy(leash.parentDescription) || normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.parentTitle} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
+    : (normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
   const image = opts?.useParentMedia ? (leash.parentImage || leash.image) : leash.image
   const name = opts?.useParentMedia ? (leash.parentTitle || leash.title) : leash.title
 
   return {
-    slug: leash.handle,
+    slug: opts?.slugOverride || leash.handle,
     id: `leash-${leash.id}`,
     variantId: leash.variantId,
     productType: 'leash',
     name,
     parentTitle: leash.parentTitle,
+    parentHandle: leash.nodeHandle,
+    colorLabel: leash.colors[0],
     price: leash.price,
     originalPrice: leash.originalPrice,
     shortDescription,
-    longDescription: (opts?.useParentMedia ? leash.parentDescription : leash.description) || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
+    longDescription: normalizeMarketingCopy(opts?.useParentMedia ? leash.parentDescription : leash.description) || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
     image,
     images: uniqueStrings([image, ...leash.images]),
     accentColor: leash.color,
@@ -270,9 +291,12 @@ export async function getAllProductSlugs (): Promise<string[]> {
   const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
 
   return [
+    ...collars.map((collar) => collar.nodeHandle).filter(isNonEmptyString),
     ...collars.map((collar) => slugFromProductName(collar.title)),
     'charm-charms',
+    'pawcharms-pakabuciai',
     ...charms.map((charm) => slugFromCharmId(charm.id)),
+    ...leashes.map((leash) => leash.nodeHandle).filter(isNonEmptyString),
     ...leashes.map((leash) => leash.handle),
   ]
 }
@@ -305,14 +329,14 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
 
   // Raw Shopify product handle (e.g. "pawcharms-antkaklis") — use the main product's own image/description, not a color variant's
   const parentCollar = collars.find((c) => c.nodeHandle === collarHandle || c.nodeHandle === slug)
-  if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true })
+  if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true, slugOverride: parentCollar.nodeHandle || slug })
 
   const leashes = await getLeashes()
   const directLeash = leashes.find((l) => l.handle === slug || l.id === slug)
   if (directLeash) return buildLeashProduct(directLeash)
 
   const parentLeash = leashes.find((l) => l.nodeHandle === slug)  // parent handle fallback (e.g. "pawlette-leash")
-  if (parentLeash) return buildLeashProduct(parentLeash, { useParentMedia: true })
+  if (parentLeash) return buildLeashProduct(parentLeash, { useParentMedia: true, slugOverride: parentLeash.nodeHandle || slug })
 
   return undefined
 }

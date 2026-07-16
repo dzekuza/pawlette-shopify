@@ -143,6 +143,16 @@ function formatEuroPrice(amount?: string | null, fallback = '') {
   return `€${parsed.toFixed(0)}`;
 }
 
+function normalizeShopText(value?: string | null) {
+  if (!value) return '';
+
+  return value
+    .replace(/\bPawlette\b/gi, 'PawCharms')
+    .replace(/\bantkakli\b/gi, 'antkaklį')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 // The "custom.pawlette_social_video" metafield holds one video URL as a plain string
 // (Single line text). Also handles a JSON array or comma-separated string, in case the
 // definition is ever changed to a list type or multiple URLs are pasted into one field.
@@ -217,6 +227,23 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'butterfly-charm':         '/charms/Butterfly_lavender.png',
   'pink-mushroom-charm':     '/charms/Heart_pink_2.png',
   'blue-drop-charm':         '/charms/Paw_light_blue_2.png',
+  // Current live product's icon charm variants — titleToHandle("Širdis – Rožinė") → "širdis-rožinė", etc.
+  // (Style ∈ Širdis/Gėlė/Žvaigždė, Spalva ∈ Mėlyna/Tamsiai mėlyna/Violetinė/Rožinė/Geltona — Shopify variant.image is null for all of these)
+  'širdis-mėlyna':                '/charms/Heart_blue.png',
+  'širdis-tamsiai-mėlyna':        '/charms/Heart_dark_blue.png',
+  'širdis-violetinė':             '/charms/Heart_purple.png',
+  'širdis-rožinė':                '/charms/Heart_pink.png',
+  'širdis-geltona':               '/charms/Heart_yellow.png',
+  'gėlė-mėlyna':                  '/charms/Flower_blue.png',
+  'gėlė-tamsiai-mėlyna':          '/charms/Flower_dark_blue.png',
+  'gėlė-violetinė':               '/charms/Flower_lavender.png',
+  'gėlė-rožinė':                  '/charms/Flower_pink.png',
+  'gėlė-geltona':                 '/charms/Flower_yellow.png',
+  'žvaigždė-mėlyna':              '/charms/Star_blue.png',
+  'žvaigždė-tamsiai-mėlyna':      '/charms/Star_dark_blue.png',
+  'žvaigždė-violetinė':           '/charms/Star_purple.png',
+  'žvaigždė-rožinė':              '/charms/Star_pink.png',
+  'žvaigždė-geltona':             '/charms/Star_yellow.png',
   // Also handle "Paw Charm - Blue" style (iconColorMatch format)
   'paw-charm-blue':          '/charms/Paw_blue.png',
   'paw-charm-green':         '/charms/Star_sage_green.png',
@@ -239,27 +266,12 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'grybuko-pakabučiukas-rožinė':       '/charms/Heart_pink_2.png',
   'lašelio-pakabučiukas-mėlyna':       '/charms/Paw_light_blue_2.png',
   'gėlytės-pakabučiukas-violetinė':    '/charms/Flower_lavender.png',
-  // New shape charms added 2026-07 (Letena / Širdis / Gėlė / Žvaigždė × 5 colours)
+  // New shape charms added 2026-07 (Letena × 5 colours) — no dedicated paw-color art yet, reuse existing paw renders
   'letena-mėlyna':              '/charms/Paw_blue.png',
   'letena-tamsiai-mėlyna':      '/charms/Paw_blue.png',
   'letena-violetinė':           '/charms/Paw_light_blue.png',
   'letena-rožinė':              '/charms/Paw_light_blue_2.png',
   'letena-geltona':             '/charms/Paw_light_blue.png',
-  'širdis-mėlyna':              '/charms/Heart_pink_2.png',
-  'širdis-tamsiai-mėlyna':      '/charms/Heart_pink_2.png',
-  'širdis-violetinė':           '/charms/Heart_pink_2.png',
-  'širdis-rožinė':              '/charms/Heart_pink.png',
-  'širdis-geltona':             '/charms/Heart_pink_2.png',
-  'gėlė-mėlyna':               '/charms/Flower_lavender.png',
-  'gėlė-tamsiai-mėlyna':       '/charms/Flower_lavender.png',
-  'gėlė-violetinė':            '/charms/Flower_lavender.png',
-  'gėlė-rožinė':               '/charms/Flower_lavender.png',
-  'gėlė-geltona':              '/charms/Flower_lavender.png',
-  'žvaigždė-mėlyna':           '/charms/Star_sage_green.png',
-  'žvaigždė-tamsiai-mėlyna':   '/charms/Star_sage_green.png',
-  'žvaigždė-violetinė':        '/charms/Butterfly_lavender.png',
-  'žvaigždė-rožinė':           '/charms/Star_pale_yellow.png',
-  'žvaigždė-geltona':          '/charms/Star_pale_yellow.png',
   // Letter charms — local fallbacks for letters without Shopify images
   'letter-a-yellow':         '/charms/A_yellow.png',
   'letter-b-pink':           '/charms/B_pink.png',
@@ -451,7 +463,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         }));
         const productImages = (node.images?.edges ?? []).map(({ node: image }) => image.url);
         const parentImage = node.featuredImage?.url ?? '';
-        const parentDescription = (node.descriptionHtml ?? '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+        const parentDescription = normalizeShopText((node.descriptionHtml ?? '').replace(/<[^>]*>/g, ' '));
         const sharedMeta = {
           tags: (node.tags ?? []) as string[],
           description: meta('description') || undefined,
@@ -570,11 +582,11 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
       const rawDesc = productMeta('description');
       let productDescriptionPlain = '';
       if (rawDesc) {
-        try { productDescriptionPlain = extractText(JSON.parse(rawDesc)).trim(); }
-        catch { productDescriptionPlain = rawDesc; }
+        try { productDescriptionPlain = normalizeShopText(extractText(JSON.parse(rawDesc))); }
+        catch { productDescriptionPlain = normalizeShopText(rawDesc); }
       }
       if (!productDescriptionPlain) {
-        productDescriptionPlain = productDescriptionHtml.replace(/<[^>]*>/g, '').trim();
+        productDescriptionPlain = normalizeShopText(productDescriptionHtml.replace(/<[^>]*>/g, ' '));
       }
       const allProductImages = (mainProduct.images?.edges ?? []).map(({ node: img }) => img.url);
       const variantImageUrls = new Set(

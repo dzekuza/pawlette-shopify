@@ -1142,8 +1142,27 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
   const [activeReview, setActiveReview] = useState(0)
   const [activeColourSlot, setActiveColourSlot] = useState<number | null>(null)
   const [charmRowFocused, setCharmRowFocused] = useState(false)
+  const [charmCursor, setCharmCursor] = useState(0)
   const charmRowRef = useRef<HTMLDivElement>(null)
   const charmNameInputRef = useRef<HTMLInputElement>(null)
+
+  const syncCharmCursor = (el: HTMLInputElement | null) => {
+    if (!el) return
+    setCharmCursor(el.selectionStart ?? el.value.length)
+  }
+
+  const placeCharmCursor = (i: number) => {
+    const el = charmNameInputRef.current
+    if (!el) return
+    const pos = Math.min(i, charmName.length)
+    el.focus()
+    el.setSelectionRange(pos, pos)
+    setCharmCursor(pos)
+  }
+
+  useEffect(() => {
+    setCharmCursor((pos) => Math.min(pos, charmName.length))
+  }, [charmName])
 
   const sourceCollars = allCollars.length > 0 ? allCollars : (collar ? [collar] : [])
   const hasColors = sourceCollars.length > 0
@@ -1354,9 +1373,13 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 onChange={(e) => {
                   const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5)
                   onCharmNameChange?.(next)
+                  syncCharmCursor(e.target)
                 }}
-                onFocus={() => setCharmRowFocused(true)}
+                onFocus={(e) => { setCharmRowFocused(true); syncCharmCursor(e.target) }}
                 onBlur={() => setCharmRowFocused(false)}
+                onSelect={(e) => syncCharmCursor(e.currentTarget)}
+                onKeyUp={(e) => syncCharmCursor(e.currentTarget)}
+                onClick={(e) => syncCharmCursor(e.currentTarget)}
                 style={{
                   position: 'absolute', inset: 0, width: '100%', height: '100%',
                   opacity: 0, border: 'none', outline: 'none', padding: 0,
@@ -1367,38 +1390,50 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 const isLetter = c?.category === 'letter'
                 const isActive = activeColourSlot === i && isLetter
                 const Tag = isLetter ? 'button' : 'div'
+                const showCursorBefore = charmRowFocused && charmCursor === i
+                const showCursorAfter = charmRowFocused && charmCursor === 5 && i === 4
                 return (
-                  <Tag
-                    key={i}
-                    type={isLetter ? 'button' : undefined}
-                    onClick={isLetter ? () => setActiveColourSlot((s) => (s === i ? null : i)) : undefined}
-                    aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą` : undefined}
-                    aria-pressed={isLetter ? isActive : undefined}
-                    style={{
-                      aspectRatio: '1 / 1', flex: '1 0 0', borderRadius: 12, overflow: 'hidden',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
-                      transition: 'transform 150ms, background 150ms, border-color 150ms',
-                      transform: c ? 'scale(1)' : 'scale(0.96)',
-                      border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
-                      padding: 0,
-                      cursor: isLetter ? 'pointer' : 'default',
-                    }}
-                  >
-                    {c?.image
-                      ? (
-                        <Image
-                          src={c.image}
-                          alt={c.title}
-                          width={48}
-                          height={48}
-                          style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                        />
-                      )
-                      : charmRowFocused && i === charmName.length
-                        ? <span aria-hidden="true" className="animate-pulse" style={{ width: 2, height: '44%', background: TEXT_PRIMARY, display: 'inline-block' }} />
-                        : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
-                  </Tag>
+                  <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
+                    {showCursorBefore && (
+                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                    )}
+                    {showCursorAfter && (
+                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                    )}
+                    <Tag
+                      type={isLetter ? 'button' : undefined}
+                      onClick={() => {
+                        placeCharmCursor(i)
+                        if (isLetter) setActiveColourSlot((s) => (s === i ? null : i))
+                      }}
+                      aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą` : `Pasirinkti ${i + 1}-ą raidės vietą`}
+                      aria-pressed={isLetter ? isActive : undefined}
+                      style={{
+                        width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
+                        transition: 'transform 150ms, background 150ms, border-color 150ms',
+                        transform: c ? 'scale(1)' : 'scale(0.96)',
+                        border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+                        padding: 0,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {c?.image
+                        ? (
+                          <Image
+                            src={c.image}
+                            alt={c.title}
+                            width={48}
+                            height={48}
+                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                          />
+                        )
+                        : (
+                          <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>
+                        )}
+                    </Tag>
+                  </div>
                 )
               })}
             </div>
