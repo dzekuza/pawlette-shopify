@@ -195,6 +195,11 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   // ── Personalise dialog ──
   const [personaliseOpen, setPersonaliseOpen] = useState(false)
+  const [extraCharmsOpen, setExtraCharmsOpen] = useState(false)
+  const [extraCharmsPicked, setExtraCharmsPicked] = useState<ShopifyCharm[]>([])
+  const [extraCharmsQuery, setExtraCharmsQuery] = useState('')
+  const [extraCharmsColor, setExtraCharmsColor] = useState('')
+  const [extraCharmsAdded, setExtraCharmsAdded] = useState(false)
   const [preview3DOpen, setPreview3DOpen] = useState(false)
   const [selectedCollarCharms, setSelectedCollarCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
   const [collarCharmTab] = useState<CharmTab>('all')
@@ -408,6 +413,35 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
     setTimeout(() => { setCharmAdded(false); setPersonaliseOpen(false) }, 800)
   }
 
+  // Filtered charms for the "need more charms?" dialog — letters and icon charms both selectable
+  const filteredExtraCharms = useMemo(() => {
+    let list = charms.filter((c) => c.bg !== '#A8D5A2')
+    if (extraCharmsColor) list = list.filter((c) => c.bg === COLOR_BG_MAP[extraCharmsColor])
+    if (extraCharmsQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(extraCharmsQuery.toLowerCase()))
+    return list
+  }, [charms, extraCharmsColor, extraCharmsQuery])
+
+  const toggleExtraCharm = (charm: ShopifyCharm) => {
+    setExtraCharmsPicked(prev => (
+      prev.some(c => c.id === charm.id) ? prev.filter(c => c.id !== charm.id) : [...prev, charm]
+    ))
+  }
+
+  const addExtraCharmsToCart = async () => {
+    if (!extraCharmsPicked.length) return
+    setExtraCharmsAdded(true)
+    await addLinesToCart(extraCharmsPicked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
+    setCartToastItems(extraCharmsPicked.map(c => ({ id: c.id, title: c.title, image: c.image })))
+    window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))
+    setTimeout(() => {
+      setExtraCharmsAdded(false)
+      setExtraCharmsOpen(false)
+      setExtraCharmsPicked([])
+      setExtraCharmsQuery('')
+      setExtraCharmsColor('')
+    }, 800)
+  }
+
   const applyStarterPack = (offset: number) => {
     const pool = charms.filter(c => c.bg !== '#A8D5A2')
     const pack = pool.slice(offset, offset + 5)
@@ -592,7 +626,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         </>
       )}
@@ -807,7 +841,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -1044,6 +1078,88 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         </div>
       )}
 
+      {extraCharmsOpen && (
+        <div
+          onClick={() => setExtraCharmsOpen(false)}
+          style={{ position: 'fixed', inset: 0, zIndex: 500, background: 'var(--color-bark-overlay)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center' }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-cream" style={{ borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 600, padding: '28px 24px 40px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', gap: 20 }}
+          >
+            {/* Header */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Reikia daugiau pakabukų?</DisplayHeading>
+              <button onClick={() => setExtraCharmsOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
+            </div>
+            <span style={{ fontSize: 13, color: TEXT_SECONDARY, marginTop: -12 }}>
+              Pasirinkite papildomus pakabukus — jie bus pridėti į krepšelį atskirai.
+            </span>
+
+            {/* Color filter */}
+            <div className="hide-scrollbar" style={{ display: 'flex', gap: 8, alignItems: 'center', overflowX: 'auto', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
+              {[
+                { key: '', label: 'Visos', hex: '' },
+                { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
+                { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
+                { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
+                { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
+                { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+              ].map(({ key, label, hex }) => (
+                <button
+                  key={key || 'all'}
+                  onClick={() => setExtraCharmsColor(key)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 12px 6px 8px',
+                    borderRadius: 50, border: 'none', cursor: 'pointer',
+                    fontSize: 13, fontWeight: 500,
+                    whiteSpace: 'nowrap',
+                    background: extraCharmsColor === key ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
+                    color: extraCharmsColor === key ? 'var(--color-cream)' : TEXT_PRIMARY,
+                    transition: 'background 150ms, color 150ms',
+                  }}
+                >
+                  {hex && <span style={{ width: 14, height: 14, borderRadius: '50%', background: hex, flexShrink: 0, display: 'inline-block' }} />}
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Charm picker */}
+            <div style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+              <CharmPicker
+                charms={filteredExtraCharms}
+                selected={null}
+                selectedIds={extraCharmsPicked.map(c => c.id)}
+                onSelect={toggleExtraCharm}
+                query={extraCharmsQuery}
+                onQueryChange={setExtraCharmsQuery}
+              />
+            </div>
+
+            {/* CTA */}
+            <button
+              onClick={addExtraCharmsToCart}
+              disabled={!extraCharmsPicked.length}
+              style={{
+                width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: extraCharmsPicked.length ? 'pointer' : 'not-allowed',
+                fontWeight: 600, fontSize: 16,
+                background: extraCharmsPicked.length ? 'var(--color-sage)' : '#E8E3DC',
+                color: extraCharmsPicked.length ? 'var(--color-interactive-text)' : TEXT_MUTED,
+                transition: 'background 150ms',
+              }}
+            >
+              {extraCharmsAdded
+                ? '✓ Pridėta į krepšelį!'
+                : extraCharmsPicked.length
+                  ? `Į krepšelį su ${extraCharmsPicked.length} pakabuk${extraCharmsPicked.length > 1 ? 'ais' : 'u'}`
+                  : 'Pasirinkite bent 1 pakabuką'}
+            </button>
+          </div>
+        </div>
+      )}
+
       <Collar3DModal
         open={preview3DOpen}
         onClose={() => setPreview3DOpen(false)}
@@ -1066,6 +1182,71 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
           onIndexChange={setLightboxIndex}
         />
       )}
+    </div>
+  )
+}
+
+function SortableLetterSlot({
+  id, index, charm, isActive, showCursorBefore, showCursorAfter, onClick,
+}: {
+  id: string
+  index: number
+  charm: ShopifyCharm | null
+  isActive: boolean
+  showCursorBefore: boolean
+  showCursorAfter: boolean
+  onClick: () => void
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  const isLetter = charm?.category === 'letter'
+  const Tag = isLetter ? 'button' : 'div'
+  return (
+    <div
+      ref={setNodeRef}
+      style={{
+        position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1',
+        transform: CSS.Transform.toString(transform), transition,
+        opacity: isDragging ? 0.5 : 1, touchAction: 'none',
+      }}
+    >
+      {showCursorBefore && (
+        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+      )}
+      {showCursorAfter && (
+        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+      )}
+      <Tag
+        {...attributes}
+        {...listeners}
+        type={isLetter ? 'button' : undefined}
+        onClick={onClick}
+        aria-label={isLetter ? `Keisti raidės „${extractLetter(charm!.baseTitle)}" spalvą` : `Pasirinkti ${index + 1}-ą raidės vietą`}
+        aria-pressed={isLetter ? isActive : undefined}
+        style={{
+          width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: charm ? 'var(--color-surface-2)' : `${CHARM_TINTS[index]}33`,
+          transition: 'transform 150ms, background 150ms, border-color 150ms',
+          transform: charm ? 'scale(1)' : 'scale(0.96)',
+          border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+          padding: 0,
+          cursor: charm ? 'grab' : 'pointer',
+        }}
+      >
+        {charm?.image
+          ? (
+            <Image
+              src={charm.image}
+              alt={charm.title}
+              width={48}
+              height={48}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }}
+            />
+          )
+          : (
+            <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[index] }}>_</span>
+          )}
+      </Tag>
     </div>
   )
 }
@@ -1125,6 +1306,9 @@ interface CollarPDPProps {
   onCharmNameChange?: (name: string) => void
   onCharmColourAt?: (charmId: string, colourKey: string) => void
   onToggleCharm?: (charm: ShopifyCharm) => void
+  onCharmReorder?: (event: DragEndEvent) => void
+  onNeedMoreCharms?: () => void
+  mounted?: boolean
   allCharms?: ShopifyCharm[]
   price: string
   name: string
@@ -1133,7 +1317,8 @@ interface CollarPDPProps {
   upsellLabel?: string
 }
 
-function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, allCharms = [], price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
+function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, onCharmReorder, onNeedMoreCharms, mounted = false, allCharms = [], price, name, showCharms = true, upsellItems, upsellLabel }: CollarPDPProps) {
+  const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
   const [fitGuideOpen, setFitGuideOpen] = useState(false)
@@ -1386,56 +1571,78 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   background: 'transparent', cursor: 'text', pointerEvents: 'none',
                 }}
               />
-              {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
-                const isLetter = c?.category === 'letter'
-                const isActive = activeColourSlot === i && isLetter
-                const Tag = isLetter ? 'button' : 'div'
-                const showCursorBefore = charmRowFocused && charmCursor === i
-                const showCursorAfter = charmRowFocused && charmCursor === 5 && i === 4
-                return (
-                  <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
-                    {showCursorBefore && (
-                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
-                    )}
-                    {showCursorAfter && (
-                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
-                    )}
-                    <Tag
-                      type={isLetter ? 'button' : undefined}
-                      onClick={() => {
-                        placeCharmCursor(i)
-                        if (isLetter) setActiveColourSlot((s) => (s === i ? null : i))
-                      }}
-                      aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą` : `Pasirinkti ${i + 1}-ą raidės vietą`}
-                      aria-pressed={isLetter ? isActive : undefined}
-                      style={{
-                        width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
-                        transition: 'transform 150ms, background 150ms, border-color 150ms',
-                        transform: c ? 'scale(1)' : 'scale(0.96)',
-                        border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
-                        padding: 0,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {c?.image
-                        ? (
-                          <Image
-                            src={c.image}
-                            alt={c.title}
-                            width={48}
-                            height={48}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                          />
-                        )
-                        : (
-                          <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>
-                        )}
-                    </Tag>
-                  </div>
-                )
-              })}
+              {mounted ? (
+                <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={onCharmReorder}>
+                  <SortableContext items={Array.from({ length: 5 }, (_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
+                    {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
+                      <SortableLetterSlot
+                        key={i}
+                        id={`slot-${i}`}
+                        index={i}
+                        charm={c}
+                        isActive={activeColourSlot === i && c?.category === 'letter'}
+                        showCursorBefore={charmRowFocused && charmCursor === i}
+                        showCursorAfter={charmRowFocused && charmCursor === 5 && i === 4}
+                        onClick={() => {
+                          placeCharmCursor(i)
+                          if (c?.category === 'letter') setActiveColourSlot((s) => (s === i ? null : i))
+                        }}
+                      />
+                    ))}
+                  </SortableContext>
+                </DndContext>
+              ) : (
+                Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
+                  const isLetter = c?.category === 'letter'
+                  const isActive = activeColourSlot === i && isLetter
+                  const Tag = isLetter ? 'button' : 'div'
+                  const showCursorBefore = charmRowFocused && charmCursor === i
+                  const showCursorAfter = charmRowFocused && charmCursor === 5 && i === 4
+                  return (
+                    <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
+                      {showCursorBefore && (
+                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                      )}
+                      {showCursorAfter && (
+                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                      )}
+                      <Tag
+                        type={isLetter ? 'button' : undefined}
+                        onClick={() => {
+                          placeCharmCursor(i)
+                          if (isLetter) setActiveColourSlot((s) => (s === i ? null : i))
+                        }}
+                        aria-label={isLetter ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą` : `Pasirinkti ${i + 1}-ą raidės vietą`}
+                        aria-pressed={isLetter ? isActive : undefined}
+                        style={{
+                          width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
+                          transition: 'transform 150ms, background 150ms, border-color 150ms',
+                          transform: c ? 'scale(1)' : 'scale(0.96)',
+                          border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+                          padding: 0,
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {c?.image
+                          ? (
+                            <Image
+                              src={c.image}
+                              alt={c.title}
+                              width={48}
+                              height={48}
+                              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                            />
+                          )
+                          : (
+                            <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>
+                          )}
+                      </Tag>
+                    </div>
+                  )
+                })
+              )}
             </div>
             <span style={{ display: 'block', marginTop: 6, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>Įrašykite raides</span>
             {activeColourSlot !== null && selectedCharms?.[activeColourSlot]?.category === 'letter' && (
@@ -1464,6 +1671,19 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   )
                 })}
               </div>
+            )}
+            {(selectedCharms ?? []).filter(Boolean).length >= 5 && (
+              <button
+                type="button"
+                onClick={onNeedMoreCharms}
+                style={{
+                  display: 'block', width: '100%', marginTop: 10, padding: '12px', borderRadius: 50,
+                  border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY,
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'center',
+                }}
+              >
+                Reikia daugiau pakabukų?
+              </button>
             )}
           </>
         ) : (
@@ -1521,6 +1741,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
             {/* Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))', gap: 8, maxHeight: 260, overflowY: 'auto', paddingRight: 2 }}>
               {allCharms
+                .filter((charm) => charm.category !== 'letter')
                 .filter((charm) => !charmPickerQuery || charm.title.toLowerCase().includes(charmPickerQuery.toLowerCase()))
                 .map((charm) => {
                   const selectedIds = (selectedCharms ?? []).filter(Boolean).map((c) => c!.id)
@@ -1548,13 +1769,26 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                     </button>
                   )
                 })}
-              {allCharms.filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).length === 0 && (
+              {allCharms.filter((c) => c.category !== 'letter').filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).length === 0 && (
                 <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>Pakabukų nerasta</div>
               )}
             </div>
             <span style={{ display: 'block', marginTop: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
               {(selectedCharms ?? []).filter(Boolean).length} / 5 pasirinkta
             </span>
+            {(selectedCharms ?? []).filter(Boolean).length >= 5 && (
+              <button
+                type="button"
+                onClick={onNeedMoreCharms}
+                style={{
+                  display: 'block', width: '100%', marginTop: 10, padding: '12px', borderRadius: 50,
+                  border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY,
+                  fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'center',
+                }}
+              >
+                Reikia daugiau pakabukų?
+              </button>
+            )}
           </div>
         )}
       </div>
