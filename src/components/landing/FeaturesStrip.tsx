@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
 
 const FEATURES = [
   {
@@ -18,7 +19,7 @@ const FEATURES = [
   },
   {
     iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png',
-    text: 'Nemokamas pristatymas',
+    text: `Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_EURO}`,
   },
 ];
 

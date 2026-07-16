@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { FREE_SHIPPING_COPY, NEWSLETTER_DISCOUNT_CODE, NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
 
 const TAGLINE_SLIDES = [
+  `${NEWSLETTER_DISCOUNT_PERCENT}% nuolaida pirmam užsakymui su kodu ${NEWSLETTER_DISCOUNT_CODE}`,
+  `${FREE_SHIPPING_COPY} · siunčiama iš Vilniaus 🇱🇹`,
   'Pakabukus pakeisite per 5 sekundes ir be jokių įrankių',
   'BioThane medžiaga – atspari vandeniui, purvui ir dilimui',
   'Personalizuok pakabukais ir sukurk unikalų antkaklio dizainą',

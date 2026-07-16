@@ -28,18 +28,10 @@ const LEASH_COLOR_HEX: Record<string, string> = {
   'violetinė':      '#C3A8D5',
 }
 
-function discounted (price: string): { orig: number; disc: number } {
-  const orig = parseFloat(price.replace(/[^0-9.,]/g, '').replace(',', '.')) || 0
-  return { orig, disc: +(orig * 0.9).toFixed(2) }
-}
-
 function PriceLine ({ price }: { price: string }) {
-  const { orig, disc } = discounted(price)
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
-      <span style={{ fontSize: 12, color: 'rgba(61,53,48,0.4)', textDecoration: 'line-through' }}>€{orig.toFixed(2)}</span>
-      <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-interactive-text)' }}>€{disc.toFixed(2)}</span>
-      <span style={{ fontSize: 10, fontWeight: 700, background: 'rgba(168,213,162,0.3)', color: 'var(--color-interactive-text)', borderRadius: 99, padding: '1px 6px' }}>−10%</span>
+      <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--color-interactive-text)' }}>{price}</span>
     </div>
   )
 }

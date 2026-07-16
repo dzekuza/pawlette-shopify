@@ -40,10 +40,11 @@ export function StickyCTA({ visible }: { visible: boolean }) {
         </div>
       )}
       <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
-        <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--color-interactive-text)', animation: 'pulse 2s ease-in-out infinite' }} />
-          Dabar perka 4 žmonės
-        </div>
+        {!isMobile && (
+          <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
+            ✓ 30 dienų grąžinimas
+          </div>
+        )}
         <PrimaryButton href="/products" variant="sage" size="md">
           Kurk savo antkaklį →
         </PrimaryButton>

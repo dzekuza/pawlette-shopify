@@ -277,6 +277,9 @@ export default function CartPage() {
                     <Lock size={13} strokeWidth={2} />
                     Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹
                   </p>
+                  <p className="text-[13px] opacity-65 text-center mt-1 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
+                    ✓ 30 dienų grąžinimo garantija
+                  </p>
 
                   {/* Payment method badges */}
                   <PaymentBadges className="mt-2.5" />
