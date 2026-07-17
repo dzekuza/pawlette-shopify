@@ -6,6 +6,7 @@ import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { TopBar } from './landing/TopBar';
 import { FloatingHero } from './ui/hero-floating';
+import { Collar3DShowcase } from './landing/Collar3DShowcase';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { PhotoSlider } from './landing/PhotoSlider';
@@ -154,6 +155,8 @@ export function LandingPage() {
 
       <main>
         <FloatingHero />
+
+        <Collar3DShowcase />
 
         <div data-animate="section"><About /></div>
         <div data-animate="section"><ProductGrid products={products} /></div>

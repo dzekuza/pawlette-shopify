@@ -54,6 +54,7 @@ export default function Collar3DScene({ items, strapColour, hardwareColour, onSe
         minDistance={2.5}
         maxDistance={9}
         enablePan={false}
+        enableZoom={false}
       />
     </Canvas>
   )
