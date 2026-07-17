@@ -156,6 +156,8 @@ export function SingleProductPage ({ product }: Props) {
   const isCollarOrLeash = isCollar || isLeash
   const hasCharmVariants = !!product.charmVariants?.length
   const isCharmProduct = product.tags?.includes('Charm') || product.tags?.includes('Pakabukas') || product.productType === 'charm'
+  const showCollar3DViewer = isCollar && !isCharmProduct
+  const showCollarCharmPicker = isCollar
 
   // ── Collar PDP state ──
   const [allCollars, setAllCollars] = useState<ShopifyCollar[]>([])
@@ -555,7 +557,7 @@ export function SingleProductPage ({ product }: Props) {
           <div style={{ padding: '16px 20px 0' }}>
             {/* Slider — the 3D preview is slide 0 when this is a collar, so it's visible without any extra tap */}
             {(() => {
-              const show3DSlide = isCollarOrLeash && !isCharmProduct
+              const show3DSlide = showCollar3DViewer
               const totalSlides = gallery.length + (show3DSlide ? 1 : 0)
               const on3DSlide = show3DSlide && activeSlide === 0
               return (
@@ -660,7 +662,7 @@ export function SingleProductPage ({ product }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollarOrLeash && !isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={showCollarCharmPicker} />
           </div>
         </>
       )}
@@ -784,7 +786,7 @@ export function SingleProductPage ({ product }: Props) {
               position: 'sticky', top: NAV_H, alignSelf: 'start', overflow: 'hidden',
             }}
           >
-            {isCollarOrLeash && !isCharmProduct && (
+            {showCollar3DViewer && (
               <Collar3DGalleryTile
                 collar={collar}
                 selectedCharms={selectedCollarCharms}
@@ -831,7 +833,7 @@ export function SingleProductPage ({ product }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollarOrLeash && !isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={showCollarCharmPicker} />
           </div>
         ) : (
           /* Desktop charm right */

@@ -39,6 +39,9 @@ export interface CustomerAddressInput {
   phone?: string;
 }
 
+export const CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE =
+  'Paskyra su šiuo el. paštu jau yra, bet dar neaktyvuota. Išsiuntėme nuorodą slaptažodžiui nustatyti arba atkurti.';
+
 interface ShopifyUserError {
   message: string;
 }
@@ -50,6 +53,26 @@ interface GraphQlError {
 interface ResponseErrorsLike {
   message?: string;
   graphQLErrors?: GraphQlError[];
+}
+
+function normalizeCustomerAuthMessage(message: string): string {
+  const normalized = message.trim().toLowerCase();
+
+  if (
+    normalized.includes('could not find customer') ||
+    normalized.includes('unidentified customer')
+  ) {
+    return 'Paskyra su šiuo el. paštu nerasta. Sukurkite paskyrą.';
+  }
+
+  if (
+    normalized.includes('invalid login credentials') ||
+    normalized.includes('invalid email or password')
+  ) {
+    return 'Neteisingas el. paštas arba slaptažodis.';
+  }
+
+  return message;
 }
 
 interface CustomerAccessTokenShape {
@@ -292,7 +315,7 @@ function collectMessages(userErrors?: ShopifyUserError[], responseErrors?: Respo
     ...responseMessage,
   ].filter(Boolean);
 
-  return messages.length > 0 ? messages : [];
+  return messages.length > 0 ? messages.map(normalizeCustomerAuthMessage) : [];
 }
 
 function toCustomerAddress(address: CustomerAddressNode): CustomerAddress {
@@ -362,9 +385,21 @@ export async function loginCustomer(email: string, password: string): Promise<Cu
   );
 
   const userErrors = data?.customerAccessTokenCreate.customerUserErrors ?? [];
+  const rawUserMessages = userErrors.map((error) => error.message);
   const messages = collectMessages(userErrors, errors);
 
   if (!data?.customerAccessTokenCreate.customerAccessToken) {
+    const needsActivation = rawUserMessages.some((message) => message.trim().toLowerCase().includes('unidentified customer'));
+    if (needsActivation) {
+      const recoverErrors = await recoverCustomerPassword(email);
+      if (recoverErrors.length === 0) {
+        return {
+          customer: null,
+          errors: [CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE],
+        };
+      }
+    }
+
     return {
       customer: null,
       errors: messages.length > 0 ? messages : ['Unable to sign in.'],
@@ -397,9 +432,21 @@ export async function registerCustomer(input: CustomerRegisterInput): Promise<Cu
   });
 
   const userErrors = data?.customerCreate.customerUserErrors ?? [];
+  const rawUserMessages = userErrors.map((error) => error.message);
   const messages = collectMessages(userErrors, errors);
 
   if (!data?.customerCreate.customer || messages.length > 0) {
+    const emailTaken = rawUserMessages.some((message) => message.trim().toLowerCase().includes('email has already been taken'));
+    if (emailTaken) {
+      const recoverErrors = await recoverCustomerPassword(input.email);
+      if (recoverErrors.length === 0) {
+        return {
+          customer: null,
+          errors: [CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE],
+        };
+      }
+    }
+
     return {
       customer: null,
       errors: messages.length > 0 ? messages : ['Unable to create your account.'],

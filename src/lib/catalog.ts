@@ -135,12 +135,9 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
 
   if (!first) return undefined
 
-  // Icon charm variants all share the same image as productFeaturedImage (collection shot).
-  // Letter charms have real per-variant Shopify CDN images — use those for the card thumbnail.
-  const charmWithUniqueImage = charms.find(
-    c => c.image && c.productFeaturedImage && c.image !== c.productFeaturedImage
-  )
-  const cardImage = charmWithUniqueImage?.image || first.productFeaturedImage || images[0] || ''
+  // The collection card should always lead with the main product shot so homepage/shop cards
+  // feel like a product, not an individual variant swatch.
+  const cardImage = first.productFeaturedImage || images[0] || first.image || ''
 
   return {
     slug: 'charm-charms',

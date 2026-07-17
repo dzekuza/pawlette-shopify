@@ -16,8 +16,12 @@ type Tab = 'orders' | 'profile' | 'addresses' | 'wishlist';
 type AuthMode = 'sign-in' | 'create' | 'recover';
 type Feedback = { kind: 'error' | 'success'; message: string } | null;
 
+const ACCOUNT_NOT_FOUND_MESSAGE = 'Paskyra su šiuo el. paštu nerasta. Sukurkite paskyrą.';
+
 interface AccountPageClientProps {
   initialCustomer: CustomerAccount | null;
+  hostedAccountLoginUrl: string;
+  hostedAccountUrl: string;
 }
 
 const inputClass =
@@ -34,6 +38,9 @@ const NAV_ITEMS: { id: Tab; label: string; icon: LucideIcon }[] = [
 ];
 
 type AccountButtonVariant = 'primary' | 'secondary' | 'ghost';
+
+const CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE =
+  'Paskyra su šiuo el. paštu jau yra, bet dar neaktyvuota. Išsiuntėme nuorodą slaptažodžiui nustatyti arba atkurti.';
 
 function getAccountButtonClass({
   variant = 'secondary',
@@ -283,7 +290,11 @@ function AddressCard({
   );
 }
 
-export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
+export function AccountPageClient({
+  initialCustomer,
+  hostedAccountLoginUrl,
+  hostedAccountUrl,
+}: AccountPageClientProps) {
   const router = useRouter();
   const cartCount = useCartCount();
 
@@ -366,7 +377,16 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
       setFeedback({ kind: 'success', message: 'Prisijungėte sėkmingai.' });
       setLoginForm({ email: '', password: '' });
     } catch (error) {
-      setFeedback({ kind: 'error', message: error instanceof Error ? error.message : 'Nepavyko prisijungti.' });
+      const message = error instanceof Error ? error.message : 'Nepavyko prisijungti.';
+      if (message === ACCOUNT_NOT_FOUND_MESSAGE) {
+        setRegisterForm((current) => ({ ...current, email: loginForm.email }));
+        setAuthMode('create');
+      }
+      if (message === CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE) {
+        setRecoverEmail(loginForm.email);
+        setAuthMode('recover');
+      }
+      setFeedback({ kind: 'error', message });
     } finally {
       setIsAuthSubmitting(false);
     }
@@ -391,9 +411,14 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
       setFeedback({ kind: 'success', message: 'Jūsų paskyra paruošta.' });
       setRegisterForm({ firstName: '', lastName: '', email: '', password: '' });
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Nepavyko sukurti paskyros.';
+      if (message === CUSTOMER_ACCOUNT_ACTIVATION_MESSAGE) {
+        setRecoverEmail(registerForm.email);
+        setAuthMode('recover');
+      }
       setFeedback({
         kind: 'error',
-        message: error instanceof Error ? error.message : 'Nepavyko sukurti paskyros.',
+        message,
       });
     } finally {
       setIsAuthSubmitting(false);
@@ -816,148 +841,42 @@ export function AccountPageClient({ initialCustomer }: AccountPageClientProps) {
             </div>
           </div>
         ) : (
-          <div className="max-w-[500px] w-full mx-auto px-4 pb-20">
+          <div className="max-w-[560px] w-full mx-auto px-4 pb-20">
             <SurfaceCard className="rounded-3xl px-6 py-10 md:px-9">
               <h1 className="account-heading-1 mb-3">
-                {authMode === 'sign-in' ? 'Sveiki sugrįžę' : authMode === 'create' ? 'Sukurkite paskyrą' : 'Atkurkite slaptažodį'}
+                Prisijunkite per Shopify
               </h1>
-              <p className="account-copy mb-8">
-                {authMode === 'sign-in'
-                  ? 'Prisijunkite, kad matytumėte užsakymus, profilį ir išsaugotus adresus.'
-                  : authMode === 'create'
-                    ? 'Susikurkite tikrą PawCharms kliento paskyrą, susietą su Shopify.'
-                    : 'Jei paskyra su šiuo el. paštu egzistuoja, išsiųsime atkūrimo nuorodą.'}
+              <p className="account-copy mb-6 max-w-[40ch]">
+                PawCharms klientų paskyros dabar naudoja Shopify el. pašto kodo prisijungimą, tokį patį kaip ir atsiskaityme.
               </p>
-
-              {authMode === 'sign-in' && (
-                <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                  <div>
-                    <label className="account-label block mb-2">
-                      El. paštas
-                    </label>
-                    <input
-                      className={inputClass}
-                      type="email"
-                      placeholder="you@example.com"
-                      value={loginForm.email}
-                      onChange={(event) => setLoginForm((current) => ({ ...current, email: event.target.value }))}
-                    />
-                  </div>
-                  <div>
-                    <label className="account-label block mb-2">
-                      Slaptažodis
-                    </label>
-                    <input
-                      className={inputClass}
-                      type="password"
-                      placeholder="••••••••"
-                      value={loginForm.password}
-                      onChange={(event) => setLoginForm((current) => ({ ...current, password: event.target.value }))}
-                    />
-                  </div>
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setAuthMode('create')}
-                      className={authLinkClass}
-                    >
-                      Sukurti paskyrą
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setAuthMode('recover')}
-                      className={authLinkClass}
-                    >
-                      Pamiršote slaptažodį?
-                    </button>
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={isAuthSubmitting}
-                    className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
-                    style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {isAuthSubmitting ? 'Jungiama...' : 'Prisijungti'}
-                  </button>
-                </form>
-              )}
-
-              {authMode === 'create' && (
-                <form onSubmit={handleRegister} className="flex flex-col gap-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                      className={inputClass}
-                      placeholder="Vardas"
-                      value={registerForm.firstName}
-                      onChange={(event) => setRegisterForm((current) => ({ ...current, firstName: event.target.value }))}
-                    />
-                    <input
-                      className={inputClass}
-                      placeholder="Pavardė"
-                      value={registerForm.lastName}
-                      onChange={(event) => setRegisterForm((current) => ({ ...current, lastName: event.target.value }))}
-                    />
-                  </div>
-                  <input
-                    className={inputClass}
-                    type="email"
-                    placeholder="you@example.com"
-                    value={registerForm.email}
-                    onChange={(event) => setRegisterForm((current) => ({ ...current, email: event.target.value }))}
-                  />
-                  <input
-                    className={inputClass}
-                    type="password"
-                    placeholder="Sukurkite slaptažodį"
-                    value={registerForm.password}
-                    onChange={(event) => setRegisterForm((current) => ({ ...current, password: event.target.value }))}
-                  />
-                  <button
-                    type="submit"
-                    disabled={isAuthSubmitting}
-                    className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
-                    style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {isAuthSubmitting ? 'Kuriama...' : 'Sukurti paskyrą'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAuthMode('sign-in')}
-                    className={authLinkClass}
-                    style={{ alignSelf: 'flex-start' }}
-                  >
-                    Grįžti į prisijungimą
-                  </button>
-                </form>
-              )}
-
-              {authMode === 'recover' && (
-                <form onSubmit={handleRecover} className="flex flex-col gap-4">
-                  <input
-                    className={inputClass}
-                    type="email"
-                    placeholder="you@example.com"
-                    value={recoverEmail}
-                    onChange={(event) => setRecoverEmail(event.target.value)}
-                  />
-                  <button
-                    type="submit"
-                    disabled={isAuthSubmitting}
-                    className="w-full py-[13px] rounded-xl font-bold text-[15px] cursor-pointer border-none"
-                    style={{ background: 'var(--color-sage)', color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}
-                  >
-                    {isAuthSubmitting ? 'Siunčiama...' : 'Siųsti atkūrimo nuorodą'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAuthMode('sign-in')}
-                    className={authLinkClass}
-                    style={{ alignSelf: 'flex-start' }}
-                  >
-                    Grįžti į prisijungimą
-                  </button>
-                </form>
-              )}
+              <div
+                className="mb-8 rounded-[22px] border border-border bg-surface-2/70 px-5 py-5"
+                style={{ fontFamily: "'DM Sans', sans-serif" }}
+              >
+                <div className="mb-2 text-[14px] font-semibold text-bark">Kaip prisijungti</div>
+                <div className="text-[14px] leading-6 text-bark-light">
+                  Paspaudę mygtuką būsite nukreipti į oficialų Shopify paskyros langą. Ten įvesite el. paštą ir gausite prisijungimo kodą el. paštu.
+                </div>
+              </div>
+              <div className="flex flex-col gap-3">
+                <a
+                  href={hostedAccountLoginUrl}
+                  className="inline-flex w-full items-center justify-center rounded-2xl bg-sage px-5 py-4 text-[15px] font-bold text-bark no-underline transition-colors duration-150 hover:bg-sage-dark"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Tęsti su el. paštu
+                </a>
+                <a
+                  href={hostedAccountUrl}
+                  className="inline-flex w-full items-center justify-center rounded-2xl border border-border bg-white px-5 py-4 text-[15px] font-semibold text-bark no-underline transition-colors duration-150 hover:bg-surface-2"
+                  style={{ fontFamily: "'DM Sans', sans-serif" }}
+                >
+                  Atidaryti paskyros centrą
+                </a>
+              </div>
+              <p className="mt-6 text-[13px] leading-6 text-bark-muted" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                Jei paskyra jau aktyvi, Shopify atidarys jūsų užsakymus, profilį ir kitą paskyros informaciją.
+              </p>
             </SurfaceCard>
           </div>
         )}
