@@ -40,6 +40,8 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, type D
 import { SortableContext, horizontalListSortingStrategy, useSortable, arrayMove } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
+const MAX_CHARMS = 6
+
 const COLLAR_GALLERY: Record<string, string[]> = {
   blossom: [
     '/collar-pink.png',
@@ -171,7 +173,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [selectedSize, setSelectedSize] = useState<string>('')
 
   // ── Charm page state ──
-  const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
+  const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>(Array(MAX_CHARMS).fill(null))
   const [charmTab] = useState<CharmTab>('all')
   const [charmColor, setCharmColor] = useState<string>(product.charmVariants?.[0]?.bg || '#B8D8F4')
   const [charmQuery, setCharmQuery] = useState('')
@@ -201,7 +203,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   const [extraCharmsColor, setExtraCharmsColor] = useState('')
   const [extraCharmsAdded, setExtraCharmsAdded] = useState(false)
   const [preview3DOpen, setPreview3DOpen] = useState(false)
-  const [selectedCollarCharms, setSelectedCollarCharms] = useState<(ShopifyCharm | null)[]>([null,null,null,null,null])
+  const [selectedCollarCharms, setSelectedCollarCharms] = useState<(ShopifyCharm | null)[]>(Array(MAX_CHARMS).fill(null))
   const [collarCharmTab] = useState<CharmTab>('all')
   const [collarCharmColor, setCollarCharmColor] = useState<string>(DEFAULT_CHARM_COLOR)
   const [collarCharmQuery, setCollarCharmQuery] = useState('')
@@ -444,10 +446,10 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
   const applyStarterPack = (offset: number) => {
     const pool = charms.filter(c => c.bg !== '#A8D5A2')
-    const pack = pool.slice(offset, offset + 5)
+    const pack = pool.slice(offset, offset + MAX_CHARMS)
     if (!pack.length) return
-    const slots: (ShopifyCharm | null)[] = [null, null, null, null, null]
-    pack.forEach((c, i) => { if (i < 5) slots[i] = c })
+    const slots: (ShopifyCharm | null)[] = Array(MAX_CHARMS).fill(null)
+    pack.forEach((c, i) => { if (i < MAX_CHARMS) slots[i] = c })
     setSelectedCollarCharms(slots)
   }
 
@@ -455,14 +457,14 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
   // keeping any already-selected icon charms after the typed letters.
   const collarCharmName = collar3DLetters(selectedCollarCharms).name
   const applyCollarLetters = (rawName: string) => {
-    const clean = rawName.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 5)
+    const clean = rawName.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, MAX_CHARMS)
     const colourHex = COLOR_BG_MAP[collarCharmColor]
     const { iconCharms } = collar3DLetters(selectedCollarCharms)
     const newLetterCharms = [...clean]
       .map((letter) => charms.find((c) => c.category === 'letter' && extractLetter(c.baseTitle) === letter && c.bg === colourHex))
       .filter((c): c is ShopifyCharm => !!c)
-    const combined = [...newLetterCharms, ...iconCharms].slice(0, 5)
-    const padded: (ShopifyCharm | null)[] = [...combined, ...Array(5 - combined.length).fill(null)]
+    const combined = [...newLetterCharms, ...iconCharms].slice(0, MAX_CHARMS)
+    const padded: (ShopifyCharm | null)[] = [...combined, ...Array(MAX_CHARMS - combined.length).fill(null)]
     setSelectedCollarCharms(padded)
   }
 
@@ -704,7 +706,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
                 <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
-                  Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
+                  Pasirinkite iki {MAX_CHARMS} pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
                 </span>
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
@@ -863,7 +865,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <>
                 <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={availableColorOptions} />
                 <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>
-                  Pasirinkite iki 5 pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
+                  Pasirinkite iki {MAX_CHARMS} pakabukų <span style={{ fontWeight: 500, color: 'rgba(61,53,48,0.76)' }}>( Įeina į šį rinkinį )</span>
                 </span>
                 {mounted ? (
                   <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmPageDragEnd}>
@@ -983,7 +985,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
             </div>
 
-            {/* 5-slot sortable preview */}
+            {/* MAX_CHARMS-slot sortable preview */}
             <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={handleCharmDragEnd}>
               <SortableContext items={selectedCollarCharms.map((_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
                 <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
@@ -994,7 +996,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </SortableContext>
             </DndContext>
 
-            {/* Starter packs — one tap fills all 5 slots for shoppers who don't want to hand-pick */}
+            {/* Starter packs — one tap fills all MAX_CHARMS slots for shoppers who don't want to hand-pick */}
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center' }}>
               <button
                 type="button"
@@ -1005,7 +1007,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
               </button>
               <button
                 type="button"
-                onClick={() => applyStarterPack(5)}
+                onClick={() => applyStarterPack(MAX_CHARMS)}
                 style={{ padding: '6px 14px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
               >
                 🌸 Gėlių rinkinys
@@ -1214,6 +1216,19 @@ function SortableLetterSlot({
       )}
       {showCursorAfter && (
         <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+      )}
+      {index === MAX_CHARMS - 1 && (
+        <span
+          aria-hidden="true"
+          style={{
+            position: 'absolute', top: -9, left: '50%', transform: 'translateX(-50%)', zIndex: 2,
+            padding: '2px 6px', borderRadius: 999, background: 'var(--color-sage)',
+            boxShadow: '0 1px 3px rgba(61,53,48,0.18)',
+            color: 'var(--color-interactive-text)', fontSize: 9, fontWeight: 700, lineHeight: 1.4, whiteSpace: 'nowrap',
+          }}
+        >
+          €3.99
+        </span>
       )}
       <Tag
         {...attributes}
@@ -1432,6 +1447,13 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
     setTimeout(() => setAdded(false), 800)
   }
 
+  // Defaults to the most recently typed letter so step 2 (colour) appears as soon as one character exists,
+  // even before the shopper explicitly taps a slot.
+  const lastLetterIndex = (selectedCharms ?? []).reduce((last, c, i) => (c?.category === 'letter' ? i : last), -1)
+  const colourTargetIndex = activeColourSlot !== null && selectedCharms?.[activeColourSlot]?.category === 'letter'
+    ? activeColourSlot
+    : (lastLetterIndex >= 0 ? lastLetterIndex : null)
+
   const accordionItems = [
     { id: 'description', title: 'Aprašymas',       content: collar?.description  || 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.' },
     { id: 'features',    title: 'Savybės',  content: collar?.features     || 'Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.' },
@@ -1460,16 +1482,21 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
       </div>
 
       {/* Video circles */}
-      {videos.length > 0 && <VideoCircles videos={videos} />}
+      {videos.length > 0 && (
+        <div style={{ padding: 14, borderRadius: 14, background: 'var(--color-sage)', border: '1px solid rgba(61,53,48,0.08)' }}>
+          <p style={{ margin: '0 0 12px', fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Jūsų akimirkos</p>
+          <VideoCircles videos={videos} />
+        </div>
+      )}
 
       {/* Color swatches */}
       {hasColors && (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Spalva</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Pasirinkite spalvą</span>
             {selectedColor && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{translateColorLabel(selectedColor)}</span>}
           </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             {colorOptions.map((option) => {
               const isSelected = option.color === selectedColor
               return (
@@ -1478,16 +1505,16 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                     title={translateColorLabel(option.color)}
                   onClick={() => onColorChange(option.color)}
                   style={{
-                    width: 52,
-                    height: 52,
+                    flex: '1 1 0',
+                    aspectRatio: '1 / 1',
+                    minWidth: 0,
                     padding: 0,
-                    borderRadius: 14,
-                    border: 'none',
+                    borderRadius: 12,
+                    border: `2px solid ${isSelected ? 'var(--color-sage-dark)' : BORDER_COLOR}`,
                     overflow: 'hidden',
                     cursor: 'pointer',
                     background: option.fallback,
-                    boxShadow: isSelected ? `0 0 0 2px var(--color-cream), 0 0 0 4px ${TEXT_PRIMARY}` : '0 0 0 1.5px var(--color-bark-border)',
-                    transition: 'box-shadow 150ms, transform 150ms',
+                    transition: 'border-color 150ms, transform 150ms',
                   }}
                   aria-label={option.color}
                   aria-pressed={isSelected}
@@ -1509,66 +1536,15 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         </div>
       )}
 
-      {/* Size selector */}
-      {hasSizes && (
-        <div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Dydis</span>
-            {selectedSize && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{selectedSize}</span>}
-          </div>
-          <div style={{ display: 'flex', gap: 8 }}>
-            {collar!.sizes.map((s) => {
-              const isSelected = s === selectedSize
-              return (
-                <button
-                  key={s}
-                  onClick={() => onSizeChange(s)}
-                  style={{
-                    minWidth: 48, padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
-                    fontWeight: 600, fontSize: 14,
-                    border: `2px solid ${isSelected ? TEXT_PRIMARY : BORDER_COLOR}`,
-                    background: isSelected ? TEXT_PRIMARY : 'transparent',
-                    color: isSelected ? 'var(--color-cream)' : TEXT_PRIMARY,
-                    transition: 'background 150ms, border-color 150ms, color 150ms',
-                  }}
-                >
-                  {s}
-                </button>
-              )
-            })}
-          </div>
-          <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: TEXT_SECONDARY }}>
-              Prieš užsakydami išmatuokite šuns kaklą. Jei esate tarp dydžių, prieš atsiskaitydami pasitikrinkite dydžių gidą.
-            </p>
-            <button
-              type="button"
-              onClick={() => setFitGuideOpen(true)}
-              style={{
-                width: 'fit-content',
-                padding: 0,
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 13,
-                fontWeight: 600,
-                color: 'var(--color-interactive-text)',
-                textDecoration: 'none',
-              }}
-            >
-              Kaip išmatuoti tinkamą dydį →
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div style={{ height: 1, background: DIVIDER }} />
-
       {showCharms && (
       <div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
           <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Papuoškite savo antkaklį</span>
-          <Badge variant="sage">Nemokama</Badge>
+          <Badge variant="sage">
+            {selectedCharmCount
+              ? `${selectedCharmCount} pakabuk${selectedCharmCount > 1 ? 'ai' : 'as'} įskaičiuoti`
+              : 'Nemokama'}
+          </Badge>
         </div>
 
         {/* Tab switcher */}
@@ -1588,7 +1564,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   transition: 'background 150ms, color 150ms',
                 }}
               >
-                {tab === 'letters' ? 'Raidės' : 'Pakabukai'}
+                {tab === 'letters' ? 'Raidžių charmsai' : 'Kiti charmsai'}
               </button>
             )
           })}
@@ -1602,12 +1578,14 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
               aria-label="Pasirinkti pakabukus"
               onClick={() => charmNameInputRef.current?.focus()}
               style={{
-                width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
-                padding: 10, borderRadius: 16, cursor: 'text', position: 'relative',
-                border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'rgba(255,214,165,0.95)'}`,
+                width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12,
+                padding: 14, borderRadius: 12, cursor: 'text', position: 'relative',
+                border: `2px solid ${charmRowFocused ? 'var(--color-sage)' : 'rgba(232,227,220,0.95)'}`,
                 outline: 'none',
               }}
             >
+              <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>1. Įrašykite raides</span>
+              <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, position: 'relative', marginTop: 8 }}>
               <input
                 ref={charmNameInputRef}
                 type="text"
@@ -1616,11 +1594,11 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 autoCorrect="off"
                 autoCapitalize="characters"
                 spellCheck={false}
-                maxLength={5}
+                maxLength={MAX_CHARMS}
                 value={charmName}
                 aria-label="Įrašykite raides"
                 onChange={(e) => {
-                  const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, 5)
+                  const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, MAX_CHARMS)
                   onCharmNameChange?.(next)
                   syncCharmCursor(e.target)
                 }}
@@ -1637,16 +1615,16 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
               />
               {mounted ? (
                 <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={onCharmReorder}>
-                  <SortableContext items={Array.from({ length: 5 }, (_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
-                    {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
+                  <SortableContext items={Array.from({ length: MAX_CHARMS }, (_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
+                    {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
                       <SortableLetterSlot
                         key={i}
                         id={`slot-${i}`}
                         index={i}
                         charm={c}
-                        isActive={activeColourSlot === i && c?.category === 'letter'}
+                        isActive={colourTargetIndex === i && c?.category === 'letter'}
                         showCursorBefore={charmRowFocused && charmCursor === i}
-                        showCursorAfter={charmRowFocused && charmCursor === 5 && i === 4}
+                        showCursorAfter={charmRowFocused && charmCursor === MAX_CHARMS && i === MAX_CHARMS - 1}
                         onClick={() => {
                           placeCharmCursor(i)
                           if (c?.category === 'letter') setActiveColourSlot((s) => (s === i ? null : i))
@@ -1656,12 +1634,12 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   </SortableContext>
                 </DndContext>
               ) : (
-                Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
+                Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
                   const isLetter = c?.category === 'letter'
-                  const isActive = activeColourSlot === i && isLetter
+                  const isActive = colourTargetIndex === i && isLetter
                   const Tag = isLetter ? 'button' : 'div'
                   const showCursorBefore = charmRowFocused && charmCursor === i
-                  const showCursorAfter = charmRowFocused && charmCursor === 5 && i === 4
+                  const showCursorAfter = charmRowFocused && charmCursor === MAX_CHARMS && i === MAX_CHARMS - 1
                   return (
                     <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
                       {showCursorBefore && (
@@ -1669,6 +1647,19 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                       )}
                       {showCursorAfter && (
                         <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                      )}
+                      {i === MAX_CHARMS - 1 && (
+                        <span
+                          aria-hidden="true"
+                          style={{
+                            position: 'absolute', top: -9, left: '50%', transform: 'translateX(-50%)', zIndex: 2,
+                            padding: '2px 6px', borderRadius: 999, background: 'var(--color-sage)',
+                            boxShadow: '0 1px 3px rgba(61,53,48,0.18)',
+                            color: 'var(--color-interactive-text)', fontSize: 9, fontWeight: 700, lineHeight: 1.4, whiteSpace: 'nowrap',
+                          }}
+                        >
+                          €3.99
+                        </span>
                       )}
                       <Tag
                         type={isLetter ? 'button' : undefined}
@@ -1707,36 +1698,36 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   )
                 })
               )}
-            </div>
-            <span style={{ display: 'block', marginTop: 6, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>Įrašykite raides</span>
-            {activeColourSlot !== null && selectedCharms?.[activeColourSlot]?.category === 'letter' && (
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
-                {CHARM_LETTER_COLOURS.map(({ key, label, hex }) => {
-                  const charm = selectedCharms[activeColourSlot]!
-                  const isActiveColour = charm.bg === hex
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      title={label}
-                      onClick={() => onCharmColourAt?.(charm.id, key)}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 6,
-                        padding: '6px 12px 6px 8px', borderRadius: 50, border: 'none', cursor: 'pointer',
-                        fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap',
-                        background: isActiveColour ? TEXT_PRIMARY : 'rgba(61,53,48,0.07)',
-                        color: isActiveColour ? 'var(--color-cream)' : TEXT_PRIMARY,
-                        transition: 'background 150ms, color 150ms',
-                      }}
-                    >
-                      <span style={{ width: 14, height: 14, borderRadius: '50%', background: hex, flexShrink: 0, display: 'inline-block' }} />
-                      {label}
-                    </button>
-                  )
-                })}
               </div>
-            )}
-            {(selectedCharms ?? []).filter(Boolean).length >= 5 && (
+              {colourTargetIndex !== null && (
+                <>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>2. Pasirinkite spalvą pažymėto charmo</span>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  {CHARM_LETTER_COLOURS.map(({ key, label, hex }) => {
+                    const charm = selectedCharms![colourTargetIndex]!
+                    const isActiveColour = charm.bg === hex
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        title={label}
+                        aria-label={label}
+                        aria-pressed={isActiveColour}
+                        onClick={() => onCharmColourAt?.(charm.id, key)}
+                        style={{
+                          width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
+                          background: hex,
+                          border: isActiveColour ? '2px solid var(--color-sage-dark)' : '2px solid transparent',
+                          transition: 'border-color 150ms',
+                        }}
+                      />
+                    )
+                  })}
+                  </div>
+                </>
+              )}
+            </div>
+            {(selectedCharms ?? []).filter(Boolean).length >= MAX_CHARMS && (
               <button
                 type="button"
                 onClick={onNeedMoreCharms}
@@ -1755,7 +1746,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           <div>
             {/* Selected slots preview */}
             <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-              {Array.from({ length: 5 }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
+              {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
                 <div
                   key={i}
                   style={{
@@ -1810,7 +1801,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 .map((charm) => {
                   const selectedIds = (selectedCharms ?? []).filter(Boolean).map((c) => c!.id)
                   const isSelected = selectedIds.includes(charm.id)
-                  const isFull = selectedIds.length >= 5 && !isSelected
+                  const isFull = selectedIds.length >= MAX_CHARMS && !isSelected
                   return (
                     <button
                       key={charm.id}
@@ -1838,9 +1829,9 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
               )}
             </div>
             <span style={{ display: 'block', marginTop: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-              {(selectedCharms ?? []).filter(Boolean).length} / 5 pasirinkta
+              {(selectedCharms ?? []).filter(Boolean).length} / {MAX_CHARMS} pasirinkta
             </span>
-            {(selectedCharms ?? []).filter(Boolean).length >= 5 && (
+            {(selectedCharms ?? []).filter(Boolean).length >= MAX_CHARMS && (
               <button
                 type="button"
                 onClick={onNeedMoreCharms}
@@ -1856,6 +1847,59 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           </div>
         )}
       </div>
+      )}
+
+      {/* Size selector */}
+      {hasSizes && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Dydis</span>
+            {selectedSize && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{selectedSize}</span>}
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            {collar!.sizes.map((s) => {
+              const isSelected = s === selectedSize
+              return (
+                <button
+                  key={s}
+                  onClick={() => onSizeChange(s)}
+                  style={{
+                    minWidth: 48, padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
+                    fontWeight: 600, fontSize: 14,
+                    border: `2px solid ${isSelected ? TEXT_PRIMARY : BORDER_COLOR}`,
+                    background: isSelected ? TEXT_PRIMARY : 'transparent',
+                    color: isSelected ? 'var(--color-cream)' : TEXT_PRIMARY,
+                    transition: 'background 150ms, border-color 150ms, color 150ms',
+                  }}
+                >
+                  {s}
+                </button>
+              )
+            })}
+          </div>
+          <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: TEXT_SECONDARY }}>
+              Prieš užsakydami išmatuokite šuns kaklą. Jei esate tarp dydžių, prieš atsiskaitydami pasitikrinkite dydžių gidą.
+            </p>
+            <button
+              type="button"
+              onClick={() => setFitGuideOpen(true)}
+              style={{
+                width: 'fit-content',
+                padding: 0,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: 13,
+                fontWeight: 600,
+                color: 'var(--color-interactive-text)',
+                textDecoration: 'none',
+              }}
+            >
+              Kaip išmatuoti tinkamą dydį →
+            </button>
+          </div>
+        </div>
       )}
 
       {/* Add to cart — label reflects any charms already picked so the payoff of customizing is visible at purchase */}
@@ -1978,6 +2022,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
           </div>
         </div>
       </div>
+
+      <div style={{ height: 1, background: DIVIDER }} />
 
       {/* Accordion */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -2216,7 +2262,7 @@ function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count:
     ? '✓ Pridėta į krepšelį!'
     : count > 0
       ? `Pirkti su ${count} pakabuk${count > 1 ? 'ais' : 'u'} →`
-      : 'Pasirinkite iki 5 pakabukų'
+      : `Pasirinkite iki ${MAX_CHARMS} pakabukų`
   return (
     <div>
       <button

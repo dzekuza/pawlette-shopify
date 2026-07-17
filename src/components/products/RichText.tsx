@@ -1,5 +1,7 @@
 'use client'
 
+import { Check } from 'lucide-react'
+
 interface RichTextNode {
   type: string
   value?: string
@@ -40,6 +42,19 @@ export function RichText({ value, style }: { value?: string; style?: React.CSSPr
   try {
     parsed = JSON.parse(value) as RichTextNode
   } catch {
+    if (value.includes('·')) {
+      const items = value.split('·').map((item) => item.trim()).filter(Boolean)
+      return (
+        <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8, fontSize: 14, lineHeight: 1.5, color: 'inherit', ...style }}>
+          {items.map((item, i) => (
+            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+              <Check size={16} strokeWidth={2.5} style={{ flexShrink: 0, marginTop: 2, color: 'var(--color-interactive-text)' }} />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
     return <div style={{ fontSize: 14, lineHeight: 1.6, color: 'inherit', ...style }}>{value}</div>
   }
   return (
