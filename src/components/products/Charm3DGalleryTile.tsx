@@ -43,7 +43,7 @@ export function Charm3DGalleryTile({ items, variant = 'grid' }: Charm3DGalleryTi
           background: 'var(--color-surface-2)',
         }}
     >
-      <Charm3DScene items={items} />
+      <Charm3DScene items={items} autoRotate={false} />
 
       <div
         style={{

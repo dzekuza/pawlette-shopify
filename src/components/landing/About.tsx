@@ -79,7 +79,7 @@ function BentoCard({
   );
 }
 
-export function About() {
+export function About({ showCta = true }: { showCta?: boolean } = {}) {
   const rowTop = (
     <div className="flex flex-col gap-4 md:flex-row">
       <BentoCard
@@ -167,12 +167,14 @@ export function About() {
               Sukurta patogumui.<br />Pritaikyta jūsų šuniui
             </DisplayHeading>
           </div>
-          <a
-            href="/configure"
-            className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
-          >
-            Sukurkite savo unikalų antkaklį →
-          </a>
+          {showCta ? (
+            <a
+              href="/products/collar-melyna-collar"
+              className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
+            >
+              Sukurkite savo unikalų antkaklį →
+            </a>
+          ) : null}
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row">

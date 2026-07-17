@@ -113,6 +113,7 @@ export function Collar3DShowcase() {
           items={items}
           strapColour={DEFAULT_STRAP_COLOUR}
           hardwareColour={HARDWARE_COLOUR}
+          interactive={false}
           modelRotation={modelRotation}
           modelScale={modelScale}
           modelPosition={modelPosition}

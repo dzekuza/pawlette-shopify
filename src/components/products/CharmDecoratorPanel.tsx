@@ -22,14 +22,13 @@ const CHARM_LETTER_COLOURS = [
 ]
 
 function SortableLetterSlot({
-  id, index, charm, isActive, showCursorBefore, showCursorAfter, onClick,
+  id, index, charm, isActive, isCursorTarget, onClick,
 }: {
   id: string
   index: number
   charm: ShopifyCharm | null
   isActive: boolean
-  showCursorBefore: boolean
-  showCursorAfter: boolean
+  isCursorTarget: boolean
   onClick: () => void
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
@@ -45,12 +44,6 @@ function SortableLetterSlot({
         opacity: isDragging ? 0.5 : 1, touchAction: 'none',
       }}
     >
-      {showCursorBefore && (
-        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
-      )}
-      {showCursorAfter && (
-        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
-      )}
       {index === MAX_CHARMS - 1 && (
         <span
           aria-hidden="true"
@@ -80,10 +73,19 @@ function SortableLetterSlot({
         style={{
           width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          background: charm ? 'var(--color-surface-2)' : `${CHARM_TINTS[index]}33`,
-          transition: 'transform 150ms, background 150ms, border-color 150ms',
+          background: charm
+            ? 'var(--color-surface-2)'
+            : isCursorTarget
+              ? 'rgba(168,213,162,0.18)'
+              : `${CHARM_TINTS[index]}33`,
+          transition: 'transform 150ms, background 150ms, border-color 150ms, box-shadow 150ms',
           transform: charm ? 'scale(1)' : 'scale(0.96)',
-          border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+          border: isActive
+            ? `2px solid ${TEXT_PRIMARY}`
+            : isCursorTarget
+              ? '2px solid var(--color-sage-dark)'
+              : '2px solid transparent',
+          boxShadow: isCursorTarget ? '0 0 0 3px rgba(168,213,162,0.18)' : 'none',
           padding: 0,
           cursor: charm ? 'grab' : 'pointer',
         }}
@@ -99,7 +101,33 @@ function SortableLetterSlot({
             />
           )
           : (
-            <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[index] }} />
+            <span
+              aria-hidden="true"
+              style={{
+                position: 'relative',
+                width: 18,
+                height: 3,
+                borderRadius: 2,
+                background: isCursorTarget ? 'transparent' : CHARM_TINTS[index],
+              }}
+            >
+              {isCursorTarget ? (
+                <span
+                  aria-hidden="true"
+                  className="animate-pulse"
+                  style={{
+                    position: 'absolute',
+                    left: '50%',
+                    top: '50%',
+                    width: 2,
+                    height: 20,
+                    borderRadius: 999,
+                    background: TEXT_PRIMARY,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                />
+              ) : null}
+            </span>
           )}
       </Tag>
     </div>
@@ -142,7 +170,6 @@ export function CharmDecoratorPanel({
   const [activeIconCharmIndex, setActiveIconCharmIndex] = useState<number | null>(null)
   const [charmRowFocused, setCharmRowFocused] = useState(false)
   const [charmCursor, setCharmCursor] = useState(0)
-  const charmRowRef = useRef<HTMLDivElement>(null)
   const charmNameInputRef = useRef<HTMLInputElement>(null)
 
   const syncCharmCursor = (el: HTMLInputElement | null) => {
@@ -188,6 +215,8 @@ export function CharmDecoratorPanel({
   const activeIconCharm = activeIconCharmIndex !== null ? selectedCharms?.[activeIconCharmIndex] ?? null : null
   const activeIconColours = iconColourOptionsFor(activeIconCharm)
 
+  const cursorSlotIndex = charmRowFocused ? Math.min(charmCursor, MAX_CHARMS - 1) : null
+
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
@@ -225,7 +254,6 @@ export function CharmDecoratorPanel({
       {charmTab === 'letters' ? (
         <>
           <div
-            ref={charmRowRef}
             role="group"
             aria-label="Pasirinkti pakabukus"
             onClick={() => charmNameInputRef.current?.focus()}
@@ -233,7 +261,10 @@ export function CharmDecoratorPanel({
               width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12,
               padding: 14, borderRadius: 12, cursor: 'text', position: 'relative',
               border: `2px solid ${charmRowFocused ? 'var(--color-sage)' : 'rgba(232,227,220,0.95)'}`,
+              background: charmRowFocused ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.72)',
+              boxShadow: charmRowFocused ? '0 10px 24px rgba(168,213,162,0.12)' : 'none',
               outline: 'none',
+              transition: 'border-color 150ms, box-shadow 150ms, background 150ms',
             }}
           >
             <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>1. Įrašykite raides</span>
@@ -275,8 +306,7 @@ export function CharmDecoratorPanel({
                       index={i}
                       charm={c}
                       isActive={colourTargetIndex === i && !!c}
-                      showCursorBefore={charmRowFocused && charmCursor === i}
-                      showCursorAfter={charmRowFocused && charmCursor === MAX_CHARMS && i === MAX_CHARMS - 1}
+                      isCursorTarget={cursorSlotIndex === i}
                       onClick={() => {
                         placeCharmCursor(i)
                         if (c) setActiveColourSlot((s) => (s === i ? null : i))
@@ -290,17 +320,10 @@ export function CharmDecoratorPanel({
                 const isLetter = c?.category === 'letter'
                 const hasCharm = !!c
                 const isActive = colourTargetIndex === i && hasCharm
+                const isCursorTarget = cursorSlotIndex === i
                 const Tag = hasCharm ? 'button' : 'div'
-                const showCursorBefore = charmRowFocused && charmCursor === i
-                const showCursorAfter = charmRowFocused && charmCursor === MAX_CHARMS && i === MAX_CHARMS - 1
                 return (
                   <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
-                    {showCursorBefore && (
-                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
-                    )}
-                    {showCursorAfter && (
-                      <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
-                    )}
                     {i === MAX_CHARMS - 1 && (
                       <span
                         aria-hidden="true"
@@ -331,10 +354,19 @@ export function CharmDecoratorPanel({
                       style={{
                         width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: c ? 'var(--color-surface-2)' : `${CHARM_TINTS[i]}33`,
-                        transition: 'transform 150ms, background 150ms, border-color 150ms',
+                        background: c
+                          ? 'var(--color-surface-2)'
+                          : isCursorTarget
+                            ? 'rgba(168,213,162,0.18)'
+                            : `${CHARM_TINTS[i]}33`,
+                        transition: 'transform 150ms, background 150ms, border-color 150ms, box-shadow 150ms',
                         transform: c ? 'scale(1)' : 'scale(0.96)',
-                        border: isActive ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
+                        border: isActive
+                          ? `2px solid ${TEXT_PRIMARY}`
+                          : isCursorTarget
+                            ? '2px solid var(--color-sage-dark)'
+                            : '2px solid transparent',
+                        boxShadow: isCursorTarget ? '0 0 0 3px rgba(168,213,162,0.18)' : 'none',
                         padding: 0,
                         cursor: 'pointer',
                       }}
@@ -350,7 +382,33 @@ export function CharmDecoratorPanel({
                           />
                         )
                         : (
-                          <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[i] }} />
+                          <span
+                            aria-hidden="true"
+                            style={{
+                              position: 'relative',
+                              width: 18,
+                              height: 3,
+                              borderRadius: 2,
+                              background: isCursorTarget ? 'transparent' : CHARM_TINTS[i],
+                            }}
+                          >
+                            {isCursorTarget ? (
+                              <span
+                                aria-hidden="true"
+                                className="animate-pulse"
+                                style={{
+                                  position: 'absolute',
+                                  left: '50%',
+                                  top: '50%',
+                                  width: 2,
+                                  height: 20,
+                                  borderRadius: 999,
+                                  background: TEXT_PRIMARY,
+                                  transform: 'translate(-50%, -50%)',
+                                }}
+                              />
+                            ) : null}
+                          </span>
                         )}
                     </Tag>
                   </div>

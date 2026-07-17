@@ -869,7 +869,7 @@ export function SingleProductPage ({ product }: Props) {
       )} {/* end !isMobile */}
 
 
-      <About />
+      <About showCta={false} />
 
       <ProductStorySection />
 
@@ -879,33 +879,6 @@ export function SingleProductPage ({ product }: Props) {
       <PhotoSlider product={product} />
       <FAQ showCta={false} />
       <LandingFooter />
-
-      {isMobile && isCollar && collar && (
-        <button
-          onClick={addCollarToCart}
-          style={{
-            position: 'fixed',
-            left: 12,
-            right: 12,
-            bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))',
-            zIndex: 450,
-            padding: '14px 16px',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            fontWeight: 600,
-            fontSize: 15,
-            letterSpacing: '0.01em',
-            background: 'var(--color-sage)',
-            color: 'var(--color-interactive-text)',
-            boxShadow: '0 4px 20px rgba(168,213,162,0.35)',
-          }}
-        >
-          {selectedCollarCharmCount
-            ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}`
-            : 'Pirkti'}
-        </button>
-      )}
 
       {/* ── Personalise charm dialog ── */}
       {personaliseOpen && (
@@ -1209,7 +1182,7 @@ function VideoCircles ({ videos }: { videos: string[] }) {
             onClick={() => setActiveIndex(i)}
             aria-label={`Peržiūrėti vaizdo įrašą ${i + 1}`}
             style={{
-              flexShrink: 0, width: 64, height: 64, borderRadius: '50%', overflow: 'hidden',
+              flexShrink: 0, width: 82, height: 82, borderRadius: '50%', overflow: 'hidden',
               border: `2px solid ${BORDER_COLOR}`, padding: 0, cursor: 'pointer', background: 'var(--color-surface-2)',
             }}
           >

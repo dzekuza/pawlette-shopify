@@ -20,7 +20,7 @@ const FOOTER_COLS = [
   { title: 'PawCharms', links: [
     { label: 'Mūsų istorija', href: '/#about' },
     { label: 'DUK', href: '/faq#products' },
-    { label: 'Kontaktai', href: 'mailto:hello@pawcharms.lt' },
+    { label: 'Kontaktai', href: 'mailto:info@pawcharms.lt' },
   ]},
 ];
 
@@ -70,9 +70,9 @@ export function LandingFooter() {
             ))}
           </div>
         </div>
-        <div className="flex flex-col gap-2 border-t border-border pt-6 text-[12px] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-4">
-          <div style={{ fontSize: 12, color: 'var(--color-muted-foreground)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
-          <div style={{ fontSize: 12, color: 'var(--color-muted-foreground)' }}>hello@pawcharms.lt · Vilnius, Lietuva</div>
+        <div className="flex flex-col gap-2 border-t border-border pt-6 text-[14px] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-4">
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>info@pawcharms.lt · Vilnius, Lietuva</div>
         </div>
       </div>
     </footer>
