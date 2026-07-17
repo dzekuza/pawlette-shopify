@@ -1312,10 +1312,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
 
       {/* Video circles */}
       {videos.length > 0 && (
-        <div style={{ padding: 14, borderRadius: 14, background: 'var(--color-sage)', border: '1px solid rgba(61,53,48,0.08)' }}>
-          <p style={{ margin: '0 0 12px', fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>Jūsų akimirkos</p>
-          <VideoCircles videos={videos} />
-        </div>
+        <VideoCircles videos={videos} />
       )}
 
       {/* Color swatches */}
