@@ -66,7 +66,7 @@ export function Collar3DShowcase() {
         minHeight: reducedMotion ? 480 : undefined,
         position: 'relative',
         overflow: 'hidden',
-        background: 'var(--color-surface-2)',
+        background: 'var(--color-cream)',
       }}
     >
       <div

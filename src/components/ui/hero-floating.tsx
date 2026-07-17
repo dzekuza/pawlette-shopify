@@ -125,16 +125,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </div>
         </div>
 
-        <div className="relative mx-auto aspect-[953/526] w-full max-w-[953px]">
-          <Image
-            src="/hero-figma/hero-collar-splash.png"
-            alt="PawCharms antkaklis su vardo pakabukais"
-            fill
-            sizes="(max-width: 1023px) 100vw, 953px"
-            className="object-contain"
-            priority
-          />
-        </div>
       </div>
     </section>
   );
