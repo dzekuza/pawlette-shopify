@@ -96,6 +96,10 @@ export default function Collar3DScene({
       shadows
       camera={{ position: [-5.0, 2.0, -4.2], fov: 40 }}
       gl={{ toneMappingExposure: TONE_EXPOSURE }}
+      style={{
+        touchAction: interactive ? 'none' : 'pan-y',
+        pointerEvents: interactive ? 'auto' : 'none',
+      }}
     >
       <ambientLight intensity={0.9} />
       <directionalLight position={[-4, 6, -3]} intensity={1.8} castShadow />
