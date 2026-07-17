@@ -23,6 +23,13 @@ export const BACK_RADIUS = 1.427;
 /** Tracking between charms, in world units. */
 export const GAP = 0.09;
 
+/**
+ * Charms render bigger than their native mesh scale (see Collar3DCharm.tsx),
+ * so layoutCharms must reserve proportionally more arc length per charm or
+ * neighbours overlap. Single source of truth — do not duplicate this value.
+ */
+export const CHARM_SCALE = 1.2;
+
 /** Front of the collar, in degrees. The original "ROCKY" was centred here. */
 export const CENTRE_DEG = 140;
 
@@ -91,7 +98,7 @@ export type LaidOutCharm = PlacedCharm & { colour: string; kind: 'letter' | 'ico
 export function layoutCharms(items: CharmSpec[], centreDeg = CENTRE_DEG): LaidOutCharm[] {
   if (items.length === 0) return [];
 
-  const widths = items.map((it) => ALL_WIDTHS[it.meshKey] ?? 0.6);
+  const widths = items.map((it) => (ALL_WIDTHS[it.meshKey] ?? 0.6) * CHARM_SCALE);
   const arc = widths.reduce((a, b) => a + b, 0) + GAP * (items.length - 1);
 
   // Walk from the low-angle end; reading direction is increasing angle.
@@ -137,7 +144,7 @@ export function fitsOnCollar(name: string, centreDeg = CENTRE_DEG): boolean {
   const placed = layoutName(name, centreDeg);
   if (placed.length === 0) return true;
 
-  const halfArc = (c: PlacedCharm) => CHARM_WIDTHS[c.char] / 2 / TEXT_RADIUS;
+  const halfArc = (c: PlacedCharm) => (CHARM_WIDTHS[c.char] * CHARM_SCALE) / 2 / TEXT_RADIUS;
   const toDeg = (rad: number) => (rad * 180) / Math.PI;
 
   const first = placed[0];

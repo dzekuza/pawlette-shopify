@@ -4,7 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, Color, Group, Mesh, MeshStandardMaterial } from 'three'
-import { BACK_RADIUS, MATERIAL_DEFAULTS } from '@/lib/collar3d'
+import { BACK_RADIUS, CHARM_SCALE, MATERIAL_DEFAULTS } from '@/lib/collar3d'
 import { OPEN_ENOUGH, type Lock } from '@/lib/lockState'
 import { settle, spring, stepSpring } from '@/lib/spring'
 
@@ -37,8 +37,6 @@ const RISE = 0.2
  * compensates without touching the Blender source.
  */
 const SEATED_Y_OFFSET = 0.07
-/** Charms read small next to the strap at their native mesh scale. */
-const CHARM_SCALE = 1.2
 /** How far it is tipped back on arrival, in radians. */
 const TILT = 0.5
 /** How far a selected charm eases off the strap, in world units. */
