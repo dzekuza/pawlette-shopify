@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 
@@ -22,18 +22,20 @@ interface LandingNavProps {
 }
 
 export function LandingNav({ cartCount = 0 }: LandingNavProps) {
-  const width = useWindowWidth() ?? 1200;
-  const isMobile = width < 768;
   const [menuOpen, setMenuOpen] = useState(false);
 
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
+  useBodyScrollLock(menuOpen);
 
   useEffect(() => {
-    if (!isMobile && menuOpen) setMenuOpen(false);
-  }, [isMobile, menuOpen]);
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
+    const syncMenuState = (event: MediaQueryList | MediaQueryListEvent) => {
+      if (event.matches) setMenuOpen(false);
+    };
+
+    syncMenuState(mediaQuery);
+    mediaQuery.addEventListener('change', syncMenuState);
+    return () => mediaQuery.removeEventListener('change', syncMenuState);
+  }, []);
 
   return (
     <>
@@ -41,13 +43,8 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
         position: 'sticky',
         top: 0,
         zIndex: 200,
-        padding: isMobile ? '12px 16px' : '12px 24px',
       }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: '0 auto',
-          width: '100%',
-        }}>
+        <div className="mx-auto w-full max-w-[1200px] px-4 py-3 md:px-6">
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -63,8 +60,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           </Link>
 
           {/* Desktop nav links */}
-          {!isMobile && (
-            <nav style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <nav className="hidden items-center gap-6 md:flex">
               {NAV_LINKS.map((link, i) => (
                 <Link
                   key={i}
@@ -81,7 +77,6 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
                 </Link>
               ))}
             </nav>
-          )}
 
           {/* Right: cart + CTA */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -127,33 +122,25 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             </button>
 
             {/* Mobile hamburger */}
-            {isMobile && (
-              <button
-                onClick={() => setMenuOpen(o => !o)}
-                aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
-                aria-expanded={menuOpen}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 8,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 5,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 36,
-                  height: 36,
-                }}
-              >
-                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
-                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', opacity: menuOpen ? 0 : 1, transition: 'opacity 250ms ease-out' }} />
-                <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
-              </button>
-            )}
+            <button
+              onClick={() => setMenuOpen(o => !o)}
+              aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
+              aria-expanded={menuOpen}
+              className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 8,
+              }}
+            >
+              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
+              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', opacity: menuOpen ? 0 : 1, transition: 'opacity 250ms ease-out' }} />
+              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
+            </button>
 
             {/* Shop now CTA */}
-            <PrimaryButton href="/products" variant="sage" size="md">
+            <PrimaryButton href="/products" variant="sage" size="md" className="hidden md:inline-flex">
               Pirkti dabar
             </PrimaryButton>
           </div>
@@ -177,6 +164,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           pointerEvents: menuOpen ? 'auto' : 'none',
           transition: 'opacity 250ms ease-out',
         }}
+        className="md:hidden"
       >
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {NAV_LINKS.map((link, i) => (

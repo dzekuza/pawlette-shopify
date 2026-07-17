@@ -72,6 +72,9 @@ export type Collar3DSceneProps = {
   interactive?: boolean
   /** Breathing room around the model's bounding sphere, as a multiplier (1 = no margin). Defaults to FIT_MARGIN. */
   fitMargin?: number
+  modelRotation?: [number, number, number]
+  modelScale?: number
+  modelPosition?: [number, number, number]
 }
 
 export default function Collar3DScene({
@@ -84,6 +87,9 @@ export default function Collar3DScene({
   autoRotateSpeed = 1.2,
   interactive = true,
   fitMargin = FIT_MARGIN,
+  modelRotation = [0, 0, 0],
+  modelScale = 1,
+  modelPosition = [0, 0, 0],
 }: Collar3DSceneProps) {
   return (
     <Canvas
@@ -97,15 +103,17 @@ export default function Collar3DScene({
       <directionalLight position={[0, -3, -5]} intensity={0.4} />
       <Suspense fallback={null}>
         <FitCameraToView margin={fitMargin}>
-          <Center>
-            <Collar3DMesh
-              items={items}
-              strapColour={strapColour}
-              hardwareColour={hardwareColour}
-              onSelectCharm={onSelectCharm}
-              selectedCharm={selectedCharm}
-            />
-          </Center>
+          <group rotation={modelRotation} scale={modelScale} position={modelPosition}>
+            <Center>
+              <Collar3DMesh
+                items={items}
+                strapColour={strapColour}
+                hardwareColour={hardwareColour}
+                onSelectCharm={onSelectCharm}
+                selectedCharm={selectedCharm}
+              />
+            </Center>
+          </group>
         </FitCameraToView>
         <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
       </Suspense>

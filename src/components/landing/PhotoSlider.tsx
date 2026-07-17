@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
+import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
@@ -175,7 +175,7 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
         loop={!autoPlay}
         muted
         playsInline
-        preload="auto"
+        preload={autoPlay ? 'auto' : 'metadata'}
         onEnded={autoPlay ? onEnded : undefined}
       />
       {!autoPlay && (
@@ -270,7 +270,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   return (
     <section className="bg-surface-2 overflow-hidden">
       <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-5 px-4 pt-[120px] md:px-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
+        className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 pt-16 md:px-6 md:pt-24 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
       >
         <DisplayHeading as="h2" size="section" className="text-left text-bark" style={{ flex: '1 0 0' }}>
           Jūsų spalvotos akimirkos.
@@ -279,7 +279,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
           Sukurtas kasdieniam komfortui, vandeniui atsparus silikonas.
         </BodyCopy>
       </div>
-      <div style={{ paddingTop: isMobile ? 32 : 48, paddingBottom: isMobile ? 32 : 48 }}>
+      <div style={{ paddingTop: isMobile ? 32 : 40, paddingBottom: isMobile ? 48 : 64 }}>
         <Carousel opts={{ align: 'start', loop: false, dragFree: true }} setApi={setCarouselApi} className="mx-auto max-w-[1200px] px-4 md:px-6">
           <CarouselContent className="justify-start md:justify-center" style={{ gap: 16 }}>
             {slides.map((slide, i) => (
@@ -298,7 +298,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
         </Carousel>
       </div>
       {!product && (
-        <div className="flex flex-wrap justify-center gap-4 px-4 pb-12 md:px-6 md:pb-[100px]">
+        <div className="flex flex-wrap justify-center gap-4 px-4 pb-16 md:px-6 md:pb-24">
           <Button asChild variant="pillOutline" size="pill">
             <Link href="/products/charm-charms">Pirkti pakabukus</Link>
           </Button>

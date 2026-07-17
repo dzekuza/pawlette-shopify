@@ -36,7 +36,7 @@ const FAQS: AccordionItem[] = [
 export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16">
+      <div className="mx-auto max-w-[1200px] px-4 py-16 md:px-6 md:py-24">
         <div style={{
           maxWidth: 760,
           margin: '0 auto',

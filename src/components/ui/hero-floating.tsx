@@ -46,8 +46,8 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           const { allowMotion } = context.conditions as { allowMotion?: boolean };
           if (!allowMotion) return;
 
-          const items = stickers.querySelectorAll<HTMLElement>("[data-hero-sticker]");
-          items.forEach((el, i) => {
+          const floatingItems = stickers.querySelectorAll<HTMLElement>("[data-hero-float]");
+          floatingItems.forEach((el, i) => {
             gsap.to(el, {
               y: "+=16",
               duration: 2.6 + i * 0.4,
@@ -65,16 +65,22 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   }, []);
 
   return (
-    <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:overflow-visible lg:py-20", className)}>
-      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20">
-        <div data-hero-sticker className="absolute left-[5%] top-[57%] w-[120px] -rotate-[17deg] lg:left-[4%] lg:top-[12%] lg:w-[170px]">
-          <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
+    <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:py-20", className)}>
+      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+        <div data-hero-sticker className="absolute left-[3%] top-[54%] w-[104px] -rotate-[17deg] lg:left-[4%] lg:top-[12%] lg:w-[170px]">
+          <div data-hero-float>
+            <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
+          </div>
         </div>
-        <div data-hero-sticker className="absolute left-[76%] top-[86%] w-[100px] -rotate-[23deg] lg:left-[85%] lg:top-[60%] lg:w-[120px]">
-          <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
+        <div data-hero-sticker className="absolute bottom-[2%] left-[71%] w-[82px] -rotate-[23deg] lg:left-[85%] lg:top-[60%] lg:w-[120px] lg:bottom-auto">
+          <div data-hero-float>
+            <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
+          </div>
         </div>
-        <div data-hero-sticker className="absolute left-[72%] top-[48%] w-[104px] -rotate-[17deg] lg:left-[12%] lg:top-[55%] lg:w-[140px]">
-          <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
+        <div data-hero-sticker className="absolute left-[70%] top-[44%] w-[92px] -rotate-[17deg] lg:left-[12%] lg:top-[55%] lg:w-[140px]">
+          <div data-hero-float>
+            <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
+          </div>
         </div>
       </div>
 

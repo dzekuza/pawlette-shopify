@@ -3,7 +3,6 @@
 import { Fragment } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR, type CharmSpec } from '@/lib/collar3d';
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
@@ -74,16 +73,13 @@ function FeatureItem({ iconSrc, title, desc }: { iconSrc: string; title: string;
 }
 
 export function FeaturesStrip() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
   return (
     <section style={{ background: 'linear-gradient(180deg, #b9cbdb 0%, #b8d8f4 100%)' }}>
       <div
-        className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-12 md:px-6 md:py-16"
-        style={{ flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 32 : 24 }}
+        className="mx-auto flex max-w-[1200px] flex-col items-center justify-between px-4 py-16 md:px-6 md:py-24 lg:flex-row"
+        style={{ gap: 32 }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
+        <div className="flex w-full shrink-0 flex-col gap-6 lg:w-[280px] xl:w-[300px]">
           {LEFT_FEATURES.map((f, i) => (
             <Fragment key={f.title}>
               {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}
@@ -92,7 +88,7 @@ export function FeaturesStrip() {
           ))}
         </div>
 
-        <div style={{ position: 'relative', width: isMobile ? '100%' : 408, aspectRatio: '4 / 3', flexShrink: 0 }}>
+        <div className="relative w-full shrink-0 lg:w-[360px] xl:w-[408px]" style={{ aspectRatio: '4 / 3' }}>
           <Collar3DScene
             items={FEATURES_CHARM_ITEMS}
             strapColour={DEFAULT_STRAP_COLOUR}
@@ -103,7 +99,7 @@ export function FeaturesStrip() {
           />
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
+        <div className="flex w-full shrink-0 flex-col gap-6 lg:w-[280px] xl:w-[300px]">
           {RIGHT_FEATURES.map((f, i) => (
             <Fragment key={f.title}>
               {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}

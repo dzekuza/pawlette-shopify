@@ -1,7 +1,6 @@
 'use client';
 
 import type { ProductDetail } from '@/lib/db';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import Link from 'next/link';
 import { ProductCard } from '@/components/products/ProductCard';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
@@ -15,29 +14,21 @@ const COLOR_SWATCHES = [
 ];
 
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
   const filteredProducts = products;
 
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
       <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-12 md:px-6 md:py-16"
+        className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 md:px-6 md:py-24"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         {/* Heading + description/CTA row */}
-        <div style={{
-          display: 'flex',
-          alignItems: isMobile ? 'flex-start' : 'flex-end',
-          justifyContent: 'space-between',
-          flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 24 : 64,
-        }}>
-          <DisplayHeading as="h2" size="section" className="text-bark" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
+        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end md:gap-16">
+          <DisplayHeading as="h2" size="section" className="flex-1 text-bark text-[32px] md:text-[48px]">
             Kas atsitiks po to, kai įsigysite PawCharms?
           </DisplayHeading>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flexShrink: 0, maxWidth: isMobile ? '100%' : 400 }}>
+          <div className="flex max-w-full shrink-0 flex-col gap-5 md:max-w-[400px]">
             <BodyCopy>
               Kurkite unikalų stilių savo šuniui. Pakabukus lengvai užmausite ir pakeisite vos per kelias sekundes.
             </BodyCopy>
@@ -46,8 +37,8 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
 
         {/* Product cards grid / carousel */}
         {filteredProducts.length > 0 ? (
-          isMobile ? (
-            <div className="hide-scrollbar" style={{
+          <>
+            <div className="hide-scrollbar md:hidden" style={{
               display: 'flex',
               gap: 12,
               overflowX: 'auto',
@@ -64,23 +55,18 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                 </div>
               ))}
             </div>
-          ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 20,
-            }}>
+            <div className="hidden grid-cols-3 gap-5 md:grid">
               {filteredProducts.map(p => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </div>
-          )
+          </>
         ) : (
           /* Placeholder cards when no products loaded */
           <div style={{
             display: 'grid',
-            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-            gap: isMobile ? 12 : 20,
+            gridTemplateColumns: 'repeat(2, 1fr)',
+            gap: 12,
           }}>
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

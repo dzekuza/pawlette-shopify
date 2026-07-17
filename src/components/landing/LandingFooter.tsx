@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { Eyebrow } from '@/components/storefront/Typography';
 import { FREE_SHIPPING_COPY } from '@/lib/site-config';
 
@@ -26,14 +25,10 @@ const FOOTER_COLS = [
 ];
 
 export function LandingFooter() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-  const isDesktop = w >= 1024;
-
   return (
-    <footer className="bg-surface-2 text-bark" style={{ padding: isMobile ? '40px 0 32px' : '60px 0 40px' }}>
+    <footer className="bg-surface-2 py-16 text-bark md:py-20">
       <div className="mx-auto max-w-[1200px] px-4 md:px-6">
-        <div style={{ display: 'grid', gridTemplateColumns: isDesktop ? '2fr 1fr 1fr 1fr' : '1fr', gap: isMobile ? 36 : 48, marginBottom: isMobile ? 32 : 56 }}>
+        <div className="mb-10 grid gap-10 md:mb-14 md:grid-cols-2 md:gap-12 xl:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" aria-label="PawCharms pagrindinis" style={{ display: 'inline-flex', marginBottom: 16 }}>
               <Image src="/pawcharms.svg" alt="PawCharms" width={100} height={32} style={{ height: 32, width: 'auto', display: 'block' }} />
@@ -58,26 +53,9 @@ export function LandingFooter() {
               ))}
             </div>
           </div>
-          {isMobile ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 24 }}>
-              {FOOTER_COLS.map((col, index) => (
-                <div key={col.title} style={{ gridColumn: index === FOOTER_COLS.length - 1 ? '1 / -1' : 'auto' }}>
-                  <Eyebrow className="mb-4">{col.title}</Eyebrow>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                    {col.links.map(l => (
-                      <Link key={l.label} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
-                        onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-bark)')}
-                        onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-bark-light)')}>
-                        {l.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            FOOTER_COLS.map((col) => (
-              <div key={col.title}>
+          <div className="grid grid-cols-2 gap-8 md:col-span-2 md:grid-cols-3 xl:col-span-3 xl:contents">
+            {FOOTER_COLS.map((col, index) => (
+              <div key={col.title} className={index === FOOTER_COLS.length - 1 ? 'col-span-2 md:col-span-1' : ''}>
                 <Eyebrow className="mb-4">{col.title}</Eyebrow>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
@@ -89,10 +67,10 @@ export function LandingFooter() {
                   ))}
                 </div>
               </div>
-            ))
-          )}
+            ))}
+          </div>
         </div>
-        <div style={{ borderTop: '1px solid var(--color-border)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 8 : 16 }}>
+        <div className="flex flex-col gap-2 border-t border-border pt-6 text-[12px] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-4">
           <div style={{ fontSize: 12, color: 'var(--color-muted-foreground)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
           <div style={{ fontSize: 12, color: 'var(--color-muted-foreground)' }}>hello@pawcharms.lt · Vilnius, Lietuva</div>
         </div>

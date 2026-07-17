@@ -34,8 +34,8 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
         right: 16,
         bottom: `calc(${16 + bottomOffset}px + var(--cookie-banner-height, 0px))`,
         zIndex: 400,
-        width: expanded ? 220 : 84,
-        height: expanded ? 391 : 112,
+        width: expanded ? 240 : 108,
+        height: expanded ? 426 : 144,
         transition: 'width 320ms cubic-bezier(0.23, 1, 0.32, 1), height 320ms cubic-bezier(0.23, 1, 0.32, 1), bottom 200ms ease-out',
       }}
     >
@@ -43,16 +43,16 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
         <div
           style={{
             position: 'absolute',
-            top: -14,
-            left: -10,
+            top: -18,
+            left: -6,
             zIndex: 1,
             background: 'var(--color-sage)',
             color: 'var(--color-interactive-text)',
-            fontSize: 11,
+            fontSize: 13,
             fontWeight: 600,
             lineHeight: 1.2,
-            padding: '6px 10px',
-            borderRadius: '12px 12px 12px 3px',
+            padding: '8px 13px',
+            borderRadius: '14px 14px 14px 4px',
             boxShadow: '0 4px 12px rgba(61,53,48,0.22)',
             whiteSpace: 'nowrap',
             pointerEvents: 'none',
@@ -67,7 +67,7 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
           position: 'relative',
           width: '100%',
           height: '100%',
-          borderRadius: expanded ? 20 : 18,
+          borderRadius: expanded ? 22 : 22,
           overflow: 'hidden',
           boxShadow: expanded
             ? '0 20px 48px rgba(61,53,48,0.32)'
@@ -93,10 +93,10 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
           <div
             style={{
               position: 'absolute',
-              left: 6,
-              bottom: 6,
-              width: 22,
-              height: 22,
+              left: 8,
+              bottom: 8,
+              width: 28,
+              height: 28,
               borderRadius: '50%',
               background: 'rgba(61,53,48,0.55)',
               backdropFilter: 'blur(4px)',
@@ -105,7 +105,7 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
               justifyContent: 'center',
             }}
           >
-            <VolumeX aria-hidden size={12} color="var(--color-cream)" strokeWidth={2.2} />
+            <VolumeX aria-hidden size={14} color="var(--color-cream)" strokeWidth={2.2} />
           </div>
         )}
 

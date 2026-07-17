@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { DisplayHeading } from '@/components/storefront/Typography';
 
 const TIMELINE = [
   {
@@ -28,12 +29,12 @@ export function HowItWorks() {
   return (
     <section id="how" className="bg-white">
       <div
-        className="mx-auto flex max-w-[1200px] flex-col items-center gap-8 px-4 py-12 md:px-6 md:py-16 lg:flex-row lg:items-center lg:gap-8"
+        className="mx-auto flex max-w-[1200px] flex-col items-center gap-10 px-4 py-16 md:px-6 md:py-24 lg:flex-row lg:items-center lg:gap-10"
       >
         <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', gap: isMobile ? 32 : 80, minWidth: 0, width: '100%' }}>
-          <p className="font-display" style={{ fontSize: isMobile ? 28 : 48, lineHeight: 1.2, color: 'var(--color-bark)', margin: 0 }}>
+          <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
             Kaip keisis jūsų kasdienybė?
-          </p>
+          </DisplayHeading>
 
           <div style={{ position: 'relative', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end' }}>
             <div style={{ position: 'relative', height: isMobile ? 300 : 380, width: isMobile ? 260 : 330 }}>

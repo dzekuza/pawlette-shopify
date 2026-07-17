@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { Eyebrow } from '@/components/storefront/Typography';
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
 const HOVER_LIFT = '[@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
 
@@ -14,8 +13,8 @@ function BentoCard({
   eyebrow,
   heading,
   description,
-  flex,
   align = 'end',
+  className,
   children,
 }: {
   background: string;
@@ -27,17 +26,16 @@ function BentoCard({
   eyebrow?: string;
   heading?: string;
   description?: string;
-  flex: string;
   align?: 'start' | 'end';
+  className?: string;
   children?: React.ReactNode;
 }) {
   return (
     <div
       data-animate="card"
-      className={`group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT}`}
+      className={`group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT} ${className ?? ''}`}
       style={{
         background,
-        flex,
         minHeight: 270,
         padding: bgImage ? 0 : 24,
         justifyContent: align === 'start' ? 'flex-start' : 'flex-end',
@@ -82,18 +80,15 @@ function BentoCard({
 }
 
 export function About() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
   const rowTop = (
-    <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
+    <div className="flex flex-col gap-4 md:flex-row">
       <BentoCard
         background="var(--color-surface-2)"
         glow="radial-gradient(circle, rgba(184,216,244,0.55) 0%, rgba(184,216,244,0) 70%)"
         eyebrow="Rankų darbas"
         heading="Kiekvienas antkaklis gaminamas rankomis"
         description="Aukščiausios kokybės BioThane šuns antkaklis"
-        flex={isMobile ? '1' : '0 0 380px'}
+        className="md:basis-[380px] md:flex-none"
       >
         <div aria-hidden="true" className="absolute -right-5 -top-[70px] w-[230px] rotate-[-17deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-13deg]" style={{ height: 230 }}>
           <Image src="/hero-figma/bento-collar-charm.png" alt="" fill sizes="230px" style={{ objectFit: 'contain' }} />
@@ -105,7 +100,7 @@ export function About() {
         eyebrow="Personalizacija"
         heading="Personalizuojamas išskirtiniais pakabukais"
         description="Magnetiniai silikoniniai PawCharms pakabučiai — personalizuokite savo stiliumi"
-        flex="1 0 0"
+        className="flex-1"
       >
         <div aria-hidden="true" className="absolute left-[4%] top-4 w-[30%] max-w-[130px] rotate-[-34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-28deg]" style={{ aspectRatio: '1 / 1' }}>
           <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="130px" style={{ objectFit: 'contain' }} />
@@ -118,12 +113,12 @@ export function About() {
   );
 
   const rowBottom = (
-    <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
+    <div className="flex flex-col gap-4 md:flex-row">
       <BentoCard
         background="var(--color-cream)"
         bgImage="/hero-figma/bento-dog-leash-meadow.jpg"
         bgImageAlt="Šuo su geltonu pavadėliu ir personalizuotu antkakliu pievoje"
-        flex="1 0 0"
+        className="flex-1"
       />
       <BentoCard
         background="var(--color-surface-2)"
@@ -131,7 +126,7 @@ export function About() {
         eyebrow="Derinys"
         heading="Sukurkite antkaklį, kuris atspindi jūsų šunį"
         description="Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
-        flex={isMobile ? '1' : '0 0 380px'}
+        className="md:basis-[380px] md:flex-none"
         align="start"
       >
         <div aria-hidden="true" className="absolute left-[78%] top-[60px] w-[260px] -translate-x-1/2 rotate-[53deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[47deg]" style={{ height: 260 }}>
@@ -144,11 +139,9 @@ export function About() {
   const brandPanel = (
     <div
       data-animate="card"
-      className={`group relative flex items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT}`}
+      className={`group relative flex items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT} md:basis-[340px] md:flex-none`}
       style={{
-        flex: isMobile ? '1' : '0 0 340px',
-        aspectRatio: isMobile ? '3 / 4' : undefined,
-        minHeight: isMobile ? 'auto' : undefined,
+        aspectRatio: '3 / 4',
         background: 'var(--color-surface-2)',
         boxShadow: '0 24px 48px -32px rgba(61,53,48,0.28), inset 0 1px 0 rgba(255,255,255,0.4)',
       }}
@@ -166,19 +159,13 @@ export function About() {
 
   return (
     <section id="about" className="bg-white">
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-12 md:px-6 md:py-16">
-        <div style={{
-          display: 'flex',
-          alignItems: isMobile ? 'flex-start' : 'flex-end',
-          justifyContent: 'space-between',
-          flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 16 : 24,
-        }}>
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 md:px-6 md:py-24">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end md:gap-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>Apie mus</Eyebrow>
-            <p className="font-display" style={{ fontSize: isMobile ? 28 : 48, lineHeight: 1.2, color: 'var(--color-bark)', margin: 0 }}>
+            <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
               Sukurta patogumui.<br />Pritaikyta jūsų šuniui
-            </p>
+            </DisplayHeading>
           </div>
           <a
             href="/configure"
@@ -189,24 +176,16 @@ export function About() {
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row">
-          {isMobile ? (
-            <>
-              {rowTop}
-              {brandPanel}
-              {rowBottom}
-            </>
-          ) : (
-            <>
-              {/* Left — 2x2 bento */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '1 0 0', minWidth: 0 }}>
-                {rowTop}
-                {rowBottom}
-              </div>
-
-              {/* Right — brand tile */}
-              {brandPanel}
-            </>
-          )}
+          <div className="flex flex-1 flex-col gap-4 min-w-0">
+            {rowTop}
+            {rowBottom}
+          </div>
+          <div className="lg:hidden">
+            {brandPanel}
+          </div>
+          <div className="hidden lg:block">
+            {brandPanel}
+          </div>
         </div>
       </div>
     </section>
