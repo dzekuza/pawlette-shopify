@@ -7,24 +7,29 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton';
 
 const FAQS: AccordionItem[] = [
   {
-    id: 'delivery',
-    title: 'Kiek laiko trunka pristatymas?',
-    content: 'Pristatymo laikas priklauso nuo atsiuntimo būdo. Dažniausiai siuntos pasiekia per 2–4 darbo dienas. Galiu pakeisti pristatymo adresą iki, kol siunta yra paruošta siuntimui.',
-  },
-  {
-    id: 'material',
-    title: 'Iš kokių medžiagų gaminami antkakliai?',
-    content: 'Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl visiškai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
-  },
-  {
     id: 'personalize',
-    title: 'Ar galima personalizuoti pakabuką?',
-    content: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokių įrankių ir jokio vargo. Galite laisvai derinti visus pakabukus tarp skirtingų antkaklių.',
+    title: 'Kaip personalizuoti antkaklį?',
+    content: 'Paspauskite ant pirmo laisvo langelio prie „1. Įrašykite raides" ir tiesiog pradėkite rašyti klaviatūra — pasirinkta raidė iškart atsiras pasirinktame langelyje, o kitas langelis automatiškai taps aktyvus, kad galėtumėte rašyti toliau. Taip galite iš anksto peržiūrėti, kaip atrodys jūsų šuns vardas ar norimas užrašas ant antkaklio.',
+  },
+  {
+    id: 'edit-letter',
+    title: 'Kaip pakeisti raidę?',
+    content: 'Paspauskite ant norimo langelio ir įrašykite naują raidę — ji pakeis ankstesnę.',
+  },
+  {
+    id: 'letter-count',
+    title: 'Kiek raidžių galiu pridėti?',
+    content: 'Galite užpildyti iki 6 langelių. 5 pakabukai yra įskaičiuoti į antkaklio kainą, o kiekvienas papildomas kainuos €3.99.',
+  },
+  {
+    id: 'color',
+    title: 'Kaip pasirinkti spalvą?',
+    content: 'Pažymėkite jau įrašytą raidę, ir vėliau apačioje pasirinkite norimą spalvą.',
   },
   {
     id: 'size',
-    title: 'Kaip pasirinkti tinkamą antkaklio dydį?',
-    content: 'Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–52 cm.',
+    title: 'Kaip pasirinkti tinkamą dydį?',
+    content: 'Prie dydžio pasirinkimo paspauskite mygtuką „Kaip išmatuoti tinkamą dydį".',
   },
 ];
 
