@@ -30,6 +30,15 @@ import { settle, spring, stepSpring } from '@/lib/spring'
 const LIFT = 0.5
 /** ...and how far above the strap. */
 const RISE = 0.2
+/**
+ * The charm mesh's own origin sits a little below its visual centre (the
+ * mounting-tunnel cut isn't perfectly centred), so a charm mounted at Y=0
+ * reads as hanging low off the strap. Lifting the seated rest position
+ * compensates without touching the Blender source.
+ */
+const SEATED_Y_OFFSET = 0.07
+/** Charms read small next to the strap at their native mesh scale. */
+const CHARM_SCALE = 1.2
 /** How far it is tipped back on arrival, in radians. */
 const TILT = 0.5
 /** How far a selected charm eases off the strap, in world units. */
@@ -175,13 +184,13 @@ export function Collar3DCharm({
     const off = 1 - m
 
     const radius = BACK_RADIUS + LIFT * off + SELECT_LIFT * s
-    group.current.position.set(radius * Math.cos(a), RISE * off, -radius * Math.sin(a))
+    group.current.position.set(radius * Math.cos(a), RISE * off + SEATED_Y_OFFSET * seated, -radius * Math.sin(a))
     group.current.rotation.y = a + Math.PI / 2
 
     // Local X is the reading direction, so this tips the letter face-up towards
     // the viewer and rolls it down flat onto the leather.
     mesh.current.rotation.x = TILT * off
-    mesh.current.scale.setScalar(seated * (1 + SELECT_GROWTH * s))
+    mesh.current.scale.setScalar(seated * CHARM_SCALE * (1 + SELECT_GROWTH * s))
 
     // A deleted letter has no layout entry left, so it has no colour to be told
     // about either — it keeps whatever it was wearing on its way out.
@@ -202,7 +211,7 @@ export function Collar3DCharm({
   return (
     <group
       ref={group}
-      position={[BACK_RADIUS * Math.cos(angle), 0, -BACK_RADIUS * Math.sin(angle)]}
+      position={[BACK_RADIUS * Math.cos(angle), SEATED_Y_OFFSET, -BACK_RADIUS * Math.sin(angle)]}
       rotation={[0, angle + Math.PI / 2, 0]}
     >
       <mesh
