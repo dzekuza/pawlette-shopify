@@ -28,7 +28,7 @@ const FAQS: AccordionItem[] = [
   },
 ];
 
-export function FAQ() {
+export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16">
@@ -48,9 +48,11 @@ export function FAQ() {
             <Accordion items={FAQS} />
           </div>
 
-          <PrimaryButton href="/products" variant="sage" size="md">
-            Apsipirkti
-          </PrimaryButton>
+          {showCta && (
+            <PrimaryButton href="/products" variant="sage" size="md">
+              Apsipirkti
+            </PrimaryButton>
+          )}
         </div>
       </div>
     </section>

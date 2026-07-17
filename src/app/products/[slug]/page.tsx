@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
-import { getAllProductSlugs, getProductBySlugAsync, getRecommendedProductsForProductAsync } from '@/lib/catalog'
+import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
 import {
   buildProductBreadcrumbJsonLd,
   buildProductFaqSchema,
@@ -70,8 +70,6 @@ export default async function ProductPage ({ params }: ProductPageProps) {
 
   if (!product) notFound()
 
-  const recommendedProducts = await getRecommendedProductsForProductAsync(product)
-
   const productSchema = buildProductJsonLd(product)
   const breadcrumbSchema = buildProductBreadcrumbJsonLd(product)
   const faqSchema = buildProductFaqSchema(product)
@@ -87,7 +85,7 @@ export default async function ProductPage ({ params }: ProductPageProps) {
   return (
     <>
       {schemas}
-      <SingleProductPage product={product} recommendedProducts={recommendedProducts} />
+      <SingleProductPage product={product} />
     </>
   )
 }

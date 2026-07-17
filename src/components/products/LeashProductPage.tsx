@@ -8,7 +8,6 @@ import { ShoppingCart, Droplets, Ruler, Shield, Sparkles } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Accordion, type AccordionItem } from '@/components/shared/Accordion'
-import { UpsellSection } from '@/components/products/UpsellSection'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
@@ -171,9 +170,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             colors={colors}
             added={added}
             onAddToCart={addToCart}
-            swipeStartRef={swipeStartRef}
-            upsellCollars={recommendedProducts.filter(p => p.productType === 'collar').slice(0, 2)}
-          />
+            swipeStartRef={swipeStartRef}          />
         ) : (
           <DesktopLayout
             product={product}
@@ -186,9 +183,7 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
             onColorChange={handleColorChange}
             colors={colors}
             added={added}
-            onAddToCart={addToCart}
-            upsellCollars={recommendedProducts.filter(p => p.productType === 'collar').slice(0, 2)}
-          />
+            onAddToCart={addToCart}          />
         )}
       </div>
 
@@ -285,11 +280,9 @@ interface LayoutProps {
   colors: string[]
   added: boolean
   onAddToCart: () => void
-  swipeStartRef?: React.MutableRefObject<number | null>
-  upsellCollars?: ProductDetail[]
-}
+  swipeStartRef?: React.MutableRefObject<number | null>}
 
-function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, upsellCollars }: LayoutProps) {
+function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart }: LayoutProps) {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 480px', maxWidth: 1200, margin: '0 auto', padding: '48px 40px', gap: 64, alignItems: 'start' }}>
       {/* Gallery column */}
@@ -329,9 +322,7 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
           onColorChange={onColorChange}
           colors={colors}
           added={added}
-          onAddToCart={onAddToCart}
-          upsellCollars={upsellCollars}
-        />
+          onAddToCart={onAddToCart}        />
       </div>
     </div>
   )
@@ -339,7 +330,7 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
 
 /* ─────────────────── Mobile Layout ─────────────────── */
 
-function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStartRef, upsellCollars }: LayoutProps) {
+function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStartRef }: LayoutProps) {
   return (
     <div>
       <div
@@ -380,9 +371,7 @@ function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selected
           onColorChange={onColorChange}
           colors={colors}
           added={added}
-          onAddToCart={onAddToCart}
-          upsellCollars={upsellCollars}
-        />
+          onAddToCart={onAddToCart}        />
       </div>
     </div>
   )
@@ -398,11 +387,9 @@ interface InfoPanelProps {
   onColorChange: (color: string) => void
   colors: string[]
   added: boolean
-  onAddToCart: () => void
-  upsellCollars?: ProductDetail[]
-}
+  onAddToCart: () => void}
 
-function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, upsellCollars }: InfoPanelProps) {
+function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart }: InfoPanelProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Breadcrumb */}
@@ -551,10 +538,6 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
         ))}
       </div>
 
-      {/* Upsell — collar recommendations */}
-      {upsellCollars && upsellCollars.length > 0 && (
-        <UpsellSection items={upsellCollars} label="Suderink su antkaklius" />
-      )}
     </div>
   )
 }

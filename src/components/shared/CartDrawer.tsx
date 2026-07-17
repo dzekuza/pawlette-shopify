@@ -7,6 +7,7 @@ import { X, PawPrint, Lock } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fetchCart, removeCartLine, SHOPIFY_CART_UPDATED_EVENT, type ShopifyCart } from '@/lib/cart';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { CartUpsell } from '@/components/shared/CartUpsell';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { PaymentBadges } from '@/components/storefront/PaymentBadges';
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/site-config';
@@ -174,6 +175,10 @@ export function CartDrawer() {
                         </div>
                       );
                     })}
+                  </div>
+
+                  <div className="mt-4">
+                    <CartUpsell lines={lines} />
                   </div>
                 </div>
 

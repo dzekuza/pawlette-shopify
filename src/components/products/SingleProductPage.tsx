@@ -25,7 +25,6 @@ import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
-import { UpsellSection } from '@/components/products/UpsellSection'
 import { Accordion } from '@/components/shared/Accordion'
 import { GalleryLightbox } from '@/components/products/GalleryLightbox'
 import { ProductCard } from '@/components/products/ProductCard'
@@ -96,7 +95,7 @@ function getCharmGallerySurface () {
 
 const DEFAULT_CHARM_ACCORDION = [
   { id: 'description', title: 'Aprašymas', content: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.' },
-  { id: 'shipping', title: 'Pristatymas ir grąžinimas', content: 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimas per 30 dienų.' },
+  { id: 'shipping', title: 'Pristatymas ir grąžinimas', content: 'Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės' },
 ]
 
 const PDP_REVIEW_RATING = 4.9
@@ -150,10 +149,9 @@ function translateColorLabel (value: string) {
 
 interface Props {
   product: ProductDetail
-  recommendedProducts: ProductDetail[]
 }
 
-export function SingleProductPage ({ product, recommendedProducts }: Props) {
+export function SingleProductPage ({ product }: Props) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
   const router = useRouter()
@@ -628,7 +626,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} />
           </div>
         </>
       )}
@@ -843,7 +841,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} upsellItems={isLeash ? recommendedProducts.filter(p => p.productType === 'collar') : recommendedProducts.filter(p => p.productType === 'leash').slice(0, 1)} upsellLabel={isLeash ? 'Suderink su antkaklius' : 'Pridėk pavadėlį su nuolaidą'} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} />
           </div>
         ) : (
           /* Desktop charm right */
@@ -936,7 +934,7 @@ export function SingleProductPage ({ product, recommendedProducts }: Props) {
 
       <ComparisonTable />
       <PhotoSlider product={product} />
-      <FAQ />
+      <FAQ showCta={false} />
       <LandingFooter />
 
       {isMobile && isCollar && collar && (
@@ -1212,10 +1210,10 @@ function SortableLetterSlot({
       }}
     >
       {showCursorBefore && (
-        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
       )}
       {showCursorAfter && (
-        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
       )}
       {index === MAX_CHARMS - 1 && (
         <span
@@ -1259,7 +1257,7 @@ function SortableLetterSlot({
             />
           )
           : (
-            <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[index] }}>_</span>
+            <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[index] }} />
           )}
       </Tag>
     </div>
@@ -1328,8 +1326,6 @@ interface CollarPDPProps {
   price: string
   name: string
   showCharms?: boolean
-  upsellItems?: ProductDetail[]
-  upsellLabel?: string
   videos?: string[]
 }
 
@@ -1393,7 +1389,7 @@ function VideoCircles ({ videos }: { videos: string[] }) {
   )
 }
 
-function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, onCharmReorder, onNeedMoreCharms, mounted = false, allCharms = [], price, name, showCharms = true, upsellItems, upsellLabel, videos = [] }: CollarPDPProps) {
+function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onColorChange, onSizeChange, onAddToCart, onPersonalise, selectedCharmCount, selectedCharms, charmName = '', onCharmNameChange, onCharmColourAt, onToggleCharm, onCharmReorder, onNeedMoreCharms, mounted = false, allCharms = [], price, name, showCharms = true, videos = [] }: CollarPDPProps) {
   const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
@@ -1457,8 +1453,8 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
   const accordionItems = [
     { id: 'description', title: 'Aprašymas',       content: collar?.description  || 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.' },
     { id: 'features',    title: 'Savybės',  content: collar?.features     || 'Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.' },
-    { id: 'includes',    title: 'Į rinkinį įeina',      content: collar?.set_includes || 'Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojama saugi sagtis. Lininis laikymo maišelis.' },
-    { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping    || 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės.' },
+    { id: 'includes',    title: 'Į rinkinį įeina',      content: collar?.set_includes || 'Antkaklis pasirinktos spalvos ir dydžio · Penki keičiami prisegami pakabukai — pirmi penki įskaičiuoti nemokamai, kiekvienas papildomas + €3.99 · Reguliuojama saugi sagtis · Lininis laikymo maišelis' },
+    { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping    || 'Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės' },
   ]
 
   return (
@@ -1643,10 +1639,10 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                   return (
                     <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
                       {showCursorBefore && (
-                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', left: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
                       )}
                       {showCursorAfter && (
-                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '28%', width: 2, height: '44%', background: TEXT_PRIMARY, zIndex: 1 }} />
+                        <span aria-hidden="true" className="animate-pulse" style={{ position: 'absolute', right: -6, top: '50%', width: 2, height: 22, transform: 'translateY(-50%)', background: TEXT_PRIMARY, zIndex: 1 }} />
                       )}
                       {i === MAX_CHARMS - 1 && (
                         <span
@@ -1691,7 +1687,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                             />
                           )
                           : (
-                            <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>
+                            <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[i] }} />
                           )}
                       </Tag>
                     </div>
@@ -1760,7 +1756,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
                 >
                   {c?.image
                     ? <Image src={c.image} alt={c.title} width={48} height={48} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                    : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+                    : <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[i] }} />}
                   {c && onToggleCharm && (
                     <button
                       type="button"
@@ -1929,12 +1925,7 @@ function CollarPDP ({ collar, allCollars = [], selectedColor, selectedSize, onCo
         ))}
       </div>
 
-      {/* Upsell — cross-sell item */}
-      {upsellItems && upsellItems.length > 0 && (
-        <UpsellSection items={upsellItems} label={upsellLabel ?? 'Suderink rinkinį'} />
-      )}
-
-      {/* Review carousel — below upsell for conversion lift */}
+      {/* Review carousel — cross-sell moved to cart drawer as an upsell */}
       <div
         id="reviews"
         style={{

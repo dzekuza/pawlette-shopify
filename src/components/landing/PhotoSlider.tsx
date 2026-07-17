@@ -297,11 +297,13 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
           </CarouselContent>
         </Carousel>
       </div>
-      <div className="flex flex-wrap justify-center gap-4 px-4 pb-12 md:px-6 md:pb-[100px]">
-        <Button asChild variant="pillOutline" size="pill">
-          <Link href="/products/charm-charms">Pirkti pakabukus</Link>
-        </Button>
-      </div>
+      {!product && (
+        <div className="flex flex-wrap justify-center gap-4 px-4 pb-12 md:px-6 md:pb-[100px]">
+          <Button asChild variant="pillOutline" size="pill">
+            <Link href="/products/charm-charms">Pirkti pakabukus</Link>
+          </Button>
+        </div>
+      )}
     </section>
   );
 }

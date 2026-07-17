@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useWindowWidth } from '@/hooks/useWindowWidth'
 
 export interface CartToastItem {
   id: string
@@ -18,6 +19,9 @@ interface CartToastProps {
 }
 
 export function CartToast ({ items, onClose, duration = 3500 }: CartToastProps) {
+  const w = useWindowWidth() ?? 1200
+  const isDesktop = w >= 768
+
   useEffect(() => {
     if (!items || items.length === 0) return
     const timer = setTimeout(onClose, duration)
@@ -36,9 +40,10 @@ export function CartToast ({ items, onClose, duration = 3500 }: CartToastProps) 
           aria-live="polite"
           style={{
             position: 'fixed',
-            top: 'calc(128px + env(safe-area-inset-top, 0px))',
-            left: '50%',
-            transform: 'translateX(-50%)',
+            top: 'calc(88px + env(safe-area-inset-top, 0px))',
+            ...(isDesktop
+              ? { right: 24, left: 'auto', transform: 'none' }
+              : { left: '50%', transform: 'translateX(-50%)' }),
             zIndex: 900,
             width: 'min(360px, calc(100vw - 24px))',
             background: 'var(--color-cream)',

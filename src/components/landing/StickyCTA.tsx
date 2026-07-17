@@ -34,7 +34,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
             ))}
           </div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 28 €</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 32.99 €</div>
             <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · {FREE_SHIPPING_COPY.toLowerCase()}</div>
           </div>
         </div>
