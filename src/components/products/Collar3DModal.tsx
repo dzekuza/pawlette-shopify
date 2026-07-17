@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
-import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
+import { collar3DCharms, collar3DLetters, extractLetter, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
 
 const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)']
 
@@ -54,10 +54,12 @@ export function Collar3DModal({
   charmColorKey,
   onCharmColorChange,
 }: Collar3DModalProps) {
-  const { letterCharms, iconCharms, name, charmColours } = useMemo(
+  const { letterCharms, iconCharms, name } = useMemo(
     () => collar3DLetters(selectedCharms),
     [selectedCharms],
   )
+  const items = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
+  const showUnrenderableDisclaimer = useMemo(() => hasUnrenderableIconCharms(selectedCharms), [selectedCharms])
 
   const [selectedCharmIndex, setSelectedCharmIndex] = useState<number | null>(null)
   const [charmRowFocused, setCharmRowFocused] = useState(false)
@@ -136,10 +138,9 @@ export function Collar3DModal({
 
         <div style={{ position: 'relative', width: '100%', height: '45vh', borderRadius: 16, overflow: 'hidden', background: 'var(--color-surface-2)' }}>
           <Collar3DScene
-            name={name}
+            items={items}
             strapColour={collar?.color ?? DEFAULT_STRAP_COLOUR}
             hardwareColour={HARDWARE_COLOUR}
-            charmColours={charmColours}
             selectedCharm={selectedCharmIndex}
             onSelectCharm={(i) => setSelectedCharmIndex((s) => (s === i ? null : i))}
           />
@@ -278,7 +279,7 @@ export function Collar3DModal({
           </div>
         </section>
 
-        {iconCharms.length > 0 && (
+        {showUnrenderableDisclaimer && (
           <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', textAlign: 'center' }}>
             Papildomi pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje.
           </p>

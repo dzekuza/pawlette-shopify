@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Collar3DModal } from '@/components/products/Collar3DModal'
 import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile'
+import { Charm3DGalleryTile } from '@/components/products/Charm3DGalleryTile'
 import { LandingNav } from '@/components/landing/LandingNav'
 import { TopBar } from '@/components/landing/TopBar'
 import { PhotoSlider } from '@/components/landing/PhotoSlider'
@@ -19,7 +20,7 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
-import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
+import { collar3DCharms, collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
@@ -177,6 +178,7 @@ export function SingleProductPage ({ product }: Props) {
   const [charmQuery, setCharmQuery] = useState('')
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
+  const [previewCharmImage, setPreviewCharmImage] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -334,6 +336,7 @@ export function SingleProductPage ({ product }: Props) {
   }
 
   const toggleCharm = (charm: ShopifyCharm) => {
+    const isSelected = selectedCharms.some(c => c?.id === charm.id)
     setSelectedCharms(prev => {
       const idx = prev.findIndex(c => c?.id === charm.id)
       if (idx !== -1) { const next = [...prev]; next[idx] = null; return next }
@@ -341,6 +344,13 @@ export function SingleProductPage ({ product }: Props) {
       if (empty === -1) return prev
       const next = [...prev]; next[empty] = charm; return next
     })
+    // Picking a charm swaps only the top gallery image to that charm's photo — the thumbnails below stay static.
+    if (!isSelected && charm.image) {
+      setPreviewCharmImage(charm.image)
+      setCharmGalleryIndex(0)
+    } else if (isSelected) {
+      setPreviewCharmImage(current => (current === charm.image ? null : current))
+    }
   }
   const selectedCharmCount = selectedCharms.filter(Boolean).length
   const handleCharmPageDragEnd = (event: DragEndEvent) => {
@@ -496,18 +506,28 @@ export function SingleProductPage ({ product }: Props) {
   const firstSelectedCharm = selectedCharms.find(Boolean) ?? null
   const displayName = selectedCharmCount === 1 ? (firstSelectedCharm?.title ?? product.name) : product.name
   const displayPrice = firstSelectedCharm?.price ?? product.price
-  const charmGallery = product.images.length > 0
+  // Picking a charm only replaces the top gallery image (previewCharmImage) — the static
+  // product thumbnails below stay in place, same as the collar page's non-3D gallery tiles.
+  const baseCharmGallery = product.images.length > 0
     ? product.images
     : firstSelectedCharm?.image
       ? [firstSelectedCharm.image]
       : []
+  const charmGallery = previewCharmImage
+    ? [previewCharmImage, ...baseCharmGallery.filter((src) => src !== previewCharmImage)]
+    : baseCharmGallery
   const visibleCharmGallery = charmGallery.slice(0, 7)
   const safeCharmGalleryIndex = visibleCharmGallery[charmGalleryIndex] ? charmGalleryIndex : 0
   const charmHeroImage = visibleCharmGallery[safeCharmGalleryIndex] ?? visibleCharmGallery[0] ?? ''
+  // Every currently selected charm that has a Blender-authored mesh, in pick order — icon charms
+  // without one yet (leaf/bow/sun/drop) are dropped, same as the collar's 3D view. Falls back to
+  // the static photo gallery when nothing selected is renderable.
+  const previewCharms3D = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
+  const showCharmHero3D = safeCharmGalleryIndex === 0 && previewCharms3D.length > 0
   const charmThumbnails = visibleCharmGallery
     .map((src, index) => ({ src, index }))
     .filter(({ index }) => index !== safeCharmGalleryIndex)
-    .slice(0, 6)
+    .slice(0, 4)
 
   return (
     <div className="bg-cream min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
@@ -521,7 +541,7 @@ export function SingleProductPage ({ product }: Props) {
           <div style={{ padding: '16px 20px 0' }}>
             {/* Slider — the 3D preview is slide 0 when this is a collar, so it's visible without any extra tap */}
             {(() => {
-              const show3DSlide = isCollar && !isCharmProduct
+              const show3DSlide = isCollarOrLeash && !isCharmProduct
               const totalSlides = gallery.length + (show3DSlide ? 1 : 0)
               const on3DSlide = show3DSlide && activeSlide === 0
               return (
@@ -626,7 +646,7 @@ export function SingleProductPage ({ product }: Props) {
 
           {/* Right panel on mobile */}
           <div style={{ padding: '24px 20px 104px' }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollarOrLeash && !isCharmProduct} />
           </div>
         </>
       )}
@@ -648,15 +668,19 @@ export function SingleProductPage ({ product }: Props) {
               <div style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${safeCharmGalleryIndex * 100}%)` }}>
                 {visibleCharmGallery.map((src, index) => (
                   <div key={`${src}-${index}`} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
-                    <Image
-                      src={src}
-                      alt={index === safeCharmGalleryIndex ? displayName : ''}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                      priority={index === safeCharmGalleryIndex && index === 0}
-                      draggable={false}
-                      className='select-none object-cover'
-                    />
+                    {index === 0 && showCharmHero3D ? (
+                      <Charm3DGalleryTile items={previewCharms3D} variant="slide" />
+                    ) : (
+                      <Image
+                        src={src}
+                        alt={index === safeCharmGalleryIndex ? displayName : ''}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                        priority={index === safeCharmGalleryIndex && index === 0}
+                        draggable={false}
+                        className='select-none object-cover'
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -794,7 +818,7 @@ export function SingleProductPage ({ product }: Props) {
               position: 'sticky', top: NAV_H, alignSelf: 'start', overflow: 'hidden',
             }}
           >
-            {isCollar && !isCharmProduct && (
+            {isCollarOrLeash && !isCharmProduct && (
               <Collar3DGalleryTile
                 collar={collar}
                 selectedCharms={selectedCollarCharms}
@@ -821,27 +845,27 @@ export function SingleProductPage ({ product }: Props) {
             ))}
           </div>
         ) : (
-          /* Desktop charm left */
-          <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', display: 'flex', flexDirection: 'column', gap: 10 }}>
-            <div style={{ borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1', position: 'relative' }}>
-              {charmHeroImage ? <Image src={charmHeroImage} alt={displayName} fill sizes='(max-width: 1280px) 50vw, 600px' priority className='object-cover' /> : null}
-            </div>
-            {charmThumbnails.length > 0 && (
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                {charmThumbnails.map(({ src, index }, thumbIndex) => (
-                  <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid var(--color-bark)' : 'none', position: 'relative' }}>
-                    <Image src={src} alt="" fill sizes='(max-width: 1280px) 25vw, 300px' className='object-cover' />
-                  </div>
-                ))}
+          /* Desktop charm left — same grid layout as the collar page: full-width hero on top, 2x2 thumbnail grid below */
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, position: 'sticky', top: NAV_H, alignSelf: 'start', overflow: 'hidden' }}>
+            {showCharmHero3D ? (
+              <Charm3DGalleryTile items={previewCharms3D} variant="grid" />
+            ) : (
+              <div style={{ gridColumn: 'span 2', borderRadius: '20px 20px 8px 8px', overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'background-color 300ms', aspectRatio: '1 / 1', position: 'relative' }}>
+                {charmHeroImage ? <Image src={charmHeroImage} alt={displayName} fill sizes='(max-width: 1280px) 50vw, 600px' priority className='object-cover' /> : null}
               </div>
             )}
+            {charmThumbnails.map(({ src, index }, thumbIndex) => (
+              <div key={`${src}-${index}`} onClick={() => setCharmGalleryIndex(index)} style={{ borderRadius: thumbIndex === charmThumbnails.length - 2 ? '8px 8px 8px 20px' : thumbIndex === charmThumbnails.length - 1 ? '8px 8px 20px 8px' : 8, overflow: 'hidden', background: getCharmGallerySurface(), display: 'flex', alignItems: 'center', justifyContent: 'center', aspectRatio: '1 / 1', cursor: 'pointer', outline: safeCharmGalleryIndex === index ? '2px solid var(--color-bark)' : 'none', position: 'relative' }}>
+                <Image src={src} alt="" fill sizes='(max-width: 1280px) 25vw, 300px' className='object-cover' />
+              </div>
+            ))}
           </div>
         )}
 
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
           <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
-            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollar && !isCharmProduct} />
+            <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={isCollarOrLeash && !isCharmProduct} />
           </div>
         ) : (
           /* Desktop charm right */

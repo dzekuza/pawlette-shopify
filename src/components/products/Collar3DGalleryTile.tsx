@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { Box } from 'lucide-react'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
-import { collar3DLetters } from '@/lib/collar3dSelection'
+import { collar3DCharms, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
@@ -25,7 +25,8 @@ type Collar3DGalleryTileProps = {
 }
 
 export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid' }: Collar3DGalleryTileProps) {
-  const { name, charmColours, iconCharms } = useMemo(() => collar3DLetters(selectedCharms), [selectedCharms])
+  const items = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
+  const showUnrenderableDisclaimer = useMemo(() => hasUnrenderableIconCharms(selectedCharms), [selectedCharms])
 
   return (
     <div
@@ -50,10 +51,9 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
         }}
     >
       <Collar3DScene
-        name={name}
+        items={items}
         strapColour={collar?.color ?? DEFAULT_STRAP_COLOUR}
         hardwareColour={HARDWARE_COLOUR}
-        charmColours={charmColours}
       />
 
       <div
@@ -71,7 +71,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
         <p style={{ margin: 0, fontSize: 11, color: 'var(--color-bark-muted)' }}>
           Vilkite, kad pasuktumėte
         </p>
-        {iconCharms.length > 0 && (
+        {showUnrenderableDisclaimer && (
           <p style={{ margin: 0, fontSize: 10.5, color: 'var(--color-bark-muted)', maxWidth: 200 }}>
             Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje
           </p>

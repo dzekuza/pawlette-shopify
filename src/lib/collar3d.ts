@@ -56,6 +56,16 @@ export const CHARM_WIDTHS: Record<string, number> = {
 
 export const isCharmable = (ch: string) => ch in CHARM_WIDTHS;
 
+/** Per-icon-shape width, in the same world units as CHARM_WIDTHS. Measured from the Blender source meshes. */
+export const SHAPE_WIDTHS: Record<string, number> = {
+  Heart: 0.8534,
+  Star: 0.7768,
+  Flower: 0.7406,
+  Paw: 0.8098,
+};
+
+const ALL_WIDTHS: Record<string, number> = { ...CHARM_WIDTHS, ...SHAPE_WIDTHS };
+
 export type PlacedCharm = {
   char: string;
   /** Radians, measured in the same frame as CENTRE_DEG. */
@@ -64,32 +74,55 @@ export type PlacedCharm = {
   rotationY: number;
 };
 
-/**
- * Lay a name out around the collar with proportional (kerned) spacing,
- * centred on `centreDeg`. Unsupported characters are dropped.
- */
-export function layoutName(name: string, centreDeg = CENTRE_DEG): PlacedCharm[] {
-  const chars = [...name.toUpperCase()].filter(isCharmable);
-  if (chars.length === 0) return [];
+/** A single item to place around the collar: a letter/digit, or an icon charm shape. */
+export type CharmSpec = {
+  /** Mesh lookup key: a single letter/digit for letters, or a shape name ("Heart", "Star", ...) for icons. */
+  meshKey: string;
+  colour: string;
+  kind: 'letter' | 'icon';
+};
 
-  const widths = chars.map((c) => CHARM_WIDTHS[c]);
-  const arc = widths.reduce((a, b) => a + b, 0) + GAP * (chars.length - 1);
+export type LaidOutCharm = PlacedCharm & { colour: string; kind: 'letter' | 'icon' };
+
+/**
+ * Lay arbitrary charms (letters and/or icons, in the given order) out around
+ * the collar with proportional (kerned) spacing, centred on `centreDeg`.
+ */
+export function layoutCharms(items: CharmSpec[], centreDeg = CENTRE_DEG): LaidOutCharm[] {
+  if (items.length === 0) return [];
+
+  const widths = items.map((it) => ALL_WIDTHS[it.meshKey] ?? 0.6);
+  const arc = widths.reduce((a, b) => a + b, 0) + GAP * (items.length - 1);
 
   // Walk from the low-angle end; reading direction is increasing angle.
   let cursor = (centreDeg * Math.PI) / 180 - arc / TEXT_RADIUS / 2;
 
-  return chars.map((char, i) => {
+  return items.map((item, i) => {
     cursor += widths[i] / 2 / TEXT_RADIUS;
     const angle = cursor;
     cursor += (widths[i] / 2 + GAP) / TEXT_RADIUS;
 
     return {
-      char,
+      char: item.meshKey,
+      colour: item.colour,
+      kind: item.kind,
       angle,
       position: [BACK_RADIUS * Math.cos(angle), 0, -BACK_RADIUS * Math.sin(angle)],
       rotationY: angle + Math.PI / 2,
     };
   });
+}
+
+/**
+ * Lay a name out around the collar. Unsupported characters are dropped.
+ * Thin wrapper around layoutCharms for letters-only callers.
+ */
+export function layoutName(name: string, centreDeg = CENTRE_DEG): PlacedCharm[] {
+  const chars = [...name.toUpperCase()].filter(isCharmable);
+  return layoutCharms(
+    chars.map((c) => ({ meshKey: c, colour: '', kind: 'letter' as const })),
+    centreDeg,
+  );
 }
 
 /**
@@ -136,5 +169,5 @@ export const HARDWARE_COLOUR = "#EFF0F2";
 export const MATERIAL_DEFAULTS = {
   strap: { roughness: 0.45, metalness: 0.0, envMapIntensity: 0.35 },
   hardware: { roughness: 0.3, metalness: 0.75, envMapIntensity: 1.4 },
-  charm: { roughness: 0.62, metalness: 0.0, envMapIntensity: 0.35 },
+  charm: { roughness: 0.92, metalness: 0.0, envMapIntensity: 0.35 },
 } as const;

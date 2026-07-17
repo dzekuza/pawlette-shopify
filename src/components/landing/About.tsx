@@ -54,8 +54,8 @@ export function About() {
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
       <BentoCard
         background="var(--color-surface-2)"
-        heading="Kokybė, kuria galite pasitikėti"
-        description="Kiekvienas antkaklis gaminamas iš patvarių, aukštos kokybės medžiagų"
+        heading="Kiekvienas antkaklis gaminamas rankomis"
+        description="Aukščiausios kokybės BioThane šuns antkaklis"
         flex={isMobile ? '1' : '0 0 380px'}
       >
         <div aria-hidden="true" style={{ position: 'absolute', top: -70, right: -20, width: 230, height: 230, transform: 'rotate(-17deg)' }}>
@@ -64,8 +64,8 @@ export function About() {
       </BentoCard>
       <BentoCard
         background="rgba(168,213,162,0.3)"
-        heading="Jūsų šuo, jūsų stilius"
-        description="Personalizuokite antkaklį išskirtiniais pakabukais ir raidėmis"
+        heading="Personalizuojamas išskirtiniais pakabukais"
+        description="Magnetiniai silikoniniai PawCharms pakabučiai — personalizuokite savo stiliumi"
         flex="1 0 0"
       >
         <div aria-hidden="true" style={{ position: 'absolute', top: -20, left: '2%', width: '48%', maxWidth: 220, aspectRatio: '1 / 1', transform: 'rotate(-34deg)' }}>
@@ -81,7 +81,7 @@ export function About() {
   const rowBottom = (
     <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 16 }}>
       <BentoCard
-        background="rgba(168,213,162,0.3)"
+        background="var(--color-cream)"
         heading="Atlaiko kiekvieną nuotykį"
         description="Atsparus vandeniui, purvui ir kasdienei avantiūrai"
         flex="1 0 0"
@@ -93,7 +93,7 @@ export function About() {
       </BentoCard>
       <BentoCard
         background="var(--color-surface-2)"
-        heading="Suderinkite su antkakliu"
+        heading="Sukurkite antkaklį, kuris atspindi jūsų šunį"
         description="Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
         flex={isMobile ? '1' : '0 0 380px'}
         align="start"
@@ -105,7 +105,7 @@ export function About() {
     </div>
   );
 
-  const videoPanel = (
+  const brandPanel = (
     <div
       style={{
         flex: isMobile ? '1' : '0 0 340px',
@@ -114,43 +114,59 @@ export function About() {
         borderRadius: 24,
         position: 'relative',
         overflow: 'hidden',
-        background: 'var(--color-surface-2)',
+        background: 'linear-gradient(180deg, var(--color-surface-2) 0%, var(--color-border) 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
-      <video
-        src="https://cdn.shopify.com/videos/c/o/v/eaad51df2ebc4bdd81140870ab6f1534.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-      />
+      <div style={{ position: 'relative', width: '55%', aspectRatio: '1.9 / 1' }}>
+        <Image src="/pawcharms.svg" alt="PawCharms" fill sizes="240px" style={{ objectFit: 'contain' }} />
+      </div>
     </div>
   );
 
   return (
     <section id="about" className="bg-white">
-      <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-4 px-4 py-12 md:px-6 md:py-16 lg:flex-row"
-      >
-        {isMobile ? (
-          <>
-            {rowTop}
-            {videoPanel}
-            {rowBottom}
-          </>
-        ) : (
-          <>
-            {/* Left — 2x2 bento */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '1 0 0', minWidth: 0 }}>
-              {rowTop}
-              {rowBottom}
-            </div>
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-12 md:px-6 md:py-16">
+        <div style={{
+          display: 'flex',
+          alignItems: isMobile ? 'flex-start' : 'flex-end',
+          justifyContent: 'space-between',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? 16 : 24,
+        }}>
+          <p className="font-display" style={{ fontSize: isMobile ? 28 : 48, lineHeight: 1.2, color: 'var(--color-bark)', margin: 0 }}>
+            Sukurta patogumui. Pritaikyta jūsų šuniui
+          </p>
+          <a
+            href="/configure"
+            className="whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline"
+          >
+            Sukurkite savo unikalų antkaklį →
+          </a>
+        </div>
 
-            {/* Right — brand video panel */}
-            {videoPanel}
-          </>
-        )}
+        <div className="flex flex-col gap-4 lg:flex-row">
+          {isMobile ? (
+            <>
+              {rowTop}
+              {brandPanel}
+              {rowBottom}
+            </>
+          ) : (
+            <>
+              {/* Left — 2x2 bento */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, flex: '1 0 0', minWidth: 0 }}>
+                {rowTop}
+                {rowBottom}
+              </div>
+
+              {/* Right — brand tile */}
+              {brandPanel}
+            </>
+          )}
+        </div>
       </div>
     </section>
   );

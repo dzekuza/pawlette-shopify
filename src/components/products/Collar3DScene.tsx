@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber'
 import { Center, Environment, OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import { Collar3DMesh } from '@/components/products/Collar3DMesh'
+import type { CharmSpec } from '@/lib/collar3d'
 
 /**
  * Swatch hexes are sampled from product PHOTOS, which already bake in studio
@@ -16,15 +17,14 @@ const ENV_INTENSITY = 0.5
 const TONE_EXPOSURE = 0.7
 
 export type Collar3DSceneProps = {
-  name: string
+  items: CharmSpec[]
   strapColour: string
   hardwareColour: string
-  charmColours: string[]
   onSelectCharm?: (index: number) => void
   selectedCharm?: number | null
 }
 
-export default function Collar3DScene({ name, strapColour, hardwareColour, charmColours, onSelectCharm, selectedCharm }: Collar3DSceneProps) {
+export default function Collar3DScene({ items, strapColour, hardwareColour, onSelectCharm, selectedCharm }: Collar3DSceneProps) {
   return (
     <Canvas
       shadows
@@ -38,10 +38,9 @@ export default function Collar3DScene({ name, strapColour, hardwareColour, charm
       <Suspense fallback={null}>
         <Center>
           <Collar3DMesh
-            name={name}
+            items={items}
             strapColour={strapColour}
             hardwareColour={hardwareColour}
-            charmColours={charmColours}
             onSelectCharm={onSelectCharm}
             selectedCharm={selectedCharm}
           />

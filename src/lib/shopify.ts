@@ -54,6 +54,8 @@ export interface ShopifyCharm {
   originalPrice?: string;
   bg: string;
   category: string;
+  /** 3D mesh shape key for icon charms with a Blender-authored model ("Heart", "Star", ...); undefined if none exists yet. */
+  shape?: string;
   color: string;
   image: string;
   productImages: string[];
@@ -227,20 +229,20 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'butterfly-charm':         '/charms/Butterfly_lavender.png',
   'pink-mushroom-charm':     '/charms/Heart_pink_2.png',
   'blue-drop-charm':         '/charms/Paw_light_blue_2.png',
-  // Current live product's icon charm variants — titleToHandle("Širdis – Rožinė") → "širdis-rožinė", etc.
-  // (Style ∈ Širdis/Gėlė/Žvaigždė, Spalva ∈ Mėlyna/Tamsiai mėlyna/Violetinė/Rožinė/Geltona — Shopify variant.image is null for all of these)
+  // Current live product's shape charm variants — titleToHandle("Širdis – Rožinė") → "širdis-rožinė", etc.
+  // Images from /collar-customiser/renders/charm_variants/ (3D renders, 2026-07)
   'širdis-mėlyna':                '/charms/Heart_blue.png',
-  'širdis-tamsiai-mėlyna':        '/charms/Heart_dark_blue.png',
+  'širdis-tamsiai-mėlyna':        '/charms/Heart_dark-blue.png',
   'širdis-violetinė':             '/charms/Heart_purple.png',
   'širdis-rožinė':                '/charms/Heart_pink.png',
   'širdis-geltona':               '/charms/Heart_yellow.png',
   'gėlė-mėlyna':                  '/charms/Flower_blue.png',
-  'gėlė-tamsiai-mėlyna':          '/charms/Flower_dark_blue.png',
-  'gėlė-violetinė':               '/charms/Flower_lavender.png',
+  'gėlė-tamsiai-mėlyna':          '/charms/Flower_dark-blue.png',
+  'gėlė-violetinė':               '/charms/Flower_purple.png',
   'gėlė-rožinė':                  '/charms/Flower_pink.png',
   'gėlė-geltona':                 '/charms/Flower_yellow.png',
   'žvaigždė-mėlyna':              '/charms/Star_blue.png',
-  'žvaigždė-tamsiai-mėlyna':      '/charms/Star_dark_blue.png',
+  'žvaigždė-tamsiai-mėlyna':      '/charms/Star_dark-blue.png',
   'žvaigždė-violetinė':           '/charms/Star_purple.png',
   'žvaigždė-rožinė':              '/charms/Star_pink.png',
   'žvaigždė-geltona':             '/charms/Star_yellow.png',
@@ -266,44 +268,161 @@ const CHARM_LOCAL_IMAGES: Record<string, string> = {
   'grybuko-pakabučiukas-rožinė':       '/charms/Heart_pink_2.png',
   'lašelio-pakabučiukas-mėlyna':       '/charms/Paw_light_blue_2.png',
   'gėlytės-pakabučiukas-violetinė':    '/charms/Flower_lavender.png',
-  // New shape charms added 2026-07 (Letena × 5 colours) — no dedicated paw-color art yet, reuse existing paw renders
+  // Letena (Paw) × 5 colours — 3D renders from /collar-customiser/renders/charm_variants/ (2026-07)
   'letena-mėlyna':              '/charms/Paw_blue.png',
-  'letena-tamsiai-mėlyna':      '/charms/Paw_blue.png',
-  'letena-violetinė':           '/charms/Paw_light_blue.png',
-  'letena-rožinė':              '/charms/Paw_light_blue_2.png',
-  'letena-geltona':             '/charms/Paw_light_blue.png',
-  // Letter charms — local fallbacks for letters without Shopify images
-  'letter-a-yellow':         '/charms/A_yellow.png',
-  'letter-b-pink':           '/charms/B_pink.png',
-  'letter-c-blue':           '/charms/C.png',
-  'letter-d-purple':         '/charms/D_purple.png',
-  'letter-g-green':          '/charms/G_green.png',
-  'letter-i-pink':           '/charms/I_pink.png',
-  'letter-k-green':          '/charms/K_green.png',
-  'letter-l-blue':           '/charms/L_blue.png',
-  'letter-m-green':          '/charms/M_pale_green.png',
-  'letter-n-yellow':         '/charms/N_yellow.png',
-  'letter-o-purple':         '/charms/O_lavender.png',
-  'letter-r-pink':           '/charms/R_pink.png',
-  'letter-s-yellow':         '/charms/S_yellow.png',
-  'letter-t-blue':           '/charms/T_light_blue.png',
-  'letter-u-pink':           '/charms/I_pink.png',
-  'letter-v-green':          '/charms/K_green.png',
-  'letter-z-blue':           '/charms/Z.png',
+  'letena-tamsiai-mėlyna':      '/charms/Paw_dark-blue.png',
+  'letena-violetinė':           '/charms/Paw_purple.png',
+  'letena-rožinė':              '/charms/Paw_pink.png',
+  'letena-geltona':             '/charms/Paw_yellow.png',
+  // Letter charms — all A–Z × 5 colours, handle = titleToHandle("Letter X - Color")
+  // e.g. "Letter A - Blue" → "letter-a-blue", "Letter A - Dark Blue" → "letter-a-dark-blue"
+  'letter-a-blue':        '/charms/A_blue.png',
+  'letter-a-dark-blue':   '/charms/A_dark-blue.png',
+  'letter-a-purple':      '/charms/A_purple.png',
+  'letter-a-pink':        '/charms/A_pink.png',
+  'letter-a-yellow':      '/charms/A_yellow.png',
+  'letter-b-blue':        '/charms/B_blue.png',
+  'letter-b-dark-blue':   '/charms/B_dark-blue.png',
+  'letter-b-purple':      '/charms/B_purple.png',
+  'letter-b-pink':        '/charms/B_pink.png',
+  'letter-b-yellow':      '/charms/B_yellow.png',
+  'letter-c-blue':        '/charms/C_blue.png',
+  'letter-c-dark-blue':   '/charms/C_dark-blue.png',
+  'letter-c-purple':      '/charms/C_purple.png',
+  'letter-c-pink':        '/charms/C_pink.png',
+  'letter-c-yellow':      '/charms/C_yellow.png',
+  'letter-d-blue':        '/charms/D_blue.png',
+  'letter-d-dark-blue':   '/charms/D_dark-blue.png',
+  'letter-d-purple':      '/charms/D_purple.png',
+  'letter-d-pink':        '/charms/D_pink.png',
+  'letter-d-yellow':      '/charms/D_yellow.png',
+  'letter-e-blue':        '/charms/E_blue.png',
+  'letter-e-dark-blue':   '/charms/E_dark-blue.png',
+  'letter-e-purple':      '/charms/E_purple.png',
+  'letter-e-pink':        '/charms/E_pink.png',
+  'letter-e-yellow':      '/charms/E_yellow.png',
+  'letter-f-blue':        '/charms/F_blue.png',
+  'letter-f-dark-blue':   '/charms/F_dark-blue.png',
+  'letter-f-purple':      '/charms/F_purple.png',
+  'letter-f-pink':        '/charms/F_pink.png',
+  'letter-f-yellow':      '/charms/F_yellow.png',
+  'letter-g-blue':        '/charms/G_blue.png',
+  'letter-g-dark-blue':   '/charms/G_dark-blue.png',
+  'letter-g-purple':      '/charms/G_purple.png',
+  'letter-g-pink':        '/charms/G_pink.png',
+  'letter-g-yellow':      '/charms/G_yellow.png',
+  'letter-h-blue':        '/charms/H_blue.png',
+  'letter-h-dark-blue':   '/charms/H_dark-blue.png',
+  'letter-h-purple':      '/charms/H_purple.png',
+  'letter-h-pink':        '/charms/H_pink.png',
+  'letter-h-yellow':      '/charms/H_yellow.png',
+  'letter-i-blue':        '/charms/I_blue.png',
+  'letter-i-dark-blue':   '/charms/I_dark-blue.png',
+  'letter-i-purple':      '/charms/I_purple.png',
+  'letter-i-pink':        '/charms/I_pink.png',
+  'letter-i-yellow':      '/charms/I_yellow.png',
+  'letter-j-blue':        '/charms/J_blue.png',
+  'letter-j-dark-blue':   '/charms/J_dark-blue.png',
+  'letter-j-purple':      '/charms/J_purple.png',
+  'letter-j-pink':        '/charms/J_pink.png',
+  'letter-j-yellow':      '/charms/J_yellow.png',
+  'letter-k-blue':        '/charms/K_blue.png',
+  'letter-k-dark-blue':   '/charms/K_dark-blue.png',
+  'letter-k-purple':      '/charms/K_purple.png',
+  'letter-k-pink':        '/charms/K_pink.png',
+  'letter-k-yellow':      '/charms/K_yellow.png',
+  'letter-l-blue':        '/charms/L_blue.png',
+  'letter-l-dark-blue':   '/charms/L_dark-blue.png',
+  'letter-l-purple':      '/charms/L_purple.png',
+  'letter-l-pink':        '/charms/L_pink.png',
+  'letter-l-yellow':      '/charms/L_yellow.png',
+  'letter-m-blue':        '/charms/M_blue.png',
+  'letter-m-dark-blue':   '/charms/M_dark-blue.png',
+  'letter-m-purple':      '/charms/M_purple.png',
+  'letter-m-pink':        '/charms/M_pink.png',
+  'letter-m-yellow':      '/charms/M_yellow.png',
+  'letter-n-blue':        '/charms/N_blue.png',
+  'letter-n-dark-blue':   '/charms/N_dark-blue.png',
+  'letter-n-purple':      '/charms/N_purple.png',
+  'letter-n-pink':        '/charms/N_pink.png',
+  'letter-n-yellow':      '/charms/N_yellow.png',
+  'letter-o-blue':        '/charms/O_blue.png',
+  'letter-o-dark-blue':   '/charms/O_dark-blue.png',
+  'letter-o-purple':      '/charms/O_purple.png',
+  'letter-o-pink':        '/charms/O_pink.png',
+  'letter-o-yellow':      '/charms/O_yellow.png',
+  'letter-p-blue':        '/charms/P_blue.png',
+  'letter-p-dark-blue':   '/charms/P_dark-blue.png',
+  'letter-p-purple':      '/charms/P_purple.png',
+  'letter-p-pink':        '/charms/P_pink.png',
+  'letter-p-yellow':      '/charms/P_yellow.png',
+  'letter-q-blue':        '/charms/Q_blue.png',
+  'letter-q-dark-blue':   '/charms/Q_dark-blue.png',
+  'letter-q-purple':      '/charms/Q_purple.png',
+  'letter-q-pink':        '/charms/Q_pink.png',
+  'letter-q-yellow':      '/charms/Q_yellow.png',
+  'letter-r-blue':        '/charms/R_blue.png',
+  'letter-r-dark-blue':   '/charms/R_dark-blue.png',
+  'letter-r-purple':      '/charms/R_purple.png',
+  'letter-r-pink':        '/charms/R_pink.png',
+  'letter-r-yellow':      '/charms/R_yellow.png',
+  'letter-s-blue':        '/charms/S_blue.png',
+  'letter-s-dark-blue':   '/charms/S_dark-blue.png',
+  'letter-s-purple':      '/charms/S_purple.png',
+  'letter-s-pink':        '/charms/S_pink.png',
+  'letter-s-yellow':      '/charms/S_yellow.png',
+  'letter-t-blue':        '/charms/T_blue.png',
+  'letter-t-dark-blue':   '/charms/T_dark-blue.png',
+  'letter-t-purple':      '/charms/T_purple.png',
+  'letter-t-pink':        '/charms/T_pink.png',
+  'letter-t-yellow':      '/charms/T_yellow.png',
+  'letter-u-blue':        '/charms/U_blue.png',
+  'letter-u-dark-blue':   '/charms/U_dark-blue.png',
+  'letter-u-purple':      '/charms/U_purple.png',
+  'letter-u-pink':        '/charms/U_pink.png',
+  'letter-u-yellow':      '/charms/U_yellow.png',
+  'letter-v-blue':        '/charms/V_blue.png',
+  'letter-v-dark-blue':   '/charms/V_dark-blue.png',
+  'letter-v-purple':      '/charms/V_purple.png',
+  'letter-v-pink':        '/charms/V_pink.png',
+  'letter-v-yellow':      '/charms/V_yellow.png',
+  'letter-w-blue':        '/charms/W_blue.png',
+  'letter-w-dark-blue':   '/charms/W_dark-blue.png',
+  'letter-w-purple':      '/charms/W_purple.png',
+  'letter-w-pink':        '/charms/W_pink.png',
+  'letter-w-yellow':      '/charms/W_yellow.png',
+  'letter-x-blue':        '/charms/X_blue.png',
+  'letter-x-dark-blue':   '/charms/X_dark-blue.png',
+  'letter-x-purple':      '/charms/X_purple.png',
+  'letter-x-pink':        '/charms/X_pink.png',
+  'letter-x-yellow':      '/charms/X_yellow.png',
+  'letter-y-blue':        '/charms/Y_blue.png',
+  'letter-y-dark-blue':   '/charms/Y_dark-blue.png',
+  'letter-y-purple':      '/charms/Y_purple.png',
+  'letter-y-pink':        '/charms/Y_pink.png',
+  'letter-y-yellow':      '/charms/Y_yellow.png',
+  'letter-z-blue':        '/charms/Z_blue.png',
+  'letter-z-dark-blue':   '/charms/Z_dark-blue.png',
+  'letter-z-purple':      '/charms/Z_purple.png',
+  'letter-z-pink':        '/charms/Z_pink.png',
+  'letter-z-yellow':      '/charms/Z_yellow.png',
 };
 
-// Static map from charm handle -> bg/category for legacy icon variants
-export const CHARM_META: Record<string, { bg: string; category: string }> = {
-  'blue-paw-charm':        { bg: '#B8D8F4', category: 'icon'   },
-  'green-star-charm':      { bg: '#A8D5A2', category: 'icon'   },
+// Static map from charm handle -> bg/category for legacy icon variants.
+// `shape` is only set for icon charms with a matching Blender-authored 3D mesh
+// (see charms.glb / collar-customiser/blender/export_glb.py) — every other icon
+// charm still has no 3D representation and stays hidden from the 3D preview.
+export const CHARM_META: Record<string, { bg: string; category: string; shape?: string }> = {
+  'blue-paw-charm':        { bg: '#B8D8F4', category: 'icon', shape: 'Paw'    },
+  'green-star-charm':      { bg: '#A8D5A2', category: 'icon', shape: 'Star'   },
   'sage-leaf-charm':       { bg: '#A8D5A2', category: 'icon'   },
-  'lavender-flower-charm': { bg: '#D4B8F4', category: 'icon'   },
-  'pink-heart-charm':      { bg: '#F4B5C0', category: 'icon'   },
-  'mini-heart-charm':      { bg: '#F4B5C0', category: 'icon'   },
+  'lavender-flower-charm': { bg: '#D4B8F4', category: 'icon', shape: 'Flower' },
+  'pink-heart-charm':      { bg: '#F4B5C0', category: 'icon', shape: 'Heart'  },
+  'mini-heart-charm':      { bg: '#F4B5C0', category: 'icon', shape: 'Heart'  },
   'pink-bow-charm':        { bg: '#F4B5C0', category: 'icon'   },
   'sage-sun-charm':        { bg: '#A8D5A2', category: 'icon'   },
-  'yellow-star-charm':     { bg: '#F9E4A0', category: 'icon'   },
-  'light-paw-charm':       { bg: '#B8D8F4', category: 'icon'   },
+  'yellow-star-charm':     { bg: '#F9E4A0', category: 'icon', shape: 'Star'   },
+  'light-paw-charm':       { bg: '#B8D8F4', category: 'icon', shape: 'Paw'    },
   'blue-drop-charm':       { bg: '#B8D8F4', category: 'icon'   },
   'butterfly-charm':       { bg: '#D4B8F4', category: 'icon'   },
   'pink-mushroom-charm':   { bg: '#F4B5C0', category: 'icon'   },
@@ -333,9 +452,24 @@ const COLOR_BG: Record<string, string> = {
   violetine:    '#D4B8F4',
 };
 
-// Resolves bg/category/color/baseTitle from variant title.
+// Maps an icon charm's base title (English or Lithuanian, singular/diminutive)
+// to its 3D shape key, for charms that don't go through the CHARM_META handle
+// lookup below (the newer "Style – Colour" variant titles never hit CHARM_META
+// since their handle is built per-colour, not from a fixed legacy handle).
+const SHAPE_FROM_BASE_TITLE: Array<[RegExp, string]> = [
+  [/paw|letena|letenėl/iu, 'Paw'],
+  [/star|žvaigžd/iu, 'Star'],
+  [/heart|širdut|širdis/iu, 'Heart'],
+  [/flower|gėlyt|gėlė/iu, 'Flower'],
+];
+
+function shapeFromBaseTitle(baseTitle: string): string | undefined {
+  return SHAPE_FROM_BASE_TITLE.find(([re]) => re.test(baseTitle))?.[1];
+}
+
+// Resolves bg/category/color/baseTitle/shape from variant title.
 // Handles "Letter A - Blue", "Paw Charm - Blue", and legacy icon names.
-function resolveCharmMeta(title: string): { bg: string; category: string; color: string; baseTitle: string } {
+function resolveCharmMeta(title: string): { bg: string; category: string; color: string; baseTitle: string; shape?: string } {
   const letterMatch = title.match(/^((?:Letter|Raidė)\s+[A-ZĄČĘĖĮŠŲŪŽ])\s+[–-]\s+([\p{L}\s]+)$/iu);
   if (letterMatch) {
     const color = letterMatch[2].toLowerCase();
@@ -347,11 +481,12 @@ function resolveCharmMeta(title: string): { bg: string; category: string; color:
   const iconColorMatch = title.match(/^(.+?)\s+[–-]\s+([\p{L}\s]+)$/iu);
   if (iconColorMatch) {
     const color = iconColorMatch[2].toLowerCase();
-    return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'icon', color, baseTitle: iconColorMatch[1] };
+    const baseTitle = iconColorMatch[1]
+    return { bg: COLOR_BG[color] ?? '#B8D8F4', category: 'icon', color, baseTitle, shape: shapeFromBaseTitle(baseTitle) };
   }
   const handle = title.toLowerCase().replace(/\s+/g, '-');
   const meta = CHARM_META[handle] ?? { bg: '#B8D8F4', category: 'icon' };
-  return { ...meta, color: '', baseTitle: title };
+  return { ...meta, color: '', baseTitle: title, shape: meta.shape ?? shapeFromBaseTitle(title) };
 }
 
 function titleToHandle(title: string): string {
@@ -614,7 +749,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
           ? `${style.replace(/^Raidė/i, 'Letter')} - ${LT_COLOR_TO_EN[spalva.toLowerCase()] ?? spalva}`
           : `${style} – ${spalva}`;
 
-        const { bg, category, color, baseTitle } = resolveCharmMeta(title);
+        const { bg, category, color, baseTitle, shape } = resolveCharmMeta(title);
         const handle = titleToHandle(title);
         const localImage = CHARM_LOCAL_IMAGES[handle];
         charms.push({
@@ -630,6 +765,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
               : undefined,
           bg,
           category,
+          shape,
           color,
           image: variant.image?.url || localImage || '',
           productImages,

@@ -2,73 +2,82 @@
 
 import Image from 'next/image';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
 
-const FEATURES = [
+const LEFT_FEATURES = [
   {
-    iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_green_drop_shape_with_a_subtle_curve_on_qVGIeFtL Background Removed.png',
-    text: 'Atsparūs vandeniui',
+    iconSrc: '/icons/droplet.svg',
+    title: 'Atsparus vandeniui ir purvui',
+    desc: 'BioThane paviršius lieka švarus ir nekvepia net po aktyviausio pasivaikščiojimo.',
   },
   {
-    iconSrc: '/Dog_Collar_Flat_Lay (3)/A_simple_circular_graphic_depicts_a_clock_face_8DikilGN Background Removed.png',
-    text: 'Paprasta naudoti',
+    iconSrc: '/icons/timer.svg',
+    title: 'Pakabukus keiskite per 5 sek.',
+    desc: 'Tiesiog užmaukite ar numaukite pakabuką ir per akimirką pakeiskite antkaklio stilių.',
   },
   {
-    iconSrc: '/Dog_Collar_Flat_Lay (3)/In_a_flat_design_style_a_light_green_heart_shape_mhu_5XWt Background Removed.png',
-    text: 'Draugiška kasdienai',
-  },
-  {
-    iconSrc: '/Dog_Collar_Flat_Lay (3)/A_light_blue_icon_depicts_a_simple_square_box_k_3i4pxx Background Removed.png',
-    text: `Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_EURO}`,
+    iconSrc: '/icons/paint-board.svg',
+    title: 'BioThane medžiaga, nedylanti spalva',
+    desc: 'Patvari, lengvai nuvaloma medžiaga, kuri nesudyla, nesitrina ir išlaiko ryškią spalvą metų metus.',
   },
 ];
+
+const RIGHT_FEATURES = [
+  {
+    iconSrc: '/icons/hand.svg',
+    title: 'Rankų darbo Lietuvoje',
+    desc: 'Kiekvienas antkaklis surenkamas Lietuvoje, rankomis — su dėmesiu kokybei ir kiekvienai detalei.',
+  },
+  {
+    iconSrc: '/icons/resize.svg',
+    title: 'Reguliuojamas dydis šuniui augant',
+    desc: 'Vienas antkaklis tinka ilgai — lengvai reguliuojamas, kai jūsų šuo auga ar keičiasi jo svoris.',
+  },
+  {
+    iconSrc: '/icons/return.svg',
+    title: '30 dienų grąžinimo garantija',
+    desc: 'Jei antkaklis netiks — grąžinkite jį per 30 dienų, be jokių papildomų klausimų.',
+  },
+];
+
+function FeatureItem({ iconSrc, title, desc }: { iconSrc: string; title: string; desc: string }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <Image src={iconSrc} alt="" aria-hidden="true" width={24} height={24} />
+      <p style={{ fontSize: 18, fontWeight: 600, color: 'var(--color-bark)', letterSpacing: '-0.01em', margin: 0 }}>
+        {title}
+      </p>
+      <p style={{ fontSize: 16, color: 'rgba(61,53,48,0.65)', lineHeight: 1.5, margin: 0 }}>
+        {desc}
+      </p>
+    </div>
+  );
+}
 
 export function FeaturesStrip() {
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
   return (
-    <section style={{ background: 'var(--color-cream)' }}>
-      <div style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        padding: isMobile ? '0 16px 48px' : '0 64px 64px',
-        display: 'grid',
-        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-        gap: isMobile ? 12 : 20,
-      }}>
-        {FEATURES.map(f => (
-          <div
-            key={f.text}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: 12,
-              background: 'var(--color-surface-2)',
-              borderRadius: 20,
-              padding: isMobile ? '20px 16px' : '24px 20px',
-            }}
-          >
-            <Image
-              src={encodeURI(f.iconSrc)}
-              alt=""
-              aria-hidden="true"
-              width={56}
-              height={56}
-              style={{ objectFit: 'contain', flexShrink: 0 }}
-            />
-            <span style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 14,
-              fontWeight: 500,
-              color: 'var(--color-bark-light)',
-              lineHeight: 1.4,
-            }}>
-              {f.text}
-            </span>
-          </div>
-        ))}
+    <section style={{ background: 'linear-gradient(180deg, #b9cbdb 0%, #b8d8f4 100%)' }}>
+      <div
+        className="mx-auto flex max-w-[1200px] items-center justify-between px-4 py-12 md:px-6 md:py-16"
+        style={{ flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 32 : 24 }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
+          {LEFT_FEATURES.map((f) => (
+            <FeatureItem key={f.title} {...f} />
+          ))}
+        </div>
+
+        <div style={{ position: 'relative', width: isMobile ? '100%' : 408, aspectRatio: '408 / 238', flexShrink: 0 }}>
+          <Image src="/hero-figma/features-collar.png" alt="PawCharms antkaklis" fill sizes="(max-width: 767px) 100vw, 408px" style={{ objectFit: 'contain' }} loading="eager" />
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
+          {RIGHT_FEATURES.map((f) => (
+            <FeatureItem key={f.title} {...f} />
+          ))}
+        </div>
       </div>
     </section>
   );

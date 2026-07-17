@@ -7,16 +7,6 @@ import { DisplayHeading } from "@/components/storefront/Typography";
 import { FREE_SHIPPING_COPY } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-const HERO_GALLERY = {
-  left: "/hero-figma/hero-dsc01458.jpg",
-  colTopLeft: "/hero-figma/hero-dsc02225.jpg",
-  colBottomLeft: "/hero-figma/hero-dsc01440.jpg",
-  center: "/hero-figma/hero-dsc03015.jpg",
-  colTopRight: "/hero-figma/hero-dsc00912.jpg",
-  colBottomRight: "/hero-figma/hero-dsc01798.jpg",
-  right: "/hero-figma/hero-dsc02865.jpg",
-};
-
 const HERO_STICKERS = {
   collar: "/hero-figma/hero-sticker-collar.png",
   paw: "/hero-figma/hero-sticker-paw.png",
@@ -93,9 +83,9 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           <DisplayHeading
             as="h1"
             size="floatingHero"
-            className="mx-auto max-w-[868px] text-center font-normal leading-[1.1] tracking-[0.02em] text-bark"
+            className="mx-auto max-w-[946px] text-center font-normal leading-[1.2] tracking-[0.02em] text-bark"
           >
-            Vienas šuns antkaklis. Begalė stilių.
+            Antkakliai, kurie pritampa prie kiekvieno nuotykio
           </DisplayHeading>
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
@@ -135,32 +125,15 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </div>
         </div>
 
-        <div className="flex justify-center gap-3 lg:h-[460px]">
-          <div className="relative hidden w-[160px] shrink-0 overflow-hidden rounded-3xl lg:block lg:h-[60%] lg:self-center">
-            <Image src={HERO_GALLERY.left} alt="Šuo su PawCharms antkakliu" fill sizes="160px" className="object-cover" />
-          </div>
-          <div className="hidden flex-1 flex-col gap-3 lg:flex lg:h-[80%] lg:self-center">
-            <div className="relative overflow-hidden rounded-3xl" style={{ flex: '42 1 0%' }}>
-              <Image src={HERO_GALLERY.colTopLeft} alt="PawCharms antkaklio detalė" fill sizes="309px" className="object-cover" />
-            </div>
-            <div className="relative overflow-hidden rounded-3xl" style={{ flex: '58 1 0%' }}>
-              <Image src={HERO_GALLERY.colBottomLeft} alt="Šuo su PawCharms antkakliu ilsisi" fill sizes="309px" className="object-cover" />
-            </div>
-          </div>
-          <div className="relative aspect-[4/5] w-full max-w-[360px] shrink-0 overflow-hidden rounded-3xl lg:aspect-auto lg:h-full lg:w-[386px] lg:max-w-none">
-            <Image src={HERO_GALLERY.center} alt="Šuo sėdi žolėje su PawCharms antkakliu" fill sizes="(max-width: 1023px) 360px, 386px" className="object-cover" priority />
-          </div>
-          <div className="hidden flex-1 flex-col gap-3 lg:flex lg:h-[80%] lg:self-center">
-            <div className="relative flex-1 overflow-hidden rounded-3xl">
-              <Image src={HERO_GALLERY.colTopRight} alt="Šuo su geltonu PawCharms antkakliu" fill sizes="309px" className="object-cover" />
-            </div>
-            <div className="relative flex-1 overflow-hidden rounded-3xl">
-              <Image src={HERO_GALLERY.colBottomRight} alt="Šuo šokinėja su PawCharms antkakliu" fill sizes="309px" className="object-cover" />
-            </div>
-          </div>
-          <div className="relative hidden w-[160px] shrink-0 overflow-hidden rounded-3xl lg:block lg:h-[60%] lg:self-center">
-            <Image src={HERO_GALLERY.right} alt="Šuo su PawCharms antkakliu" fill sizes="160px" className="object-cover" />
-          </div>
+        <div className="relative mx-auto aspect-[953/526] w-full max-w-[953px]">
+          <Image
+            src="/hero-figma/hero-collar-splash.png"
+            alt="PawCharms antkaklis su vardo pakabukais"
+            fill
+            sizes="(max-width: 1023px) 100vw, 953px"
+            className="object-contain"
+            priority
+          />
         </div>
       </div>
     </section>

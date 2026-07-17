@@ -6,7 +6,7 @@ import type { Mesh } from 'three'
 import { Collar3DCharm } from '@/components/products/Collar3DCharm'
 import { Collar3DProng } from '@/components/products/Collar3DProng'
 import { CharmSlot, purgeSlot, reconcileSlots } from '@/lib/charmSlots'
-import { DEFAULT_CHARM_COLOUR, layoutName, MATERIAL_DEFAULTS } from '@/lib/collar3d'
+import { DEFAULT_CHARM_COLOUR, layoutCharms, MATERIAL_DEFAULTS, type CharmSpec } from '@/lib/collar3d'
 import { createLock } from '@/lib/lockState'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -34,29 +34,42 @@ const HARDWARE_PARTS = [
 const STRAP_PARTS = ['Collar_Strap', 'Keeper_Loop', 'D_Ring_Wrap']
 
 export type Collar3DMeshProps = {
-  name: string
+  /** Full ordered sequence of letters and icon charms, in the customer's actual pick order. */
+  items: CharmSpec[]
   strapColour: string
   hardwareColour: string
-  /** Colour per charm, indexed by position in the laid-out name. */
-  charmColours: string[]
+  /** Index refers to the Nth LETTER only (icon charms aren't individually selectable/recolourable today). */
   onSelectCharm?: (index: number) => void
   selectedCharm?: number | null
 }
 
-export function Collar3DMesh({ name, strapColour, hardwareColour, charmColours, onSelectCharm, selectedCharm }: Collar3DMeshProps) {
+export function Collar3DMesh({ items, strapColour, hardwareColour, onSelectCharm, selectedCharm }: Collar3DMeshProps) {
   const collar = useGLTF(COLLAR_URL, DRACO)
   const charms = useGLTF(CHARMS_URL, DRACO)
   const reducedMotion = useReducedMotion()
 
-  const placed = useMemo(() => layoutName(name), [name])
+  const placed = useMemo(() => layoutCharms(items), [items])
   const chars = useMemo(() => placed.map((c) => c.char), [placed])
+
+  // selectedCharm/onSelectCharm address "the Nth letter", not a position in the
+  // combined arc -- this maps a placed-array position back to that letter ordinal
+  // (null for icon charms, which have no colour-editing UI to select into).
+  const letterOrdinalOf = useCallback(
+    (idx: number) => {
+      if (placed[idx]?.kind !== 'letter') return null
+      let ordinal = 0
+      for (let i = 0; i < idx; i++) if (placed[i].kind === 'letter') ordinal++
+      return ordinal
+    },
+    [placed],
+  )
 
   // Slots are derived from the name during render, not in an effect: an effect
   // would leave one frame where the slots still describe the previous name.
   const [slots, setSlots] = useState<CharmSlot[]>(() => reconcileSlots([], chars, STAGGER))
-  const [rendered, setRendered] = useState(chars.join(''))
-  if (rendered !== chars.join('')) {
-    setRendered(chars.join(''))
+  const [rendered, setRendered] = useState(chars.join('|'))
+  if (rendered !== chars.join('|')) {
+    setRendered(chars.join('|'))
     setSlots((prev) => reconcileSlots(prev, chars, STAGGER))
   }
 
@@ -92,11 +105,12 @@ export function Collar3DMesh({ name, strapColour, hardwareColour, charmColours, 
       />
 
       {slots.map((slot) => {
-        // A deleted letter still has a slot (it is animating away) but no layout
+        // A deleted charm still has a slot (it is animating away) but no layout
         // entry: `mounted` goes false and the charm holds its own last position
         // and colour, so the values passed here stop mattering.
         const index = slot.index
         const live = index !== null ? placed[index] : undefined
+        const letterOrdinal = index !== null ? letterOrdinalOf(index) : null
 
         return (
           <Collar3DCharm
@@ -105,13 +119,13 @@ export function Collar3DMesh({ name, strapColour, hardwareColour, charmColours, 
             lock={lock}
             geometry={geo(charms, `Charm_${slot.char}`)}
             angle={live?.angle ?? 0}
-            colour={(index !== null ? charmColours[index] : undefined) ?? DEFAULT_CHARM_COLOUR}
+            colour={live?.colour ?? DEFAULT_CHARM_COLOUR}
             mounted={live !== undefined}
-            selected={index !== null && selectedCharm === index}
+            selected={letterOrdinal !== null && selectedCharm === letterOrdinal}
             delay={slot.delay}
             reducedMotion={reducedMotion}
             onExited={() => drop(slot.id)}
-            onClick={() => index !== null && onSelectCharm?.(index)}
+            onClick={() => letterOrdinal !== null && onSelectCharm?.(letterOrdinal)}
           />
         )
       })}

@@ -9,8 +9,8 @@ import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
-  { label: 'Pakabukai', href: '/products/pawcharms-pakabuciai' },
   { label: 'Pavadeliai', href: '/products/pawcharms-pavadelis' },
+  { label: 'Pakabukai', href: '/products/pawcharms-pakabuciai' },
 ];
 
 interface LandingNavProps {
@@ -154,7 +154,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
             {/* Shop now CTA */}
             <PrimaryButton href="/products" variant="sage" size="md">
-              Apsipirkti
+              Pirkti dabar
             </PrimaryButton>
           </div>
         </div>

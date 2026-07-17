@@ -34,7 +34,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           gap: isMobile ? 24 : 64,
         }}>
           <DisplayHeading as="h2" size="section" className="text-bark" style={{ flex: '1 0 0', fontSize: isMobile ? 32 : 48 }}>
-            Antkakliai, pavadeliai ir pakabukai kiekvienai progai
+            Kas atsitiks po to, kai įsigysite PawCharms?
           </DisplayHeading>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, flexShrink: 0, maxWidth: isMobile ? '100%' : 400 }}>
