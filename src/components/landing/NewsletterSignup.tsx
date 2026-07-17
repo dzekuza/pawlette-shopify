@@ -49,7 +49,7 @@ export function NewsletterSignup() {
   }
 
   return (
-    <section className="bg-white px-4 pb-6 md:px-6 md:pb-8">
+    <section className="bg-white px-4 pt-6 pb-[120px] md:px-6 md:pt-8">
       <div className="mx-auto max-w-[1200px] rounded-[32px] border border-sage/30 bg-[linear-gradient(135deg,rgba(168,213,162,0.18),rgba(184,216,244,0.22),rgba(244,181,192,0.14))] px-4 py-8 md:px-6 md:py-10">
         <div className="mx-auto max-w-[760px] text-center">
           <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.12em] text-bark-muted">PawCharms naujienlaiškis</p>

@@ -67,7 +67,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   return (
     <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:overflow-visible lg:py-20", className)}>
       <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20">
-        <div data-hero-sticker className="absolute left-[5%] top-[57%] w-[120px] -rotate-[17deg] lg:left-[20%] lg:top-[19%] lg:w-[190px]">
+        <div data-hero-sticker className="absolute left-[5%] top-[57%] w-[120px] -rotate-[17deg] lg:left-[4%] lg:top-[12%] lg:w-[170px]">
           <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
         </div>
         <div data-hero-sticker className="absolute left-[76%] top-[86%] w-[100px] -rotate-[23deg] lg:left-[85%] lg:top-[60%] lg:w-[120px]">

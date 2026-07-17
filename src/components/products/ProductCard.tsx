@@ -1,10 +1,10 @@
+import { Star, ChevronRight } from 'lucide-react'
 import type { ProductDetail } from '@/lib/catalog'
 import type { LandingCollar } from '@/lib/db'
-import { Badge } from '@/components/ui/badge'
-import { ProductPrice, hasDiscountedPrice } from '@/components/storefront/ProductPrice'
+import { PRODUCT_REVIEW_RATING } from '@/lib/seo'
+import { ProductPrice } from '@/components/storefront/ProductPrice'
 import {
   CatalogCard,
-  CatalogCardAction,
   CatalogCardBody,
   CatalogCardFooter,
   CatalogCardLink,
@@ -13,7 +13,7 @@ import {
 } from '@/components/storefront/CatalogCard'
 
 type ProductCardProduct = LandingCollar | ProductDetail
-const DEFAULT_CHARM_SWATCHES = ['var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
+const DEFAULT_CHARM_SWATCHES = ['var(--color-blossom)', 'var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
 
 function isProductDetail (product: ProductCardProduct): product is ProductDetail {
   return 'slug' in product
@@ -21,74 +21,55 @@ function isProductDetail (product: ProductCardProduct): product is ProductDetail
 
 export function ProductCard ({ product, href: hrefProp }: { product: ProductCardProduct; href?: string }) {
   const isDetail = isProductDetail(product)
-  const isCollarProduct = isDetail ? product.productType === 'collar' : true
   const href = hrefProp ?? `/products/${product.slug}`
   const background = isDetail ? product.tintColor : product.bg
   const title = product.name
   const price = product.price
   const originalPrice = product.originalPrice
-  const badge = isDetail ? product.badge : product.badge
-  const collarColor = isDetail ? product.accentColor : product.collarColor
   const charmSwatches = isDetail
     ? DEFAULT_CHARM_SWATCHES
-    : product.charms.slice(0, 4).map((charm) => charm.bg)
-  const hasSale = hasDiscountedPrice(price, originalPrice)
-  const desc = isDetail ? product.shortDescription : product.desc
+    : product.charms.slice(0, 5).map((charm) => charm.bg)
+  const charmsCount = isDetail ? DEFAULT_CHARM_SWATCHES.length : product.charms.length
 
   return (
-    <CatalogCardLink href={href}>
-      <CatalogCard>
-        <CatalogCardMedia alt={title} background={background} image={product.image}>
-          {isCollarProduct ? (
-            <Badge variant='personalize' size='customize' className='absolute left-3.5 top-3.5'>
-              <span aria-hidden='true' className='text-[10px] leading-none'>
-                ✦
+    <CatalogCardLink href={href} className='block rounded-[24px] bg-white p-3'>
+      <CatalogCard className='gap-3'>
+        <div className='flex items-center justify-between gap-2'>
+          <span className='inline-flex shrink-0 items-center gap-2 rounded-full bg-bark/5 px-3 py-2'>
+            <Star className='h-3.5 w-3.5 fill-honey text-honey' strokeWidth={0} aria-hidden='true' />
+            <span className='font-sans text-[13px] font-semibold leading-none text-bark'>{PRODUCT_REVIEW_RATING}</span>
+          </span>
+          {charmsCount > 0 ? (
+            <span className='inline-flex shrink-0 items-center rounded-full bg-sage/10 px-3 py-2'>
+              <span className='whitespace-nowrap font-sans text-[13px] font-medium leading-none text-interactive-text'>
+                {charmsCount} pakabukai įskaičiuoti
               </span>
-              Personalizuok
-            </Badge>
+            </span>
           ) : null}
-          {badge && !isDetail ? (
-            <Badge
-              variant='default'
-              size='compact'
-              className='absolute right-3.5 top-3.5'
-              style={{
-                backgroundColor: product.badgeBg || 'rgba(168,213,162,0.2)',
-                color: product.badgeColor || 'var(--color-interactive-text)',
-              }}
-            >
-              {badge}
-            </Badge>
-          ) : null}
-        </CatalogCardMedia>
-        <CatalogCardBody>
-          <CatalogCardTitle className='mb-2 line-clamp-2 text-[16px] leading-[1.3]'>{title}</CatalogCardTitle>
-          <div className='mb-3.5 flex items-center gap-1.5'>
-            <span
-              title='Antkaklio spalva'
-              className='h-3.5 w-3.5 rounded-full border border-bark/15'
-              style={{ background: collarColor }}
-            />
+        </div>
+        <CatalogCardMedia alt={title} background={background} image={product.image} className='rounded-[16px]' />
+        <CatalogCardBody className='gap-2.5 px-0 pb-0 pt-0'>
+          <div className='flex items-center'>
             {charmSwatches.map((swatch, index) => (
               <span
                 key={`${swatch}-${index}`}
                 title='Pakabuko spalva'
-                className='h-3 w-3 rounded-full border border-bark/10'
+                className='h-6 w-6 shrink-0 rounded-full border border-bark/10 [&:not(:last-child)]:mr-[-10px]'
                 style={{ background: swatch }}
               />
             ))}
           </div>
-          {desc ? (
-            <p className='mb-4 line-clamp-2 font-sans text-[13px] leading-[1.55] text-bark-muted'>{desc}</p>
-          ) : null}
-          <CatalogCardFooter>
-            <ProductPrice
-              currentPrice={price}
-              originalPrice={originalPrice}
-              showSavingsBadge={hasSale}
-            />
-            <CatalogCardAction>Pirkti</CatalogCardAction>
-          </CatalogCardFooter>
+          <div className='flex flex-col gap-1'>
+            <CatalogCardTitle className='mb-0 line-clamp-2 text-[20px] font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
+              {title}
+            </CatalogCardTitle>
+            <CatalogCardFooter className='items-end'>
+              <ProductPrice currentPrice={price} originalPrice={originalPrice} />
+              <span className='btn-press flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-bark/15 text-bark transition-colors duration-150 ease-out group-hover:bg-bark group-hover:text-cream'>
+                <ChevronRight className='h-3.5 w-3.5' aria-hidden='true' />
+              </span>
+            </CatalogCardFooter>
+          </div>
         </CatalogCardBody>
       </CatalogCard>
     </CatalogCardLink>

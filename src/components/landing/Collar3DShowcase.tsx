@@ -56,7 +56,7 @@ export function Collar3DShowcase() {
     <section
       ref={sectionRef}
       style={{
-        height: reducedMotion ? undefined : '100vh',
+        height: reducedMotion ? undefined : '100dvh',
         minHeight: reducedMotion ? 480 : undefined,
         position: 'relative',
         overflow: 'hidden',

@@ -1,7 +1,27 @@
 'use client';
 
+import { Fragment } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR, type CharmSpec } from '@/lib/collar3d';
+
+const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>Kraunama 3D peržiūra…</span>
+    </div>
+  ),
+});
+
+/** Brand palette (src/lib/shopify.ts COLOR_BG) — one colour per letter, for a colourful decorative mount. */
+const FEATURES_CHARM_COLOURS = ['#F4B5C0', '#A8D5A2', '#B8D8F4', '#F9E4A0', '#D4B8F4'];
+const FEATURES_CHARM_ITEMS: CharmSpec[] = 'PAW'.split('').map((ch, i) => ({
+  meshKey: ch,
+  colour: FEATURES_CHARM_COLOURS[i % FEATURES_CHARM_COLOURS.length],
+  kind: 'letter' as const,
+}));
 
 const LEFT_FEATURES = [
   {
@@ -64,18 +84,31 @@ export function FeaturesStrip() {
         style={{ flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 32 : 24 }}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
-          {LEFT_FEATURES.map((f) => (
-            <FeatureItem key={f.title} {...f} />
+          {LEFT_FEATURES.map((f, i) => (
+            <Fragment key={f.title}>
+              {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}
+              <FeatureItem {...f} />
+            </Fragment>
           ))}
         </div>
 
-        <div style={{ position: 'relative', width: isMobile ? '100%' : 408, aspectRatio: '408 / 238', flexShrink: 0 }}>
-          <Image src="/hero-figma/features-collar.png" alt="PawCharms antkaklis" fill sizes="(max-width: 767px) 100vw, 408px" style={{ objectFit: 'contain' }} loading="eager" />
+        <div style={{ position: 'relative', width: isMobile ? '100%' : 408, aspectRatio: '4 / 3', flexShrink: 0 }}>
+          <Collar3DScene
+            items={FEATURES_CHARM_ITEMS}
+            strapColour={DEFAULT_STRAP_COLOUR}
+            hardwareColour={HARDWARE_COLOUR}
+            autoRotate
+            interactive={false}
+            fitMargin={1}
+          />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: isMobile ? '100%' : 300, flexShrink: 0 }}>
-          {RIGHT_FEATURES.map((f) => (
-            <FeatureItem key={f.title} {...f} />
+          {RIGHT_FEATURES.map((f, i) => (
+            <Fragment key={f.title}>
+              {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}
+              <FeatureItem {...f} />
+            </Fragment>
           ))}
         </div>
       </div>

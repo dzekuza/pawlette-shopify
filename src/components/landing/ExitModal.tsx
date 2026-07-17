@@ -1,17 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
+import type { CharmSpec } from '@/lib/collar3d';
 
-const CHARM_IMAGES = [
-  '/charms/Flower_lavender.png',
-  '/charms/Star_sage_green.png',
-  '/charms/Star_pale_yellow.png',
-  '/charms/Paw_blue.png',
-  '/charms/Heart_pink.png'
-] as const;
+const Charm3DScene = dynamic(() => import('@/components/products/Charm3DScene'), { ssr: false });
+
+const CHARM_3D_ITEMS: CharmSpec[] = [
+  { meshKey: 'Flower', colour: '#D4B8F4', kind: 'icon' },
+  { meshKey: 'Star', colour: '#A8D5A2', kind: 'icon' },
+  { meshKey: 'Star', colour: '#F9E4A0', kind: 'icon' },
+  { meshKey: 'Paw', colour: '#B8D8F4', kind: 'icon' },
+  { meshKey: 'Heart', colour: '#F4B5C0', kind: 'icon' },
+];
 
 export function ExitModal({ onClose }: { onClose: () => void }) {
   const [email, setEmail] = useState('');
@@ -24,22 +27,8 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
       <div className="slide-up" onClick={e => e.stopPropagation()} style={{ width: '90vw', maxWidth: 480, background: 'var(--color-cream)', borderRadius: 28, padding: isMobile ? '32px 24px' : '48px 44px', position: 'relative', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
         <button onClick={onClose} className="btn-press" style={{ position: 'absolute', top: 18, right: 20, background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: 'var(--color-muted-foreground)', lineHeight: 1, transition: 'transform 100ms ease-out' }}>×</button>
 
-        <div style={{ display: 'flex', gap: 14, justifyContent: 'center', marginBottom: 28 }}>
-          {CHARM_IMAGES.map((src, i) => (
-            <Image
-              key={i}
-              src={encodeURI(src)}
-              alt=""
-              aria-hidden="true"
-              width={52}
-              height={52}
-              style={{
-                objectFit: 'contain',
-                animation: 'slideUp 300ms cubic-bezier(0.23, 1, 0.32, 1) both',
-                animationDelay: `${i * 60}ms`,
-              }}
-            />
-          ))}
+        <div className="animate-levitate" style={{ width: '100%', maxWidth: 340, height: 130, margin: '0 auto 28px' }} aria-hidden="true">
+          <Charm3DScene items={CHARM_3D_ITEMS} boundsMargin={1} autoRotate={false} />
         </div>
 
         {!sent ? (
@@ -70,15 +59,8 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
           </>
         ) : (
           <div style={{ textAlign: 'center', padding: '8px 0' }}>
-            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'center' }}>
-              <Image
-                src={encodeURI(CHARM_IMAGES[0])}
-                alt=""
-                aria-hidden="true"
-                width={40}
-                height={40}
-                style={{ objectFit: 'contain' }}
-              />
+            <div className="animate-levitate" style={{ width: 110, height: 110, margin: '0 auto 16px' }} aria-hidden="true">
+              <Charm3DScene items={[CHARM_3D_ITEMS[4]]} boundsMargin={1} autoRotate={false} />
             </div>
             <DisplayHeading as="h2" size="compact" className="text-bark mb-2">Jūs sąraše!</DisplayHeading>
             <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>

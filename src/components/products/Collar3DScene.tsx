@@ -1,8 +1,9 @@
 'use client'
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useThree } from '@react-three/fiber'
 import { Center, Environment, OrbitControls } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useLayoutEffect, useRef, type ReactNode } from 'react'
+import * as THREE from 'three'
 import { Collar3DMesh } from '@/components/products/Collar3DMesh'
 import type { CharmSpec } from '@/lib/collar3d'
 
@@ -16,15 +17,74 @@ import type { CharmSpec } from '@/lib/collar3d'
 const ENV_INTENSITY = 0.5
 const TONE_EXPOSURE = 0.7
 
+/** Extra breathing room around the model's bounding sphere so it never touches the frame edge. */
+const FIT_MARGIN = 1.3
+
+/**
+ * Repositions the camera along its current viewing direction so the wrapped
+ * model's bounding sphere always fits inside the frustum, for the canvas's
+ * *current* aspect ratio. Recomputed synchronously (no tween) on mount and on
+ * every canvas resize, which is what keeps the collar from being cropped on
+ * narrow/mobile aspect ratios where the horizontal FOV is much tighter than
+ * on desktop.
+ */
+function FitCameraToView({ children, margin = FIT_MARGIN }: { children: ReactNode; margin?: number }) {
+  const groupRef = useRef<THREE.Group>(null)
+  const { camera, size } = useThree()
+
+  // Imperative three.js mutation on the render-loop camera, not React state — the
+  // standard r3f escape hatch (see drei's own Bounds implementation, which does the same).
+  /* eslint-disable react-hooks/immutability */
+  useLayoutEffect(() => {
+    const group = groupRef.current
+    if (!group || !(camera instanceof THREE.PerspectiveCamera)) return
+
+    const box = new THREE.Box3().setFromObject(group)
+    if (box.isEmpty()) return
+
+    const sphere = box.getBoundingSphere(new THREE.Sphere())
+    const vFov = (camera.fov * Math.PI) / 180
+    const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect)
+    const distance = Math.max(sphere.radius / Math.sin(vFov / 2), sphere.radius / Math.sin(hFov / 2)) * margin
+
+    const direction = camera.position.clone().sub(sphere.center).normalize()
+    camera.position.copy(sphere.center.clone().addScaledVector(direction, distance))
+    camera.near = distance / 100
+    camera.far = distance * 100
+    camera.lookAt(sphere.center)
+    camera.updateProjectionMatrix()
+  }, [camera, size.width, size.height, margin])
+  /* eslint-enable react-hooks/immutability */
+
+  return <group ref={groupRef}>{children}</group>
+}
+
 export type Collar3DSceneProps = {
   items: CharmSpec[]
   strapColour: string
   hardwareColour: string
   onSelectCharm?: (index: number) => void
   selectedCharm?: number | null
+  /** Ambient auto-spin, for decorative (non-configurator) placements. Defaults to off. */
+  autoRotate?: boolean
+  autoRotateSpeed?: number
+  /** Set to false for purely decorative renders so drag/touch doesn't hijack page scroll. Defaults to on. */
+  interactive?: boolean
+  /** Breathing room around the model's bounding sphere, as a multiplier (1 = no margin). Defaults to FIT_MARGIN. */
+  fitMargin?: number
 }
 
-export default function Collar3DScene({ items, strapColour, hardwareColour, onSelectCharm, selectedCharm }: Collar3DSceneProps) {
+export default function Collar3DScene({
+  items,
+  strapColour,
+  hardwareColour,
+  onSelectCharm,
+  selectedCharm,
+  autoRotate = false,
+  autoRotateSpeed = 1.2,
+  interactive = true,
+  fitMargin = FIT_MARGIN,
+}: Collar3DSceneProps) {
   return (
     <Canvas
       shadows
@@ -36,25 +96,30 @@ export default function Collar3DScene({ items, strapColour, hardwareColour, onSe
       <directionalLight position={[3, 4, 4]} intensity={1} />
       <directionalLight position={[0, -3, -5]} intensity={0.4} />
       <Suspense fallback={null}>
-        <Center>
-          <Collar3DMesh
-            items={items}
-            strapColour={strapColour}
-            hardwareColour={hardwareColour}
-            onSelectCharm={onSelectCharm}
-            selectedCharm={selectedCharm}
-          />
-        </Center>
+        <FitCameraToView margin={fitMargin}>
+          <Center>
+            <Collar3DMesh
+              items={items}
+              strapColour={strapColour}
+              hardwareColour={hardwareColour}
+              onSelectCharm={onSelectCharm}
+              selectedCharm={selectedCharm}
+            />
+          </Center>
+        </FitCameraToView>
         <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
       </Suspense>
       <OrbitControls
         makeDefault
         minPolarAngle={0.2}
         maxPolarAngle={Math.PI / 1.8}
-        minDistance={2.5}
-        maxDistance={9}
+        minDistance={1}
+        maxDistance={30}
         enablePan={false}
         enableZoom={false}
+        enableRotate={interactive}
+        autoRotate={autoRotate}
+        autoRotateSpeed={autoRotateSpeed}
       />
     </Canvas>
   )

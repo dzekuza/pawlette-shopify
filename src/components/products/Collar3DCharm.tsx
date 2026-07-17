@@ -4,7 +4,8 @@ import { useFrame } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, Color, Group, Mesh, MeshStandardMaterial } from 'three'
-import { BACK_RADIUS, CHARM_SCALE, MATERIAL_DEFAULTS } from '@/lib/collar3d'
+import type { WebGLProgramParametersWithUniforms } from 'three'
+import { BACK_RADIUS, CHARM_SCALE, TEXT_RADIUS, MATERIAL_DEFAULTS } from '@/lib/collar3d'
 import { OPEN_ENOUGH, type Lock } from '@/lib/lockState'
 import { settle, spring, stepSpring } from '@/lib/spring'
 
@@ -110,6 +111,55 @@ export function Collar3DCharm({
   const landed = useRef(false)
 
   const target = useMemo(() => new Color(colour), [colour])
+
+  // A flat letter mounted tangent to the strap reads as a rigid panel stuck to
+  // a curved surface. Bending it around the same radius the letters are laid
+  // out on (TEXT_RADIUS — see layoutCharms) makes it hug the strap instead,
+  // so neighbouring letters read as one continuous curve. Centred on the
+  // geometry's own bounding-box middle, since the raw charm mesh isn't
+  // authored with its origin at the visual centre (see Charm3DMesh's
+  // SingleCharm, which recentres for the same reason).
+  const bendCentreX = useMemo(() => {
+    geometry.computeBoundingBox()
+    const box = geometry.boundingBox
+    return box ? (box.min.x + box.max.x) / 2 : 0
+  }, [geometry])
+
+  useEffect(() => {
+    const mat = material.current
+    if (!mat) return
+    mat.onBeforeCompile = (shader: WebGLProgramParametersWithUniforms) => {
+      shader.uniforms.uBendRadius = { value: TEXT_RADIUS }
+      shader.uniforms.uBendCentreX = { value: bendCentreX }
+      shader.vertexShader = shader.vertexShader
+        .replace(
+          '#include <common>',
+          `#include <common>\nuniform float uBendRadius;\nuniform float uBendCentreX;`
+        )
+        .replace(
+          '#include <beginnormal_vertex>',
+          `#include <beginnormal_vertex>
+{
+  float theta = (position.x - uBendCentreX) / uBendRadius;
+  float s = sin(theta);
+  float c = cos(theta);
+  objectNormal = vec3(objectNormal.x * c + objectNormal.z * s, objectNormal.y, -objectNormal.x * s + objectNormal.z * c);
+}`
+        )
+        .replace(
+          '#include <begin_vertex>',
+          `#include <begin_vertex>
+{
+  float theta = (transformed.x - uBendCentreX) / uBendRadius;
+  float s = sin(theta);
+  float c = cos(theta);
+  transformed.x = uBendCentreX + uBendRadius * s;
+  transformed.z = transformed.z + uBendRadius * (c - 1.0);
+}`
+        )
+    }
+    mat.needsUpdate = true
+  }, [bendCentreX])
 
   // Whatever happens to this letter — it leaves, or React drops it mid-flight —
   // it must not be left holding the collar open.

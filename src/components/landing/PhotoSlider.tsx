@@ -270,7 +270,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   return (
     <section className="bg-surface-2 overflow-hidden">
       <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-5 px-4 pt-8 md:px-6 md:pt-16 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
+        className="mx-auto flex max-w-[1200px] flex-col gap-5 px-4 pt-[120px] md:px-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
       >
         <DisplayHeading as="h2" size="section" className="text-left text-bark" style={{ flex: '1 0 0' }}>
           Jūsų spalvotos akimirkos.

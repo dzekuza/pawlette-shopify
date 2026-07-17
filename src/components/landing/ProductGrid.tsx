@@ -28,7 +28,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         {/* Heading + description/CTA row */}
         <div style={{
           display: 'flex',
-          alignItems: isMobile ? 'flex-start' : 'center',
+          alignItems: isMobile ? 'flex-start' : 'flex-end',
           justifyContent: 'space-between',
           flexDirection: isMobile ? 'column' : 'row',
           gap: isMobile ? 24 : 64,

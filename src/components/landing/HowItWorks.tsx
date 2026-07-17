@@ -37,17 +37,17 @@ export function HowItWorks() {
 
           <div style={{ position: 'relative', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end' }}>
             <div style={{ position: 'relative', height: isMobile ? 300 : 380, width: isMobile ? 260 : 330 }}>
-              <div style={{ position: 'absolute', left: 0, top: 20, width: '75%', height: '92%', borderRadius: 40, overflow: 'hidden' }}>
-                <Image src="/hero-figma/timeline-dog-1.jpg" alt="Šuo su PawCharms antkakliu" fill sizes="260px" style={{ objectFit: 'cover' }} loading="eager" />
+              <div style={{ position: 'absolute', left: 0, top: 0, width: '62%', height: '68%', borderRadius: 40, overflow: 'hidden' }}>
+                <Image src="/hero-figma/timeline-dog-1.jpg" alt="Šuo su PawCharms antkakliu" fill sizes="205px" style={{ objectFit: 'cover' }} loading="eager" />
               </div>
-              <div style={{ position: 'absolute', right: 0, bottom: 0, width: '78%', height: '88%', borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}>
-                <Image src="/hero-figma/timeline-dog-2.png" alt="Šuo su akiniais ir PawCharms antkakliu" fill sizes="270px" style={{ objectFit: 'cover' }} loading="eager" />
+              <div style={{ position: 'absolute', right: 0, bottom: 0, width: '62%', height: '68%', borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}>
+                <Image src="/hero-figma/timeline-dog-2.png" alt="Šuo su akiniais ir PawCharms antkakliu" fill sizes="205px" style={{ objectFit: 'cover' }} loading="eager" />
               </div>
             </div>
           </div>
         </div>
 
-        <div style={{ width: isMobile ? '100%' : 1, alignSelf: 'stretch', background: 'rgba(168,213,162,0.15)' }} />
+        <div style={{ width: isMobile ? '100%' : 1, height: isMobile ? 1 : 'auto', alignSelf: 'stretch', background: 'rgba(168,213,162,0.15)' }} />
 
         <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', gap: 32, minWidth: 0, width: '100%' }}>
           {TIMELINE.map((step) => (
