@@ -17,11 +17,6 @@ const DEMO_ITEMS: CharmSpec[] = DEMO_NAME.split('').map((ch, i) => ({
   kind: 'letter' as const,
 }))
 
-/** Collar reveal happens in the first slice of scroll progress; charms mount through the rest. */
-const REVEAL_END = 0.35
-/** How far the collar starts off-screen before it slides in, as a % of its own width. */
-const SLIDE_DISTANCE = 18
-
 export function Collar3DShowcase() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
@@ -53,8 +48,7 @@ export function Collar3DShowcase() {
     }
   }, [reducedMotion])
 
-  const revealT = reducedMotion ? 1 : Math.min(1, progress / REVEAL_END)
-  const mountT = reducedMotion ? 1 : Math.max(0, (progress - REVEAL_END) / (1 - REVEAL_END))
+  const mountT = reducedMotion ? 1 : progress
   const mountedCount = Math.round(mountT * DEMO_ITEMS.length)
   const items = useMemo(() => DEMO_ITEMS.slice(0, mountedCount), [mountedCount])
 
@@ -69,14 +63,7 @@ export function Collar3DShowcase() {
         background: 'var(--color-cream)',
       }}
     >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          opacity: revealT,
-          transform: `translateX(${(1 - revealT) * -SLIDE_DISTANCE}%) scale(${0.9 + revealT * 0.1})`,
-        }}
-      >
+      <div style={{ position: 'absolute', inset: 0 }}>
         <Collar3DScene items={items} strapColour={DEFAULT_STRAP_COLOUR} hardwareColour={HARDWARE_COLOUR} />
       </div>
     </section>
