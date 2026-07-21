@@ -140,7 +140,7 @@ interface CharmDecoratorPanelProps {
   selectedCharms?: (ShopifyCharm | null)[]
   charmName?: string
   onCharmNameChange?: (name: string) => void
-  onCharmColourAt?: (charmId: string, colourKey: string) => void
+  onCharmColourAt?: (index: number, colourKey: string) => void
   onToggleCharm?: (charm: ShopifyCharm) => void
   onCharmReorder?: (event: DragEndEvent) => void
   onNeedMoreCharms?: () => void
@@ -430,7 +430,7 @@ export function CharmDecoratorPanel({
                         title={label}
                         aria-label={label}
                         aria-pressed={isActiveColour}
-                        onClick={() => onCharmColourAt?.(colourTargetCharm.id, key)}
+                        onClick={() => onCharmColourAt?.(colourTargetIndex, key)}
                         style={{
                           width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                           background: hex,
@@ -450,7 +450,7 @@ export function CharmDecoratorPanel({
                         title={translateColorLabel(charm.color)}
                         aria-label={translateColorLabel(charm.color)}
                         aria-pressed={isActiveColour}
-                        onClick={() => onCharmColourAt?.(colourTargetCharm.id, charm.bg)}
+                        onClick={() => onCharmColourAt?.(colourTargetIndex, charm.bg)}
                         style={{
                           width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                           background: charm.bg,
@@ -543,7 +543,7 @@ export function CharmDecoratorPanel({
                       title={translateColorLabel(charm.color)}
                       aria-label={translateColorLabel(charm.color)}
                       aria-pressed={isActiveColour}
-                      onClick={() => onCharmColourAt?.(activeIconCharm.id, charm.bg)}
+                      onClick={() => onCharmColourAt?.(activeIconCharmIndex!, charm.bg)}
                       style={{
                         width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                         background: charm.bg,

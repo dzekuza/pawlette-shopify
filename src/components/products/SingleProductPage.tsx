@@ -459,8 +459,8 @@ export function SingleProductPage ({ product }: Props) {
 
   // Recolours a single already-placed charm in place, without touching its slot position.
   // Letters match on their extracted letter; icon charms (paw, heart, star, flower…) match on shape.
-  const applyCollarLetterColour = (charmId: string, colourKey: string) => {
-    const target = selectedCollarCharms.find((c) => c?.id === charmId)
+  const applyCollarLetterColour = (index: number, colourKey: string) => {
+    const target = selectedCollarCharms[index]
     if (!target) return
     // Letters pass a COLOR_BG_MAP key ("blue"); icon charms pass their swatch hex directly,
     // since icon variant titles don't reliably carry a usable colour-key (see resolveCharmMeta).
@@ -471,7 +471,9 @@ export function SingleProductPage ({ product }: Props) {
         ? charms.find((c) => c.category === 'icon' && c.shape === target.shape && c.bg === colourHex)
         : undefined
     if (!replacement) return
-    setSelectedCollarCharms((prev) => prev.map((c) => (c?.id === charmId ? replacement : c)))
+    // Recolour only the tapped slot — identical letters share the same charm id,
+    // so id-based matching would recolour every duplicate at once.
+    setSelectedCollarCharms((prev) => prev.map((c, i) => (i === index ? replacement : c)))
   }
 
   // Same letter-engraving helpers as the collar page, operating on the charm page's own selectedCharms state.
@@ -488,8 +490,8 @@ export function SingleProductPage ({ product }: Props) {
     setSelectedCharms(padded)
   }
 
-  const applyCharmPageLetterColour = (charmId: string, colourKey: string) => {
-    const target = selectedCharms.find((c) => c?.id === charmId)
+  const applyCharmPageLetterColour = (index: number, colourKey: string) => {
+    const target = selectedCharms[index]
     if (!target) return
     // Letters pass a COLOR_BG_MAP key ("blue"); icon charms pass their swatch hex directly,
     // since icon variant titles don't reliably carry a usable colour-key (see resolveCharmMeta).
@@ -500,7 +502,9 @@ export function SingleProductPage ({ product }: Props) {
         ? charms.find((c) => c.category === 'icon' && c.shape === target.shape && c.bg === colourHex)
         : undefined
     if (!replacement) return
-    setSelectedCharms((prev) => prev.map((c) => (c?.id === charmId ? replacement : c)))
+    // Recolour only the tapped slot — identical letters share the same charm id,
+    // so id-based matching would recolour every duplicate at once.
+    setSelectedCharms((prev) => prev.map((c, i) => (i === index ? replacement : c)))
   }
 
   const collarHandle = product.id.replace(/^collar-/, '')
@@ -1157,7 +1161,7 @@ interface CollarPDPProps {
   selectedCharms?: (ShopifyCharm | null)[]
   charmName?: string
   onCharmNameChange?: (name: string) => void
-  onCharmColourAt?: (charmId: string, colourKey: string) => void
+  onCharmColourAt?: (index: number, colourKey: string) => void
   onToggleCharm?: (charm: ShopifyCharm) => void
   onCharmReorder?: (event: DragEndEvent) => void
   onNeedMoreCharms?: () => void

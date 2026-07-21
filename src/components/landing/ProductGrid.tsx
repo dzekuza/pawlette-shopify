@@ -25,7 +25,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         {/* Heading + description/CTA row */}
         <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end md:gap-16">
           <DisplayHeading as="h2" size="section" className="flex-1 text-bark text-[32px] md:text-[48px]">
-            Kas atsitiks po to, kai įsigysite PawCharms?
+            Atraskite PawCharms kolekciją
           </DisplayHeading>
 
           <div className="flex max-w-full shrink-0 flex-col gap-5 md:max-w-[400px]">
@@ -38,8 +38,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         {/* Product cards grid / carousel */}
         {filteredProducts.length > 0 ? (
           <>
-            <div className="hide-scrollbar md:hidden" style={{
-              display: 'flex',
+            <div className="hide-scrollbar flex md:hidden" style={{
               gap: 12,
               overflowX: 'auto',
               scrollSnapType: 'x mandatory',
