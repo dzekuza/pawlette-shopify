@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { fetchCart } from '@/lib/cart';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
@@ -17,7 +18,17 @@ export default function CheckoutPage() {
           currency: cart.cost.totalAmount.currencyCode,
           num_items: cart.totalQuantity,
         });
-        // Give the pixel beacon + CAPI fetch a moment to leave the page before
+        trackGaEvent('begin_checkout', {
+          currency: cart.cost.totalAmount.currencyCode,
+          value: parseFloat(cart.cost.totalAmount.amount),
+          items: cart.lines.map((l) => ({
+            item_id: l.merchandise.id,
+            item_name: l.merchandise.product.title,
+            price: parseFloat(l.merchandise.price.amount),
+            quantity: l.quantity,
+          })),
+        });
+        // Give the pixel beacon + gtag beacon a moment to leave the page before
         // the cross-origin navigation to Shopify checkout cancels them mid-flight.
         setTimeout(() => {
           window.location.href = cart.checkoutUrl;

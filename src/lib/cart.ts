@@ -1,6 +1,7 @@
 import { shopifyClient } from './shopify';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -147,12 +148,11 @@ export async function addLineToCart(variantId: string, quantity = 1): Promise<Sh
 
 function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; quantity: number }[]): void {
   const addedIds = addedLines.map((l) => l.merchandiseId);
-  const value = cart.lines
-    .filter((l) => addedIds.includes(l.merchandise.id))
-    .reduce((sum, l) => {
-      const requested = addedLines.find((rl) => rl.merchandiseId === l.merchandise.id);
-      return sum + parseFloat(l.merchandise.price.amount) * (requested?.quantity ?? l.quantity);
-    }, 0);
+  const addedCartLines = cart.lines.filter((l) => addedIds.includes(l.merchandise.id));
+  const value = addedCartLines.reduce((sum, l) => {
+    const requested = addedLines.find((rl) => rl.merchandiseId === l.merchandise.id);
+    return sum + parseFloat(l.merchandise.price.amount) * (requested?.quantity ?? l.quantity);
+  }, 0);
 
   trackMetaEvent('AddToCart', {
     content_ids: addedIds,
@@ -162,6 +162,20 @@ function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; 
   });
 
   trackShopifyAddToCart(cart, addedLines).catch(() => {});
+
+  trackGaEvent('add_to_cart', {
+    currency: cart.cost.totalAmount.currencyCode,
+    value,
+    items: addedCartLines.map((l) => {
+      const requested = addedLines.find((rl) => rl.merchandiseId === l.merchandise.id);
+      return {
+        item_id: l.merchandise.id,
+        item_name: l.merchandise.product.title,
+        price: parseFloat(l.merchandise.price.amount),
+        quantity: requested?.quantity ?? l.quantity,
+      };
+    }),
+  });
 }
 
 export async function addLinesToCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
