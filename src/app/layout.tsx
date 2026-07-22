@@ -79,7 +79,11 @@ const organizationSchema = {
 };
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-CD28613MD9';
+// GA4 measurement ID lives in config, not source. Set NEXT_PUBLIC_GA_MEASUREMENT_ID
+// in the environment (Vercel → Project → Settings → Environment Variables). If it's
+// unset, the GA4 tags below simply don't render — no analytics rather than analytics
+// silently sent to the wrong property.
+const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
 const websiteSchema = {
   '@context': 'https://schema.org',
@@ -112,10 +116,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
         {/*
-          Consent Mode v2 defaults — must be pushed to dataLayer before GTM
-          boots below. GA4 itself is now configured as a tag inside the GTM
-          container (not loaded directly here), so this only sets consent
-          state; GoogleAnalytics calls gtag('consent','update', ...) on accept.
+          Consent Mode v2 defaults — must be pushed to dataLayer before GA4/GTM
+          boot below. This only sets consent state (all denied until the user
+          accepts); GoogleAnalytics calls gtag('consent','update', ...) on accept.
         */}
         <script
           dangerouslySetInnerHTML={{
@@ -133,26 +136,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
         {/*
-          GA4 (gtag.js) — loaded directly so this property gets pageviews
-          even if it isn't also wired up as a tag inside GTM. Reuses the same
-          dataLayer/gtag defined above, so it inherits the Consent Mode v2
-          defaults and stays gated the same way.
+          GA4 (gtag.js) — loaded directly in code. This is the single source of
+          truth for GA4. Do NOT also add a GA4 configuration tag for this same
+          measurement ID inside the GTM container below, or every pageview and
+          event gets counted twice. Reuses the dataLayer/gtag defined above, so
+          it inherits the Consent Mode v2 defaults and stays gated the same way.
+          Also powers trackGaEvent() in GoogleAnalytics.tsx via window.gtag.
         */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              gtag('js', new Date());
-              gtag('config', '${GA_MEASUREMENT_ID}');
-            `,
-          }}
-        />
+        {GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  gtag('js', new Date());
+                  gtag('config', '${GA_MEASUREMENT_ID}');
+                `,
+              }}
+            />
+          </>
+        )}
         {/*
           Google Tag Manager — reuses the same dataLayer, so it inherits the
           Consent Mode v2 defaults set above and stays gated the same way.
+          Keep GTM for non-GA4 tags only (GA4 is owned by the gtag block above).
         */}
         <script
           dangerouslySetInnerHTML={{

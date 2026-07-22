@@ -38,7 +38,7 @@ interface CharmBuilderPanelProps {
   onToggleCharm: (charm: ShopifyCharm) => void
   charmName: string
   onCharmNameChange: (name: string) => void
-  onCharmColourAt: (charmId: string, colourKey: string) => void
+  onCharmColourAt: (index: number, colourKey: string) => void
   onNeedMoreCharms?: () => void
   allCharms: ShopifyCharm[]
   activeReview: number
