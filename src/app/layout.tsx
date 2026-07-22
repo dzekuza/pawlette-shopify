@@ -202,6 +202,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookieConsentBanner />
         <ScratchGiftWidget />
         <CartDrawer />
+        <Script src="https://calls.fly.dev/embed.js" data-slug="pawcharms" strategy="lazyOnload" />
       </body>
     </html>
   );
