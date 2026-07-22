@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect, useRef, useState, type FormEvent, type PointerEvent as ReactPointerEvent } from 'react';
-import { Gift, X, Copy, Check } from 'lucide-react';
+import { X, Copy, Check } from 'lucide-react';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { InputField } from '@/components/shared/InputField';
 import { DisplayHeading, Eyebrow, BodyCopy } from '@/components/storefront/Typography';
 import { NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
+
+export const GIFT_MODAL_OPEN_EVENT = 'gift-modal:open';
 
 const GIFT_CLAIMED_KEY = 'pawlette_gift_claimed';
 const CANVAS_SIZE = 280;
@@ -21,7 +23,6 @@ interface NewsletterResponse {
 
 export function ScratchGiftWidget() {
   const [step, setStep] = useState<Step>('closed');
-  const [hideIcon, setHideIcon] = useState(false);
   const [email, setEmail] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -35,9 +36,9 @@ export function ScratchGiftWidget() {
   const revealTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (localStorage.getItem(GIFT_CLAIMED_KEY)) {
-      setHideIcon(true);
-    }
+    const handleOpen = () => setStep('scratch');
+    window.addEventListener(GIFT_MODAL_OPEN_EVENT, handleOpen);
+    return () => window.removeEventListener(GIFT_MODAL_OPEN_EVENT, handleOpen);
   }, []);
 
   useEffect(() => {
@@ -198,29 +199,16 @@ export function ScratchGiftWidget() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [step]);
 
-  if (hideIcon && step === 'closed') return null;
+  if (step === 'closed') return null;
 
   return (
-    <>
-      {step === 'closed' ? (
-        <button
-          type="button"
-          onClick={() => setStep('scratch')}
-          aria-label="Atidaryti nuolaidos dovaną"
-          className="fixed bottom-[calc(88px+env(safe-area-inset-bottom,0px))] left-5 z-[200] flex h-14 w-14 items-center justify-center rounded-full bg-sage text-interactive-text shadow-[0_8px_24px_rgba(61,53,48,0.2)] transition-transform hover:scale-105 md:bottom-5"
-        >
-          <Gift className="h-6 w-6" />
-        </button>
-      ) : null}
-
-      {step !== 'closed' ? (
-        <div
-          className="fixed inset-0 z-[600] flex items-center justify-center bg-bark/50 backdrop-blur-sm"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) closeDialog();
-          }}
-        >
-          <div className="relative w-[90vw] max-w-[420px] rounded-[28px] bg-cream px-5 py-8 sm:p-8 text-center shadow-[0_24px_80px_rgba(61,53,48,0.2)]">
+    <div
+      className="fixed inset-0 z-[600] flex items-center justify-center bg-bark/50 backdrop-blur-sm"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) closeDialog();
+      }}
+    >
+      <div className="relative w-[90vw] max-w-[420px] rounded-[28px] bg-cream px-5 py-8 sm:p-8 text-center shadow-[0_24px_80px_rgba(61,53,48,0.2)]">
             <button
               type="button"
               onClick={closeDialog}
@@ -308,9 +296,7 @@ export function ScratchGiftWidget() {
                 </PrimaryButton>
               </>
             ) : null}
-          </div>
-        </div>
-      ) : null}
-    </>
+      </div>
+    </div>
   );
 }

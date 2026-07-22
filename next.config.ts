@@ -7,6 +7,9 @@ const storeHostname = storeDomain
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.93'],
+  turbopack: {
+    root: __dirname,
+  },
   images: {
     remotePatterns: [
       {

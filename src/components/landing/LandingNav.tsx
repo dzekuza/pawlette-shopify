@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Gift } from 'lucide-react';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
+import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
@@ -80,6 +82,23 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
           {/* Right: cart + CTA */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Gift */}
+            <button
+              onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
+              aria-label="Atidaryti nuolaidos dovaną"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '8px 10px',
+                color: 'var(--color-bark)',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <Gift className="h-5 w-5" />
+            </button>
+
             {/* Cart */}
             <button
               onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}

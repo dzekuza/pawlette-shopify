@@ -31,7 +31,7 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
     <div
       style={{
         position: 'fixed',
-        right: 16,
+        left: 16,
         bottom: `calc(${16 + bottomOffset}px + var(--cookie-banner-height, 0px))`,
         zIndex: 400,
         width: expanded ? 240 : 108,
