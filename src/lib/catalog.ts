@@ -51,7 +51,10 @@ export function slugFromProductName (name: string) {
 }
 
 export function slugFromCharmId (id: string) {
-  return `charm-${id}`
+  // Must stay ASCII — Next's x-next-cache-tags header throws on non-ASCII route
+  // segments, crashing the request outright. src/proxy.ts redirects any old
+  // diacritics-containing URL to this same normalized form.
+  return `charm-${slugifyText(id)}`
 }
 
 function hexToRgba (hex: string, alpha: number): string {
@@ -309,7 +312,9 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
   if (slug.startsWith('charm-')) {
     const charmHandle = slug.replace(/^charm-/, '')
     const charms = await getCharms()
-    const charm = charms.find((c) => c.id === charmHandle || c.handle === charmHandle)
+    const charm = charms.find((c) =>
+      c.id === charmHandle || c.handle === charmHandle || slugifyText(c.id) === charmHandle
+    )
     if (!charm) return undefined
     return buildCharmProduct(charm)
   }
