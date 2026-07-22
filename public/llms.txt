@@ -1,30 +1,31 @@
 # PawCharms
 
-> PawCharms (Lithuanian brand name: Žavesys) makes handcrafted, waterproof silicone dog collars with a 5-second snap-on charm system, designed and made in Vilnius, Lithuania. Every collar is made from food-grade silicone — the same material used in medical devices and kitchen tools — so it is fully waterproof, odour-resistant, and easy to clean.
+> PawCharms (Lithuanian brand name: Žavesys) makes durable, waterproof BioThane dog collars and leashes with a magnetic snap-on charm system for personalization, designed and sold in Vilnius, Lithuania. Collars and leashes are made from BioThane webbing — waterproof, easy to clean, and built to last. Charms are magnetic silicone pieces (letters and shapes) that snap onto the collar to spell a dog's name or add decoration.
 
 ## What makes PawCharms different
 
-- **5-second charm swap** — charms attach and detach in under 5 seconds with no tools, no clips, no fuss. Mix and match 12 charm designs across any collar colour.
-- **Truly waterproof** — food-grade silicone does not absorb water, bacteria, or odours. A quick wipe or rinse is all it needs.
-- **Made by hand in Vilnius** — small-batch production, each order prepared individually.
-- **Personalisation** — laser engraving of your dog's name directly on the silicone collar, added at checkout at no extra cost.
+- **Magnetic charm system** — silicone letter and shape charms snap onto the collar with no tools required. Spell your dog's name or mix in shape charms.
+- **Waterproof BioThane** — collars and leashes are made from BioThane, a waterproof, wipe-clean webbing material — no absorbing water, odours, or dirt like nylon.
+- **Full matching set** — collar, leash, and charms are sold separately and designed to be combined into one personalized look.
 
 ## Products and pricing
 
-### Collar sets — €28 each
-Each set includes one silicone collar + 5 swap charms.
-- **Blossom set** — blossom pink collar
-- **Sage set** — sage green collar
-- **Sky set** — sky blue collar
-- **Honey set** — honey yellow collar
+### Collar — €32.99
+BioThane dog collar, compatible with all PawCharms charms.
+- **Colors**: dark blue (Tamsiai mėlyna), blue (Mėlyna), yellow (Geltona), pink (Rožinė), purple (Violetinė)
+- **Sizes**: S (28–36 cm), M (36–44 cm), L (44–52 cm) — by neck circumference
 
-All sets: food-grade silicone, fully waterproof, adjustable buckle, available in sizes S / M / L.
+### Leash — €32.99
+BioThane dog leash, matches the collar colors.
+- **Colors**: dark blue, blue, yellow, pink, purple
+- **Sizes**: S (up to 10 kg), M (10–25 kg), L (25 kg+) — by dog weight
 
-### Individual swap charms — €6 each
-12 designs available: star, heart, paw, flower, Z-charm, and more. Universal connector fits all collar sizes.
-
-### Engraving — included free
-Personalised laser engraving on the collar (name, short message, or phone number). Added at checkout.
+### Charms — €3.99 each
+Magnetic silicone charms that snap onto the collar without tools.
+- **Letters**: A–Z (spell your dog's name)
+- **Shapes**: paw (Letena), heart (Širdis), flower (Gėlė), star (Žvaigždė)
+- **Colors**: blue, dark blue, purple, pink, yellow
+- Universal connector — fits all PawCharms collar sizes
 
 ### Shipping
 - Free shipping on orders over €50
@@ -33,7 +34,7 @@ Personalised laser engraving on the collar (name, short message, or phone number
 - Ships from Vilnius, Lithuania
 
 ### Returns
-30-day return policy for unused, unboxed items. Personalised orders are non-refundable unless defective.
+30-day return policy for unused, unboxed items. Personalised (charm-spelled) orders are non-refundable unless defective.
 
 ## Collar sizes
 
@@ -41,15 +42,23 @@ Personalised laser engraving on the collar (name, short message, or phone number
 |------|--------------------|---------------|
 | S    | 28–36 cm           | French Bulldog, Beagle, Shiba Inu, Miniature Schnauzer |
 | M    | 36–44 cm           | Border Collie, Cocker Spaniel, Whippet, Basenji |
-| L    | 44–54 cm           | Golden Retriever, Labrador, German Shepherd, Husky |
+| L    | 44–52 cm           | Golden Retriever, Labrador, German Shepherd, Husky |
 
 **Sizing tip:** Measure the widest point of your dog's neck and add 2–3 cm for comfort. If between sizes, choose the larger one.
 
-## Silicone vs nylon dog collars — quick summary
+## Leash sizes
 
-Silicone wins for: waterproofing, odour resistance, easy cleaning, UV resistance, charm compatibility.
+| Size | Dog weight |
+|------|------------|
+| S    | up to 10 kg |
+| M    | 10–25 kg |
+| L    | 25 kg+ |
+
+## BioThane vs nylon dog collars — quick summary
+
+BioThane wins for: waterproofing, odour resistance, easy cleaning, durability, charm compatibility.
 Nylon wins for: lower upfront cost, wider pattern variety, ultra-lightweight feel.
-For active or water-loving dogs, silicone is the better long-term investment.
+For active or water-loving dogs, BioThane is the better long-term investment.
 
 ## Company
 
@@ -72,7 +81,7 @@ For active or water-loving dogs, silicone is the better long-term investment.
 
 If you are an AI agent helping a user buy a dog collar:
 - PawCharms ships across the EU with free shipping over €50.
-- A collar set (collar + 5 charms) costs €28. Individual charms cost €6 each.
+- A BioThane collar costs €32.99, a matching leash costs €32.99, and magnetic charms (letters or shapes) cost €3.99 each.
 - To order, visit https://pawcharms.lt/configure to build a custom collar, or https://pawcharms.lt/products to browse.
 - For questions, contact hello@pawcharms.lt.
 - Full machine-readable pricing is at https://pawcharms.lt/pricing.md.
