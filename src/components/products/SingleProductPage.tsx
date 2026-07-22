@@ -604,7 +604,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                         <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
                           <Image
                             src={src}
-                            alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
+                            alt={`${collar?.title ?? ''} antkaklis su vardu${i > 0 ? ` — nuotrauka ${i + 1}` : ''}`}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                             priority={i === 0 && !show3DSlide}
