@@ -164,7 +164,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
           <div className="flex flex-col gap-3">
             <Eyebrow>Apie mus</Eyebrow>
             <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
-              Sukurta patogumui.<br />Pritaikyta jūsų šuniui
+              Šunų antkakliai su vardu.<br />Pritaikyti jūsų šuniui
             </DisplayHeading>
           </div>
           {showCta ? (

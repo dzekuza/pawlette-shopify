@@ -287,7 +287,7 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
 export async function getAllProductSlugs (): Promise<string[]> {
   const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
 
-  return [
+  const slugs = [
     ...collars.map((collar) => collar.nodeHandle).filter(isNonEmptyString),
     ...collars.map((collar) => slugFromProductName(collar.title)),
     'charm-charms',
@@ -296,6 +296,8 @@ export async function getAllProductSlugs (): Promise<string[]> {
     ...leashes.map((leash) => leash.nodeHandle).filter(isNonEmptyString),
     ...leashes.map((leash) => leash.handle),
   ]
+
+  return Array.from(new Set(slugs))
 }
 
 export async function getProductBySlugAsync (slug: string): Promise<ProductDetail | undefined> {

@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { DisplayHeading } from "@/components/storefront/Typography";
+import { DisplayHeading, Eyebrow } from "@/components/storefront/Typography";
 import { FREE_SHIPPING_COPY } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
@@ -86,6 +86,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
       <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col gap-10 lg:gap-[100px]">
         <div className="flex flex-col items-center gap-8">
+          <Eyebrow className="text-center">Šunų antkakliai su vardu</Eyebrow>
           <DisplayHeading
             as="h1"
             size="floatingHero"

@@ -25,10 +25,10 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: {
-    default: 'PawCharms — Rankų darbo šunų antkakliai su keičiamais pakabukais',
+    default: 'PawCharms — Rankų darbo šunų antkakliai su vardu',
     template: '%s | PawCharms',
   },
-  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   metadataBase: new URL('https://pawcharms.lt'),
   robots: {
     index: true,
@@ -72,7 +72,7 @@ const organizationSchema = {
     '@type': 'Place',
     name: 'Vilnius, Lithuania',
   },
-  description: 'Rankų darbo, vandeniui atsparūs silikoniniai šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  description: 'Rankų darbo, vandeniui atsparūs silikoniniai šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   sameAs: [
     'https://www.instagram.com/pawcharms.lt',
   ],
@@ -90,7 +90,7 @@ const websiteSchema = {
   '@type': 'WebSite',
   name: 'PawCharms',
   url: 'https://pawcharms.lt',
-  description: 'Vandeniui atsparūs, personalizuojami šunų antkakliai su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   inLanguage: 'lt',
   potentialAction: {
     '@type': 'SearchAction',
