@@ -10,6 +10,7 @@ import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Accordion, type AccordionItem } from '@/components/shared/Accordion'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
+import { trackGA4Event } from '@/lib/ga4'
 import type { ProductDetail } from '@/lib/catalog'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 
@@ -83,6 +84,11 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       content_name: product.name,
       value: parseFloat(product.price),
       currency: 'EUR',
+    })
+    trackGA4Event('view_item', {
+      currency: 'EUR',
+      value: parseFloat(product.price),
+      items: [{ item_id: product.id, item_name: product.name, price: parseFloat(product.price) }],
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.id])

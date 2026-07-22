@@ -45,6 +45,15 @@ function getCookie (name: string): string | undefined {
   return match ? decodeURIComponent(match[1]) : undefined
 }
 
+// crypto.randomUUID is only exposed in secure contexts (HTTPS or localhost) —
+// LAN-IP dev preview over plain HTTP loses it, so fall back to a manual id.
+function generateEventId (): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`
+}
+
 /**
  * Fires a pixel event client-side and mirrors it server-side via the
  * Conversions API, sharing the same eventId so Meta deduplicates the two.
@@ -53,7 +62,7 @@ function getCookie (name: string): string | undefined {
 export function trackMetaEvent (eventName: string, customData?: Record<string, unknown>) {
   if (!hasConsent()) return
 
-  const eventId = crypto.randomUUID()
+  const eventId = generateEventId()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const w = window as any
   w.fbq?.('track', eventName, customData, { eventID: eventId })

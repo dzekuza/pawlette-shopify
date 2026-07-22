@@ -26,6 +26,7 @@ import { collar3DCharms, collar3DLetters, extractLetter } from '@/lib/collar3dSe
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
+import { trackGA4Event } from '@/lib/ga4'
 import type { ProductDetail } from '@/lib/catalog'
 import { RichText } from '@/components/products/RichText'
 import { Accordion } from '@/components/shared/Accordion'
@@ -143,11 +144,14 @@ export function translateColorLabel (value: string) {
 
 interface Props {
   product: ProductDetail
+  /** 'split' renders the alternate two-column desktop hero: a viewport-height sticky 3D/media stage on the left and an independently scrollable detail panel on the right. */
+  layout?: 'standard' | 'split'
 }
 
-export function SingleProductPage ({ product }: Props) {
+export function SingleProductPage ({ product, layout = 'standard' }: Props) {
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
+  const isSplit = layout === 'split'
   const router = useRouter()
   const cartCount = useCartCount()
 
@@ -184,6 +188,11 @@ export function SingleProductPage ({ product }: Props) {
       content_name: product.name,
       value: parseFloat(product.price),
       currency: 'EUR',
+    })
+    trackGA4Event('view_item', {
+      currency: 'EUR',
+      value: parseFloat(product.price),
+      items: [{ item_id: product.id, item_name: product.name, price: parseFloat(product.price) }],
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.id])
@@ -519,6 +528,7 @@ export function SingleProductPage ({ product }: Props) {
     : []
 
   const NAV_H = 72
+  const splitPanelHeight = `calc(100vh - ${NAV_H}px)`
   const firstSelectedCharm = selectedCharms.find(Boolean) ?? null
   const displayName = selectedCharmCount === 1 ? (firstSelectedCharm?.title ?? product.name) : product.name
   const displayPrice = firstSelectedCharm?.price ?? product.price
@@ -778,6 +788,29 @@ export function SingleProductPage ({ product }: Props) {
         >
         {/* ── LEFT ── */}
         {isCollarOrLeash ? (
+          isSplit ? (
+            <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', height: splitPanelHeight, borderRadius: 24, overflow: 'hidden', background: 'var(--color-surface-2)' }}>
+              {showCollar3DViewer ? (
+                <Collar3DGalleryTile
+                  collar={collar}
+                  selectedCharms={selectedCollarCharms}
+                  onEdit={() => setPreview3DOpen(true)}
+                  variant='slide'
+                />
+              ) : gallery[0] ? (
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <Image
+                    src={gallery[0]}
+                    alt={`${collar?.title ?? ''} antkaklis`}
+                    fill
+                    sizes='50vw'
+                    priority
+                    className='object-cover'
+                  />
+                </div>
+              ) : null}
+            </div>
+          ) : (
           <div
             style={{
               display: 'grid',
@@ -812,7 +845,19 @@ export function SingleProductPage ({ product }: Props) {
               </button>
             ))}
           </div>
+          )
         ) : (
+          isSplit ? (
+            <div style={{ position: 'sticky', top: NAV_H, alignSelf: 'start', height: splitPanelHeight, borderRadius: 24, overflow: 'hidden', background: getCharmGallerySurface() }}>
+              {showCharmHero3D ? (
+                <Charm3DGalleryTile items={previewCharms3D} variant='slide' />
+              ) : charmHeroImage ? (
+                <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+                  <Image src={charmHeroImage} alt={displayName} fill sizes='50vw' priority className='object-cover' />
+                </div>
+              ) : null}
+            </div>
+          ) : (
           /* Desktop charm left — same grid layout as the collar page: full-width hero on top, 2x2 thumbnail grid below */
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, position: 'sticky', top: NAV_H, alignSelf: 'start', overflow: 'hidden' }}>
             {showCharmHero3D ? (
@@ -828,16 +873,23 @@ export function SingleProductPage ({ product }: Props) {
               </div>
             ))}
           </div>
+          )
         )}
 
         {/* ── RIGHT (desktop only) ── */}
         {isCollarOrLeash ? (
-          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}>
+          <div style={isSplit
+            ? { position: 'sticky', top: NAV_H, alignSelf: 'start', height: splitPanelHeight, overflowY: 'auto', minWidth: 0, paddingLeft: 8, paddingRight: 8, paddingBottom: 24 }
+            : { position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, paddingLeft: 8, paddingRight: 8 }}
+          >
             <CollarPDP collar={collar} selectedColor={selectedColor} selectedSize={selectedSize} onColorChange={handleColorChange} allCollars={allCollars} onSizeChange={setSelectedSize} onAddToCart={addCollarToCart} onPersonalise={() => setPersonaliseOpen(true)} selectedCharmCount={selectedCollarCharmCount} selectedCharms={selectedCollarCharms} charmName={collarCharmName} onCharmNameChange={applyCollarLetters} onCharmColourAt={applyCollarLetterColour} onCharmReorder={handleCharmDragEnd} onNeedMoreCharms={() => setExtraCharmsOpen(true)} mounted={mounted} videos={product.videos} onToggleCharm={toggleCollarCharm} allCharms={charms} price={collar?.price ?? product.price} name={collar?.parentTitle ?? product.name} showCharms={showCollarCharmPicker} />
           </div>
         ) : (
           /* Desktop charm right */
-          <div style={{ position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}>
+          <div style={isSplit
+            ? { position: 'sticky', top: NAV_H, alignSelf: 'start', height: splitPanelHeight, overflowY: 'auto', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24, paddingBottom: 24 }
+            : { position: 'sticky', top: NAV_H + 16, alignSelf: 'start', minWidth: 0, display: 'flex', flexDirection: 'column', gap: 24 }}
+          >
             <CharmBuilderPanel
               isMobile={false}
               displayName={displayName}

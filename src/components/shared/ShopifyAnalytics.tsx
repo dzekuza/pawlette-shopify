@@ -6,8 +6,12 @@ import { useShopifyCookies } from '@shopify/hydrogen-react'
 import { COOKIE_CONSENT_KEY, COOKIE_CONSENT_EVENT } from '@/components/shared/MetaPixel'
 import { trackShopifyPageView } from '@/lib/shopifyAnalytics'
 
-const SHOP_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
 const STOREFRONT_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!
+// Must be the shop's actual checkout domain (e.g. checkout.pawcharms.lt), not the
+// .myshopify.com domain used for the Storefront API client — otherwise the tracking
+// cookie is scoped to the wrong host and never links storefront visits to the order
+// the buyer completes at checkout, breaking Shopify's Sessions/Conversion funnel.
+const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN!
 
 // Feeds Shopify's native Admin Analytics (Sessions, Conversion rate) with real
 // funnel data, which a fully headless storefront otherwise never reports —
@@ -28,7 +32,7 @@ export function ShopifyAnalytics () {
     hasUserConsent: consent,
     fetchTrackingValues: consent,
     storefrontAccessToken: STOREFRONT_TOKEN,
-    checkoutDomain: SHOP_DOMAIN,
+    checkoutDomain: CHECKOUT_DOMAIN,
   })
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { shopifyClient } from './shopify';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
+import { trackGA4Event } from './ga4';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -161,6 +162,19 @@ function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; 
     currency: cart.cost.totalAmount.currencyCode,
   });
 
+  trackGA4Event('add_to_cart', {
+    currency: cart.cost.totalAmount.currencyCode,
+    value,
+    items: cart.lines
+      .filter((l) => addedIds.includes(l.merchandise.id))
+      .map((l) => ({
+        item_id: l.merchandise.id,
+        item_name: l.merchandise.product.title,
+        price: parseFloat(l.merchandise.price.amount),
+        quantity: addedLines.find((rl) => rl.merchandiseId === l.merchandise.id)?.quantity ?? l.quantity,
+      })),
+  });
+
   trackShopifyAddToCart(cart, addedLines).catch(() => {});
 }
 
@@ -187,20 +201,22 @@ export async function addLinesToCart(lines: { merchandiseId: string; quantity: n
   return cart;
 }
 
+// A plain read — does not emit SHOPIFY_CART_UPDATED_EVENT. CartDrawer's own listener for
+// that event calls fetchCart() to refresh; emitting from here would re-trigger that listener
+// and recurse synchronously (stack overflow) whenever a caller has no stored cart yet, since
+// the no-cartId branch below returns without ever awaiting. Only real mutations (addLinesToCart,
+// removeCartLine) should broadcast the event.
 export async function fetchCart(): Promise<ShopifyCart | null> {
   const cartId = getStoredCartId();
   if (!cartId) {
-    emitCartUpdated(null);
     return null;
   }
   const { data } = await shopifyClient.request(GET_CART, { variables: { cartId } });
   if (!data?.cart) {
     clearStoredCartId();
-    emitCartUpdated(null);
     return null;
   }
   const cart = parseCart(data.cart);
-  emitCartUpdated(cart);
   return cart;
 }
 
