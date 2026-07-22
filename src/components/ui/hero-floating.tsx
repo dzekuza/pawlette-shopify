@@ -97,7 +97,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
 
           <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
             <Link
-              href="https://pawcharms.lt/products/collar-melyna-collar"
+              href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis"
               className="whitespace-nowrap rounded-full bg-sage px-6 py-3 text-base font-medium text-interactive-text no-underline"
             >
               Kurk savo antkaklį →

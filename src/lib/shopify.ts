@@ -581,6 +581,23 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
         'violetinė':      '#C3A8D5',
       };
 
+      // Masculine Lithuanian adjective forms (agreeing with "antkaklis") for slugs/titles —
+      // Shopify's Color option stores the feminine form ("Mėlyna", matching "spalva"),
+      // which doesn't grammatically agree with the masculine noun "antkaklis".
+      // ASCII form is used for the URL slug; the diacritics form is used for display copy.
+      const COLLAR_COLOR_ADJECTIVE: Record<string, string> = {
+        sage: 'salotinis', blossom: 'rozinis', sky: 'melynas', honey: 'geltonas',
+        'dark blue': 'tamsiai-melynas', blue: 'melynas', pink: 'rozinis', purple: 'violetinis', yellow: 'geltonas',
+        melyna: 'melynas', 'tamsiai melyna': 'tamsiai-melynas', rozine: 'rozinis', geltona: 'geltonas', violetine: 'violetinis',
+        mėlyna: 'melynas', 'tamsiai mėlyna': 'tamsiai-melynas', rožinė: 'rozinis', violetinė: 'violetinis',
+      };
+      const COLLAR_COLOR_ADJECTIVE_DISPLAY: Record<string, string> = {
+        sage: 'Salotinis', blossom: 'Rožinis', sky: 'Mėlynas', honey: 'Geltonas',
+        'dark blue': 'Tamsiai mėlynas', blue: 'Mėlynas', pink: 'Rožinis', purple: 'Violetinis', yellow: 'Geltonas',
+        melyna: 'Mėlynas', 'tamsiai melyna': 'Tamsiai mėlynas', rozine: 'Rožinis', geltona: 'Geltonas', violetine: 'Violetinis',
+        mėlyna: 'Mėlynas', 'tamsiai mėlyna': 'Tamsiai mėlynas', rožinė: 'Rožinis', violetinė: 'Violetinis',
+      };
+
       const result = data.products.edges.flatMap(({ node }) => {
         const meta = (key: string) =>
           node.metafields?.find((metafield) => metafield?.key === key)?.value;
@@ -616,9 +633,12 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           return colorValues.map(colorName => {
             const colorVariants = allVariants.filter(v => v.color === colorName);
             const colorHex = COLLAR_COLOR_HEX[colorName.toLowerCase()] ?? '#A8D5A2';
-            const colorSlug = colorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-            const collarHandle = `${colorSlug}-collar`;
-            const collarTitle = `${colorName} Collar`;
+            const colorKey = colorName.toLowerCase();
+            const colorAdjective = COLLAR_COLOR_ADJECTIVE[colorKey]
+              ?? colorKey.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const colorAdjectiveDisplay = COLLAR_COLOR_ADJECTIVE_DISPLAY[colorKey] ?? colorName;
+            const collarHandle = `pawcharms-${colorAdjective}-antkaklis`;
+            const collarTitle = `${colorAdjectiveDisplay} antkaklis`;
             const firstColorVariant = colorVariants[0];
             const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
             const colorImage = firstColorVariant?.image || node.featuredImage?.url || '';

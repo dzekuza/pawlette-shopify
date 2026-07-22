@@ -68,7 +68,7 @@ export default function Demo3Page() {
               <Link href="#kaip" style={{ color: 'rgba(250,247,242,0.6)', textDecoration: 'none', fontSize: 14, fontWeight: 500 }}>Kaip tai veikia</Link>
             </>
           )}
-          <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+          <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
             background: '#A8D5A2', color: '#0C0A08',
             padding: '9px 20px', borderRadius: 100,
             fontSize: 14, fontWeight: 700, textDecoration: 'none',
@@ -133,7 +133,7 @@ export default function Demo3Page() {
           </p>
 
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+            <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
               background: '#A8D5A2', color: '#0C0A08',
               padding: isMobile ? '15px 32px' : '18px 42px',
               borderRadius: 100, fontSize: isMobile ? 16 : 18,
@@ -252,7 +252,7 @@ export default function Demo3Page() {
             <p style={{ color: 'rgba(250,247,242,0.6)', fontSize: 16, lineHeight: 1.7, maxWidth: 420, marginBottom: 32 }}>
               PawCharms — tai ne tik antkaklis. Tai būdas išreikšti savo šuns charakterį. Kiekvienas pakabuko derinys yra unikalus, kaip ir jūsų augintinis.
             </p>
-            <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+            <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               color: '#A8D5A2', textDecoration: 'none',
               fontSize: 15, fontWeight: 700, letterSpacing: '0.04em',
@@ -294,7 +294,7 @@ export default function Demo3Page() {
                 Rink savo<br /><span style={{ color: '#F4B5C0' }}>kolekciją</span>
               </h2>
             </div>
-            <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+            <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
               color: 'rgba(250,247,242,0.5)', textDecoration: 'none',
               fontSize: 14, fontWeight: 600, letterSpacing: '0.08em',
               textTransform: 'uppercase', alignSelf: 'flex-end',
@@ -312,7 +312,7 @@ export default function Demo3Page() {
               <button key={i}
                 onMouseEnter={() => setActiveCharm(i)}
                 onMouseLeave={() => setActiveCharm(null)}
-                onClick={() => window.location.href = 'https://pawcharms.lt/products/collar-melyna-collar'}
+                onClick={() => window.location.href = 'https://pawcharms.lt/products/pawcharms-melynas-antkaklis'}
                 style={{
                   background: activeCharm === i ? `${charm.bg}22` : 'rgba(250,247,242,0.03)',
                   border: `1px solid ${activeCharm === i ? charm.bg + '50' : 'rgba(250,247,242,0.08)'}`,
@@ -444,7 +444,7 @@ export default function Demo3Page() {
           <p style={{ color: 'rgba(250,247,242,0.55)', fontSize: isMobile ? 16 : 19, maxWidth: 500, margin: '0 auto 48px', lineHeight: 1.65 }}>
             Jūsų šuo nusipelno ko nors ypatingo. Sukurk unikalų antkaklio rinkinį per kelias minutes.
           </p>
-          <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+          <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
             background: '#A8D5A2', color: '#0C0A08',
             padding: isMobile ? '16px 40px' : '20px 52px',
             borderRadius: 100, fontSize: isMobile ? 17 : 20,

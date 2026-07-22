@@ -96,7 +96,7 @@ export default function Demo4Page() {
               <Link href="/faq" style={{ color: 'rgba(61,53,48,0.55)', textDecoration: 'none', fontSize: 14, fontWeight: 500, letterSpacing: '-0.01em' }}>DUK</Link>
             </>
           )}
-          <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+          <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
             background: '#3D3530', color: '#FAF7F2',
             padding: isMobile ? '9px 18px' : '10px 24px',
             borderRadius: 100, fontSize: 13, fontWeight: 700,
@@ -160,7 +160,7 @@ export default function Demo4Page() {
           </p>
 
           <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 12 }}>
-            <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+            <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
               background: '#F4B5C0', color: '#3D3530',
               padding: isMobile ? '16px 32px' : '16px 36px',
               borderRadius: 100, fontSize: 15, fontWeight: 700,
@@ -434,7 +434,7 @@ export default function Demo4Page() {
                 Rink savo<br /><span style={{ color: '#F4B5C0' }}>pakabukai</span>
               </h2>
             </div>
-            <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+            <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
               color: 'rgba(250,247,242,0.4)', textDecoration: 'none',
               fontSize: 13, fontWeight: 600, letterSpacing: '0.1em',
               textTransform: 'uppercase', alignSelf: 'flex-end',
@@ -462,7 +462,7 @@ export default function Demo4Page() {
               key={i}
               onMouseEnter={() => setHoveredCharm(i)}
               onMouseLeave={() => setHoveredCharm(null)}
-              onClick={() => window.location.href = 'https://pawcharms.lt/products/collar-melyna-collar'}
+              onClick={() => window.location.href = 'https://pawcharms.lt/products/pawcharms-melynas-antkaklis'}
               style={{
                 flexShrink: 0,
                 width: isMobile ? 104 : 120,
@@ -504,7 +504,7 @@ export default function Demo4Page() {
 
         {/* CTA inside charm section */}
         <div style={{ padding: isMobile ? '40px 24px 0' : '48px 48px 0', maxWidth: 1296, margin: '0 auto' }}>
-          <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+          <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
             background: '#F4B5C0', color: '#3D3530',
             padding: isMobile ? '14px 28px' : '16px 36px',
@@ -763,7 +763,7 @@ export default function Demo4Page() {
           }}>
             Jūsų šuo<br />nusipelno<br /><span style={{ color: '#F4B5C0' }}>daugiau</span>
           </h2>
-          <Link href="https://pawcharms.lt/products/collar-melyna-collar" style={{
+          <Link href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis" style={{
             background: '#F4B5C0', color: '#3D3530',
             padding: isMobile ? '16px 36px' : '18px 48px',
             borderRadius: 100, fontSize: isMobile ? 16 : 18,

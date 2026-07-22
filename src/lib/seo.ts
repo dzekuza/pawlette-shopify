@@ -58,7 +58,10 @@ function getProductKeyword(product: ProductDetail) {
 export function buildProductSeoTitle(product: ProductDetail) {
   if (product.productType === 'collar') {
     if (isParentProductPage(product)) return 'Personalizuotas silikoninis šuns antkaklis su pakabukais'
-    return `${toTitleCase(product.colorLabel) || product.name} silikoninis šuns antkaklis su pakabukais`
+    // product.name is already the masculine-agreeing form (e.g. "Mėlynas antkaklis") —
+    // strip the noun back off so it can be reinserted into this title template.
+    const colorAdjective = product.name.replace(/\s*antkaklis\s*$/i, '').trim() || toTitleCase(product.colorLabel)
+    return `${colorAdjective} silikoninis šuns antkaklis su pakabukais`
   }
   if (product.productType === 'leash') {
     if (isParentProductPage(product)) return 'Vandeniui atsparus silikoninis pavadėlis šuniui'

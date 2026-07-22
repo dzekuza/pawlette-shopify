@@ -201,7 +201,7 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
   const name = opts?.useParentMedia ? (collar.parentTitle || collar.title) : collar.title
 
   return {
-    slug: opts?.slugOverride || slugFromProductName(collar.title),
+    slug: opts?.slugOverride || collar.handle || slugFromProductName(collar.title),
     id: `collar-${collar.id}`,
     variantId: collar.variantId,
     productType: 'collar',
@@ -289,7 +289,7 @@ export async function getAllProductSlugs (): Promise<string[]> {
 
   const slugs = [
     ...collars.map((collar) => collar.nodeHandle).filter(isNonEmptyString),
-    ...collars.map((collar) => slugFromProductName(collar.title)),
+    ...collars.map((collar) => collar.handle || slugFromProductName(collar.title)),
     'charm-charms',
     'pawcharms-pakabuciai',
     ...charms.map((charm) => slugFromCharmId(charm.id)),

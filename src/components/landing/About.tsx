@@ -169,7 +169,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
           </div>
           {showCta ? (
             <a
-              href="/products/collar-melyna-collar"
+              href="/products/pawcharms-melynas-antkaklis"
               className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
             >
               Sukurkite savo unikalų antkaklį →
