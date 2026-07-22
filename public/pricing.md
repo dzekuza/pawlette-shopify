@@ -1,4 +1,4 @@
-# Pricing — PawCharms (Žavesys)
+# Pricing — PawCharms
 
 Last updated: 2026-07-22
 

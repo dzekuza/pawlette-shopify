@@ -1,6 +1,6 @@
 # PawCharms
 
-> PawCharms (Lithuanian brand name: Žavesys) makes durable, waterproof BioThane dog collars and leashes with a magnetic snap-on charm system for personalization, designed and sold in Vilnius, Lithuania. Collars and leashes are made from BioThane webbing — waterproof, easy to clean, and built to last. Charms are magnetic silicone pieces (letters and shapes) that snap onto the collar to spell a dog's name or add decoration.
+> PawCharms makes durable, waterproof BioThane dog collars and leashes with a magnetic snap-on charm system for personalization, designed and sold in Vilnius, Lithuania. Collars and leashes are made from BioThane webbing — waterproof, easy to clean, and built to last. Charms are magnetic silicone pieces (letters and shapes) that snap onto the collar to spell a dog's name or add decoration.
 
 ## What makes PawCharms different
 
@@ -62,7 +62,7 @@ For active or water-loving dogs, BioThane is the better long-term investment.
 
 ## Company
 
-- **Brand**: PawCharms / Žavesys
+- **Brand**: PawCharms
 - **Location**: Vilnius, Lithuania
 - **Contact**: hello@pawcharms.lt
 - **Language**: Lithuanian (primary), English (supported)
