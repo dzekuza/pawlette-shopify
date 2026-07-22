@@ -10,6 +10,12 @@ import type { ShopifyCart } from './cart'
 import { COOKIE_CONSENT_KEY } from '@/components/shared/MetaPixel'
 
 const SHOP_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
+// sendShopifyAnalytics posts to https://{shopDomain}/.well-known/shopify/monorail/...
+// — per hydrogen-react's own docs this must be the checkout domain (same top-level
+// domain as checkout) so the session cookie it sets there actually matches the
+// domain the buyer completes checkout on. Passing the .myshopify.com API domain
+// here silently breaks session-to-order attribution.
+const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN!
 
 const SHOP_ID_QUERY = `query ShopId { shop { id } }`
 
@@ -39,7 +45,7 @@ export async function trackShopifyPageView (): Promise<void> {
       shopifySalesChannel: ShopifySalesChannel.headless,
       ...getClientBrowserParameters(),
     },
-  }, SHOP_DOMAIN)
+  }, CHECKOUT_DOMAIN)
 }
 
 export async function trackShopifyAddToCart (
@@ -67,5 +73,5 @@ export async function trackShopifyAddToCart (
       totalValue,
       ...getClientBrowserParameters(),
     },
-  }, SHOP_DOMAIN)
+  }, CHECKOUT_DOMAIN)
 }
