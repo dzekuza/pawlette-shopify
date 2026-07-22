@@ -23,7 +23,7 @@ import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useCartCount } from '@/hooks/useCartCount'
 import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { collar3DCharms, collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
-import { addLinesToCart, fetchCart } from '@/lib/cart'
+import { addLinesToCart } from '@/lib/cart'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
@@ -300,8 +300,11 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
     }
   }
 
-  // Builds the collar line (deduped against the current cart) plus any charms already
-  // picked in the Personalise flow, so every "Pirkti" entry point adds the same bundle.
+  // Builds the collar line plus any charms already picked in the Personalise flow, so
+  // every "Pirkti" entry point adds the same bundle. Always adds a new collar unit —
+  // Shopify merges it into an existing line of the same variant, incrementing quantity,
+  // so buying a 2nd collar (same color/size) correctly counts as 2 for BXGY-style
+  // "N free charms per collar" discounts instead of being silently skipped.
   const buildCollarBundleLines = async () => {
     if (!collar) return { lines: [] as { merchandiseId: string; quantity: number }[], collarAdded: false }
     const variant = collar.variants.find(v =>
@@ -309,9 +312,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
       (selectedSize ? v.size === selectedSize : true)
     ) ?? collar.variants.find(v => selectedSize ? v.size === selectedSize : true) ?? collar.variants[0]
     const variantId = variant?.id ?? collar.variantId
-    const existingCart = await fetchCart()
-    const collarAlreadyInCart = !!variantId && !!existingCart?.lines.some(l => l.merchandise.id === variantId)
-    const collarAdded = !!variantId && !collarAlreadyInCart
+    const collarAdded = !!variantId
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
     return {
       lines: [

@@ -9,6 +9,9 @@ export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
 export interface ShopifyCartLine {
   id: string;
   quantity: number;
+  cost: {
+    totalAmount: { amount: string; currencyCode: string };
+  };
   merchandise: {
     id: string;
     title: string;
@@ -42,6 +45,9 @@ const CART_FRAGMENT = `
         node {
           id
           quantity
+          cost {
+            totalAmount { amount currencyCode }
+          }
           merchandise {
             ... on ProductVariant {
               id

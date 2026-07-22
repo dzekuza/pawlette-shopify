@@ -57,7 +57,7 @@ export function CartDrawer() {
 
   const lines = cart?.lines ?? [];
   const subtotal = lines.reduce(
-    (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
+    (sum, line) => sum + parseFloat(line.cost.totalAmount.amount),
     0
   );
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
@@ -140,7 +140,7 @@ export function CartDrawer() {
                   {/* Cart lines */}
                   <div className="flex flex-col gap-2.5">
                     {lines.map(line => {
-                      const lineTotal = parseFloat(line.merchandise.price.amount) * line.quantity;
+                      const lineTotal = parseFloat(line.cost.totalAmount.amount);
                       const thumb = line.merchandise.image?.url ?? line.merchandise.product.featuredImage?.url;
                       return (
                         <div
@@ -212,9 +212,9 @@ export function CartDrawer() {
                     Peržiūrėti visą krepšelį →
                   </Link>
 
-                  <p className="text-[12px] opacity-65 text-center mt-3 flex items-center justify-center gap-1.5 text-bark">
-                    <Lock size={12} strokeWidth={2} />
-                    Saugus atsiskaitymas
+                  <p className="text-[12px] opacity-65 text-center mt-3 inline-flex items-start justify-center gap-1.5 w-full text-bark">
+                    <Lock size={12} strokeWidth={2} className="shrink-0 mt-[2px]" />
+                    <span>Saugus atsiskaitymas</span>
                   </p>
                   <PaymentBadges className="mt-2" />
                 </div>

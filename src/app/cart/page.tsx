@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { PawPrint, Lock } from 'lucide-react';
+import { PawPrint, Lock, Check } from 'lucide-react';
 import { useCartCount } from '@/hooks/useCartCount';
 import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
@@ -42,7 +42,7 @@ export default function CartPage() {
 
   const lines = shopifyCart?.lines ?? [];
   const subtotal = lines.reduce(
-    (sum, line) => sum + parseFloat(line.merchandise.price.amount) * line.quantity,
+    (sum, line) => sum + parseFloat(line.cost.totalAmount.amount),
     0
   );
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
@@ -129,7 +129,7 @@ export default function CartPage() {
                 {/* Cart lines */}
                 <div className="flex flex-col gap-2.5">
                   {lines.map(line => {
-                    const lineTotal = parseFloat(line.merchandise.price.amount) * line.quantity;
+                    const lineTotal = parseFloat(line.cost.totalAmount.amount);
                     const thumb = line.merchandise.image?.url ?? line.merchandise.product.featuredImage?.url;
                     return (
                       <SurfaceCard
@@ -273,12 +273,13 @@ export default function CartPage() {
                   </div>
 
                   {/* Trust note */}
-                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed flex items-center justify-center gap-1.5" style={{ color: 'var(--color-bark)' }}>
-                    <Lock size={13} strokeWidth={2} />
-                    Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹
+                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full" style={{ color: 'var(--color-bark)' }}>
+                    <Lock size={13} strokeWidth={2} className="shrink-0 mt-[3px]" />
+                    <span>Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹</span>
                   </p>
-                  <p className="text-[13px] opacity-65 text-center mt-1 leading-relaxed" style={{ color: 'var(--color-bark)' }}>
-                    ✓ 30 dienų grąžinimo garantija
+                  <p className="text-[13px] opacity-65 text-center mt-1 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full" style={{ color: 'var(--color-bark)' }}>
+                    <Check size={13} strokeWidth={2.5} className="shrink-0 mt-[3px]" />
+                    <span>30 dienų grąžinimo garantija</span>
                   </p>
 
                   {/* Payment method badges */}
