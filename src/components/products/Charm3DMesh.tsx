@@ -3,7 +3,7 @@
 import { useGLTF } from '@react-three/drei'
 import { useMemo } from 'react'
 import { Box3, BufferGeometry, Mesh, Vector3 } from 'three'
-import { CHARM_WIDTHS, GAP, MATERIAL_DEFAULTS, SHAPE_WIDTHS } from '@/lib/collar3d'
+import { CHARM_WIDTHS, GAP, MATERIAL_DEFAULTS, SHAPE_WIDTHS, toMaterialColour } from '@/lib/collar3d'
 import type { CharmSpec } from '@/lib/collar3d'
 
 const CHARMS_URL = '/models/charms.glb'
@@ -43,7 +43,7 @@ function SingleCharm({ nodes, meshKey, colour, x }: { nodes: Record<string, unkn
 
   return (
     <mesh geometry={geometry} position={[x, 0, 0]} castShadow receiveShadow>
-      <meshStandardMaterial color={colour} {...MATERIAL_DEFAULTS.charm} />
+      <meshStandardMaterial color={toMaterialColour(colour)} {...MATERIAL_DEFAULTS.charm} />
     </mesh>
   )
 }

@@ -100,7 +100,7 @@ export function Collar3DShowcase() {
     const tiltZ = 0.08 - progress * 0.18
     return [tiltX, spinY, tiltZ]
   }, [progress])
-  const modelScale = useMemo(() => 0.86 + progress * 0.34, [progress])
+  const modelScale = useMemo(() => 1.15 + progress * 0.34, [progress])
   const modelPosition = useMemo<[number, number, number]>(() => [0, progress * 0.14, 0], [progress])
 
   return (

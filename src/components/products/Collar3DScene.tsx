@@ -118,10 +118,10 @@ export default function Collar3DScene({
           pointerEvents: interactive ? 'auto' : 'none',
         }}
       >
-        <ambientLight intensity={0.9} />
-        <directionalLight position={[-4, 6, -3]} intensity={1.8} castShadow />
-        <directionalLight position={[3, 4, 4]} intensity={1} />
-        <directionalLight position={[0, -3, -5]} intensity={0.4} />
+        <ambientLight intensity={0.45} />
+        <directionalLight position={[-4, 6, -3]} intensity={2.4} castShadow />
+        <directionalLight position={[3, 4, 4]} intensity={1.4} />
+        <directionalLight position={[0, -3, -5]} intensity={0.5} />
         <Suspense fallback={null}>
           <FitCameraToView margin={fitMargin}>
             <group rotation={modelRotation} scale={modelScale} position={modelPosition}>
