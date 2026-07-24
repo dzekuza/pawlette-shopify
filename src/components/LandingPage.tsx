@@ -6,13 +6,12 @@ import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { TopBar } from './landing/TopBar';
 import { FloatingHero } from './ui/hero-floating';
-import { Collar3DShowcase } from './landing/Collar3DShowcase';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { FAQ } from './landing/FAQ';
-import { About } from './landing/About';
 import { HowItWorks } from './landing/HowItWorks';
+import { LandingBuySection } from './landing/LandingBuySection';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { LandingFooter } from './landing/LandingFooter';
 import { NewsletterSignup } from './landing/NewsletterSignup';
@@ -155,12 +154,10 @@ export function LandingPage() {
       <main>
         <FloatingHero />
 
-        <Collar3DShowcase />
-
-        <div data-animate="section"><About /></div>
         <div data-animate="section"><ProductGrid products={products} /></div>
         <div data-animate="section"><HowItWorks /></div>
         <div data-animate="section"><FeaturesStrip /></div>
+        <div data-animate="section"><LandingBuySection /></div>
         <div data-animate="section"><PhotoSlider /></div>
         <div data-animate="section"><FAQ /></div>
         <div data-animate="section"><NewsletterSignup /></div>

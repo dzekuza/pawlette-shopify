@@ -22,9 +22,10 @@ type Collar3DGalleryTileProps = {
   onEdit: () => void
   /** 'grid' (default) sizes itself for the desktop 2x2 image grid. 'slide' fills a mobile gallery slide instead. */
   variant?: 'grid' | 'slide'
+  background?: string
 }
 
-export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid' }: Collar3DGalleryTileProps) {
+export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid', background }: Collar3DGalleryTileProps) {
   const items = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
   const showUnrenderableDisclaimer = useMemo(() => hasUnrenderableIconCharms(selectedCharms), [selectedCharms])
 
@@ -38,7 +39,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           borderRadius: 20,
           overflow: 'hidden',
           position: 'relative',
-          background: 'var(--color-surface-2)',
+          background: background || 'var(--color-surface-2)',
         }
         : {
           flexShrink: 0,
@@ -47,7 +48,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           borderRadius: 20,
           overflow: 'hidden',
           position: 'relative',
-          background: 'var(--color-surface-2)',
+          background: background || 'transparent',
         }}
     >
       <Collar3DScene

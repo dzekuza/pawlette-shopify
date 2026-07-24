@@ -1,9 +1,8 @@
 'use client';
 
-import { Fragment } from 'react';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR, type CharmSpec } from '@/lib/collar3d';
+import { HARDWARE_COLOUR } from '@/lib/collar3d';
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
@@ -14,15 +13,13 @@ const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'
   ),
 });
 
-/** Brand palette (src/lib/shopify.ts COLOR_BG) — one colour per letter, for a colourful decorative mount. */
-const FEATURES_CHARM_COLOURS = ['#F4B5C0', '#A8D5A2', '#B8D8F4', '#F9E4A0', '#D4B8F4'];
-const FEATURES_CHARM_ITEMS: CharmSpec[] = 'PAW'.split('').map((ch, i) => ({
-  meshKey: ch,
-  colour: FEATURES_CHARM_COLOURS[i % FEATURES_CHARM_COLOURS.length],
-  kind: 'letter' as const,
-}));
+const STICKERS = {
+  collar: '/hero-figma/hero-sticker-collar.png',
+  paw: '/hero-figma/hero-sticker-paw.png',
+  letterS: '/hero-figma/hero-sticker-s.png',
+};
 
-const LEFT_FEATURES = [
+const FEATURES = [
   {
     iconSrc: '/icons/droplet.svg',
     title: 'Atsparus vandeniui ir purvui',
@@ -38,9 +35,6 @@ const LEFT_FEATURES = [
     title: 'BioThane medžiaga, nedylanti spalva',
     desc: 'Patvari, lengvai nuvaloma medžiaga, kuri nesudyla, nesitrina ir išlaiko ryškią spalvą metų metus.',
   },
-];
-
-const RIGHT_FEATURES = [
   {
     iconSrc: '/icons/hand.svg',
     title: 'Rankų darbo Lietuvoje',
@@ -58,55 +52,76 @@ const RIGHT_FEATURES = [
   },
 ];
 
-function FeatureItem({ iconSrc, title, desc }: { iconSrc: string; title: string; desc: string }) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <Image src={iconSrc} alt="" aria-hidden="true" width={24} height={24} />
-      <p style={{ fontSize: 18, fontWeight: 600, color: 'var(--color-bark)', letterSpacing: '-0.01em', margin: 0 }}>
-        {title}
-      </p>
-      <p style={{ fontSize: 16, color: 'rgba(61,53,48,0.65)', lineHeight: 1.5, margin: 0 }}>
-        {desc}
-      </p>
-    </div>
-  );
-}
-
 export function FeaturesStrip() {
   return (
-    <section style={{ background: 'linear-gradient(180deg, #b9cbdb 0%, #b8d8f4 100%)' }}>
-      <div
-        className="mx-auto flex max-w-[1200px] flex-col items-center justify-between px-4 py-16 md:px-6 md:py-24 lg:flex-row"
-        style={{ gap: 32 }}
-      >
-        <div className="flex w-full shrink-0 flex-col gap-6 lg:w-[280px] xl:w-[300px]">
-          {LEFT_FEATURES.map((f, i) => (
-            <Fragment key={f.title}>
-              {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}
-              <FeatureItem {...f} />
-            </Fragment>
+    <section 
+      className="relative overflow-hidden px-4 py-16 md:px-6 md:py-24"
+      style={{ background: 'linear-gradient(180deg, #e3ecf5 0%, #b8d8f4 100%)' }}
+    >
+      {/* CSS Levitation Style Block */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes float-levitate-features {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-16px); }
+        }
+        @keyframes float-collar-features {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+        .features-float-collar { animation: float-collar-features 4s ease-in-out infinite; }
+        .features-float-sticker-1 { animation: float-levitate-features 3.2s ease-in-out infinite; }
+        .features-float-sticker-2 { animation: float-levitate-features 3.6s ease-in-out infinite; }
+        .features-float-sticker-3 { animation: float-levitate-features 4s ease-in-out infinite; }
+      `}} />
+
+      <div className="mx-auto max-w-[1200px] flex flex-col gap-16">
+        
+        {/* Top 3D Showcase Area with Stickers */}
+        <div className="relative w-full aspect-[21/9] min-h-[340px] max-w-[1000px] mx-auto z-10">
+          
+          {/* Background Stickers */}
+          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+            <div className="features-float-sticker-1 absolute left-[2%] top-[10%] w-[130px] -rotate-[17deg] md:w-[200px] md:left-[4%]">
+              <Image src={STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
+            </div>
+            <div className="features-float-sticker-2 absolute right-[4%] top-[5%] w-[120px] rotate-[15deg] md:w-[170px]">
+              <Image src={STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
+            </div>
+            <div className="features-float-sticker-3 absolute right-[2%] top-[15%] w-[100px] -rotate-[23deg] md:w-[140px] md:right-[4%] md:top-[10%]">
+              <Image src={STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
+            </div>
+          </div>
+
+          {/* Live 3D Scene */}
+          <div className="features-float-collar absolute inset-0 z-10">
+            <Collar3DScene
+              items={[]}
+              strapColour="#B8D8F4"
+              hardwareColour={HARDWARE_COLOUR}
+              autoRotate
+              interactive
+              fitMargin={0.95}
+            />
+          </div>
+        </div>
+
+        {/* Bottom Features Grid */}
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-3 z-10">
+          {FEATURES.map((f) => (
+            <div key={f.title} className="flex flex-col gap-3 font-sans">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/40 backdrop-blur-sm shadow-sm border border-white/20">
+                <Image src={f.iconSrc} alt="" aria-hidden="true" width={22} height={22} />
+              </div>
+              <h3 className="m-0 text-lg font-bold leading-tight text-bark tracking-tight">
+                {f.title}
+              </h3>
+              <p className="m-0 text-sm leading-relaxed text-bark-light">
+                {f.desc}
+              </p>
+            </div>
           ))}
         </div>
 
-        <div className="relative w-full shrink-0 lg:w-[360px] xl:w-[408px]" style={{ aspectRatio: '4 / 3' }}>
-          <Collar3DScene
-            items={FEATURES_CHARM_ITEMS}
-            strapColour={DEFAULT_STRAP_COLOUR}
-            hardwareColour={HARDWARE_COLOUR}
-            autoRotate
-            interactive={false}
-            fitMargin={1}
-          />
-        </div>
-
-        <div className="flex w-full shrink-0 flex-col gap-6 lg:w-[280px] xl:w-[300px]">
-          {RIGHT_FEATURES.map((f, i) => (
-            <Fragment key={f.title}>
-              {i > 0 ? <div style={{ height: 1, width: '100%', background: 'rgba(61,53,48,0.15)' }} /> : null}
-              <FeatureItem {...f} />
-            </Fragment>
-          ))}
-        </div>
       </div>
     </section>
   );

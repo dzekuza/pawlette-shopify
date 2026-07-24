@@ -1,11 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { DisplayHeading, Eyebrow } from "@/components/storefront/Typography";
-import { FREE_SHIPPING_COPY } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
+import { HARDWARE_COLOUR, type CharmSpec } from "@/lib/collar3d";
+
+const Collar3DScene = dynamic(() => import("@/components/products/Collar3DScene"), {
+  ssr: false,
+  loading: () => (
+    <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "center" }}>
+      <span style={{ fontSize: 13, color: "var(--color-bark-muted)" }}>Kraunama 3D peržiūra…</span>
+    </div>
+  ),
+});
 
 const HERO_STICKERS = {
   collar: "/hero-figma/hero-sticker-collar.png",
@@ -13,11 +23,13 @@ const HERO_STICKERS = {
   letterS: "/hero-figma/hero-sticker-s.png",
 };
 
-const HERO_TRUST_BADGES = [
-  { label: "⭐ 4.9/5 — 9 atsiliepimų", href: "/products/charm-charms#reviews" },
-  { label: `🚚 ${FREE_SHIPPING_COPY}` },
-  { label: "↩ 30 d. grąžinimas" },
-];
+const DEMO_NAME = "ROCKY";
+const DEMO_COLOURS = ["#B8D8F4", "#6B9FD4", "#D4B8F4", "#F4B5C0", "#F9E4A0"];
+const DEMO_ITEMS: CharmSpec[] = DEMO_NAME.split("").map((ch, i) => ({
+  meshKey: ch,
+  colour: DEMO_COLOURS[i % DEMO_COLOURS.length],
+  kind: "letter" as const,
+}));
 
 interface FloatingHeroProps {
   className?: string;
@@ -25,30 +37,58 @@ interface FloatingHeroProps {
 
 export function FloatingHero({ className }: FloatingHeroProps) {
   const stickersRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const frameRef = useRef<number | null>(null);
+  const mountedCountRef = useRef(DEMO_ITEMS.length);
+  
+  const [mountedCount, setMountedCount] = useState(DEMO_ITEMS.length);
+  const [progress, setProgress] = useState(0);
+  // Separate progress state for mobile (plain scroll, not GSAP)
+  const [mobileScrollProgress, setMobileScrollProgress] = useState(0);
 
   useEffect(() => {
-    if (!stickersRef.current) return;
+    if (!sectionRef.current) return;
+    const section = sectionRef.current;
     const stickers = stickersRef.current;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let mm: any = null;
+    let gsapCleanup: (() => void) | null = null;
+    let cancelled = false;
 
-    import("gsap").then(({ gsap }) => {
-      if (!stickersRef.current) return;
-      mm = gsap.matchMedia();
+    Promise.all([import("gsap"), import("gsap/ScrollTrigger")]).then(([{ gsap }, { ScrollTrigger }]) => {
+      if (cancelled || !sectionRef.current) return;
+      gsap.registerPlugin(ScrollTrigger);
 
-      mm.add(
-        {
-          allowMotion: "(prefers-reduced-motion: no-preference)",
-          reduceMotion: "(prefers-reduced-motion: reduce)",
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (context: any) => {
-          const { allowMotion } = context.conditions as { allowMotion?: boolean };
-          if (!allowMotion) return;
+      const isDesktopQuery = window.matchMedia("(min-width: 768px)").matches;
+      if (isDesktopQuery) {
+        mountedCountRef.current = 0;
+        setMountedCount(0);
+        setProgress(0);
 
+        const trigger = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: "+=960",
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.6,
+          onUpdate: (self: any) => {
+            setProgress(self.progress);
+            const nextCount = Math.round(self.progress * DEMO_ITEMS.length);
+            if (nextCount === mountedCountRef.current) return;
+            mountedCountRef.current = nextCount;
+            if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+            frameRef.current = requestAnimationFrame(() => {
+              setMountedCount(nextCount);
+              frameRef.current = null;
+            });
+          },
+        });
+
+        // Stickers floating animation (desktop only)
+        const stickersTweens: gsap.core.Tween[] = [];
+        if (stickers) {
           const floatingItems = stickers.querySelectorAll<HTMLElement>("[data-hero-float]");
           floatingItems.forEach((el, i) => {
-            gsap.to(el, {
+            const tween = gsap.to(el, {
               y: "+=16",
               duration: 2.6 + i * 0.4,
               ease: "sine.inOut",
@@ -56,80 +96,210 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               repeat: -1,
               delay: i * 0.3,
             });
+            stickersTweens.push(tween);
           });
         }
-      );
+
+        gsapCleanup = () => {
+          trigger.kill();
+          stickersTweens.forEach((t) => t.kill());
+        };
+      } else {
+        // Mobile: pin the section too, shorter scroll distance
+        mountedCountRef.current = DEMO_ITEMS.length;
+        setMountedCount(DEMO_ITEMS.length);
+        setMobileScrollProgress(0);
+
+        const trigger = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: "+=480",
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.6,
+          onUpdate: (self: any) => {
+            setMobileScrollProgress(self.progress);
+            setProgress(self.progress);
+          },
+        });
+
+        gsapCleanup = () => trigger.kill();
+      }
     });
 
-    return () => mm?.revert();
+    return () => {
+      cancelled = true;
+      if (gsapCleanup) gsapCleanup();
+      if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
+  const items = useMemo(() => DEMO_ITEMS.slice(0, mountedCount), [mountedCount]);
+  
+  const modelRotation = useMemo<[number, number, number]>(() => {
+    const tiltX = 0.16 - progress * 0.24;
+    const spinY = -0.42 + progress * 0.96;
+    const tiltZ = 0.08 - progress * 0.18;
+    return [tiltX, spinY, tiltZ];
+  }, [progress]);
+
+  // Scale: desktop zooms in more, mobile zooms gently
+  const modelScale = useMemo(() => {
+    const isDesktopQuery = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
+    if (isDesktopQuery) {
+      return 1.15 + progress * 0.55;
+    } else {
+      return 0.75 + progress * 0.2;
+    }
+  }, [progress]);
+  
+  // Position centers model vertically on mobile, and offsets on desktop scroll
+  const modelPosition = useMemo<[number, number, number]>(() => {
+    const isDesktopQuery = typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches;
+    if (isDesktopQuery) {
+      return [0, -0.06 + progress * 0.16, 0];
+    } else {
+      return [0, 0, 0];
+    }
+  }, [progress]);
+
+  // Desktop: fade driven by GSAP pinned scroll progress
+  const desktopTextOpacity = useMemo(() => Math.max(0, 1 - progress * 2.2), [progress]);
+  const desktopTextTranslateY = useMemo(() => -progress * 60, [progress]);
+  const desktopTrustTranslateY = useMemo(() => progress * 40, [progress]);
+  // Mobile: fade driven by plain window.scrollY (no GSAP, no conflicts)
+  const mobileTextOpacity = useMemo(() => Math.max(0, 1 - mobileScrollProgress * 2.0), [mobileScrollProgress]);
+  const mobileTextTranslateY = useMemo(() => -mobileScrollProgress * 40, [mobileScrollProgress]);
+
   return (
-    <section className={cn("relative overflow-hidden bg-cream px-4 py-12 md:px-6 md:py-16 lg:py-20", className)}>
-      <div ref={stickersRef} className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
-        <div data-hero-sticker className="absolute left-[3%] top-[54%] w-[104px] -rotate-[17deg] lg:left-[4%] lg:top-[12%] lg:w-[170px]">
+    <section
+      ref={sectionRef}
+      className={cn("relative px-4 pt-[112px] pb-6 md:px-6 md:pt-[184px] md:pb-16 lg:pt-[200px] lg:pb-20 min-h-[100dvh] flex flex-col justify-between", className)}
+      style={{
+        background: "linear-gradient(180deg, #e3ecf5 0%, #b8d8f4 100%)",
+        marginTop: "-88px",
+        overflow: "clip",
+      }}
+    >
+      {/* 3D Collar Stage — Desktop layout: hidden on mobile via CSS, direct absolute child */}
+      <div className="hidden md:block absolute inset-0 z-0 pointer-events-none">
+        <div className="w-full h-full pointer-events-auto">
+          <Collar3DScene
+            items={items}
+            strapColour="#6B9FD4"
+            hardwareColour={HARDWARE_COLOUR}
+            modelRotation={modelRotation}
+            modelScale={modelScale}
+            modelPosition={modelPosition}
+            interactive={progress < 0.1}
+            fitMargin={1.3}
+          />
+        </div>
+      </div>
+
+      {/* Floating Stickers Background — Desktop only */}
+      <div ref={stickersRef} className="hidden md:block pointer-events-none absolute inset-0 z-20 overflow-hidden">
+        <div 
+          data-hero-sticker 
+          className="absolute left-[3%] top-[15%] w-[170px] -rotate-[17deg]"
+          style={{ opacity: desktopTextOpacity }}
+        >
           <div data-hero-float>
             <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
           </div>
         </div>
-        <div data-hero-sticker className="absolute bottom-[2%] left-[71%] w-[82px] -rotate-[23deg] lg:left-[85%] lg:top-[60%] lg:w-[120px] lg:bottom-auto">
+        <div 
+          data-hero-sticker 
+          className="absolute right-[8%] top-[50%] w-[120px] -rotate-[23deg]"
+          style={{ opacity: desktopTextOpacity }}
+        >
           <div data-hero-float>
             <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
           </div>
         </div>
-        <div data-hero-sticker className="absolute left-[70%] top-[44%] w-[92px] -rotate-[17deg] lg:left-[12%] lg:top-[55%] lg:w-[140px]">
+        <div 
+          data-hero-sticker 
+          className="absolute left-[10%] top-[55%] w-[140px] -rotate-[17deg]"
+          style={{ opacity: desktopTextOpacity }}
+        >
           <div data-hero-float>
             <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto flex max-w-[1200px] flex-col gap-10 lg:gap-[100px]">
-        <div className="flex flex-col items-center gap-8">
-          <Eyebrow className="text-center">Šunų antkakliai su vardu</Eyebrow>
+      {/* Pinned content overlays */}
+      <div className="relative z-10 mx-auto flex w-full max-w-[1200px] flex-1 flex-col justify-between min-h-[500px]">
+        
+        {/* Hero Header Content */}
+        <div 
+          className="flex flex-col items-center gap-6 text-center transition-all duration-75 [opacity:var(--mob-opacity)] [transform:translateY(var(--mob-ty))] md:[opacity:var(--dsk-opacity)] md:[transform:translateY(var(--dsk-ty))]"
+          style={{ 
+            "--mob-opacity": mobileTextOpacity,
+            "--mob-ty": `${mobileTextTranslateY}px`,
+            "--dsk-opacity": desktopTextOpacity,
+            "--dsk-ty": `${desktopTextTranslateY}px`,
+          } as React.CSSProperties}
+        >
+          <Eyebrow className="text-interactive-text">Šunų antkakliai su vardu</Eyebrow>
           <DisplayHeading
             as="h1"
             size="floatingHero"
-            className="mx-auto max-w-[946px] text-center font-normal leading-[1.2] tracking-[0.02em] text-bark"
+            className="mx-auto max-w-[946px] font-normal leading-[1.15] md:leading-[1.1] tracking-[0.02em] text-bark"
+            style={{ fontSize: "clamp(30px, 6vw, 64px)" }}
           >
             Antkakliai, kurie pritampa prie kiekvieno nuotykio
           </DisplayHeading>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6">
+          <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="https://pawcharms.lt/products/pawcharms-melynas-antkaklis"
-              className="whitespace-nowrap rounded-full bg-sage px-6 py-3 text-base font-medium text-interactive-text no-underline"
+              href="#customize"
+              className="btn-press whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-bold text-bark no-underline shadow-lg shadow-bark/5 hover:bg-cream transition-colors"
             >
-              Kurk savo antkaklį →
-            </Link>
-            <Link
-              href="/products/charm-charms"
-              className="whitespace-nowrap rounded-full border-[1.5px] border-sage/40 bg-cream/90 px-6 py-3 text-base font-medium text-interactive-text no-underline"
-            >
-              Pirkti pakabukus
+              Pirkti dabar
             </Link>
           </div>
+        </div>
 
-          <div className="flex max-w-[920px] flex-wrap items-center justify-center gap-2">
-            {HERO_TRUST_BADGES.map((badge) =>
-              badge.href ? (
-                <Link
-                  key={badge.label}
-                  href={badge.href}
-                  className="rounded-full border border-sage/35 bg-white/80 px-3 py-1.5 text-xs font-medium text-bark no-underline transition-colors hover:bg-sage/10"
-                >
-                  {badge.label}
-                </Link>
-              ) : (
-                <span
-                  key={badge.label}
-                  className="rounded-full border border-sage/30 bg-surface-2/90 px-3 py-1.5 text-xs font-medium text-bark"
-                >
-                  {badge.label}
-                </span>
-              )
-            )}
+        {/* 3D Collar Stage — Mobile layout: hidden on desktop via CSS, inline in flex flow */}
+        <div className="block md:hidden relative w-full flex-1 flex items-center justify-center pointer-events-none">
+          <div className="w-full h-full min-h-[340px] pointer-events-auto">
+            <Collar3DScene
+              items={items}
+              strapColour="#6B9FD4"
+              hardwareColour={HARDWARE_COLOUR}
+              modelRotation={modelRotation}
+              modelScale={modelScale}
+              modelPosition={modelPosition}
+              interactive={progress < 0.1}
+              fitMargin={1.1}
+            />
           </div>
+        </div>
+
+        {/* Bottom Trust Columns */}
+        <div 
+          className="grid grid-cols-1 gap-3 md:grid-cols-3 border-t border-bark-divider pt-6 md:pt-8 lg:pt-12 text-center transition-all duration-75 [opacity:var(--mob-opacity)] md:[opacity:var(--dsk-opacity)] md:[transform:translateY(var(--dsk-trust-ty))]"
+          style={{ 
+            "--mob-opacity": mobileTextOpacity,
+            "--dsk-opacity": desktopTextOpacity,
+            "--dsk-trust-ty": `${desktopTrustTranslateY}px`,
+          } as React.CSSProperties}
+        >
+          {[
+            { title: "Kiekvienas antkaklis gaminamas rankomis" },
+            { title: "Personalizuojamas išskirtiniais pakabukais" },
+            { title: "Sukurkite antkaklį, kuris atspindi jūsų šunį" },
+          ].map((col, idx) => (
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 shadow-[0_8px_32px_0_rgba(255,255,255,0.08)]"
+            >
+              <p className="m-0 font-sans text-sm md:text-base font-bold leading-normal text-bark">
+                {col.title}
+              </p>
+            </div>
+          ))}
         </div>
 
       </div>

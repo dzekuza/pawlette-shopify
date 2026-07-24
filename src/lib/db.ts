@@ -50,7 +50,7 @@ export async function getLandingProducts(): Promise<ProductDetail[]> {
         p.parentHandle = leashes[0].nodeHandle
         return p
       })() : null;
-      const results = [collarProduct, charmCollection, leashProduct].filter((p): p is ProductDetail => !!p);
+      const results = [collarProduct, leashProduct, charmCollection].filter((p): p is ProductDetail => !!p);
       _productsCache = results;
       _productsInflight = null;
       return results;

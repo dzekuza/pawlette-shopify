@@ -248,34 +248,13 @@ export function Collar3DModal({
             Spustelėkite raidę 3D peržiūroje arba žemiau, jei norite jai pritaikyti kitą spalvą.
           </p>
           <div
-            onClick={() => charmNameInputRef.current?.focus()}
             style={{
               width: '100%', boxSizing: 'border-box', display: 'flex', alignItems: 'center', gap: 10,
-              padding: 10, borderRadius: 16, cursor: 'text', position: 'relative',
-              border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'var(--color-border)'}`,
-              outline: 'none',
+              padding: 10, borderRadius: 16, position: 'relative',
+              border: '1px solid var(--color-border)',
+              background: 'rgba(61,53,48,0.02)',
             }}
           >
-            <input
-              ref={charmNameInputRef}
-              type="text"
-              inputMode="text"
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="characters"
-              spellCheck={false}
-              maxLength={MAX_CHARMS}
-              value={name}
-              aria-label="Raidės ant antkaklio"
-              onChange={(e) => applyLetters(e.target.value, charmColorKey)}
-              onFocus={() => setCharmRowFocused(true)}
-              onBlur={() => setCharmRowFocused(false)}
-              style={{
-                position: 'absolute', inset: 0, width: '100%', height: '100%',
-                opacity: 0, border: 'none', outline: 'none', padding: 0, fontSize: 16,
-                background: 'transparent', cursor: 'text', pointerEvents: 'none',
-              }}
-            />
             {Array.from({ length: MAX_CHARMS }, (_, i) => letterCharms[i] ?? null).map((c, i) => {
               const isActive = selectedCharmIndex === i && !!c
               return (
@@ -295,9 +274,11 @@ export function Collar3DModal({
                   )}
                   <button
                     type="button"
-                    disabled={!c}
-                    onClick={c ? () => setSelectedCharmIndex((s) => (s === i ? null : i)) : undefined}
-                    aria-label={c ? `Keisti raidės „${extractLetter(c.baseTitle)}“ spalvą` : undefined}
+                    onClick={c 
+                      ? () => setSelectedCharmIndex((s) => (s === i ? null : i)) 
+                      : () => charmNameInputRef.current?.focus()
+                    }
+                    aria-label={c ? `Keisti raidės „${extractLetter(c.baseTitle)}“ spalvą` : 'Įrašyti vardą'}
                     aria-pressed={c ? isActive : undefined}
                     style={{
                       width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
@@ -307,7 +288,7 @@ export function Collar3DModal({
                       transform: c ? 'scale(1)' : 'scale(0.96)',
                       border: isActive ? '2px solid var(--color-bark)' : '2px solid transparent',
                       padding: 0,
-                      cursor: c ? 'pointer' : 'default',
+                      cursor: 'pointer',
                     }}
                   >
                     {c?.image
@@ -320,13 +301,40 @@ export function Collar3DModal({
                           style={{ width: '100%', height: '100%', objectFit: 'contain' }}
                         />
                       )
-                      : charmRowFocused && i === name.length
-                        ? <span aria-hidden="true" className="animate-pulse" style={{ width: 2, height: '44%', background: 'var(--color-bark)', display: 'inline-block' }} />
-                        : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
+                      : <span aria-hidden="true" style={{ fontSize: 22, fontWeight: 700, color: CHARM_TINTS[i] }}>_</span>}
                   </button>
                 </div>
               )
             })}
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
+            <label htmlFor="dog-name-input-modal" style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}>
+              Įrašykite vardo raidžių seką:
+            </label>
+            <input
+              id="dog-name-input-modal"
+              ref={charmNameInputRef}
+              type="text"
+              inputMode="text"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              maxLength={MAX_CHARMS}
+              value={name}
+              placeholder="PVZ. ROCKY"
+              onChange={(e) => applyLetters(e.target.value, charmColorKey)}
+              onFocus={() => setCharmRowFocused(true)}
+              onBlur={() => setCharmRowFocused(false)}
+              style={{
+                width: '100%', boxSizing: 'border-box', padding: '12px 16px', borderRadius: 12,
+                border: `1px solid ${charmRowFocused ? 'var(--color-sage)' : 'var(--color-border)'}`,
+                fontSize: 15, fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+                color: 'var(--color-bark)', background: 'var(--color-surface-2)',
+                outline: 'none',
+              }}
+            />
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {LETTER_COLOURS.map(({ key, label, hex }) => (

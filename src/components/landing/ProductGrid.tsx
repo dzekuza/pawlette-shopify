@@ -22,17 +22,11 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 md:px-6 md:py-24"
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
-        {/* Heading + description/CTA row */}
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end md:gap-16">
-          <DisplayHeading as="h2" size="section" className="flex-1 text-bark text-[32px] md:text-[48px]">
-            Atraskite PawCharms kolekciją
+        {/* Heading */}
+        <div className="flex flex-col items-center text-center gap-4">
+          <DisplayHeading as="h2" size="section" className="text-bark text-[32px] md:text-[48px]">
+            Išskirtiniai. Kaip ir jie
           </DisplayHeading>
-
-          <div className="flex max-w-full shrink-0 flex-col gap-5 md:max-w-[400px]">
-            <BodyCopy>
-              Kurkite unikalų stilių savo šuniui. Pakabukus lengvai užmausite ir pakeisite vos per kelias sekundes.
-            </BodyCopy>
-          </div>
         </div>
 
         {/* Product cards grid / carousel */}

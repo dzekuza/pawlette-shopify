@@ -102,10 +102,10 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         description="Magnetiniai silikoniniai PawCharms pakabučiai — personalizuokite savo stiliumi"
         className="flex-1"
       >
-        <div aria-hidden="true" className="absolute left-[4%] top-4 w-[30%] max-w-[130px] rotate-[-34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-28deg]" style={{ aspectRatio: '1 / 1' }}>
+        <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg]" style={{ aspectRatio: '1 / 1' }}>
           <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="130px" style={{ objectFit: 'contain' }} />
         </div>
-        <div aria-hidden="true" className="absolute right-[6%] top-3 w-[26%] max-w-[110px] rotate-[-46deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-40deg]" style={{ aspectRatio: '1 / 1' }}>
+        <div aria-hidden="true" className="absolute right-[2%] top-[60%] w-[26%] max-w-[110px] rotate-[46deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[40deg]" style={{ aspectRatio: '1 / 1' }}>
           <Image src="/hero-figma/bento-letter-s.png" alt="" fill sizes="110px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>

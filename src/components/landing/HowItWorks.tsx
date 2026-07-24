@@ -6,18 +6,18 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 
 const TIMELINE = [
   {
-    week: 'Savaitė 1',
+    week: 'Week 1',
     title: 'Nebijosi vandens ir purvo',
     desc: 'BioThane paviršius atlaiko lietų, balas ir purviną žolę — antkaklis lieka švarus po kiekvieno pasivaikščiojimo.',
   },
   {
-    week: 'Savaitė 4',
+    week: 'Week 4',
     title: 'Būsi išskirtinis',
     desc: 'Pakabukai keičiami per kelias sekundes — kiekvieną dieną galite sukurti naują stilių savo šuniui.',
   },
   {
-    week: 'Savaitė 8',
-    title: 'Turėsi ilgaamžiškus pavadėlį, antkaklį bei pakabukus',
+    week: 'Week 8',
+    title: 'Turėsi ilgaamžišką pavadėlį, antkaklį bei charmsus',
     desc: 'Medžiaga nesudyla ir neblunka — tas pats antkaklis liks kaip naujas dar ilgai po pirkimo.',
   },
 ];
@@ -33,7 +33,7 @@ export function HowItWorks() {
       >
         <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', gap: isMobile ? 32 : 80, minWidth: 0, width: '100%' }}>
           <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
-            Kaip keisis jūsų kasdienybė?
+            Kas atsitiks po to kai įsigysi PawCharms?
           </DisplayHeading>
 
           <div style={{ position: 'relative', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end' }}>
