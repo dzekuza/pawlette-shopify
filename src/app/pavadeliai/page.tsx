@@ -6,21 +6,21 @@ import { PavadeliaiPageContent } from '@/components/products/PavadeliaiPageConte
 export const revalidate = 300
 
 export const metadata: Metadata = {
-  title: 'Silikoniniai pavadėliai šunims',
-  description: 'Vandeniui atsparūs silikoniniai pavadėliai šunims, derantys su PawCharms antkakliais. Lengvai valomi, patvarūs ir pagaminti kasdieniams pasivaikščiojimams.',
+  title: 'Silikoninis pavadėlis šuniui – vandeniui atsparus',
+  description: 'Silikoninis pavadėlis šuniui (šuns pavadėlis), vandeniui atsparus ir derantis su PawCharms antkakliais. Lengvai valomas, patvarus ir pagamintas kasdieniams pasivaikščiojimams.',
   alternates: { canonical: 'https://pawcharms.lt/pavadeliai' },
-  keywords: ['pavadėlis šuniui', 'silikoninis pavadėlis', 'vandeniui atsparus pavadėlis', 'PawCharms'],
+  keywords: ['pavadėlis šuniui', 'šuns pavadėlis', 'silikoninis pavadėlis', 'vandeniui atsparus pavadėlis', 'PawCharms'],
   openGraph: {
-    title: 'Silikoniniai pavadėliai šunims | PawCharms',
-    description: 'Vandeniui atsparūs silikoniniai pavadėliai šunims, suderinti su PawCharms antkaklių kolekcija.',
+    title: 'Silikoninis pavadėlis šuniui – vandeniui atsparus | PawCharms',
+    description: 'Vandeniui atsparus silikoninis pavadėlis šuniui, suderintas su PawCharms antkaklių kolekcija.',
     type: 'website',
     url: 'https://pawcharms.lt/pavadeliai',
     siteName: 'PawCharms',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Silikoniniai pavadėliai šunims | PawCharms',
-    description: 'Lengvai valomi silikoniniai pavadėliai šunims kasdieniams pasivaikščiojimams.',
+    title: 'Silikoninis pavadėlis šuniui – vandeniui atsparus | PawCharms',
+    description: 'Lengvai valomas silikoninis pavadėlis šuniui kasdieniams pasivaikščiojimams.',
   },
 }
 

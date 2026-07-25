@@ -35,6 +35,13 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  // Google Search Console HTML-tag verification. Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+  // in the environment (Vercel → Project → Settings → Environment Variables) with the
+  // content value from Search Console → Settings → Ownership verification → HTML tag.
+  // Omitted entirely (not rendered) when unset, so this is safe to deploy before it's set.
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
   icons: {
     icon: '/pawcharmsfav.jpg',
     apple: '/pawcharmsfav.jpg',

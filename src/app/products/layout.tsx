@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Šunų antkakliai, pakabukai ir rinkiniai',
   description: 'Peržiūrėkite visus PawCharms silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.',
   alternates: { canonical: 'https://pawcharms.lt/products' },
-  keywords: ['šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
+  keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
   openGraph: {
     title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
     description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
