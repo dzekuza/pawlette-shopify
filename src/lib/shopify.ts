@@ -547,14 +547,16 @@ function isFresh(timestamp: number) {
 
 export async function getCollars(): Promise<ShopifyCollar[]> {
   if (_collarsCache && isFresh(_collarsCacheAt)) return _collarsCache;
+  const staleCollars = _collarsCache;
   if (_collarsCache && !isFresh(_collarsCacheAt)) {
     _collarsCache = null;
     _collarsInflight = null;
   }
   if (!_collarsInflight) {
     _collarsInflight = (async () => {
+      try {
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
-      if (errors || !data) return [];
+      if (errors || !data) return staleCollars ?? [];
 
       // Hex colors for collar color names (used when a single product has a Color option)
       const COLLAR_COLOR_HEX: Record<string, string> = {
@@ -693,8 +695,12 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
       });
       _collarsCache = result;
       _collarsCacheAt = Date.now();
-      _collarsInflight = null;
       return result;
+      } catch {
+        return staleCollars ?? [];
+      } finally {
+        _collarsInflight = null;
+      }
     })();
   }
   return _collarsInflight;
@@ -708,12 +714,14 @@ export function getCharmsSync(): ShopifyCharm[] | null { return _charmsCache; }
 
 export async function getCharms(): Promise<ShopifyCharm[]> {
   if (_charmsCache && isFresh(_charmsCacheAt)) return _charmsCache;
+  const staleCharms = _charmsCache;
   if (_charmsCache && !isFresh(_charmsCacheAt)) {
     _charmsCache = null;
     _charmsInflight = null;
   }
   if (!_charmsInflight) {
     _charmsInflight = (async () => {
+      try {
       const extractText = (node: RichTextNode | null | undefined): string => {
         if (!node) return '';
         if (typeof node.value === 'string') return node.value;
@@ -724,10 +732,10 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
       // All charms (shapes + letters, every color) are variants on one product —
       // Style ("Letenėlės pakabučiukas" / "Raidė A" / ...) x Spalva (color) options.
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
-      if (errors || !data) return [];
+      if (errors || !data) return staleCharms ?? [];
 
       const mainProduct = data.products.edges[0]?.node;
-      if (!mainProduct) return [];
+      if (!mainProduct) return staleCharms ?? [];
 
       const productMeta = (key: string) =>
         mainProduct.metafields?.find((metafield) => metafield?.key === key)?.value;
@@ -811,8 +819,12 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
 
       _charmsCache = charms;
       _charmsCacheAt = Date.now();
-      _charmsInflight = null;
       return charms;
+      } catch {
+        return staleCharms ?? [];
+      } finally {
+        _charmsInflight = null;
+      }
     })();
   }
   return _charmsInflight;
@@ -865,14 +877,16 @@ export function getLeashesSync(): ShopifyCollar[] | null { return _leashesCacheD
 
 export async function getLeashes(): Promise<ShopifyCollar[]> {
   if (_leashesCacheData && isFresh(_leashesCacheAt)) return _leashesCacheData;
+  const staleLeashes = _leashesCacheData;
   if (_leashesCacheData && !isFresh(_leashesCacheAt)) {
     _leashesCacheData = null;
     _leashesCacheInflight = null;
   }
   if (!_leashesCacheInflight) {
     _leashesCacheInflight = (async () => {
+      try {
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(LEASHES_QUERY);
-      if (errors || !data) return [];
+      if (errors || !data) return staleLeashes ?? [];
 
       const LEASH_COLOR_HEX: Record<string, string> = {
         pink:        '#F4B5C0',
@@ -895,6 +909,14 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
         'tamsiai mėlyna': '#6B9FD4',
         'rožinė':         '#F4B5C0',
         'violetinė':      '#C3A8D5',
+      };
+      // Bare ASCII-stripping (dropping diacritics instead of transliterating them) mangles Lithuanian
+      // color names into broken slugs like "mlyna-leash" or "roin-leash" — map known color option
+      // values to a clean adjective explicitly, same as the collar handle generation above.
+      const LEASH_COLOR_SLUG: Record<string, string> = {
+        blue: 'melynas', 'dark blue': 'tamsiai-melynas', pink: 'rozinis', purple: 'violetinis', yellow: 'geltonas',
+        melyna: 'melynas', 'tamsiai melyna': 'tamsiai-melynas', rozine: 'rozinis', geltona: 'geltonas', violetine: 'violetinis',
+        mėlyna: 'melynas', 'tamsiai mėlyna': 'tamsiai-melynas', rožinė: 'rozinis', violetinė: 'violetinis',
       };
 
       const result = data.products.edges.flatMap(({ node }) => {
@@ -927,7 +949,8 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           return colorValues.map(colorName => {
             const colorVariants = allVariants.filter(v => v.color === colorName);
             const colorHex = LEASH_COLOR_HEX[colorName.toLowerCase()] ?? '#A8D5A2';
-            const colorSlug = colorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const colorSlug = LEASH_COLOR_SLUG[colorName.toLowerCase()]
+              ?? colorName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
             const leashHandle = `${colorSlug}-leash`;
             const firstColorVariant = colorVariants[0];
             const saleColorVariant = colorVariants.find(v => v.originalPrice) ?? firstColorVariant;
@@ -980,8 +1003,12 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
 
       _leashesCacheData = result;
       _leashesCacheAt = Date.now();
-      _leashesCacheInflight = null;
       return result;
+      } catch {
+        return staleLeashes ?? [];
+      } finally {
+        _leashesCacheInflight = null;
+      }
     })();
   }
   return _leashesCacheInflight;
@@ -1018,16 +1045,21 @@ export async function getCollectionProductHandles(handle: string): Promise<strin
   if (inflight) return inflight;
 
   const promise = (async () => {
-    const { data, errors } = await shopifyClient.request<CollectionProductHandlesResponse>(
-      COLLECTION_PRODUCT_HANDLES_QUERY,
-      { variables: { handle } }
-    );
-    _collectionHandlesInflight.delete(handle);
-    if (errors || !data?.collection) return [];
+    try {
+      const { data, errors } = await shopifyClient.request<CollectionProductHandlesResponse>(
+        COLLECTION_PRODUCT_HANDLES_QUERY,
+        { variables: { handle } }
+      );
+      if (errors || !data?.collection) return cached?.data ?? [];
 
-    const result = data.collection.products.edges.map(({ node }) => node.handle);
-    _collectionHandlesCache.set(handle, { data: result, at: Date.now() });
-    return result;
+      const result = data.collection.products.edges.map(({ node }) => node.handle);
+      _collectionHandlesCache.set(handle, { data: result, at: Date.now() });
+      return result;
+    } catch {
+      return cached?.data ?? [];
+    } finally {
+      _collectionHandlesInflight.delete(handle);
+    }
   })();
 
   _collectionHandlesInflight.set(handle, promise);

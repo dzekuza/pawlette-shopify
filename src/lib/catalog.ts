@@ -57,6 +57,47 @@ export function slugFromCharmId (id: string) {
   return `charm-${slugifyText(id)}`
 }
 
+const CHARM_LETTER_COLOR_LT: Record<string, string> = {
+  blue: 'Mėlyna', 'sky blue': 'Šviesiai mėlyna', 'sky-blue': 'Šviesiai mėlyna',
+  'dark blue': 'Tamsiai mėlyna', 'dark-blue': 'Tamsiai mėlyna',
+  green: 'Žalia', red: 'Rausva', pink: 'Rožinė', yellow: 'Geltona', purple: 'Violetinė',
+  mėlyna: 'Mėlyna', melyna: 'Mėlyna', žalia: 'Žalia', zalia: 'Žalia',
+  rausva: 'Rausva', rožinė: 'Rožinė', rozine: 'Rožinė', geltona: 'Geltona',
+  violetinė: 'Violetinė', violetine: 'Violetinė',
+}
+
+// Shopify variant titles for leashes pair a feminine color adjective with an English
+// noun (e.g. "Geltona Leash") — translate the noun and re-agree the adjective's gender
+// with the masculine "pavadėlis" (leash) so the storefront never shows raw English.
+const LEASH_COLOR_FEM_TO_MASC_LT: Record<string, string> = {
+  Geltona: 'Geltonas',
+  Žalia: 'Žalias',
+  Rausva: 'Rausvas',
+  Rožinė: 'Rožinis',
+  Violetinė: 'Violetinis',
+  Mėlyna: 'Mėlynas',
+}
+
+// Localizes charm/leash display names sourced verbatim from Shopify variant titles
+// (e.g. "Letter Z - Blue", "Geltona Leash") so the H1/meta title never leaks English.
+function localizeCharmName (title: string): string {
+  const letterMatch = title.match(/^(?:Letter|Raid[eė])\s+([A-ZĄČĘĖĮŠŲŪŽ])\s*[–-]\s*([\p{L}\s]+)$/iu)
+  if (letterMatch) {
+    const letter = letterMatch[1].toUpperCase()
+    const colorLt = CHARM_LETTER_COLOR_LT[letterMatch[2].trim().toLowerCase()]
+    return colorLt ? `${colorLt} raidė ${letter}` : `Raidė ${letter}`
+  }
+  return title.replace(/\s+Charm$/i, ' pakabukas')
+}
+
+function localizeLeashName (title: string): string {
+  const leashMatch = title.match(/^([\p{L}\s]+?)\s+Leash$/iu)
+  if (!leashMatch) return title
+  const colorWord = leashMatch[1].trim()
+  const masculineColor = LEASH_COLOR_FEM_TO_MASC_LT[colorWord] ?? colorWord
+  return `${masculineColor} pavadėlis`
+}
+
 function hexToRgba (hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
@@ -176,7 +217,7 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
     id: `charm-${charm.id}`,
     variantId: charm.variantId,
     productType: 'charm',
-    name: charm.title,
+    name: localizeCharmName(charm.title),
     price: charm.price,
     originalPrice: charm.originalPrice,
     shortDescription,
@@ -237,7 +278,7 @@ export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia
     ? (normalizeMarketingCopy(leash.parentDescription) || normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.parentTitle} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
     : (normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
   const image = opts?.useParentMedia ? (leash.parentImage || leash.image) : leash.image
-  const name = opts?.useParentMedia ? (leash.parentTitle || leash.title) : leash.title
+  const name = localizeLeashName(opts?.useParentMedia ? (leash.parentTitle || leash.title) : leash.title)
 
   return {
     slug: opts?.slugOverride || leash.handle,

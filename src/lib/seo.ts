@@ -68,7 +68,7 @@ export function buildProductSeoTitle(product: ProductDetail) {
     return `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui`
   }
   if (product.slug === 'charm-charms') return 'Keičiami pakabukai šunų antkakliams'
-  return `${product.name} - pakabukas šuns antkakliui`
+  return `${product.name} pakabukas šuns antkakliui`
 }
 
 export function buildProductSeoDescription(product: ProductDetail) {
@@ -211,14 +211,49 @@ export function buildProductJsonLd(product: ProductDetail) {
       url: productUrl,
       price: product.price.replace(/[^\d.]/g, ''),
       priceCurrency: 'EUR',
+      priceValidUntil: getPriceValidUntil(),
       availability: 'https://schema.org/InStock',
       itemCondition: 'https://schema.org/NewCondition',
       seller: {
         '@type': 'Organization',
         name: BRAND_NAME,
       },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'LT',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+        merchantReturnDays: 30,
+        returnMethod: 'https://schema.org/ReturnByMail',
+        returnFees: 'https://schema.org/FreeReturn',
+      },
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingRate: {
+          '@type': 'MonetaryAmount',
+          value: '0',
+          currency: 'EUR',
+        },
+        shippingDestination: {
+          '@type': 'DefinedRegion',
+          addressCountry: 'LT',
+        },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 3, unitCode: 'DAY' },
+        },
+      },
     },
   }
+}
+
+// Google's Product structured-data requires a bounded validity window on price —
+// round up to the end of next month so it never trails behind without needing
+// per-request recomputation logic beyond a simple date roll.
+function getPriceValidUntil (): string {
+  const d = new Date()
+  d.setMonth(d.getMonth() + 2, 0)
+  return d.toISOString().split('T')[0]
 }
 
 export function buildProductBreadcrumbJsonLd(product: ProductDetail) {

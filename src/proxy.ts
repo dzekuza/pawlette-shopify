@@ -9,6 +9,19 @@ import type { NextRequest } from 'next/server'
 // that can intercept it — redirect to the ASCII-normalized slug instead of crashing.
 const COMBINING_MARKS = new RegExp(`[${String.fromCharCode(0x300)}-${String.fromCharCode(0x36f)}]`, 'g')
 
+// Leash color slugs used to be built by stripping any character outside [a-z0-9-] instead of
+// transliterating it, so diacritics were silently deleted rather than converted (e.g. "Mėlyna"
+// lost its "ė" entirely, becoming "mlyna" instead of "melyna") — and the adjective wasn't
+// grammatically agreed with "leash" the way collar handles already were ("geltona" vs "geltonas").
+// Google indexed these broken URLs; redirect them to the corrected slugs instead of 404ing.
+const LEGACY_PRODUCT_SLUG_REDIRECTS: Record<string, string> = {
+  'geltona-leash': 'geltonas-leash',
+  'mlyna-leash': 'melynas-leash',
+  'roin-leash': 'rozinis-leash',
+  'violetin-leash': 'violetinis-leash',
+  'tamsiai-mlyna-leash': 'tamsiai-melynas-leash',
+}
+
 function slugifyAscii (input: string): string {
   return input
     .normalize('NFD')
@@ -26,6 +39,14 @@ export function proxy (request: NextRequest) {
   if (!match) return NextResponse.next()
 
   const rawSlug = decodeURIComponent(match[1])
+
+  const legacySlug = LEGACY_PRODUCT_SLUG_REDIRECTS[rawSlug]
+  if (legacySlug) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/products/${legacySlug}`
+    return NextResponse.redirect(url, 308)
+  }
+
   // eslint-disable-next-line no-control-regex
   if (/^[\x00-\x7F]*$/.test(rawSlug)) return NextResponse.next()
 

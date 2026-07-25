@@ -4,7 +4,12 @@ import { getAllProductSlugs } from '@/lib/catalog'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
   const productSlugs = await getAllProductSlugs()
-  const productEntries = productSlugs.map((slug) => ({
+  // Exclude aliases that canonicalize to another URL (e.g. "pawcharms-pakabuciai" -> "charm-charms") —
+  // a sitemap should only list self-canonical, index-worthy URLs.
+  const CANONICAL_ALIASES = new Set(['pawcharms-pakabuciai'])
+  const productEntries = productSlugs
+    .filter((slug) => !CANONICAL_ALIASES.has(slug))
+    .map((slug) => ({
     url: `https://pawcharms.lt/products/${slug}`,
     lastModified,
     changeFrequency: 'weekly' as const,
