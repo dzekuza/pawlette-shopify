@@ -3,7 +3,7 @@ import Script from "next/script";
 import { DM_Sans, Caveat } from 'next/font/google';
 import { MetaPixel } from "@/components/shared/MetaPixel";
 import { ShopifyAnalytics } from "@/components/shared/ShopifyAnalytics";
-import { GoogleAnalytics } from "@/components/shared/GoogleAnalytics";
+import { GoogleAnalytics, GaPageViewTracker } from "@/components/shared/GoogleAnalytics";
 import { CookieConsentBanner } from "@/components/shared/CookieConsentBanner";
 import { ScratchGiftWidget } from "@/components/shared/ScratchGiftWidget";
 import { CartDrawer } from "@/components/shared/CartDrawer";
@@ -197,6 +197,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </noscript>
         <MetaPixel />
         <GoogleAnalytics />
+        <GaPageViewTracker />
         <ShopifyAnalytics />
         {children}
         <CookieConsentBanner />

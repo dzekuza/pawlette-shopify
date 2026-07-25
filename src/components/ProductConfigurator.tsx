@@ -8,6 +8,7 @@ import { SIZES, type CartItem } from '@/lib/data'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { getCollars, getCollarsSync, getCharms, getCharmsSync, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { BentoSection } from './BentoSection'
 import { CollarStage } from './CollarStage'
 import { ConfigPanel } from './ConfigPanel'
@@ -65,13 +66,41 @@ export function ProductConfigurator () {
 
   const toggleCharm = (id: string) => {
     setSelectedCharms(prev => {
-      if (prev.includes(id)) return prev.map(c => c === id ? null : c)
+      const alreadySelected = prev.includes(id)
+      if (alreadySelected) return prev.map(c => c === id ? null : c)
       const idx = prev.indexOf(null)
       if (idx === -1) return prev
       const next = [...prev]
       next[idx] = id
       return next
     })
+
+    const alreadySelected = selectedCharms.includes(id)
+    if (!alreadySelected) {
+      const charm = charms.find(c => c.id === id)
+      trackGaEvent('select_item', {
+        item_list_name: 'configurator_charms',
+        item_id: id,
+        item_name: charm?.title,
+      })
+    }
+  }
+
+  const handleSelectCollar = (next: ShopifyCollar) => {
+    trackGaEvent('select_item', {
+      item_list_name: 'configurator_collar_color',
+      item_id: next.id,
+      item_name: next.title,
+    })
+    setCollar(next)
+  }
+
+  const handleSelectSize = (next: string) => {
+    trackGaEvent('select_item', {
+      item_list_name: 'configurator_size',
+      item_id: next,
+    })
+    setSize(next)
   }
 
   const clearSlot = (index: number) => {
@@ -303,11 +332,11 @@ export function ProductConfigurator () {
             collar={collar}
             collars={collars}
             charms={charms}
-            setCollar={setCollar}
+            setCollar={handleSelectCollar}
             selectedCharms={selectedCharms}
             toggleCharm={toggleCharm}
             size={size}
-            setSize={setSize}
+            setSize={handleSelectSize}
             onAddToCart={addToCart}
             isDark={false}
           />
