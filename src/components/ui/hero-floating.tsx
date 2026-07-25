@@ -272,7 +272,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               modelRotation={modelRotation}
               modelScale={modelScale}
               modelPosition={modelPosition}
-              interactive={progress < 0.1}
+              interactive={false}
               fitMargin={1.1}
             />
           </div>
