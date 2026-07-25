@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
-import { Box } from 'lucide-react'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DCharms, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
@@ -31,6 +30,10 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
 
   return (
     <div
+      onClick={onEdit}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEdit() } }}
       style={variant === 'grid'
         ? {
           gridColumn: 'span 2',
@@ -40,6 +43,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           overflow: 'hidden',
           position: 'relative',
           background: background || 'var(--color-surface-2)',
+          cursor: 'pointer',
         }
         : {
           flexShrink: 0,
@@ -49,6 +53,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           overflow: 'hidden',
           position: 'relative',
           background: background || 'transparent',
+          cursor: 'pointer',
         }}
     >
       <Collar3DScene
@@ -57,39 +62,13 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
         hardwareColour={HARDWARE_COLOUR}
       />
 
-      <div
-        style={{
-          position: 'absolute', top: 14, left: 14, display: 'flex', alignItems: 'center', gap: 6,
-          padding: '5px 10px 5px 8px', borderRadius: 999, background: 'var(--color-bark)', color: 'var(--color-cream)',
-          fontSize: 11, fontWeight: 700, letterSpacing: '0.04em', pointerEvents: 'none',
-        }}
-      >
-        <Box size={13} strokeWidth={2.2} />
-        3D
-      </div>
-
-      <div style={{ position: 'absolute', bottom: 14, left: 14, display: 'flex', flexDirection: 'column', gap: 2, pointerEvents: 'none' }}>
-        <p style={{ margin: 0, fontSize: 11, color: 'var(--color-bark-muted)' }}>
-          Vilkite, kad pasuktumėte
-        </p>
-        {showUnrenderableDisclaimer && (
+      {showUnrenderableDisclaimer && (
+        <div style={{ position: 'absolute', bottom: 14, left: 14, pointerEvents: 'none' }}>
           <p style={{ margin: 0, fontSize: 10.5, color: 'var(--color-bark-muted)', maxWidth: 200 }}>
             Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje
           </p>
-        )}
-      </div>
-
-      <button
-        type="button"
-        onClick={onEdit}
-        style={{
-          position: 'absolute', bottom: 12, right: 12, padding: '8px 14px', borderRadius: 999, border: 'none',
-          cursor: 'pointer', background: 'var(--color-cream)', color: 'var(--color-bark)', fontSize: 12, fontWeight: 600,
-          boxShadow: '0 2px 8px rgba(0,0,0,0.14)',
-        }}
-      >
-        Redaguoti
-      </button>
+        </div>
+      )}
     </div>
   )
 }
