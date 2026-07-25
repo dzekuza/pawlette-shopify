@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { DisplayHeading, Eyebrow } from "@/components/storefront/Typography";
+import { trackGaEvent } from "@/components/shared/GoogleAnalytics";
 import { cn } from "@/lib/utils";
 import { HARDWARE_COLOUR, type CharmSpec } from "@/lib/collar3d";
 
@@ -166,7 +167,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   // Desktop: fade driven by GSAP pinned scroll progress
   const desktopTextOpacity = useMemo(() => Math.max(0, 1 - progress * 2.2), [progress]);
   const desktopTextTranslateY = useMemo(() => -progress * 60, [progress]);
-  const desktopTrustTranslateY = useMemo(() => progress * 40, [progress]);
   // Mobile: fade driven by plain window.scrollY (no GSAP, no conflicts)
   const mobileTextOpacity = useMemo(() => Math.max(0, 1 - mobileScrollProgress * 2.0), [mobileScrollProgress]);
   const mobileTextTranslateY = useMemo(() => -mobileScrollProgress * 40, [mobileScrollProgress]);
@@ -254,6 +254,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
             <Link
               href="#customize"
+              onClick={() => trackGaEvent('cta_click', { cta_id: 'hero_buy_now', cta_location: 'hero' })}
               className="btn-press whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-bold text-bark no-underline shadow-lg shadow-bark/5 hover:bg-cream transition-colors"
             >
               Pirkti dabar
@@ -275,31 +276,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               fitMargin={1.1}
             />
           </div>
-        </div>
-
-        {/* Bottom Trust Columns */}
-        <div 
-          className="grid grid-cols-1 gap-3 md:grid-cols-3 border-t border-bark-divider pt-6 md:pt-8 lg:pt-12 text-center transition-all duration-75 [opacity:var(--mob-opacity)] md:[opacity:var(--dsk-opacity)] md:[transform:translateY(var(--dsk-trust-ty))]"
-          style={{ 
-            "--mob-opacity": mobileTextOpacity,
-            "--dsk-opacity": desktopTextOpacity,
-            "--dsk-trust-ty": `${desktopTrustTranslateY}px`,
-          } as React.CSSProperties}
-        >
-          {[
-            { title: "Kiekvienas antkaklis gaminamas rankomis" },
-            { title: "Personalizuojamas išskirtiniais pakabukais" },
-            { title: "Sukurkite antkaklį, kuris atspindi jūsų šunį" },
-          ].map((col, idx) => (
-            <div
-              key={idx}
-              className="flex flex-col items-center justify-center p-3 md:p-4 rounded-xl md:rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 shadow-[0_8px_32px_0_rgba(255,255,255,0.08)]"
-            >
-              <p className="m-0 font-sans text-sm md:text-base font-bold leading-normal text-bark">
-                {col.title}
-              </p>
-            </div>
-          ))}
         </div>
 
       </div>

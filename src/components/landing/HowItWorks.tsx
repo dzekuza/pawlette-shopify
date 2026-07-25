@@ -1,7 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading } from '@/components/storefront/Typography';
 
 const TIMELINE = [
@@ -23,54 +22,38 @@ const TIMELINE = [
 ];
 
 export function HowItWorks() {
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
-
   return (
     <section id="how" className="bg-white">
-      <div
-        className="mx-auto flex max-w-[1200px] flex-col items-center gap-10 px-4 py-16 md:px-6 md:py-24 lg:flex-row lg:items-center lg:gap-10"
-      >
-        <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', gap: isMobile ? 32 : 80, minWidth: 0, width: '100%' }}>
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-12 px-4 py-16 md:px-6 md:py-24 lg:flex-row lg:items-center lg:gap-16">
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-8 md:gap-16">
           <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
             Kas atsitiks po to kai įsigysi PawCharms?
           </DisplayHeading>
 
-          <div style={{ position: 'relative', display: 'flex', justifyContent: isMobile ? 'center' : 'flex-end' }}>
-            <div style={{ position: 'relative', height: isMobile ? 300 : 380, width: isMobile ? 260 : 330 }}>
-              <div style={{ position: 'absolute', left: 0, top: 0, width: '62%', height: '68%', borderRadius: 40, overflow: 'hidden' }}>
-                <Image src="/hero-figma/timeline-dog-1.jpg" alt="Šuo su PawCharms antkakliu" fill sizes="205px" style={{ objectFit: 'cover' }} loading="eager" />
+          <div className="relative flex justify-center py-6 lg:justify-end lg:py-10">
+            <div className="relative h-[340px] w-[300px] md:h-[460px] md:w-[400px]">
+              <div className="absolute left-0 top-2 h-[74%] w-[70%] -rotate-6 overflow-hidden rounded-[32px] shadow-[0_28px_56px_-24px_rgba(61,53,48,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-rotate-3">
+                <Image src="/hero-figma/timeline-dog-1.jpg" alt="Šuo su PawCharms antkakliu" fill sizes="(min-width: 768px) 280px, 210px" className="object-cover" loading="eager" />
               </div>
-              <div style={{ position: 'absolute', right: 0, bottom: 0, width: '62%', height: '68%', borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.12)' }}>
-                <Image src="/hero-figma/timeline-dog-2.png" alt="Šuo su akiniais ir PawCharms antkakliu" fill sizes="205px" style={{ objectFit: 'cover' }} loading="eager" />
+              <div className="absolute bottom-2 right-0 h-[74%] w-[70%] rotate-3 overflow-hidden rounded-[28px] shadow-[0_32px_64px_-20px_rgba(61,53,48,0.4)] ring-4 ring-white transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:rotate-1">
+                <Image src="/hero-figma/timeline-dog-2.png" alt="Šuo su akiniais ir PawCharms antkakliu" fill sizes="(min-width: 768px) 280px, 210px" className="object-cover" loading="eager" />
               </div>
             </div>
           </div>
         </div>
 
-        <div style={{ width: isMobile ? '100%' : 1, height: isMobile ? 1 : 'auto', alignSelf: 'stretch', background: 'rgba(168,213,162,0.15)' }} />
+        <div className="h-px w-full self-stretch bg-sage/15 lg:h-auto lg:w-px" />
 
-        <div style={{ flex: '1 1 0', display: 'flex', flexDirection: 'column', gap: 32, minWidth: 0, width: '100%' }}>
+        <div className="flex w-full min-w-0 flex-1 flex-col gap-6">
           {TIMELINE.map((step) => (
-            <div key={step.week} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <span
-                style={{
-                  display: 'inline-flex',
-                  alignSelf: 'flex-start',
-                  padding: '10px 15px',
-                  borderRadius: 999,
-                  background: 'rgba(168,213,162,0.1)',
-                  color: 'var(--color-sage-dark)',
-                  fontSize: 14,
-                  fontWeight: 500,
-                }}
-              >
+            <div key={step.week} className="flex flex-col gap-2">
+              <span className="inline-flex w-fit items-center rounded-full bg-sage/10 px-3 py-1.5 text-sm font-medium text-sage-dark">
                 {step.week}
               </span>
-              <p style={{ fontSize: isMobile ? 20 : 25, fontWeight: 600, color: 'var(--color-bark)', letterSpacing: '-0.02em', margin: 0 }}>
+              <p className="m-0 text-base font-semibold tracking-[-0.01em] text-bark-muted md:text-lg">
                 {step.title}
               </p>
-              <p style={{ fontSize: 16, color: 'var(--color-bark-muted)', lineHeight: 1.5, margin: 0 }}>
+              <p className="m-0 text-sm leading-relaxed text-bark-light">
                 {step.desc}
               </p>
             </div>
