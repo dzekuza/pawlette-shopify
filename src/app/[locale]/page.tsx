@@ -52,7 +52,13 @@ const faqSchema = {
 export const metadata: Metadata = {
   title: 'Šunų antkakliai su vardu ir keičiamais pakabukais',
   description: `Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`,
-  alternates: { canonical: 'https://pawscharm.com' },
+  alternates: {
+    canonical: 'https://pawscharm.com',
+    languages: {
+      lt: 'https://pawscharm.com',
+      en: 'https://pawscharm.com/en',
+    },
+  },
   keywords: ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawCharms'],
   openGraph: {
     title: 'Šunų antkakliai su vardu ir keičiamais pakabukais | PawCharms',

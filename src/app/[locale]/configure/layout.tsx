@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   description: 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui. Greitas pristatymas visoje Lietuvoje.',
   alternates: {
     canonical: 'https://pawscharm.com/configure',
+    languages: {
+      lt: 'https://pawscharm.com/configure',
+      en: 'https://pawscharm.com/en/configure',
+    },
   },
   openGraph: {
     title: 'Sukurk savo antkaklio rinkinį | PawCharms',

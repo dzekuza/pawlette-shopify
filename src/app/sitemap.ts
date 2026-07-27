@@ -24,13 +24,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: 'https://pawscharm.com/en',
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
       url: 'https://pawscharm.com/products',
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
+      url: 'https://pawscharm.com/en/products',
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
       url: 'https://pawscharm.com/configure',
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
+      url: 'https://pawscharm.com/en/configure',
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.85,

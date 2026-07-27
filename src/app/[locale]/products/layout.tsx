@@ -3,7 +3,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Šunų antkakliai, pakabukai ir rinkiniai',
   description: 'Peržiūrėkite visus PawCharms silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.',
-  alternates: { canonical: 'https://pawscharm.com/products' },
+  alternates: {
+    canonical: 'https://pawscharm.com/products',
+    languages: {
+      lt: 'https://pawscharm.com/products',
+      en: 'https://pawscharm.com/en/products',
+    },
+  },
   keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
   openGraph: {
     title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
