@@ -2,6 +2,7 @@
 
 import type { ProductDetail } from '@/lib/db';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { ProductCard } from '@/components/products/ProductCard';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 
@@ -14,6 +15,7 @@ const COLOR_SWATCHES = [
 ];
 
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
+  const t = useTranslations('landing.productGrid');
   const filteredProducts = products;
 
   return (
@@ -25,7 +27,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         {/* Heading */}
         <div className="flex flex-col items-center text-center gap-4">
           <DisplayHeading as="h2" size="section" className="text-bark text-[32px] md:text-[48px]">
-            Išskirtiniai. Kaip ir jie
+            {t('heading')}
           </DisplayHeading>
         </div>
 
@@ -82,7 +84,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                     letterSpacing: '0.05em',
                     textTransform: 'uppercase',
                   }}>
-                    ✦ PERSONALIZUOK
+                    {t('placeholderBadge')}
                   </div>
                   <div style={{ position: 'absolute', bottom: 12, left: 12, display: 'flex', gap: 4 }}>
                     {COLOR_SWATCHES.map(c => (
@@ -91,8 +93,8 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                   </div>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>PawCharms Antkaklis</span>
-                  <span style={{ fontSize: 14, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>Kaina: €25</span>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderProductName')}</span>
+                  <span style={{ fontSize: 14, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderPrice')}</span>
                 </div>
                 <Link
                   href="/products"
@@ -112,7 +114,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                     transition: 'background-color 150ms ease-out, transform 100ms ease-out',
                   }}
                 >
-                  Apsipirkti
+                  {t('placeholderCta')}
                 </Link>
               </div>
             ))}

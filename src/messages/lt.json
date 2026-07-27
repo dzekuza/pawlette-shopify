@@ -35,6 +35,13 @@
         }
       ]
     },
+    "productGrid": {
+      "heading": "Išskirtiniai. Kaip ir jie",
+      "placeholderBadge": "✦ PERSONALIZUOK",
+      "placeholderProductName": "PawCharms Antkaklis",
+      "placeholderPrice": "Kaina: €25",
+      "placeholderCta": "Apsipirkti"
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% nuolaida pirmam užsakymui su kodu {discountCode}",

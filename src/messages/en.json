@@ -35,6 +35,13 @@
         }
       ]
     },
+    "productGrid": {
+      "heading": "Unique. Just like them",
+      "placeholderBadge": "✦ PERSONALIZE",
+      "placeholderProductName": "PawCharms Collar",
+      "placeholderPrice": "Price: €25",
+      "placeholderCta": "Shop now"
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% off your first order with code {discountCode}",
