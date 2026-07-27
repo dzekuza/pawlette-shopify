@@ -4,17 +4,18 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Gift } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
-const NAV_LINKS = [
-  { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
-  { label: 'Pavadeliai', href: '/products/pawcharms-pavadelis' },
-  { label: 'Pakabukai', href: '/products/pawcharms-pakabuciai' },
-];
+const NAV_LINK_HREFS = [
+  { key: 'collars', href: '/products/pawcharms-antkaklis' },
+  { key: 'leashes', href: '/products/pawcharms-pavadelis' },
+  { key: 'charms', href: '/products/pawcharms-pakabuciai' },
+] as const;
 
 interface LandingNavProps {
   cartCount?: number;
@@ -25,7 +26,12 @@ interface LandingNavProps {
 }
 
 export function LandingNav({ cartCount = 0 }: LandingNavProps) {
+  const t = useTranslations('landing.nav');
   const [menuOpen, setMenuOpen] = useState(false);
+  const navLinks = NAV_LINK_HREFS.map(({ key, href }) => ({
+    label: t(`links.${key}`),
+    href,
+  }));
 
   useBodyScrollLock(menuOpen);
 
@@ -57,13 +63,13 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           padding: '12px 12px 12px 16px',
           overflow: 'clip',
         }}>
-          <Link href="/" aria-label="PawCharms pagrindinis" style={{ flexShrink: 0, lineHeight: 0 }}>
+          <Link href="/" aria-label={t('homeAriaLabel')} style={{ flexShrink: 0, lineHeight: 0 }}>
             <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
           {/* Desktop nav links */}
           <nav className="hidden items-center gap-6 md:flex">
-              {NAV_LINKS.map((link, i) => (
+              {navLinks.map((link, i) => (
                 <Link
                   key={i}
                   href={link.href}
@@ -88,7 +94,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Gift */}
             <button
               onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
-              aria-label="Atidaryti nuolaidos dovaną"
+              aria-label={t('giftAriaLabel')}
               style={{
                 background: 'none',
                 border: 'none',
@@ -105,7 +111,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Cart */}
             <button
               onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
-              aria-label="Krepšelis"
+              aria-label={t('cartAriaLabel')}
               style={{
                 position: 'relative',
                 background: 'none',
@@ -146,7 +152,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(o => !o)}
-              aria-label={menuOpen ? 'Uždaryti meniu' : 'Atidaryti meniu'}
+              aria-label={menuOpen ? t('closeMenuAriaLabel') : t('openMenuAriaLabel')}
               aria-expanded={menuOpen}
               className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
               style={{
@@ -163,7 +169,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
             {/* Shop now CTA */}
             <PrimaryButton href="/products" variant="sage" size="md" className="hidden md:inline-flex">
-              Pirkti dabar
+              {t('shopNow')}
             </PrimaryButton>
           </div>
         </div>
@@ -189,7 +195,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
         className="md:hidden"
       >
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {NAV_LINKS.map((link, i) => (
+          {navLinks.map((link, i) => (
             <a
               key={i}
               href={link.href}
@@ -220,7 +226,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           alignItems: 'center',
           gap: 12,
         }}>
-          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
+          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>{t('madeIn')}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <LanguageSwitcher tabIndex={menuOpen ? 0 : -1} />
             <a

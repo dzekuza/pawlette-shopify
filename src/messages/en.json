@@ -10,6 +10,20 @@
       ],
       "prevSlide": "Previous tagline",
       "nextSlide": "Next tagline"
+    },
+    "nav": {
+      "links": {
+        "collars": "Collars",
+        "leashes": "Leashes",
+        "charms": "Charms"
+      },
+      "homeAriaLabel": "PawCharms home",
+      "giftAriaLabel": "Open discount gift",
+      "cartAriaLabel": "Cart",
+      "openMenuAriaLabel": "Open menu",
+      "closeMenuAriaLabel": "Close menu",
+      "shopNow": "Shop now",
+      "madeIn": "Made in Vilnius, Lithuania"
     }
   }
 }

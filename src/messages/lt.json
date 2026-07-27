@@ -10,6 +10,20 @@
       ],
       "prevSlide": "Ankstesnis šūkis",
       "nextSlide": "Kitas šūkis"
+    },
+    "nav": {
+      "links": {
+        "collars": "Antkakliai",
+        "leashes": "Pavadeliai",
+        "charms": "Pakabukai"
+      },
+      "homeAriaLabel": "PawCharms pagrindinis",
+      "giftAriaLabel": "Atidaryti nuolaidos dovaną",
+      "cartAriaLabel": "Krepšelis",
+      "openMenuAriaLabel": "Atidaryti meniu",
+      "closeMenuAriaLabel": "Uždaryti meniu",
+      "shopNow": "Pirkti dabar",
+      "madeIn": "Pagaminta Vilniuje, Lietuvoje"
     }
   }
 }
