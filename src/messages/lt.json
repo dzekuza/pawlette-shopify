@@ -1,1 +1,15 @@
-{}
+{
+  "landing": {
+    "topBar": {
+      "slides": [
+        "{discountPercent}% nuolaida pirmam užsakymui su kodu {discountCode}",
+        "{shippingCopy} · siunčiama iš Vilniaus 🇱🇹",
+        "Pakabukus pakeisite per 5 sekundes ir be jokių įrankių",
+        "BioThane medžiaga – atspari vandeniui, purvui ir dilimui",
+        "Personalizuok pakabukais ir sukurk unikalų antkaklio dizainą"
+      ],
+      "prevSlide": "Ankstesnis šūkis",
+      "nextSlide": "Kitas šūkis"
+    }
+  }
+}

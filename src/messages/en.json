@@ -1,1 +1,15 @@
-{}
+{
+  "landing": {
+    "topBar": {
+      "slides": [
+        "{discountPercent}% off your first order with code {discountCode}",
+        "{shippingCopy} · shipped from Vilnius 🇱🇹",
+        "Swap charms in 5 seconds, no tools needed",
+        "BioThane material – resistant to water, mud, and wear",
+        "Personalize with charms and create a unique collar design"
+      ],
+      "prevSlide": "Previous tagline",
+      "nextSlide": "Next tagline"
+    }
+  }
+}
