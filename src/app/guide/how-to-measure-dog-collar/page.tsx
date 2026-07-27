@@ -8,12 +8,12 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 export const metadata: Metadata = {
   title: 'Kaip išmatuoti šunį antkakliui',
   description: 'Žingsnis po žingsnio gidas, kaip išmatuoti šuns kaklą, kad antkaklis tiktų idealiai. Su dydžių lentele ir patarimais.',
-  alternates: { canonical: 'https://pawcharms.lt/guide/how-to-measure-dog-collar' },
+  alternates: { canonical: 'https://pawscharm.com/guide/how-to-measure-dog-collar' },
   openGraph: {
     title: 'Kaip išmatuoti šunį antkakliui',
     description: 'Tinkamą dydį pasirinkite per 5 žingsnius. Su S, M ir L dydžių lentele.',
     type: 'article',
-    url: 'https://pawcharms.lt/guide/how-to-measure-dog-collar',
+    url: 'https://pawscharm.com/guide/how-to-measure-dog-collar',
     siteName: 'PawCharms',
   },
 };
@@ -25,8 +25,8 @@ const howToSchema = {
   description: 'Išmatuokite šuns kaklą per 5 žingsnius ir pasirinkite tinkamą antkaklio dydį.',
   datePublished: '2026-04-26',
   dateModified: '2026-06-14',
-  author: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawcharms.lt' },
-  publisher: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawcharms.lt' },
+  author: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawscharm.com' },
+  publisher: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawscharm.com' },
   inLanguage: 'lt',
   totalTime: 'PT2M',
   tool: [{ '@type': 'HowToTool', name: 'Lanksti matavimo juosta (arba virvelė ir liniuotė)' }],
@@ -68,9 +68,9 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawcharms.lt' },
-    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawcharms.lt/guide' },
-    { '@type': 'ListItem', position: 3, name: 'Kaip išmatuoti šunį antkakliui', item: 'https://pawcharms.lt/guide/how-to-measure-dog-collar' },
+    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawscharm.com' },
+    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawscharm.com/guide' },
+    { '@type': 'ListItem', position: 3, name: 'Kaip išmatuoti šunį antkakliui', item: 'https://pawscharm.com/guide/how-to-measure-dog-collar' },
   ],
 };
 

@@ -124,7 +124,7 @@ export default function FaqPage() {
         <DisplayHeading as='h2' size='section' className="mb-6 text-cream">
           Mielai padėsime.
         </DisplayHeading>
-        <PrimaryButton href="mailto:hello@pawcharms.lt" variant="sage" size="lg">
+        <PrimaryButton href="mailto:hello@pawscharm.com" variant="sage" size="lg">
           Parašykite el. paštu
         </PrimaryButton>
       </section>

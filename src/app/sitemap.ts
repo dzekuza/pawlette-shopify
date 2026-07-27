@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const productEntries = productSlugs
     .filter((slug) => !CANONICAL_ALIASES.has(slug))
     .map((slug) => ({
-    url: `https://pawcharms.lt/products/${slug}`,
+    url: `https://pawscharm.com/products/${slug}`,
     lastModified,
     changeFrequency: 'weekly' as const,
     priority: slug === 'charm-charms' ? 0.75 : 0.7,
@@ -18,37 +18,37 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: 'https://pawcharms.lt',
+      url: 'https://pawscharm.com',
       lastModified,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
-      url: 'https://pawcharms.lt/products',
+      url: 'https://pawscharm.com/products',
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: 'https://pawcharms.lt/configure',
+      url: 'https://pawscharm.com/configure',
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: 'https://pawcharms.lt/faq',
+      url: 'https://pawscharm.com/faq',
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: 'https://pawcharms.lt/guide/how-to-measure-dog-collar',
+      url: 'https://pawscharm.com/guide/how-to-measure-dog-collar',
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.65,
     },
     {
-      url: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars',
+      url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.65,

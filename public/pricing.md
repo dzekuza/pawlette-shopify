@@ -44,10 +44,10 @@ Magnetic silicone charms that snap onto the collar without tools.
 - 30-day return window from delivery date
 - Condition: unused, in original packaging
 - Personalised (charm-spelled) orders: non-refundable unless defective
-- Contact: hello@pawcharms.lt
+- Contact: hello@pawscharm.com
 
 ## Where to order
 
-- Product configurator (build your own): https://pawcharms.lt/configure
-- Browse all products: https://pawcharms.lt/products
-- Contact: hello@pawcharms.lt
+- Product configurator (build your own): https://pawscharm.com/configure
+- Browse all products: https://pawscharm.com/products
+- Contact: hello@pawscharm.com

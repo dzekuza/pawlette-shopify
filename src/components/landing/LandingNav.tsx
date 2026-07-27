@@ -217,11 +217,11 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
         }}>
           <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
           <a
-            href="mailto:hello@pawcharms.lt"
+            href="mailto:hello@pawscharm.com"
             tabIndex={menuOpen ? 0 : -1}
             style={{ fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
           >
-            hello@pawcharms.lt
+            hello@pawscharm.com
           </a>
         </div>
       </div>

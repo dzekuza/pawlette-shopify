@@ -8,12 +8,12 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 export const metadata: Metadata = {
   title: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
   description: 'Silikoninių ir nailoninių šunų antkaklių palyginimas pagal atsparumą vandeniui, patvarumą, patogumą, priežiūrą ir personalizavimą.',
-  alternates: { canonical: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars' },
+  alternates: { canonical: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars' },
   openGraph: {
     title: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
     description: 'Išsamus silikoninių ir nailoninių šunų antkaklių palyginimas.',
     type: 'article',
-    url: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars',
+    url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
     siteName: 'PawCharms',
   },
 };
@@ -27,11 +27,11 @@ const articleSchema = {
   publisher: {
     '@type': 'Organization',
     name: 'PawCharms',
-    url: 'https://pawcharms.lt',
+    url: 'https://pawscharm.com',
   },
   datePublished: '2026-04-26',
   dateModified: '2026-06-14',
-  url: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars',
+  url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
 };
 
 const comparisonSchema = {
@@ -111,9 +111,9 @@ const breadcrumbSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawcharms.lt' },
-    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawcharms.lt/guide' },
-    { '@type': 'ListItem', position: 3, name: 'Silikoniniai ar nailoniniai šunų antkakliai', item: 'https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars' },
+    { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawscharm.com' },
+    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawscharm.com/guide' },
+    { '@type': 'ListItem', position: 3, name: 'Silikoniniai ar nailoniniai šunų antkakliai', item: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars' },
   ],
 };
 

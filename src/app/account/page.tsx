@@ -3,8 +3,8 @@ import { AccountPageClient } from '@/components/account/AccountPageClient';
 import { getCustomerSessionToken } from '@/lib/customer-session';
 import { getCustomerByAccessToken } from '@/lib/shopify-customer';
 
-const HOSTED_ACCOUNT_LOGIN_URL = 'https://checkout.pawcharms.lt/customer_authentication/login';
-const HOSTED_ACCOUNT_URL = 'https://checkout.pawcharms.lt/account';
+const HOSTED_ACCOUNT_LOGIN_URL = 'https://checkout.pawscharm.com/customer_authentication/login';
+const HOSTED_ACCOUNT_URL = 'https://checkout.pawscharm.com/account';
 
 export const metadata: Metadata = {
   title: 'Paskyra',

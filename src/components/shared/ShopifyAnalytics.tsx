@@ -7,7 +7,7 @@ import { COOKIE_CONSENT_KEY, COOKIE_CONSENT_EVENT } from '@/components/shared/Me
 import { trackShopifyPageView } from '@/lib/shopifyAnalytics'
 
 const STOREFRONT_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!
-// Must be the shop's actual checkout domain (e.g. checkout.pawcharms.lt), not the
+// Must be the shop's actual checkout domain (e.g. checkout.pawscharm.com), not the
 // .myshopify.com domain used for the Storefront API client — otherwise the tracking
 // cookie is scoped to the wrong host and never links storefront visits to the order
 // the buyer completes at checkout, breaking Shopify's Sessions/Conversion funnel.

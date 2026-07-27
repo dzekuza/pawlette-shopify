@@ -8,7 +8,7 @@
 ## 1. Brand Identity
 
 ### Name & Handles
-- **Legal / domain:** PawCharms (`pawcharms.lt`)
+- **Legal / domain:** PawCharms (`pawscharm.com`)
 - **Brand display name:** PawCharms
 - **Lithuanian alternative:** Žavesys (means "enchantment/charm") — for LT-market storytelling, not primary
 - **Instagram handle:** `@pawcharms` (or `@pawlette` if pivoting)

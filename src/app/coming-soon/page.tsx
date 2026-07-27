@@ -330,7 +330,7 @@ export default function ComingSoonPage() {
           <div className="animate-in-5" style={{ marginTop: 40, display: 'flex', gap: 16, justifyContent: 'center', alignItems: 'center' }}>
             <span style={{ fontSize: 13, color: 'var(--color-bark)', opacity: 0.4 }}>Turite klausimų?</span>
             <a
-              href="mailto:hello@pawcharms.lt"
+              href="mailto:hello@pawscharm.com"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -357,7 +357,7 @@ export default function ComingSoonPage() {
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 6h16v12H4z"/><path d="m22 7-10 7L2 7"/>
               </svg>
-              hello@pawcharms.lt
+              hello@pawscharm.com
             </a>
           </div>
 

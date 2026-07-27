@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     template: '%s | PawCharms',
   },
   description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
-  metadataBase: new URL('https://pawcharms.lt'),
+  metadataBase: new URL('https://pawscharm.com'),
   robots: {
     index: true,
     follow: true,
@@ -56,16 +56,16 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'PawCharms',
   alternateName: 'PawCharms',
-  url: 'https://pawcharms.lt',
+  url: 'https://pawscharm.com',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://pawcharms.lt/pawcharms.svg',
+    url: 'https://pawscharm.com/pawcharms.svg',
     width: 200,
     height: 60,
   },
   contactPoint: {
     '@type': 'ContactPoint',
-    email: 'hello@pawcharms.lt',
+    email: 'hello@pawscharm.com',
     contactType: 'customer service',
     areaServed: ['LT', 'EU'],
     availableLanguage: ['Lithuanian', 'English'],
@@ -81,7 +81,7 @@ const organizationSchema = {
   },
   description: 'Rankų darbo, vandeniui atsparūs silikoniniai šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   sameAs: [
-    'https://www.instagram.com/pawcharms.lt',
+    'https://www.instagram.com/pawscharm.com',
   ],
 };
 
@@ -96,14 +96,14 @@ const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'PawCharms',
-  url: 'https://pawcharms.lt',
+  url: 'https://pawscharm.com',
   description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   inLanguage: 'lt',
   potentialAction: {
     '@type': 'SearchAction',
     target: {
       '@type': 'EntryPoint',
-      urlTemplate: 'https://pawcharms.lt/products?q={search_term_string}',
+      urlTemplate: 'https://pawscharm.com/products?q={search_term_string}',
     },
     'query-input': 'required name=search_term_string',
   },

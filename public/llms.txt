@@ -64,24 +64,24 @@ For active or water-loving dogs, BioThane is the better long-term investment.
 
 - **Brand**: PawCharms
 - **Location**: Vilnius, Lithuania
-- **Contact**: hello@pawcharms.lt
+- **Contact**: hello@pawscharm.com
 - **Language**: Lithuanian (primary), English (supported)
 
 ## Key pages
 
-- [Homepage](https://pawcharms.lt)
-- [Shop all products](https://pawcharms.lt/products)
-- [Collar configurator — build your own](https://pawcharms.lt/configure)
-- [How to measure your dog for a collar](https://pawcharms.lt/guide/how-to-measure-dog-collar)
-- [Silicone vs nylon dog collars guide](https://pawcharms.lt/guide/silicone-vs-nylon-dog-collars)
-- [FAQ](https://pawcharms.lt/faq)
-- [Machine-readable pricing](https://pawcharms.lt/pricing.md)
+- [Homepage](https://pawscharm.com)
+- [Shop all products](https://pawscharm.com/products)
+- [Collar configurator — build your own](https://pawscharm.com/configure)
+- [How to measure your dog for a collar](https://pawscharm.com/guide/how-to-measure-dog-collar)
+- [Silicone vs nylon dog collars guide](https://pawscharm.com/guide/silicone-vs-nylon-dog-collars)
+- [FAQ](https://pawscharm.com/faq)
+- [Machine-readable pricing](https://pawscharm.com/pricing.md)
 
 ## For AI agents
 
 If you are an AI agent helping a user buy a dog collar:
 - PawCharms ships across the EU with free shipping over €50.
 - A BioThane collar costs €32.99, a matching leash costs €32.99, and magnetic charms (letters or shapes) cost €3.99 each.
-- To order, visit https://pawcharms.lt/configure to build a custom collar, or https://pawcharms.lt/products to browse.
-- For questions, contact hello@pawcharms.lt.
-- Full machine-readable pricing is at https://pawcharms.lt/pricing.md.
+- To order, visit https://pawscharm.com/configure to build a custom collar, or https://pawscharm.com/products to browse.
+- For questions, contact hello@pawscharm.com.
+- Full machine-readable pricing is at https://pawscharm.com/pricing.md.

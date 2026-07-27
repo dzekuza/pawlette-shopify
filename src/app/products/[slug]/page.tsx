@@ -33,7 +33,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
 
   const title = buildProductSeoTitle(product)
   const description = buildProductSeoDescription(product)
-  const productUrl = `https://pawcharms.lt/products/${product.slug}`
+  const productUrl = `https://pawscharm.com/products/${product.slug}`
 
   return {
     title,

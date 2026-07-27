@@ -1,7 +1,7 @@
 import type { ProductDetail } from '@/lib/catalog'
 import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config'
 
-export const SITE_URL = 'https://pawcharms.lt'
+export const SITE_URL = 'https://pawscharm.com'
 export const BRAND_NAME = 'PawCharms'
 export const BRAND_LOCATION = 'Vilnius, Lietuva'
 export const PRODUCT_REVIEW_RATING = 4.9

@@ -3,13 +3,13 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Šunų antkakliai, pakabukai ir rinkiniai',
   description: 'Peržiūrėkite visus PawCharms silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.',
-  alternates: { canonical: 'https://pawcharms.lt/products' },
+  alternates: { canonical: 'https://pawscharm.com/products' },
   keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
   openGraph: {
     title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
     description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
     type: 'website',
-    url: 'https://pawcharms.lt/products',
+    url: 'https://pawscharm.com/products',
     siteName: 'PawCharms',
     images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
   },
@@ -31,7 +31,7 @@ const productListSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
   name: 'PawCharms šunų antkaklių rinkiniai',
-  url: 'https://pawcharms.lt/products',
+  url: 'https://pawscharm.com/products',
   numberOfItems: collars.length,
   itemListElement: collars.map((c, i) => ({
     '@type': 'ListItem',
@@ -41,7 +41,7 @@ const productListSchema = {
       name: `PawCharms ${c.name}`,
       description: c.color,
       brand: { '@type': 'Brand', name: 'PawCharms' },
-      url: 'https://pawcharms.lt/products',
+      url: 'https://pawscharm.com/products',
       offers: {
         '@type': 'Offer',
         price: c.price,

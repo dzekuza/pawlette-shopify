@@ -22,4 +22,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://pawcharms.lt/sitemap.xml
+Sitemap: https://pawscharm.com/sitemap.xml

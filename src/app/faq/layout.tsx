@@ -3,12 +3,12 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'Dažniausiai užduodami klausimai apie šunų antkaklius',
   description: 'Dažniausiai užduodami klausimai apie PawCharms antkaklius, pakabukus, pristatymą ir grąžinimą.',
-  alternates: { canonical: 'https://pawcharms.lt/faq' },
+  alternates: { canonical: 'https://pawscharm.com/faq' },
   openGraph: {
     title: 'Dažniausiai užduodami klausimai | PawCharms',
     description: 'Dažniausiai užduodami klausimai apie PawCharms antkaklius, pakabukus, pristatymą ir grąžinimą.',
     type: 'website',
-    url: 'https://pawcharms.lt/faq',
+    url: 'https://pawscharm.com/faq',
     siteName: 'PawCharms',
   },
 };

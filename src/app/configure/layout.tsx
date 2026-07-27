@@ -4,13 +4,13 @@ export const metadata: Metadata = {
   title: 'Sukurk savo antkaklio rinkinį | PawCharms',
   description: 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui. Greitas pristatymas visoje Lietuvoje.',
   alternates: {
-    canonical: 'https://pawcharms.lt/configure',
+    canonical: 'https://pawscharm.com/configure',
   },
   openGraph: {
     title: 'Sukurk savo antkaklio rinkinį | PawCharms',
     description: 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui.',
-    url: 'https://pawcharms.lt/configure',
-    images: [{ url: 'https://pawcharms.lt/og-image.jpg', width: 1200, height: 630 }],
+    url: 'https://pawscharm.com/configure',
+    images: [{ url: 'https://pawscharm.com/og-image.jpg', width: 1200, height: 630 }],
   },
 }
 

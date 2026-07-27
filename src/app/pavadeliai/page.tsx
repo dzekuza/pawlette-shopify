@@ -8,13 +8,13 @@ export const revalidate = 300
 export const metadata: Metadata = {
   title: 'Silikoninis pavadėlis šuniui – vandeniui atsparus',
   description: 'Silikoninis pavadėlis šuniui (šuns pavadėlis), vandeniui atsparus ir derantis su PawCharms antkakliais. Lengvai valomas, patvarus ir pagamintas kasdieniams pasivaikščiojimams.',
-  alternates: { canonical: 'https://pawcharms.lt/pavadeliai' },
+  alternates: { canonical: 'https://pawscharm.com/pavadeliai' },
   keywords: ['pavadėlis šuniui', 'šuns pavadėlis', 'silikoninis pavadėlis', 'vandeniui atsparus pavadėlis', 'PawCharms'],
   openGraph: {
     title: 'Silikoninis pavadėlis šuniui – vandeniui atsparus | PawCharms',
     description: 'Vandeniui atsparus silikoninis pavadėlis šuniui, suderintas su PawCharms antkaklių kolekcija.',
     type: 'website',
-    url: 'https://pawcharms.lt/pavadeliai',
+    url: 'https://pawscharm.com/pavadeliai',
     siteName: 'PawCharms',
   },
   twitter: {
