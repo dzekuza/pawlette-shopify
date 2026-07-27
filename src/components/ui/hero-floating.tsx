@@ -46,6 +46,11 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   const [progress, setProgress] = useState(0);
   // Separate progress state for mobile (plain scroll, not GSAP)
   const [mobileScrollProgress, setMobileScrollProgress] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -106,25 +111,12 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           stickersTweens.forEach((t) => t.kill());
         };
       } else {
-        // Mobile: pin the section too, shorter scroll distance
+        // Mobile: No pinning or ScrollTrigger to ensure buttery-smooth scrolling
         mountedCountRef.current = DEMO_ITEMS.length;
         setMountedCount(DEMO_ITEMS.length);
         setMobileScrollProgress(0);
-
-        const trigger = ScrollTrigger.create({
-          trigger: section,
-          start: "top top",
-          end: "+=480",
-          pin: true,
-          pinSpacing: true,
-          scrub: 0.6,
-          onUpdate: (self: any) => {
-            setMobileScrollProgress(self.progress);
-            setProgress(self.progress);
-          },
-        });
-
-        gsapCleanup = () => trigger.kill();
+        setProgress(0);
+        gsapCleanup = () => {};
       }
     });
 
@@ -205,7 +197,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           style={{ opacity: desktopTextOpacity }}
         >
           <div data-hero-float>
-            <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
+            <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" priority />
           </div>
         </div>
         <div 
@@ -272,8 +264,9 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               modelRotation={modelRotation}
               modelScale={modelScale}
               modelPosition={modelPosition}
-              interactive={false}
+              interactive={true}
               fitMargin={1.1}
+              autoRotate={true}
             />
           </div>
         </div>

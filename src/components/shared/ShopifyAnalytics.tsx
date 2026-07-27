@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { useShopifyCookies } from '@shopify/hydrogen-react'
+import { useShopifyCookies, ShopifyProvider } from '@shopify/hydrogen-react'
 import { COOKIE_CONSENT_KEY, COOKIE_CONSENT_EVENT } from '@/components/shared/MetaPixel'
 import { trackShopifyPageView } from '@/lib/shopifyAnalytics'
 
@@ -12,6 +12,16 @@ const STOREFRONT_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!
 // cookie is scoped to the wrong host and never links storefront visits to the order
 // the buyer completes at checkout, breaking Shopify's Sessions/Conversion funnel.
 const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN!
+
+function ShopifyCookiesWrapper({ consent }: { consent: boolean }) {
+  useShopifyCookies({
+    hasUserConsent: consent,
+    fetchTrackingValues: consent,
+    storefrontAccessToken: STOREFRONT_TOKEN,
+    checkoutDomain: CHECKOUT_DOMAIN,
+  })
+  return null
+}
 
 // Feeds Shopify's native Admin Analytics (Sessions, Conversion rate) with real
 // funnel data, which a fully headless storefront otherwise never reports —
@@ -28,17 +38,20 @@ export function ShopifyAnalytics () {
     return () => window.removeEventListener(COOKIE_CONSENT_EVENT, handleConsentGranted)
   }, [])
 
-  useShopifyCookies({
-    hasUserConsent: consent,
-    fetchTrackingValues: consent,
-    storefrontAccessToken: STOREFRONT_TOKEN,
-    checkoutDomain: CHECKOUT_DOMAIN,
-  })
-
   useEffect(() => {
     if (!consent) return
     trackShopifyPageView().catch(() => {})
   }, [consent, pathname])
 
-  return null
+  return (
+    <ShopifyProvider
+      storeDomain={process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!}
+      storefrontToken={STOREFRONT_TOKEN}
+      storefrontApiVersion="2026-04"
+      countryIsoCode="LT"
+      languageIsoCode="LT"
+    >
+      <ShopifyCookiesWrapper consent={consent} />
+    </ShopifyProvider>
+  )
 }

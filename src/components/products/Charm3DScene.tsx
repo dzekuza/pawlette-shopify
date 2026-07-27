@@ -2,7 +2,7 @@
 
 import { Canvas } from '@react-three/fiber'
 import { Bounds, Environment, OrbitControls } from '@react-three/drei'
-import { Suspense } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { Charm3DMesh } from '@/components/products/Charm3DMesh'
 import type { CharmSpec } from '@/lib/collar3d'
 
@@ -26,31 +26,49 @@ export type Charm3DSceneProps = {
 }
 
 export default function Charm3DScene({ items, boundsMargin = 2.4, autoRotate = true }: Charm3DSceneProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting)
+    }, { rootMargin: '200px' })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const loop = isVisible ? (autoRotate ? 'always' : 'demand') : 'never'
+
   return (
-    <Canvas
-      shadows
-      camera={{ position: [0, 0.6, 3.2], fov: 32 }}
-      gl={{ toneMappingExposure: TONE_EXPOSURE }}
-    >
-      <ambientLight intensity={0.55} />
-      <directionalLight position={[-4, 6, -3]} intensity={1.3} castShadow />
-      <directionalLight position={[3, 4, 4]} intensity={0.65} />
-      <directionalLight position={[0, -3, -5]} intensity={0.3} />
-      <Suspense fallback={null}>
-        <Bounds fit clip observe margin={boundsMargin} key={items.map((c) => c.meshKey).join('|')}>
-          <Charm3DMesh items={items} />
-        </Bounds>
-        <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
-      </Suspense>
-      <OrbitControls
-        makeDefault
-        autoRotate={autoRotate}
-        autoRotateSpeed={AUTO_ROTATE_SPEED}
-        enablePan={false}
-        enableZoom={false}
-        minPolarAngle={Math.PI / 2.6}
-        maxPolarAngle={Math.PI / 1.7}
-      />
-    </Canvas>
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+      <Canvas
+        frameloop={loop}
+        shadows="percentage"
+        camera={{ position: [0, 0.6, 3.2], fov: 32 }}
+        gl={{ toneMappingExposure: TONE_EXPOSURE }}
+      >
+        <ambientLight intensity={0.55} />
+        <directionalLight position={[-4, 6, -3]} intensity={1.3} castShadow />
+        <directionalLight position={[3, 4, 4]} intensity={0.65} />
+        <directionalLight position={[0, -3, -5]} intensity={0.3} />
+        <Suspense fallback={null}>
+          <Bounds fit clip observe margin={boundsMargin} key={items.map((c) => c.meshKey).join('|')}>
+            <Charm3DMesh items={items} />
+          </Bounds>
+          <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
+        </Suspense>
+        <OrbitControls
+          makeDefault
+          autoRotate={autoRotate}
+          autoRotateSpeed={AUTO_ROTATE_SPEED}
+          enablePan={false}
+          enableZoom={false}
+          minPolarAngle={Math.PI / 2.6}
+          maxPolarAngle={Math.PI / 1.7}
+        />
+      </Canvas>
+    </div>
   )
 }

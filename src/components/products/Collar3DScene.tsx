@@ -2,7 +2,7 @@
 
 import { Canvas, useThree } from '@react-three/fiber'
 import { Center, Environment, OrbitControls } from '@react-three/drei'
-import { Suspense, useLayoutEffect, useRef, type ReactNode } from 'react'
+import { Suspense, useLayoutEffect, useRef, useEffect, useState, type ReactNode } from 'react'
 import * as THREE from 'three'
 import { Collar3DMesh } from '@/components/products/Collar3DMesh'
 import type { CharmSpec } from '@/lib/collar3d'
@@ -91,48 +91,66 @@ export default function Collar3DScene({
   modelScale = 1,
   modelPosition = [0, 0, 0],
 }: Collar3DSceneProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting)
+    }, { rootMargin: '200px' })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  const loop = isVisible ? (autoRotate ? 'always' : 'demand') : 'never'
+
   return (
-    <Canvas
-      shadows
-      camera={{ position: [-5.0, 2.0, -4.2], fov: 40 }}
-      gl={{ toneMappingExposure: TONE_EXPOSURE }}
-      style={{
-        touchAction: interactive ? 'none' : 'pan-y',
-        pointerEvents: interactive ? 'auto' : 'none',
-      }}
-    >
-      <ambientLight intensity={0.9} />
-      <directionalLight position={[-4, 6, -3]} intensity={1.8} castShadow />
-      <directionalLight position={[3, 4, 4]} intensity={1} />
-      <directionalLight position={[0, -3, -5]} intensity={0.4} />
-      <Suspense fallback={null}>
-        <FitCameraToView margin={fitMargin}>
-          <group rotation={modelRotation} scale={modelScale} position={modelPosition}>
-            <Center>
-              <Collar3DMesh
-                items={items}
-                strapColour={strapColour}
-                hardwareColour={hardwareColour}
-                onSelectCharm={onSelectCharm}
-                selectedCharm={selectedCharm}
-              />
-            </Center>
-          </group>
-        </FitCameraToView>
-        <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
-      </Suspense>
-      <OrbitControls
-        makeDefault
-        minPolarAngle={0.2}
-        maxPolarAngle={Math.PI / 1.8}
-        minDistance={1}
-        maxDistance={30}
-        enablePan={false}
-        enableZoom={false}
-        enableRotate={interactive}
-        autoRotate={autoRotate}
-        autoRotateSpeed={autoRotateSpeed}
-      />
-    </Canvas>
+    <div ref={containerRef} style={{ width: '100%', height: '100%' }}>
+      <Canvas
+        frameloop={loop}
+        shadows="percentage"
+        camera={{ position: [-5.0, 2.0, -4.2], fov: 40 }}
+        gl={{ toneMappingExposure: TONE_EXPOSURE }}
+        style={{
+          touchAction: interactive ? 'none' : 'pan-y',
+          pointerEvents: interactive ? 'auto' : 'none',
+        }}
+      >
+        <ambientLight intensity={0.9} />
+        <directionalLight position={[-4, 6, -3]} intensity={1.8} castShadow />
+        <directionalLight position={[3, 4, 4]} intensity={1} />
+        <directionalLight position={[0, -3, -5]} intensity={0.4} />
+        <Suspense fallback={null}>
+          <FitCameraToView margin={fitMargin}>
+            <group rotation={modelRotation} scale={modelScale} position={modelPosition}>
+              <Center>
+                <Collar3DMesh
+                  items={items}
+                  strapColour={strapColour}
+                  hardwareColour={hardwareColour}
+                  onSelectCharm={onSelectCharm}
+                  selectedCharm={selectedCharm}
+                />
+              </Center>
+            </group>
+          </FitCameraToView>
+          <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
+        </Suspense>
+        <OrbitControls
+          makeDefault
+          minPolarAngle={0.2}
+          maxPolarAngle={Math.PI / 1.8}
+          minDistance={1}
+          maxDistance={30}
+          enablePan={false}
+          enableZoom={false}
+          enableRotate={interactive}
+          autoRotate={autoRotate}
+          autoRotateSpeed={autoRotateSpeed}
+        />
+      </Canvas>
+    </div>
   )
 }

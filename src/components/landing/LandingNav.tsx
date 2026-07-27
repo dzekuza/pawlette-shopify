@@ -56,9 +56,8 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           padding: '12px 12px 12px 16px',
           overflow: 'clip',
         }}>
-          {/* Logo */}
           <Link href="/" aria-label="PawCharms pagrindinis" style={{ flexShrink: 0, lineHeight: 0 }}>
-            <Image src="/pawcharms.svg" alt="PawCharms" width={120} height={42} style={{ height: 42, width: 'auto', display: 'block' }} />
+            <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
           {/* Desktop nav links */}

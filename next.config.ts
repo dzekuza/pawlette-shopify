@@ -22,6 +22,15 @@ const nextConfig: NextConfig = {
       permanent: true,
     }));
   },
+  async rewrites () {
+    if (!storeHostname) return [];
+    return [
+      {
+        source: '/api/:version/graphql.json',
+        destination: `https://${storeHostname}/api/:version/graphql.json`,
+      },
+    ];
+  },
   turbopack: {
     root: __dirname,
   },
