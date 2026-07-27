@@ -1,5 +1,11 @@
 {
   "landing": {
+    "hero": {
+      "loading3d": "Loading 3D preview…",
+      "eyebrow": "Personalized dog collars",
+      "heading": "Collars that keep up with every adventure",
+      "buyNow": "Buy now"
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% off your first order with code {discountCode}",

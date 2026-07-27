@@ -4,18 +4,24 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { useTranslations } from "next-intl";
 import { DisplayHeading, Eyebrow } from "@/components/storefront/Typography";
 import { trackGaEvent } from "@/components/shared/GoogleAnalytics";
 import { cn } from "@/lib/utils";
 import { HARDWARE_COLOUR, type CharmSpec } from "@/lib/collar3d";
 
+function Collar3DLoading() {
+  const t = useTranslations("landing.hero");
+  return (
+    <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "center" }}>
+      <span style={{ fontSize: 13, color: "var(--color-bark-muted)" }}>{t("loading3d")}</span>
+    </div>
+  );
+}
+
 const Collar3DScene = dynamic(() => import("@/components/products/Collar3DScene"), {
   ssr: false,
-  loading: () => (
-    <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent: "center" }}>
-      <span style={{ fontSize: 13, color: "var(--color-bark-muted)" }}>Kraunama 3D peržiūra…</span>
-    </div>
-  ),
+  loading: () => <Collar3DLoading />,
 });
 
 const HERO_STICKERS = {
@@ -37,6 +43,7 @@ interface FloatingHeroProps {
 }
 
 export function FloatingHero({ className }: FloatingHeroProps) {
+  const t = useTranslations("landing.hero");
   const stickersRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
@@ -233,14 +240,14 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             "--dsk-ty": `${desktopTextTranslateY}px`,
           } as React.CSSProperties}
         >
-          <Eyebrow className="text-interactive-text">Šunų antkakliai su vardu</Eyebrow>
+          <Eyebrow className="text-interactive-text">{t("eyebrow")}</Eyebrow>
           <DisplayHeading
             as="h1"
             size="floatingHero"
             className="mx-auto max-w-[946px] font-normal leading-[1.15] md:leading-[1.1] tracking-[0.02em] text-bark"
             style={{ fontSize: "clamp(30px, 6vw, 64px)" }}
           >
-            Antkakliai, kurie pritampa prie kiekvieno nuotykio
+            {t("heading")}
           </DisplayHeading>
 
           <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
@@ -249,7 +256,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               onClick={() => trackGaEvent('cta_click', { cta_id: 'hero_buy_now', cta_location: 'hero' })}
               className="btn-press whitespace-nowrap rounded-full bg-white px-8 py-4 text-base font-bold text-bark no-underline shadow-lg shadow-bark/5 hover:bg-cream transition-colors"
             >
-              Pirkti dabar
+              {t("buyNow")}
             </Link>
           </div>
         </div>

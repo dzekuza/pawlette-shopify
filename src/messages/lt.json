@@ -1,5 +1,11 @@
 {
   "landing": {
+    "hero": {
+      "loading3d": "Kraunama 3D peržiūra…",
+      "eyebrow": "Šunų antkakliai su vardu",
+      "heading": "Antkakliai, kurie pritampa prie kiekvieno nuotykio",
+      "buyNow": "Pirkti dabar"
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% nuolaida pirmam užsakymui su kodu {discountCode}",
