@@ -274,7 +274,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
     setExtraCharmsOpen,
     mounted,
     toggleCollarCharm,
-    charms: allCharms,
+    sizeMatchedCharms,
     dndSensors,
     collarCharmColor,
     setCollarCharmColor,
@@ -416,7 +416,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
             onCharmReorder={handleCharmDragEnd}
             onNeedMoreCharms={() => setExtraCharmsOpen(true)}
             mounted={mounted}
-            allCharms={allCharms}
+            allCharms={sizeMatchedCharms}
             dndSensors={dndSensors}
           />
         )
@@ -920,7 +920,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
       allCollars={allCollars}
       selectedColor={selectedColor}
       onColorChange={onColorChange}
-      charms={allCharms}
+      charms={sizeMatchedCharms}
       selectedCharms={selectedCollarCharms}
       onCharmsChange={setSelectedCollarCharms}
       charmColorKey={collarCharmColor}

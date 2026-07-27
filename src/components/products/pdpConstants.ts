@@ -4,7 +4,11 @@
 // SingleProductPage.tsx (which imports CollarConfigurator). SingleProductPage.tsx re-exports these so
 // existing external imports (CharmBuilderPanel, CharmDecoratorPanel, Collar3DModal) keep working unchanged.
 
-export const MAX_CHARMS = 6
+// Kept in sync with the "5 nemokami pakabukai su antkakliu" Shopify discount, which only
+// zeroes out up to 5 charms per collar at checkout — raising this above 5 would let a
+// shopper fill a 6th slot that gets charged full price, contradicting the "Įeina 5
+// pakabukai" (5 charms included) marketing copy shown across the site.
+export const MAX_CHARMS = 5
 
 export const BORDER_COLOR = 'var(--color-border)'
 export const TEXT_PRIMARY = 'var(--color-bark)'

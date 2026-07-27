@@ -1,9 +1,9 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import { getCollars, getCharms, getLeashes, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { getCollars, getCharms, getLeashes, charmSizeGroupForCollarSize, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart } from '@/lib/cart'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
@@ -96,6 +96,23 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     }
   }
 
+  // S/M collars pair with the small ("Maži") charm product, L collars with the large
+  // ("Dideli/M-L") one — the free-charms discount is scoped per product, so the two must
+  // never mix. Whenever the active group flips (color or size change), drop any already-picked
+  // charms that no longer belong to it rather than silently charging for a mismatched charm.
+  const activeCharmSizeGroup = useMemo(() => charmSizeGroupForCollarSize(selectedSize), [selectedSize])
+  // All charms matching the active size group, with no color exclusion — for surfaces (inline
+  // decorator panel, 3D preview modal) that offer the full color range, unlike the personalise
+  // dialog's filteredCollarCharms below, which additionally excludes green.
+  const sizeMatchedCharms = useMemo(() => charms.filter((c) => c.sizeGroup === activeCharmSizeGroup), [charms, activeCharmSizeGroup])
+  const prevCharmSizeGroupRef = useRef(activeCharmSizeGroup)
+  useEffect(() => {
+    if (prevCharmSizeGroupRef.current !== activeCharmSizeGroup) {
+      prevCharmSizeGroupRef.current = activeCharmSizeGroup
+      setSelectedCollarCharms(prev => prev.map(c => (c && c.sizeGroup !== activeCharmSizeGroup) ? null : c))
+    }
+  }, [activeCharmSizeGroup])
+
   const toggleCollarCharm = (charm: ShopifyCharm) => {
     setSelectedCollarCharms(prev => {
       const idx = prev.findIndex(c => c?.id === charm.id)
@@ -161,13 +178,15 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))
   }
 
-  // Filtered charms for the personalise dialog (collar product page) — green excluded
+  // Filtered charms for the personalise dialog (collar product page) — green excluded, and
+  // scoped to the charm size that matches the currently selected collar size (S/M → small
+  // charms, L → large charms) so the free-charms discount always applies.
   const filteredCollarCharms = useMemo(() => {
-    let list = charms.filter((c) => c.bg !== '#A8D5A2')
+    let list = charms.filter((c) => c.bg !== '#A8D5A2' && c.sizeGroup === activeCharmSizeGroup)
     if (collarCharmColor) list = list.filter((c) => c.bg === COLOR_BG_MAP[collarCharmColor])
     if (collarCharmQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(collarCharmQuery.toLowerCase()))
     return list
-  }, [charms, collarCharmColor, collarCharmQuery])
+  }, [charms, collarCharmColor, collarCharmQuery, activeCharmSizeGroup])
 
   const addCollarCharmToCart = async () => {
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
@@ -182,13 +201,14 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     setTimeout(() => { setCharmAdded(false); setPersonaliseOpen(false) }, 800)
   }
 
-  // Filtered charms for the "need more charms?" dialog — letters and icon charms both selectable
+  // Filtered charms for the "need more charms?" dialog — letters and icon charms both
+  // selectable, scoped to the same size group as the collar being personalised.
   const filteredExtraCharms = useMemo(() => {
-    let list = charms.filter((c) => c.bg !== '#A8D5A2')
+    let list = charms.filter((c) => c.bg !== '#A8D5A2' && c.sizeGroup === activeCharmSizeGroup)
     if (extraCharmsColor) list = list.filter((c) => c.bg === COLOR_BG_MAP[extraCharmsColor])
     if (extraCharmsQuery.trim()) list = list.filter((c) => c.title.toLowerCase().includes(extraCharmsQuery.toLowerCase()))
     return list
-  }, [charms, extraCharmsColor, extraCharmsQuery])
+  }, [charms, extraCharmsColor, extraCharmsQuery, activeCharmSizeGroup])
 
   const toggleExtraCharm = (charm: ShopifyCharm) => {
     setExtraCharmsPicked(prev => (
@@ -212,7 +232,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
   }
 
   const applyStarterPack = (offset: number) => {
-    const pool = charms.filter(c => c.bg !== '#A8D5A2')
+    const pool = charms.filter(c => c.bg !== '#A8D5A2' && c.sizeGroup === activeCharmSizeGroup)
     const pack = pool.slice(offset, offset + MAX_CHARMS)
     if (!pack.length) return
     const slots: (ShopifyCharm | null)[] = Array(MAX_CHARMS).fill(null)
@@ -228,7 +248,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     const colourHex = COLOR_BG_MAP[collarCharmColor]
     const { iconCharms } = collar3DLetters(selectedCollarCharms)
     const newLetterCharms = [...clean]
-      .map((letter) => charms.find((c) => c.category === 'letter' && extractLetter(c.baseTitle) === letter && c.bg === colourHex))
+      .map((letter) => charms.find((c) => c.category === 'letter' && c.sizeGroup === activeCharmSizeGroup && extractLetter(c.baseTitle) === letter && c.bg === colourHex))
       .filter((c): c is ShopifyCharm => !!c)
     const combined = [...newLetterCharms, ...iconCharms].slice(0, MAX_CHARMS)
     const padded: (ShopifyCharm | null)[] = [...combined, ...Array(MAX_CHARMS - combined.length).fill(null)]
@@ -244,9 +264,9 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     // since icon variant titles don't reliably carry a usable colour-key (see resolveCharmMeta).
     const colourHex = target.category === 'letter' ? COLOR_BG_MAP[colourKey] : colourKey
     const replacement = target.category === 'letter'
-      ? charms.find((c) => c.category === 'letter' && extractLetter(c.baseTitle) === extractLetter(target.baseTitle) && c.bg === colourHex)
+      ? charms.find((c) => c.category === 'letter' && c.sizeGroup === target.sizeGroup && extractLetter(c.baseTitle) === extractLetter(target.baseTitle) && c.bg === colourHex)
       : target.shape
-        ? charms.find((c) => c.category === 'icon' && c.shape === target.shape && c.bg === colourHex)
+        ? charms.find((c) => c.category === 'icon' && c.sizeGroup === target.sizeGroup && c.shape === target.shape && c.bg === colourHex)
         : undefined
     if (!replacement) return
     // Recolour only the tapped slot — identical letters share the same charm id,
@@ -260,6 +280,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     // data
     allCollars,
     charms,
+    sizeMatchedCharms,
     collar,
     selectedColor,
     selectedSize,

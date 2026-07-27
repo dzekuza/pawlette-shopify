@@ -44,6 +44,14 @@ export interface ShopifyCollar {
   socialVideos?: string[];
 }
 
+/** Which charm-size product a charm belongs to: 'S' = "Maži (S)" (paired with S/M collars), 'L' = "Dideli (M/L)" (paired with L collars). */
+export type CharmSizeGroup = 'S' | 'L';
+
+/** Maps a collar's selected size string (e.g. "S — 28–36 cm", "L — 44–52 cm") to the matching charm size group. */
+export function charmSizeGroupForCollarSize(size: string): CharmSizeGroup {
+  return size.trim().charAt(0).toUpperCase() === 'L' ? 'L' : 'S';
+}
+
 export interface ShopifyCharm {
   id: string;
   handle: string;
@@ -57,6 +65,8 @@ export interface ShopifyCharm {
   /** 3D mesh shape key for icon charms with a Blender-authored model ("Heart", "Star", ...); undefined if none exists yet. */
   shape?: string;
   color: string;
+  /** Which charm-size product this variant came from — 'S' (Maži) or 'L' (Dideli/M-L). */
+  sizeGroup: CharmSizeGroup;
   image: string;
   productImages: string[];
   productFeaturedImage: string;
@@ -493,13 +503,16 @@ function titleToHandle(title: string): string {
   return title.toLowerCase().replace(/\s*–\s*/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
-// All charms (shapes + letters, in every color) live as variants on one "PawCharms pakabučiai" product.
+// Charms live as variants split across two products by size — "PawCharms pakabučiai — Dideli
+// (M/L)" (large charms, for L collars) and "... — Maži (S)" (small charms, for S/M collars).
+// Both are fetched here and merged/tagged with sizeGroup in getCharms().
 const CHARMS_QUERY = `
   query GetCharms {
-    products(first: 1, query: "product_type:charm") {
+    products(first: 10, query: "product_type:charm") {
       edges {
         node {
           id
+          handle
           title
           descriptionHtml
           featuredImage { url }
@@ -729,35 +742,13 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
         return '';
       };
 
-      // All charms (shapes + letters, every color) are variants on one product —
-      // Style ("Letenėlės pakabučiukas" / "Raidė A" / ...) x Spalva (color) options.
+      // Charms (shapes + letters, every color) are variants on two products, split by size —
+      // fetch both and merge, tagging every charm with which product (sizeGroup) it came from.
       const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
       if (errors || !data) return staleCharms ?? [];
 
-      const mainProduct = data.products.edges[0]?.node;
-      if (!mainProduct) return staleCharms ?? [];
-
-      const productMeta = (key: string) =>
-        mainProduct.metafields?.find((metafield) => metafield?.key === key)?.value;
-      const productTitle = mainProduct.title ?? 'Charms';
-      const productFeaturedImage = mainProduct.featuredImage?.url ?? '';
-      const productDescriptionHtml = mainProduct.descriptionHtml ?? '';
-      const rawDesc = productMeta('description');
-      let productDescriptionPlain = '';
-      if (rawDesc) {
-        try { productDescriptionPlain = normalizeShopText(extractText(JSON.parse(rawDesc))); }
-        catch { productDescriptionPlain = normalizeShopText(rawDesc); }
-      }
-      if (!productDescriptionPlain) {
-        productDescriptionPlain = normalizeShopText(productDescriptionHtml.replace(/<[^>]*>/g, ' '));
-      }
-      const allProductImages = (mainProduct.images?.edges ?? []).map(({ node: img }) => img.url);
-      const variantImageUrls = new Set(
-        mainProduct.variants.edges
-          .map(({ node: v }) => v.image?.url).filter((u): u is string => Boolean(u))
-          .map((u) => u.split('?')[0])
-      );
-      const productImages = allProductImages.filter(u => !variantImageUrls.has(u.split('?')[0]));
+      const productNodes = data.products.edges.map(({ node }) => node);
+      if (!productNodes.length) return staleCharms ?? [];
 
       // Map Lithuanian "Spalva" values → English (keeps resolveCharmMeta + CHARM_LOCAL_IMAGES keys stable for letters)
       const LT_COLOR_TO_EN: Record<string, string> = {
@@ -769,47 +760,82 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
       };
 
       const charms: ShopifyCharm[] = [];
-      for (const { node: variant } of mainProduct.variants.edges) {
-        const style = variant.selectedOptions?.find((o) => o.name === 'Style')?.value ?? '';
-        const spalva = variant.selectedOptions?.find((o) => o.name === 'Spalva')?.value ?? '';
-        const isLetter = /^Raidė\s+[A-ZĄČĘĖĮŠŲŪŽ]$/iu.test(style);
-        const title = isLetter
-          ? `${style.replace(/^Raidė/i, 'Letter')} - ${LT_COLOR_TO_EN[spalva.toLowerCase()] ?? spalva}`
-          : `${style} – ${spalva}`;
 
-        const { bg, category, color, baseTitle, shape } = resolveCharmMeta(title);
-        const handle = titleToHandle(title);
-        const localImage = CHARM_LOCAL_IMAGES[handle];
-        charms.push({
-          id: handle,
-          handle,
-          title,
-          baseTitle,
-          variantId: variant.id ?? '',
-          price: formatEuroPrice(variant.price?.amount, '€4'),
-          originalPrice:
-            variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
-              ? formatEuroPrice(variant.compareAtPrice.amount)
-              : undefined,
-          bg,
-          category,
-          shape,
-          color,
-          image: variant.image?.url || localImage || '',
-          productImages,
-          productFeaturedImage,
-          productTitle,
-          productDescription: productDescriptionPlain,
-          description: rawDesc || undefined,
-          care: productMeta('care') || undefined,
-          shipping: productMeta('shipping') || undefined,
-          socialVideos: parseVideoList(productMeta('pawlette_social_video')),
-        });
+      for (const productNode of productNodes) {
+        // "... — Maži (S)" is the small-charm product (handle "pawcharms-pakabuciai-mazi-s");
+        // everything else (the original "... — Dideli (M/L)") is treated as the large-charm group.
+        const sizeGroup: CharmSizeGroup = /maz|maž/i.test(`${productNode.handle ?? ''} ${productNode.title ?? ''}`) ? 'S' : 'L';
+
+        const productMeta = (key: string) =>
+          productNode.metafields?.find((metafield) => metafield?.key === key)?.value;
+        const productTitle = productNode.title ?? 'Charms';
+        const productFeaturedImage = productNode.featuredImage?.url ?? '';
+        const productDescriptionHtml = productNode.descriptionHtml ?? '';
+        const rawDesc = productMeta('description');
+        let productDescriptionPlain = '';
+        if (rawDesc) {
+          try { productDescriptionPlain = normalizeShopText(extractText(JSON.parse(rawDesc))); }
+          catch { productDescriptionPlain = normalizeShopText(rawDesc); }
+        }
+        if (!productDescriptionPlain) {
+          productDescriptionPlain = normalizeShopText(productDescriptionHtml.replace(/<[^>]*>/g, ' '));
+        }
+        const allProductImages = (productNode.images?.edges ?? []).map(({ node: img }) => img.url);
+        const variantImageUrls = new Set(
+          productNode.variants.edges
+            .map(({ node: v }) => v.image?.url).filter((u): u is string => Boolean(u))
+            .map((u) => u.split('?')[0])
+        );
+        const productImages = allProductImages.filter(u => !variantImageUrls.has(u.split('?')[0]));
+
+        for (const { node: variant } of productNode.variants.edges) {
+          const style = variant.selectedOptions?.find((o) => o.name === 'Style')?.value ?? '';
+          const spalva = variant.selectedOptions?.find((o) => o.name === 'Spalva')?.value ?? '';
+          const isLetter = /^Raidė\s+[A-ZĄČĘĖĮŠŲŪŽ]$/iu.test(style);
+          const title = isLetter
+            ? `${style.replace(/^Raidė/i, 'Letter')} - ${LT_COLOR_TO_EN[spalva.toLowerCase()] ?? spalva}`
+            : `${style} – ${spalva}`;
+
+          const { bg, category, color, baseTitle, shape } = resolveCharmMeta(title);
+          const baseHandle = titleToHandle(title);
+          // Both size products reuse the same style/color titles, so the small-charm variant
+          // needs a distinct id/handle to stay independently addressable and selectable.
+          const handle = sizeGroup === 'S' ? `${baseHandle}-mazi` : baseHandle;
+          const localImage = CHARM_LOCAL_IMAGES[baseHandle];
+          charms.push({
+            id: handle,
+            handle,
+            title,
+            baseTitle,
+            variantId: variant.id ?? '',
+            price: formatEuroPrice(variant.price?.amount, '€4'),
+            originalPrice:
+              variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
+                ? formatEuroPrice(variant.compareAtPrice.amount)
+                : undefined,
+            bg,
+            category,
+            shape,
+            color,
+            sizeGroup,
+            image: variant.image?.url || localImage || '',
+            productImages,
+            productFeaturedImage,
+            productTitle,
+            productDescription: productDescriptionPlain,
+            description: rawDesc || undefined,
+            care: productMeta('care') || undefined,
+            shipping: productMeta('shipping') || undefined,
+            socialVideos: parseVideoList(productMeta('pawlette_social_video')),
+          });
+        }
       }
 
-      // Icon/shape charms first, then letters A–Z grouped by their color order.
+      // Large-product charms first (unchanged default for title/letter lookups that don't
+      // filter by sizeGroup), then icon/shape before letters, then letters A–Z by color order.
       const COLOR_ORDER = ['blue', 'dark-blue', 'purple', 'pink', 'yellow', 'green'];
       charms.sort((a, b) => {
+        if (a.sizeGroup !== b.sizeGroup) return a.sizeGroup === 'L' ? -1 : 1;
         if (a.category !== b.category) return a.category === 'icon' ? -1 : 1;
         if (a.category === 'icon') return 0;
         const letterCmp = a.baseTitle.localeCompare(b.baseTitle);

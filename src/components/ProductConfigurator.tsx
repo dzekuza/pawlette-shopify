@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
-import { getCollars, getCollarsSync, getCharms, getCharmsSync, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { getCollars, getCollarsSync, getCharms, getCharmsSync, charmSizeGroupForCollarSize, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { BentoSection } from './BentoSection'
@@ -64,6 +64,15 @@ export function ProductConfigurator () {
     fetchCart().then(c => { if (c) setCheckoutUrl(c.checkoutUrl) })
   }, [])
 
+  // S/M collars pair with the small ("Maži") charm product, L collars with the large
+  // ("Dideli/M-L") one — the "5 nemokami pakabukai su antkakliu" discount is scoped per
+  // product, so only charms matching the selected collar size should be pickable here.
+  const activeCharmSizeGroup = useMemo(() => charmSizeGroupForCollarSize(size), [size])
+  const availableCharms = useMemo(
+    () => charms.filter(c => c.sizeGroup === activeCharmSizeGroup),
+    [charms, activeCharmSizeGroup]
+  )
+
   const toggleCharm = (id: string) => {
     setSelectedCharms(prev => {
       const alreadySelected = prev.includes(id)
@@ -101,6 +110,15 @@ export function ProductConfigurator () {
       item_id: next,
     })
     setSize(next)
+    // Crossing the S/M ↔ L boundary swaps which charm product is free with the collar —
+    // drop any already-picked charms that no longer match, rather than silently charging
+    // full price for a charm from the wrong size group at checkout.
+    const nextGroup = charmSizeGroupForCollarSize(next)
+    setSelectedCharms(prev => prev.map(id => {
+      if (!id) return null
+      const charm = charms.find(c => c.id === id)
+      return charm && charm.sizeGroup === nextGroup ? id : null
+    }))
   }
 
   const clearSlot = (index: number) => {
@@ -331,7 +349,7 @@ export function ProductConfigurator () {
           <ConfigPanel
             collar={collar}
             collars={collars}
-            charms={charms}
+            charms={availableCharms}
             setCollar={handleSelectCollar}
             selectedCharms={selectedCharms}
             toggleCharm={toggleCharm}
@@ -359,7 +377,7 @@ export function ProductConfigurator () {
       {showUpsell && (
         <UpsellModal
           collar={collar}
-          charms={charms}
+          charms={availableCharms}
           onClose={handleUpsellClose}
           onAddCharms={handleAddCharms}
         />
