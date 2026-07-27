@@ -27,7 +27,7 @@ export function TopBar() {
   };
 
   return (
-    <div className="flex items-center justify-center gap-3 bg-sage px-4 py-2 text-center">
+    <div className="flex h-9 items-center justify-center gap-3 bg-sage px-4 text-center">
       <button
         type="button"
         aria-label="Ankstesnis šūkis"
@@ -37,7 +37,7 @@ export function TopBar() {
         <ChevronLeft className="size-3.5" />
       </button>
 
-      <p className="font-tomato text-sm font-medium tracking-[0.02em] text-interactive-text">
+      <p className="max-w-full overflow-hidden text-ellipsis whitespace-nowrap font-tomato text-sm font-medium tracking-[0.02em] text-interactive-text">
         {TAGLINE_SLIDES[taglineIndex]}
       </p>
 
