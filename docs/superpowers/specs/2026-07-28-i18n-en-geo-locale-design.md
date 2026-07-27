@@ -17,7 +17,10 @@ while still letting them switch manually.
 - Translated pages/components: `/` (landing) and all `src/components/landing/*`
   it renders, `/products`, `/configure`, plus shared chrome (`LandingNav`,
   `LandingFooter`, `CartDrawer`, `MiniCart`)
-- `src/lib/data.ts` — collar/charm names & descriptions gain an `en` counterpart
+- Live Shopify product/charm/leash names & descriptions get an English override
+  layer (see "Product & catalog data" below) — `src/lib/data.ts`'s own static
+  arrays (`REVIEWS`, `LANDING_REVIEWS`, `TICKER_ITEMS`, `SIZES`) move into the
+  message dictionaries instead, since they're prose, not structured data
 - SEO: `hreflang` alternates, `sitemap.ts` locale entries, locale-aware JSON-LD in
   server components
 
@@ -91,20 +94,35 @@ mechanics — only the locale-resolution policy above.
   convention of static, code-owned content (`docs/design.md`, `src/lib/data.ts`)
   rather than introducing an external content/translation service.
 
-### Product & charm data (`src/lib/data.ts`)
+### Product & catalog data
 
-- Existing shape (illustrative):
-  ```ts
-  { id: 'collar-blossom', name: 'Žydinti', description: '...' }
-  ```
-- New shape — localized fields become small objects keyed by locale:
-  ```ts
-  { id: 'collar-blossom', name: { lt: 'Žydinti', en: 'Blossom' }, description: { lt: '...', en: '...' } }
-  ```
-- A small helper (`getLocalized(field, locale)`) centralizes the lookup so
-  components don't repeat `field[locale]` everywhere and so a missing translation
-  falls back to `lt` rather than rendering `undefined`.
-- IDs, hex colors, prices, and other non-prose fields are untouched.
+Collar, leash, and charm names/descriptions are **not** static — they come live
+from Shopify via `src/lib/shopify.ts` (`COLLARS_QUERY`/`getCollars()`,
+`getCharms()`, `getLeashes()`) and are shaped into `ProductDetail` objects by
+`src/lib/catalog.ts`. The Shopify title/description/metafield values are
+Lithuanian.
+
+- New file `src/lib/productTranslations.ts` exports
+  `PRODUCT_TRANSLATIONS_EN: Record<string, { name?: string; shortDescription?: string; longDescription?: string }>`,
+  keyed by the same handle/id `catalog.ts` already uses (`slugFromProductName`,
+  `slugFromCharmId`, or the raw Shopify handle for leashes) — one entry per
+  collar, leash, and charm (~10 + ~25 entries).
+- `catalog.ts`'s product-shaping functions take the active `locale` and, when
+  `locale === 'en'`, overlay any present `PRODUCT_TRANSLATIONS_EN[handle]`
+  fields on top of the Shopify-sourced `ProductDetail`. Any field absent from
+  the override map falls back to the Lithuanian Shopify value — so a
+  half-translated catalog never renders `undefined`, it renders LT text for
+  the untranslated entries.
+- This mirrors the existing `CHARM_LETTER_COLOR_LT` /
+  `LEASH_COLOR_FEM_TO_MASC_LT` lookup-table pattern already in `shopify.ts`,
+  so it's consistent with how the codebase already handles Shopify-title
+  normalization — just a new table, not a new mechanism.
+- `src/lib/data.ts`'s own static prose arrays (`REVIEWS`, `LANDING_REVIEWS`,
+  `TICKER_ITEMS`, `SIZES` display strings) move into `src/messages/{lt,en}.json`
+  instead of gaining a parallel `en` field in place, since they're page copy,
+  not catalog data — this keeps one storage mechanism (JSON dictionaries) for
+  all non-Shopify prose. `CartItem`, `CHARM_POSITIONS`, and `FLOAT_DURATIONS`
+  (non-prose) are untouched.
 
 ### SEO
 
