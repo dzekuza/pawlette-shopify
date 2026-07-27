@@ -124,8 +124,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         {/*
           Consent Mode v2 defaults — must be pushed to dataLayer before GA4/GTM
-          boot below. This only sets consent state (all denied until the user
-          accepts); GoogleAnalytics calls gtag('consent','update', ...) on accept.
+          boot below. Granted everywhere by default; denied-until-accept is scoped
+          via `region` to the EEA + UK + Switzerland, where opt-in consent is legally
+          required. GoogleAnalytics calls gtag('consent','update', ...) on accept.
         */}
         <script
           dangerouslySetInnerHTML={{
@@ -133,11 +134,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('consent', 'default', {
+                ad_storage: 'granted',
+                analytics_storage: 'granted',
+                ad_user_data: 'granted',
+                ad_personalization: 'granted',
+              });
+              gtag('consent', 'default', {
                 ad_storage: 'denied',
                 analytics_storage: 'denied',
                 ad_user_data: 'denied',
                 ad_personalization: 'denied',
-                wait_for_update: 500
+                wait_for_update: 500,
+                region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
               });
             `,
           }}
