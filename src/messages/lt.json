@@ -153,6 +153,22 @@
       },
       "copyright": "© {year} PawCharms. Pagaminta su meile Lietuvoje.",
       "contactLine": "{email} · Vilnius, Lietuva"
+    },
+    "buySection": {
+      "defaultCollarName": "PawCharms antkaklis"
+    },
+    "newsletter": {
+      "eyebrow": "PawCharms naujienlaiškis",
+      "heading": "Gaukite 10% nuolaidą pirmam užsakymui",
+      "description": "Prisijunkite prie PawCharms bendruomenės — naujienos, stilingos idėjos ir išskirtiniai pasiūlymai.",
+      "emailPlaceholder": "Jūsų el. paštas",
+      "emailAriaLabel": "El. pašto adresas",
+      "submitting": "Siunčiama...",
+      "submit": "Prenumeruoti →",
+      "errorEmptyEmail": "Įveskite el. pašto adresą.",
+      "errorGeneric": "Nepavyko užregistruoti el. pašto.",
+      "successWithCode": "Ačiū. Jūsų 10% nuolaidos kodas: {code}",
+      "successNoCode": "Ačiū. Jūsų prenumerata patvirtinta."
     }
   }
 }

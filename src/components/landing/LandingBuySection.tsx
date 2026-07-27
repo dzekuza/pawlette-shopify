@@ -1,10 +1,12 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useCollarConfigurator } from '@/lib/useCollarConfigurator';
 import { Collar3DGalleryTile } from '@/components/products/Collar3DGalleryTile';
 import { CollarConfigurator } from '@/components/products/CollarConfigurator';
 
 export function LandingBuySection() {
+  const t = useTranslations('landing.buySection');
   const collarConfigurator = useCollarConfigurator();
   const { collar, selectedCollarCharms, setPreview3DOpen } = collarConfigurator;
 
@@ -34,7 +36,7 @@ export function LandingBuySection() {
           <div className="lg:col-span-5 font-sans bg-white p-6 md:p-10 rounded-[32px] shadow-[0_24px_48px_-32px_rgba(61,53,48,0.12)]">
             <CollarConfigurator
               configurator={collarConfigurator}
-              name={collar.parentTitle ?? 'PawCharms antkaklis'}
+              name={collar.parentTitle ?? t('defaultCollarName')}
               price={displayPrice}
               showTrustAndReviews={false}
               stepper

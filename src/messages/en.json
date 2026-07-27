@@ -153,6 +153,22 @@
       },
       "copyright": "© {year} PawCharms. Made with love in Lithuania.",
       "contactLine": "{email} · Vilnius, Lithuania"
+    },
+    "buySection": {
+      "defaultCollarName": "PawCharms collar"
+    },
+    "newsletter": {
+      "eyebrow": "PawCharms newsletter",
+      "heading": "Get 10% off your first order",
+      "description": "Join the PawCharms community — news, styling ideas, and exclusive offers.",
+      "emailPlaceholder": "Your email address",
+      "emailAriaLabel": "Email address",
+      "submitting": "Sending...",
+      "submit": "Subscribe →",
+      "errorEmptyEmail": "Enter your email address.",
+      "errorGeneric": "Couldn't sign up your email.",
+      "successWithCode": "Thank you. Your 10% discount code: {code}",
+      "successNoCode": "Thank you. Your subscription is confirmed."
     }
   }
 }

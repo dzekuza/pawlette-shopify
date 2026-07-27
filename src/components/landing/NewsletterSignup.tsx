@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface NewsletterResponse {
   code?: string;
@@ -8,6 +9,7 @@ interface NewsletterResponse {
 }
 
 export function NewsletterSignup() {
+  const t = useTranslations('landing.newsletter');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -18,7 +20,7 @@ export function NewsletterSignup() {
 
     if (!normalizedEmail) {
       setStatus('error');
-      setMessage('Įveskite el. pašto adresą.');
+      setMessage(t('errorEmptyEmail'));
       return;
     }
 
@@ -34,17 +36,17 @@ export function NewsletterSignup() {
       const data = await response.json() as NewsletterResponse;
 
       if (!response.ok) {
-        throw new Error(data.error || 'Nepavyko užregistruoti el. pašto.');
+        throw new Error(data.error || t('errorGeneric'));
       }
 
       setStatus('success');
       setMessage(data.code
-        ? `Ačiū. Jūsų 10% nuolaidos kodas: ${data.code}`
-        : 'Ačiū. Jūsų prenumerata patvirtinta.');
+        ? t('successWithCode', { code: data.code })
+        : t('successNoCode'));
       setEmail('');
     } catch (error) {
       setStatus('error');
-      setMessage(error instanceof Error ? error.message : 'Nepavyko užregistruoti el. pašto.');
+      setMessage(error instanceof Error ? error.message : t('errorGeneric'));
     }
   }
 
@@ -52,12 +54,12 @@ export function NewsletterSignup() {
     <section className="bg-white px-4 py-16 md:px-6 md:py-24">
       <div className="mx-auto max-w-[1200px] rounded-[32px] border border-sage/30 bg-[linear-gradient(135deg,rgba(168,213,162,0.18),rgba(184,216,244,0.22),rgba(244,181,192,0.14))] px-4 py-10 md:px-6 md:py-14">
         <div className="mx-auto max-w-[760px] text-center">
-          <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.12em] text-bark-muted">PawCharms naujienlaiškis</p>
+          <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.12em] text-bark-muted">{t('eyebrow')}</p>
           <h2 className="mb-3 font-display text-[clamp(30px,4vw,48px)] leading-[1.05] tracking-[0.02em] text-bark">
-            Gaukite 10% nuolaidą pirmam užsakymui
+            {t('heading')}
           </h2>
           <p className="mx-auto mb-6 max-w-[620px] text-[15px] leading-[1.7] text-bark-muted md:text-[16px]">
-            Prisijunkite prie PawCharms bendruomenės — naujienos, stilingos idėjos ir išskirtiniai pasiūlymai.
+            {t('description')}
           </p>
 
           <form onSubmit={handleSubmit} className="mx-auto flex max-w-[620px] flex-col gap-3 md:flex-row">
@@ -68,16 +70,16 @@ export function NewsletterSignup() {
               suppressHydrationWarning
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder="Jūsų el. paštas"
+              placeholder={t('emailPlaceholder')}
               className="min-h-[54px] flex-1 rounded-full border border-bark/10 bg-white/90 px-5 text-[15px] text-bark outline-none transition-colors placeholder:text-bark-muted focus:border-sage"
-              aria-label="El. pašto adresas"
+              aria-label={t('emailAriaLabel')}
             />
             <button
               type="submit"
               disabled={status === 'submitting'}
               className="min-h-[54px] rounded-full bg-sage px-7 text-[15px] font-medium text-interactive-text transition-colors hover:bg-sage-dark disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {status === 'submitting' ? 'Siunčiama...' : 'Prenumeruoti →'}
+              {status === 'submitting' ? t('submitting') : t('submit')}
             </button>
           </form>
 
