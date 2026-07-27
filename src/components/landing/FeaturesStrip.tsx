@@ -2,15 +2,21 @@
 
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 import { HARDWARE_COLOUR } from '@/lib/collar3d';
+
+function Collar3DLoading() {
+  const t = useTranslations('landing.featuresStrip');
+  return (
+    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>{t('loading3d')}</span>
+    </div>
+  );
+}
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
-  loading: () => (
-    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>Kraunama 3D peržiūra…</span>
-    </div>
-  ),
+  loading: () => <Collar3DLoading />,
 });
 
 const STICKERS = {
@@ -19,40 +25,24 @@ const STICKERS = {
   letterS: '/hero-figma/hero-sticker-s.png',
 };
 
-const FEATURES = [
-  {
-    iconSrc: '/icons/droplet.svg',
-    title: 'Atsparus vandeniui ir purvui',
-    desc: 'BioThane paviršius lieka švarus ir nekvepia net po aktyviausio pasivaikščiojimo.',
-  },
-  {
-    iconSrc: '/icons/timer.svg',
-    title: 'Pakabukus keiskite per 5 sek.',
-    desc: 'Tiesiog užmaukite ar numaukite pakabuką ir per akimirką pakeiskite antkaklio stilių.',
-  },
-  {
-    iconSrc: '/icons/paint-board.svg',
-    title: 'BioThane medžiaga, nedylanti spalva',
-    desc: 'Patvari, lengvai nuvaloma medžiaga, kuri nesudyla, nesitrina ir išlaiko ryškią spalvą metų metus.',
-  },
-  {
-    iconSrc: '/icons/hand.svg',
-    title: 'Rankų darbo Lietuvoje',
-    desc: 'Kiekvienas antkaklis surenkamas Lietuvoje, rankomis — su dėmesiu kokybei ir kiekvienai detalei.',
-  },
-  {
-    iconSrc: '/icons/resize.svg',
-    title: 'Reguliuojamas dydis šuniui augant',
-    desc: 'Vienas antkaklis tinka ilgai — lengvai reguliuojamas, kai jūsų šuo auga ar keičiasi jo svoris.',
-  },
-  {
-    iconSrc: '/icons/return.svg',
-    title: '30 dienų grąžinimo garantija',
-    desc: 'Jei antkaklis netiks — grąžinkite jį per 30 dienų, be jokių papildomų klausimų.',
-  },
+const FEATURE_ICONS = [
+  '/icons/droplet.svg',
+  '/icons/timer.svg',
+  '/icons/paint-board.svg',
+  '/icons/hand.svg',
+  '/icons/resize.svg',
+  '/icons/return.svg',
 ];
 
+interface FeatureItem {
+  title: string;
+  desc: string;
+}
+
 export function FeaturesStrip() {
+  const t = useTranslations('landing.featuresStrip');
+  const items = t.raw('items') as FeatureItem[];
+
   return (
     <section 
       className="relative overflow-hidden px-4 py-16 md:px-6 md:py-24"
@@ -107,10 +97,10 @@ export function FeaturesStrip() {
 
         {/* Bottom Features Grid */}
         <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-3 z-10">
-          {FEATURES.map((f) => (
+          {items.map((f, i) => (
             <div key={f.title} className="flex flex-col gap-3 font-sans">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/40 backdrop-blur-sm shadow-sm border border-white/20">
-                <Image src={f.iconSrc} alt="" aria-hidden="true" width={22} height={22} />
+                <Image src={FEATURE_ICONS[i]} alt="" aria-hidden="true" width={22} height={22} />
               </div>
               <h3 className="m-0 text-lg font-bold leading-tight text-bark tracking-tight">
                 {f.title}

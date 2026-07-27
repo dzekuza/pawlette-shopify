@@ -6,6 +6,35 @@
       "heading": "Collars that keep up with every adventure",
       "buyNow": "Buy now"
     },
+    "featuresStrip": {
+      "loading3d": "Loading 3D preview…",
+      "items": [
+        {
+          "title": "Waterproof and dirt-resistant",
+          "desc": "The BioThane surface stays clean and odor-free even after your most active walks."
+        },
+        {
+          "title": "Swap charms in 5 seconds",
+          "desc": "Just clip a charm on or off to instantly change your collar's style."
+        },
+        {
+          "title": "BioThane material, colour that never fades",
+          "desc": "A durable, easy-to-clean material that resists wear and tear and keeps its bright colour for years."
+        },
+        {
+          "title": "Handmade in Lithuania",
+          "desc": "Every collar is assembled by hand in Lithuania, with care for quality and every detail."
+        },
+        {
+          "title": "Adjustable size as your dog grows",
+          "desc": "One collar fits for the long haul — easily adjustable as your dog grows or their weight changes."
+        },
+        {
+          "title": "30-day return guarantee",
+          "desc": "If the collar isn't a fit, return it within 30 days, no questions asked."
+        }
+      ]
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% off your first order with code {discountCode}",
