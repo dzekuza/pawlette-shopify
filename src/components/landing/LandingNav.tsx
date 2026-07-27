@@ -8,6 +8,7 @@ import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
+import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 
 const NAV_LINKS = [
   { label: 'Antkakliai', href: '/products/pawcharms-antkaklis' },
@@ -81,6 +82,9 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
           {/* Right: cart + CTA */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Language switcher */}
+            <LanguageSwitcher />
+
             {/* Gift */}
             <button
               onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
@@ -214,15 +218,19 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: 12,
         }}>
           <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
-          <a
-            href="mailto:hello@pawscharm.com"
-            tabIndex={menuOpen ? 0 : -1}
-            style={{ fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
-          >
-            hello@pawscharm.com
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <LanguageSwitcher />
+            <a
+              href="mailto:hello@pawscharm.com"
+              tabIndex={menuOpen ? 0 : -1}
+              style={{ fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
+            >
+              hello@pawscharm.com
+            </a>
+          </div>
         </div>
       </div>
     </>
