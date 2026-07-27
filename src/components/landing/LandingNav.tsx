@@ -222,7 +222,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
         }}>
           <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>Pagaminta Vilniuje, Lietuvoje</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <LanguageSwitcher />
+            <LanguageSwitcher tabIndex={menuOpen ? 0 : -1} />
             <a
               href="mailto:hello@pawscharm.com"
               tabIndex={menuOpen ? 0 : -1}

@@ -5,7 +5,14 @@ import { useLocale } from 'next-intl';
 
 const LOCALE_LABEL: Record<string, string> = { lt: 'LT', en: 'EN' };
 
-export function LanguageSwitcher() {
+interface LanguageSwitcherProps {
+  /** Pass through when the switcher lives inside a hidden/offscreen container
+   * (e.g. the mobile menu overlay) so it stays out of the tab order while
+   * closed, matching the sibling links in that same block. */
+  tabIndex?: number;
+}
+
+export function LanguageSwitcher({ tabIndex }: LanguageSwitcherProps) {
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -30,6 +37,7 @@ export function LanguageSwitcher() {
       type="button"
       onClick={handleSwitch}
       aria-label={`Switch language to ${LOCALE_LABEL[nextLocale]}`}
+      tabIndex={tabIndex}
       className="text-sm font-medium text-bark-muted transition-colors hover:text-bark"
     >
       {LOCALE_LABEL[nextLocale]}
