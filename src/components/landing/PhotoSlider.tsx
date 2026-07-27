@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { Button } from '@/components/ui/button';
@@ -189,6 +190,8 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
 }
 
 function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, showInfo = true }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean; onEnded?: () => void; showInfo?: boolean }) {
+  const t = useTranslations('landing.photoSlider');
+
   return (
     <CarouselItem className="basis-auto shrink-0 grow-0" style={{ flex: '0 0 auto', width }}>
       <div className="flex flex-col gap-3" style={{ width }}>
@@ -202,7 +205,7 @@ function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, 
               <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
               <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
             </div>
-            <AddToCartButton variantId={product.variantId} label={`Pridėti ${product.name} į krepšelį`} />
+            <AddToCartButton variantId={product.variantId} label={t('addToCartAriaLabel', { name: product.name })} />
           </div>
         )}
       </div>
@@ -211,6 +214,7 @@ function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, 
 }
 
 export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
+  const t = useTranslations('landing.photoSlider');
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [promoProducts, setPromoProducts] = useState<PromoProduct[]>([]);
@@ -273,10 +277,10 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
         className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 pt-16 md:px-6 md:pt-24 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
       >
         <DisplayHeading as="h2" size="section" className="text-left text-bark" style={{ flex: '1 0 0' }}>
-          Jūsų spalvotos akimirkos.
+          {t('heading')}
         </DisplayHeading>
         <BodyCopy style={{ maxWidth: 434 }}>
-          Sukurtas kasdieniam komfortui, vandeniui atsparus silikonas.
+          {t('description')}
         </BodyCopy>
       </div>
       <div style={{ paddingTop: isMobile ? 32 : 40, paddingBottom: isMobile ? 48 : 64 }}>
@@ -300,7 +304,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       {!product && (
         <div className="flex flex-wrap justify-center gap-4 px-4 pb-16 md:px-6 md:pb-24">
           <Button asChild variant="pillOutline" size="pill">
-            <Link href="/products/charm-charms">Pirkti pakabukus</Link>
+            <Link href="/products/charm-charms">{t('shopCharmsCta')}</Link>
           </Button>
         </div>
       )}

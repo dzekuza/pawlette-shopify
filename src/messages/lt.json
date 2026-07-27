@@ -42,6 +42,58 @@
       "placeholderPrice": "Kaina: €25",
       "placeholderCta": "Apsipirkti"
     },
+    "photoSlider": {
+      "heading": "Jūsų spalvotos akimirkos.",
+      "description": "Sukurtas kasdieniam komfortui, vandeniui atsparus silikonas.",
+      "addToCartAriaLabel": "Pridėti {name} į krepšelį",
+      "shopCharmsCta": "Pirkti pakabukus"
+    },
+    "howItWorks": {
+      "heading": "Kas atsitiks po to kai įsigysi PawCharms?",
+      "dog1Alt": "Šuo su PawCharms antkakliu",
+      "dog2Alt": "Šuo su akiniais ir PawCharms antkakliu",
+      "timeline": [
+        {
+          "week": "Week 1",
+          "title": "Nebijosi vandens ir purvo",
+          "desc": "BioThane paviršius atlaiko lietų, balas ir purviną žolę — antkaklis lieka švarus po kiekvieno pasivaikščiojimo."
+        },
+        {
+          "week": "Week 4",
+          "title": "Būsi išskirtinis",
+          "desc": "Pakabukai keičiami per kelias sekundes — kiekvieną dieną galite sukurti naują stilių savo šuniui."
+        },
+        {
+          "week": "Week 8",
+          "title": "Turėsi ilgaamžišką pavadėlį, antkaklį bei charmsus",
+          "desc": "Medžiaga nesudyla ir neblunka — tas pats antkaklis liks kaip naujas dar ilgai po pirkimo."
+        }
+      ]
+    },
+    "faq": {
+      "heading": "Turite klausimų?",
+      "shopCta": "Apsipirkti",
+      "personalize": {
+        "question": "Kaip personalizuoti antkaklį?",
+        "answer": "Paspauskite ant pirmo laisvo langelio prie „1. Įrašykite raides\" ir tiesiog pradėkite rašyti klaviatūra — pasirinkta raidė iškart atsiras pasirinktame langelyje, o kitas langelis automatiškai taps aktyvus, kad galėtumėte rašyti toliau. Taip galite iš anksto peržiūrėti, kaip atrodys jūsų šuns vardas ar norimas užrašas ant antkaklio."
+      },
+      "editLetter": {
+        "question": "Kaip pakeisti raidę?",
+        "answer": "Paspauskite ant norimo langelio ir įrašykite naują raidę — ji pakeis ankstesnę."
+      },
+      "letterCount": {
+        "question": "Kiek raidžių galiu pridėti?",
+        "answer": "Galite užpildyti iki 6 langelių. 5 pakabukai yra įskaičiuoti į antkaklio kainą, o kiekvienas papildomas kainuos €3.99."
+      },
+      "color": {
+        "question": "Kaip pasirinkti spalvą?",
+        "answer": "Pažymėkite jau įrašytą raidę, ir vėliau apačioje pasirinkite norimą spalvą."
+      },
+      "size": {
+        "question": "Kaip pasirinkti tinkamą dydį?",
+        "answer": "Prie dydžio pasirinkimo paspauskite mygtuką „Kaip išmatuoti tinkamą dydį\"."
+      }
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% nuolaida pirmam užsakymui su kodu {discountCode}",

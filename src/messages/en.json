@@ -42,6 +42,58 @@
       "placeholderPrice": "Price: €25",
       "placeholderCta": "Shop now"
     },
+    "photoSlider": {
+      "heading": "Your colorful moments.",
+      "description": "Built for everyday comfort, waterproof silicone.",
+      "addToCartAriaLabel": "Add {name} to cart",
+      "shopCharmsCta": "Shop charms"
+    },
+    "howItWorks": {
+      "heading": "What happens after you get PawCharms?",
+      "dog1Alt": "Dog wearing a PawCharms collar",
+      "dog2Alt": "Dog with glasses wearing a PawCharms collar",
+      "timeline": [
+        {
+          "week": "Week 1",
+          "title": "No fear of water or mud",
+          "desc": "The BioThane surface handles rain, puddles, and muddy grass — the collar stays clean after every walk."
+        },
+        {
+          "week": "Week 4",
+          "title": "You'll stand out",
+          "desc": "Charms swap in seconds — create a new look for your dog every day."
+        },
+        {
+          "week": "Week 8",
+          "title": "You'll have a long-lasting collar, leash, and charms",
+          "desc": "The material doesn't wear down or fade — the same collar stays like new long after purchase."
+        }
+      ]
+    },
+    "faq": {
+      "heading": "Have questions?",
+      "shopCta": "Shop now",
+      "personalize": {
+        "question": "How do I personalize the collar?",
+        "answer": "Click the first empty slot next to \"1. Enter letters\" and just start typing on your keyboard — the chosen letter appears instantly in the selected slot, and the next slot automatically becomes active so you can keep typing. This lets you preview in advance how your dog's name or message will look on the collar."
+      },
+      "editLetter": {
+        "question": "How do I change a letter?",
+        "answer": "Click the slot you want to change and type a new letter — it will replace the previous one."
+      },
+      "letterCount": {
+        "question": "How many letters can I add?",
+        "answer": "You can fill up to 6 slots. 5 charms are included in the collar price, and each additional one costs €3.99."
+      },
+      "color": {
+        "question": "How do I choose a color?",
+        "answer": "Select an already-entered letter, then choose the color you want from the options below."
+      },
+      "size": {
+        "question": "How do I choose the right size?",
+        "answer": "Next to the size selection, click the \"How to measure the right size\" button."
+      }
+    },
     "topBar": {
       "slides": [
         "{discountPercent}% off your first order with code {discountCode}",
