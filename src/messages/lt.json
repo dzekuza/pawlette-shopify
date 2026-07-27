@@ -24,6 +24,41 @@
       "closeMenuAriaLabel": "Uždaryti meniu",
       "shopNow": "Pirkti dabar",
       "madeIn": "Pagaminta Vilniuje, Lietuvoje"
+    },
+    "footer": {
+      "logoAriaLabel": "PawCharms pagrindinis",
+      "tagline": "Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.",
+      "swapNote": "Pakabukai keičiami per 5 sekundes.",
+      "returnsBadge": "30 d. grąžinimas",
+      "columns": {
+        "store": {
+          "title": "Parduotuvė",
+          "links": {
+            "collarSets": "Antkaklių rinkiniai",
+            "charms": "Pakabukai",
+            "buildYourOwn": "Susikurk savo"
+          }
+        },
+        "support": {
+          "title": "Pagalba",
+          "links": {
+            "sizeGuide": "Dydžių gidas",
+            "siliconeVsNylon": "Silikonas ar nailonas",
+            "shipping": "Pristatymas",
+            "returns": "Grąžinimas"
+          }
+        },
+        "brand": {
+          "title": "PawCharms",
+          "links": {
+            "ourStory": "Mūsų istorija",
+            "faq": "DUK",
+            "contact": "Kontaktai"
+          }
+        }
+      },
+      "copyright": "© {year} PawCharms. Pagaminta su meile Lietuvoje.",
+      "contactLine": "{email} · Vilnius, Lietuva"
     }
   }
 }

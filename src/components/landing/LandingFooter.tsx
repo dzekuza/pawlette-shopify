@@ -2,41 +2,43 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { Eyebrow } from '@/components/storefront/Typography';
 import { FREE_SHIPPING_COPY } from '@/lib/site-config';
 
 const FOOTER_COLS = [
-  { title: 'Parduotuvė', links: [
-    { label: 'Antkaklių rinkiniai', href: '/products' },
-    { label: 'Pakabukai', href: '/products/charm-charms' },
-    { label: 'Susikurk savo', href: '/products' },
+  { key: 'store', links: [
+    { key: 'collarSets', href: '/products' },
+    { key: 'charms', href: '/products/charm-charms' },
+    { key: 'buildYourOwn', href: '/products' },
   ]},
-  { title: 'Pagalba', links: [
-    { label: 'Dydžių gidas', href: '/guide/how-to-measure-dog-collar' },
-    { label: 'Silikonas ar nailonas', href: '/guide/silicone-vs-nylon-dog-collars' },
-    { label: 'Pristatymas', href: '/faq#orders' },
-    { label: 'Grąžinimas', href: '/faq#orders' },
+  { key: 'support', links: [
+    { key: 'sizeGuide', href: '/guide/how-to-measure-dog-collar' },
+    { key: 'siliconeVsNylon', href: '/guide/silicone-vs-nylon-dog-collars' },
+    { key: 'shipping', href: '/faq#orders' },
+    { key: 'returns', href: '/faq#orders' },
   ]},
-  { title: 'PawCharms', links: [
-    { label: 'Mūsų istorija', href: '/#about' },
-    { label: 'DUK', href: '/faq#products' },
-    { label: 'Kontaktai', href: 'mailto:info@pawscharm.com' },
+  { key: 'brand', links: [
+    { key: 'ourStory', href: '/#about' },
+    { key: 'faq', href: '/faq#products' },
+    { key: 'contact', href: 'mailto:info@pawscharm.com' },
   ]},
-];
+] as const;
 
 export function LandingFooter() {
+  const t = useTranslations('landing.footer');
   return (
     <footer className="bg-surface-2 py-16 text-bark md:py-20">
       <div className="mx-auto max-w-[1200px] px-4 md:px-6">
         <div className="mb-10 grid gap-10 md:mb-14 md:grid-cols-2 md:gap-12 xl:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" aria-label="PawCharms pagrindinis" style={{ display: 'inline-flex', marginBottom: 16 }}>
+            <Link href="/" aria-label={t('logoAriaLabel')} style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block' }} />
             </Link>
-            <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.</p>
-            <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>Pakabukai keičiami per 5 sekundes.</div>
+            <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t('tagline')}</p>
+            <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>{t('swapNote')}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 18 }}>
-              {[FREE_SHIPPING_COPY, '30 d. grąžinimas'].map((item) => (
+              {[FREE_SHIPPING_COPY, t('returnsBadge')].map((item) => (
                 <span
                   key={item}
                   style={{
@@ -55,14 +57,14 @@ export function LandingFooter() {
           </div>
           <div className="grid grid-cols-2 gap-8 md:col-span-2 md:grid-cols-3 xl:col-span-3 xl:contents">
             {FOOTER_COLS.map((col, index) => (
-              <div key={col.title} className={index === FOOTER_COLS.length - 1 ? 'col-span-2 md:col-span-1' : ''}>
-                <Eyebrow className="mb-4">{col.title}</Eyebrow>
+              <div key={col.key} className={index === FOOTER_COLS.length - 1 ? 'col-span-2 md:col-span-1' : ''}>
+                <Eyebrow className="mb-4">{t(`columns.${col.key}.title`)}</Eyebrow>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
-                    <Link key={l.label} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
+                    <Link key={l.key} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
                       onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-bark)')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-bark-light)')}>
-                      {l.label}
+                      {t(`columns.${col.key}.links.${l.key}`)}
                     </Link>
                   ))}
                 </div>
@@ -71,8 +73,8 @@ export function LandingFooter() {
           </div>
         </div>
         <div className="flex flex-col gap-2 border-t border-border pt-6 text-[14px] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-4">
-          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>© {new Date().getFullYear()} PawCharms. Pagaminta su meile Lietuvoje.</div>
-          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>info@pawscharm.com · Vilnius, Lietuva</div>
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t('copyright', { year: new Date().getFullYear() })}</div>
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t('contactLine', { email: 'info@pawscharm.com' })}</div>
         </div>
       </div>
     </footer>

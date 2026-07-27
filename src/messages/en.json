@@ -24,6 +24,41 @@
       "closeMenuAriaLabel": "Close menu",
       "shopNow": "Shop now",
       "madeIn": "Made in Vilnius, Lithuania"
+    },
+    "footer": {
+      "logoAriaLabel": "PawCharms home",
+      "tagline": "Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.",
+      "swapNote": "Charms swap in 5 seconds.",
+      "returnsBadge": "30-day returns",
+      "columns": {
+        "store": {
+          "title": "Shop",
+          "links": {
+            "collarSets": "Collar sets",
+            "charms": "Charms",
+            "buildYourOwn": "Build your own"
+          }
+        },
+        "support": {
+          "title": "Support",
+          "links": {
+            "sizeGuide": "Size guide",
+            "siliconeVsNylon": "Silicone vs. nylon",
+            "shipping": "Shipping",
+            "returns": "Returns"
+          }
+        },
+        "brand": {
+          "title": "PawCharms",
+          "links": {
+            "ourStory": "Our story",
+            "faq": "FAQ",
+            "contact": "Contact"
+          }
+        }
+      },
+      "copyright": "© {year} PawCharms. Made with love in Lithuania.",
+      "contactLine": "{email} · Vilnius, Lithuania"
     }
   }
 }
