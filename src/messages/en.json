@@ -194,5 +194,43 @@
       "sentDescription": "Check your email — you'll find a 10% discount code valid on your first order.",
       "sentCta": "Shop now →"
     }
+  },
+  "shared": {
+    "cartDrawer": {
+      "dialogAriaLabel": "Cart",
+      "title": "Your cart",
+      "closeAriaLabel": "Close cart",
+      "emptyEyebrow": "Cart",
+      "emptyTitle": "Your cart is empty",
+      "emptyDescription": "Build a collar your dog will actually want to wear.",
+      "emptyActionLabel": "Build a collar",
+      "freeShippingPrefix": "You're",
+      "freeShippingSuffix": "away from free shipping",
+      "freeShippingUnlocked": "🎉 Free shipping on your order!",
+      "quantity": "Qty {count}",
+      "removeItemAriaLabel": "Remove item",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingFree": "Free",
+      "checkoutCta": "Continue to checkout · €{total}",
+      "viewFullCart": "View full cart →",
+      "secureCheckout": "Secure checkout"
+    },
+    "miniCart": {
+      "title": "Your cart",
+      "closeAriaLabel": "Close cart",
+      "freeShippingPrefix": "You're",
+      "freeShippingSuffix": "away from free shipping",
+      "freeShippingUnlocked": "🎉 Free shipping on your order!",
+      "empty": "Your cart is empty.",
+      "charmCount": "{count} charms",
+      "collarSet": "{name} set",
+      "removeItem": "Remove",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingFree": "Free",
+      "checkoutCta": "Checkout — €{total}",
+      "trustNote": "30-day returns · secure checkout"
+    }
   }
 }

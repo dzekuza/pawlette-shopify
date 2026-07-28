@@ -194,5 +194,43 @@
       "sentDescription": "Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.",
       "sentCta": "Pirkti dabar →"
     }
+  },
+  "shared": {
+    "cartDrawer": {
+      "dialogAriaLabel": "Krepšelis",
+      "title": "Jūsų krepšelis",
+      "closeAriaLabel": "Uždaryti krepšelį",
+      "emptyEyebrow": "Krepšelis",
+      "emptyTitle": "Jūsų krepšelis tuščias",
+      "emptyDescription": "Sukurkite antkaklį, kurį jūsų šuo tikrai norės nešioti.",
+      "emptyActionLabel": "Kurti antkaklį",
+      "freeShippingPrefix": "Iki nemokamo pristatymo trūksta",
+      "freeShippingSuffix": "",
+      "freeShippingUnlocked": "🎉 Nemokamas pristatymas jūsų užsakymui!",
+      "quantity": "Kiekis {count}",
+      "removeItemAriaLabel": "Pašalinti prekę",
+      "subtotal": "Tarpinė suma",
+      "shipping": "Pristatymas",
+      "shippingFree": "Nemokamai",
+      "checkoutCta": "Tęsti atsiskaitymą · €{total}",
+      "viewFullCart": "Peržiūrėti visą krepšelį →",
+      "secureCheckout": "Saugus atsiskaitymas"
+    },
+    "miniCart": {
+      "title": "Jūsų krepšelis",
+      "closeAriaLabel": "Uždaryti krepšelį",
+      "freeShippingPrefix": "Iki nemokamo pristatymo trūksta",
+      "freeShippingSuffix": "",
+      "freeShippingUnlocked": "🎉 Nemokamas pristatymas jūsų užsakymui!",
+      "empty": "Jūsų krepšelis tuščias.",
+      "charmCount": "{count} pakab.",
+      "collarSet": "{name} rinkinys",
+      "removeItem": "Pašalinti",
+      "subtotal": "Tarpinė suma",
+      "shipping": "Pristatymas",
+      "shippingFree": "Nemokamas",
+      "checkoutCta": "Apmokėti — €{total}",
+      "trustNote": "30 dienų grąžinimas · saugus atsiskaitymas"
+    }
   }
 }

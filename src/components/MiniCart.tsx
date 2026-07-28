@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { CartItem } from '@/lib/data';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { FREE_SHIPPING_THRESHOLD } from '@/lib/site-config';
@@ -15,6 +16,7 @@ interface MiniCartProps {
 const SHIPPING_COST = 4.9;
 
 export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProps) {
+  const t = useTranslations('shared.miniCart');
   const total = items.length * 28;
   const amountToFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
   const [isClosing, setIsClosing] = useState(false);
@@ -36,9 +38,10 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
         boxShadow: '-8px 0 40px rgba(0,0,0,0.2)',
       }}>
         <div style={{ padding: '24px 28px', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ fontSize: 18, fontWeight: 500, color: 'var(--color-bark)' }}>Jūsų krepšelis</div>
+          <div style={{ fontSize: 18, fontWeight: 500, color: 'var(--color-bark)' }}>{t('title')}</div>
           <button
             onClick={handleClose}
+            aria-label={t('closeAriaLabel')}
             onPointerDown={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(0.97)' }}
             onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
             onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
@@ -51,7 +54,7 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
             amountToFreeShipping > 0 ? (
               <div>
                 <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 8 }}>
-                  Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
+                  {t('freeShippingPrefix')} <strong>€{amountToFreeShipping.toFixed(2)}</strong>{t('freeShippingSuffix') && ` ${t('freeShippingSuffix')}`} 🚚
                 </div>
                 <div style={{ height: 6, borderRadius: 99, overflow: 'hidden', background: 'var(--color-bark)', opacity: 0.1 }}>
                   <div style={{ height: '100%', borderRadius: 99, background: 'var(--color-sage)', width: `${Math.min(100, (total / FREE_SHIPPING_THRESHOLD) * 100)}%`, transition: 'width 280ms ease-out' }} />
@@ -59,24 +62,24 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
               </div>
             ) : (
               <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-interactive-text)' }}>
-                🎉 Nemokamas pristatymas jūsų užsakymui!
+                {t('freeShippingUnlocked')}
               </div>
             )
           )}
           {items.length === 0 ? (
-            <div style={{ fontSize: 14, color: 'var(--color-bark-muted)', textAlign: 'center', paddingTop: 60 }}>Jūsų krepšelis tuščias.</div>
+            <div style={{ fontSize: 14, color: 'var(--color-bark-muted)', textAlign: 'center', paddingTop: 60 }}>{t('empty')}</div>
           ) : items.map((item, i) => (
             <div key={i} style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid var(--color-border)', display: 'flex', gap: 14, alignItems: 'center' }}>
               <div style={{ width: 60, height: 60, borderRadius: 12, background: item.collarBgTint || '#FAF0F5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0 }}>
                 <div style={{ height: 8, borderRadius: 4, width: 44, background: item.collarColor }} />
                 <div style={{ fontSize: 11, color: 'var(--color-bark-muted)' }}>
-                  {item.charmIds.filter(Boolean).length} pakab.
+                  {t('charmCount', { count: item.charmIds.filter(Boolean).length })}
                 </div>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>{item.collarName} rinkinys</div>
+                <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>{t('collarSet', { name: item.collarName })}</div>
                 <div style={{ fontSize: 12, color: 'var(--color-bark-muted)', marginTop: 2 }}>
-                  {item.size.split(' ')[0]} · {item.charmIds.filter(Boolean).length} pakab.{item.engraving ? ` · "${item.engraving}"` : ''}
+                  {item.size.split(' ')[0]} · {t('charmCount', { count: item.charmIds.filter(Boolean).length })}{item.engraving ? ` · "${item.engraving}"` : ''}
                 </div>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
@@ -87,7 +90,7 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
                   onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
                   onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
                   style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--color-bark-muted)', transition: 'transform 120ms ease-out' }}
-                >Pašalinti</button>
+                >{t('removeItem')}</button>
               </div>
             </div>
           ))}
@@ -95,13 +98,13 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
 
         <div style={{ padding: '20px 28px', borderTop: '1px solid var(--color-border)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-            <span style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>Tarpinė suma</span>
+            <span style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>{t('subtotal')}</span>
             <span style={{ fontSize: 14, color: 'var(--color-bark)', fontWeight: 500 }}>€{total}</span>
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 20 }}>
-            <span style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>Pristatymas</span>
+            <span style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>{t('shipping')}</span>
             <span style={{ fontSize: 14, color: total >= FREE_SHIPPING_THRESHOLD ? 'var(--color-sage)' : 'var(--color-bark)', fontWeight: 500 }}>
-              {total >= FREE_SHIPPING_THRESHOLD ? 'Nemokamas' : `€${SHIPPING_COST.toFixed(2)}`}
+              {total >= FREE_SHIPPING_THRESHOLD ? t('shippingFree') : `€${SHIPPING_COST.toFixed(2)}`}
             </span>
           </div>
           <button
@@ -111,9 +114,9 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
             onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
             style={{ width: '100%', fontSize: 15, fontWeight: 500, padding: '14px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-bark)', cursor: 'pointer', transition: 'transform 120ms ease-out' }}
           >
-            Apmokėti — €{(total >= FREE_SHIPPING_THRESHOLD ? total : total + SHIPPING_COST).toFixed(2)}
+            {t('checkoutCta', { total: (total >= FREE_SHIPPING_THRESHOLD ? total : total + SHIPPING_COST).toFixed(2) })}
           </button>
-          <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--color-bark-muted)', marginTop: 10 }}>30 dienų grąžinimas · saugus atsiskaitymas</div>
+          <div style={{ textAlign: 'center', fontSize: 12, color: 'var(--color-bark-muted)', marginTop: 10 }}>{t('trustNote')}</div>
         </div>
       </div>
     </>
