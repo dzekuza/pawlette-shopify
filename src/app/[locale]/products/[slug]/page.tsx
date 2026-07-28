@@ -19,7 +19,7 @@ interface ProductPageProps {
 
 export async function generateStaticParams () {
   const slugs = await getAllProductSlugs()
-  return slugs.map((slug) => ({ slug }))
+  return slugs.map(({ slug }) => ({ slug }))
 }
 
 export async function generateMetadata ({ params }: ProductPageProps): Promise<Metadata> {

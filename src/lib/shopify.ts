@@ -20,6 +20,7 @@ export interface ShopifyCollar {
   id: string;
   handle: string;
   title: string;
+  updatedAt: string;
   parentTitle: string;
   variantId: string;
   price: string;
@@ -56,6 +57,7 @@ export interface ShopifyCharm {
   id: string;
   handle: string;
   title: string;
+  updatedAt: string;
   baseTitle: string;
   variantId: string;
   price: string;
@@ -110,6 +112,7 @@ interface ShopifyProductNode {
   id: string;
   handle: string;
   title: string;
+  updatedAt: string;
   tags?: string[];
   featuredImage?: ShopifyImageNode;
   images?: {
@@ -187,6 +190,7 @@ const COLLARS_QUERY = `
           id
           handle
           title
+          updatedAt
           descriptionHtml
           tags
           featuredImage { url }
@@ -514,6 +518,7 @@ const CHARMS_QUERY = `
           id
           handle
           title
+          updatedAt
           descriptionHtml
           featuredImage { url }
           images(first: 250) {
@@ -661,6 +666,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               id: collarHandle,
               handle: collarHandle,
               title: collarTitle,
+              updatedAt: node.updatedAt,
               parentTitle: node.title,
               nodeHandle: node.handle,
               parentImage,
@@ -691,6 +697,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           id: node.handle,
           handle: node.handle,
           title: node.title,
+          updatedAt: node.updatedAt,
           parentTitle: node.title,
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€24.99',
@@ -806,6 +813,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
             id: handle,
             handle,
             title,
+            updatedAt: productNode.updatedAt,
             baseTitle,
             variantId: variant.id ?? '',
             price: formatEuroPrice(variant.price?.amount, '€4'),
@@ -864,6 +872,7 @@ const LEASHES_QUERY = `
           id
           handle
           title
+          updatedAt
           tags
           featuredImage { url }
           images(first: 10) { edges { node { url } } }
@@ -985,6 +994,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
               id: leashHandle,
               handle: leashHandle,
               title: `${colorName} Leash`,
+              updatedAt: node.updatedAt,
               parentTitle: node.title,
               nodeHandle: node.handle,
               variantId: firstColorVariant?.id ?? '',
@@ -1010,6 +1020,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           id: node.handle,
           handle: node.handle,
           title: node.title,
+          updatedAt: node.updatedAt,
           parentTitle: node.title,
           nodeHandle: node.handle,
           variantId: firstVariant?.id ?? '',

@@ -355,20 +355,45 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
   return PRODUCT_CATALOG.find((product) => product.slug === slug)
 }
 
-export async function getAllProductSlugs (): Promise<string[]> {
+export interface ProductSlugEntry {
+  slug: string
+  updatedAt: string
+}
+
+export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
   const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
 
-  const slugs = [
-    ...collars.map((collar) => collar.nodeHandle).filter(isNonEmptyString),
-    ...collars.map((collar) => collar.handle || slugFromProductName(collar.title)),
-    'charm-charms',
-    'pawcharms-pakabuciai',
-    ...charms.map((charm) => slugFromCharmId(charm.id)),
-    ...leashes.map((leash) => leash.nodeHandle).filter(isNonEmptyString),
-    ...leashes.map((leash) => leash.handle),
-  ]
+  // Preserves the original insertion order (Map.set on an existing key doesn't move it)
+  // while keeping each slug's most recently updated timestamp when multiple sources map to it.
+  const entries = new Map<string, string>()
+  const add = (slug: string | undefined, updatedAt: string | undefined) => {
+    if (!isNonEmptyString(slug)) return
+    const existing = entries.get(slug)
+    if (!existing || (updatedAt && new Date(updatedAt) > new Date(existing))) {
+      entries.set(slug, updatedAt || existing || '')
+    }
+  }
 
-  return Array.from(new Set(slugs))
+  collars.forEach((collar) => {
+    add(collar.nodeHandle, collar.updatedAt)
+    add(collar.handle || slugFromProductName(collar.title), collar.updatedAt)
+  })
+
+  // 'charm-charms' / 'pawcharms-pakabuciai' are collection-style pages spanning every charm
+  // product, so their freshness is the most recently updated charm among them.
+  const latestCharmUpdate = charms.reduce<string>((latest, charm) => (
+    !latest || new Date(charm.updatedAt) > new Date(latest) ? charm.updatedAt : latest
+  ), '')
+  add('charm-charms', latestCharmUpdate)
+  add('pawcharms-pakabuciai', latestCharmUpdate)
+  charms.forEach((charm) => add(slugFromCharmId(charm.id), charm.updatedAt))
+
+  leashes.forEach((leash) => {
+    add(leash.nodeHandle, leash.updatedAt)
+    add(leash.handle, leash.updatedAt)
+  })
+
+  return Array.from(entries.entries()).map(([slug, updatedAt]) => ({ slug, updatedAt }))
 }
 
 export async function getProductBySlugAsync (slug: string, locale: string = 'lt'): Promise<ProductDetail | undefined> {
