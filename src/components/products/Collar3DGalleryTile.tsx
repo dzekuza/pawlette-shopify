@@ -18,7 +18,8 @@ const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'
 type Collar3DGalleryTileProps = {
   collar: ShopifyCollar | null
   selectedCharms?: (ShopifyCharm | null)[]
-  onEdit: () => void
+  /** Omit to render a static (non-clickable) preview, e.g. when a configurator is already visible alongside it. */
+  onEdit?: () => void
   /** 'grid' (default) sizes itself for the desktop 2x2 image grid. 'slide' fills a mobile gallery slide instead. */
   variant?: 'grid' | 'slide'
   background?: string
@@ -31,9 +32,9 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
   return (
     <div
       onClick={onEdit}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEdit() } }}
+      role={onEdit ? 'button' : undefined}
+      tabIndex={onEdit ? 0 : undefined}
+      onKeyDown={onEdit ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onEdit() } } : undefined}
       style={variant === 'grid'
         ? {
           gridColumn: 'span 2',
@@ -43,7 +44,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           overflow: 'hidden',
           position: 'relative',
           background: background || 'var(--color-surface-2)',
-          cursor: 'pointer',
+          cursor: onEdit ? 'pointer' : 'default',
         }
         : {
           flexShrink: 0,
@@ -53,7 +54,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
           overflow: 'hidden',
           position: 'relative',
           background: background || 'transparent',
-          cursor: 'pointer',
+          cursor: onEdit ? 'pointer' : 'default',
         }}
     >
       <Collar3DScene

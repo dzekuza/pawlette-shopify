@@ -33,8 +33,15 @@ function hasConsent (): boolean {
   return typeof window !== 'undefined' && localStorage.getItem(COOKIE_CONSENT_KEY) === 'granted'
 }
 
+// CHECKOUT_DOMAIN's CORS allowlist only trusts the live storefront origin, so this
+// fetch always fails with "Failed to fetch" from localhost/preview — skip it there
+// instead of surfacing that as console noise on every dev page load.
+function isTrackableEnvironment (): boolean {
+  return typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+}
+
 export async function trackShopifyPageView (): Promise<void> {
-  if (!hasConsent()) return
+  if (!hasConsent() || !isTrackableEnvironment()) return
   const shopId = await getShopId()
   await sendShopifyAnalytics({
     eventName: AnalyticsEventName.PAGE_VIEW,
@@ -52,7 +59,7 @@ export async function trackShopifyAddToCart (
   cart: ShopifyCart,
   addedLines: { merchandiseId: string; quantity: number }[],
 ): Promise<void> {
-  if (!hasConsent()) return
+  if (!hasConsent() || !isTrackableEnvironment()) return
   const shopId = await getShopId()
   const addedIds = addedLines.map((l) => l.merchandiseId)
   const totalValue = cart.lines

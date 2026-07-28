@@ -8,7 +8,7 @@ import { CollarConfigurator } from '@/components/products/CollarConfigurator';
 export function LandingBuySection() {
   const t = useTranslations('landing.buySection');
   const collarConfigurator = useCollarConfigurator();
-  const { collar, selectedCollarCharms, setPreview3DOpen } = collarConfigurator;
+  const { collar, selectedCollarCharms } = collarConfigurator;
 
   if (!collar) return null;
 
@@ -25,7 +25,6 @@ export function LandingBuySection() {
               <Collar3DGalleryTile
                 collar={collar}
                 selectedCharms={selectedCollarCharms}
-                onEdit={() => setPreview3DOpen(true)}
                 variant="slide"
                 background="transparent"
               />

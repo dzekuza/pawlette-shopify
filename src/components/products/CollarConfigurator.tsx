@@ -16,7 +16,6 @@ import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/Testi
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 import { CartToast } from '@/components/shared/CartToast'
 import { Badge } from '@/components/ui/badge'
-import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import {
   MAX_CHARMS,
@@ -342,12 +341,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
         <ProductPrice
           currentPrice={price}
           originalPrice={collar?.originalPrice}
-          note={FREE_SHIPPING_COPY}
           size='detail'
         />
-        <p style={{ margin: '4px 0 0', fontSize: 12, fontWeight: 500, color: TEXT_MUTED }}>
-          Galutinė kaina skaičiuojama atsiskaitant
-        </p>
       </div>
 
       {/* Video circles */}
@@ -451,9 +446,6 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
               })}
             </div>
             <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <p style={{ margin: 0, fontSize: 13, lineHeight: 1.5, color: TEXT_SECONDARY }}>
-                Prieš užsakydami išmatuokite šuns kaklą. Jei esate tarp dydžių, prieš atsiskaitydami pasitikrinkite dydžių gidą.
-              </p>
               <button
                 type="button"
                 onClick={() => setFitGuideOpen(true)}
@@ -479,16 +471,16 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           return (
             <>
               {hasColors && (<>{colorStepBody}</>)}
-              {showCharms && charmsStepBody}
               {hasSizes && (<>{sizeStepBody}</>)}
+              {showCharms && charmsStepBody}
             </>
           )
         }
 
         const steps: Array<{ key: string; title: string; body: React.ReactNode; summary: React.ReactNode }> = []
         if (hasColors) steps.push({ key: 'color', title: 'Pasirinkite spalvą', body: colorStepBody, summary: selectedColor ? translateColorLabel(selectedColor) : null })
-        if (showCharms) steps.push({ key: 'charms', title: 'Papuoškite savo antkaklį', body: charmsStepBody, summary: selectedCollarCharmCount > 0 ? `${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ai' : 'as'}` : 'Praleista' })
         if (hasSizes) steps.push({ key: 'size', title: 'Dydis', body: sizeStepBody, summary: selectedSize || null })
+        if (showCharms) steps.push({ key: 'charms', title: 'Papuoškite savo antkaklį', body: charmsStepBody, summary: selectedCollarCharmCount > 0 ? `${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ai' : 'as'}` : 'Praleista' })
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

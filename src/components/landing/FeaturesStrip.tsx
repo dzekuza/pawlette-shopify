@@ -102,9 +102,9 @@ export function FeaturesStrip() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/40 backdrop-blur-sm shadow-sm border border-white/20">
                 <Image src={FEATURE_ICONS[i]} alt="" aria-hidden="true" width={22} height={22} />
               </div>
-              <h3 className="m-0 text-lg font-bold leading-tight text-bark tracking-tight">
+              <p className="m-0 text-lg font-bold leading-tight text-bark tracking-tight">
                 {f.title}
-              </h3>
+              </p>
               <p className="m-0 text-sm leading-relaxed text-bark-light">
                 {f.desc}
               </p>

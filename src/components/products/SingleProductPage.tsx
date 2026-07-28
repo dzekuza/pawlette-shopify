@@ -148,7 +148,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
     matchSlug: product.slug,
     accentColor: product.accentColor,
   })
-  const { collar, charms, mounted, selectedCollarCharms, selectedVariantImage, setPreview3DOpen } = collarConfigurator
+  const { collar, charms, mounted, selectedCollarCharms, selectedVariantImage } = collarConfigurator
 
   // ── Charm page state ──
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>(Array(MAX_CHARMS).fill(null))
@@ -362,7 +362,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                         <Collar3DGalleryTile
                           collar={collar}
                           selectedCharms={selectedCollarCharms}
-                          onEdit={() => setPreview3DOpen(true)}
                           variant="slide"
                         />
                       )}
@@ -571,7 +570,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                 <Collar3DGalleryTile
                   collar={collar}
                   selectedCharms={selectedCollarCharms}
-                  onEdit={() => setPreview3DOpen(true)}
                   variant='slide'
                 />
               ) : gallery[0] ? (
@@ -600,7 +598,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
               <Collar3DGalleryTile
                 collar={collar}
                 selectedCharms={selectedCollarCharms}
-                onEdit={() => setPreview3DOpen(true)}
               />
             )}
             {gallery.map((src, i) => (
