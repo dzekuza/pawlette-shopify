@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import type { ShopifyCollar } from '@/lib/shopify'
 
 interface ColourStepProps {
@@ -21,6 +22,8 @@ export function ColourStep ({
   textPrimary,
   textSecondary
 }: ColourStepProps) {
+  const t = useTranslations('configure.colourStep')
+
   return (
     <div>
       <div
@@ -33,7 +36,7 @@ export function ColourStep ({
           marginBottom: 14
         }}
       >
-        Select colour —{' '}
+        {t('title')}{' '}
         <span
           style={{
             textTransform: 'none',

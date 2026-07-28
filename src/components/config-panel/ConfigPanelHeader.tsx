@@ -1,3 +1,5 @@
+import { useTranslations } from 'next-intl'
+
 interface ConfigPanelHeaderProps {
   isMobile: boolean
   textMuted: string
@@ -9,6 +11,8 @@ export function ConfigPanelHeader ({
   textMuted,
   textPrimary
 }: ConfigPanelHeaderProps) {
+  const t = useTranslations('configure.configPanelHeader')
+
   return (
     <div style={{ marginBottom: 12 }}>
       <div
@@ -21,7 +25,7 @@ export function ConfigPanelHeader ({
           marginBottom: 6
         }}
       >
-        Antkaklio rinkinys
+        {t('eyebrow')}
       </div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <h1
@@ -34,7 +38,7 @@ export function ConfigPanelHeader ({
             lineHeight: 1.15
           }}
         >
-          Susikurkite antkaklį
+          {t('title')}
         </h1>
         <span style={{ fontSize: 20, fontWeight: 500, color: textPrimary }}>€28</span>
       </div>

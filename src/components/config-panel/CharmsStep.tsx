@@ -2,15 +2,10 @@
 
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import type { ShopifyCharm } from '@/lib/shopify'
 
 type CharmTab = 'all' | 'letter' | 'icon'
-
-const TABS: Array<{ id: CharmTab, label: string }> = [
-  { id: 'all', label: 'All' },
-  { id: 'letter', label: 'Letters' },
-  { id: 'icon', label: 'Icons' }
-]
 
 interface CharmsStepProps {
   borderColor: string
@@ -33,9 +28,16 @@ export function CharmsStep ({
   textSecondary,
   toggleCharm
 }: CharmsStepProps) {
+  const t = useTranslations('configure.charmsStep')
   const [query, setQuery] = useState('')
   const [tab, setTab] = useState<CharmTab>('all')
   const selectedCount = selectedCharms.filter(Boolean).length
+
+  const TABS: Array<{ id: CharmTab, label: string }> = [
+    { id: 'all', label: t('tabAll') },
+    { id: 'letter', label: t('tabLetters') },
+    { id: 'icon', label: t('tabIcons') }
+  ]
 
   const filtered = useMemo(() => {
     let list = tab === 'all' ? [...charms] : charms.filter((charm) => charm.category === tab)
@@ -59,12 +61,12 @@ export function CharmsStep ({
             color: textMuted
           }}
         >
-          Choose charms
+          {t('title')}
         </div>
         <div style={{ fontSize: 12, fontWeight: 400, color: textSecondary }}>
           {selectedCount > 0
-            ? `${selectedCount} selected`
-            : <span style={{ color: textMuted, fontStyle: 'italic' }}>optional</span>}
+            ? t('selectedCount', { count: selectedCount })
+            : <span style={{ color: textMuted, fontStyle: 'italic' }}>{t('optional')}</span>}
         </div>
       </div>
 
@@ -99,7 +101,7 @@ export function CharmsStep ({
         type='search'
         value={query}
         onChange={(event) => setQuery(event.target.value)}
-        placeholder='Search charms…'
+        placeholder={t('searchPlaceholder')}
         style={{
           width: '100%',
           boxSizing: 'border-box',
@@ -185,7 +187,7 @@ export function CharmsStep ({
                 color: textMuted
               }}
             >
-              Pakabukų nerasta
+              {t('noResults')}
             </div>
           )}
         </div>

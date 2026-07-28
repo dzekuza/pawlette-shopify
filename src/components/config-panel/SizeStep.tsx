@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { SIZES } from '@/lib/data'
 
 interface SizeStepProps {
@@ -21,7 +22,14 @@ export function SizeStep ({
   textMuted,
   textPrimary
 }: SizeStepProps) {
+  const t = useTranslations('configure.sizeStep')
   const options: string[] = sizes && sizes.length > 0 ? sizes : (SIZES as unknown as string[])
+
+  // Translated {code, range} pairs for the SIZES fallback (e.g. "S" -> "28–36 cm").
+  // The dash-combined SIZES strings themselves are left untouched in src/lib/data.ts
+  // since they're also used as-is for size matching/state elsewhere (ProductConfigurator).
+  const translatedSizes = t.raw('sizes') as Array<{ code: string, range: string }>
+  const rangeByCode = new Map(translatedSizes.map((entry) => [entry.code, entry.range]))
 
   return (
     <div>
@@ -35,7 +43,7 @@ export function SizeStep ({
           marginBottom: 14
         }}
       >
-        Select size
+        {t('title')}
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(options.length, 4)}, 1fr)`, gap: 8 }}>
         {options.map((option) => (
@@ -78,13 +86,13 @@ export function SizeStep ({
                   : textMuted
               }}
             >
-              {option.split(' — ')[1]}
+              {rangeByCode.get(option.split(' — ')[0]) ?? option.split(' — ')[1]}
             </span>
           </button>
         ))}
       </div>
       <div style={{ marginTop: 10, fontSize: 12, color: 'var(--color-sage)', cursor: 'pointer' }}>
-        Sizing guide →
+        {t('sizingGuide')}
       </div>
     </div>
   )

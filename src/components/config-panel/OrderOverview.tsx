@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import type { ShopifyCollar } from '@/lib/shopify'
 
 interface OrderOverviewProps {
@@ -21,6 +22,7 @@ export function OrderOverview ({
   textPrimary,
   textSecondary
 }: OrderOverviewProps) {
+  const t = useTranslations('configure.orderOverview')
   const selectedCharmCount = selectedCharms.filter(Boolean).length
 
   return (
@@ -46,7 +48,7 @@ export function OrderOverview ({
           color: textMuted
         }}
       >
-        Užsakymo suvestinė
+        {t('title')}
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
@@ -60,20 +62,20 @@ export function OrderOverview ({
               display: 'inline-block'
             }}
           />
-          Antkaklis
+          {t('collarLabel')}
         </span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>{collar?.title ?? ''}</span>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
-        <span>Pakabukai</span>
+        <span>{t('charmsLabel')}</span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>
-          {selectedCharmCount} pakab.
+          {t('charmsCount', { count: selectedCharmCount })}
         </span>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 12, color: textSecondary }}>
-        <span>Dydis</span>
+        <span>{t('sizeLabel')}</span>
         <span style={{ color: textPrimary, fontWeight: 500 }}>
           {size ? size.split(' — ')[0] : '—'}
         </span>
@@ -91,7 +93,7 @@ export function OrderOverview ({
           color: textPrimary
         }}
       >
-        <span>Iš viso</span>
+        <span>{t('total')}</span>
         <span>€28</span>
       </div>
     </div>

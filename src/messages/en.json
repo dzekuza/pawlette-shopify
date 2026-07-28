@@ -39,7 +39,12 @@
         "headingLine1": "Waterproof.",
         "headingLine2": "No odour. No stains.",
         "description": "TPU-coated nylon that shrugs off lakes, mud, and rain. Just wipe it down with a damp cloth and it looks new again.",
-        "tags": ["Lakes", "Mud", "Rain", "Snow"]
+        "tags": [
+          "Lakes",
+          "Mud",
+          "Rain",
+          "Snow"
+        ]
       },
       "origin": {
         "label": "Origin",
@@ -64,6 +69,60 @@
       "noThanks": "No, thanks",
       "addCharmsButton": "Add {count} charms — +€{amount}",
       "goToCartButton": "Go to cart →"
+    },
+    "charmsStep": {
+      "title": "Choose charms",
+      "optional": "optional",
+      "selectedCount": "{count} selected",
+      "tabAll": "All",
+      "tabLetters": "Letters",
+      "tabIcons": "Icons",
+      "searchPlaceholder": "Search charms…",
+      "noResults": "No charms found"
+    },
+    "colourStep": {
+      "title": "Select colour —"
+    },
+    "configPanelFeatures": {
+      "waterproof": "Waterproof",
+      "easyToUse": "Easy to use",
+      "ecoFriendly": "Eco-friendly",
+      "freeReturns": "Free returns"
+    },
+    "configPanelHeader": {
+      "eyebrow": "Collar set",
+      "title": "Build your collar"
+    },
+    "stepTabs": {
+      "colour": "Colour",
+      "charms": "Charms",
+      "size": "Size"
+    },
+    "orderOverview": {
+      "title": "Order summary",
+      "collarLabel": "Collar",
+      "charmsLabel": "Charms",
+      "charmsCount": "{count} charms",
+      "sizeLabel": "Size",
+      "total": "Total"
+    },
+    "sizeStep": {
+      "title": "Select size",
+      "sizingGuide": "Sizing guide →",
+      "sizes": [
+        {
+          "code": "S",
+          "range": "28–36 cm"
+        },
+        {
+          "code": "M",
+          "range": "36–44 cm"
+        },
+        {
+          "code": "L",
+          "range": "44–52 cm"
+        }
+      ]
     }
   },
   "landing": {

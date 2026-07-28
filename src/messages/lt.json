@@ -39,7 +39,12 @@
         "headingLine1": "Atsparūs vandeniui.",
         "headingLine2": "Be kvapo. Be dėmių.",
         "description": "TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.",
-        "tags": ["Ežerai", "Purvas", "Lietus", "Sniegas"]
+        "tags": [
+          "Ežerai",
+          "Purvas",
+          "Lietus",
+          "Sniegas"
+        ]
       },
       "origin": {
         "label": "Kilmė",
@@ -64,6 +69,60 @@
       "noThanks": "Ne, ačiū",
       "addCharmsButton": "Pridėti {count} pakab. — +€{amount}",
       "goToCartButton": "Eiti į krepšelį →"
+    },
+    "charmsStep": {
+      "title": "Choose charms",
+      "optional": "optional",
+      "selectedCount": "{count} selected",
+      "tabAll": "All",
+      "tabLetters": "Letters",
+      "tabIcons": "Icons",
+      "searchPlaceholder": "Search charms…",
+      "noResults": "Pakabukų nerasta"
+    },
+    "colourStep": {
+      "title": "Select colour —"
+    },
+    "configPanelFeatures": {
+      "waterproof": "Atsparu vandeniui",
+      "easyToUse": "Paprasta naudoti",
+      "ecoFriendly": "Draugiška aplinkai",
+      "freeReturns": "Nemokamas grąžinimas"
+    },
+    "configPanelHeader": {
+      "eyebrow": "Antkaklio rinkinys",
+      "title": "Susikurkite antkaklį"
+    },
+    "stepTabs": {
+      "colour": "Spalva",
+      "charms": "Pakabukai",
+      "size": "Dydis"
+    },
+    "orderOverview": {
+      "title": "Užsakymo suvestinė",
+      "collarLabel": "Antkaklis",
+      "charmsLabel": "Pakabukai",
+      "charmsCount": "{count} pakab.",
+      "sizeLabel": "Dydis",
+      "total": "Iš viso"
+    },
+    "sizeStep": {
+      "title": "Select size",
+      "sizingGuide": "Sizing guide →",
+      "sizes": [
+        {
+          "code": "S",
+          "range": "28–36 cm"
+        },
+        {
+          "code": "M",
+          "range": "36–44 cm"
+        },
+        {
+          "code": "L",
+          "range": "44–52 cm"
+        }
+      ]
     }
   },
   "landing": {

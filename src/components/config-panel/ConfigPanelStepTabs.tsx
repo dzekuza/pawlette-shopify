@@ -1,4 +1,4 @@
-const STEPS = ['Spalva', 'Pakabukai', 'Dydis'] as const
+import { useTranslations } from 'next-intl'
 
 interface ConfigPanelStepTabsProps {
   isDark: boolean
@@ -15,6 +15,9 @@ export function ConfigPanelStepTabs ({
   textMuted,
   textPrimary
 }: ConfigPanelStepTabsProps) {
+  const t = useTranslations('configure.stepTabs')
+  const STEPS = [t('colour'), t('charms'), t('size')] as const
+
   return (
     <div style={{ display: 'flex', gap: 4, marginBottom: 20 }}>
       {STEPS.map((label, index) => {
