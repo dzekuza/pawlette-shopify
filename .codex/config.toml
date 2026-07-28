@@ -1,0 +1,8 @@
+[mcp_servers.facebook-ads]
+url = "https://mcp.facebook.com/ads"
+
+[mcp_servers.shopify-storefront]
+url = "https://pawcharms-2.myshopify.com/api/mcp"
+
+[mcp_servers.shopify-storefront-ucp]
+url = "https://pawcharms-2.myshopify.com/api/ucp/mcp"

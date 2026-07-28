@@ -5,7 +5,7 @@ import { ContactShadows, Environment, OrbitControls, useAnimations, useGLTF } fr
 import { Suspense, useEffect, useMemo, useRef } from 'react';
 import { Color, Mesh, MeshPhysicalMaterial, MeshStandardMaterial, type Group } from 'three';
 import Link from 'next/link';
-import { DisplayHeading } from '@/components/storefront/Typography';
+import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 import { useCartCount } from '@/hooks/useCartCount';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 import { BIOTHANE_MATERIAL_PROPS } from '@/lib/biothaneMaterial';
@@ -150,19 +150,26 @@ export function Hero3DFloat({ className }: Hero3DFloatProps) {
           </div>
         </div>
 
-        {/* Headline, overlaid on the sky */}
-        <div className="relative z-10 flex flex-col items-center gap-4 px-6 pt-6 text-center md:px-10 md:pt-8">
+        {/* Headline + CTA, overlaid on the sky, pulled up toward the nav */}
+        <div className="relative z-10 flex flex-col items-center gap-3 px-6 pt-2 text-center md:px-10 md:pt-3">
+          <Eyebrow className="text-sage drop-shadow-sm">Šunų antkakliai su vardu</Eyebrow>
           <DisplayHeading
             as="h1"
             size="floatingHero"
-            className="mx-auto max-w-[900px] font-normal leading-[1.2] tracking-[0.02em] text-white drop-shadow-md"
+            className="mx-auto max-w-[900px] font-normal leading-[1.2] tracking-[0.02em] text-bark"
           >
             Antkakliai, kurie pritampa prie kiekvieno nuotykio
           </DisplayHeading>
+          <Link
+            href="/products"
+            className="mt-2 whitespace-nowrap rounded-full bg-white px-8 py-3 text-sm font-medium text-bark no-underline shadow-sm"
+          >
+            Pirkti dabar
+          </Link>
         </div>
 
-        {/* Floating collar */}
-        <div className="relative h-[300px] pb-6 md:h-[420px] md:pb-10 lg:h-[500px]">
+        {/* Floating collar, pushed down to leave room for the headline above */}
+        <div className="relative mt-6 h-[300px] pb-6 md:mt-10 md:h-[420px] md:pb-10 lg:mt-16 lg:h-[500px]">
           <Canvas
             shadows="soft"
             camera={{ position: [0, 2.25, -5.5], fov: 32 }}
