@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -48,8 +49,8 @@ import {
   translateColorLabel,
   PDP_REVIEW_RATING,
   PDP_REVIEW_COUNT,
-  PDP_TRUST_POINTS,
-  PDP_REVIEWS,
+  getPdpTrustPoints,
+  getPdpReviews,
 } from '@/components/products/pdpConstants'
 
 // Re-exported so existing imports from this file (CharmBuilderPanel.tsx, CharmDecoratorPanel.tsx,
@@ -64,8 +65,8 @@ export {
   translateColorLabel,
   PDP_REVIEW_RATING,
   PDP_REVIEW_COUNT,
-  PDP_TRUST_POINTS,
-  PDP_REVIEWS,
+  getPdpTrustPoints,
+  getPdpReviews,
 }
 
 const COLLAR_GALLERY: Record<string, string[]> = {
@@ -115,11 +116,6 @@ function getCharmGallerySurface () {
 // the collar configurator has its own copy of this same mapping internally (useCollarConfigurator.ts).
 const COLOR_BG_MAP: Record<string, string> = { blue: '#B8D8F4', 'sky blue': '#B8D8F4', 'dark blue': '#6B9FD4', green: '#A8D5A2', red: '#F4B5C0', pink: '#F4B5C0', yellow: '#F9E4A0', purple: '#D4B8F4' }
 
-const DEFAULT_CHARM_ACCORDION = [
-  { id: 'description', title: 'Aprašymas', content: 'Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.' },
-  { id: 'shipping', title: 'Pristatymas ir grąžinimas', content: 'Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės' },
-]
-
 interface Props {
   product: ProductDetail
   /** 'split' renders the alternate two-column desktop hero: a viewport-height sticky 3D/media stage on the left and an independently scrollable detail panel on the right. */
@@ -127,6 +123,7 @@ interface Props {
 }
 
 export function SingleProductPage ({ product, layout = 'standard' }: Props) {
+  const t = useTranslations('products.pdp')
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
   const isSplit = layout === 'split'
@@ -250,11 +247,11 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
     for (const charm of product.charmVariants) {
       if (charm.bg && charm.bg !== '#A8D5A2' && !seenBg.has(charm.bg)) {
         seenBg.add(charm.bg)
-        options.push({ value: charm.bg, label: translateColorLabel(charm.color), dot: charm.bg })
+        options.push({ value: charm.bg, label: translateColorLabel(t, charm.color), dot: charm.bg })
       }
     }
     return options
-  }, [product.charmVariants])
+  }, [product.charmVariants, t])
 
   // Same letter-engraving helpers as the collar page, operating on the charm page's own selectedCharms state.
   const charmPageCharmName = collar3DLetters(selectedCharms).name
@@ -369,7 +366,9 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                         <div key={i} style={{ flexShrink: 0, width: '100%', height: '100%', position: 'relative' }}>
                           <Image
                             src={src}
-                            alt={`${collar?.title ?? ''} antkaklis su vardu${i > 0 ? ` — nuotrauka ${i + 1}` : ''}`}
+                            alt={i > 0
+                              ? t('gallery.collarAltWithPhoto', { title: collar?.title ?? '', n: i + 1 })
+                              : t('gallery.collarAlt', { title: collar?.title ?? '' })}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                             priority={i === 0 && !show3DSlide}
@@ -382,7 +381,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                     {activeSlide > 0 && (
                       <button
                         onClick={() => setActiveSlide(s => Math.max(0, s - 1))}
-                        aria-label="Ankstesnis"
+                        aria-label={t('gallery.prev')}
                         style={{
                           position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)',
                           width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.8)',
@@ -396,7 +395,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                     {activeSlide < totalSlides - 1 && (
                       <button
                         onClick={() => setActiveSlide(s => Math.min(totalSlides - 1, s + 1))}
-                        aria-label="Kitas"
+                        aria-label={t('gallery.next')}
                         style={{
                           position: 'absolute', right: 16, top: '50%', transform: 'translateY(-50%)',
                           width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.8)',
@@ -422,7 +421,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                             key={`${src}-${i}`}
                             type="button"
                             onClick={() => setActiveSlide(slideIndex)}
-                            aria-label={`Rodyti nuotrauką ${i + 1}`}
+                            aria-label={t('gallery.showPhoto', { n: i + 1 })}
                             style={{
                               flex: '1 0 0', aspectRatio: '1 / 1', borderRadius: 12, overflow: 'hidden', position: 'relative',
                               border: `1px solid ${activeSlide === slideIndex ? 'var(--color-bark)' : 'var(--color-border)'}`,
@@ -492,13 +491,13 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                     type="button"
                     onClick={() => setCharmGalleryIndex((current) => Math.max(current - 1, 0))}
                     style={{ position: 'absolute', left: 0, top: 0, width: '28%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
-                    aria-label="Ankstesnis vaizdas"
+                    aria-label={t('gallery.prevImage')}
                   />
                   <button
                     type="button"
                     onClick={() => setCharmGalleryIndex((current) => Math.min(current + 1, visibleCharmGallery.length - 1))}
                     style={{ position: 'absolute', right: 0, top: 0, width: '28%', height: '100%', background: 'none', border: 'none', cursor: 'pointer' }}
-                    aria-label="Kitas vaizdas"
+                    aria-label={t('gallery.nextImage')}
                   />
                 </>
               )}
@@ -550,7 +549,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
       >
         {/* Breadcrumb */}
         <nav aria-label="breadcrumb" className="font-sans" style={{ display: 'flex', alignItems: 'center', gap: 6, paddingTop: 12, paddingBottom: 12, fontSize: 13, color: 'var(--color-bark-muted)' }}>
-          <Link href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>Parduotuvė</Link>
+          <Link href="/products" style={{ color: 'var(--color-bark-muted)', textDecoration: 'none' }}>{t('breadcrumbShop')}</Link>
           <span style={{ opacity: 0.4 }}>/</span>
           <span style={{ color: 'var(--color-bark)' }}>{product.name}</span>
         </nav>
@@ -576,7 +575,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                 <div style={{ position: 'relative', width: '100%', height: '100%' }}>
                   <Image
                     src={gallery[0]}
-                    alt={`${collar?.title ?? ''} antkaklis`}
+                    alt={t('gallery.collarAltPlain', { title: collar?.title ?? '' })}
                     fill
                     sizes='50vw'
                     priority
@@ -605,12 +604,12 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
                 key={i}
                 type='button'
                 onClick={() => setLightboxIndex(i)}
-                aria-label='Padidinti nuotrauką'
+                aria-label={t('gallery.zoomPhoto')}
                 style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in' }}
               >
                 <Image
                   src={src}
-                  alt={i === 0 ? `${collar?.title ?? ''} antkaklis` : ''}
+                  alt={i === 0 ? t('gallery.collarAltPlain', { title: collar?.title ?? '' }) : ''}
                   fill
                   sizes='(max-width: 1280px) 50vw, 600px'
                   priority={i === 0}
@@ -708,7 +707,7 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
           one still finds the rest instead of hitting a dead end. */}
       {hasCharmVariants && charms.length > 0 && (
         <section className='mx-auto max-w-[1200px] px-4 py-16 md:px-6'>
-          <SectionIntro eyebrow='Visi pakabukai' title='Naršykite kiekvieną pakabuką' />
+          <SectionIntro eyebrow={t('allCharms.eyebrow')} title={t('allCharms.title')} />
           <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
             {charms.map((charm) => (
               <CharmCard key={charm.id} charm={charm} />
@@ -745,18 +744,12 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
   )
 }
 
-const CHARM_COLOR_OPTIONS = [
-  { value: 'blue',   label: 'Mėlyna',   dot: '#B8D8F4' },
-  { value: 'green',  label: 'Žalia',    dot: '#A8D5A2' },
-  { value: 'red',    label: 'Rausva',   dot: '#F4B5C0' },
-  { value: 'yellow', label: 'Geltona',  dot: '#F9E4A0' },
-]
-
 export function CharmColorPicker ({ color, onColorChange, options }: { color: string; onColorChange: (c: string) => void; options: { value: string; label: string; dot: string }[] }) {
+  const t = useTranslations('products.pdp')
   const selectedLabel = options.find((option) => option.value === color)?.label
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED, flexShrink: 0 }}>Spalva</span>
+      <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED, flexShrink: 0 }}>{t('colorLabel')}</span>
       {selectedLabel && <span style={{ fontSize: 13, color: TEXT_SECONDARY, flexShrink: 0 }}>{selectedLabel}</span>}
       <div style={{ display: 'flex', gap: 6 }}>
         {options.map(({ value, label, dot }) => (
@@ -781,11 +774,12 @@ export function CharmColorPicker ({ color, onColorChange, options }: { color: st
 }
 
 export function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean; count: number; onClick: () => void; isMobile: boolean }) {
+  const t = useTranslations('products.pdp')
   const label = added
-    ? '✓ Pridėta į krepšelį!'
+    ? t('addedToCart')
     : count > 0
-      ? `Pirkti su ${count} pakabuk${count > 1 ? 'ais' : 'u'} →`
-      : `Pasirinkite iki ${MAX_CHARMS} pakabukų`
+      ? t('buyWithCharms', { count })
+      : t('chooseUpToCharms', { max: MAX_CHARMS })
   return (
     <div>
       <button
@@ -807,22 +801,23 @@ export function CharmCTA ({ added, count, onClick, isMobile }: { added: boolean;
       >
         {label}
       </button>
-      <p style={{ textAlign: 'center', marginTop: 2, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>{FREE_SHIPPING_COPY} · Pagaminta Lietuvoje</p>
+      <p style={{ textAlign: 'center', marginTop: 2, marginBottom: 0, fontSize: 11, color: TEXT_MUTED, letterSpacing: '0.02em' }}>{FREE_SHIPPING_COPY} · {t('madeInLithuania')}</p>
     </div>
   )
 }
 
 export function CharmAccordion ({ product }: { product: ProductDetail }) {
+  const t = useTranslations('products.pdp')
   const items = [
     {
       id: 'description',
-      title: 'Aprašymas',
-      content: <RichText value={product.longDescription || DEFAULT_CHARM_ACCORDION[0].content} />,
+      title: t('accordion.descriptionTitle'),
+      content: <RichText value={product.longDescription || t('accordion.descriptionContent')} />,
     },
     {
       id: 'shipping',
-      title: 'Pristatymas ir grąžinimas',
-      content: <RichText value={product.shipping || DEFAULT_CHARM_ACCORDION[1].content} />,
+      title: t('accordion.shippingTitle'),
+      content: <RichText value={product.shipping || t('accordion.shippingContent')} />,
     },
   ]
 

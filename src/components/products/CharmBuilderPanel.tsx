@@ -1,6 +1,7 @@
 'use client'
 
 import type { DragEndEvent, SensorDescriptor, SensorOptions } from '@dnd-kit/core'
+import { useTranslations } from 'next-intl'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import type { ShopifyCharm } from '@/lib/shopify'
 import type { ProductDetail } from '@/lib/catalog'
@@ -14,8 +15,8 @@ import {
   TEXT_SECONDARY,
   PDP_REVIEW_RATING,
   PDP_REVIEW_COUNT,
-  PDP_TRUST_POINTS,
-  PDP_REVIEWS,
+  getPdpTrustPoints,
+  getPdpReviews,
   CharmColorPicker,
   CharmCTA,
   CharmAccordion,
@@ -75,12 +76,15 @@ export function CharmBuilderPanel({
   selectedCharmCount,
   onAddToCart,
 }: CharmBuilderPanelProps) {
+  const t = useTranslations('products.pdp')
+  const pdpTrustPoints = getPdpTrustPoints(t)
+  const pdpReviews = getPdpReviews(t)
   return (
     <>
       <div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
-          <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>{t('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
         </div>
         <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
         <ProductPrice
@@ -94,7 +98,7 @@ export function CharmBuilderPanel({
         <>
           <CharmColorPicker color={charmColor} onColorChange={onCharmColorChange} options={colorOptions} />
           <CharmDecoratorPanel
-            title="Papuoškite savo pakabuką"
+            title={t('decorateCharmTitle')}
             selectedCharmCount={selectedCharmCount}
             selectedCharms={selectedCharms}
             charmName={charmName}
@@ -114,7 +118,7 @@ export function CharmBuilderPanel({
       <div id="reviews" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div style={{ overflow: 'hidden' }}>
           <div style={{ display: 'flex', transform: `translateX(-${activeReview * 100}%)`, transition: 'transform 280ms ease' }}>
-            {PDP_REVIEWS.map((review) => (
+            {pdpReviews.map((review) => (
               <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
                 <TestimonialQuoteCard author={review.author} quote={review.quote} />
               </div>
@@ -123,20 +127,20 @@ export function CharmBuilderPanel({
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
           <div style={{ display: 'flex', gap: 6 }}>
-            {PDP_REVIEWS.map((review, index) => (
-              <button key={review.author} type="button" onClick={() => onActiveReviewChange(() => index)} aria-label={`Rodyti atsiliepimą ${index + 1}`} aria-pressed={activeReview === index} style={{ width: activeReview === index ? 20 : 7, height: 7, borderRadius: 999, border: 'none', padding: 0, cursor: 'pointer', background: activeReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)', transition: 'width 180ms ease, background 180ms ease' }} />
+            {pdpReviews.map((review, index) => (
+              <button key={review.author} type="button" onClick={() => onActiveReviewChange(() => index)} aria-label={t('reviewNav.showReview', { n: index + 1 })} aria-pressed={activeReview === index} style={{ width: activeReview === index ? 20 : 7, height: 7, borderRadius: 999, border: 'none', padding: 0, cursor: 'pointer', background: activeReview === index ? TEXT_PRIMARY : 'rgba(61,53,48,0.18)', transition: 'width 180ms ease, background 180ms ease' }} />
             ))}
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
-            <button type="button" onClick={() => onActiveReviewChange((c) => (c === 0 ? PDP_REVIEWS.length - 1 : c - 1))} aria-label="Ankstesnis atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>‹</button>
-            <button type="button" onClick={() => onActiveReviewChange((c) => (c + 1) % PDP_REVIEWS.length)} aria-label="Kitas atsiliepimas" style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>›</button>
+            <button type="button" onClick={() => onActiveReviewChange((c) => (c === 0 ? pdpReviews.length - 1 : c - 1))} aria-label={t('reviewNav.prevReview')} style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>‹</button>
+            <button type="button" onClick={() => onActiveReviewChange((c) => (c + 1) % pdpReviews.length)} aria-label={t('reviewNav.nextReview')} style={{ width: 34, height: 34, borderRadius: '50%', border: `1px solid ${BORDER_COLOR}`, background: 'transparent', color: TEXT_PRIMARY, cursor: 'pointer', fontSize: 16, lineHeight: 1 }}>›</button>
           </div>
         </div>
       </div>
       <CharmCTA added={added} count={selectedCharmCount} onClick={onAddToCart} isMobile={isMobile} />
       {/* Trust strip */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {PDP_TRUST_POINTS.map((point) => (
+        {pdpTrustPoints.map((point) => (
           <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
         ))}
       </div>

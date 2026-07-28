@@ -351,6 +351,165 @@
     "card": {
       "charmsIncluded": "{count} pakabukai įskaičiuoti",
       "charmColorTitle": "Pakabuko spalva"
+    },
+    "pdp": {
+      "notFoundTitle": "Prekė nerasta",
+      "breadcrumbShop": "Parduotuvė",
+      "colorLabel": "Spalva",
+      "addedToCart": "✓ Pridėta į krepšelį!",
+      "buyWithCharms": "{count, plural, one {Pirkti su # pakabuku →} few {Pirkti su # pakabukais →} other {Pirkti su # pakabukais →}}",
+      "chooseUpToCharms": "Pasirinkite iki {max} pakabukų",
+      "madeInLithuania": "Pagaminta Lietuvoje",
+      "trustPoints": ["2–4 d. pristatymas", "30 d. grąžinimas", "Pagaminta Lietuvoje"],
+      "reviews": [
+        { "quote": "Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.", "author": "Laima K." },
+        { "quote": "Minkštas, lengvai valomas, o pakabukai laikėsi vietoje net po lietingo bėgimo parke.", "author": "Egle M." },
+        { "quote": "Gyvai atrodo itin kokybiškai, o mūsų šuo pagaliau turi antkaklį, kuris ir žaismingas, ir tvarkingas.", "author": "Rasa T." }
+      ],
+      "allCharms": {
+        "eyebrow": "Visi pakabukai",
+        "title": "Naršykite kiekvieną pakabuką"
+      },
+      "gallery": {
+        "collarAlt": "{title} antkaklis su vardu",
+        "collarAltWithPhoto": "{title} antkaklis su vardu — nuotrauka {n}",
+        "collarAltPlain": "{title} antkaklis",
+        "prev": "Ankstesnis",
+        "next": "Kitas",
+        "showPhoto": "Rodyti nuotrauką {n}",
+        "prevImage": "Ankstesnis vaizdas",
+        "nextImage": "Kitas vaizdas",
+        "zoomPhoto": "Padidinti nuotrauką"
+      },
+      "gallery3d": {
+        "loading": "Kraunama 3D peržiūra…",
+        "disclaimer": "Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje"
+      },
+      "accordion": {
+        "descriptionTitle": "Aprašymas",
+        "descriptionContent": "Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.",
+        "shippingTitle": "Pristatymas ir grąžinimas",
+        "shippingContent": "Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės"
+      },
+      "colorNames": {
+        "blue": "Mėlyna",
+        "skyBlue": "Dangaus mėlyna",
+        "darkBlue": "Tamsiai mėlyna",
+        "green": "Žalia",
+        "red": "Rausva",
+        "pink": "Rožinė",
+        "yellow": "Geltona",
+        "purple": "Violetinė",
+        "lightBlue": "Šviesiai mėlyna"
+      },
+      "reviewCountLabel": "{rating} iš {count} atsiliepimų",
+      "reviewNav": {
+        "showReview": "Rodyti atsiliepimą {n}",
+        "prevReview": "Ankstesnis atsiliepimas",
+        "nextReview": "Kitas atsiliepimas"
+      },
+      "decorateCharmTitle": "Papuoškite savo pakabuką"
+    },
+    "charmDecorator": {
+      "charmsIncludedBadge": "{count, plural, one {# pakabukas įskaičiuoti} few {# pakabukai įskaičiuoti} other {# pakabukai įskaičiuoti}}",
+      "tabLetters": "Raidžių charmsai",
+      "tabIcons": "Kiti charmsai",
+      "searchPlaceholder": "Ieškoti pakabukų…",
+      "noResults": "Pakabukų nerasta",
+      "selectedCountLabel": "{count} / {max} pasirinkta",
+      "needMoreCharms": "Reikia daugiau pakabukų?",
+      "step1TypeLetters": "1. Įrašykite raides",
+      "step2ChooseColor": "2. Pasirinkite spalvą pažymėto charmo",
+      "typeLettersAriaLabel": "Įrašykite raides",
+      "changeLetterColorAria": "Keisti raidės „{letter}“ spalvą",
+      "changeCharmColorAria": "Keisti „{title}“ spalvą",
+      "pickLetterSlotAria": "Pasirinkti {n}-ą raidės vietą",
+      "removeCharmAria": "Pašalinti {title}",
+      "chooseColorForCharm": "Pasirinkite „{title}“ spalvą",
+      "ariaGroupPickCharms": "Pasirinkti pakabukus"
+    },
+    "collar3dModal": {
+      "title": "3D peržiūra",
+      "close": "Uždaryti",
+      "dragToRotate": "Vilkite, kad pasuktumėte",
+      "collarColor": "Antkaklio spalva",
+      "letterCharms": "Raidžių pakabukai",
+      "colorAppliesAll": "Spalva taikoma visoms raidėms",
+      "colorAppliesLetter": "Spalva taikoma raidei „{letter}“",
+      "clickLetterHint": "Spustelėkite raidę 3D peržiūroje arba žemiau, jei norite jai pritaikyti kitą spalvą.",
+      "nameInputLabel": "Įrašykite vardo raidžių seką:",
+      "namePlaceholder": "PVZ. ROCKY",
+      "typeNameAria": "Įrašyti vardą",
+      "extraDisclaimer": "Papildomi pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje."
+    },
+    "configurator": {
+      "charmPicker": {
+        "chooseLabel": "Rinktis pakabuką",
+        "searchPlaceholder": "Ieškoti pakabukų…",
+        "noResults": "Pakabukų nerasta",
+        "showMore": "Rodyti daugiau",
+        "showLess": "Rodyti mažiau"
+      },
+      "watchVideo": "Peržiūrėti vaizdo įrašą {n}",
+      "chooseColor": "Pasirinkite spalvą",
+      "size": "Dydis",
+      "howToMeasure": "Kaip išmatuoti tinkamą dydį →",
+      "decoratePanelTitle": "Papuoškite savo antkaklį",
+      "addedToCart": "✓ Pridėta į krepšelį!",
+      "buyPlain": "Pirkti · {price}",
+      "buyWithCharms": "{count, plural, one {Pirkti su # pakabuku · {price}} few {Pirkti su # pakabukais · {price}} other {Pirkti su # pakabukais · {price}}}",
+      "stepSummarySkipped": "Praleista",
+      "stepSummaryCharms": "{count, plural, one {# pakabukas} few {# pakabukai} other {# pakabukai}}",
+      "next": "Toliau →",
+      "reviews": {
+        "showReview": "Rodyti atsiliepimą {n}",
+        "prevReview": "Ankstesnis atsiliepimas",
+        "nextReview": "Kitas atsiliepimas"
+      },
+      "sizeGuide": {
+        "eyebrow": "Dydžių gidas",
+        "title": "Kaip išmatuoti savo šunį",
+        "close": "Uždaryti dydžių gidą",
+        "steps": [
+          "Apjuoskite minkšta matavimo juosta šuns kaklo vidurį ten, kur paprastai būna antkaklis.",
+          "Juosta turi priglusti, bet neveržti. Tarp juostos ir kaklo turi tilpti du pirštai.",
+          "Jei matmuo patenka tarp dydžių, kasdieniam patogumui rinkitės didesnį."
+        ],
+        "tip": "<strong>Patarimas:</strong> Matuokite dienos pabaigoje, kai šuo atsipalaidavęs. Jei kailis purus, matuokite po juo, o ne virš jo."
+      },
+      "accordion": {
+        "description": "Aprašymas",
+        "descriptionContent": "Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.",
+        "features": "Savybės",
+        "featuresContent": "Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.",
+        "includes": "Į rinkinį įeina",
+        "includesContent": "Antkaklis pasirinktos spalvos ir dydžio · Penki keičiami prisegami pakabukai — pirmi penki įskaičiuoti nemokamai, kiekvienas papildomas + €3.99 · Reguliuojama saugi sagtis · Lininis laikymo maišelis",
+        "shipping": "Pristatymas ir grąžinimas",
+        "shippingContent": "Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės"
+      },
+      "personaliseModal": {
+        "title": "Pridėkite pakabukų",
+        "free": "Nemokama",
+        "starterPopular": "✨ Populiariausias rinkinys",
+        "starterFlower": "🌸 Gėlių rinkinys",
+        "addToCart": "{count, plural, one {Į krepšelį su # pakabuku} few {Į krepšelį su # pakabukais} other {Į krepšelį su # pakabukais}}",
+        "addToCartEmpty": "Pasirinkite bent 1 pakabuką",
+        "skip": "Praleisti ir pirkti be pakabukų"
+      },
+      "extraCharmsModal": {
+        "title": "Reikia daugiau pakabukų?",
+        "subtitle": "Pasirinkite papildomus pakabukus — jie bus pridėti į krepšelį atskirai.",
+        "allColors": "Visos",
+        "addToCart": "{count, plural, one {Į krepšelį su # pakabuku} few {Į krepšelį su # pakabukais} other {Į krepšelį su # pakabukais}}",
+        "addToCartEmpty": "Pasirinkite bent 1 pakabuką"
+      },
+      "colorFilters": {
+        "blue": "Mėlyna",
+        "darkBlue": "Tamsiai mėlyna",
+        "pink": "Rožinė",
+        "yellow": "Geltona",
+        "purple": "Violetinė"
+      }
     }
   },
   "seo": {

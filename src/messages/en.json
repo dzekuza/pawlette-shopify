@@ -351,6 +351,165 @@
     "card": {
       "charmsIncluded": "{count} charms included",
       "charmColorTitle": "Charm color"
+    },
+    "pdp": {
+      "notFoundTitle": "Product not found",
+      "breadcrumbShop": "Shop",
+      "colorLabel": "Color",
+      "addedToCart": "✓ Added to cart!",
+      "buyWithCharms": "{count, plural, one {Buy with # charm →} other {Buy with # charms →}}",
+      "chooseUpToCharms": "Choose up to {max} charms",
+      "madeInLithuania": "Made in Lithuania",
+      "trustPoints": ["2–4 day delivery", "30-day returns", "Made in Lithuania"],
+      "reviews": [
+        { "quote": "Clips on in seconds and still looks new even after muddy walks.", "author": "Laima K." },
+        { "quote": "Soft, easy to clean, and the charms stayed put even after a rainy park run.", "author": "Egle M." },
+        { "quote": "Looks really high quality in person, and our dog finally has a collar that's both playful and put together.", "author": "Rasa T." }
+      ],
+      "allCharms": {
+        "eyebrow": "All charms",
+        "title": "Browse every charm"
+      },
+      "gallery": {
+        "collarAlt": "{title} collar with name",
+        "collarAltWithPhoto": "{title} collar with name — photo {n}",
+        "collarAltPlain": "{title} collar",
+        "prev": "Previous",
+        "next": "Next",
+        "showPhoto": "Show photo {n}",
+        "prevImage": "Previous image",
+        "nextImage": "Next image",
+        "zoomPhoto": "Zoom photo"
+      },
+      "gallery3d": {
+        "loading": "Loading 3D preview…",
+        "disclaimer": "Charms (not letters) will stay in the cart but won't show in the 3D preview"
+      },
+      "accordion": {
+        "descriptionTitle": "Description",
+        "descriptionContent": "Attachable silicone charms for every PawCharms collar. Each charm clips on and off in about five seconds, no tools needed.",
+        "shippingTitle": "Shipping & returns",
+        "shippingContent": "Free shipping on orders over €40 · Delivery in 2–4 business days · Returns accepted within 30 days in original condition"
+      },
+      "colorNames": {
+        "blue": "Blue",
+        "skyBlue": "Sky blue",
+        "darkBlue": "Dark blue",
+        "green": "Green",
+        "red": "Red",
+        "pink": "Pink",
+        "yellow": "Yellow",
+        "purple": "Purple",
+        "lightBlue": "Light blue"
+      },
+      "reviewCountLabel": "{rating} of {count} reviews",
+      "reviewNav": {
+        "showReview": "Show review {n}",
+        "prevReview": "Previous review",
+        "nextReview": "Next review"
+      },
+      "decorateCharmTitle": "Decorate your charm"
+    },
+    "charmDecorator": {
+      "charmsIncludedBadge": "{count, plural, one {# charm included} other {# charms included}}",
+      "tabLetters": "Letter charms",
+      "tabIcons": "Other charms",
+      "searchPlaceholder": "Search charms…",
+      "noResults": "No charms found",
+      "selectedCountLabel": "{count} / {max} selected",
+      "needMoreCharms": "Need more charms?",
+      "step1TypeLetters": "1. Type the letters",
+      "step2ChooseColor": "2. Choose a color for the selected charm",
+      "typeLettersAriaLabel": "Type the letters",
+      "changeLetterColorAria": "Change letter “{letter}” color",
+      "changeCharmColorAria": "Change “{title}” color",
+      "pickLetterSlotAria": "Pick letter slot {n}",
+      "removeCharmAria": "Remove {title}",
+      "chooseColorForCharm": "Choose “{title}” color",
+      "ariaGroupPickCharms": "Pick charms"
+    },
+    "collar3dModal": {
+      "title": "3D preview",
+      "close": "Close",
+      "dragToRotate": "Drag to rotate",
+      "collarColor": "Collar color",
+      "letterCharms": "Letter charms",
+      "colorAppliesAll": "Color applies to all letters",
+      "colorAppliesLetter": "Color applies to letter “{letter}”",
+      "clickLetterHint": "Click a letter in the 3D preview or below to apply a different color.",
+      "nameInputLabel": "Enter the name letters:",
+      "namePlaceholder": "E.G. ROCKY",
+      "typeNameAria": "Type a name",
+      "extraDisclaimer": "Extra charms (not letters) will stay in the cart but won't show in the 3D preview."
+    },
+    "configurator": {
+      "charmPicker": {
+        "chooseLabel": "Choose a charm",
+        "searchPlaceholder": "Search charms…",
+        "noResults": "No charms found",
+        "showMore": "Show more",
+        "showLess": "Show less"
+      },
+      "watchVideo": "Watch video {n}",
+      "chooseColor": "Choose a color",
+      "size": "Size",
+      "howToMeasure": "How to measure the right size →",
+      "decoratePanelTitle": "Decorate your collar",
+      "addedToCart": "✓ Added to cart!",
+      "buyPlain": "Buy · {price}",
+      "buyWithCharms": "{count, plural, one {Buy with # charm · {price}} other {Buy with # charms · {price}}}",
+      "stepSummarySkipped": "Skipped",
+      "stepSummaryCharms": "{count, plural, one {# charm} other {# charms}}",
+      "next": "Next →",
+      "reviews": {
+        "showReview": "Show review {n}",
+        "prevReview": "Previous review",
+        "nextReview": "Next review"
+      },
+      "sizeGuide": {
+        "eyebrow": "Size guide",
+        "title": "How to measure your dog",
+        "close": "Close size guide",
+        "steps": [
+          "Wrap a soft measuring tape around the middle of your dog's neck, where a collar would normally sit.",
+          "The tape should sit snugly but not tight. Two fingers should fit between the tape and the neck.",
+          "If the measurement falls between sizes, choose the larger one for everyday comfort."
+        ],
+        "tip": "<strong>Tip:</strong> Measure at the end of the day when your dog is relaxed. If the coat is fluffy, measure underneath it, not over it."
+      },
+      "accordion": {
+        "description": "Description",
+        "descriptionContent": "Waterproof silicone collar with attachable charms. Lightweight, adjustable, and with a secure buckle.",
+        "features": "Features",
+        "featuresContent": "Waterproof silicone · lightweight adjustable fit · secure buckle · resistant to dirt and odor.",
+        "includes": "What's in the set",
+        "includesContent": "Collar in your chosen color and size · Five swappable charms — the first five included free, each extra +€3.99 · Adjustable secure buckle · Linen storage pouch",
+        "shipping": "Shipping & returns",
+        "shippingContent": "Free shipping on orders over €40 · Delivery in 2–4 business days · Returns accepted within 30 days in original condition"
+      },
+      "personaliseModal": {
+        "title": "Add charms",
+        "free": "Free",
+        "starterPopular": "✨ Most popular set",
+        "starterFlower": "🌸 Flower set",
+        "addToCart": "{count, plural, one {Add to cart with # charm} other {Add to cart with # charms}}",
+        "addToCartEmpty": "Choose at least 1 charm",
+        "skip": "Skip and buy without charms"
+      },
+      "extraCharmsModal": {
+        "title": "Need more charms?",
+        "subtitle": "Choose additional charms — they'll be added to the cart separately.",
+        "allColors": "All",
+        "addToCart": "{count, plural, one {Add to cart with # charm} other {Add to cart with # charms}}",
+        "addToCartEmpty": "Choose at least 1 charm"
+      },
+      "colorFilters": {
+        "blue": "Blue",
+        "darkBlue": "Dark blue",
+        "pink": "Pink",
+        "yellow": "Yellow",
+        "purple": "Purple"
+      }
     }
   },
   "seo": {

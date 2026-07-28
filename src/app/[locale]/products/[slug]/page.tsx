@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getLocale } from 'next-intl/server'
+import { getLocale, getTranslations } from 'next-intl/server'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
 import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
 import {
@@ -28,8 +28,9 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   const product = await getProductBySlugAsync(slug, locale)
 
   if (!product) {
+    const t = await getTranslations({ locale, namespace: 'products.pdp' })
     return {
-      title: 'Prekė nerasta'
+      title: t('notFoundTitle')
     }
   }
 

@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DCharms, collar3DLetters, extractLetter, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
@@ -12,21 +13,34 @@ const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-ho
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
-  loading: () => (
-    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>Kraunama 3D peržiūra…</span>
-    </div>
-  ),
+  loading: () => <Collar3DSceneLoading />,
 })
 
-/** Letter-charm colours available in the real catalog (mirrors the Personalise dialog's colour filter). */
+function Collar3DSceneLoading () {
+  const t = useTranslations('products.pdp')
+  return (
+    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>{t('gallery3d.loading')}</span>
+    </div>
+  )
+}
+
+/** Letter-charm colours available in the real catalog (mirrors the Personalise dialog's colour filter) —
+ * keys match products.configurator.colorFilters in the message dictionaries. */
 const LETTER_COLOURS = [
-  { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
-  { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
-  { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
-  { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
-  { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+  { key: 'blue', hex: '#B8D8F4' },
+  { key: 'dark blue', hex: '#6B9FD4' },
+  { key: 'pink', hex: '#F4B5C0' },
+  { key: 'yellow', hex: '#F9E4A0' },
+  { key: 'purple', hex: '#D4B8F4' },
 ]
+const COLOR_FILTER_LABEL_KEYS: Record<string, string> = {
+  blue: 'blue',
+  'dark blue': 'darkBlue',
+  pink: 'pink',
+  yellow: 'yellow',
+  purple: 'purple',
+}
 
 type Collar3DModalProps = {
   open: boolean
@@ -55,6 +69,10 @@ export function Collar3DModal({
   charmColorKey,
   onCharmColorChange,
 }: Collar3DModalProps) {
+  const t = useTranslations('products.collar3dModal')
+  const tCharmDecorator = useTranslations('products.charmDecorator')
+  const tConfigurator = useTranslations('products.configurator')
+  const tPdp = useTranslations('products.pdp')
   const { letterCharms, iconCharms, name } = useMemo(
     () => collar3DLetters(selectedCharms),
     [selectedCharms],
@@ -160,11 +178,11 @@ export function Collar3DModal({
         style={{ borderRadius: '24px 24px 0 0', width: '100%', maxWidth: 600, padding: '20px 20px 32px', maxHeight: '90vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 16 }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--color-bark)' }}>3D peržiūra</span>
+          <span style={{ fontSize: 17, fontWeight: 600, color: 'var(--color-bark)' }}>{t('title')}</span>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Uždaryti"
+            aria-label={t('close')}
             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: 'var(--color-bark-muted)', lineHeight: 1 }}
           >
             ×
@@ -182,13 +200,13 @@ export function Collar3DModal({
           <p
             style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)', margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', pointerEvents: 'none' }}
           >
-            Vilkite, kad pasuktumėte
+            {t('dragToRotate')}
           </p>
         </div>
 
         {colorOptions.length > 0 && (
           <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>Antkaklio spalva</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>{t('collarColor')}</span>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {colorOptions.map((option) => (
                 <button
@@ -228,7 +246,7 @@ export function Collar3DModal({
                   transition: 'background 150ms, color 150ms',
                 }}
               >
-                {tab === 'letters' ? 'Raidžių charmsai' : 'Kiti charmsai'}
+                {tab === 'letters' ? tCharmDecorator('tabLetters') : tCharmDecorator('tabIcons')}
               </button>
             )
           })}
@@ -237,15 +255,15 @@ export function Collar3DModal({
         {modalTab === 'letters' ? (
         <section style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>Raidžių pakabukai</span>
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-bark)' }}>{t('letterCharms')}</span>
             <span style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>
               {selectedCharmIndex === null
-                ? 'Spalva taikoma visoms raidėms'
-                : `Spalva taikoma raidei „${name[selectedCharmIndex] ?? ''}“`}
+                ? t('colorAppliesAll')
+                : t('colorAppliesLetter', { letter: name[selectedCharmIndex] ?? '' })}
             </span>
           </div>
           <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)' }}>
-            Spustelėkite raidę 3D peržiūroje arba žemiau, jei norite jai pritaikyti kitą spalvą.
+            {t('clickLetterHint')}
           </p>
           <div
             style={{
@@ -278,7 +296,7 @@ export function Collar3DModal({
                       ? () => setSelectedCharmIndex((s) => (s === i ? null : i)) 
                       : () => charmNameInputRef.current?.focus()
                     }
-                    aria-label={c ? `Keisti raidės „${extractLetter(c.baseTitle)}“ spalvą` : 'Įrašyti vardą'}
+                    aria-label={c ? tCharmDecorator('changeLetterColorAria', { letter: extractLetter(c.baseTitle) }) : t('typeNameAria')}
                     aria-pressed={c ? isActive : undefined}
                     style={{
                       width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
@@ -310,7 +328,7 @@ export function Collar3DModal({
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6, width: '100%' }}>
             <label htmlFor="dog-name-input-modal" style={{ fontSize: 12, fontWeight: 600, color: 'var(--color-bark-light)', fontFamily: "'DM Sans', sans-serif" }}>
-              Įrašykite vardo raidžių seką:
+              {t('nameInputLabel')}
             </label>
             <input
               id="dog-name-input-modal"
@@ -323,7 +341,7 @@ export function Collar3DModal({
               spellCheck={false}
               maxLength={MAX_CHARMS}
               value={name}
-              placeholder="PVZ. ROCKY"
+              placeholder={t('namePlaceholder')}
               onChange={(e) => applyLetters(e.target.value, charmColorKey)}
               onFocus={() => setCharmRowFocused(true)}
               onBlur={() => setCharmRowFocused(false)}
@@ -337,11 +355,11 @@ export function Collar3DModal({
             />
           </div>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {LETTER_COLOURS.map(({ key, label, hex }) => (
+            {LETTER_COLOURS.map(({ key, hex }) => (
               <button
                 key={key}
                 type="button"
-                title={label}
+                title={tConfigurator(`colorFilters.${COLOR_FILTER_LABEL_KEYS[key]}`)}
                 onClick={() => handleColourSwatchClick(key)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
@@ -353,7 +371,7 @@ export function Collar3DModal({
                 }}
               >
                 <span style={{ width: 14, height: 14, borderRadius: '50%', background: hex, flexShrink: 0, display: 'inline-block' }} />
-                {label}
+                {tConfigurator(`colorFilters.${COLOR_FILTER_LABEL_KEYS[key]}`)}
               </button>
             ))}
           </div>
@@ -382,7 +400,7 @@ export function Collar3DModal({
                     <Tag
                       type={c ? 'button' : undefined}
                       onClick={c ? () => setActiveIconCharmIndex((idx) => (idx === i ? null : i)) : undefined}
-                      aria-label={c ? `Keisti „${c.title}" spalvą` : undefined}
+                      aria-label={c ? tCharmDecorator('changeCharmColorAria', { title: c.title }) : undefined}
                       aria-pressed={c ? isActive : undefined}
                       style={{
                         width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
@@ -400,7 +418,7 @@ export function Collar3DModal({
                     {c && (
                       <button
                         type="button"
-                        aria-label={`Pašalinti ${c.title}`}
+                        aria-label={tCharmDecorator('removeCharmAria', { title: c.title })}
                         onClick={() => toggleCharm(c)}
                         style={{
                           position: 'absolute', top: 2, right: 2, width: 16, height: 16,
@@ -418,7 +436,7 @@ export function Collar3DModal({
             {activeIconCharm && activeIconColours.length > 0 && (
               <div>
                 <span style={{ display: 'block', marginBottom: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-                  Pasirinkite „{activeIconCharm.baseTitle}{'"'} spalvą
+                  {tCharmDecorator('chooseColorForCharm', { title: activeIconCharm.baseTitle })}
                 </span>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {activeIconColours.map((charm) => {
@@ -427,8 +445,8 @@ export function Collar3DModal({
                       <button
                         key={charm.id}
                         type="button"
-                        title={translateColorLabel(charm.color)}
-                        aria-label={translateColorLabel(charm.color)}
+                        title={translateColorLabel(tPdp, charm.color)}
+                        aria-label={translateColorLabel(tPdp, charm.color)}
                         aria-pressed={isActiveColour}
                         onClick={() => {
                           if (activeIconCharmIndex === null) return
@@ -453,7 +471,7 @@ export function Collar3DModal({
               type="search"
               value={charmPickerQuery}
               onChange={(e) => setCharmPickerQuery(e.target.value)}
-              placeholder="Ieškoti pakabukų…"
+              placeholder={tCharmDecorator('searchPlaceholder')}
               style={{
                 width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10,
                 border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)',
@@ -494,18 +512,18 @@ export function Collar3DModal({
                   )
                 })}
               {charms.filter((c) => c.category !== 'letter').filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).length === 0 && (
-                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>Pakabukų nerasta</div>
+                <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>{tCharmDecorator('noResults')}</div>
               )}
             </div>
             <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-              {(selectedCharms ?? []).filter(Boolean).length} / {MAX_CHARMS} pasirinkta
+              {tCharmDecorator('selectedCountLabel', { count: (selectedCharms ?? []).filter(Boolean).length, max: MAX_CHARMS })}
             </span>
           </section>
         )}
 
         {showUnrenderableDisclaimer && (
           <p style={{ margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', textAlign: 'center' }}>
-            Papildomi pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje.
+            {t('extraDisclaimer')}
           </p>
         )}
       </div>

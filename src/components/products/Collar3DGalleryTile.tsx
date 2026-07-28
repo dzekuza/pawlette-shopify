@@ -2,18 +2,24 @@
 
 import dynamic from 'next/dynamic'
 import { useMemo } from 'react'
+import { useTranslations } from 'next-intl'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DCharms, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
-  loading: () => (
-    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
-      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>Kraunama 3D peržiūra…</span>
-    </div>
-  ),
+  loading: () => <Collar3DSceneLoading />,
 })
+
+function Collar3DSceneLoading () {
+  const t = useTranslations('products.pdp')
+  return (
+    <div style={{ display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>{t('gallery3d.loading')}</span>
+    </div>
+  )
+}
 
 type Collar3DGalleryTileProps = {
   collar: ShopifyCollar | null
@@ -26,6 +32,7 @@ type Collar3DGalleryTileProps = {
 }
 
 export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid', background }: Collar3DGalleryTileProps) {
+  const t = useTranslations('products.pdp')
   const items = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
   const showUnrenderableDisclaimer = useMemo(() => hasUnrenderableIconCharms(selectedCharms), [selectedCharms])
 
@@ -66,7 +73,7 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
       {showUnrenderableDisclaimer && (
         <div style={{ position: 'absolute', bottom: 14, left: 14, pointerEvents: 'none' }}>
           <p style={{ margin: 0, fontSize: 10.5, color: 'var(--color-bark-muted)', maxWidth: 200 }}>
-            Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje
+            {t('gallery3d.disclaimer')}
           </p>
         </div>
       )}

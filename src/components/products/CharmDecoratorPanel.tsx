@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { DndContext, closestCenter, type DragEndEvent, type SensorDescriptor, type SensorOptions } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
@@ -12,14 +13,22 @@ import { MAX_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, tra
 
 const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)']
 
-// Per-letter colour swatches offered when tapping an individual charm slot on the Personalise tile
+// Per-letter colour swatches offered when tapping an individual charm slot on the Personalise tile —
+// keys match products.configurator.colorFilters in the message dictionaries.
 const CHARM_LETTER_COLOURS = [
-  { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
-  { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
-  { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
-  { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
-  { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+  { key: 'blue', hex: '#B8D8F4' },
+  { key: 'dark blue', hex: '#6B9FD4' },
+  { key: 'pink', hex: '#F4B5C0' },
+  { key: 'yellow', hex: '#F9E4A0' },
+  { key: 'purple', hex: '#D4B8F4' },
 ]
+const COLOR_FILTER_LABEL_KEYS: Record<string, string> = {
+  blue: 'blue',
+  'dark blue': 'darkBlue',
+  pink: 'pink',
+  yellow: 'yellow',
+  purple: 'purple',
+}
 
 function SortableLetterSlot({
   id, index, charm, isActive, isCursorTarget, onClick,
@@ -31,6 +40,7 @@ function SortableLetterSlot({
   isCursorTarget: boolean
   onClick: () => void
 }) {
+  const t = useTranslations('products.charmDecorator')
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
   const isLetter = charm?.category === 'letter'
   const hasCharm = !!charm
@@ -64,10 +74,10 @@ function SortableLetterSlot({
         onClick={onClick}
         aria-label={
           isLetter
-            ? `Keisti raidės „${extractLetter(charm!.baseTitle)}" spalvą`
+            ? t('changeLetterColorAria', { letter: extractLetter(charm!.baseTitle) })
             : hasCharm
-              ? `Keisti „${charm!.title}" spalvą`
-              : `Pasirinkti ${index + 1}-ą raidės vietą`
+              ? t('changeCharmColorAria', { title: charm!.title })
+              : t('pickLetterSlotAria', { n: index + 1 })
         }
         aria-pressed={hasCharm ? isActive : undefined}
         style={{
@@ -164,6 +174,9 @@ export function CharmDecoratorPanel({
   allCharms = [],
   dndSensors,
 }: CharmDecoratorPanelProps) {
+  const t = useTranslations('products.charmDecorator')
+  const tPdp = useTranslations('products.pdp')
+  const tConfigurator = useTranslations('products.configurator')
   const [charmTab, setCharmTab] = useState<'letters' | 'charms'>('letters')
   const [charmPickerQuery, setCharmPickerQuery] = useState('')
   const [activeColourSlot, setActiveColourSlot] = useState<number | null>(null)
@@ -223,8 +236,8 @@ export function CharmDecoratorPanel({
         <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>{title}</span>
         <Badge variant="sage">
           {selectedCharmCount
-            ? `${selectedCharmCount} pakabuk${selectedCharmCount > 1 ? 'ai' : 'as'} įskaičiuoti`
-            : 'Nemokama'}
+            ? t('charmsIncludedBadge', { count: selectedCharmCount })
+            : tConfigurator('personaliseModal.free')}
         </Badge>
       </div>
 
@@ -245,7 +258,7 @@ export function CharmDecoratorPanel({
                 transition: 'background 150ms, color 150ms',
               }}
             >
-              {tab === 'letters' ? 'Raidžių charmsai' : 'Kiti charmsai'}
+              {tab === 'letters' ? t('tabLetters') : t('tabIcons')}
             </button>
           )
         })}
@@ -255,7 +268,7 @@ export function CharmDecoratorPanel({
         <>
           <div
             role="group"
-            aria-label="Pasirinkti pakabukus"
+            aria-label={t('ariaGroupPickCharms')}
             onClick={() => charmNameInputRef.current?.focus()}
             style={{
               width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12,
@@ -267,7 +280,7 @@ export function CharmDecoratorPanel({
               transition: 'border-color 150ms, box-shadow 150ms, background 150ms',
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>1. Įrašykite raides</span>
+            <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{t('step1TypeLetters')}</span>
             <div style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 10, position: 'relative', marginTop: 8 }}>
             <input
               ref={charmNameInputRef}
@@ -279,7 +292,7 @@ export function CharmDecoratorPanel({
               spellCheck={false}
               maxLength={MAX_CHARMS}
               value={charmName}
-              aria-label="Įrašykite raides"
+              aria-label={t('typeLettersAriaLabel')}
               onChange={(e) => {
                 const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, MAX_CHARMS)
                 onCharmNameChange?.(next)
@@ -345,10 +358,10 @@ export function CharmDecoratorPanel({
                       }}
                       aria-label={
                         isLetter
-                          ? `Keisti raidės „${extractLetter(c!.baseTitle)}" spalvą`
+                          ? t('changeLetterColorAria', { letter: extractLetter(c!.baseTitle) })
                           : hasCharm
-                            ? `Keisti „${c!.title}" spalvą`
-                            : `Pasirinkti ${i + 1}-ą raidės vietą`
+                            ? t('changeCharmColorAria', { title: c!.title })
+                            : t('pickLetterSlotAria', { n: i + 1 })
                       }
                       aria-pressed={hasCharm ? isActive : undefined}
                       style={{
@@ -418,11 +431,12 @@ export function CharmDecoratorPanel({
             </div>
             {colourTargetIndex !== null && colourTargetCharm && (colourTargetCharm.category === 'letter' || colourTargetIconOptions.length > 0) && (
               <>
-                <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>2. Pasirinkite spalvą pažymėto charmo</span>
+                <span style={{ fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{t('step2ChooseColor')}</span>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {colourTargetCharm.category === 'letter' ? (
-                  CHARM_LETTER_COLOURS.map(({ key, label, hex }) => {
+                  CHARM_LETTER_COLOURS.map(({ key, hex }) => {
                     const isActiveColour = colourTargetCharm.bg === hex
+                    const label = tConfigurator(`colorFilters.${COLOR_FILTER_LABEL_KEYS[key]}`)
                     return (
                       <button
                         key={key}
@@ -447,8 +461,8 @@ export function CharmDecoratorPanel({
                       <button
                         key={charm.id}
                         type="button"
-                        title={translateColorLabel(charm.color)}
-                        aria-label={translateColorLabel(charm.color)}
+                        title={translateColorLabel(tPdp, charm.color)}
+                        aria-label={translateColorLabel(tPdp, charm.color)}
                         aria-pressed={isActiveColour}
                         onClick={() => onCharmColourAt?.(colourTargetIndex, charm.bg)}
                         style={{
@@ -475,7 +489,7 @@ export function CharmDecoratorPanel({
                 fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'center',
               }}
             >
-              Reikia daugiau pakabukų?
+              {t('needMoreCharms')}
             </button>
           )}
         </>
@@ -492,7 +506,7 @@ export function CharmDecoratorPanel({
                   <Tag
                     type={c ? 'button' : undefined}
                     onClick={c ? () => setActiveIconCharmIndex((idx) => (idx === i ? null : i)) : undefined}
-                    aria-label={c ? `Keisti „${c.title}" spalvą` : undefined}
+                    aria-label={c ? t('changeCharmColorAria', { title: c.title }) : undefined}
                     aria-pressed={c ? isActive : undefined}
                     style={{
                       width: '100%', height: '100%', borderRadius: 12, overflow: 'hidden',
@@ -510,7 +524,7 @@ export function CharmDecoratorPanel({
                   {c && onToggleCharm && (
                     <button
                       type="button"
-                      aria-label={`Pašalinti ${c.title}`}
+                      aria-label={t('removeCharmAria', { title: c.title })}
                       onClick={() => {
                         onToggleCharm(c)
                         setActiveIconCharmIndex((idx) => (idx === i ? null : idx))
@@ -531,7 +545,7 @@ export function CharmDecoratorPanel({
           {activeIconCharm && activeIconColours.length > 0 && (
             <div style={{ marginBottom: 12 }}>
               <span style={{ display: 'block', marginBottom: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-                Pasirinkite „{activeIconCharm.baseTitle}{'"'} spalvą
+                {t('chooseColorForCharm', { title: activeIconCharm.baseTitle })}
               </span>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {activeIconColours.map((charm) => {
@@ -540,8 +554,8 @@ export function CharmDecoratorPanel({
                     <button
                       key={charm.id}
                       type="button"
-                      title={translateColorLabel(charm.color)}
-                      aria-label={translateColorLabel(charm.color)}
+                      title={translateColorLabel(tPdp, charm.color)}
+                      aria-label={translateColorLabel(tPdp, charm.color)}
                       aria-pressed={isActiveColour}
                       onClick={() => onCharmColourAt?.(activeIconCharmIndex!, charm.bg)}
                       style={{
@@ -562,7 +576,7 @@ export function CharmDecoratorPanel({
             type="search"
             value={charmPickerQuery}
             onChange={(e) => setCharmPickerQuery(e.target.value)}
-            placeholder="Ieškoti pakabukų…"
+            placeholder={t('searchPlaceholder')}
             style={{
               width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10,
               border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)',
@@ -604,11 +618,11 @@ export function CharmDecoratorPanel({
                 )
               })}
             {allCharms.filter((c) => c.category !== 'letter').filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).length === 0 && (
-              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>Pakabukų nerasta</div>
+              <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>{t('noResults')}</div>
             )}
           </div>
           <span style={{ display: 'block', marginTop: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-            {(selectedCharms ?? []).filter(Boolean).length} / {MAX_CHARMS} pasirinkta
+            {t('selectedCountLabel', { count: (selectedCharms ?? []).filter(Boolean).length, max: MAX_CHARMS })}
           </span>
           {(selectedCharms ?? []).filter(Boolean).length >= MAX_CHARMS && (
             <button
@@ -620,7 +634,7 @@ export function CharmDecoratorPanel({
                 fontSize: 13, fontWeight: 600, cursor: 'pointer', textAlign: 'center',
               }}
             >
-              Reikia daugiau pakabukų?
+              {t('needMoreCharms')}
             </button>
           )}
         </div>

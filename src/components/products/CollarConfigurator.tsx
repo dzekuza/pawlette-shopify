@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useMemo, useRef, useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Plus } from 'lucide-react'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
@@ -26,20 +27,28 @@ import {
   translateColorLabel,
   PDP_REVIEW_RATING,
   PDP_REVIEW_COUNT,
-  PDP_TRUST_POINTS,
-  PDP_REVIEWS,
+  getPdpTrustPoints,
+  getPdpReviews,
 } from '@/components/products/pdpConstants'
 
 const DIVIDER = 'var(--color-border)'
 
-// Color filter chips shared by the Personalise + Extra-charms modals
-const CHARM_COLOR_FILTERS = [
-  { key: 'blue', label: 'Mėlyna', hex: '#B8D8F4' },
-  { key: 'dark blue', label: 'Tamsiai mėlyna', hex: '#6B9FD4' },
-  { key: 'pink', label: 'Rožinė', hex: '#F4B5C0' },
-  { key: 'yellow', label: 'Geltona', hex: '#F9E4A0' },
-  { key: 'purple', label: 'Violetinė', hex: '#D4B8F4' },
+// Color filter chips shared by the Personalise + Extra-charms modals — hex values keyed the same
+// as products.configurator.colorFilters in the message dictionaries.
+const CHARM_COLOR_FILTER_KEYS = [
+  { key: 'blue', hex: '#B8D8F4' },
+  { key: 'dark blue', hex: '#6B9FD4' },
+  { key: 'pink', hex: '#F4B5C0' },
+  { key: 'yellow', hex: '#F9E4A0' },
+  { key: 'purple', hex: '#D4B8F4' },
 ]
+const COLOR_FILTER_LABEL_KEYS: Record<string, string> = {
+  blue: 'blue',
+  'dark blue': 'darkBlue',
+  pink: 'pink',
+  yellow: 'yellow',
+  purple: 'purple',
+}
 
 // Color name → hex swatch mapping for display
 const COLOR_SWATCHES: Record<string, string> = {
@@ -87,6 +96,7 @@ export function CharmPicker ({
   charms: ShopifyCharm[]; selected: ShopifyCharm | null; selectedIds?: string[]; onSelect: (c: ShopifyCharm) => void
   query: string; onQueryChange: (q: string) => void
 }) {
+  const t = useTranslations('products.configurator')
   const [expandedFor, setExpandedFor] = useState<string | null>(null)
   const [hasOverflow, setHasOverflow] = useState(false)
   const width = useWindowWidth() ?? 1200
@@ -112,10 +122,10 @@ export function CharmPicker ({
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12, minHeight: 0 }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, flexShrink: 0 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>Rinktis pakabuką</span>
+        <span style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: TEXT_MUTED }}>{t('charmPicker.chooseLabel')}</span>
         {selected && <span style={{ fontSize: 12, color: TEXT_SECONDARY }}>{selected.title}</span>}
       </div>
-<input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder="Ieškoti pakabukų…" style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)', color: TEXT_PRIMARY, fontSize: 13, outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = 'var(--color-sage)' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
+<input type="search" value={query} onChange={(e) => onQueryChange(e.target.value)} placeholder={t('charmPicker.searchPlaceholder')} style={{ width: '100%', boxSizing: 'border-box', padding: '9px 12px', borderRadius: 10, border: `1.5px solid ${BORDER_COLOR}`, background: 'var(--color-surface-2)', color: TEXT_PRIMARY, fontSize: 13, outline: 'none' }} onFocus={(e) => { e.target.style.borderColor = 'var(--color-sage)' }} onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minHeight: 0 }}>
         <div
@@ -140,7 +150,7 @@ export function CharmPicker ({
               </button>
             )
           })}
-          {charms.length === 0 && <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>Pakabukų nerasta</div>}
+          {charms.length === 0 && <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>{t('charmPicker.noResults')}</div>}
         </div>
         </div>
         {hasOverflow && (
@@ -162,7 +172,7 @@ export function CharmPicker ({
               textTransform: 'uppercase',
             }}
           >
-            {expanded ? 'Rodyti mažiau' : 'Rodyti daugiau'}
+            {expanded ? t('charmPicker.showLess') : t('charmPicker.showMore')}
           </button>
         )}
       </div>
@@ -173,6 +183,7 @@ export function CharmPicker ({
 // Small circular video previews shown above the color swatches — tapping one
 // opens it larger in a bottom-sheet player, mirroring the Personalise dialog.
 function VideoCircles ({ videos }: { videos: string[] }) {
+  const t = useTranslations('products.configurator')
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   return (
@@ -183,7 +194,7 @@ function VideoCircles ({ videos }: { videos: string[] }) {
             key={video + i}
             type="button"
             onClick={() => setActiveIndex(i)}
-            aria-label={`Peržiūrėti vaizdo įrašą ${i + 1}`}
+            aria-label={t('watchVideo', { n: i + 1 })}
             style={{
               flexShrink: 0, width: 82, height: 82, borderRadius: '50%', overflow: 'hidden',
               border: `2px solid ${BORDER_COLOR}`, padding: 0, cursor: 'pointer', background: 'var(--color-surface-2)',
@@ -254,6 +265,8 @@ export interface CollarConfiguratorProps {
  * SingleProductPage.tsx (product detail page) and LandingBuySection.tsx (homepage buy card).
  */
 export function CollarConfigurator ({ configurator, name, price, showCharms = true, videos = [], showTrustAndReviews = true, stepper = false }: CollarConfiguratorProps) {
+  const t = useTranslations('products.configurator')
+  const tPdp = useTranslations('products.pdp')
   const {
     allCollars,
     collar,
@@ -290,6 +303,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
     clearCartToast,
   } = configurator
 
+  const pdpTrustPoints = getPdpTrustPoints(tPdp)
+  const pdpReviews = getPdpReviews(tPdp)
   const dndSensorsForModal = dndSensors
   const [added, setAdded] = useState(false)
   const [open, setOpen] = useState<string | null>(null)
@@ -321,10 +336,10 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
   }
 
   const accordionItems = [
-    { id: 'description', title: 'Aprašymas',       content: collar?.description  || 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.' },
-    { id: 'features',    title: 'Savybės',  content: collar?.features     || 'Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.' },
-    { id: 'includes',    title: 'Į rinkinį įeina',      content: collar?.set_includes || 'Antkaklis pasirinktos spalvos ir dydžio · Penki keičiami prisegami pakabukai — pirmi penki įskaičiuoti nemokamai, kiekvienas papildomas + €3.99 · Reguliuojama saugi sagtis · Lininis laikymo maišelis' },
-    { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping    || 'Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės' },
+    { id: 'description', title: t('accordion.description'), content: collar?.description  || t('accordion.descriptionContent') },
+    { id: 'features',    title: t('accordion.features'),     content: collar?.features     || t('accordion.featuresContent') },
+    { id: 'includes',    title: t('accordion.includes'),      content: collar?.set_includes || t('accordion.includesContent') },
+    { id: 'shipping',    title: t('accordion.shipping'), content: collar?.shipping    || t('accordion.shippingContent') },
   ]
 
   return (
@@ -335,7 +350,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
       <div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
           <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
-          <span style={{ fontSize: 13, fontWeight: 600 }}>{PDP_REVIEW_RATING.toFixed(1)} iš {PDP_REVIEW_COUNT} atsiliepimų</span>
+          <span style={{ fontSize: 13, fontWeight: 600 }}>{tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
         </div>
         <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
         <ProductPrice
@@ -355,8 +370,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           <div>
             {!stepper && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Pasirinkite spalvą</span>
-                {selectedColor && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{translateColorLabel(selectedColor)}</span>}
+                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>{t('chooseColor')}</span>
+                {selectedColor && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{translateColorLabel(tPdp, selectedColor)}</span>}
               </div>
             )}
             <div style={{ display: 'flex', gap: 8 }}>
@@ -365,7 +380,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
                 return (
                   <button
                     key={option.color}
-                      title={translateColorLabel(option.color)}
+                      title={translateColorLabel(tPdp, option.color)}
                     onClick={() => onColorChange(option.color)}
                     style={{
                       flex: '1 1 0',
@@ -401,7 +416,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
 
         const charmsStepBody = (
           <CharmDecoratorPanel
-            title="Papuoškite savo antkaklį"
+            title={t('decoratePanelTitle')}
             selectedCharmCount={selectedCollarCharmCount}
             selectedCharms={selectedCollarCharms}
             charmName={collarCharmName}
@@ -420,7 +435,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           <div>
             {!stepper && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>Dydis</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>{t('size')}</span>
                 {selectedSize && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{selectedSize}</span>}
               </div>
             )}
@@ -461,7 +476,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
                   textDecoration: 'none',
                 }}
               >
-                Kaip išmatuoti tinkamą dydį →
+                {t('howToMeasure')}
               </button>
             </div>
           </div>
@@ -478,9 +493,9 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
         }
 
         const steps: Array<{ key: string; title: string; body: React.ReactNode; summary: React.ReactNode }> = []
-        if (hasColors) steps.push({ key: 'color', title: 'Pasirinkite spalvą', body: colorStepBody, summary: selectedColor ? translateColorLabel(selectedColor) : null })
-        if (hasSizes) steps.push({ key: 'size', title: 'Dydis', body: sizeStepBody, summary: selectedSize || null })
-        if (showCharms) steps.push({ key: 'charms', title: 'Papuoškite savo antkaklį', body: charmsStepBody, summary: selectedCollarCharmCount > 0 ? `${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ai' : 'as'}` : 'Praleista' })
+        if (hasColors) steps.push({ key: 'color', title: t('chooseColor'), body: colorStepBody, summary: selectedColor ? translateColorLabel(tPdp, selectedColor) : null })
+        if (hasSizes) steps.push({ key: 'size', title: t('size'), body: sizeStepBody, summary: selectedSize || null })
+        if (showCharms) steps.push({ key: 'charms', title: t('decoratePanelTitle'), body: charmsStepBody, summary: selectedCollarCharmCount > 0 ? t('stepSummaryCharms', { count: selectedCollarCharmCount }) : t('stepSummarySkipped') })
 
         return (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -555,7 +570,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
                             color: 'var(--color-cream)',
                           }}
                         >
-                          Toliau →
+                          {t('next')}
                         </button>
                       )}
                     </div>
@@ -582,16 +597,16 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
         onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
       >
         {added
-          ? '✓ Pridėta į krepšelį!'
+          ? t('addedToCart')
           : selectedCollarCharmCount
-            ? `Pirkti su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'} · ${price}`
-            : `Pirkti · ${price}`}
+            ? t('buyWithCharms', { count: selectedCollarCharmCount, price })
+            : t('buyPlain', { price })}
       </button>
       {showTrustAndReviews && (
         <>
       {/* Trust strip — purchase reassurance below CTA */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {PDP_TRUST_POINTS.map((point) => (
+        {pdpTrustPoints.map((point) => (
           <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
         ))}
       </div>
@@ -613,7 +628,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
               transition: 'transform 280ms ease',
             }}
           >
-            {PDP_REVIEWS.map((review) => (
+            {pdpReviews.map((review) => (
               <div key={`${review.author}-${review.quote}`} style={{ minWidth: '100%' }}>
                 <TestimonialQuoteCard author={review.author} quote={review.quote} />
               </div>
@@ -623,12 +638,12 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
           <div style={{ display: 'flex', gap: 6 }}>
-            {PDP_REVIEWS.map((review, index) => (
+            {pdpReviews.map((review, index) => (
               <button
                 key={review.author}
                 type="button"
                 onClick={() => setActiveReview(index)}
-                aria-label={`Rodyti atsiliepimą ${index + 1}`}
+                aria-label={t('reviews.showReview', { n: index + 1 })}
                 aria-pressed={activeReview === index}
                 style={{
                   width: activeReview === index ? 20 : 7,
@@ -647,8 +662,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           <div style={{ display: 'flex', gap: 8 }}>
             <button
               type="button"
-              onClick={() => setActiveReview((current) => (current === 0 ? PDP_REVIEWS.length - 1 : current - 1))}
-              aria-label="Ankstesnis atsiliepimas"
+              onClick={() => setActiveReview((current) => (current === 0 ? pdpReviews.length - 1 : current - 1))}
+              aria-label={t('reviews.prevReview')}
               style={{
                 width: 34,
                 height: 34,
@@ -665,8 +680,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
             </button>
             <button
               type="button"
-              onClick={() => setActiveReview((current) => (current + 1) % PDP_REVIEWS.length)}
-              aria-label="Kitas atsiliepimas"
+              onClick={() => setActiveReview((current) => (current + 1) % pdpReviews.length)}
+              aria-label={t('reviews.nextReview')}
               style={{
                 width: 34,
                 height: 34,
@@ -753,27 +768,23 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
               <div>
-                <Eyebrow className="font-semibold tracking-[0.1em]">Dydžių gidas</Eyebrow>
+                <Eyebrow className="font-semibold tracking-[0.1em]">{t('sizeGuide.eyebrow')}</Eyebrow>
                 <DisplayHeading as="h3" size="compact" className="mt-[6px] m-0" style={{ lineHeight: 1.15, color: TEXT_PRIMARY, fontWeight: 400 }}>
-                  Kaip išmatuoti savo šunį
+                  {t('sizeGuide.title')}
                 </DisplayHeading>
               </div>
               <button
                 type="button"
                 onClick={() => setFitGuideOpen(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, lineHeight: 1, color: TEXT_MUTED, padding: 0 }}
-                aria-label="Uždaryti dydžių gidą"
+                aria-label={t('sizeGuide.close')}
               >
                 ×
               </button>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[
-                'Apjuoskite minkšta matavimo juosta šuns kaklo vidurį ten, kur paprastai būna antkaklis.',
-                'Juosta turi priglusti, bet neveržti. Tarp juostos ir kaklo turi tilpti du pirštai.',
-                'Jei matmuo patenka tarp dydžių, kasdieniam patogumui rinkitės didesnį.',
-              ].map((step, index) => (
+              {(t.raw('sizeGuide.steps') as string[]).map((step, index) => (
                 <div key={step} style={{ display: 'grid', gridTemplateColumns: '28px 1fr', gap: 10, alignItems: 'start' }}>
                   <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'rgba(168,213,162,0.22)', color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>
                     {index + 1}
@@ -787,7 +798,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
 
             <div style={{ borderRadius: 16, background: 'var(--color-surface-2)', padding: '14px 16px' }}>
               <p style={{ margin: 0, fontSize: 13, lineHeight: 1.55, color: TEXT_PRIMARY }}>
-                <strong>Patarimas:</strong> Matuokite dienos pabaigoje, kai šuo atsipalaidavęs. Jei kailis purus, matuokite po juo, o ne virš jo.
+                {t.rich('sizeGuide.tip', { strong: (chunks) => <strong>{chunks}</strong> })}
               </p>
             </div>
           </div>
@@ -808,8 +819,8 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
           {/* Header */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Pridėkite pakabukų</DisplayHeading>
-              <Badge variant="sage">Nemokama</Badge>
+              <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>{t('personaliseModal.title')}</DisplayHeading>
+              <Badge variant="sage">{t('personaliseModal.free')}</Badge>
             </div>
             <button onClick={() => setPersonaliseOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
           </div>
@@ -832,20 +843,20 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
               onClick={() => applyStarterPack(0)}
               style={{ padding: '6px 14px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              ✨ Populiariausias rinkinys
+              {t('personaliseModal.starterPopular')}
             </button>
             <button
               type="button"
               onClick={() => applyStarterPack(MAX_CHARMS)}
               style={{ padding: '6px 14px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, background: 'var(--color-cream)', color: TEXT_PRIMARY, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
-              🌸 Gėlių rinkinys
+              {t('personaliseModal.starterFlower')}
             </button>
           </div>
 
           {/* Color filter */}
           <div className="hide-scrollbar" style={{ display: 'flex', gap: 8, alignItems: 'center', overflowX: 'auto', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
-            {CHARM_COLOR_FILTERS.map(({ key, label, hex }) => (
+            {CHARM_COLOR_FILTER_KEYS.map(({ key, hex }) => (
               <button
                 key={key}
                 onClick={() => setCollarCharmColor(key)}
@@ -861,7 +872,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
                 }}
               >
                 {hex && <span style={{ width: 14, height: 14, borderRadius: '50%', background: hex, flexShrink: 0, display: 'inline-block' }} />}
-                {label}
+                {t(`colorFilters.${COLOR_FILTER_LABEL_KEYS[key]}`)}
               </button>
             ))}
           </div>
@@ -890,14 +901,14 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
               transition: 'background 150ms',
             }}
           >
-            {charmAdded ? '✓ Pridėta į krepšelį!' : selectedCollarCharmCount ? `Į krepšelį su ${selectedCollarCharmCount} pakabuk${selectedCollarCharmCount > 1 ? 'ais' : 'u'}` : 'Pasirinkite bent 1 pakabuką'}
+            {charmAdded ? t('addedToCart') : selectedCollarCharmCount ? t('personaliseModal.addToCart', { count: selectedCollarCharmCount }) : t('personaliseModal.addToCartEmpty')}
           </button>
           <button
             type="button"
             onClick={() => setPersonaliseOpen(false)}
             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 500, color: TEXT_SECONDARY, textDecoration: 'underline', textAlign: 'center' }}
           >
-            Praleisti ir pirkti be pakabukų
+            {t('personaliseModal.skip')}
           </button>
         </div>
       </div>
@@ -931,6 +942,7 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
  * state while letting two otherwise-unrelated flows trigger it.
  */
 export function ExtraCharmsModal ({ configurator }: { configurator: CollarConfiguratorState }) {
+  const t = useTranslations('products.configurator')
   const {
     extraCharmsOpen,
     setExtraCharmsOpen,
@@ -958,16 +970,16 @@ export function ExtraCharmsModal ({ configurator }: { configurator: CollarConfig
       >
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>Reikia daugiau pakabukų?</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="m-0" style={{ fontWeight: 400, color: TEXT_PRIMARY }}>{t('extraCharmsModal.title')}</DisplayHeading>
           <button onClick={() => setExtraCharmsOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: TEXT_MUTED, lineHeight: 1 }}>×</button>
         </div>
         <span style={{ fontSize: 13, color: TEXT_SECONDARY, marginTop: -12 }}>
-          Pasirinkite papildomus pakabukus — jie bus pridėti į krepšelį atskirai.
+          {t('extraCharmsModal.subtitle')}
         </span>
 
         {/* Color filter */}
         <div className="hide-scrollbar" style={{ display: 'flex', gap: 8, alignItems: 'center', overflowX: 'auto', flexWrap: 'nowrap', WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'], scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
-          {[{ key: '', label: 'Visos', hex: '' }, ...CHARM_COLOR_FILTERS].map(({ key, label, hex }) => (
+          {[{ key: '', label: t('extraCharmsModal.allColors'), hex: '' }, ...CHARM_COLOR_FILTER_KEYS.map((f) => ({ ...f, label: t(`colorFilters.${COLOR_FILTER_LABEL_KEYS[f.key]}`) }))].map(({ key, label, hex }) => (
             <button
               key={key || 'all'}
               onClick={() => setExtraCharmsColor(key)}
@@ -1013,10 +1025,10 @@ export function ExtraCharmsModal ({ configurator }: { configurator: CollarConfig
           }}
         >
           {extraCharmsAdded
-            ? '✓ Pridėta į krepšelį!'
+            ? t('addedToCart')
             : extraCharmsPicked.length
-              ? `Į krepšelį su ${extraCharmsPicked.length} pakabuk${extraCharmsPicked.length > 1 ? 'ais' : 'u'}`
-              : 'Pasirinkite bent 1 pakabuką'}
+              ? t('extraCharmsModal.addToCart', { count: extraCharmsPicked.length })
+              : t('extraCharmsModal.addToCartEmpty')}
         </button>
       </div>
     </div>
