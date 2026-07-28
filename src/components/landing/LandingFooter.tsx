@@ -2,9 +2,21 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 import { Eyebrow } from '@/components/storefront/Typography';
 import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
+import ltMessages from '@/messages/lt.json';
+import enMessages from '@/messages/en.json';
+
+// LandingFooter is imported directly by non-migrated pages (/faq, /cart,
+// /checkout) that sit outside the `[locale]` route segment and have no
+// NextIntlClientProvider ancestor. Calling next-intl's useTranslations()
+// here throws ("No intl context found") on those routes. So instead of the
+// hook, resolve copy from a plain object keyed by the URL's locale prefix,
+// mirroring the same segment check CartDrawer/LanguageSwitcher use
+// (`/en/...` → en, everything else → lt).
+const FOOTER_STRINGS = { lt: ltMessages.landing.footer, en: enMessages.landing.footer };
+const COMMON_STRINGS = { lt: ltMessages.common, en: enMessages.common };
 
 const FOOTER_COLS = [
   { key: 'store', links: [
@@ -26,21 +38,23 @@ const FOOTER_COLS = [
 ] as const;
 
 export function LandingFooter() {
-  const t = useTranslations('landing.footer');
-  const tCommon = useTranslations('common');
-  const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO });
+  const pathname = usePathname();
+  const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
+  const t = FOOTER_STRINGS[locale];
+  const tCommon = COMMON_STRINGS[locale];
+  const shippingCopy = tCommon.freeShipping.replace('{threshold}', String(FREE_SHIPPING_THRESHOLD_EURO));
   return (
     <footer className="bg-surface-2 py-16 text-bark md:py-20">
       <div className="mx-auto max-w-[1200px] px-4 md:px-6">
         <div className="mb-10 grid gap-10 md:mb-14 md:grid-cols-2 md:gap-12 xl:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" aria-label={t('logoAriaLabel')} style={{ display: 'inline-flex', marginBottom: 16 }}>
+            <Link href="/" aria-label={t.logoAriaLabel} style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block' }} />
             </Link>
-            <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t('tagline')}</p>
-            <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>{t('swapNote')}</div>
+            <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t.tagline}</p>
+            <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>{t.swapNote}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 18 }}>
-              {[shippingCopy, t('returnsBadge')].map((item) => (
+              {[shippingCopy, t.returnsBadge].map((item) => (
                 <span
                   key={item}
                   style={{
@@ -60,13 +74,13 @@ export function LandingFooter() {
           <div className="grid grid-cols-2 gap-8 md:col-span-2 md:grid-cols-3 xl:col-span-3 xl:contents">
             {FOOTER_COLS.map((col, index) => (
               <div key={col.key} className={index === FOOTER_COLS.length - 1 ? 'col-span-2 md:col-span-1' : ''}>
-                <Eyebrow className="mb-4">{t(`columns.${col.key}.title`)}</Eyebrow>
+                <Eyebrow className="mb-4">{t.columns[col.key].title}</Eyebrow>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
                     <Link key={l.key} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
                       onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-bark)')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-bark-light)')}>
-                      {t(`columns.${col.key}.links.${l.key}`)}
+                      {(t.columns[col.key].links as Record<string, string>)[l.key]}
                     </Link>
                   ))}
                 </div>
@@ -75,8 +89,8 @@ export function LandingFooter() {
           </div>
         </div>
         <div className="flex flex-col gap-2 border-t border-border pt-6 text-[14px] text-muted-foreground md:flex-row md:items-center md:justify-between md:gap-4">
-          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t('copyright', { year: new Date().getFullYear() })}</div>
-          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t('contactLine', { email: 'info@pawscharm.com' })}</div>
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t.copyright.replace('{year}', String(new Date().getFullYear()))}</div>
+          <div style={{ fontSize: 14, color: 'var(--color-muted-foreground)' }}>{t.contactLine.replace('{email}', 'info@pawscharm.com')}</div>
         </div>
       </div>
     </footer>

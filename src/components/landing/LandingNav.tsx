@@ -3,13 +3,24 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { Gift } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
+import ltMessages from '@/messages/lt.json';
+import enMessages from '@/messages/en.json';
+
+// LandingNav is imported directly by non-migrated pages (/faq, /cart,
+// /checkout) that sit outside the `[locale]` route segment and have no
+// NextIntlClientProvider ancestor. Calling next-intl's useTranslations()
+// here throws ("No intl context found") on those routes. So instead of the
+// hook, resolve copy from a plain object keyed by the URL's locale prefix,
+// mirroring the same segment check CartDrawer/LanguageSwitcher use
+// (`/en/...` → en, everything else → lt).
+const NAV_STRINGS = { lt: ltMessages.landing.nav, en: enMessages.landing.nav };
 
 const NAV_LINK_HREFS = [
   { key: 'collars', href: '/products/pawcharms-antkaklis' },
@@ -26,10 +37,12 @@ interface LandingNavProps {
 }
 
 export function LandingNav({ cartCount = 0 }: LandingNavProps) {
-  const t = useTranslations('landing.nav');
+  const pathname = usePathname();
+  const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
+  const t = NAV_STRINGS[locale];
   const [menuOpen, setMenuOpen] = useState(false);
   const navLinks = NAV_LINK_HREFS.map(({ key, href }) => ({
-    label: t(`links.${key}`),
+    label: t.links[key],
     href,
   }));
 
@@ -63,7 +76,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           padding: '12px 12px 12px 16px',
           overflow: 'clip',
         }}>
-          <Link href="/" aria-label={t('homeAriaLabel')} style={{ flexShrink: 0, lineHeight: 0 }}>
+          <Link href="/" aria-label={t.homeAriaLabel} style={{ flexShrink: 0, lineHeight: 0 }}>
             <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
@@ -94,7 +107,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Gift */}
             <button
               onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
-              aria-label={t('giftAriaLabel')}
+              aria-label={t.giftAriaLabel}
               style={{
                 background: 'none',
                 border: 'none',
@@ -111,7 +124,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Cart */}
             <button
               onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
-              aria-label={t('cartAriaLabel')}
+              aria-label={t.cartAriaLabel}
               style={{
                 position: 'relative',
                 background: 'none',
@@ -152,7 +165,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             {/* Mobile hamburger */}
             <button
               onClick={() => setMenuOpen(o => !o)}
-              aria-label={menuOpen ? t('closeMenuAriaLabel') : t('openMenuAriaLabel')}
+              aria-label={menuOpen ? t.closeMenuAriaLabel : t.openMenuAriaLabel}
               aria-expanded={menuOpen}
               className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
               style={{
@@ -169,7 +182,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
             {/* Shop now CTA */}
             <PrimaryButton href="/products" variant="sage" size="md" className="hidden md:inline-flex">
-              {t('shopNow')}
+              {t.shopNow}
             </PrimaryButton>
           </div>
         </div>
@@ -226,7 +239,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           alignItems: 'center',
           gap: 12,
         }}>
-          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>{t('madeIn')}</span>
+          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>{t.madeIn}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <LanguageSwitcher tabIndex={menuOpen ? 0 : -1} />
             <a
