@@ -34,27 +34,37 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
     }
   }
 
-  const title = buildProductSeoTitle(product)
-  const description = buildProductSeoDescription(product)
+  const localeCode = locale === 'en' ? 'en' : 'lt'
+  const title = buildProductSeoTitle(product, localeCode)
+  const description = buildProductSeoDescription(product, localeCode)
   const productUrl = `https://pawscharm.com/products/${product.slug}`
 
   return {
     title,
     description,
     alternates: { canonical: productUrl },
-    // English PDPs are ~90% untranslated (title/description/JSON-LD/page
-    // chrome still Lithuanian) — never in this plan's Phase-1 scope. Rather
-    // than fully translating the PDP (a Phase 2 task), keep it out of the
-    // index while still allowing normal crawling/link-following.
+    // Title/description/JSON-LD now render in English via the Task-19
+    // catalog overlay (see buildProduct* in src/lib/seo.ts) — this gate stays
+    // on until a manual review confirms the English PDP content end-to-end,
+    // then it can be dropped for locale === 'en'.
     ...(locale === 'en' ? { robots: { index: false, follow: true } } : {}),
-    keywords: [
-      product.name,
-      product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',
-      product.productType === 'collar' ? 'silikoninis antkaklis šuniui' : product.productType === 'leash' ? 'silikoninis pavadėlis šuniui' : 'pakabukai šunų antkakliams',
-      product.productType === 'collar' ? 'graviruotas šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'raidiniai pakabukai šunims',
-      'PawCharms',
-      'Vilnius',
-    ],
+    keywords: localeCode === 'en'
+      ? [
+          product.name,
+          product.productType === 'collar' ? 'personalized dog collar' : product.productType === 'leash' ? 'waterproof dog leash' : 'interchangeable dog collar charms',
+          product.productType === 'collar' ? 'silicone dog collar' : product.productType === 'leash' ? 'silicone dog leash' : 'charms for dog collars',
+          product.productType === 'collar' ? 'engraved dog collar' : product.productType === 'leash' ? 'dog leash' : 'letter charms for dogs',
+          'PawCharms',
+          'Vilnius',
+        ]
+      : [
+          product.name,
+          product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',
+          product.productType === 'collar' ? 'silikoninis antkaklis šuniui' : product.productType === 'leash' ? 'silikoninis pavadėlis šuniui' : 'pakabukai šunų antkakliams',
+          product.productType === 'collar' ? 'graviruotas šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'raidiniai pakabukai šunims',
+          'PawCharms',
+          'Vilnius',
+        ],
     openGraph: {
       title: `${title} | PawCharms`,
       description,
@@ -79,9 +89,10 @@ export default async function ProductPage ({ params }: ProductPageProps) {
 
   if (!product) notFound()
 
-  const productSchema = buildProductJsonLd(product)
-  const breadcrumbSchema = buildProductBreadcrumbJsonLd(product)
-  const faqSchema = buildProductFaqSchema(product)
+  const localeCode = locale === 'en' ? 'en' : 'lt'
+  const productSchema = buildProductJsonLd(product, localeCode)
+  const breadcrumbSchema = await buildProductBreadcrumbJsonLd(product, localeCode)
+  const faqSchema = await buildProductFaqSchema(product, localeCode)
 
   const schemas = (
     <>

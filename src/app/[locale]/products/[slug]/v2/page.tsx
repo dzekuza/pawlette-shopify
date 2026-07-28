@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
 import { getProductBySlugAsync } from '@/lib/catalog'
 import {
@@ -18,16 +19,18 @@ interface ProductPageProps {
 
 export async function generateMetadata ({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
-  const product = await getProductBySlugAsync(slug)
+  const locale = await getLocale()
+  const localeCode = locale === 'en' ? 'en' : 'lt'
+  const product = await getProductBySlugAsync(slug, locale)
 
   if (!product) {
     return {
-      title: 'Prekė nerasta'
+      title: localeCode === 'en' ? 'Product not found' : 'Prekė nerasta'
     }
   }
 
-  const title = buildProductSeoTitle(product)
-  const description = buildProductSeoDescription(product)
+  const title = buildProductSeoTitle(product, localeCode)
+  const description = buildProductSeoDescription(product, localeCode)
 
   return {
     title,
@@ -39,13 +42,15 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
 
 export default async function ProductPageV2 ({ params }: ProductPageProps) {
   const { slug } = await params
-  const product = await getProductBySlugAsync(slug)
+  const locale = await getLocale()
+  const localeCode = locale === 'en' ? 'en' : 'lt'
+  const product = await getProductBySlugAsync(slug, locale)
 
   if (!product) notFound()
 
-  const productSchema = buildProductJsonLd(product)
-  const breadcrumbSchema = buildProductBreadcrumbJsonLd(product)
-  const faqSchema = buildProductFaqSchema(product)
+  const productSchema = buildProductJsonLd(product, localeCode)
+  const breadcrumbSchema = await buildProductBreadcrumbJsonLd(product, localeCode)
+  const faqSchema = await buildProductFaqSchema(product, localeCode)
 
   const schemas = (
     <>

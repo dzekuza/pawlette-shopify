@@ -408,7 +408,25 @@
         "prevReview": "Ankstesnis atsiliepimas",
         "nextReview": "Kitas atsiliepimas"
       },
-      "decorateCharmTitle": "Papuoškite savo pakabuką"
+      "decorateCharmTitle": "Papuoškite savo pakabuką",
+      "seo": {
+        "breadcrumbHome": "Pradžia",
+        "breadcrumbProducts": "Produktai",
+        "faqSchema": {
+          "everydayUse": {
+            "question": "Ar {product} tinka kasdieniam naudojimui?",
+            "answer": "Taip. PawCharms produktai kurti kasdieniams pasivaikščiojimams, lengvai valosi ir išlaiko tvarkingą išvaizdą net po lietaus ar purvinų nuotykių."
+          },
+          "combineProducts": {
+            "question": "Ar galima derinti su kitais PawCharms produktais?",
+            "answer": "Taip. Pakabukai tinka visiems PawCharms antkakliams, o pavadėliai vizualiai suderinti su mūsų spalvų kolekcija ir kasdieniais komplektais."
+          },
+          "shipping": {
+            "question": "Per kiek laiko išsiunčiamas užsakymas?",
+            "answer": "Užsakymai paprastai paruošiami per 1 darbo dieną. Lietuvoje pristatymas dažniausiai trunka 1-3 darbo dienas, o į kitas ES šalis 3-7 darbo dienas."
+          }
+        }
+      }
     },
     "charmDecorator": {
       "charmsIncludedBadge": "{count, plural, one {# pakabukas įskaičiuoti} few {# pakabukai įskaičiuoti} other {# pakabukai įskaičiuoti}}",
@@ -513,6 +531,9 @@
     }
   },
   "seo": {
+    "websiteSchema": {
+      "description": "Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje."
+    },
     "faqSchema": {
       "waterproof": {
         "question": "Ar PawCharms antkakliai yra atsparūs vandeniui?",
@@ -536,6 +557,7 @@
       }
     },
     "productListSchema": {
+      "itemListName": "PawCharms šunų antkaklių rinkiniai",
       "collars": [
         {
           "name": "Blossom rinkinys",

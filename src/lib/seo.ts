@@ -1,5 +1,8 @@
 import type { ProductDetail } from '@/lib/catalog'
 import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config'
+import { getTranslations } from 'next-intl/server'
+
+export type ProductLocale = 'lt' | 'en'
 
 export const SITE_URL = 'https://pawscharm.com'
 export const BRAND_NAME = 'PawCharms'
@@ -40,7 +43,24 @@ function isParentProductPage(product: ProductDetail) {
   return Boolean(product.parentHandle && product.slug === product.parentHandle)
 }
 
-function getProductKeyword(product: ProductDetail) {
+function getProductKeyword(product: ProductDetail, locale: ProductLocale) {
+  if (locale === 'en') {
+    if (product.productType === 'collar') {
+      if (isParentProductPage(product)) return 'personalized silicone dog collar with charms'
+      // product.name carries the Task-19 English overlay (e.g. "Blue Collar") —
+      // strip the trailing noun to recover just the color word.
+      const colorWord = product.name.replace(/\s*collar\s*$/i, '').trim().toLowerCase()
+      return `${colorWord ? `${colorWord} ` : ''}silicone dog collar with charms`
+    }
+    if (product.productType === 'leash') {
+      return isParentProductPage(product)
+        ? 'waterproof silicone dog leash'
+        : 'silicone dog leash'
+    }
+    if (product.slug === 'charm-charms') return 'interchangeable charms for dog collars'
+    return 'dog collar charm'
+  }
+
   if (product.productType === 'collar') {
     return isParentProductPage(product)
       ? 'personalizuotas silikoninis šuns antkaklis su pakabukais'
@@ -55,7 +75,24 @@ function getProductKeyword(product: ProductDetail) {
   return 'pakabukas šuns antkakliui'
 }
 
-export function buildProductSeoTitle(product: ProductDetail) {
+export function buildProductSeoTitle(product: ProductDetail, locale: ProductLocale = 'lt') {
+  if (locale === 'en') {
+    // product.name already carries the Task-19 English overlay (e.g. "Blue
+    // Collar", "Blue Leash", "PawCharms Charms — Large (M/L)") — build the
+    // title around it instead of re-deriving a color word from Lithuanian
+    // fields like colorLabel, which the overlay does not translate.
+    if (product.productType === 'collar') {
+      if (isParentProductPage(product)) return 'Personalized Silicone Dog Collar with Charms'
+      return `${product.name} — Waterproof Silicone Dog Collar with Charms`
+    }
+    if (product.productType === 'leash') {
+      if (isParentProductPage(product)) return 'Waterproof Silicone Dog Leash'
+      return `${product.name} — Waterproof Silicone Dog Leash`
+    }
+    if (product.slug === 'charm-charms') return 'Interchangeable Charms for Dog Collars'
+    return `${product.name} — Dog Collar Charm`
+  }
+
   if (product.productType === 'collar') {
     if (isParentProductPage(product)) return 'Personalizuotas silikoninis šuns antkaklis su pakabukais'
     // product.name is already the masculine-agreeing form (e.g. "Mėlynas antkaklis") —
@@ -71,8 +108,39 @@ export function buildProductSeoTitle(product: ProductDetail) {
   return `${product.name} pakabukas šuns antkakliui`
 }
 
-export function buildProductSeoDescription(product: ProductDetail) {
+export function buildProductSeoDescription(product: ProductDetail, locale: ProductLocale = 'lt') {
   const baseDescription = trimText(product.shortDescription || product.longDescription)
+
+  if (locale === 'en') {
+    if (product.productType === 'collar') {
+      if (isParentProductPage(product)) {
+        return clampDescription(
+          `Personalized silicone dog collar with interchangeable charms, engraving, and a waterproof build. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+        )
+      }
+      return clampDescription(
+        `${product.name} — waterproof silicone dog collar with interchangeable charms and engraving. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+      )
+    }
+    if (product.productType === 'leash') {
+      if (isParentProductPage(product)) {
+        return clampDescription(
+          'Waterproof silicone dog leash that matches every PawCharms collar. Easy to clean, durable, and built for everyday walks.'
+        )
+      }
+      return clampDescription(
+        `${product.name} — waterproof silicone dog leash that matches every PawCharms collar. Easy to clean and built for everyday walks.`
+      )
+    }
+    if (product.slug === 'charm-charms') {
+      return clampDescription(
+        'Interchangeable PawCharms charms for dog collars — letters, hearts, stars, and more designs that snap on in 5 seconds, no tools required.'
+      )
+    }
+    return clampDescription(
+      `${product.name} — a snap-on PawCharms charm for your dog's collar. ${baseDescription || 'Easy to attach, colorful, and compatible with every PawCharms collar.'}`
+    )
+  }
 
   if (product.productType === 'collar') {
     if (isParentProductPage(product)) {
@@ -109,8 +177,9 @@ export function buildProductSeoDescription(product: ProductDetail) {
   )
 }
 
-export function buildProductFaqSchema(product: ProductDetail) {
-  const productLabel = getProductKeyword(product)
+export async function buildProductFaqSchema(product: ProductDetail, locale: ProductLocale = 'lt') {
+  const productLabel = getProductKeyword(product, locale)
+  const t = await getTranslations({ locale, namespace: 'products.pdp.seo.faqSchema' })
 
   return {
     '@context': 'https://schema.org',
@@ -118,36 +187,37 @@ export function buildProductFaqSchema(product: ProductDetail) {
     mainEntity: [
       {
         '@type': 'Question',
-        name: `Ar ${productLabel} tinka kasdieniam naudojimui?`,
+        name: t('everydayUse.question', { product: productLabel }),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Taip. PawCharms produktai kurti kasdieniams pasivaikščiojimams, lengvai valosi ir išlaiko tvarkingą išvaizdą net po lietaus ar purvinų nuotykių.',
+          text: t('everydayUse.answer'),
         },
       },
       {
         '@type': 'Question',
-        name: 'Ar galima derinti su kitais PawCharms produktais?',
+        name: t('combineProducts.question'),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Taip. Pakabukai tinka visiems PawCharms antkakliams, o pavadėliai vizualiai suderinti su mūsų spalvų kolekcija ir kasdieniais komplektais.',
+          text: t('combineProducts.answer'),
         },
       },
       {
         '@type': 'Question',
-        name: 'Per kiek laiko išsiunčiamas užsakymas?',
+        name: t('shipping.question'),
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'Užsakymai paprastai paruošiami per 1 darbo dieną. Lietuvoje pristatymas dažniausiai trunka 1-3 darbo dienas, o į kitas ES šalis 3-7 darbo dienas.',
+          text: t('shipping.answer'),
         },
       },
     ],
   }
 }
 
-export function buildProductJsonLd(product: ProductDetail) {
+export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale = 'lt') {
   const productUrl = `${SITE_URL}/products/${product.slug}`
-  const description = buildProductSeoDescription(product)
-  const keywordName = buildProductSeoTitle(product)
+  const description = buildProductSeoDescription(product, locale)
+  const keywordName = buildProductSeoTitle(product, locale)
+  const brandLocation = locale === 'en' ? 'Vilnius, Lithuania' : BRAND_LOCATION
 
   return {
     '@context': 'https://schema.org',
@@ -156,33 +226,35 @@ export function buildProductJsonLd(product: ProductDetail) {
     description,
     image: product.images.length > 0 ? product.images : [product.image].filter(Boolean),
     sku: product.slug,
-    category: getProductKeyword(product),
+    category: getProductKeyword(product, locale),
     brand: {
       '@type': 'Brand',
       name: BRAND_NAME,
     },
     url: productUrl,
-    material: product.productType === 'charm' ? 'Silikonas' : 'Maistinis silikonas',
+    material: locale === 'en'
+      ? (product.productType === 'charm' ? 'Silicone' : 'Food-grade silicone')
+      : (product.productType === 'charm' ? 'Silikonas' : 'Maistinis silikonas'),
     countryOfOrigin: {
       '@type': 'Country',
-      name: 'Lietuva',
+      name: locale === 'en' ? 'Lithuania' : 'Lietuva',
     },
     additionalProperty: [
       {
         '@type': 'PropertyValue',
-        name: 'Pagaminta',
-        value: BRAND_LOCATION,
+        name: locale === 'en' ? 'Made in' : 'Pagaminta',
+        value: brandLocation,
       },
       {
         '@type': 'PropertyValue',
-        name: 'Pristatymas',
-        value: `Nemokamas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}`,
+        name: locale === 'en' ? 'Shipping' : 'Pristatymas',
+        value: locale === 'en' ? `Free over ${FREE_SHIPPING_THRESHOLD_TEXT}` : `Nemokamas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}`,
       },
       ...(product.productType === 'collar'
         ? [{
             '@type': 'PropertyValue',
-            name: 'Personalizavimas',
-            value: 'Galimas graviravimas lazeriu',
+            name: locale === 'en' ? 'Personalization' : 'Personalizavimas',
+            value: locale === 'en' ? 'Laser engraving available' : 'Galimas graviravimas lazeriu',
           }]
         : []),
     ],
@@ -256,13 +328,15 @@ function getPriceValidUntil (): string {
   return d.toISOString().split('T')[0]
 }
 
-export function buildProductBreadcrumbJsonLd(product: ProductDetail) {
+export async function buildProductBreadcrumbJsonLd(product: ProductDetail, locale: ProductLocale = 'lt') {
+  const t = await getTranslations({ locale, namespace: 'products.pdp.seo' })
+
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Pradžia', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Produktai', item: `${SITE_URL}/products` },
+      { '@type': 'ListItem', position: 1, name: t('breadcrumbHome'), item: SITE_URL },
+      { '@type': 'ListItem', position: 2, name: t('breadcrumbProducts'), item: `${SITE_URL}/products` },
       { '@type': 'ListItem', position: 3, name: product.name, item: `${SITE_URL}/products/${product.slug}` },
     ],
   }

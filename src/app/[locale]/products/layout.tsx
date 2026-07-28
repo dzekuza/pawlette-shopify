@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({
   params,
@@ -40,15 +40,17 @@ export async function generateMetadata({
 const COLLAR_PRICE = '28';
 
 export default async function ProductsLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   const t = await getTranslations('seo.productListSchema');
   const translatedCollars = t.raw('collars') as Array<{ name: string; color: string }>;
   const collars = translatedCollars.map((collar) => ({ ...collar, price: COLLAR_PRICE }));
+  const productsUrl = locale === 'en' ? 'https://pawscharm.com/en/products' : 'https://pawscharm.com/products';
 
   const productListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    name: 'PawCharms šunų antkaklių rinkiniai',
-    url: 'https://pawscharm.com/products',
+    name: t('itemListName'),
+    url: productsUrl,
     numberOfItems: collars.length,
     itemListElement: collars.map((c, i) => ({
       '@type': 'ListItem',
@@ -58,7 +60,7 @@ export default async function ProductsLayout({ children }: { children: React.Rea
         name: `PawCharms ${c.name}`,
         description: c.color,
         brand: { '@type': 'Brand', name: 'PawCharms' },
-        url: 'https://pawscharm.com/products',
+        url: productsUrl,
         offers: {
           '@type': 'Offer',
           price: c.price,

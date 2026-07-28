@@ -408,7 +408,25 @@
         "prevReview": "Previous review",
         "nextReview": "Next review"
       },
-      "decorateCharmTitle": "Decorate your charm"
+      "decorateCharmTitle": "Decorate your charm",
+      "seo": {
+        "breadcrumbHome": "Home",
+        "breadcrumbProducts": "Products",
+        "faqSchema": {
+          "everydayUse": {
+            "question": "Is the {product} suitable for everyday use?",
+            "answer": "Yes. PawCharms products are built for everyday walks, clean easily, and stay looking sharp even after rain or muddy adventures."
+          },
+          "combineProducts": {
+            "question": "Can it be combined with other PawCharms products?",
+            "answer": "Yes. Charms fit every PawCharms collar, and leashes are visually matched to our color collection and everyday sets."
+          },
+          "shipping": {
+            "question": "How long does shipping take?",
+            "answer": "Orders are usually prepared within 1 business day. Delivery within Lithuania typically takes 1-3 business days, and 3-7 business days to other EU countries."
+          }
+        }
+      }
     },
     "charmDecorator": {
       "charmsIncludedBadge": "{count, plural, one {# charm included} other {# charms included}}",
@@ -513,6 +531,9 @@
     }
   },
   "seo": {
+    "websiteSchema": {
+      "description": "Personalized dog collars with your dog's name — waterproof, with snap-on charms you can change in 5 seconds. Handmade in Vilnius, Lithuania."
+    },
     "faqSchema": {
       "waterproof": {
         "question": "Are PawCharms collars waterproof?",
@@ -536,6 +557,7 @@
       }
     },
     "productListSchema": {
+      "itemListName": "PawCharms Dog Collar Sets",
       "collars": [
         {
           "name": "Blossom Set",

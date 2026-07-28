@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { DM_Sans, Caveat } from 'next/font/google';
 import { MetaPixel } from "@/components/shared/MetaPixel";
 import { ShopifyAnalytics } from "@/components/shared/ShopifyAnalytics";
@@ -96,15 +96,13 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 // `inLanguage` must reflect the actually-rendered locale (also used for the
 // `<html lang={locale}>` attribute below) — otherwise this schema is emitted
 // identically on `/en` pages, contradicting the page's own declared language.
-// NOTE: `description` is intentionally left as Lithuanian-only content here —
-// that's a separately-tracked, already-deferred gap, not part of this fix.
-function buildWebsiteSchema(locale: string) {
+function buildWebsiteSchema(locale: string, description: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'PawCharms',
     url: 'https://pawscharm.com',
-    description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+    description,
     inLanguage: locale,
     potentialAction: {
       '@type': 'SearchAction',
@@ -119,7 +117,8 @@ function buildWebsiteSchema(locale: string) {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
-  const websiteSchema = buildWebsiteSchema(locale);
+  const t = await getTranslations('seo.websiteSchema');
+  const websiteSchema = buildWebsiteSchema(locale, t('description'));
 
   return (
     <html lang={locale} className={`${dmSans.variable} ${caveat.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">
