@@ -335,6 +335,50 @@
       "charmColorTitle": "Pakabuko spalva"
     }
   },
+  "seo": {
+    "faqSchema": {
+      "waterproof": {
+        "question": "Ar PawCharms antkakliai yra atsparūs vandeniui?",
+        "answer": "Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių."
+      },
+      "charms": {
+        "question": "Kaip veikia keičiami pakabukai?",
+        "answer": "Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų tarp skirtingų antkaklių."
+      },
+      "sizing": {
+        "question": "Kaip pasirinkti tinkamą antkaklio dydį?",
+        "answer": "Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–52 cm."
+      },
+      "engraving": {
+        "question": "Ar galiu išgraviruoti savo šuns vardą ant antkaklio?",
+        "answer": "Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti savo šuns vardą, trumpą žinutę arba telefono numerį saugumui."
+      },
+      "manufacturing": {
+        "question": "Kur gaminami PawCharms antkakliai?",
+        "answer": "Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame nedidelė komanda, todėl kiekvienas užsakymas ruošiamas itin kruopščiai."
+      }
+    },
+    "productListSchema": {
+      "collars": [
+        {
+          "name": "Blossom rinkinys",
+          "color": "Rožinis silikoninis šuns antkaklis su keičiamais pakabukais"
+        },
+        {
+          "name": "Sage rinkinys",
+          "color": "Šalavijo žalios spalvos silikoninis šuns antkaklis su keičiamais pakabukais"
+        },
+        {
+          "name": "Sky rinkinys",
+          "color": "Dangaus mėlynumo silikoninis šuns antkaklis su keičiamais pakabukais"
+        },
+        {
+          "name": "Honey rinkinys",
+          "color": "Medaus geltonumo silikoninis šuns antkaklis su keičiamais pakabukais"
+        }
+      ]
+    }
+  },
   "shared": {
     "cartDrawer": {
       "dialogAriaLabel": "Krepšelis",

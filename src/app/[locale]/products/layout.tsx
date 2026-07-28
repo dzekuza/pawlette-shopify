@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 
 export const metadata: Metadata = {
   title: 'Šunų antkakliai, pakabukai ir rinkiniai',
@@ -26,40 +27,39 @@ export const metadata: Metadata = {
   },
 };
 
-const collars = [
-  { id: 1, name: 'Blossom rinkinys', price: '28', color: 'Rožinis silikoninis šuns antkaklis su keičiamais pakabukais' },
-  { id: 2, name: 'Sage rinkinys',    price: '28', color: 'Šalavijo žalios spalvos silikoninis šuns antkaklis su keičiamais pakabukais' },
-  { id: 3, name: 'Sky rinkinys',     price: '28', color: 'Dangaus mėlynumo silikoninis šuns antkaklis su keičiamais pakabukais' },
-  { id: 4, name: 'Honey rinkinys',   price: '28', color: 'Medaus geltonumo silikoninis šuns antkaklis su keičiamais pakabukais' },
-];
+const COLLAR_PRICE = '28';
 
-const productListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'PawCharms šunų antkaklių rinkiniai',
-  url: 'https://pawscharm.com/products',
-  numberOfItems: collars.length,
-  itemListElement: collars.map((c, i) => ({
-    '@type': 'ListItem',
-    position: i + 1,
-    item: {
-      '@type': 'Product',
-      name: `PawCharms ${c.name}`,
-      description: c.color,
-      brand: { '@type': 'Brand', name: 'PawCharms' },
-      url: 'https://pawscharm.com/products',
-      offers: {
-        '@type': 'Offer',
-        price: c.price,
-        priceCurrency: 'EUR',
-        availability: 'https://schema.org/InStock',
-        seller: { '@type': 'Organization', name: 'PawCharms' },
+export default async function ProductsLayout({ children }: { children: React.ReactNode }) {
+  const t = await getTranslations('seo.productListSchema');
+  const translatedCollars = t.raw('collars') as Array<{ name: string; color: string }>;
+  const collars = translatedCollars.map((collar) => ({ ...collar, price: COLLAR_PRICE }));
+
+  const productListSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'PawCharms šunų antkaklių rinkiniai',
+    url: 'https://pawscharm.com/products',
+    numberOfItems: collars.length,
+    itemListElement: collars.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Product',
+        name: `PawCharms ${c.name}`,
+        description: c.color,
+        brand: { '@type': 'Brand', name: 'PawCharms' },
+        url: 'https://pawscharm.com/products',
+        offers: {
+          '@type': 'Offer',
+          price: c.price,
+          priceCurrency: 'EUR',
+          availability: 'https://schema.org/InStock',
+          seller: { '@type': 'Organization', name: 'PawCharms' },
+        },
       },
-    },
-  })),
-};
+    })),
+  };
 
-export default function ProductsLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <script

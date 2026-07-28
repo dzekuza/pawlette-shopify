@@ -335,6 +335,50 @@
       "charmColorTitle": "Charm color"
     }
   },
+  "seo": {
+    "faqSchema": {
+      "waterproof": {
+        "question": "Are PawCharms collars waterproof?",
+        "answer": "Yes. All PawCharms collars are made from food-grade silicone, so they're fully waterproof and safe for swimming, rain, and muddy walks. The material doesn't absorb odors or stains."
+      },
+      "charms": {
+        "question": "How do the interchangeable charms work?",
+        "answer": "Each charm has a snap-on connector that attaches and detaches in about 5 seconds. No tools, no hassle. Freely mix and match all 12 designs across different collars."
+      },
+      "sizing": {
+        "question": "How do I choose the right collar size?",
+        "answer": "Measure the widest part of your dog's neck and add 2-3 cm for comfort. S fits 28-36 cm, M fits 36-44 cm, and L fits 44-52 cm."
+      },
+      "engraving": {
+        "question": "Can I engrave my dog's name on the collar?",
+        "answer": "Yes - personalized engraving is available at checkout. You can add your dog's name, a short message, or a phone number for safety."
+      },
+      "manufacturing": {
+        "question": "Where are PawCharms collars made?",
+        "answer": "Every collar is designed and handmade in Vilnius, Lithuania. We're a small team, so every order is prepared with great care."
+      }
+    },
+    "productListSchema": {
+      "collars": [
+        {
+          "name": "Blossom Set",
+          "color": "Pink silicone dog collar with interchangeable charms"
+        },
+        {
+          "name": "Sage Set",
+          "color": "Sage green silicone dog collar with interchangeable charms"
+        },
+        {
+          "name": "Sky Set",
+          "color": "Sky blue silicone dog collar with interchangeable charms"
+        },
+        {
+          "name": "Honey Set",
+          "color": "Honey yellow silicone dog collar with interchangeable charms"
+        }
+      ]
+    }
+  },
   "shared": {
     "cartDrawer": {
       "dialogAriaLabel": "Cart",
