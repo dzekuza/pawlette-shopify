@@ -1,4 +1,4 @@
-# PawCharms — Instagram Posts (LT Market)
+# PawsCharm — Instagram Posts (LT Market)
 
 Generated: 2026-05-11  
 Images source: `/Users/rysardgvozdovic/Downloads/igggg/`
@@ -36,23 +36,23 @@ Personalizuoti antkakliai su silikoninėmis raidėmis — sukurti specialiai tav
 ✨ Priešužsakymai jau priimami — nuoroda bio.
 
 ### Hashtags
-`#PawCharms #šunelis #šunys #šuniukas #šunųantkakliai #augintinis #manoaugintinis #šunųmama #lietuva #šunyslietuva #dogcollar #customcollar #personalizedcollar #doglovers #dogsofinstagram #dogmom #goldenretriever #petaccessories #dogstyle #pawlife`
+`#PawsCharm #šunelis #šunys #šuniukas #šunųantkakliai #augintinis #manoaugintinis #šunųmama #lietuva #šunyslietuva #dogcollar #customcollar #personalizedcollar #doglovers #dogsofinstagram #dogmom #goldenretriever #petaccessories #dogstyle #pawlife`
 
 ---
 
 ## POST 2 — `2nd.jpg`
-*PawCharms brand logo on cream background*  
+*PawsCharm brand logo on cream background*  
 **Pillar: Brand awareness**
 
 ### Caption
-Sveiki atvykę į PawCharms 🐾✨
+Sveiki atvykę į PawsCharm 🐾✨
 
 Kuriame personalizuotus antkaklus su silikoniniais žavesiais — spalvingus, ilgaamžius ir unikalius kaip tavo augintinis.
 
 Sek mus ir nepraleisk pirmųjų užsakymų! 🌈
 
 ### Hashtags
-`#PawCharms #šuniukas #augintinis #šunys #lietuva #dogaccessories #customcollar #petlover #dogsofinstagram #šunųmama #newbrand #dogbrand #šunyslietuva #personalizedcollar #dogcollar #doglovers #petfashion #pawcharmslietuva #siliconecollar #dogstyle`
+`#PawsCharm #šuniukas #augintinis #šunys #lietuva #dogaccessories #customcollar #petlover #dogsofinstagram #šunųmama #newbrand #dogbrand #šunyslietuva #personalizedcollar #dogcollar #doglovers #petfashion #pawcharmslietuva #siliconecollar #dogstyle`
 
 ---
 
@@ -70,7 +70,7 @@ Sukurk unikalų antakalį su savo šuns vardu — priešužsakymai jau priimami.
 🔗 Nuoroda bio.
 
 ### Hashtags
-`#PawCharms #šunelis #šunys #augintinis #šunųmama #manoaugintinis #dogmom #personalizedcollar #customcollar #dogcollar #dogsofinstagram #doglovers #spaniellovers #petaccessories #šunyslietuva #lietuva #dogstyle #pawlife #dovana #dovanaidėja`
+`#PawsCharm #šunelis #šunys #augintinis #šunųmama #manoaugintinis #dogmom #personalizedcollar #customcollar #dogcollar #dogsofinstagram #doglovers #spaniellovers #petaccessories #šunyslietuva #lietuva #dogstyle #pawlife #dovana #dovanaidėja`
 
 ---
 
@@ -88,7 +88,7 @@ Pasirink spalvą. Surašyk vardą. Ir tegul visi žino, kas jis toks.
 ✨ Priešužsakymai — nuoroda bio.
 
 ### Hashtags
-`#PawCharms #šuniukas #šunys #customcollar #personalizedcollar #dogcollar #dogfashion #dogstyle #petaccessories #dogsofinstagram #doglovers #dogmom #šunųantkakliai #augintinis #šunyslietuva #lietuva #siliconecollar #dogdesign #cutedogs #pawcharms`
+`#PawsCharm #šuniukas #šunys #customcollar #personalizedcollar #dogcollar #dogfashion #dogstyle #petaccessories #dogsofinstagram #doglovers #dogmom #šunųantkakliai #augintinis #šunyslietuva #lietuva #siliconecollar #dogdesign #cutedogs #pawcharms`
 
 ---
 
@@ -106,7 +106,7 @@ Mūsų silikoniniai antkakliai atsparūs, švelnūs ir nepaprastai gražūs.
 Kuris spalvų derinys tiktų tavo augintiniui? Rašyk komentare! 👇
 
 ### Hashtags
-`#PawCharms #šunys #šuniukas #augintinis #šunųantkakliai #personalizedcollar #customcollar #dogcollar #doglovers #dogsofinstagram #dogmom #petfashion #dogaccessories #dogstyle #lietuva #šunyslietuva #pastelcolors #siliconecollar #cutedog #petlover`
+`#PawsCharm #šunys #šuniukas #augintinis #šunųantkakliai #personalizedcollar #customcollar #dogcollar #doglovers #dogsofinstagram #dogmom #petfashion #dogaccessories #dogstyle #lietuva #šunyslietuva #pastelcolors #siliconecollar #cutedog #petlover`
 
 ---
 
@@ -122,7 +122,7 @@ Antakalis ne tik apsaugo — jis pasakoja istoriją. Tavo šuns vardas, tavo spa
 Priešužsakymai priimami. Nuoroda — bio.
 
 ### Hashtags
-`#PawCharms #šunelis #šunys #dogmom #šunųmama #personalizedcollar #customcollar #dogcollar #dogfashion #petaccessories #dogsofinstagram #doglovers #augintinis #šunyslietuva #lietuva #siliconecollar #dogstyle #cutepet #pawlife #pinklover`
+`#PawsCharm #šunelis #šunys #dogmom #šunųmama #personalizedcollar #customcollar #dogcollar #dogfashion #petaccessories #dogsofinstagram #doglovers #augintinis #šunyslietuva #lietuva #siliconecollar #dogstyle #cutepet #pawlife #pinklover`
 
 ---
 
@@ -135,10 +135,10 @@ Nola jau žino — ji yra šeimos centras 🤎
 
 Geriausia savijauta namuose — šalia augintinio. O su stiliumi — dar geriau.
 
-Personalizuok savo šuns antakalį su PawCharms. 🐶✨
+Personalizuok savo šuns antakalį su PawsCharm. 🐶✨
 
 ### Hashtags
-`#PawCharms #šuniukas #šunys #šunųmama #dogmom #cozylife #doglovers #dogsofinstagram #petlove #personalizedcollar #customcollar #dogcollar #augintinis #šunyslietuva #lietuva #homewithdog #doglover #coupleswithdogs #doglife #pawcharms`
+`#PawsCharm #šuniukas #šunys #šunųmama #dogmom #cozylife #doglovers #dogsofinstagram #petlove #personalizedcollar #customcollar #dogcollar #augintinis #šunyslietuva #lietuva #homewithdog #doglover #coupleswithdogs #doglife #pawcharms`
 
 ---
 
@@ -151,10 +151,10 @@ Paplūdimys. Saulėlydis. Scout. 🌊🐾
 
 Aktyvūs šunys nusipelno aktyvių aksesuarų — atsparių vandeniui, patogių ir stilingų.
 
-Ruoškis vasarai su nauju PawCharms antakaliu. ☀️
+Ruoškis vasarai su nauju PawsCharm antakaliu. ☀️
 
 ### Hashtags
-`#PawCharms #šunys #šuniukas #dogmom #activedogs #dogbeach #personalizedcollar #customcollar #siliconecollar #doglovers #dogsofinstagram #lietuva #šunyslietuva #bordercollie #doglife #vasara #adventuredogs #beachdog #dogrun #waterproofcollar`
+`#PawsCharm #šunys #šuniukas #dogmom #activedogs #dogbeach #personalizedcollar #customcollar #siliconecollar #doglovers #dogsofinstagram #lietuva #šunyslietuva #bordercollie #doglife #vasara #adventuredogs #beachdog #dogrun #waterproofcollar`
 
 ---
 
@@ -167,10 +167,10 @@ Toks veidas. Toks vardas. Toks antakalis. 🐻🌿
 
 Bear nori, kad visi žinotų jo vardą — ir mums tai patinka.
 
-Parašyk komentare savo šuns vardą! 👇 Gal jis taps kitas PawCharms žvaigžde? 🌟
+Parašyk komentare savo šuns vardą! 👇 Gal jis taps kitas PawsCharm žvaigžde? 🌟
 
 ### Hashtags
-`#PawCharms #goldenretriever #šuniukas #šunys #dogportrait #doglovers #dogsofinstagram #dogmom #šunųmama #personalizedcollar #customcollar #augintinis #šunyslietuva #lietuva #cutedogs #doglife #pawlife #siliconecollar #dogcollar #petlove`
+`#PawsCharm #goldenretriever #šuniukas #šunys #dogportrait #doglovers #dogsofinstagram #dogmom #šunųmama #personalizedcollar #customcollar #augintinis #šunyslietuva #lietuva #cutedogs #doglife #pawlife #siliconecollar #dogcollar #petlove`
 
 ---
 
@@ -179,11 +179,11 @@ Parašyk komentare savo šuns vardą! 👇 Gal jis taps kitas PawCharms žvaigž
 **Use as: Story (Day 1) + repost (Day 5), or as feed intro post**
 
 ### Caption (if posted to feed)
-Viskas, ką reikia žinoti apie PawCharms — viename kadre 🐾✨
+Viskas, ką reikia žinoti apie PawsCharm — viename kadre 🐾✨
 
 Personalizuoti antkakliai su tavo šuns vardu. Pasirink spalvą, surašyk raides, leisk jam blizgėti.
 
 🔗 Priešužsakymai priimami — nuoroda bio!
 
 ### Hashtags
-`#PawCharms #šunys #šuniukas #dogmom #personalizedcollar #customcollar #dogcollar #dogsofinstagram #doglovers #augintinis #lietuva #šunyslietuva #siliconecollar #petfashion #dogstyle #dogaccessories #newbrand #preorder #pawcharms #šunųantkakliai`
+`#PawsCharm #šunys #šuniukas #dogmom #personalizedcollar #customcollar #dogcollar #dogsofinstagram #doglovers #augintinis #lietuva #šunyslietuva #siliconecollar #petfashion #dogstyle #dogaccessories #newbrand #preorder #pawcharms #šunųantkakliai`

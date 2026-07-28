@@ -26,8 +26,8 @@ const caveat = Caveat({
 
 export const metadata: Metadata = {
   title: {
-    default: 'PawCharms — Rankų darbo šunų antkakliai su vardu',
-    template: '%s | PawCharms',
+    default: 'PawsCharm — Rankų darbo šunų antkakliai su vardu',
+    template: '%s | PawsCharm',
   },
   description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   metadataBase: new URL('https://pawscharm.com'),
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'PawCharms',
-  alternateName: 'PawCharms',
+  name: 'PawsCharm',
+  alternateName: 'PawsCharm',
   url: 'https://pawscharm.com',
   logo: {
     '@type': 'ImageObject',
@@ -100,7 +100,7 @@ function buildWebsiteSchema(locale: string, description: string) {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'PawCharms',
+    name: 'PawsCharm',
     url: 'https://pawscharm.com',
     description,
     inLanguage: locale,

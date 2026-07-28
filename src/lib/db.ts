@@ -55,7 +55,7 @@ export async function getLandingProducts(locale: string = 'lt'): Promise<Product
         p.parentHandle = leashes[0].nodeHandle
         // The grouped product built above overlaid the color-variant slug; now that
         // the slug has been rewritten to the parent nodeHandle, re-apply the overlay
-        // so the landing card's generic "PawCharms Leash" name/description win in English.
+        // so the landing card's generic "PawsCharm Leash" name/description win in English.
         return applyLocaleOverlay(p, locale)
       })() : null;
       const results = [collarProduct, leashProduct, charmCollection].filter((p): p is ProductDetail => !!p);

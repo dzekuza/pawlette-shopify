@@ -5,7 +5,7 @@ import { getTranslations } from 'next-intl/server'
 export type ProductLocale = 'lt' | 'en'
 
 export const SITE_URL = 'https://pawscharm.com'
-export const BRAND_NAME = 'PawCharms'
+export const BRAND_NAME = 'PawsCharm'
 export const BRAND_LOCATION = 'Vilnius, Lietuva'
 export const PRODUCT_REVIEW_RATING = 4.9
 export const PRODUCT_REVIEW_COUNT = 9
@@ -43,6 +43,12 @@ function isParentProductPage(product: ProductDetail) {
   return Boolean(product.parentHandle && product.slug === product.parentHandle)
 }
 
+/** Prefixes a site-root-relative path with `/en` for the English locale — mirrors the
+ * `localePrefix: 'as-needed'` behavior configured in src/i18n/routing.ts (lt has no prefix). */
+function localeUrl(path: string, locale: ProductLocale) {
+  return locale === 'en' ? `${SITE_URL}/en${path}` : `${SITE_URL}${path}`
+}
+
 function getProductKeyword(product: ProductDetail, locale: ProductLocale) {
   if (locale === 'en') {
     if (product.productType === 'collar') {
@@ -78,7 +84,7 @@ function getProductKeyword(product: ProductDetail, locale: ProductLocale) {
 export function buildProductSeoTitle(product: ProductDetail, locale: ProductLocale = 'lt') {
   if (locale === 'en') {
     // product.name already carries the Task-19 English overlay (e.g. "Blue
-    // Collar", "Blue Leash", "PawCharms Charms — Large (M/L)") — build the
+    // Collar", "Blue Leash", "PawsCharm Charms — Large (M/L)") — build the
     // title around it instead of re-deriving a color word from Lithuanian
     // fields like colorLabel, which the overlay does not translate.
     if (product.productType === 'collar') {
@@ -125,20 +131,20 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     if (product.productType === 'leash') {
       if (isParentProductPage(product)) {
         return clampDescription(
-          'Waterproof silicone dog leash that matches every PawCharms collar. Easy to clean, durable, and built for everyday walks.'
+          'Waterproof silicone dog leash that matches every PawsCharm collar. Easy to clean, durable, and built for everyday walks.'
         )
       }
       return clampDescription(
-        `${product.name} — waterproof silicone dog leash that matches every PawCharms collar. Easy to clean and built for everyday walks.`
+        `${product.name} — waterproof silicone dog leash that matches every PawsCharm collar. Easy to clean and built for everyday walks.`
       )
     }
     if (product.slug === 'charm-charms') {
       return clampDescription(
-        'Interchangeable PawCharms charms for dog collars — letters, hearts, stars, and more designs that snap on in 5 seconds, no tools required.'
+        'Interchangeable PawsCharm charms for dog collars — letters, hearts, stars, and more designs that snap on in 5 seconds, no tools required.'
       )
     }
     return clampDescription(
-      `${product.name} — a snap-on PawCharms charm for your dog's collar. ${baseDescription || 'Easy to attach, colorful, and compatible with every PawCharms collar.'}`
+      `${product.name} — a snap-on PawsCharm charm for your dog's collar. ${baseDescription || 'Easy to attach, colorful, and compatible with every PawsCharm collar.'}`
     )
   }
 
@@ -157,23 +163,23 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
   if (product.productType === 'leash') {
     if (isParentProductPage(product)) {
       return clampDescription(
-        `Vandeniui atsparus silikoninis pavadėlis šuniui, derantis su PawCharms antkakliais. Lengvai valomas, patvarus ir sukurtas kasdieniams pasivaikščiojimams.`
+        `Vandeniui atsparus silikoninis pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas, patvarus ir sukurtas kasdieniams pasivaikščiojimams.`
       )
     }
 
     return clampDescription(
-      `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui, derantis su PawCharms antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
+      `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
     )
   }
 
   if (product.slug === 'charm-charms') {
     return clampDescription(
-      `Keičiami PawCharms pakabukai šunų antkakliams - raidės, širdelės, žvaigždės ir kiti dizainai, kuriuos prisegsite per 5 sekundes be įrankių.`
+      `Keičiami PawsCharm pakabukai šunų antkakliams - raidės, širdelės, žvaigždės ir kiti dizainai, kuriuos prisegsite per 5 sekundes be įrankių.`
     )
   }
 
   return clampDescription(
-    `${product.name} - keičiamas pakabukas PawCharms šuns antkakliui. ${baseDescription || 'Lengvai prisegamas, spalvingas ir suderinamas su visais PawCharms antkakliais.'}`
+    `${product.name} - keičiamas pakabukas PawsCharm šuns antkakliui. ${baseDescription || 'Lengvai prisegamas, spalvingas ir suderinamas su visais PawsCharm antkakliais.'}`
   )
 }
 
@@ -214,7 +220,7 @@ export async function buildProductFaqSchema(product: ProductDetail, locale: Prod
 }
 
 export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale = 'lt') {
-  const productUrl = `${SITE_URL}/products/${product.slug}`
+  const productUrl = localeUrl(`/products/${product.slug}`, locale)
   const description = buildProductSeoDescription(product, locale)
   const keywordName = buildProductSeoTitle(product, locale)
   const brandLocation = locale === 'en' ? 'Vilnius, Lithuania' : BRAND_LOCATION
@@ -335,9 +341,9 @@ export async function buildProductBreadcrumbJsonLd(product: ProductDetail, local
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: t('breadcrumbHome'), item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: t('breadcrumbProducts'), item: `${SITE_URL}/products` },
-      { '@type': 'ListItem', position: 3, name: product.name, item: `${SITE_URL}/products/${product.slug}` },
+      { '@type': 'ListItem', position: 1, name: t('breadcrumbHome'), item: localeUrl('', locale) },
+      { '@type': 'ListItem', position: 2, name: t('breadcrumbProducts'), item: localeUrl('/products', locale) },
+      { '@type': 'ListItem', position: 3, name: product.name, item: localeUrl(`/products/${product.slug}`, locale) },
     ],
   }
 }

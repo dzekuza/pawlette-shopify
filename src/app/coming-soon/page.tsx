@@ -208,7 +208,7 @@ export default function ComingSoonPage() {
               margin: '0 0 12px',
             }}
           >
-            PawCharms
+            PawsCharm
           </h1>
 
           {/* Accent line */}
@@ -371,7 +371,7 @@ export default function ComingSoonPage() {
               opacity: 0.3,
             }}
           >
-            © 2026 PawCharms · Vilnius, Lietuva
+            © 2026 PawsCharm · Vilnius, Lietuva
           </p>
         </div>
       </main>

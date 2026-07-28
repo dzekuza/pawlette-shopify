@@ -113,7 +113,7 @@ export type CharmPatternSceneProps = {
 };
 
 /**
- * Decorative background: a random field of every PawCharms charm shape,
+ * Decorative background: a random field of every PawsCharm charm shape,
  * gently levitating (independent sine bob + slow spin per instance), on a
  * fully transparent canvas so it can sit over any section background.
  * Reuses the existing public/models/charms.glb — no new 3D asset needed.

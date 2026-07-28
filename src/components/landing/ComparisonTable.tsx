@@ -38,7 +38,7 @@ export function ComparisonTable () {
           className="relative mx-auto max-w-[880px] overflow-hidden rounded-[28px] border border-border"
           style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}
         >
-          {/* PawCharms column */}
+          {/* PawsCharm column */}
           <div className="flex flex-1 flex-col gap-6 bg-sage/12 p-6 md:p-8">
             <div className="flex items-center gap-2 self-start rounded-full bg-sage px-4 py-2">
               <PawPrint size={16} strokeWidth={2.5} className="text-bark" />
@@ -48,7 +48,7 @@ export function ComparisonTable () {
             <div className="relative mx-auto aspect-[4/3] w-full max-w-[280px] overflow-hidden rounded-2xl">
               <Image
                 src="/hero-figma/bento-collar-charm.png"
-                alt="PawCharms antkaklis su pakabuku"
+                alt="PawsCharm antkaklis su pakabuku"
                 fill
                 sizes="280px"
                 className="object-contain"

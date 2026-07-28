@@ -1,4 +1,4 @@
-# PawCharms Design System
+# PawsCharm Design System
 
 This document is the single source of truth for all UI work in this codebase.
 **Always read this before writing any component, page, or section.**

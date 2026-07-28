@@ -10,7 +10,7 @@ export function ProductStorySection() {
         <div className="relative order-2 aspect-square w-full overflow-hidden rounded-[28px] bg-surface-2 md:order-1">
           <Image
             src="/hero-figma/hero-dsc01798.jpg"
-            alt="Rankų darbo PawCharms antkaklis"
+            alt="Rankų darbo PawsCharm antkaklis"
             fill
             sizes="(min-width: 768px) 560px, 100vw"
             className="object-cover"
@@ -23,7 +23,7 @@ export function ProductStorySection() {
             Gaminama rankomis, kad tarnautų metų metus
           </DisplayHeading>
           <BodyCopy className="max-w-[440px]">
-            Kiekvienas PawCharms antkaklis siuvamas rankomis Lietuvoje iš BioThane medžiagos —
+            Kiekvienas PawsCharm antkaklis siuvamas rankomis Lietuvoje iš BioThane medžiagos —
             atsparios vandeniui, purvui ir nubluko spalvai. Pasirinkite dydį, spalvą ir
             pakabukus, kurie atspindi jūsų šuns charakterį, ir gaukite daiktą, kuris atlaikys
             kiekvieną nuotykį.

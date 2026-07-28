@@ -847,7 +847,7 @@ export function AccountPageClient({
                 Prisijunkite per Shopify
               </h1>
               <p className="account-copy mb-6 max-w-[40ch]">
-                PawCharms klientų paskyros dabar naudoja Shopify el. pašto kodo prisijungimą, tokį patį kaip ir atsiskaityme.
+                PawsCharm klientų paskyros dabar naudoja Shopify el. pašto kodo prisijungimą, tokį patį kaip ir atsiskaityme.
               </p>
               <div
                 className="mb-8 rounded-[22px] border border-border bg-surface-2/70 px-5 py-5"

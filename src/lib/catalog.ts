@@ -109,7 +109,7 @@ export function applyLocaleOverlay (detail: ProductDetail, locale: string): Prod
   if (locale !== 'en') return detail
 
   const override = PRODUCT_TRANSLATIONS_EN[detail.slug]
-  // parentTitle (e.g. "PawCharms antkaklis" shown as a PDP breadcrumb/subtitle above a
+  // parentTitle (e.g. "PawsCharm antkaklis" shown as a PDP breadcrumb/subtitle above a
   // specific color variant's name) is looked up separately by parentHandle, since it's
   // keyed in PRODUCT_TRANSLATIONS_EN under the parent/collection slug, not the variant's.
   const parentOverride = detail.parentHandle ? PRODUCT_TRANSLATIONS_EN[detail.parentHandle] : undefined
@@ -175,7 +175,7 @@ function normalizeMarketingCopy (value?: string) {
   if (!value) return ''
 
   return value
-    .replace(/\bPawlette\b/gi, 'PawCharms')
+    .replace(/\bPawlette\b/gi, 'PawsCharm')
     .replace(/\bantkakli\b/gi, 'antkaklį')
     .replace(/\s+/g, ' ')
     .trim()
@@ -226,7 +226,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[], locale: string = '
     tintColor: `${first.bg}33`,
     ctaHref: '/products',
     ctaLabel: 'Pridėti konfigūratoriuje',
-    compatibilityNote: 'Suderinama su kiekvienu PawCharms antkaklio rinkiniu.',
+    compatibilityNote: 'Suderinama su kiekvienu PawsCharm antkaklio rinkiniu.',
     tags: ['Pakabukas'],
     charmVariants: charms,
     care: first.care,
@@ -237,7 +237,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[], locale: string = '
 
 function buildCharmProduct (charm: ShopifyCharm, locale: string = 'lt'): ProductDetail {
   const images = getCharmGallery(charm)
-  const shortDescription = normalizeMarketingCopy(extractPlainText(charm.productDescription)) || 'Prisegamas pakabukas visiems PawCharms antkakliams.'
+  const shortDescription = normalizeMarketingCopy(extractPlainText(charm.productDescription)) || 'Prisegamas pakabukas visiems PawsCharm antkakliams.'
 
   return applyLocaleOverlay({
     slug: slugFromCharmId(charm.id),
@@ -255,7 +255,7 @@ function buildCharmProduct (charm: ShopifyCharm, locale: string = 'lt'): Product
     tintColor: `${charm.bg}33`,
     ctaHref: '/products',
     ctaLabel: 'Pridėti konfigūratoriuje',
-    compatibilityNote: 'Suderinama su kiekvienu PawCharms antkaklio rinkiniu.',
+    compatibilityNote: 'Suderinama su kiekvienu PawsCharm antkaklio rinkiniu.',
     tags: ['Pakabukas'],
     features: charm.features,
     care: charm.care,
@@ -326,7 +326,7 @@ export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia
     tintColor: hexToRgba(leash.color, 0.15),
     ctaHref: '/pavadeliai',
     ctaLabel: 'Žiūrėti pavadėlius',
-    compatibilityNote: 'Suderinamas su visais PawCharms antkakliais.',
+    compatibilityNote: 'Suderinamas su visais PawsCharm antkakliais.',
     tags: leash.tags,
     features: leash.features,
     care: leash.care,

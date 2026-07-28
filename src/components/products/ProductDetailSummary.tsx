@@ -30,7 +30,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
   const quickPoints = isCharm
     ? [
         'Pakeičiama prisegant per maždaug 5 sekundes',
-        'Tinka visiems PawCharms antkaklių rinkiniams',
+        'Tinka visiems PawsCharm antkaklių rinkiniams',
         'Puikus lengvai pasirenkamas papildymas'
       ]
     : [
@@ -42,7 +42,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
   const statItems = isCharm
     ? [
         { label: 'Formatas', value: 'Vienas pakabukas' },
-        { label: 'Tinka', value: 'Visiems PawCharms antkakliams' },
+        { label: 'Tinka', value: 'Visiems PawsCharm antkakliams' },
         { label: 'Paskirtis', value: 'Lengvas papildomas pasirinkimas' }
       ]
     : [
@@ -64,7 +64,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
         fit: {
           intro: product.compatibilityNote,
           bullets: [
-            'Sukurta veikti su visa PawCharms antkaklių linija',
+            'Sukurta veikti su visa PawsCharm antkaklių linija',
             'Geriausia pirkti kartu su antkaklio rinkiniu arba keliais pakabukais',
             'Puikus pasirinkimas sugrįžtantiems klientams, kurie jau turi rinkinį'
           ]
@@ -109,11 +109,11 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
     ? [
         {
           question: 'Ar tai tiks mano antkakliui?',
-          answer: 'Taip. Kiekvienas PawCharms pakabukas sukurtas taip, kad tiktų visiems PawCharms antkaklių rinkiniams, todėl nereikia rūpintis dėl konkretaus pagrindo derinimo.'
+          answer: 'Taip. Kiekvienas PawsCharm pakabukas sukurtas taip, kad tiktų visiems PawsCharm antkaklių rinkiniams, todėl nereikia rūpintis dėl konkretaus pagrindo derinimo.'
         },
         {
           question: 'Kada vienas pakabukas yra geriausias pasirinkimas?',
-          answer: 'Vienas pakabukas geriausiai tinka esamiems PawCharms klientams, kaip dovanos papildymas ar pirkėjams, norintiems susikurti mažą kelių pakabukų rinkinį vietoje viso naujo komplekto.'
+          answer: 'Vienas pakabukas geriausiai tinka esamiems PawsCharm klientams, kaip dovanos papildymas ar pirkėjams, norintiems susikurti mažą kelių pakabukų rinkinį vietoje viso naujo komplekto.'
         },
         {
           question: 'Kaip iš šio puslapio gauti daugiausia vertės?',

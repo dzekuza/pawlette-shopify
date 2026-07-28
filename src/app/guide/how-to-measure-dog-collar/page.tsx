@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Tinkamą dydį pasirinkite per 5 žingsnius. Su S, M ir L dydžių lentele.',
     type: 'article',
     url: 'https://pawscharm.com/guide/how-to-measure-dog-collar',
-    siteName: 'PawCharms',
+    siteName: 'PawsCharm',
   },
 };
 
@@ -25,8 +25,8 @@ const howToSchema = {
   description: 'Išmatuokite šuns kaklą per 5 žingsnius ir pasirinkite tinkamą antkaklio dydį.',
   datePublished: '2026-04-26',
   dateModified: '2026-06-14',
-  author: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawscharm.com' },
-  publisher: { '@type': 'Organization', name: 'PawCharms', url: 'https://pawscharm.com' },
+  author: { '@type': 'Organization', name: 'PawsCharm', url: 'https://pawscharm.com' },
+  publisher: { '@type': 'Organization', name: 'PawsCharm', url: 'https://pawscharm.com' },
   inLanguage: 'lt',
   totalTime: 'PT2M',
   tool: [{ '@type': 'HowToTool', name: 'Lanksti matavimo juosta (arba virvelė ir liniuotė)' }],
@@ -164,7 +164,7 @@ export default function MeasureGuidePage() {
           <div style={{ background: '#EEF5EE', borderRadius: 16, padding: '24px 28px', marginTop: 48 }}>
             <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 8, marginTop: 0 }}>Ką daryti, jei šuo tarp dydžių?</p>
             <p style={{ fontSize: 14, color: '#4a6b47', lineHeight: 1.6, margin: 0 }}>
-              Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi PawCharms antkakliai turi kelias reguliavimo pozicijas.
+              Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi PawsCharm antkakliai turi kelias reguliavimo pozicijas.
             </p>
           </div>
 

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Krepšelis',
-  description: 'Peržiūrėkite pasirinktus PawCharms produktus prieš atsiskaitymą.',
+  description: 'Peržiūrėkite pasirinktus PawsCharm produktus prieš atsiskaitymą.',
   robots: { index: false, follow: false },
 };
 

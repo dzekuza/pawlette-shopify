@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Atsiskaitymas',
-  description: 'Užbaikite PawCharms užsakymą saugioje Shopify atsiskaitymo aplinkoje.',
+  description: 'Užbaikite PawsCharm užsakymą saugioje Shopify atsiskaitymo aplinkoje.',
   robots: {
     index: false,
     follow: false,

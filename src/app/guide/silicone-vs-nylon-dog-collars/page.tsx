@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     description: 'Išsamus silikoninių ir nailoninių šunų antkaklių palyginimas.',
     type: 'article',
     url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
-    siteName: 'PawCharms',
+    siteName: 'PawsCharm',
   },
 };
 
@@ -23,10 +23,10 @@ const articleSchema = {
   '@type': 'Article',
   headline: 'Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?',
   description: 'Silikoninių ir nailoninių šunų antkaklių palyginimas pagal atsparumą vandeniui, patvarumą, patogumą, priežiūrą ir personalizavimą.',
-  author: { '@type': 'Organization', name: 'PawCharms' },
+  author: { '@type': 'Organization', name: 'PawsCharm' },
   publisher: {
     '@type': 'Organization',
-    name: 'PawCharms',
+    name: 'PawsCharm',
     url: 'https://pawscharm.com',
   },
   datePublished: '2026-04-26',

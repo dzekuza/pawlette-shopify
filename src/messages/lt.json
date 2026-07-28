@@ -188,7 +188,7 @@
     "productGrid": {
       "heading": "Išskirtiniai. Kaip ir jie",
       "placeholderBadge": "✦ PERSONALIZUOK",
-      "placeholderProductName": "PawCharms Antkaklis",
+      "placeholderProductName": "PawsCharm Antkaklis",
       "placeholderPrice": "Kaina: €25",
       "placeholderCta": "Apsipirkti"
     },
@@ -199,9 +199,9 @@
       "shopCharmsCta": "Pirkti pakabukus"
     },
     "howItWorks": {
-      "heading": "Kas atsitiks po to kai įsigysi PawCharms?",
-      "dog1Alt": "Šuo su PawCharms antkakliu",
-      "dog2Alt": "Šuo su akiniais ir PawCharms antkakliu",
+      "heading": "Kas atsitiks po to kai įsigysi PawsCharm?",
+      "dog1Alt": "Šuo su PawsCharm antkakliu",
+      "dog2Alt": "Šuo su akiniais ir PawsCharm antkakliu",
       "timeline": [
         {
           "week": "Week 1",
@@ -261,7 +261,7 @@
         "leashes": "Pavadeliai",
         "charms": "Pakabukai"
       },
-      "homeAriaLabel": "PawCharms pagrindinis",
+      "homeAriaLabel": "PawsCharm pagrindinis",
       "giftAriaLabel": "Atidaryti nuolaidos dovaną",
       "cartAriaLabel": "Krepšelis",
       "openMenuAriaLabel": "Atidaryti meniu",
@@ -270,7 +270,7 @@
       "madeIn": "Pagaminta Vilniuje, Lietuvoje"
     },
     "footer": {
-      "logoAriaLabel": "PawCharms pagrindinis",
+      "logoAriaLabel": "PawsCharm pagrindinis",
       "tagline": "Vandeniui atsparūs šunų antkakliai su prisegamais pakabukais. Rankų darbo Vilniuje, Lietuvoje.",
       "swapNote": "Pakabukai keičiami per 5 sekundes.",
       "returnsBadge": "30 d. grąžinimas",
@@ -293,7 +293,7 @@
           }
         },
         "brand": {
-          "title": "PawCharms",
+          "title": "PawsCharm",
           "links": {
             "ourStory": "Mūsų istorija",
             "faq": "DUK",
@@ -301,16 +301,16 @@
           }
         }
       },
-      "copyright": "© {year} PawCharms. Pagaminta su meile Lietuvoje.",
+      "copyright": "© {year} PawsCharm. Pagaminta su meile Lietuvoje.",
       "contactLine": "{email} · Vilnius, Lietuva"
     },
     "buySection": {
-      "defaultCollarName": "PawCharms antkaklis"
+      "defaultCollarName": "PawsCharm antkaklis"
     },
     "newsletter": {
-      "eyebrow": "PawCharms naujienlaiškis",
+      "eyebrow": "PawsCharm naujienlaiškis",
       "heading": "Gaukite 10% nuolaidą pirmam užsakymui",
-      "description": "Prisijunkite prie PawCharms bendruomenės — naujienos, stilingos idėjos ir išskirtiniai pasiūlymai.",
+      "description": "Prisijunkite prie PawsCharm bendruomenės — naujienos, stilingos idėjos ir išskirtiniai pasiūlymai.",
       "emailPlaceholder": "Jūsų el. paštas",
       "emailAriaLabel": "El. pašto adresas",
       "submitting": "Siunčiama...",
@@ -387,7 +387,7 @@
       },
       "accordion": {
         "descriptionTitle": "Aprašymas",
-        "descriptionContent": "Prisegami silikoniniai pakabukai visiems PawCharms antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.",
+        "descriptionContent": "Prisegami silikoniniai pakabukai visiems PawsCharm antkakliams. Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes be įrankių.",
         "shippingTitle": "Pristatymas ir grąžinimas",
         "shippingContent": "Nemokamas pristatymas užsakymams nuo 40 € · Pristatymas per 2–4 darbo dienas · Grąžinimas priimamas per 30 dienų, jei prekė originalios būklės"
       },
@@ -415,11 +415,11 @@
         "faqSchema": {
           "everydayUse": {
             "question": "Ar {product} tinka kasdieniam naudojimui?",
-            "answer": "Taip. PawCharms produktai kurti kasdieniams pasivaikščiojimams, lengvai valosi ir išlaiko tvarkingą išvaizdą net po lietaus ar purvinų nuotykių."
+            "answer": "Taip. PawsCharm produktai kurti kasdieniams pasivaikščiojimams, lengvai valosi ir išlaiko tvarkingą išvaizdą net po lietaus ar purvinų nuotykių."
           },
           "combineProducts": {
-            "question": "Ar galima derinti su kitais PawCharms produktais?",
-            "answer": "Taip. Pakabukai tinka visiems PawCharms antkakliams, o pavadėliai vizualiai suderinti su mūsų spalvų kolekcija ir kasdieniais komplektais."
+            "question": "Ar galima derinti su kitais PawsCharm produktais?",
+            "answer": "Taip. Pakabukai tinka visiems PawsCharm antkakliams, o pavadėliai vizualiai suderinti su mūsų spalvų kolekcija ir kasdieniais komplektais."
           },
           "shipping": {
             "question": "Per kiek laiko išsiunčiamas užsakymas?",
@@ -536,8 +536,8 @@
     },
     "faqSchema": {
       "waterproof": {
-        "question": "Ar PawCharms antkakliai yra atsparūs vandeniui?",
-        "answer": "Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių."
+        "question": "Ar PawsCharm antkakliai yra atsparūs vandeniui?",
+        "answer": "Taip. Visi PawsCharm antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių."
       },
       "charms": {
         "question": "Kaip veikia keičiami pakabukai?",
@@ -552,12 +552,12 @@
         "answer": "Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti savo šuns vardą, trumpą žinutę arba telefono numerį saugumui."
       },
       "manufacturing": {
-        "question": "Kur gaminami PawCharms antkakliai?",
+        "question": "Kur gaminami PawsCharm antkakliai?",
         "answer": "Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame nedidelė komanda, todėl kiekvienas užsakymas ruošiamas itin kruopščiai."
       }
     },
     "productListSchema": {
-      "itemListName": "PawCharms šunų antkaklių rinkiniai",
+      "itemListName": "PawsCharm šunų antkaklių rinkiniai",
       "collars": [
         {
           "name": "Blossom rinkinys",

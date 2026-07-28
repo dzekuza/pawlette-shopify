@@ -186,7 +186,7 @@ const [query, setQuery] = useState('');
               {allGalleryImages[0] && (
                 <Image
                   src={allGalleryImages[0]}
-                  alt="PawCharms pakabukai"
+                  alt="PawsCharm pakabukai"
                   fill
                   style={{ objectFit: 'cover' }}
                 />

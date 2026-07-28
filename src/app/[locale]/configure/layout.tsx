@@ -8,9 +8,21 @@ export async function generateMetadata({
   const { locale } = await params
   const canonical = locale === 'en' ? 'https://pawscharm.com/en/configure' : 'https://pawscharm.com/configure'
 
+  // Root layout's `title.template` ('%s | PawsCharm') already appends the
+  // brand suffix to this value — don't include " | PawsCharm" here too, or
+  // <title> renders it twice. openGraph.title bypasses that template, so it
+  // gets the suffix added explicitly below instead.
+  const title = locale === 'en' ? 'Build Your Collar Set' : 'Sukurk savo antkaklio rinkinį'
+  const description = locale === 'en'
+    ? "Choose your collar color, charms, and size — build a unique set for your dog. Fast shipping across the EU."
+    : 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui. Greitas pristatymas visoje Lietuvoje.'
+  const ogDescription = locale === 'en'
+    ? "Choose your collar color, charms, and size — build a unique set for your dog."
+    : 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui.'
+
   return {
-    title: 'Sukurk savo antkaklio rinkinį | PawCharms',
-    description: 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui. Greitas pristatymas visoje Lietuvoje.',
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -20,8 +32,8 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: 'Sukurk savo antkaklio rinkinį | PawCharms',
-      description: 'Pasirink antkaklio spalvą, pakabukus ir dydį — sukurk unikalų rinkinį savo šuniui.',
+      title: `${title} | PawsCharm`,
+      description: ogDescription,
       url: canonical,
       images: [{ url: 'https://pawscharm.com/og-image.jpg', width: 1200, height: 630 }],
     },

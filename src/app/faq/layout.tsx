@@ -2,14 +2,14 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Dažniausiai užduodami klausimai apie šunų antkaklius',
-  description: 'Dažniausiai užduodami klausimai apie PawCharms antkaklius, pakabukus, pristatymą ir grąžinimą.',
+  description: 'Dažniausiai užduodami klausimai apie PawsCharm antkaklius, pakabukus, pristatymą ir grąžinimą.',
   alternates: { canonical: 'https://pawscharm.com/faq' },
   openGraph: {
-    title: 'Dažniausiai užduodami klausimai | PawCharms',
-    description: 'Dažniausiai užduodami klausimai apie PawCharms antkaklius, pakabukus, pristatymą ir grąžinimą.',
+    title: 'Dažniausiai užduodami klausimai | PawsCharm',
+    description: 'Dažniausiai užduodami klausimai apie PawsCharm antkaklius, pakabukus, pristatymą ir grąžinimą.',
     type: 'website',
     url: 'https://pawscharm.com/faq',
-    siteName: 'PawCharms',
+    siteName: 'PawsCharm',
   },
 };
 
@@ -19,10 +19,10 @@ const faqSchema = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
+      name: 'Ar PawsCharm antkakliai yra atsparūs vandeniui?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
+        text: 'Taip. Visi PawsCharm antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
       },
     },
     {
@@ -30,7 +30,7 @@ const faqSchema = {
       name: 'Kaip veikia keičiami pakabukai?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawCharms antkaklio.',
+        text: 'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawsCharm antkaklio.',
       },
     },
     {
@@ -51,7 +51,7 @@ const faqSchema = {
     },
     {
       '@type': 'Question',
-      name: 'Kur gaminami PawCharms antkakliai?',
+      name: 'Kur gaminami PawsCharm antkakliai?',
       acceptedAnswer: {
         '@type': 'Answer',
         text: 'Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame maža komanda, todėl kiekvienas užsakymas ruošiamas kruopščiai.',
@@ -62,7 +62,7 @@ const faqSchema = {
       name: 'Kiek patvari silikoninė medžiaga?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'PawCharms antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
+        text: 'PawsCharm antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
       },
     },
     {
@@ -70,7 +70,7 @@ const faqSchema = {
       name: 'Ar pakabukai tinka visiems antkaklių dydžiams?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'Taip — visi PawCharms pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo S iki L.',
+        text: 'Taip — visi PawsCharm pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo S iki L.',
       },
     },
     {

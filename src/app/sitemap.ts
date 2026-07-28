@@ -7,13 +7,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Exclude aliases that canonicalize to another URL (e.g. "pawcharms-pakabuciai" -> "charm-charms") —
   // a sitemap should only list self-canonical, index-worthy URLs.
   const CANONICAL_ALIASES = new Set(['pawcharms-pakabuciai'])
-  const productEntries = products
-    .filter(({ slug }) => !CANONICAL_ALIASES.has(slug))
-    .map(({ slug, updatedAt }) => ({
+  const indexableProducts = products.filter(({ slug }) => !CANONICAL_ALIASES.has(slug))
+  const productEntries = indexableProducts.map(({ slug, updatedAt }) => ({
     url: `https://pawscharm.com/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,
     changeFrequency: 'weekly' as const,
     priority: slug === 'charm-charms' ? 0.75 : 0.7,
+  }))
+  // English PDPs (locale === 'en') became indexable alongside their LT counterparts —
+  // list them too so Google discovers them without waiting on crawl/hreflang alone.
+  const enProductEntries = indexableProducts.map(({ slug, updatedAt }) => ({
+    url: `https://pawscharm.com/en/products/${slug}`,
+    lastModified: updatedAt ? new Date(updatedAt) : lastModified,
+    changeFrequency: 'weekly' as const,
+    priority: slug === 'charm-charms' ? 0.7 : 0.65,
   }))
 
   return [
@@ -78,5 +85,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.65,
     },
     ...productEntries,
+    ...enProductEntries,
   ]
 }

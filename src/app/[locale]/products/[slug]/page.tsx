@@ -37,24 +37,28 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   const localeCode = locale === 'en' ? 'en' : 'lt'
   const title = buildProductSeoTitle(product, localeCode)
   const description = buildProductSeoDescription(product, localeCode)
-  const productUrl = `https://pawscharm.com/products/${product.slug}`
+  const ltProductUrl = `https://pawscharm.com/products/${product.slug}`
+  const enProductUrl = `https://pawscharm.com/en/products/${product.slug}`
+  const productUrl = localeCode === 'en' ? enProductUrl : ltProductUrl
 
   return {
     title,
     description,
-    alternates: { canonical: productUrl },
-    // Title/description/JSON-LD now render in English via the Task-19
-    // catalog overlay (see buildProduct* in src/lib/seo.ts) — this gate stays
-    // on until a manual review confirms the English PDP content end-to-end,
-    // then it can be dropped for locale === 'en'.
-    ...(locale === 'en' ? { robots: { index: false, follow: true } } : {}),
+    alternates: {
+      canonical: productUrl,
+      languages: {
+        lt: ltProductUrl,
+        en: enProductUrl,
+        'x-default': ltProductUrl,
+      },
+    },
     keywords: localeCode === 'en'
       ? [
           product.name,
           product.productType === 'collar' ? 'personalized dog collar' : product.productType === 'leash' ? 'waterproof dog leash' : 'interchangeable dog collar charms',
           product.productType === 'collar' ? 'silicone dog collar' : product.productType === 'leash' ? 'silicone dog leash' : 'charms for dog collars',
           product.productType === 'collar' ? 'engraved dog collar' : product.productType === 'leash' ? 'dog leash' : 'letter charms for dogs',
-          'PawCharms',
+          'PawsCharm',
           'Vilnius',
         ]
       : [
@@ -62,20 +66,20 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
           product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',
           product.productType === 'collar' ? 'silikoninis antkaklis šuniui' : product.productType === 'leash' ? 'silikoninis pavadėlis šuniui' : 'pakabukai šunų antkakliams',
           product.productType === 'collar' ? 'graviruotas šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'raidiniai pakabukai šunims',
-          'PawCharms',
+          'PawsCharm',
           'Vilnius',
         ],
     openGraph: {
-      title: `${title} | PawCharms`,
+      title: `${title} | PawsCharm`,
       description,
       type: 'website',
       url: productUrl,
-      siteName: 'PawCharms',
+      siteName: 'PawsCharm',
       images: product.image ? [{ url: product.image, alt: product.name }] : undefined
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | PawCharms`,
+      title: `${title} | PawsCharm`,
       description,
       images: product.image ? [product.image] : undefined,
     }

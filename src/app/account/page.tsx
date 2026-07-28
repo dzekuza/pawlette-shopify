@@ -8,7 +8,7 @@ const HOSTED_ACCOUNT_URL = 'https://checkout.pawscharm.com/account';
 
 export const metadata: Metadata = {
   title: 'Paskyra',
-  description: 'Prisijunkite prie PawCharms paskyros, peržiūrėkite užsakymus ir tvarkykite adresus.',
+  description: 'Prisijunkite prie PawsCharm paskyros, peržiūrėkite užsakymus ir tvarkykite adresus.',
   robots: { index: false, follow: false },
 };
 

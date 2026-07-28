@@ -11,9 +11,22 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonical = locale === 'en' ? 'https://pawscharm.com/en' : 'https://pawscharm.com';
 
+  const title = locale === 'en'
+    ? 'Personalized Dog Collars with Name and Interchangeable Charms'
+    : 'Šunų antkakliai su vardu ir keičiamais pakabukais';
+  const description = locale === 'en'
+    ? `Personalized dog collars with your dog's name — waterproof, with charms you can swap in 5 seconds. Choose a color, engrave the name. Free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+    : `Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`;
+  const ogDescription = locale === 'en'
+    ? 'Personalized, waterproof dog collars with a name tag and charms you can swap in 5 seconds. Mix colors, add charms, engrave the name.'
+    : 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.';
+  const twitterDescription = locale === 'en'
+    ? 'Personalized, waterproof dog collars with a name tag, swappable in 5 seconds. Handmade in Vilnius, Lithuania.'
+    : 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu, keičiami per 5 sekundes. Pagaminta Vilniuje, Lietuvoje.';
+
   return {
-    title: 'Šunų antkakliai su vardu ir keičiamais pakabukais',
-    description: `Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`,
+    title,
+    description,
     alternates: {
       canonical,
       languages: {
@@ -22,19 +35,21 @@ export async function generateMetadata({
         'x-default': 'https://pawscharm.com',
       },
     },
-    keywords: ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawCharms'],
+    keywords: locale === 'en'
+      ? ['dog collar with name', 'personalized dog collar', 'custom dog collar with name tag', 'dog collars', 'dog collar with charms', 'silicone dog collar', 'PawsCharm']
+      : ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawsCharm'],
     openGraph: {
-      title: 'Šunų antkakliai su vardu ir keičiamais pakabukais | PawCharms',
-      description: 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.',
+      title: `${title} | PawsCharm`,
+      description: ogDescription,
       type: 'website',
       url: canonical,
-      siteName: 'PawCharms',
+      siteName: 'PawsCharm',
       images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Šunų antkakliai su vardu ir keičiamais pakabukais | PawCharms',
-      description: 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu, keičiami per 5 sekundes. Pagaminta Vilniuje, Lietuvoje.',
+      title: `${title} | PawsCharm`,
+      description: twitterDescription,
     },
   };
 }

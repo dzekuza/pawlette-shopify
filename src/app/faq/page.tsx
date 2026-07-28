@@ -13,15 +13,15 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 const PRODUCT_FAQS: AccordionItem[] = [
   {
     id: 'waterproof',
-    title: 'Ar PawCharms antkakliai yra atsparūs vandeniui?',
+    title: 'Ar PawsCharm antkakliai yra atsparūs vandeniui?',
     content:
-      'Taip. Visi PawCharms antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
+      'Taip. Visi PawsCharm antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
     id: 'charms',
     title: 'Kaip veikia keičiami pakabukai?',
     content:
-      'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawCharms antkaklio.',
+      'Kiekvienas pakabukas turi prisegamą jungtį, kuri užsisega ir nusiima maždaug per 5 sekundes. Jokų įrankių ir jokio vargo. Galite laisvai derinti visus 12 dizainų prie bet kurio PawsCharm antkaklio.',
   },
   {
     id: 'size',
@@ -37,7 +37,7 @@ const PRODUCT_FAQS: AccordionItem[] = [
   },
   {
     id: 'origin',
-    title: 'Kur gaminami PawCharms antkakliai?',
+    title: 'Kur gaminami PawsCharm antkakliai?',
     content:
       'Kiekvienas antkaklis kuriamas ir gaminamas rankomis Vilniuje, Lietuvoje. Esame maža komanda, todėl kiekvienas užsakymas ruošiamas kruopščiai.',
   },
@@ -45,13 +45,13 @@ const PRODUCT_FAQS: AccordionItem[] = [
     id: 'durability',
     title: 'Kiek patvari silikoninė medžiaga?',
     content:
-      'PawCharms antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
+      'PawsCharm antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
   },
   {
     id: 'charm-compatibility',
     title: 'Ar pakabukai tinka visiems antkaklių dydžiams?',
     content:
-      'Taip — visi PawCharms pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo XS iki L.',
+      'Taip — visi PawsCharm pakabukai turi universalią prisegamą jungtį, todėl tinka visiems antkaklių dydžiams nuo XS iki L.',
   },
 ];
 
@@ -89,7 +89,7 @@ export default function FaqPage() {
         className="px-5 pb-[60px] pt-[120px] md:px-10 md:pb-[80px]"
         eyebrow='FAQ'
         title='Turite klausimų?'
-        description='Viskas, ką verta žinoti apie PawCharms antkaklius, pakabukus ir užsakymus. Neradote atsakymo? Parašykite mums.'
+        description='Viskas, ką verta žinoti apie PawsCharm antkaklius, pakabukus ir užsakymus. Neradote atsakymo? Parašykite mums.'
       />
 
       {/* FAQ columns */}

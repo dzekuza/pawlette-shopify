@@ -1,4 +1,4 @@
-# PawCharms — Brand & Product Bible
+# PawsCharm — Brand & Product Bible
 
 > **Source:** Synthesized from 7 physical product photos (`/Downloads/PAWCHARMS/PRODUCT/`), 4 reference images, existing `docs/`, `src/lib/data.ts`, UI copy, and `globals.css`.  
 > **Last updated:** 2026-06-14
@@ -8,8 +8,8 @@
 ## 1. Brand Identity
 
 ### Name & Handles
-- **Legal / domain:** PawCharms (`pawscharm.com`)
-- **Brand display name:** PawCharms
+- **Legal / domain:** PawsCharm (`pawscharm.com`)
+- **Brand display name:** PawsCharm
 - **Lithuanian alternative:** Žavesys (means "enchantment/charm") — for LT-market storytelling, not primary
 - **Instagram handle:** `@pawcharms` (or `@pawlette` if pivoting)
 
@@ -153,7 +153,7 @@ Border:        —           #E8E3DC   --color-border
 
 ### 3.3 Logo & Mark
 
-- **Primary:** PawCharms wordmark with paw-dot treatment on the "i" or charm detail
+- **Primary:** PawsCharm wordmark with paw-dot treatment on the "i" or charm detail
 - **Favicon/icon:** `pawcharmsfav.jpg` 
 - **SVG mark:** `pawcharms.svg`
 
@@ -308,7 +308,7 @@ These are gaps between what the physical product shows and what's currently in t
 ## 8. Quick Reference Card
 
 ```
-Brand:       PawCharms
+Brand:       PawsCharm
 Market:      Lithuania / EU
 Language:    Lithuanian (primary), English (secondary)
 Audience:    Women 22-35, urban, dog as personality

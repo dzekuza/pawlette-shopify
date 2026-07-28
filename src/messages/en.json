@@ -188,7 +188,7 @@
     "productGrid": {
       "heading": "Unique. Just like them",
       "placeholderBadge": "✦ PERSONALIZE",
-      "placeholderProductName": "PawCharms Collar",
+      "placeholderProductName": "PawsCharm Collar",
       "placeholderPrice": "Price: €25",
       "placeholderCta": "Shop now"
     },
@@ -199,9 +199,9 @@
       "shopCharmsCta": "Shop charms"
     },
     "howItWorks": {
-      "heading": "What happens after you get PawCharms?",
-      "dog1Alt": "Dog wearing a PawCharms collar",
-      "dog2Alt": "Dog with glasses wearing a PawCharms collar",
+      "heading": "What happens after you get PawsCharm?",
+      "dog1Alt": "Dog wearing a PawsCharm collar",
+      "dog2Alt": "Dog with glasses wearing a PawsCharm collar",
       "timeline": [
         {
           "week": "Week 1",
@@ -261,7 +261,7 @@
         "leashes": "Leashes",
         "charms": "Charms"
       },
-      "homeAriaLabel": "PawCharms home",
+      "homeAriaLabel": "PawsCharm home",
       "giftAriaLabel": "Open discount gift",
       "cartAriaLabel": "Cart",
       "openMenuAriaLabel": "Open menu",
@@ -270,7 +270,7 @@
       "madeIn": "Made in Vilnius, Lithuania"
     },
     "footer": {
-      "logoAriaLabel": "PawCharms home",
+      "logoAriaLabel": "PawsCharm home",
       "tagline": "Waterproof dog collars with snap-on charms. Handmade in Vilnius, Lithuania.",
       "swapNote": "Charms swap in 5 seconds.",
       "returnsBadge": "30-day returns",
@@ -293,7 +293,7 @@
           }
         },
         "brand": {
-          "title": "PawCharms",
+          "title": "PawsCharm",
           "links": {
             "ourStory": "Our story",
             "faq": "FAQ",
@@ -301,16 +301,16 @@
           }
         }
       },
-      "copyright": "© {year} PawCharms. Made with love in Lithuania.",
+      "copyright": "© {year} PawsCharm. Made with love in Lithuania.",
       "contactLine": "{email} · Vilnius, Lithuania"
     },
     "buySection": {
-      "defaultCollarName": "PawCharms collar"
+      "defaultCollarName": "PawsCharm collar"
     },
     "newsletter": {
-      "eyebrow": "PawCharms newsletter",
+      "eyebrow": "PawsCharm newsletter",
       "heading": "Get 10% off your first order",
-      "description": "Join the PawCharms community — news, styling ideas, and exclusive offers.",
+      "description": "Join the PawsCharm community — news, styling ideas, and exclusive offers.",
       "emailPlaceholder": "Your email address",
       "emailAriaLabel": "Email address",
       "submitting": "Sending...",
@@ -387,7 +387,7 @@
       },
       "accordion": {
         "descriptionTitle": "Description",
-        "descriptionContent": "Attachable silicone charms for every PawCharms collar. Each charm clips on and off in about five seconds, no tools needed.",
+        "descriptionContent": "Attachable silicone charms for every PawsCharm collar. Each charm clips on and off in about five seconds, no tools needed.",
         "shippingTitle": "Shipping & returns",
         "shippingContent": "Free shipping on orders over €40 · Delivery in 2–4 business days · Returns accepted within 30 days in original condition"
       },
@@ -415,11 +415,11 @@
         "faqSchema": {
           "everydayUse": {
             "question": "Is the {product} suitable for everyday use?",
-            "answer": "Yes. PawCharms products are built for everyday walks, clean easily, and stay looking sharp even after rain or muddy adventures."
+            "answer": "Yes. PawsCharm products are built for everyday walks, clean easily, and stay looking sharp even after rain or muddy adventures."
           },
           "combineProducts": {
-            "question": "Can it be combined with other PawCharms products?",
-            "answer": "Yes. Charms fit every PawCharms collar, and leashes are visually matched to our color collection and everyday sets."
+            "question": "Can it be combined with other PawsCharm products?",
+            "answer": "Yes. Charms fit every PawsCharm collar, and leashes are visually matched to our color collection and everyday sets."
           },
           "shipping": {
             "question": "How long does shipping take?",
@@ -536,8 +536,8 @@
     },
     "faqSchema": {
       "waterproof": {
-        "question": "Are PawCharms collars waterproof?",
-        "answer": "Yes. All PawCharms collars are made from food-grade silicone, so they're fully waterproof and safe for swimming, rain, and muddy walks. The material doesn't absorb odors or stains."
+        "question": "Are PawsCharm collars waterproof?",
+        "answer": "Yes. All PawsCharm collars are made from food-grade silicone, so they're fully waterproof and safe for swimming, rain, and muddy walks. The material doesn't absorb odors or stains."
       },
       "charms": {
         "question": "How do the interchangeable charms work?",
@@ -552,12 +552,12 @@
         "answer": "Yes - personalized engraving is available at checkout. You can add your dog's name, a short message, or a phone number for safety."
       },
       "manufacturing": {
-        "question": "Where are PawCharms collars made?",
+        "question": "Where are PawsCharm collars made?",
         "answer": "Every collar is designed and handmade in Vilnius, Lithuania. We're a small team, so every order is prepared with great care."
       }
     },
     "productListSchema": {
-      "itemListName": "PawCharms Dog Collar Sets",
+      "itemListName": "PawsCharm Dog Collar Sets",
       "collars": [
         {
           "name": "Blossom Set",

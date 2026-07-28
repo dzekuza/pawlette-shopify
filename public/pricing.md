@@ -1,14 +1,14 @@
-# Pricing — PawCharms
+# Pricing — PawsCharm
 
 Last updated: 2026-07-22
 
 ## Collar — €32.99
 
-BioThane dog collar, compatible with all PawCharms charms.
+BioThane dog collar, compatible with all PawsCharm charms.
 
 | Product | Price | Colors | Sizes available |
 |---------|-------|--------|-----------------|
-| PawCharms collar | €32.99 | Dark blue, blue, yellow, pink, purple | S, M, L |
+| PawsCharm collar | €32.99 | Dark blue, blue, yellow, pink, purple | S, M, L |
 
 Material: BioThane webbing — waterproof, easy to clean, durable.
 
@@ -18,7 +18,7 @@ BioThane dog leash, matches the collar colors.
 
 | Product | Price | Colors | Sizes available |
 |---------|-------|--------|-----------------|
-| PawCharms leash | €32.99 | Dark blue, blue, yellow, pink, purple | S (up to 10 kg), M (10–25 kg), L (25 kg+) |
+| PawsCharm leash | €32.99 | Dark blue, blue, yellow, pink, purple | S (up to 10 kg), M (10–25 kg), L (25 kg+) |
 
 ## Charms — €3.99 each
 
@@ -27,7 +27,7 @@ Magnetic silicone charms that snap onto the collar without tools.
 - Price: €3.99 per charm
 - Letters A–Z (spell your dog's name) plus 4 shapes: paw, heart, flower, star
 - Colors: blue, dark blue, purple, pink, yellow
-- Universal connector — fits all PawCharms collar sizes (S, M, L)
+- Universal connector — fits all PawsCharm collar sizes (S, M, L)
 
 ## Shipping
 

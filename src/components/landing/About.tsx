@@ -94,7 +94,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
           <Image
             src="/hero-figma/card-dog-freddie.png"
-            alt="Šuo su personalizuotu PawCharms antkakliu"
+            alt="Šuo su personalizuotu PawsCharm antkakliu"
             fill
             sizes="380px"
             style={{ objectFit: 'contain', objectPosition: 'right center' }}
@@ -107,7 +107,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         glow="radial-gradient(circle, rgba(249,228,160,0.6) 0%, rgba(249,228,160,0) 70%)"
         eyebrow="Personalizacija"
         heading="Personalizuojamas išskirtiniais pakabukais"
-        description="Magnetiniai silikoniniai PawCharms pakabučiai — personalizuokite savo stiliumi"
+        description="Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi"
         className="flex-1"
       >
         <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg]" style={{ aspectRatio: '1 / 1' }}>
@@ -140,7 +140,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
           <Image
             src="/hero-figma/card-dog-baz.png"
-            alt="Šuo Baz su personalizuotu PawCharms antkakliu"
+            alt="Šuo Baz su personalizuotu PawsCharm antkakliu"
             fill
             sizes="380px"
             style={{ objectFit: 'contain', objectPosition: 'right center' }}

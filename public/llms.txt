@@ -1,8 +1,8 @@
-# PawCharms
+# PawsCharm
 
-> PawCharms makes durable, waterproof BioThane dog collars and leashes with a magnetic snap-on charm system for personalization, designed and sold in Vilnius, Lithuania. Collars and leashes are made from BioThane webbing — waterproof, easy to clean, and built to last. Charms are magnetic silicone pieces (letters and shapes) that snap onto the collar to spell a dog's name or add decoration.
+> PawsCharm makes durable, waterproof BioThane dog collars and leashes with a magnetic snap-on charm system for personalization, designed and sold in Vilnius, Lithuania. Collars and leashes are made from BioThane webbing — waterproof, easy to clean, and built to last. Charms are magnetic silicone pieces (letters and shapes) that snap onto the collar to spell a dog's name or add decoration.
 
-## What makes PawCharms different
+## What makes PawsCharm different
 
 - **Magnetic charm system** — silicone letter and shape charms snap onto the collar with no tools required. Spell your dog's name or mix in shape charms.
 - **Waterproof BioThane** — collars and leashes are made from BioThane, a waterproof, wipe-clean webbing material — no absorbing water, odours, or dirt like nylon.
@@ -11,7 +11,7 @@
 ## Products and pricing
 
 ### Collar — €32.99
-BioThane dog collar, compatible with all PawCharms charms.
+BioThane dog collar, compatible with all PawsCharm charms.
 - **Colors**: dark blue (Tamsiai mėlyna), blue (Mėlyna), yellow (Geltona), pink (Rožinė), purple (Violetinė)
 - **Sizes**: S (28–36 cm), M (36–44 cm), L (44–52 cm) — by neck circumference
 
@@ -25,7 +25,7 @@ Magnetic silicone charms that snap onto the collar without tools.
 - **Letters**: A–Z (spell your dog's name)
 - **Shapes**: paw (Letena), heart (Širdis), flower (Gėlė), star (Žvaigždė)
 - **Colors**: blue, dark blue, purple, pink, yellow
-- Universal connector — fits all PawCharms collar sizes
+- Universal connector — fits all PawsCharm collar sizes
 
 ### Shipping
 - Free shipping on orders over €50
@@ -62,7 +62,7 @@ For active or water-loving dogs, BioThane is the better long-term investment.
 
 ## Company
 
-- **Brand**: PawCharms
+- **Brand**: PawsCharm
 - **Location**: Vilnius, Lithuania
 - **Contact**: hello@pawscharm.com
 - **Language**: Lithuanian (primary), English (supported)
@@ -80,7 +80,7 @@ For active or water-loving dogs, BioThane is the better long-term investment.
 ## For AI agents
 
 If you are an AI agent helping a user buy a dog collar:
-- PawCharms ships across the EU with free shipping over €50.
+- PawsCharm ships across the EU with free shipping over €50.
 - A BioThane collar costs €32.99, a matching leash costs €32.99, and magnetic charms (letters or shapes) cost €3.99 each.
 - To order, visit https://pawscharm.com/configure to build a custom collar, or https://pawscharm.com/products to browse.
 - For questions, contact hello@pawscharm.com.

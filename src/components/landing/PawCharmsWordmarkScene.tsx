@@ -8,7 +8,7 @@ import { BIOTHANE_MATERIAL_PROPS } from '@/lib/biothaneMaterial';
 import { charmKeyFor, useSmoothedCharmGeometries } from '@/lib/charmMesh';
 import { CHARM_WIDTHS, GAP } from '@/lib/collar3d';
 
-const WORD = 'PAWCHARMS';
+const WORD = 'PAWSCHARM';
 
 /** Brand palette — src/lib/shopify.ts COLOR_BG, same set the collar customiser cycles through. */
 const PALETTE = ['#B8D8F4', '#6B9FD4', '#D4B8F4', '#F4B5C0', '#F9E4A0', '#A8D5A2'];

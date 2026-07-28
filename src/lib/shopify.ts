@@ -162,7 +162,7 @@ function normalizeShopText(value?: string | null) {
   if (!value) return '';
 
   return value
-    .replace(/\bPawlette\b/gi, 'PawCharms')
+    .replace(/\bPawlette\b/gi, 'PawsCharm')
     .replace(/\bantkakli\b/gi, 'antkaklį')
     .replace(/\s+/g, ' ')
     .trim();
@@ -507,7 +507,7 @@ function titleToHandle(title: string): string {
   return title.toLowerCase().replace(/\s*–\s*/g, '-').replace(/\s+/g, '-').replace(/-+/g, '-');
 }
 
-// Charms live as variants split across two products by size — "PawCharms pakabučiai — Dideli
+// Charms live as variants split across two products by size — "PawsCharm pakabučiai — Dideli
 // (M/L)" (large charms, for L collars) and "... — Maži (S)" (small charms, for S/M collars).
 // Both are fetched here and merged/tagged with sizeGroup in getCharms().
 const CHARMS_QUERY = `
