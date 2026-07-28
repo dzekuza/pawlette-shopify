@@ -2,10 +2,11 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
-import { FREE_SHIPPING_COPY } from '@/lib/site-config'
+import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config'
 import { getCollars, getCollarsSync, getCharms, getCharmsSync, charmSizeGroupForCollarSize, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
@@ -42,6 +43,8 @@ const COLLAR_GALLERY: Record<string, string[]> = {
 }
 
 export function ProductConfigurator () {
+  const t = useTranslations('configure.configurator')
+  const tCommon = useTranslations('common')
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
   const [collars, setCollars] = useState<ShopifyCollar[]>(() => getCollarsSync() ?? [])
@@ -253,7 +256,7 @@ export function ProductConfigurator () {
                   transition: 'background 150ms, color 150ms, box-shadow 150ms',
                 }}
               >
-                {tab === 'gallery' ? 'Gallery' : 'Preview'}
+                {tab === 'gallery' ? t('tabGallery') : t('tabPreview')}
               </button>
             ))}
           </div>
@@ -324,7 +327,7 @@ export function ProductConfigurator () {
           {/* Heading block */}
           <div className="mb-8">
             <p className="font-sans font-semibold uppercase tracking-widest text-bark-muted m-0 mb-2" style={{ fontSize: 11 }}>
-              Antkaklio rinkinys
+              {t('eyebrow')}
             </p>
             <h1
               className="text-bark m-0 mb-2.5"
@@ -334,14 +337,14 @@ export function ProductConfigurator () {
                 letterSpacing: '0.02em',
               }}
             >
-              Susikurkite antkaklį
+              {t('heading')}
             </h1>
             <div className="flex items-baseline gap-2.5">
               <span className="font-bold text-bark" style={{ fontSize: 28, letterSpacing: '-0.01em' }}>
                 €28
               </span>
               <span className="text-bark-muted" style={{ fontSize: 13 }}>
-                {FREE_SHIPPING_COPY.toLowerCase()}
+                {tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO }).toLowerCase()}
               </span>
             </div>
           </div>

@@ -1,22 +1,15 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import type { ShopifyCollar, ShopifyCharm } from '@/lib/shopify'
-import { FREE_SHIPPING_COPY } from '@/lib/site-config'
+import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config'
 import { Accordion } from '@/components/shared/Accordion'
 import { CharmsStep } from './config-panel/CharmsStep'
 import { ColourStep } from './config-panel/ColourStep'
 import { SizeStep } from './config-panel/SizeStep'
 import { CollarStage } from '@/components/CollarStage'
-
-const DEFAULT_ACCORDION = {
-  description: 'Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas, su saugiu atsegamu užsegimu. Atsparus purvui ir kvapams, tad tereikia nuplauti.',
-  features: 'Vandeniui atsparus silikonas, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams.',
-  set_includes: 'Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojamas saugus užsegimas. Lininis laikymo maišelis.',
-  care: 'Po kiekvieno maudymosi ar purvino pasivaikščiojimo nuplaukite. Džiovinkite paguldę, nedėkite į džiovyklę. Pakabukus valykite drėgna šluoste ir leiskite išdžiūti.',
-  shipping: 'Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės.',
-}
 
 interface ConfigPanelProps {
   collar: ShopifyCollar | null
@@ -47,9 +40,19 @@ export function ConfigPanel({
   onAddToCart,
   isDark,
 }: ConfigPanelProps) {
+  const t = useTranslations('configure.panel')
+  const tCommon = useTranslations('common')
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
   const [showCharmsModal, setShowCharmsModal] = useState(false)
+
+  const DEFAULT_ACCORDION = {
+    description: t('accordion.descriptionDefault'),
+    features: t('accordion.featuresDefault'),
+    set_includes: t('accordion.includesDefault'),
+    care: t('accordion.careDefault'),
+    shipping: t('accordion.shippingDefault'),
+  }
 
   const textPrimary = isDark ? 'var(--color-cream)' : 'var(--color-bark)'
   const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : 'var(--color-bark-muted)'
@@ -61,11 +64,11 @@ export function ConfigPanel({
   const noop = () => {}
 
   const accordionItems = [
-    { id: 'description', title: 'Aprašymas', content: collar?.description ?? DEFAULT_ACCORDION.description },
-    { id: 'features',    title: 'Produkto savybės', content: collar?.features ?? DEFAULT_ACCORDION.features },
-    { id: 'includes',    title: 'Į rinkinį įeina', content: collar?.set_includes ?? DEFAULT_ACCORDION.set_includes },
-    { id: 'care',        title: 'Priežiūra', content: collar?.care ?? DEFAULT_ACCORDION.care },
-    { id: 'shipping',    title: 'Pristatymas ir grąžinimas', content: collar?.shipping ?? DEFAULT_ACCORDION.shipping },
+    { id: 'description', title: t('accordion.descriptionTitle'), content: collar?.description ?? DEFAULT_ACCORDION.description },
+    { id: 'features',    title: t('accordion.featuresTitle'), content: collar?.features ?? DEFAULT_ACCORDION.features },
+    { id: 'includes',    title: t('accordion.includesTitle'), content: collar?.set_includes ?? DEFAULT_ACCORDION.set_includes },
+    { id: 'care',        title: t('accordion.careTitle'), content: collar?.care ?? DEFAULT_ACCORDION.care },
+    { id: 'shipping',    title: t('accordion.shippingTitle'), content: collar?.shipping ?? DEFAULT_ACCORDION.shipping },
   ]
 
   const collarPrice = collar ? parseFloat(collar.price.replace(/[^0-9.]/g, '')) : 28
@@ -98,9 +101,9 @@ export function ConfigPanel({
       {/* ── Charms button ── */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <span style={{ fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>Pakabukai</span>
+          <span style={{ fontWeight: 600, fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: textMuted }}>{t('charmsLabel')}</span>
           {selectedCount > 0 && (
-            <span style={{ fontSize: 12, color: textSecondary }}>{selectedCount} pasirinkta</span>
+            <span style={{ fontSize: 12, color: textSecondary }}>{t('charmsSelectedCount', { count: selectedCount })}</span>
           )}
         </div>
         <button
@@ -118,7 +121,7 @@ export function ConfigPanel({
           onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
           onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
         >
-          <span>{selectedCount > 0 ? `${selectedCount} pakab. pridėta` : 'Pridėti pakabukų'}</span>
+          <span>{selectedCount > 0 ? t('charmsAddedButton', { count: selectedCount }) : t('addCharmsButton')}</span>
           <span style={{ fontSize: 20, lineHeight: 1, color: textMuted }}>+</span>
         </button>
       </div>
@@ -162,7 +165,7 @@ export function ConfigPanel({
           onPointerUp={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
           onPointerLeave={e => { (e.currentTarget as HTMLElement).style.transform = '' }}
         >
-          Į krepšelį — €{totalPrice}
+          {t('addToCartButton', { total: totalPrice })}
         </button>
         <p
           className="text-center mt-2.5 mb-0 font-sans"
@@ -172,7 +175,7 @@ export function ConfigPanel({
             letterSpacing: '0.02em',
           }}
         >
-          {FREE_SHIPPING_COPY} · Pagaminta Lietuvoje
+          {tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO })} · {t('madeInLithuania')}
         </p>
       </div>
 
@@ -205,11 +208,11 @@ export function ConfigPanel({
           }}>
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0', flexShrink: 0 }}>
-              <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--color-bark)' }}>Pridėti pakabukų</span>
+              <span style={{ fontWeight: 700, fontSize: 17, color: 'var(--color-bark)' }}>{t('charmsModalTitle')}</span>
               <button
                 onClick={() => setShowCharmsModal(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: 'var(--color-bark-muted)', lineHeight: 1, padding: '0 4px' }}
-                aria-label="Uždaryti"
+                aria-label={t('closeAria')}
               >
                 ×
               </button>
@@ -245,7 +248,7 @@ export function ConfigPanel({
                 onClick={() => setShowCharmsModal(false)}
                 style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15, background: 'var(--color-sage)', color: '#2a5a25', letterSpacing: '0.01em' }}
               >
-                Baigta{selectedCount > 0 ? ` — ${selectedCount} pakab.` : ''}
+                {selectedCount > 0 ? t('doneButtonWithCount', { count: selectedCount }) : t('doneButton')}
               </button>
             </div>
           </div>

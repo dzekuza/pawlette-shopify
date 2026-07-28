@@ -2,6 +2,70 @@
   "common": {
     "freeShipping": "Nemokamas pristatymas nuo {threshold}"
   },
+  "configure": {
+    "configurator": {
+      "tabGallery": "Gallery",
+      "tabPreview": "Preview",
+      "eyebrow": "Antkaklio rinkinys",
+      "heading": "Susikurkite antkaklį"
+    },
+    "panel": {
+      "accordion": {
+        "descriptionTitle": "Aprašymas",
+        "descriptionDefault": "Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas, su saugiu atsegamu užsegimu. Atsparus purvui ir kvapams, tad tereikia nuplauti.",
+        "featuresTitle": "Produkto savybės",
+        "featuresDefault": "Vandeniui atsparus silikonas, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams.",
+        "includesTitle": "Į rinkinį įeina",
+        "includesDefault": "Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojamas saugus užsegimas. Lininis laikymo maišelis.",
+        "careTitle": "Priežiūra",
+        "careDefault": "Po kiekvieno maudymosi ar purvino pasivaikščiojimo nuplaukite. Džiovinkite paguldę, nedėkite į džiovyklę. Pakabukus valykite drėgna šluoste ir leiskite išdžiūti.",
+        "shippingTitle": "Pristatymas ir grąžinimas",
+        "shippingDefault": "Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės."
+      },
+      "charmsLabel": "Pakabukai",
+      "charmsSelectedCount": "{count} pasirinkta",
+      "addCharmsButton": "Pridėti pakabukų",
+      "charmsAddedButton": "{count} pakab. pridėta",
+      "addToCartButton": "Į krepšelį — €{total}",
+      "madeInLithuania": "Pagaminta Lietuvoje",
+      "charmsModalTitle": "Pridėti pakabukų",
+      "closeAria": "Uždaryti",
+      "doneButton": "Baigta",
+      "doneButtonWithCount": "Baigta — {count} pakab."
+    },
+    "bento": {
+      "material": {
+        "label": "Medžiaga",
+        "headingLine1": "Atsparūs vandeniui.",
+        "headingLine2": "Be kvapo. Be dėmių.",
+        "description": "TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.",
+        "tags": ["Ežerai", "Purvas", "Lietus", "Sniegas"]
+      },
+      "origin": {
+        "label": "Kilmė",
+        "headingLine1": "Pagaminta rankomis",
+        "headingLine2": "Vilniuje, Lietuvoje.",
+        "description": "Mažos partijos. Kerpama ir surenkama rankomis mūsų dirbtuvėse. Kiekvienas antkaklis išsiunčiamas lino maišelyje.",
+        "tagline": "Vandeniui atspari."
+      },
+      "charmSystem": {
+        "label": "Pakabukų sistema",
+        "heading": "Prisisega per 5 sekundes.",
+        "description": "Prisegamas laikiklis. Jokių segtukų. Jokių įrankių. Jokio vargo.",
+        "moreCount": "+8 daugiau"
+      }
+    },
+    "upsell": {
+      "addedToCart": "{collar} pridėtas į krepšelį",
+      "charmsReady": "Jūsų 5 įtraukti pakabukai jau paruošti pasirinkimui.",
+      "eyebrow": "Užbaikite savo rinkinį",
+      "heading": "Pridėkite papildomų pakabukų po €6.",
+      "description": "Keiskite pagal nuotaiką, sezoną ar progą. Dauguma šeimininkų renkasi dar 2–3 papildomus.",
+      "noThanks": "Ne, ačiū",
+      "addCharmsButton": "Pridėti {count} pakab. — +€{amount}",
+      "goToCartButton": "Eiti į krepšelį →"
+    }
+  },
   "landing": {
     "hero": {
       "loading3d": "Kraunama 3D peržiūra…",

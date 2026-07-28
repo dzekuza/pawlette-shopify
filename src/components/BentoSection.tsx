@@ -2,9 +2,12 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 
 export function BentoSection({ isDark }: { isDark: boolean }) {
+  const t = useTranslations('configure.bento');
+  const materialTags = t.raw('material.tags') as string[];
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
@@ -35,17 +38,17 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-sage)', padding: isMobile ? '28px 24px' : '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
-                Medžiaga
+                {t('material.label')}
               </div>
               <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-interactive-text)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
-                Atsparūs vandeniui.<br />Be kvapo. Be dėmių.
+                {t('material.headingLine1')}<br />{t('material.headingLine2')}
               </div>
               <div style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: 1.7 }}>
-                TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.
+                {t('material.description')}
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {['Ežerai', 'Purvas', 'Lietus', 'Sniegas'].map(label => (
+              {materialTags.map(label => (
                 <div key={label} style={{ background: 'rgba(42,90,37,0.12)', borderRadius: 100, padding: '6px 14px', fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', fontFamily: "'DM Sans',sans-serif" }}>
                   {label}
                 </div>
@@ -56,16 +59,16 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           {/* Origin */}
           <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-bark)', padding: isMobile ? '28px 24px' : '40px 36px', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
-              Kilmė
+              {t('origin.label')}
             </div>
             <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-cream)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em' }}>
-              Pagaminta rankomis<br />Vilniuje, Lietuvoje.
+              {t('origin.headingLine1')}<br />{t('origin.headingLine2')}
             </div>
             <div style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: 1.7 }}>
-              Mažos partijos. Kerpama ir surenkama rankomis mūsų dirbtuvėse. Kiekvienas antkaklis išsiunčiamas lino maišelyje.
+              {t('origin.description')}
             </div>
             <div style={{ fontSize: 22, fontWeight: 500, color: 'rgba(250,247,242,0.2)', fontStyle: 'italic', letterSpacing: '-0.01em', marginTop: 'auto' }}>
-              Vandeniui atspari.
+              {t('origin.tagline')}
             </div>
           </div>
         </div>
@@ -76,13 +79,13 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-blossom)', padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
-                Pakabukų sistema
+                {t('charmSystem.label')}
               </div>
               <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'rgba(61,20,30,0.85)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
-                Prisisega per 5 sekundes.
+                {t('charmSystem.heading')}
               </div>
               <div style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: 1.6 }}>
-                Prisegamas laikiklis. Jokių segtukų. Jokių įrankių. Jokio vargo.
+                {t('charmSystem.description')}
               </div>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -91,7 +94,7 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
                   <Image src={src} alt="" width={36} height={36} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 </div>
               ))}
-              <span style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)', marginLeft: 4 }}>+8 daugiau</span>
+              <span style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)', marginLeft: 4 }}>{t('charmSystem.moreCount')}</span>
             </div>
           </div>
 

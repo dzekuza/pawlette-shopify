@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify';
 
 interface UpsellModalProps {
@@ -12,6 +13,7 @@ interface UpsellModalProps {
 }
 
 export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModalProps) {
+  const t = useTranslations('configure.upsell');
   const extras = charms.slice(5);
   const [picked, setPicked] = useState<string[]>([]);
 
@@ -32,15 +34,15 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
         <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
           <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: 'var(--color-sage)', fontSize: 14, color: '#2a5a25' }}>✓</div>
           <div>
-            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{collar?.title ?? ''} pridėtas į krepšelį</div>
-            <div style={{ fontSize: 12, color: '#5a9a55' }}>Jūsų 5 įtraukti pakabukai jau paruošti pasirinkimui.</div>
+            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{t('addedToCart', { collar: collar?.title ?? '' })}</div>
+            <div style={{ fontSize: 12, color: '#5a9a55' }}>{t('charmsReady')}</div>
           </div>
         </div>
 
         <div className="text-center mb-6">
-          <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>Užbaikite savo rinkinį</div>
-          <h2 className="font-display text-bark mb-2 font-medium" style={{ fontSize: 22, lineHeight: 1.2 }}>Pridėkite papildomų pakabukų po €6.</h2>
-          <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>Keiskite pagal nuotaiką, sezoną ar progą. Dauguma šeimininkų renkasi dar 2–3 papildomus.</p>
+          <div className="font-medium uppercase mb-2.5 text-bark-muted" style={{ fontSize: 11, letterSpacing: '0.08em' }}>{t('eyebrow')}</div>
+          <h2 className="font-display text-bark mb-2 font-medium" style={{ fontSize: 22, lineHeight: 1.2 }}>{t('heading')}</h2>
+          <p className="text-bark-light" style={{ fontSize: 14, lineHeight: 1.6 }}>{t('description')}</p>
         </div>
 
         <div className="grid grid-cols-4 gap-2.5 mb-6 overflow-y-auto" style={{ maxHeight: 200 }}>
@@ -74,14 +76,14 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
             className="flex-1 font-medium cursor-pointer rounded-full font-sans text-bark-light bg-white"
             style={{ fontSize: 14, padding: '13px', border: '2px solid var(--color-border)' }}
           >
-            Ne, ačiū
+            {t('noThanks')}
           </button>
           <button
             onClick={() => { onAddCharms(picked); onClose(); }}
             className="flex-[2] font-medium cursor-pointer rounded-full border-none font-sans"
             style={{ fontSize: 14, padding: '13px', background: 'var(--color-sage)', color: '#2a5a25' }}
           >
-            {picked.length > 0 ? `Pridėti ${picked.length} pakab. — +€${picked.length * 6}` : 'Eiti į krepšelį →'}
+            {picked.length > 0 ? t('addCharmsButton', { count: picked.length, amount: picked.length * 6 }) : t('goToCartButton')}
           </button>
         </div>
       </div>
