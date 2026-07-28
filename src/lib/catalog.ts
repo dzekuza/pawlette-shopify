@@ -1,4 +1,5 @@
 import { getCollars, getCharms, getLeashes, type ShopifyCharm, type ShopifyCollar, type ShopifyCollarVariant } from '@/lib/shopify'
+import { PRODUCT_TRANSLATIONS_EN } from '@/lib/productTranslations'
 
 export interface ProductDetail {
   slug: string
@@ -98,6 +99,32 @@ function localizeLeashName (title: string): string {
   return `${masculineColor} pavadėlis`
 }
 
+/**
+ * Overlays English copy from PRODUCT_TRANSLATIONS_EN onto a Shopify-sourced
+ * ProductDetail when locale === 'en'. Any field missing from the override map
+ * (or the whole entry missing) falls back to the Lithuanian Shopify value —
+ * never renders undefined. No-op for any other locale.
+ */
+export function applyLocaleOverlay (detail: ProductDetail, locale: string): ProductDetail {
+  if (locale !== 'en') return detail
+
+  const override = PRODUCT_TRANSLATIONS_EN[detail.slug]
+  // parentTitle (e.g. "PawCharms antkaklis" shown as a PDP breadcrumb/subtitle above a
+  // specific color variant's name) is looked up separately by parentHandle, since it's
+  // keyed in PRODUCT_TRANSLATIONS_EN under the parent/collection slug, not the variant's.
+  const parentOverride = detail.parentHandle ? PRODUCT_TRANSLATIONS_EN[detail.parentHandle] : undefined
+
+  if (!override && !parentOverride) return detail
+
+  return {
+    ...detail,
+    name: override?.name ?? detail.name,
+    shortDescription: override?.shortDescription ?? detail.shortDescription,
+    longDescription: override?.longDescription ?? detail.longDescription,
+    parentTitle: parentOverride?.name ?? detail.parentTitle,
+  }
+}
+
 function hexToRgba (hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16)
   const g = parseInt(hex.slice(3, 5), 16)
@@ -173,7 +200,7 @@ function getCharmGallery (charm: ShopifyCharm) {
   ]).slice(0, MAX_CHARM_GALLERY_IMAGES)
 }
 
-function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | undefined {
+function buildCharmCollectionProduct (charms: ShopifyCharm[], locale: string = 'lt'): ProductDetail | undefined {
   const first = charms[0]
   const images = first ? getCharmGallery(first) : []
 
@@ -183,7 +210,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
   // feel like a product, not an individual variant swatch.
   const cardImage = first.productFeaturedImage || images[0] || first.image || ''
 
-  return {
+  return applyLocaleOverlay({
     slug: 'charm-charms',
     id: 'charm-charms',
     variantId: first.variantId,
@@ -205,14 +232,14 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[]): ProductDetail | u
     care: first.care,
     shipping: first.shipping,
     videos: first.socialVideos,
-  }
+  }, locale)
 }
 
-function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
+function buildCharmProduct (charm: ShopifyCharm, locale: string = 'lt'): ProductDetail {
   const images = getCharmGallery(charm)
   const shortDescription = normalizeMarketingCopy(extractPlainText(charm.productDescription)) || 'Prisegamas pakabukas visiems PawCharms antkakliams.'
 
-  return {
+  return applyLocaleOverlay({
     slug: slugFromCharmId(charm.id),
     id: `charm-${charm.id}`,
     variantId: charm.variantId,
@@ -234,17 +261,17 @@ function buildCharmProduct (charm: ShopifyCharm): ProductDetail {
     care: charm.care,
     shipping: charm.shipping,
     videos: charm.socialVideos,
-  }
+  }, locale)
 }
 
-export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }): ProductDetail {
+export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }, locale: string = 'lt'): ProductDetail {
   const shortDescription = opts?.useParentMedia
     ? (normalizeMarketingCopy(collar.parentDescription) || normalizeMarketingCopy(extractPlainText(collar.description)) || `${collar.parentTitle} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
     : (normalizeMarketingCopy(extractPlainText(collar.description)) || `${collar.title} — vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais.`)
   const image = opts?.useParentMedia ? (collar.parentImage || collar.image) : collar.image
   const name = opts?.useParentMedia ? (collar.parentTitle || collar.title) : collar.title
 
-  return {
+  return applyLocaleOverlay({
     slug: opts?.slugOverride || collar.handle || slugFromProductName(collar.title),
     id: `collar-${collar.id}`,
     variantId: collar.variantId,
@@ -270,17 +297,17 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
     care: collar.care,
     shipping: collar.shipping,
     videos: collar.socialVideos,
-  }
+  }, locale)
 }
 
-export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }): ProductDetail {
+export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia?: boolean, slugOverride?: string }, locale: string = 'lt'): ProductDetail {
   const shortDescription = opts?.useParentMedia
     ? (normalizeMarketingCopy(leash.parentDescription) || normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.parentTitle} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
     : (normalizeMarketingCopy(extractPlainText(leash.description)) || `${leash.title} — vandeniui atsparus silikoninis pavadėlis su patogiu rankenos dizainu.`)
   const image = opts?.useParentMedia ? (leash.parentImage || leash.image) : leash.image
   const name = localizeLeashName(opts?.useParentMedia ? (leash.parentTitle || leash.title) : leash.title)
 
-  return {
+  return applyLocaleOverlay({
     slug: opts?.slugOverride || leash.handle,
     id: `leash-${leash.id}`,
     variantId: leash.variantId,
@@ -307,15 +334,15 @@ export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia
     leashVariants: leash.variants,
     leashColors: leash.colors.length > 0 ? leash.colors : undefined,
     videos: leash.socialVideos,
-  }
+  }, locale)
 }
 
-export function buildGroupedLeashProduct (leashes: ShopifyCollar[]): ProductDetail {
+export function buildGroupedLeashProduct (leashes: ShopifyCollar[], locale: string = 'lt'): ProductDetail {
   const base = leashes[0]
   const allColors = [...new Set(leashes.flatMap(l => l.colors))]
   const allVariants = leashes.flatMap(l => l.variants)
   return {
-    ...buildLeashProduct(base),
+    ...buildLeashProduct(base, undefined, locale),
     leashColors: allColors.length > 0 ? allColors : undefined,
     leashVariants: allVariants,
   }
@@ -344,10 +371,10 @@ export async function getAllProductSlugs (): Promise<string[]> {
   return Array.from(new Set(slugs))
 }
 
-export async function getProductBySlugAsync (slug: string): Promise<ProductDetail | undefined> {
+export async function getProductBySlugAsync (slug: string, locale: string = 'lt'): Promise<ProductDetail | undefined> {
   if (slug === 'charm-charms' || slug === 'pawcharms-pakabuciai') {
     const charms = await getCharms()
-    return buildCharmCollectionProduct(charms)
+    return buildCharmCollectionProduct(charms, locale)
   }
 
   if (slug.startsWith('charm-')) {
@@ -357,7 +384,7 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
       c.id === charmHandle || c.handle === charmHandle || slugifyText(c.id) === charmHandle
     )
     if (!charm) return undefined
-    return buildCharmProduct(charm)
+    return buildCharmProduct(charm, locale)
   }
 
   const collarHandle = slug.replace(/^collar-/, '')
@@ -370,23 +397,23 @@ export async function getProductBySlugAsync (slug: string): Promise<ProductDetai
     normalize(c.handle) === normalize(collarHandle) ||
     titleToSlug(c.title) === collarHandle
   )
-  if (collar) return buildCollarProduct(collar)
+  if (collar) return buildCollarProduct(collar, undefined, locale)
 
   // Raw Shopify product handle (e.g. "pawcharms-antkaklis") — use the main product's own image/description, not a color variant's
   const parentCollar = collars.find((c) => c.nodeHandle === collarHandle || c.nodeHandle === slug)
-  if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true, slugOverride: parentCollar.nodeHandle || slug })
+  if (parentCollar) return buildCollarProduct(parentCollar, { useParentMedia: true, slugOverride: parentCollar.nodeHandle || slug }, locale)
 
   const leashes = await getLeashes()
   const directLeash = leashes.find((l) => l.handle === slug || l.id === slug)
-  if (directLeash) return buildLeashProduct(directLeash)
+  if (directLeash) return buildLeashProduct(directLeash, undefined, locale)
 
   const parentLeash = leashes.find((l) => l.nodeHandle === slug)  // parent handle fallback (e.g. "pawlette-leash")
-  if (parentLeash) return buildLeashProduct(parentLeash, { useParentMedia: true, slugOverride: parentLeash.nodeHandle || slug })
+  if (parentLeash) return buildLeashProduct(parentLeash, { useParentMedia: true, slugOverride: parentLeash.nodeHandle || slug }, locale)
 
   return undefined
 }
 
-export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 6): Promise<ProductDetail[]> {
+export async function getRecommendedProductsForProductAsync (product: ProductDetail, limit = 6, locale: string = 'lt'): Promise<ProductDetail[]> {
   const [collars, charms, leashes] = await Promise.all([getCollars(), getCharms(), getLeashes()])
   const recommendations: ProductDetail[] = []
   const seen = new Set<string>([product.slug])
@@ -398,24 +425,24 @@ export async function getRecommendedProductsForProductAsync (product: ProductDet
   }
 
   if (product.productType === 'collar') {
-    addProduct(buildCharmCollectionProduct(charms))
+    addProduct(buildCharmCollectionProduct(charms, locale))
 
     // Include leash as upsell — grouped so all colors are available in the upsell picker
-    if (leashes.length > 0) addProduct(buildGroupedLeashProduct(leashes))
+    if (leashes.length > 0) addProduct(buildGroupedLeashProduct(leashes, locale))
 
     for (const collar of collars) {
-      addProduct(buildCollarProduct(collar))
+      addProduct(buildCollarProduct(collar, undefined, locale))
     }
 
     return recommendations
   }
 
   for (const collar of collars) {
-    addProduct(buildCollarProduct(collar))
+    addProduct(buildCollarProduct(collar, undefined, locale))
   }
 
   if (product.slug !== 'charm-charms') {
-    addProduct(buildCharmCollectionProduct(charms))
+    addProduct(buildCharmCollectionProduct(charms, locale))
   }
 
   return recommendations

@@ -1,5 +1,5 @@
 import { getCollars, getLeashes } from './shopify';
-import { getProductBySlugAsync, buildCollarProduct, buildGroupedLeashProduct, slugFromProductName, type ProductDetail } from './catalog';
+import { getProductBySlugAsync, buildCollarProduct, buildGroupedLeashProduct, slugFromProductName, applyLocaleOverlay, type ProductDetail } from './catalog';
 export type { ProductDetail };
 
 export interface LandingCollar {
@@ -23,40 +23,49 @@ let _inflight: Promise<LandingCollar[]> | null = null;
 
 export function getLandingCollarsSync(): LandingCollar[] | null { return _cache; }
 
-let _productsCache: ProductDetail[] | null = null;
-let _productsInflight: Promise<ProductDetail[]> | null = null;
+const _productsCache = new Map<string, ProductDetail[]>();
+const _productsInflight = new Map<string, Promise<ProductDetail[]>>();
 
-export function getLandingProductsSync(): ProductDetail[] | null { return _productsCache; }
+export function getLandingProductsSync(locale: string = 'lt'): ProductDetail[] | null {
+  return _productsCache.get(locale) ?? null;
+}
 
-export async function getLandingProducts(): Promise<ProductDetail[]> {
-  if (_productsCache) return _productsCache;
-  if (!_productsInflight) {
-    _productsInflight = (async () => {
+export async function getLandingProducts(locale: string = 'lt'): Promise<ProductDetail[]> {
+  const cached = _productsCache.get(locale);
+  if (cached) return cached;
+
+  let inflight = _productsInflight.get(locale);
+  if (!inflight) {
+    inflight = (async () => {
       const [collars, leashes, charmCollection] = await Promise.all([
         getCollars(),
         getLeashes(),
-        getProductBySlugAsync('charm-charms'),
+        getProductBySlugAsync('charm-charms', locale),
       ]);
       const collarProduct = collars[0] ? (() => {
         return buildCollarProduct(collars[0], {
           useParentMedia: true,
           slugOverride: collars[0].nodeHandle || collars[0].handle,
-        })
+        }, locale)
       })() : null;
       const leashProduct = leashes.length > 0 ? (() => {
-        const p = buildGroupedLeashProduct(leashes)
+        const p = buildGroupedLeashProduct(leashes, locale)
         p.name = leashes[0].parentTitle
         p.slug = leashes[0].nodeHandle || leashes[0].handle
         p.parentHandle = leashes[0].nodeHandle
-        return p
+        // The grouped product built above overlaid the color-variant slug; now that
+        // the slug has been rewritten to the parent nodeHandle, re-apply the overlay
+        // so the landing card's generic "PawCharms Leash" name/description win in English.
+        return applyLocaleOverlay(p, locale)
       })() : null;
       const results = [collarProduct, leashProduct, charmCollection].filter((p): p is ProductDetail => !!p);
-      _productsCache = results;
-      _productsInflight = null;
+      _productsCache.set(locale, results);
+      _productsInflight.delete(locale);
       return results;
     })();
+    _productsInflight.set(locale, inflight);
   }
-  return _productsInflight;
+  return inflight;
 }
 
 export async function getLandingCollars(): Promise<LandingCollar[]> {

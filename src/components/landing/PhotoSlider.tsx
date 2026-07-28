@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 import { Button } from '@/components/ui/button';
@@ -215,6 +215,7 @@ function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, 
 
 export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
   const t = useTranslations('landing.photoSlider');
+  const locale = useLocale();
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const [promoProducts, setPromoProducts] = useState<PromoProduct[]>([]);
@@ -227,7 +228,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
     let cancelled = false;
     getCollectionProductHandles(SOCIAL_CAROUSEL_COLLECTION_HANDLE).then(async (handles) => {
       const slugs = handles.length > 0 ? handles : PROMO_SLUGS;
-      const results = await Promise.all(slugs.map((slug) => getProductBySlugAsync(slug)));
+      const results = await Promise.all(slugs.map((slug) => getProductBySlugAsync(slug, locale)));
       if (cancelled) return;
       const products = results
         .filter((p): p is NonNullable<typeof p> => !!p)
@@ -243,7 +244,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       if (products.length > 0) setPromoProducts(products);
     });
     return () => { cancelled = true; };
-  }, [product]);
+  }, [product, locale]);
 
   const slides = product
     ? buildProductSlides({

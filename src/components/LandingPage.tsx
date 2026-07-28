@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { TopBar } from './landing/TopBar';
@@ -23,14 +24,15 @@ export function LandingPage() {
   const router = useRouter();
   const pathname = usePathname();
   const cartCount = useCartCount();
+  const locale = useLocale();
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);
-  const [products, setProducts] = useState<ProductDetail[]>(() => getLandingProductsSync() ?? []);
+  const [products, setProducts] = useState<ProductDetail[]>(() => getLandingProductsSync(locale) ?? []);
 
   useEffect(() => {
-    getLandingProducts().then((data) => { if (data.length > 0) setProducts(data); });
-  }, []);
+    getLandingProducts(locale).then((data) => { if (data.length > 0) setProducts(data); });
+  }, [locale]);
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

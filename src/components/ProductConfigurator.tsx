@@ -2,12 +2,14 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Image from 'next/image'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { SIZES, type CartItem } from '@/lib/data'
 import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config'
 import { getCollars, getCollarsSync, getCharms, getCharmsSync, charmSizeGroupForCollarSize, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
+import { slugFromCharmId } from '@/lib/catalog'
+import { PRODUCT_TRANSLATIONS_EN } from '@/lib/productTranslations'
 import { addLinesToCart, fetchCart } from '@/lib/cart'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { BentoSection } from './BentoSection'
@@ -42,14 +44,44 @@ const COLLAR_GALLERY: Record<string, string[]> = {
   ],
 }
 
+// The configurator renders raw Shopify titles directly (no ProductDetail/catalog.ts
+// pass-through), so the `en` overlay is applied here at the display boundary — only
+// `.title` is rewritten from PRODUCT_TRANSLATIONS_EN; id/variantId/price/color are
+// left untouched since they drive cart logic, not copy.
+function localizeCollarsForDisplay (collars: ShopifyCollar[], locale: string): ShopifyCollar[] {
+  if (locale !== 'en') return collars
+  return collars.map((c) => {
+    const override = PRODUCT_TRANSLATIONS_EN[c.handle]
+    return override?.name ? { ...c, title: override.name } : c
+  })
+}
+
+function localizeCharmsForDisplay (charms: ShopifyCharm[], locale: string): ShopifyCharm[] {
+  if (locale !== 'en') return charms
+  return charms.map((c) => {
+    const override = PRODUCT_TRANSLATIONS_EN[slugFromCharmId(c.id)]
+    return override?.name ? { ...c, title: override.name } : c
+  })
+}
+
 export function ProductConfigurator () {
   const t = useTranslations('configure.configurator')
   const tCommon = useTranslations('common')
+  const locale = useLocale()
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
-  const [collars, setCollars] = useState<ShopifyCollar[]>(() => getCollarsSync() ?? [])
-  const [charms, setCharms] = useState<ShopifyCharm[]>(() => getCharmsSync() ?? [])
-  const [collar, setCollar] = useState<ShopifyCollar | null>(() => getCollarsSync()?.[0] ?? null)
+  const [collarsRaw, setCollars] = useState<ShopifyCollar[]>(() => getCollarsSync() ?? [])
+  const [charmsRaw, setCharms] = useState<ShopifyCharm[]>(() => getCharmsSync() ?? [])
+  const [collarRaw, setCollar] = useState<ShopifyCollar | null>(() => getCollarsSync()?.[0] ?? null)
+
+  // Display-only, locale-aware copies. All cart/tracking logic below keeps using the
+  // *Raw state so ids/variantIds/prices are unaffected by the English name overlay.
+  const collars = useMemo(() => localizeCollarsForDisplay(collarsRaw, locale), [collarsRaw, locale])
+  const charms = useMemo(() => localizeCharmsForDisplay(charmsRaw, locale), [charmsRaw, locale])
+  const collar = useMemo(
+    () => (collarRaw ? localizeCollarsForDisplay([collarRaw], locale)[0] : null),
+    [collarRaw, locale]
+  )
   const [checkoutUrl, setCheckoutUrl] = useState<string | null>(null)
   const [selectedCharms, setSelectedCharms] = useState<(string | null)[]>([null, null, null, null, null])
   const [size, setSize] = useState<string>(SIZES[1])

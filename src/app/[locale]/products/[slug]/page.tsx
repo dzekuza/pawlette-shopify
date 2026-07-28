@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { getLocale } from 'next-intl/server'
 import { SingleProductPage } from '@/components/products/SingleProductPage'
 import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
 import {
@@ -23,7 +24,8 @@ export async function generateStaticParams () {
 
 export async function generateMetadata ({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
-  const product = await getProductBySlugAsync(slug)
+  const locale = await getLocale()
+  const product = await getProductBySlugAsync(slug, locale)
 
   if (!product) {
     return {
@@ -66,7 +68,8 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
 
 export default async function ProductPage ({ params }: ProductPageProps) {
   const { slug } = await params
-  const product = await getProductBySlugAsync(slug)
+  const locale = await getLocale()
+  const product = await getProductBySlugAsync(slug, locale)
 
   if (!product) notFound()
 
