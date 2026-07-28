@@ -21,6 +21,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface CollarStageProps {
   collar: ShopifyCollar | null;
@@ -47,6 +48,7 @@ function SortableSlot({
   charmSize: number;
   onClear: () => void;
 }) {
+  const t = useTranslations('configure.collarStage');
   const charm = charmId ? charms.find(c => c.id === charmId) : null;
   const id = `slot-${slotIndex}`;
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id, disabled: !charm });
@@ -94,7 +96,7 @@ function SortableSlot({
         <button
           onPointerDown={e => e.stopPropagation()}
           onClick={e => { e.stopPropagation(); onClear(); }}
-          aria-label="Pašalinti pakabuką"
+          aria-label={t('removeCharmAriaLabel')}
           className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center cursor-pointer border-none p-0 z-10"
           style={{
             background: 'rgba(61,53,48,0.75)',
@@ -161,6 +163,7 @@ const COLLAR_GALLERY: Record<string, string[]> = {
 };
 
 export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClearSlot, showGallery = true }: CollarStageProps) {
+  const t = useTranslations('configure.collarStage');
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const slotSize = isMobile ? 52 : 64;
@@ -236,7 +239,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
                 <button
                   key={i}
                   onClick={() => setActiveImg(i)}
-                  aria-label={`View ${i + 1}`}
+                  aria-label={t('viewImageAriaLabel', { index: i + 1 })}
                   className="rounded-xl overflow-hidden flex-shrink-0 p-0 cursor-pointer outline-none"
                   style={{
                     width: 62,
@@ -265,7 +268,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
             <Image
               key={gallery[activeImg]}
               src={gallery[activeImg]}
-              alt={`${collar?.title ?? ''} collar`}
+              alt={t('galleryImageAlt', { title: collar?.title ?? '' })}
               fill
               className="object-cover block"
             />
@@ -346,7 +349,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
           color: 'rgba(61,53,48,0.42)',
           letterSpacing: '0.06em',
         }}>
-          Drag to reorder
+          {t('dragToReorder')}
         </p>
       </div>
 

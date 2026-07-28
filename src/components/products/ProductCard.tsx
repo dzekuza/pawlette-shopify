@@ -1,4 +1,5 @@
 import { Star, ChevronRight } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import type { ProductDetail } from '@/lib/catalog'
 import type { LandingCollar } from '@/lib/db'
 import { PRODUCT_REVIEW_RATING } from '@/lib/seo'
@@ -11,15 +12,28 @@ import {
   CatalogCardMedia,
   CatalogCardTitle,
 } from '@/components/storefront/CatalogCard'
+import ltMessages from '@/messages/lt.json'
+import enMessages from '@/messages/en.json'
 
 type ProductCardProduct = LandingCollar | ProductDetail
 const DEFAULT_CHARM_SWATCHES = ['var(--color-blossom)', 'var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
+
+// ProductCard is rendered both under the migrated `[locale]` routes (with a
+// NextIntlClientProvider ancestor) and from PavadeliaiPageContent on the
+// non-migrated `/pavadeliai` route (no provider). Calling next-intl's
+// useTranslations() here would throw on `/pavadeliai`, so resolve copy from
+// the raw message JSON keyed off the URL's locale prefix instead — same
+// pattern as CartDrawer.
+const PRODUCT_CARD_STRINGS = { lt: ltMessages.products.card, en: enMessages.products.card }
 
 function isProductDetail (product: ProductCardProduct): product is ProductDetail {
   return 'slug' in product
 }
 
 export function ProductCard ({ product, href: hrefProp }: { product: ProductCardProduct; href?: string }) {
+  const pathname = usePathname()
+  const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt'
+  const t = PRODUCT_CARD_STRINGS[locale]
   const isDetail = isProductDetail(product)
   const href = hrefProp ?? `/products/${product.slug}`
   const background = isDetail ? product.tintColor : product.bg
@@ -42,7 +56,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
           {charmsCount > 0 ? (
             <span className='inline-flex shrink-0 items-center rounded-full bg-sage/10 px-3 py-2'>
               <span className='whitespace-nowrap font-sans text-[13px] font-medium leading-none text-interactive-text'>
-                {charmsCount} pakabukai įskaičiuoti
+                {t.charmsIncluded.replace('{count}', String(charmsCount))}
               </span>
             </span>
           ) : null}
@@ -53,7 +67,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
             {charmSwatches.map((swatch, index) => (
               <span
                 key={`${swatch}-${index}`}
-                title='Pakabuko spalva'
+                title={t.charmColorTitle}
                 className='h-6 w-6 shrink-0 rounded-full border border-bark/10 [&:not(:last-child)]:mr-[-10px]'
                 style={{ background: swatch }}
               />

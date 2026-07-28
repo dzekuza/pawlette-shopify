@@ -123,6 +123,12 @@
           "range": "44–52 cm"
         }
       ]
+    },
+    "collarStage": {
+      "removeCharmAriaLabel": "Remove charm",
+      "viewImageAriaLabel": "View {index}",
+      "galleryImageAlt": "{title} collar",
+      "dragToReorder": "Drag to reorder"
     }
   },
   "landing": {
@@ -316,6 +322,17 @@
       "sentHeading": "You're on the list!",
       "sentDescription": "Check your email — you'll find a 10% discount code valid on your first order.",
       "sentCta": "Shop now →"
+    }
+  },
+  "products": {
+    "pageContent": {
+      "eyebrow": "Shop",
+      "title": "Collars, charms, and pairings for them.",
+      "description": "Choose waterproof collars, browse swappable charms, and find a ready-made set all in one place."
+    },
+    "card": {
+      "charmsIncluded": "{count} charms included",
+      "charmColorTitle": "Charm color"
     }
   },
   "shared": {

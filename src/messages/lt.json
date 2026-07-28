@@ -123,6 +123,12 @@
           "range": "44–52 cm"
         }
       ]
+    },
+    "collarStage": {
+      "removeCharmAriaLabel": "Pašalinti pakabuką",
+      "viewImageAriaLabel": "Peržiūrėti {index}",
+      "galleryImageAlt": "{title} antkaklis",
+      "dragToReorder": "Vilkite, kad pertvarkytumėte"
     }
   },
   "landing": {
@@ -316,6 +322,17 @@
       "sentHeading": "Jūs sąraše!",
       "sentDescription": "Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.",
       "sentCta": "Pirkti dabar →"
+    }
+  },
+  "products": {
+    "pageContent": {
+      "eyebrow": "Parduotuvė",
+      "title": "Antkakliai, pakabukai ir deriniai jiems.",
+      "description": "Rinkitės vandeniui atsparius antkaklius, naršykite keičiamus pakabukus ir raskite paruoštą derinį vienoje vietoje."
+    },
+    "card": {
+      "charmsIncluded": "{count} pakabukai įskaičiuoti",
+      "charmColorTitle": "Pakabuko spalva"
     }
   },
   "shared": {
