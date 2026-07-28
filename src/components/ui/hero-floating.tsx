@@ -142,7 +142,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
     if (isDesktopQuery) {
       return 1.15 + progress * 0.55;
     } else {
-      return 0.75 + progress * 0.2;
+      return 1.55;
     }
   }, [progress]);
   
@@ -264,7 +264,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               modelRotation={modelRotation}
               modelScale={modelScale}
               modelPosition={modelPosition}
-              interactive={true}
+              interactive={false}
               fitMargin={1.1}
               autoRotate={true}
             />
