@@ -44,7 +44,7 @@ export async function generateMetadata({
       type: 'website',
       url: canonical,
       siteName: 'PawsCharm',
-      images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
+      images: [{ url: '/og-image.jpg', width: 1920, height: 1080 }],
     },
     twitter: {
       card: 'summary_large_image',
