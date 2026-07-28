@@ -169,6 +169,27 @@
       "errorGeneric": "Nepavyko užregistruoti el. pašto.",
       "successWithCode": "Ačiū. Jūsų 10% nuolaidos kodas: {code}",
       "successNoCode": "Ačiū. Jūsų prenumerata patvirtinta."
+    },
+    "stickyCta": {
+      "productLine": "Vandeniui atsparūs antkaklių rinkiniai — nuo 32.99 €",
+      "charmsIncludedLine": "5 pakabukai įskaičiuoti · {shipping}",
+      "returnsBadge": "✓ 30 dienų grąžinimas",
+      "cta": "Kurk savo antkaklį →"
+    },
+    "stickyVideo": {
+      "tooltip": "Kaip tai veikia",
+      "closeAriaLabel": "Uždaryti vaizdo įrašą"
+    },
+    "exitModal": {
+      "eyebrow": "Prieš išeinant",
+      "heading": "10 % nuolaida pirmajam antkakliui.",
+      "description": "Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.",
+      "emailPlaceholder": "jusu@email.com",
+      "submit": "Gauti 10 % nuolaidą",
+      "declineCta": "Ne, mokėsiu pilną kainą",
+      "sentHeading": "Jūs sąraše!",
+      "sentDescription": "Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.",
+      "sentCta": "Pirkti dabar →"
     }
   }
 }

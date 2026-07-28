@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { FREE_SHIPPING_COPY } from '@/lib/site-config';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
+  const t = useTranslations('landing.stickyCta');
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
 
@@ -34,19 +36,19 @@ export function StickyCTA({ visible }: { visible: boolean }) {
             ))}
           </div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>Vandeniui atsparūs antkaklių rinkiniai — nuo 32.99 €</div>
-            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>5 pakabukai įskaičiuoti · {FREE_SHIPPING_COPY.toLowerCase()}</div>
+            <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>{t('productLine')}</div>
+            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>{t('charmsIncludedLine', { shipping: FREE_SHIPPING_COPY.toLowerCase() })}</div>
           </div>
         </div>
       )}
       <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
         {!isMobile && (
           <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
-            ✓ 30 dienų grąžinimas
+            {t('returnsBadge')}
           </div>
         )}
         <PrimaryButton href="/products" variant="sage" size="md">
-          Kurk savo antkaklį →
+          {t('cta')}
         </PrimaryButton>
       </div>
       </div>

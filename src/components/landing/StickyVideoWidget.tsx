@@ -1,11 +1,13 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { X, Volume2, VolumeX } from 'lucide-react';
 
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/a32c10206bf546289fe5d8bcb6cef346.mp4';
 
 export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number }) {
+  const t = useTranslations('landing.stickyVideo');
   const [expanded, setExpanded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -58,7 +60,7 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
             pointerEvents: 'none',
           }}
         >
-          Kaip tai veikia
+          {t('tooltip')}
         </div>
       )}
 
@@ -114,7 +116,7 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); collapse(); }}
-              aria-label="Uždaryti vaizdo įrašą"
+              aria-label={t('closeAriaLabel')}
               style={{
                 position: 'absolute',
                 top: 8,

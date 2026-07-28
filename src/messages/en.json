@@ -169,6 +169,27 @@
       "errorGeneric": "Couldn't sign up your email.",
       "successWithCode": "Thank you. Your 10% discount code: {code}",
       "successNoCode": "Thank you. Your subscription is confirmed."
+    },
+    "stickyCta": {
+      "productLine": "Waterproof collar sets — from €32.99",
+      "charmsIncludedLine": "5 charms included · {shipping}",
+      "returnsBadge": "✓ 30-day returns",
+      "cta": "Build your collar →"
+    },
+    "stickyVideo": {
+      "tooltip": "How it works",
+      "closeAriaLabel": "Close video"
+    },
+    "exitModal": {
+      "eyebrow": "Before you go",
+      "heading": "10% off your first collar.",
+      "description": "Join our list and get your discount code instantly. No spam — just news and dog content.",
+      "emailPlaceholder": "your@email.com",
+      "submit": "Get 10% off",
+      "declineCta": "No, I'll pay full price",
+      "sentHeading": "You're on the list!",
+      "sentDescription": "Check your email — you'll find a 10% discount code valid on your first order.",
+      "sentCta": "Shop now →"
     }
   }
 }

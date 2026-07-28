@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 import type { CharmSpec } from '@/lib/collar3d';
@@ -17,6 +18,7 @@ const CHARM_3D_ITEMS: CharmSpec[] = [
 ];
 
 export function ExitModal({ onClose }: { onClose: () => void }) {
+  const t = useTranslations('landing.exitModal');
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
   const w = useWindowWidth() ?? 1200;
@@ -34,14 +36,14 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
         {!sent ? (
           <>
             <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <Eyebrow className="mb-3">Prieš išeinant</Eyebrow>
-              <DisplayHeading as="h2" size="compact" className="text-bark mb-3">10 % nuolaida pirmajam antkakliui.</DisplayHeading>
-              <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.</p>
+              <Eyebrow className="mb-3">{t('eyebrow')}</Eyebrow>
+              <DisplayHeading as="h2" size="compact" className="text-bark mb-3">{t('heading')}</DisplayHeading>
+              <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>{t('description')}</p>
             </div>
             <div style={{ display: 'flex', gap: 10 }}>
               <input
                 type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="jusu@email.com"
+                placeholder={t('emailPlaceholder')}
                 style={{ flex: 1, fontSize: 14, boxSizing: 'border-box' as const, padding: '12px 16px', borderRadius: 100, border: '1.5px solid var(--color-border)', background: 'var(--color-cream)', color: 'var(--color-bark)', outline: 'none', transition: 'border-color 150ms ease-out' }}
                 onFocus={e => (e.target.style.borderColor = 'var(--color-sage)')}
                 onBlur={e => (e.target.style.borderColor = 'var(--color-border)')}
@@ -50,11 +52,11 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
                 className="btn-press"
                 onClick={() => email && setSent(true)}
                 style={{ fontSize: 14, fontWeight: 500, padding: '12px 22px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'transform 100ms ease-out' }}>
-                Gauti 10 % nuolaidą
+                {t('submit')}
               </button>
             </div>
             <div style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'var(--color-muted-foreground)' }}>
-              <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: 12, color: 'var(--color-muted-foreground)', padding: 0 }}>Ne, mokėsiu pilną kainą</button>
+              <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: 12, color: 'var(--color-muted-foreground)', padding: 0 }}>{t('declineCta')}</button>
             </div>
           </>
         ) : (
@@ -62,9 +64,9 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
             <div className="animate-levitate" style={{ width: 110, height: 110, margin: '0 auto 16px' }} aria-hidden="true">
               <Charm3DScene items={[CHARM_3D_ITEMS[4]]} boundsMargin={1} autoRotate={false} />
             </div>
-            <DisplayHeading as="h2" size="compact" className="text-bark mb-2">Jūs sąraše!</DisplayHeading>
-            <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7, marginBottom: 24 }}>Patikrinkite el. paštą — ten rasite 10 % nuolaidos kodą, galiojantį pirmajam užsakymui.</p>
-            <button className="btn-press" onClick={onClose} style={{ fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>Pirkti dabar →</button>
+            <DisplayHeading as="h2" size="compact" className="text-bark mb-2">{t('sentHeading')}</DisplayHeading>
+            <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7, marginBottom: 24 }}>{t('sentDescription')}</p>
+            <button className="btn-press" onClick={onClose} style={{ fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>{t('sentCta')}</button>
           </div>
         )}
       </div>
