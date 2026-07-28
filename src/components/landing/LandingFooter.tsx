@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { Eyebrow } from '@/components/storefront/Typography';
-import { FREE_SHIPPING_COPY } from '@/lib/site-config';
+import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
 
 const FOOTER_COLS = [
   { key: 'store', links: [
@@ -27,6 +27,8 @@ const FOOTER_COLS = [
 
 export function LandingFooter() {
   const t = useTranslations('landing.footer');
+  const tCommon = useTranslations('common');
+  const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO });
   return (
     <footer className="bg-surface-2 py-16 text-bark md:py-20">
       <div className="mx-auto max-w-[1200px] px-4 md:px-6">
@@ -38,7 +40,7 @@ export function LandingFooter() {
             <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t('tagline')}</p>
             <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>{t('swapNote')}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 18 }}>
-              {[FREE_SHIPPING_COPY, t('returnsBadge')].map((item) => (
+              {[shippingCopy, t('returnsBadge')].map((item) => (
                 <span
                   key={item}
                   style={{

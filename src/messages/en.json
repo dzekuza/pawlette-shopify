@@ -1,4 +1,7 @@
 {
+  "common": {
+    "freeShipping": "Free shipping over {threshold}"
+  },
   "landing": {
     "hero": {
       "loading3d": "Loading 3D preview…",

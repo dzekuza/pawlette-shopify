@@ -1,4 +1,7 @@
 {
+  "common": {
+    "freeShipping": "Nemokamas pristatymas nuo {threshold}"
+  },
   "landing": {
     "hero": {
       "loading3d": "Kraunama 3D peržiūra…",

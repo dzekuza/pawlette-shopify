@@ -4,12 +4,14 @@ import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
-import { FREE_SHIPPING_COPY } from '@/lib/site-config';
+import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
   const t = useTranslations('landing.stickyCta');
+  const tCommon = useTranslations('common');
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
+  const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO }).toLowerCase();
 
   return (
     <div style={{
@@ -37,7 +39,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           </div>
           <div>
             <div style={{ fontSize: 14, fontWeight: 500, color: 'var(--color-bark)' }}>{t('productLine')}</div>
-            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>{t('charmsIncludedLine', { shipping: FREE_SHIPPING_COPY.toLowerCase() })}</div>
+            <div style={{ fontSize: 12, color: 'var(--color-bark-muted)' }}>{t('charmsIncludedLine', { shipping: shippingCopy })}</div>
           </div>
         </div>
       )}

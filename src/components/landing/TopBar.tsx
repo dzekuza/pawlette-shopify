@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { FREE_SHIPPING_COPY, NEWSLETTER_DISCOUNT_CODE, NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
+import { FREE_SHIPPING_THRESHOLD_EURO, NEWSLETTER_DISCOUNT_CODE, NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
 
 export function TopBar() {
   const t = useTranslations('landing.topBar');
+  const tCommon = useTranslations('common');
   const slides = t.raw('slides') as string[];
   const [taglineIndex, setTaglineIndex] = useState(0);
+  const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,7 +27,7 @@ export function TopBar() {
     template
       .replace('{discountPercent}', String(NEWSLETTER_DISCOUNT_PERCENT))
       .replace('{discountCode}', NEWSLETTER_DISCOUNT_CODE)
-      .replace('{shippingCopy}', FREE_SHIPPING_COPY);
+      .replace('{shippingCopy}', shippingCopy);
 
   return (
     <div className="flex h-9 items-center justify-center gap-3 bg-sage px-4 text-center">
