@@ -16,6 +16,7 @@ export async function generateMetadata({
       languages: {
         lt: 'https://pawscharm.com/configure',
         en: 'https://pawscharm.com/en/configure',
+        'x-default': 'https://pawscharm.com/configure',
       },
     },
     openGraph: {

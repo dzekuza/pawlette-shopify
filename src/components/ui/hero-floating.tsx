@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, useMemo } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import { DisplayHeading, Eyebrow } from "@/components/storefront/Typography";
@@ -24,11 +23,10 @@ const Collar3DScene = dynamic(() => import("@/components/products/Collar3DScene"
   loading: () => <Collar3DLoading />,
 });
 
-const HERO_STICKERS = {
-  collar: "/hero-figma/hero-sticker-collar.png",
-  paw: "/hero-figma/hero-sticker-paw.png",
-  letterS: "/hero-figma/hero-sticker-s.png",
-};
+const CharmPatternScene = dynamic(
+  () => import("@/components/landing/CharmPatternScene").then((m) => m.CharmPatternScene),
+  { ssr: false }
+);
 
 const DEMO_NAME = "ROCKY";
 const DEMO_COLOURS = ["#B8D8F4", "#6B9FD4", "#D4B8F4", "#F4B5C0", "#F9E4A0"];
@@ -44,7 +42,6 @@ interface FloatingHeroProps {
 
 export function FloatingHero({ className }: FloatingHeroProps) {
   const t = useTranslations("landing.hero");
-  const stickersRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const mountedCountRef = useRef(DEMO_ITEMS.length);
@@ -62,7 +59,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   useEffect(() => {
     if (!sectionRef.current) return;
     const section = sectionRef.current;
-    const stickers = stickersRef.current;
     let gsapCleanup: (() => void) | null = null;
     let cancelled = false;
 
@@ -96,26 +92,8 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           },
         });
 
-        // Stickers floating animation (desktop only)
-        const stickersTweens: gsap.core.Tween[] = [];
-        if (stickers) {
-          const floatingItems = stickers.querySelectorAll<HTMLElement>("[data-hero-float]");
-          floatingItems.forEach((el, i) => {
-            const tween = gsap.to(el, {
-              y: "+=16",
-              duration: 2.6 + i * 0.4,
-              ease: "sine.inOut",
-              yoyo: true,
-              repeat: -1,
-              delay: i * 0.3,
-            });
-            stickersTweens.push(tween);
-          });
-        }
-
         gsapCleanup = () => {
           trigger.kill();
-          stickersTweens.forEach((t) => t.kill());
         };
       } else {
         // Mobile: No pinning or ScrollTrigger to ensure buttery-smooth scrolling
@@ -180,6 +158,14 @@ export function FloatingHero({ className }: FloatingHeroProps) {
         overflow: "clip",
       }}
     >
+      {/* Ambient charm field — decorative background overlay, sits behind the collar/text on a fully
+          transparent canvas. Low opacity + modest count so it reads as texture, not a competing focal
+          point. Desktop only: the scene's camera is tuned for a wide aspect ratio, and on the narrow
+          mobile hero it renders zoomed-in and oversized. */}
+      <div className="pointer-events-none absolute inset-0 z-0 hidden opacity-40 md:block">
+        <CharmPatternScene count={20} className="h-full w-full" />
+      </div>
+
       {/* 3D Collar Stage — Desktop layout: hidden on mobile via CSS, direct absolute child, offset down so it clears the header content above it */}
       <div className="hidden md:block absolute inset-x-0 bottom-0 top-[28%] z-0 pointer-events-none">
         <div className="w-full h-full pointer-events-auto">
@@ -193,37 +179,6 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             interactive={progress < 0.1}
             fitMargin={1.3}
           />
-        </div>
-      </div>
-
-      {/* Floating Stickers Background — Desktop only */}
-      <div ref={stickersRef} className="hidden md:block pointer-events-none absolute inset-0 z-20 overflow-hidden">
-        <div 
-          data-hero-sticker 
-          className="absolute left-[3%] top-[15%] w-[170px] -rotate-[17deg]"
-          style={{ opacity: desktopTextOpacity }}
-        >
-          <div data-hero-float>
-            <Image src={HERO_STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" priority />
-          </div>
-        </div>
-        <div 
-          data-hero-sticker 
-          className="absolute right-[8%] top-[50%] w-[120px] -rotate-[23deg]"
-          style={{ opacity: desktopTextOpacity }}
-        >
-          <div data-hero-float>
-            <Image src={HERO_STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
-          </div>
-        </div>
-        <div 
-          data-hero-sticker 
-          className="absolute left-[10%] top-[55%] w-[140px] -rotate-[17deg]"
-          style={{ opacity: desktopTextOpacity }}
-        >
-          <div data-hero-float>
-            <Image src={HERO_STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
-          </div>
         </div>
       </div>
 
@@ -261,9 +216,12 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           </div>
         </div>
 
-        {/* 3D Collar Stage — Mobile layout: hidden on desktop via CSS, inline in flex flow */}
-        <div className="block md:hidden relative w-full flex-1 flex items-center justify-center pointer-events-none">
-          <div className="w-full h-full min-h-[340px] pointer-events-auto">
+        {/* 3D Collar Stage — Mobile layout: hidden on desktop via CSS, inline in flex flow.
+            Capped height (not flex-1) keeps the container aspect from going tall-and-narrow —
+            FitCameraToView zooms out to fit whichever axis is tightest, so an unbounded flex-1
+            height (filling the whole remaining 100dvh) was making the collar render tiny. */}
+        <div className="block md:hidden relative w-full flex-1 max-h-[460px] min-h-[380px] pointer-events-none">
+          <div className="absolute inset-0 pointer-events-auto">
             <Collar3DScene
               items={items}
               strapColour="#6B9FD4"
@@ -272,7 +230,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               modelScale={modelScale}
               modelPosition={modelPosition}
               interactive={false}
-              fitMargin={1.1}
+              fitMargin={0.95}
               autoRotate={true}
             />
           </div>

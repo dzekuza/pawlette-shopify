@@ -64,131 +64,86 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
 
   return (
     <>
-      <header style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 200,
-      }}>
+      <header className="sticky top-0 z-[200]">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-3 md:px-6">
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          background: 'var(--color-cream)',
-          borderRadius: 84,
-          padding: '12px 12px 12px 16px',
-          overflow: 'clip',
-        }}>
-          <Link href={homeHref} aria-label={t.homeAriaLabel} style={{ flexShrink: 0, lineHeight: 0 }}>
-            <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
-          </Link>
+          <div className="flex items-center justify-between gap-2 overflow-clip rounded-full border border-bark/[0.06] bg-cream py-3 pl-4 pr-3 shadow-[0_1px_2px_rgba(61,53,48,0.04)]">
+            <Link href={homeHref} aria-label={t.homeAriaLabel} className="shrink-0 leading-none">
+              <img src="/pawcharms.svg" alt="PawCharms" className="block h-[42px] w-auto" />
+            </Link>
 
-          {/* Desktop nav links */}
-          <nav className="hidden items-center gap-6 md:flex">
+            {/* Desktop nav links */}
+            <nav className="hidden items-center gap-7 md:flex">
               {navLinks.map((link, i) => (
                 <Link
                   key={i}
                   href={link.href}
-                  style={{
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: 'var(--color-bark-light)',
-                    textDecoration: 'none',
-                    whiteSpace: 'nowrap',
-                  }}
+                  className="group relative whitespace-nowrap py-1 text-sm font-medium text-bark-light no-underline transition-colors hover:text-bark"
                 >
                   {link.label}
+                  <span className="absolute inset-x-0 -bottom-0.5 h-[1.5px] scale-x-0 rounded-full bg-sage-dark transition-transform duration-200 ease-out group-hover:scale-x-100" />
                 </Link>
               ))}
             </nav>
 
-          {/* Right: cart + CTA */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {/* Language switcher */}
-            <LanguageSwitcher />
+            {/* Right: cart + CTA */}
+            <div className="flex items-center gap-1">
+              {/* Language switcher */}
+              <LanguageSwitcher />
 
-            {/* Gift */}
-            <button
-              onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
-              aria-label={t.giftAriaLabel}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px 10px',
-                color: 'var(--color-bark)',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <Gift className="h-5 w-5" />
-            </button>
+              {/* Gift */}
+              <button
+                onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
+                aria-label={t.giftAriaLabel}
+                className="flex h-9 w-9 items-center justify-center rounded-full text-bark transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30"
+              >
+                <Gift className="h-5 w-5" />
+              </button>
 
-            {/* Cart */}
-            <button
-              onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
-              aria-label={t.cartAriaLabel}
-              style={{
-                position: 'relative',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '8px 10px',
-                color: 'var(--color-bark)',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-              {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: 4,
-                  right: 4,
-                  width: 16,
-                  height: 16,
-                  borderRadius: '50%',
-                  background: 'var(--color-sage)',
-                  color: 'var(--color-interactive-text)',
-                  fontSize: 10,
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </button>
+              {/* Cart */}
+              <button
+                onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
+                aria-label={t.cartAriaLabel}
+                className="relative flex h-9 w-9 items-center justify-center rounded-full text-bark transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-sage text-[10px] font-semibold text-interactive-text">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
 
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setMenuOpen(o => !o)}
-              aria-label={menuOpen ? t.closeMenuAriaLabel : t.openMenuAriaLabel}
-              aria-expanded={menuOpen}
-              className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] md:hidden"
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 8,
-              }}
-            >
-              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
-              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', opacity: menuOpen ? 0 : 1, transition: 'opacity 250ms ease-out' }} />
-              <span style={{ width: 20, height: 1.5, background: 'var(--color-bark)', borderRadius: 2, display: 'block', transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none', transition: 'transform 250ms ease-out' }} />
-            </button>
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMenuOpen(o => !o)}
+                aria-label={menuOpen ? t.closeMenuAriaLabel : t.openMenuAriaLabel}
+                aria-expanded={menuOpen}
+                className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30 md:hidden"
+              >
+                <span
+                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-transform duration-[250ms] ease-out"
+                  style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }}
+                />
+                <span
+                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-opacity duration-[250ms] ease-out"
+                  style={{ opacity: menuOpen ? 0 : 1 }}
+                />
+                <span
+                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-transform duration-[250ms] ease-out"
+                  style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
+                />
+              </button>
 
-            {/* Shop now CTA */}
-            <PrimaryButton href={shopHref} variant="sage" size="md" className="hidden md:inline-flex">
-              {t.shopNow}
-            </PrimaryButton>
+              {/* Shop now CTA */}
+              <PrimaryButton href={shopHref} variant="sage" size="md" className="ml-1 hidden md:inline-flex">
+                {t.shopNow}
+              </PrimaryButton>
+            </div>
           </div>
-        </div>
         </div>
       </header>
 
@@ -199,31 +154,22 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           position: 'fixed',
           inset: 0,
           zIndex: 199,
-          background: 'var(--color-cream)',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: '0 40px',
           opacity: menuOpen ? 1 : 0,
           pointerEvents: menuOpen ? 'auto' : 'none',
           transition: 'opacity 250ms ease-out',
         }}
-        className="md:hidden"
+        className="flex flex-col justify-center bg-cream px-10 md:hidden"
       >
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <nav className="flex flex-col gap-2">
           {navLinks.map((link, i) => (
             <a
               key={i}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
-              className="font-display"
+              className="block font-display leading-[1.15] text-bark no-underline transition-colors"
               style={{
                 fontSize: 'clamp(36px, 8vw, 64px)',
-                color: 'var(--color-bark)',
-                textDecoration: 'none',
-                lineHeight: 1.15,
-                display: 'block',
                 transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
                 transition: `color 150ms ease-out, transform 250ms ease-out ${i * 40}ms`,
               }}
@@ -232,23 +178,14 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             </a>
           ))}
         </nav>
-        <div style={{
-          position: 'absolute',
-          left: 40,
-          right: 40,
-          bottom: 28,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: 12,
-        }}>
-          <span style={{ fontSize: 13, color: 'var(--color-muted-foreground)' }}>{t.madeIn}</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div className="absolute inset-x-10 bottom-7 flex items-center justify-between gap-3">
+          <span className="text-[13px] text-bark-muted">{t.madeIn}</span>
+          <div className="flex items-center gap-3">
             <LanguageSwitcher tabIndex={menuOpen ? 0 : -1} />
             <a
               href="mailto:hello@pawscharm.com"
               tabIndex={menuOpen ? 0 : -1}
-              style={{ fontSize: 13, color: 'var(--color-muted-foreground)', textDecoration: 'none' }}
+              className="text-[13px] text-bark-muted no-underline"
             >
               hello@pawscharm.com
             </a>

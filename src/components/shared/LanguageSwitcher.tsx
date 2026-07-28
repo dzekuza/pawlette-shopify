@@ -1,9 +1,36 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { ChevronDown } from 'lucide-react';
 import { isLocalizedPath } from '@/lib/locale-path';
 
 const LOCALE_LABEL: Record<string, string> = { lt: 'LT', en: 'EN' };
+
+/** Lithuanian tricolour — yellow/green/red horizontal bands. */
+function FlagLT() {
+  return (
+    <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true" className="rounded-[2px]">
+      <rect width="16" height="4" y="0" fill="#FDB913" />
+      <rect width="16" height="4" y="4" fill="#006A44" />
+      <rect width="16" height="4" y="8" fill="#C1272D" />
+    </svg>
+  );
+}
+
+/** UK Union Jack, simplified for small display sizes. */
+function FlagGB() {
+  return (
+    <svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true" className="rounded-[2px]">
+      <rect width="16" height="12" fill="#00247D" />
+      <path d="M0 0 16 12M16 0 0 12" stroke="#fff" strokeWidth="2.4" />
+      <path d="M0 0 16 12M16 0 0 12" stroke="#CF142B" strokeWidth="1.2" />
+      <path d="M8 0V12M0 6H16" stroke="#fff" strokeWidth="4" />
+      <path d="M8 0V12M0 6H16" stroke="#CF142B" strokeWidth="2.2" />
+    </svg>
+  );
+}
+
+const LOCALE_FLAG: Record<string, () => React.JSX.Element> = { lt: FlagLT, en: FlagGB };
 
 interface LanguageSwitcherProps {
   /** Pass through when the switcher lives inside a hidden/offscreen container
@@ -33,6 +60,7 @@ export function LanguageSwitcher({ tabIndex }: LanguageSwitcherProps) {
   }
 
   const nextLocale = locale === 'lt' ? 'en' : 'lt';
+  const Flag = LOCALE_FLAG[nextLocale];
 
   const handleSwitch = () => {
     document.cookie = `NEXT_LOCALE=${nextLocale}; path=/; max-age=${60 * 60 * 24 * 365}`;
@@ -53,9 +81,11 @@ export function LanguageSwitcher({ tabIndex }: LanguageSwitcherProps) {
       onClick={handleSwitch}
       aria-label={`Switch language to ${LOCALE_LABEL[nextLocale]}`}
       tabIndex={tabIndex}
-      className="text-sm font-medium text-bark-muted transition-colors hover:text-bark"
+      className="flex items-center gap-1.5 text-sm font-medium text-bark-muted transition-colors hover:text-bark"
     >
+      <Flag />
       {LOCALE_LABEL[nextLocale]}
+      <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
     </button>
   );
 }

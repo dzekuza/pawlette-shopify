@@ -7,7 +7,6 @@ import { useCartCount } from '@/hooks/useCartCount';
 import { LandingNav } from './landing/LandingNav';
 import { TopBar } from './landing/TopBar';
 import { FloatingHero } from './ui/hero-floating';
-import { CharmPattern } from './landing/CharmPattern';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { PhotoSlider } from './landing/PhotoSlider';
@@ -156,8 +155,6 @@ export function LandingPage() {
 
       <main>
         <FloatingHero />
-
-        <CharmPattern />
 
         <div data-animate="section"><ProductGrid products={products} /></div>
         <div data-animate="section"><HowItWorks /></div>

@@ -17,6 +17,7 @@ export async function generateMetadata({
       languages: {
         lt: 'https://pawscharm.com/products',
         en: 'https://pawscharm.com/en/products',
+        'x-default': 'https://pawscharm.com/products',
       },
     },
     keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],

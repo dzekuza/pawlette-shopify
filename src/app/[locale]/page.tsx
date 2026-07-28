@@ -19,6 +19,7 @@ export async function generateMetadata({
       languages: {
         lt: 'https://pawscharm.com',
         en: 'https://pawscharm.com/en',
+        'x-default': 'https://pawscharm.com',
       },
     },
     keywords: ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawCharms'],
