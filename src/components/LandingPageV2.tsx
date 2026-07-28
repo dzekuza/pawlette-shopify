@@ -1,19 +1,17 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useLocale } from 'next-intl';
-import { useCartCount } from '@/hooks/useCartCount';
-import { LandingNav } from './landing/LandingNav';
+import { usePathname } from 'next/navigation';
 import { TopBar } from './landing/TopBar';
-import { FloatingHero } from './ui/hero-floating';
+import { Hero3DFloat } from './landing/Hero3DFloat';
 import { CharmPattern } from './landing/CharmPattern';
+import { PawCharmsWordmark } from './landing/PawCharmsWordmark';
 import { ProductGrid } from './landing/ProductGrid';
 import { getLandingProducts, getLandingProductsSync, type ProductDetail } from '@/lib/db';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { FAQ } from './landing/FAQ';
+import { About } from './landing/About';
 import { HowItWorks } from './landing/HowItWorks';
-import { LandingBuySection } from './landing/LandingBuySection';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { LandingFooter } from './landing/LandingFooter';
 import { NewsletterSignup } from './landing/NewsletterSignup';
@@ -21,19 +19,21 @@ import { StickyCTA } from './landing/StickyCTA';
 import { StickyVideoWidget } from './landing/StickyVideoWidget';
 import { ExitModal } from './landing/ExitModal';
 
-export function LandingPage() {
-  const router = useRouter();
+/**
+ * Same page as LandingPage, except the sticker-collage hero + separate scroll-scrubbed
+ * Collar3DShowcase section are replaced by a single Hero3DFloat: the Blender-rendered
+ * ROCKY collar (baked floating-bob animation) sitting directly in the hero.
+ */
+export function LandingPageV2() {
   const pathname = usePathname();
-  const cartCount = useCartCount();
-  const locale = useLocale();
   const [showStickyCTA, setShowStickyCTA] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const exitShown = useRef(false);
-  const [products, setProducts] = useState<ProductDetail[]>(() => getLandingProductsSync(locale) ?? []);
+  const [products, setProducts] = useState<ProductDetail[]>(() => getLandingProductsSync() ?? []);
 
   useEffect(() => {
-    getLandingProducts(locale).then((data) => { if (data.length > 0) setProducts(data); });
-  }, [locale]);
+    getLandingProducts().then((data) => { if (data.length > 0) setProducts(data); });
+  }, []);
   const pageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -152,17 +152,18 @@ export function LandingPage() {
   return (
     <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif", background: 'var(--color-cream)' }}>
       <TopBar />
-      <LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />
 
       <main>
-        <FloatingHero />
+        <Hero3DFloat />
 
         <CharmPattern />
 
+        <PawCharmsWordmark />
+
+        <div data-animate="section"><About /></div>
         <div data-animate="section"><ProductGrid products={products} /></div>
         <div data-animate="section"><HowItWorks /></div>
         <div data-animate="section"><FeaturesStrip /></div>
-        <div data-animate="section"><LandingBuySection /></div>
         <div data-animate="section"><PhotoSlider /></div>
         <div data-animate="section"><FAQ /></div>
         <div data-animate="section"><NewsletterSignup /></div>

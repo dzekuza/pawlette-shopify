@@ -88,10 +88,18 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         eyebrow="Rankų darbas"
         heading="Kiekvienas antkaklis gaminamas rankomis"
         description="Aukščiausios kokybės BioThane šuns antkaklis"
+        align="start"
         className="md:basis-[380px] md:flex-none"
       >
-        <div aria-hidden="true" className="absolute -right-5 -top-[70px] w-[230px] rotate-[-17deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[-13deg]" style={{ height: 230 }}>
-          <Image src="/hero-figma/bento-collar-charm.png" alt="" fill sizes="230px" style={{ objectFit: 'contain' }} />
+        <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
+          <Image
+            src="/hero-figma/card-dog-freddie.png"
+            alt="Šuo su personalizuotu PawCharms antkakliu"
+            fill
+            sizes="380px"
+            style={{ objectFit: 'contain', objectPosition: 'right center' }}
+            className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+          />
         </div>
       </BentoCard>
       <BentoCard
@@ -126,11 +134,18 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         eyebrow="Derinys"
         heading="Sukurkite antkaklį, kuris atspindi jūsų šunį"
         description="Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
-        className="md:basis-[380px] md:flex-none"
         align="start"
+        className="md:basis-[380px] md:flex-none"
       >
-        <div aria-hidden="true" className="absolute left-[78%] top-[60px] w-[260px] -translate-x-1/2 rotate-[53deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[47deg]" style={{ height: 260 }}>
-          <Image src="/hero-figma/bento-leash-blue.png" alt="" fill sizes="260px" style={{ objectFit: 'contain' }} />
+        <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
+          <Image
+            src="/hero-figma/card-dog-baz.png"
+            alt="Šuo Baz su personalizuotu PawCharms antkakliu"
+            fill
+            sizes="380px"
+            style={{ objectFit: 'contain', objectPosition: 'right center' }}
+            className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+          />
         </div>
       </BentoCard>
     </div>

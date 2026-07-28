@@ -149,7 +149,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
     if (isDesktopQuery) {
       return 1.15 + progress * 0.55;
     } else {
-      return 0.75 + progress * 0.2;
+      return 1.55;
     }
   }, [progress]);
   
@@ -173,15 +173,15 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   return (
     <section
       ref={sectionRef}
-      className={cn("relative px-4 pt-[112px] pb-6 md:px-6 md:pt-[184px] md:pb-16 lg:pt-[200px] lg:pb-20 min-h-[100dvh] flex flex-col justify-between", className)}
+      className={cn("relative px-4 pt-[96px] pb-6 md:px-6 md:pt-[120px] md:pb-16 lg:pt-[132px] lg:pb-20 min-h-[100dvh] flex flex-col justify-between", className)}
       style={{
         background: "linear-gradient(180deg, #e3ecf5 0%, #b8d8f4 100%)",
         marginTop: "-88px",
         overflow: "clip",
       }}
     >
-      {/* 3D Collar Stage — Desktop layout: hidden on mobile via CSS, direct absolute child */}
-      <div className="hidden md:block absolute inset-0 z-0 pointer-events-none">
+      {/* 3D Collar Stage — Desktop layout: hidden on mobile via CSS, direct absolute child, offset down so it clears the header content above it */}
+      <div className="hidden md:block absolute inset-x-0 bottom-0 top-[28%] z-0 pointer-events-none">
         <div className="w-full h-full pointer-events-auto">
           <Collar3DScene
             items={items}
@@ -271,7 +271,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
               modelRotation={modelRotation}
               modelScale={modelScale}
               modelPosition={modelPosition}
-              interactive={true}
+              interactive={false}
               fitMargin={1.1}
               autoRotate={true}
             />

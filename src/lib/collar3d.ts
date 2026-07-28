@@ -176,5 +176,63 @@ export const HARDWARE_COLOUR = "#EFF0F2";
 export const MATERIAL_DEFAULTS = {
   strap: { roughness: 0.45, metalness: 0.0, envMapIntensity: 0.35 },
   hardware: { roughness: 0.3, metalness: 0.75, envMapIntensity: 1.4 },
-  charm: { roughness: 0.92, metalness: 0.0, envMapIntensity: 0.35 },
+  charm: { roughness: 0.55, metalness: 0.0, envMapIntensity: 0.6 },
 } as const;
+
+/**
+ * The strap/charm swatch hexes (`#F4B5C0`, `#F9E4A0`, `#B8D8F4`, `#D4B8F4`) are shared
+ * brand tokens used all over the site's UI chrome (swatch dots, badges, landing sections).
+ * Sampling the real product photos (e.g. `public/collar-pink.png`) shows the actual printed
+ * silicone reads noticeably darker and less saturated than those tokens -- the pink strap
+ * there is ~#D58D8E, not #F4B5C0. Rather than change the shared tokens (which would also
+ * repaint every swatch dot and badge site-wide), this darkens/desaturates only the color fed
+ * into the 3D materials, so the render matches the product photography.
+ */
+export function toMaterialColour(hex: string): string {
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16) / 255;
+  const g = parseInt(clean.slice(2, 4), 16) / 255;
+  const b = parseInt(clean.slice(4, 6), 16) / 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const l = (max + min) / 2;
+  let s = 0;
+  let hue = 0;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    if (max === r) hue = (g - b) / d + (g < b ? 6 : 0);
+    else if (max === g) hue = (b - r) / d + 2;
+    else hue = (r - g) / d + 4;
+    hue /= 6;
+  }
+
+  const l2 = Math.max(0, Math.min(1, l * 0.84));
+  const s2 = Math.max(0, Math.min(1, s * 0.72));
+
+  const hue2rgb = (p: number, q: number, t: number) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1 / 6) return p + (q - p) * 6 * t;
+    if (t < 1 / 2) return q;
+    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+    return p;
+  };
+
+  let r2: number;
+  let g2: number;
+  let b2: number;
+  if (s2 === 0) {
+    r2 = g2 = b2 = l2;
+  } else {
+    const q = l2 < 0.5 ? l2 * (1 + s2) : l2 + s2 - l2 * s2;
+    const p = 2 * l2 - q;
+    r2 = hue2rgb(p, q, hue + 1 / 3);
+    g2 = hue2rgb(p, q, hue);
+    b2 = hue2rgb(p, q, hue - 1 / 3);
+  }
+
+  const toHex = (v: number) => Math.round(v * 255).toString(16).padStart(2, "0");
+  return `#${toHex(r2)}${toHex(g2)}${toHex(b2)}`;
+}

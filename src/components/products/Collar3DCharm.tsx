@@ -5,7 +5,7 @@ import type { ThreeEvent } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, Color, Group, Mesh, MeshStandardMaterial } from 'three'
 import type { WebGLProgramParametersWithUniforms } from 'three'
-import { BACK_RADIUS, CHARM_SCALE, TEXT_RADIUS, MATERIAL_DEFAULTS } from '@/lib/collar3d'
+import { BACK_RADIUS, CHARM_SCALE, TEXT_RADIUS, MATERIAL_DEFAULTS, toMaterialColour } from '@/lib/collar3d'
 import { OPEN_ENOUGH, type Lock } from '@/lib/lockState'
 import { settle, spring, stepSpring } from '@/lib/spring'
 
@@ -110,7 +110,7 @@ export function Collar3DCharm({
   /** Latches once the letter is fitted: from then on the buckle no longer holds it back. */
   const landed = useRef(false)
 
-  const target = useMemo(() => new Color(colour), [colour])
+  const target = useMemo(() => new Color(toMaterialColour(colour)), [colour])
 
   // A flat letter mounted tangent to the strap reads as a rigid panel stuck to
   // a curved surface. Bending it around the same radius the letters are laid

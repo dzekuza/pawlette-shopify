@@ -6,7 +6,7 @@ import type { Mesh } from 'three'
 import { Collar3DCharm } from '@/components/products/Collar3DCharm'
 import { Collar3DProng } from '@/components/products/Collar3DProng'
 import { CharmSlot, purgeSlot, reconcileSlots } from '@/lib/charmSlots'
-import { DEFAULT_CHARM_COLOUR, layoutCharms, MATERIAL_DEFAULTS, type CharmSpec } from '@/lib/collar3d'
+import { DEFAULT_CHARM_COLOUR, layoutCharms, MATERIAL_DEFAULTS, toMaterialColour, type CharmSpec } from '@/lib/collar3d'
 import { createLock } from '@/lib/lockState'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -87,7 +87,7 @@ export function Collar3DMesh({ items, strapColour, hardwareColour, onSelectCharm
     <group>
       {STRAP_PARTS.map((part) => (
         <mesh key={part} geometry={geo(collar, part)} castShadow receiveShadow>
-          <meshStandardMaterial color={strapColour} {...MATERIAL_DEFAULTS.strap} />
+          <meshStandardMaterial color={toMaterialColour(strapColour)} {...MATERIAL_DEFAULTS.strap} />
         </mesh>
       ))}
 
