@@ -1,7 +1,7 @@
 'use client';
 
 import type { ProductDetail } from '@/lib/db';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from '@/components/products/ProductCard';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';

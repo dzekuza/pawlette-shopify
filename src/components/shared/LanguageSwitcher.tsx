@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
+import { isLocalizedPath } from '@/lib/locale-path';
 
 const LOCALE_LABEL: Record<string, string> = { lt: 'LT', en: 'EN' };
 
@@ -22,6 +23,14 @@ export function LanguageSwitcher({ tabIndex }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
   const router = useRouter();
+
+  // Hide entirely on routes with no English counterpart (/faq, /cart,
+  // /checkout, /account, /pavadeliai, /guide/*, etc.) — switching there would
+  // 404 and would still cookie-pin the visitor to English on a page that has
+  // no English version.
+  if (!pathname || !isLocalizedPath(pathname)) {
+    return null;
+  }
 
   const nextLocale = locale === 'lt' ? 'en' : 'lt';
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { Link } from '@/i18n/navigation'
 import { useRouter } from 'next/navigation'
 import { ShoppingCart, Droplets, Ruler, Shield, Sparkles } from 'lucide-react'
 import { LandingNav } from '@/components/landing/LandingNav'

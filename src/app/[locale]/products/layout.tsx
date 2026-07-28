@@ -1,31 +1,40 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
-export const metadata: Metadata = {
-  title: 'Šunų antkakliai, pakabukai ir rinkiniai',
-  description: 'Peržiūrėkite visus PawCharms silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.',
-  alternates: {
-    canonical: 'https://pawscharm.com/products',
-    languages: {
-      lt: 'https://pawscharm.com/products',
-      en: 'https://pawscharm.com/en/products',
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const canonical = locale === 'en' ? 'https://pawscharm.com/en/products' : 'https://pawscharm.com/products';
+
+  return {
+    title: 'Šunų antkakliai, pakabukai ir rinkiniai',
+    description: 'Peržiūrėkite visus PawCharms silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.',
+    alternates: {
+      canonical,
+      languages: {
+        lt: 'https://pawscharm.com/products',
+        en: 'https://pawscharm.com/en/products',
+      },
     },
-  },
-  keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
-  openGraph: {
-    title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
-    description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
-    type: 'website',
-    url: 'https://pawscharm.com/products',
-    siteName: 'PawCharms',
-    images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
-    description: 'Vandeniui atsparūs silikoniniai šunų antkakliai ir keičiami pakabukai šunims.',
-  },
-};
+    keywords: ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawCharms'],
+    openGraph: {
+      title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
+      description: 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+      type: 'website',
+      url: canonical,
+      siteName: 'PawCharms',
+      images: [{ url: '/A_sage_green_pet_collar_displays_the_name_HARRY_2CvCRWm.webp', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Šunų antkakliai, pakabukai ir rinkiniai | PawCharms',
+      description: 'Vandeniui atsparūs silikoniniai šunų antkakliai ir keičiami pakabukai šunims.',
+    },
+  };
+}
 
 const COLLAR_PRICE = '28';
 

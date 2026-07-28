@@ -1,4 +1,6 @@
+import { useLocale } from 'next-intl'
 import type { ProductDetail } from '@/lib/catalog'
+import { localizeHref } from '@/lib/locale-path'
 import { Badge } from '@/components/ui/badge'
 import { FeaturePillList } from '@/components/storefront/FeaturePillList'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
@@ -46,9 +48,13 @@ export function CharmCollectionCard ({ href, title, price, originalPrice, image,
 }
 
 export function CharmCollectionProductCard ({ product }: { product: ProductDetail }) {
+  // CharmCollectionCard is only ever rendered inside SingleProductPage (PDP,
+  // migrated-only), so a NextIntlClientProvider ancestor is always present —
+  // safe to use useLocale() directly here.
+  const locale = useLocale()
   return (
     <CharmCollectionCard
-      href={`/products/${product.slug}`}
+      href={localizeHref(`/products/${product.slug}`, locale as 'lt' | 'en')}
       title={product.name}
       price={product.price}
       originalPrice={product.originalPrice}

@@ -1,14 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
+import { localizeHref } from '@/lib/locale-path';
 
 export function StickyCTA({ visible }: { visible: boolean }) {
   const t = useTranslations('landing.stickyCta');
   const tCommon = useTranslations('common');
+  const locale = useLocale();
   const w = useWindowWidth() ?? 1200;
   const isMobile = w < 768;
   const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO }).toLowerCase();
@@ -49,7 +51,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
             {t('returnsBadge')}
           </div>
         )}
-        <PrimaryButton href="/products" variant="sage" size="md">
+        <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md">
           {t('cta')}
         </PrimaryButton>
       </div>

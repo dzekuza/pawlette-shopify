@@ -93,25 +93,33 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
 // silently sent to the wrong property.
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 
-const websiteSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'PawCharms',
-  url: 'https://pawscharm.com',
-  description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
-  inLanguage: 'lt',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: {
-      '@type': 'EntryPoint',
-      urlTemplate: 'https://pawscharm.com/products?q={search_term_string}',
+// `inLanguage` must reflect the actually-rendered locale (also used for the
+// `<html lang={locale}>` attribute below) — otherwise this schema is emitted
+// identically on `/en` pages, contradicting the page's own declared language.
+// NOTE: `description` is intentionally left as Lithuanian-only content here —
+// that's a separately-tracked, already-deferred gap, not part of this fix.
+function buildWebsiteSchema(locale: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'PawCharms',
+    url: 'https://pawscharm.com',
+    description: 'Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+    inLanguage: locale,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: 'https://pawscharm.com/products?q={search_term_string}',
+      },
+      'query-input': 'required name=search_term_string',
     },
-    'query-input': 'required name=search_term_string',
-  },
-};
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const websiteSchema = buildWebsiteSchema(locale);
 
   return (
     <html lang={locale} className={`${dmSans.variable} ${caveat.variable}`} suppressHydrationWarning data-scroll-behavior="smooth">

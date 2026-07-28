@@ -41,6 +41,11 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
     title,
     description,
     alternates: { canonical: productUrl },
+    // English PDPs are ~90% untranslated (title/description/JSON-LD/page
+    // chrome still Lithuanian) — never in this plan's Phase-1 scope. Rather
+    // than fully translating the PDP (a Phase 2 task), keep it out of the
+    // index while still allowing normal crawling/link-following.
+    ...(locale === 'en' ? { robots: { index: false, follow: true } } : {}),
     keywords: [
       product.name,
       product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',

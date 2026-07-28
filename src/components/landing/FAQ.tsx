@@ -1,15 +1,17 @@
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
 import { DisplayHeading } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { localizeHref } from '@/lib/locale-path';
 
 const FAQ_IDS = ['personalize', 'editLetter', 'letterCount', 'color', 'size'] as const;
 
 export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
   const t = useTranslations('landing.faq');
+  const locale = useLocale();
 
   const faqs: AccordionItem[] = FAQ_IDS.map((id) => ({
     id,
@@ -37,7 +39,7 @@ export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
           </div>
 
           {showCta && (
-            <PrimaryButton href="/products" variant="sage" size="md">
+            <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md">
               {t('shopCta')}
             </PrimaryButton>
           )}

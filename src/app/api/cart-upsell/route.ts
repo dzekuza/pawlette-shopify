@@ -9,6 +9,13 @@ export async function GET(request: NextRequest) {
     .map((title) => title.trim().toLowerCase())
     .filter(Boolean)
 
+  // Locale is threaded through so buildGroupedLeashProduct/buildCollarProduct
+  // apply the English-name overlay (see catalog.ts's applyLocaleOverlay) —
+  // the client (CartUpsell.tsx) sends its own resolved locale as a query
+  // param since this route has no NextIntlClientProvider/cookie context of
+  // its own to read it from.
+  const locale = request.nextUrl.searchParams.get('locale') === 'en' ? 'en' : 'lt'
+
   const [collars, leashes] = await Promise.all([getCollars(), getLeashes()])
 
   const hasLeashInCart = leashes.some((leash) =>
@@ -19,9 +26,9 @@ export async function GET(request: NextRequest) {
   )
 
   const product = !hasLeashInCart && leashes.length > 0
-    ? buildGroupedLeashProduct(leashes)
+    ? buildGroupedLeashProduct(leashes, locale)
     : !hasCollarInCart && collars.length > 0
-      ? buildCollarProduct(collars[0])
+      ? buildCollarProduct(collars[0], undefined, locale)
       : null
 
   if (!product) return NextResponse.json({ product: null })

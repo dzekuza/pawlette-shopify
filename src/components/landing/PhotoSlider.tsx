@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';

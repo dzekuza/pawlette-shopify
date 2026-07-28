@@ -70,7 +70,7 @@ export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/cart-upsell?titles=${encodeURIComponent(cartTitles)}`)
+    fetch(`/api/cart-upsell?titles=${encodeURIComponent(cartTitles)}&locale=${locale}`)
       .then((res) => res.json())
       .then((data: { product: UpsellProduct | null }) => {
         if (cancelled) return;
@@ -79,7 +79,7 @@ export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
       })
       .catch(() => { if (!cancelled) setProduct(null); });
     return () => { cancelled = true; };
-  }, [cartTitles]);
+  }, [cartTitles, locale]);
 
   if (!product) return null;
 

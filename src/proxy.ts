@@ -69,7 +69,39 @@ function legacyProductSlugRedirect(request: NextRequest): NextResponse | null {
 // ---------------------------------------------------------------------------
 const intlMiddleware = createIntlMiddleware(routing);
 
+// Known search/social crawler user-agents. Per product-owner decision,
+// crawlers must always see the Lithuanian version at `/` regardless of the
+// IP's geolocation (Googlebot crawls mostly from US IPs, which would
+// otherwise geo-redirect it away from the canonical `lt` homepage) — only
+// real visitors get geo-redirected. Not exhaustive, but covers the common
+// search/social crawlers.
+const CRAWLER_USER_AGENT = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|linkedinbot/i;
+
+function isCrawler(request: NextRequest): boolean {
+  const userAgent = request.headers.get('user-agent') ?? '';
+  return CRAWLER_USER_AGENT.test(userAgent);
+}
+
 function resolveLocale(request: NextRequest): 'lt' | 'en' {
+  // If the request path is already locale-prefixed (e.g. `/en/products`),
+  // that explicit prefix must win over cookie/geo/Accept-Language — otherwise
+  // a Lithuania-geo visitor who opens a shared `/en` link gets bounced back
+  // to `lt` on their very next navigation, even though they explicitly asked
+  // for the English page. next-intl's own middleware always honors the path
+  // segment already, so mirroring that here keeps our geo-derived value and
+  // next-intl's negotiated value in agreement.
+  const { pathname } = request.nextUrl;
+  const pathSegments = pathname.split('/').filter(Boolean);
+  if (pathSegments[0] === 'en') {
+    return 'en';
+  }
+
+  // Search/social crawlers always get the default Lithuanian homepage,
+  // regardless of their IP's geolocation.
+  if (isCrawler(request)) {
+    return 'lt';
+  }
+
   const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
   if (cookieLocale === 'lt' || cookieLocale === 'en') {
     return cookieLocale;

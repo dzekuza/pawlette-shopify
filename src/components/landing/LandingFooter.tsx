@@ -7,6 +7,7 @@ import { Eyebrow } from '@/components/storefront/Typography';
 import { FREE_SHIPPING_THRESHOLD_EURO } from '@/lib/site-config';
 import ltMessages from '@/messages/lt.json';
 import enMessages from '@/messages/en.json';
+import { localizeHref } from '@/lib/locale-path';
 
 // LandingFooter is imported directly by non-migrated pages (/faq, /cart,
 // /checkout) that sit outside the `[locale]` route segment and have no
@@ -43,12 +44,13 @@ export function LandingFooter() {
   const t = FOOTER_STRINGS[locale];
   const tCommon = COMMON_STRINGS[locale];
   const shippingCopy = tCommon.freeShipping.replace('{threshold}', String(FREE_SHIPPING_THRESHOLD_EURO));
+  const homeHref = localizeHref('/', locale);
   return (
     <footer className="bg-surface-2 py-16 text-bark md:py-20">
       <div className="mx-auto max-w-[1200px] px-4 md:px-6">
         <div className="mb-10 grid gap-10 md:mb-14 md:grid-cols-2 md:gap-12 xl:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
-            <Link href="/" aria-label={t.logoAriaLabel} style={{ display: 'inline-flex', marginBottom: 16 }}>
+            <Link href={homeHref} aria-label={t.logoAriaLabel} style={{ display: 'inline-flex', marginBottom: 16 }}>
               <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 32, width: 'auto', display: 'block' }} />
             </Link>
             <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t.tagline}</p>
@@ -77,7 +79,7 @@ export function LandingFooter() {
                 <Eyebrow className="mb-4">{t.columns[col.key].title}</Eyebrow>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                   {col.links.map(l => (
-                    <Link key={l.key} href={l.href} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
+                    <Link key={l.key} href={localizeHref(l.href, locale)} style={{ fontSize: 14, color: 'var(--color-bark-light)', textDecoration: 'none', transition: 'color 150ms' }}
                       onMouseEnter={e => (e.currentTarget.style.color = 'var(--color-bark)')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'var(--color-bark-light)')}>
                       {(t.columns[col.key].links as Record<string, string>)[l.key]}

@@ -14,6 +14,7 @@ import {
 } from '@/components/storefront/CatalogCard'
 import ltMessages from '@/messages/lt.json'
 import enMessages from '@/messages/en.json'
+import { localizeHref } from '@/lib/locale-path'
 
 type ProductCardProduct = LandingCollar | ProductDetail
 const DEFAULT_CHARM_SWATCHES = ['var(--color-blossom)', 'var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
@@ -35,7 +36,12 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt'
   const t = PRODUCT_CARD_STRINGS[locale]
   const isDetail = isProductDetail(product)
-  const href = hrefProp ?? `/products/${product.slug}`
+  // ProductCard can't use next-intl's <Link> (no NextIntlClientProvider on
+  // /pavadeliai — see note above), so prefix the href with the locale we
+  // already resolved from the path, mirroring what next-intl's Link would do
+  // automatically. Without this, every product card on /en linked back to
+  // the bare (Lithuanian) product path.
+  const href = localizeHref(hrefProp ?? `/products/${product.slug}`, locale)
   const background = isDetail ? product.tintColor : product.bg
   const title = product.name
   const price = product.price

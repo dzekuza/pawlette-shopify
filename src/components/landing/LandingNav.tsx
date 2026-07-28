@@ -12,6 +12,7 @@ import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
 import { LanguageSwitcher } from '@/components/shared/LanguageSwitcher';
 import ltMessages from '@/messages/lt.json';
 import enMessages from '@/messages/en.json';
+import { localizeHref } from '@/lib/locale-path';
 
 // LandingNav is imported directly by non-migrated pages (/faq, /cart,
 // /checkout) that sit outside the `[locale]` route segment and have no
@@ -41,9 +42,11 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
   const t = NAV_STRINGS[locale];
   const [menuOpen, setMenuOpen] = useState(false);
+  const homeHref = localizeHref('/', locale);
+  const shopHref = localizeHref('/products', locale);
   const navLinks = NAV_LINK_HREFS.map(({ key, href }) => ({
     label: t.links[key],
-    href,
+    href: localizeHref(href, locale),
   }));
 
   useBodyScrollLock(menuOpen);
@@ -76,7 +79,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
           padding: '12px 12px 12px 16px',
           overflow: 'clip',
         }}>
-          <Link href="/" aria-label={t.homeAriaLabel} style={{ flexShrink: 0, lineHeight: 0 }}>
+          <Link href={homeHref} aria-label={t.homeAriaLabel} style={{ flexShrink: 0, lineHeight: 0 }}>
             <img src="/pawcharms.svg" alt="PawCharms" style={{ height: 42, width: 'auto', display: 'block' }} />
           </Link>
 
@@ -181,7 +184,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
             </button>
 
             {/* Shop now CTA */}
-            <PrimaryButton href="/products" variant="sage" size="md" className="hidden md:inline-flex">
+            <PrimaryButton href={shopHref} variant="sage" size="md" className="hidden md:inline-flex">
               {t.shopNow}
             </PrimaryButton>
           </div>
