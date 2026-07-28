@@ -70,6 +70,24 @@
       "addCharmsButton": "Pridėti {count} pakab. — +€{amount}",
       "goToCartButton": "Eiti į krepšelį →"
     },
+    "reviews": {
+      "eyebrow": "Klientų atsiliepimai",
+      "title": "Patvirtinta šunų ir jų šeimininkų.",
+      "prevAriaLabel": "Ankstesnis",
+      "nextAriaLabel": "Kitas",
+      "dotAriaLabel": "Eiti į skaidrę {index}",
+      "quotes": [
+        "Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų vis dar atrodo kaip naujas.",
+        "Maudomės kas savaitę, o antkaklis išlieka švarus, minkštas ir patogus.",
+        "Užsakiau tris dovanoms. Ir pakuotė, ir kokybė tikrai nuostabios.",
+        "Per mūsų kasdienį sustojimą kavinėje visada sulaukiame komplimentų.",
+        "Pakankamai lengvas bėgimui ir pakankamai saugus pilnam sprintui.",
+        "Auksinės valandos nuotraukose Blossom rinkinys atrodo nerealiai.",
+        "Labai lengva pakeisti pakabukus savaitgalio ir darbo dienų deriniams.",
+        "Spalvos tobulos, o antkaklis patogus visai dienai.",
+        "Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo."
+      ]
+    },
     "charmsStep": {
       "title": "Choose charms",
       "optional": "optional",
@@ -380,6 +398,10 @@
     }
   },
   "shared": {
+    "cartUpsell": {
+      "addToOrderLabel": "Pridėk prie užsakymo",
+      "addAriaLabel": "Pridėti {name} į krepšelį"
+    },
     "cartDrawer": {
       "dialogAriaLabel": "Krepšelis",
       "title": "Jūsų krepšelis",

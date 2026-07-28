@@ -1,8 +1,21 @@
 'use client';
 
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { addLinesToCart, type ShopifyCartLine } from '@/lib/cart';
+import ltMessages from '@/messages/lt.json';
+import enMessages from '@/messages/en.json';
+
+// CartUpsell is rendered inside CartDrawer, which is mounted globally in the
+// root layout (src/app/layout.tsx), outside the `[locale]` route segment —
+// it has no NextIntlClientProvider ancestor on migrated routes (/, /en,
+// /configure) OR on non-migrated ones (/faq, /cart, /checkout, /account).
+// Calling next-intl's useTranslations() here would throw ("No intl context
+// found") on every single page load. So instead of the hook, resolve copy
+// from a plain object keyed by the URL's locale prefix, mirroring the same
+// pattern already used in CartDrawer.tsx.
+const CART_UPSELL_STRINGS = { lt: ltMessages.shared.cartUpsell, en: enMessages.shared.cartUpsell };
 
 const LEASH_COLOR_HEX: Record<string, string> = {
   pink: '#F4B5C0',
@@ -44,6 +57,10 @@ interface UpsellProduct {
 }
 
 export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
+  const pathname = usePathname();
+  const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
+  const t = CART_UPSELL_STRINGS[locale];
+
   const cartTitles = lines.map((line) => line.merchandise.product.title).join(',');
 
   const [product, setProduct] = useState<UpsellProduct | null>(null);
@@ -85,7 +102,7 @@ export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
 
   return (
     <div className="mb-4 rounded-2xl border border-bark/8 bg-white p-3">
-      <span className="mb-2.5 block text-[12px] font-semibold text-bark">Pridėk prie užsakymo</span>
+      <span className="mb-2.5 block text-[12px] font-semibold text-bark">{t.addToOrderLabel}</span>
       <div className="flex items-center gap-3">
         <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[10px] bg-surface-2">
           <Image src={image} alt={product.name} fill className="object-cover" sizes="56px" />
@@ -97,7 +114,7 @@ export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
         <button
           onClick={handleAdd}
           disabled={adding || added}
-          aria-label={`Pridėti ${product.name} į krepšelį`}
+          aria-label={t.addAriaLabel.replace('{name}', product.name)}
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border-none text-[20px] leading-none text-cream transition-opacity ${
             added ? 'bg-interactive-text' : 'bg-bark'
           } ${adding || added ? 'cursor-default' : 'cursor-pointer'} ${adding ? 'opacity-60' : 'opacity-100'}`}

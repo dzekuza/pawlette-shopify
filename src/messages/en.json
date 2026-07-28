@@ -70,6 +70,24 @@
       "addCharmsButton": "Add {count} charms — +€{amount}",
       "goToCartButton": "Go to cart →"
     },
+    "reviews": {
+      "eyebrow": "Customer reviews",
+      "title": "Approved by dogs and their humans.",
+      "prevAriaLabel": "Previous",
+      "nextAriaLabel": "Next",
+      "dotAriaLabel": "Go to slide {index}",
+      "quotes": [
+        "It clips on in seconds and still looks new even after muddy walks.",
+        "We bathe weekly, and the collar stays clean, soft, and comfortable.",
+        "I ordered three as gifts. Both the packaging and the quality are amazing.",
+        "We always get compliments during our daily coffee shop stop.",
+        "Light enough for running and secure enough for a full sprint.",
+        "In golden hour photos, the Blossom set looks unreal.",
+        "It's so easy to swap charms for weekend and weekday looks.",
+        "The colors are perfect, and the collar is comfortable all day.",
+        "Park runs, rain, and zoomies — still no wear after weeks."
+      ]
+    },
     "charmsStep": {
       "title": "Choose charms",
       "optional": "optional",
@@ -380,6 +398,10 @@
     }
   },
   "shared": {
+    "cartUpsell": {
+      "addToOrderLabel": "Add to your order",
+      "addAriaLabel": "Add {name} to cart"
+    },
     "cartDrawer": {
       "dialogAriaLabel": "Cart",
       "title": "Your cart",
