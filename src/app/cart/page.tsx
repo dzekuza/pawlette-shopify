@@ -62,7 +62,7 @@ export default function CartPage() {
           )}
 
           {lines.length > 0 && (
-            <p className="text-[15px] mb-5 opacity-60" style={{ color: 'var(--color-bark)' }}>
+            <p className="text-[15px] mb-5 text-bark opacity-60">
               {lines.length} {lines.length === 1 ? 'prekė' : 'prekės'}
             </p>
           )}
@@ -89,7 +89,7 @@ export default function CartPage() {
                 {/* Free shipping progress bar */}
                 {amountToFreeShipping > 0 && (
                   <SurfaceCard variant='white' padding='compact' className="mb-4 border-bark/10">
-                    <p className="text-[14px] font-medium mb-[10px]" style={{ color: 'var(--color-bark)' }}>
+                    <p className="text-[14px] font-medium mb-[10px] text-bark">
                       Iki nemokamo pristatymo trūksta <strong>€{amountToFreeShipping.toFixed(2)}</strong> 🚚
                     </p>
                     <div className="h-2 rounded-full overflow-hidden bg-bark/10">
@@ -107,19 +107,14 @@ export default function CartPage() {
                   <div
                     className="rounded-2xl px-4 py-3 mb-4 flex items-center gap-3 bg-sage/15 border border-sage/50"
                   >
-                    <div style={{
-                      width: 32, height: 32, borderRadius: '50%',
-                      background: 'var(--color-sage)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0, fontSize: 15,
-                    }}>
+                    <div className="w-8 h-8 rounded-full bg-sage flex items-center justify-center shrink-0 text-[15px]">
                       🎉
                     </div>
                     <div>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--color-bark)' }}>
+                      <p className="m-0 text-[13px] font-bold text-bark">
                         Nemokamas pristatymas!
                       </p>
-                      <p className="text-bark-muted" style={{ margin: 0, fontSize: 12 }}>
+                      <p className="text-bark-muted m-0 text-[12px]">
                         Jūsų užsakymui priklauso nemokamas pristatymas.
                       </p>
                     </div>
@@ -142,12 +137,12 @@ export default function CartPage() {
                         <div className="shrink-0 w-[68px] h-[68px] rounded-[12px] overflow-hidden bg-surface-2 flex items-center justify-center">
                           {thumb
                             ? <Image src={thumb} alt="" width={68} height={68} className="w-full h-full object-contain" />
-                            : <span style={{ fontSize: 24 }}>🐾</span>
+                            : <span className="text-[24px]">🐾</span>
                           }
                         </div>
                         {/* Item details */}
                         <div className="flex-1 min-w-0">
-                          <p className="text-[15px] font-semibold mb-1 truncate text-bark">
+                          <p className="text-base font-semibold mb-1 truncate text-bark">
                             {line.merchandise.product.title}
                           </p>
                           <div className="flex flex-wrap gap-1.5 items-center">
@@ -161,15 +156,14 @@ export default function CartPage() {
                         {/* Price + remove */}
                         <div className="flex flex-col items-end gap-2 shrink-0">
                           <span
-                            className="text-[16px] font-medium text-bark"
+                            className="text-base font-medium text-bark"
                           >
                             €{lineTotal.toFixed(2)}
                           </span>
                           <button
                             onClick={() => removeItem(line.id)}
                             aria-label="Pašalinti prekę"
-                            className="w-7 h-7 rounded-full flex items-center justify-center text-[14px] font-bold shrink-0 cursor-pointer border-none transition-[background] duration-150"
-                            style={{ background: 'rgba(61,53,48,0.07)', color: 'var(--color-bark)' }}
+                            className="w-7 h-7 rounded-full flex items-center justify-center text-[14px] font-bold shrink-0 cursor-pointer border-none bg-bark/8 text-bark transition-[background] duration-150 hover:bg-bark/12"
                           >
                             ×
                           </button>
@@ -183,8 +177,7 @@ export default function CartPage() {
                 <div className="mt-6">
                   <Link
                     href="/products"
-                    className="text-[14px] font-semibold no-underline opacity-75 inline-flex items-center gap-1.5"
-                    style={{ color: 'var(--color-bark)' }}
+                    className="text-[14px] font-semibold no-underline text-bark opacity-75 inline-flex items-center gap-1.5"
                   >
                     ← Tęsti pirkimą
                   </Link>
@@ -194,31 +187,31 @@ export default function CartPage() {
               {/* Right: Order summary */}
               <div className="w-full md:flex-1 md:sticky md:top-[120px]">
                 <SurfaceCard variant='white' className="border-bark/10 px-4 pt-4 pb-4">
-                  <p className="text-[11px] font-medium mb-4 uppercase tracking-[0.08em] opacity-50" style={{ color: 'var(--color-bark)' }}>
+                  <p className="text-[11px] font-medium mb-4 uppercase tracking-[0.08em] opacity-50 text-bark">
                     Užsakymo santrauka
                   </p>
 
                   {/* Line items */}
                   <div className="flex flex-col gap-[10px]">
                     <div className="flex justify-between items-center">
-                      <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
+                      <span className="text-[15px] text-bark opacity-70">
                         Tarpinė suma ({lines.length} {lines.length === 1 ? 'prekė' : 'prekės'})
                       </span>
-                      <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
+                      <span className="text-[15px] font-semibold text-bark">
                         €{subtotal.toFixed(2)}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-[15px] opacity-70" style={{ color: 'var(--color-bark)' }}>
+                      <span className="text-[15px] text-bark opacity-70">
                         Pristatymas
                       </span>
                       {shipping === 0 ? (
-                        <span className="text-[15px] font-semibold" style={{ color: 'var(--color-interactive-text)' }}>
+                        <span className="text-[15px] font-semibold text-interactive-text">
                           Nemokamai
                         </span>
                       ) : (
-                        <span className="text-[15px] font-semibold" style={{ color: 'var(--color-bark)' }}>
+                        <span className="text-[15px] font-semibold text-bark">
                           €{shipping.toFixed(2)}
                         </span>
                       )}
@@ -228,17 +221,17 @@ export default function CartPage() {
                     <div className="h-px my-1 bg-bark/10" />
 
                     <div className="flex justify-between items-center">
-                      <span className="text-[15px] font-bold" style={{ color: 'var(--color-bark)' }}>
+                      <span className="text-[15px] font-bold text-bark">
                         Iš viso
                       </span>
                       <span
-                        className="text-[22px] font-semibold text-bark"
+                        className="text-xl font-semibold text-bark"
                       >
                         €{total.toFixed(2)}
                       </span>
                     </div>
 
-                    <p className="text-[12px] opacity-55 -mt-1" style={{ color: 'var(--color-bark)' }}>
+                    <p className="text-[12px] text-bark opacity-55 -mt-1">
                       Galutinė kaina skaičiuojama atsiskaitant
                     </p>
                   </div>
@@ -246,7 +239,7 @@ export default function CartPage() {
                   {/* Free shipping progress inside summary on mobile */}
                   {amountToFreeShipping > 0 && (
                     <div className="mt-5 md:hidden">
-                      <p className="text-[13px] opacity-65 mb-2" style={{ color: 'var(--color-bark)' }}>
+                      <p className="text-[13px] text-bark opacity-65 mb-2">
                         Iki nemokamo pristatymo liko €{amountToFreeShipping.toFixed(2)}
                       </p>
                       <div className="h-1.5 rounded-full overflow-hidden bg-bark/10">
@@ -273,11 +266,11 @@ export default function CartPage() {
                   </div>
 
                   {/* Trust note */}
-                  <p className="text-[13px] opacity-65 text-center mt-3.5 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full" style={{ color: 'var(--color-bark)' }}>
+                  <p className="text-[13px] text-bark opacity-65 text-center mt-3.5 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full">
                     <Lock size={13} strokeWidth={2} className="shrink-0 mt-[3px]" />
                     <span>Saugus atsiskaitymas · Siunčiama iš Vilniaus 🇱🇹</span>
                   </p>
-                  <p className="text-[13px] opacity-65 text-center mt-1 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full" style={{ color: 'var(--color-bark)' }}>
+                  <p className="text-[13px] text-bark opacity-65 text-center mt-1 leading-relaxed inline-flex items-start justify-center gap-1.5 w-full">
                     <Check size={13} strokeWidth={2.5} className="shrink-0 mt-[3px]" />
                     <span>30 dienų grąžinimo garantija</span>
                   </p>

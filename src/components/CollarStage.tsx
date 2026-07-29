@@ -244,7 +244,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
                   style={{
                     width: 62,
                     height: 62,
-                    border: `2px solid ${activeImg === i ? (collar?.color ?? '#A8D5A2') : 'rgba(61,53,48,0.12)'}`,
+                    border: `2px solid ${activeImg === i ? (collar?.color ?? 'var(--color-sage)') : 'rgba(61,53,48,0.12)'}`,
                     background: 'rgba(61,53,48,0.04)',
                     transition: 'border-color 200ms, transform 150ms',
                     transform: activeImg === i ? 'scale(1.04)' : 'scale(1)',
@@ -275,10 +275,10 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
             <div
               className="absolute bottom-3.5 left-3.5 rounded-full font-sans font-bold uppercase"
               style={{
-                background: collar?.color ?? '#A8D5A2',
+                background: collar?.color ?? 'var(--color-sage)',
                 padding: '4px 14px',
                 fontSize: 11,
-                color: '#3D3530',
+                color: 'var(--color-bark)',
                 letterSpacing: '0.08em',
               }}
             >
@@ -299,7 +299,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
               style={{
                 width: 56,
                 height: 56,
-                border: `2px solid ${activeImg === i ? (collar?.color ?? '#A8D5A2') : 'rgba(61,53,48,0.12)'}`,
+                border: `2px solid ${activeImg === i ? (collar?.color ?? 'var(--color-sage)') : 'rgba(61,53,48,0.12)'}`,
               }}
             >
               <Image src={img} alt="" draggable={false} width={56} height={56} className="object-cover block" style={{ width: '100%', height: '100%' }} />
@@ -312,7 +312,7 @@ export function CollarStage({ collar, charms, selectedCharms, moveCharm, onClear
       <div
         className="flex flex-col items-center flex-shrink-0"
         style={{
-          background: collar?.color ?? '#A8D5A2',
+          background: collar?.color ?? 'var(--color-sage)',
           borderRadius: isMobile ? 14 : 18,
           padding: isMobile ? '18px 16px' : '22px 24px',
           boxShadow: `0 0 40px ${collar?.glowColor ?? 'rgba(168,213,162,0.5)'}55, 0 4px 16px rgba(0,0,0,0.12)`,

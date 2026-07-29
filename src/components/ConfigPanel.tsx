@@ -58,7 +58,7 @@ export function ConfigPanel({
   const textSecondary = isDark ? 'rgba(250,247,242,0.55)' : 'var(--color-bark-muted)'
   const textMuted = isDark ? 'rgba(250,247,242,0.35)' : 'var(--color-bark-muted)'
   const borderColor = isDark ? 'rgba(255,255,255,0.1)' : 'var(--color-border)'
-  const divider = isDark ? 'rgba(255,255,255,0.08)' : '#EDEAE4'
+  const divider = isDark ? 'rgba(255,255,255,0.08)' : 'var(--color-border)'
   const panelBg = isDark ? 'rgba(30,22,18,0.85)' : 'transparent'
 
   const noop = () => {}
@@ -148,7 +148,7 @@ export function ConfigPanel({
           style={{
             padding: isMobile ? '14px' : '16px',
             background: 'var(--color-sage)',
-            color: '#2a5a25', /* no token for dark sage text */
+            color: 'var(--color-interactive-text)',
             fontSize: 16,
             letterSpacing: '0.01em',
             transition: 'background-color 150ms ease-out, transform 120ms ease-out',
@@ -246,7 +246,7 @@ export function ConfigPanel({
             <div style={{ padding: '12px 20px 28px', flexShrink: 0, borderTop: '1px solid var(--color-border)' }}>
               <button
                 onClick={() => setShowCharmsModal(false)}
-                style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15, background: 'var(--color-sage)', color: '#2a5a25', letterSpacing: '0.01em' }}
+                style={{ width: '100%', padding: '14px', borderRadius: 50, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 15, background: 'var(--color-sage)', color: 'var(--color-interactive-text)', letterSpacing: '0.01em' }}
               >
                 {selectedCount > 0 ? t('doneButtonWithCount', { count: selectedCount }) : t('doneButton')}
               </button>

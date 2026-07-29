@@ -421,7 +421,7 @@ const [query, setQuery] = useState('');
               <button
                 onClick={handleAddToCart}
                 disabled={!selectedCount || adding}
-                onMouseEnter={e => { if (selectedCount && !adding) { e.currentTarget.style.background = '#5a4f4a'; e.currentTarget.style.transform = 'scale(0.99)'; }}}
+                onMouseEnter={e => { if (selectedCount && !adding) { e.currentTarget.style.background = 'var(--color-bark-light)'; e.currentTarget.style.transform = 'scale(0.99)'; }}}
                 onMouseLeave={e => { e.currentTarget.style.background = selectedCount ? 'var(--color-bark)' : 'var(--color-border)'; e.currentTarget.style.transform = 'scale(1)'; }}
                 onMouseDown={e => { if (selectedCount && !adding) e.currentTarget.style.transform = 'scale(0.97)'; }}
                 onMouseUp={e => { e.currentTarget.style.transform = selectedCount && !adding ? 'scale(0.99)' : 'scale(1)'; }}

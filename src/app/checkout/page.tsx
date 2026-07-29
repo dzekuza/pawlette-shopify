@@ -38,13 +38,13 @@ export default function CheckoutPage() {
   }, []);
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--color-cream)', fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen bg-cream font-sans">
       <LandingNav cartCount={0} onCart={() => {}} />
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 16 }}>
-        <div style={{ fontSize: 18, color: 'var(--color-bark)', fontWeight: 500 }}>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <div className="text-[18px] text-bark font-medium">
           Nukreipiame į atsiskaitymą…
         </div>
-        <div style={{ fontSize: 14, color: 'var(--color-bark-muted)' }}>
+        <div className="text-[14px] text-bark-muted">
           Užsakymą užbaigsite saugioje Shopify atsiskaitymo aplinkoje.
         </div>
       </div>

@@ -268,7 +268,7 @@ export function ScratchGiftWidget() {
                     disabled={submitting}
                   />
                   {errorMessage ? (
-                    <p className="text-[13px] text-[#A64B4B]">{errorMessage}</p>
+                    <p className="text-[13px] text-destructive">{errorMessage}</p>
                   ) : null}
                   <PrimaryButton variant="sage" size="md" fullWidth onClick={undefined}>
                     {submitting ? 'Siunčiama...' : 'Gauti kodą'}

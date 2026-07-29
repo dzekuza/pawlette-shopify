@@ -98,7 +98,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                 </div>
                 <Link
                   href="/products"
-                  onMouseEnter={e => { e.currentTarget.style.background = '#8fc488'; e.currentTarget.style.transform = 'scale(0.99)'; }}
+                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-sage-dark)'; e.currentTarget.style.transform = 'scale(0.99)'; }}
                   onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'scale(1)'; }}
                   style={{
                     display: 'block',

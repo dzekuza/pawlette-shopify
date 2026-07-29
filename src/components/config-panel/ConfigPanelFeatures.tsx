@@ -49,7 +49,7 @@ export function ConfigPanelFeatures ({
             style={{
               fontSize: 12,
               fontWeight: 500,
-              color: '#6B6460',
+              color: 'var(--color-bark-light)',
               textAlign: 'center',
               fontFamily: "'DM Sans',sans-serif",
               lineHeight: 1.3

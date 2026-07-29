@@ -92,94 +92,94 @@ export default function MeasureGuidePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      <div style={{ background: 'var(--color-cream)', minHeight: '100dvh', fontFamily: "'DM Sans',sans-serif" }}>
+      <div className="bg-cream min-h-dvh font-sans">
         <LandingNav topOffset={0} />
 
         {/* Content */}
-        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 96px' }}>
-          <div style={{ marginBottom: 24 }}>
-            <Link href="/guide/silicone-vs-nylon-dog-collars" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
+        <main className="max-w-[1200px] mx-auto px-6 pb-24">
+          <div className="mb-6">
+            <Link href="/guide/silicone-vs-nylon-dog-collars" className="text-[13px] text-bark-muted no-underline font-semibold tracking-[0.01em]">
               Palyginti antkaklių medžiagas →
             </Link>
           </div>
 
-          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Dydžių gidas</p>
+          <p className="text-[13px] font-medium text-sage tracking-[0.08em] uppercase mb-4 mt-0">Dydžių gidas</p>
 
-          <DisplayHeading as="h1" size="page" style={{ marginBottom: 20 }}>
+          <DisplayHeading as="h1" size="page" className="mb-5">
             Kaip išmatuoti šunį antkakliui
           </DisplayHeading>
 
-          <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
+          <p className="text-[17px] text-bark-light leading-[1.7] mb-4">
             Gerai tinkantis antkaklis patogiai laikosi kaklo viduryje — neveržia ir nenuslysta per galvą. Šis gidas užtruks apie 2 minutes.
           </p>
 
-          <p style={{ fontSize: 14, color: '#9B948F', marginBottom: 48 }}>
+          <p className="text-sm text-bark-muted mb-12">
             Atnaujinta: 2026 m. birželį
           </p>
 
           {/* Steps */}
-          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 28 }}>5 žingsnių matavimo gidas</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mb-7">5 žingsnių matavimo gidas</DisplayHeading>
 
           {howToSchema.step.map((step, i) => (
-            <div key={i} style={{ display: 'flex', gap: 20, marginBottom: 28 }}>
-              <div style={{ flexShrink: 0, width: 36, height: 36, borderRadius: '50%', background: 'var(--color-sage)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, fontWeight: 600, color: '#2a5a25' }}>
+            <div key={i} className="flex gap-5 mb-7">
+              <div className="shrink-0 w-9 h-9 rounded-full bg-sage flex items-center justify-center text-[15px] font-semibold text-interactive-text">
                 {i + 1}
               </div>
               <div>
-                <p style={{ fontSize: 16, fontWeight: 500, color: 'var(--color-bark)', margin: '6px 0 6px' }}>{step.name}</p>
-                <p style={{ fontSize: 15, color: '#6B6560', lineHeight: 1.6, margin: 0 }}>{step.text}</p>
+                <p className="text-base font-medium text-bark my-1.5">{step.name}</p>
+                <p className="text-[15px] text-bark-light leading-[1.6] m-0">{step.text}</p>
               </div>
             </div>
           ))}
 
           {/* Size chart */}
-          <DisplayHeading as="h2" size="compact" style={{ marginTop: 56, marginBottom: 24 }}>Dydžių lentelė</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mt-14 mb-6">Dydžių lentelė</DisplayHeading>
 
-          <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'DM Sans',sans-serif" }}>
+          <div className="rounded-2xl overflow-hidden border border-bark/10">
+            <table className="w-full border-collapse font-sans">
               <thead>
-                <tr style={{ background: 'var(--color-bark)' }}>
+                <tr className="bg-bark">
                   {['Dydis', 'Kaklo apimtis', 'Dažnos veislės'].map(h => (
-                    <th key={h} style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-cream)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{h}</th>
+                    <th key={h} className="px-5 py-[14px] text-left text-xs font-medium text-cream tracking-[0.06em] uppercase">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {SIZES.map((row, i) => (
-                  <tr key={row.size} style={{ background: i % 2 === 0 ? '#FFFFFF' : 'var(--color-cream)', borderTop: '1px solid rgba(61,53,48,0.06)' }}>
-                    <td style={{ padding: '16px 20px', fontSize: 16, fontWeight: 600, color: 'var(--color-bark)' }}>{row.size}</td>
-                    <td style={{ padding: '16px 20px', fontSize: 15, color: 'var(--color-bark)', fontWeight: 500 }}>{row.range}</td>
-                    <td style={{ padding: '16px 20px', fontSize: 14, color: '#6B6560' }}>{row.breeds}</td>
+                  <tr key={row.size} className={i % 2 === 0 ? "bg-white border-t border-bark/[0.06]" : "bg-cream border-t border-bark/[0.06]"}>
+                    <td className="px-5 py-4 text-base font-semibold text-bark">{row.size}</td>
+                    <td className="px-5 py-4 text-[15px] text-bark font-medium">{row.range}</td>
+                    <td className="px-5 py-4 text-sm text-bark-light">{row.breeds}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          <p style={{ fontSize: 13, color: '#9B948F', marginTop: 12 }}>
+          <p className="text-[13px] text-bark-muted mt-3">
             Tai apytikslės gairės. Visada matuokite konkretų šunį — vien veislė nėra pakankamai patikimas kriterijus.
           </p>
 
           {/* Between sizes */}
-          <div style={{ background: '#EEF5EE', borderRadius: 16, padding: '24px 28px', marginTop: 48 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 8, marginTop: 0 }}>Ką daryti, jei šuo tarp dydžių?</p>
-            <p style={{ fontSize: 14, color: '#4a6b47', lineHeight: 1.6, margin: 0 }}>
+          <div className="bg-sage/15 rounded-2xl px-7 py-6 mt-12">
+            <p className="text-[15px] font-medium text-bark mb-2 mt-0">Ką daryti, jei šuo tarp dydžių?</p>
+            <p className="text-sm text-interactive-text leading-[1.6] m-0">
               Visada rinkitės didesnį dydį. Šiek tiek didesnis antkaklis yra saugesnis ir patogesnis nei per ankštas. Visi PawsCharm antkakliai turi kelias reguliavimo pozicijas.
             </p>
           </div>
 
           {/* The two-finger rule */}
-          <div style={{ background: '#FAF0F5', borderRadius: 16, padding: '24px 28px', marginTop: 16 }}>
-            <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--color-bark)', marginBottom: 8, marginTop: 0 }}>Dviejų pirštų taisyklė</p>
-            <p style={{ fontSize: 14, color: '#6B4455', lineHeight: 1.6, margin: 0 }}>
+          <div className="bg-blossom/20 rounded-2xl px-7 py-6 mt-4">
+            <p className="text-[15px] font-medium text-bark mb-2 mt-0">Dviejų pirštų taisyklė</p>
+            <p className="text-sm text-bark-light leading-[1.6] m-0">
               Užsegę antkaklį, pakiškite po juo du pirštus. Jei jie telpa patogiai, dydis tinkamas. Jei telpa trys ar daugiau, rinkitės mažesnį. Jei vos telpa vienas, antkaklis per ankštas.
             </p>
           </div>
 
           {/* CTA */}
-          <div style={{ marginTop: 64, marginBottom: 24, padding: '40px', background: 'var(--color-bark)', borderRadius: 20, textAlign: 'center' }}>
-            <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-cream)', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>Pasiruošę kurti savo antkaklį?</p>
-            <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>Išsirinkite spalvą, pridėkite pakabukus ir konfigūratoriuje nurodykite dydį.</p>
+          <div className="mt-16 mb-6 p-10 bg-bark rounded-[20px] text-center">
+            <p className="text-[22px] font-medium text-cream mb-2 mt-0 tracking-[-0.01em]">Pasiruošę kurti savo antkaklį?</p>
+            <p className="text-[15px] text-cream/60 mb-7 mt-0">Išsirinkite spalvą, pridėkite pakabukus ir konfigūratoriuje nurodykite dydį.</p>
             <PrimaryButton href="/products" variant="sage" size="lg">
               Kurti antkaklį →
             </PrimaryButton>

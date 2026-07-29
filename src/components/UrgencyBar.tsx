@@ -15,21 +15,22 @@ export function UrgencyBar({ collar, isDark }: { collar: ShopifyCollar | null; i
   }, []);
 
   return (
-    <div style={{
-      display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 16px', borderRadius: 12,
-      background: isDark ? 'rgba(249,228,160,0.08)' : 'rgba(249,228,160,0.3)',
-      border: `1px solid ${isDark ? 'rgba(249,228,160,0.15)' : 'rgba(249,228,160,0.6)'}`,
-      marginBottom: 16,
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div className={`flex flex-col gap-2 p-3 rounded-xl border mb-4 ${
+      isDark ? 'bg-honey/8 border-honey/15' : 'bg-honey/30 border-honey/60'
+    }`}>
+      <div className="flex items-center gap-2">
         <div className="w-[7px] h-[7px] rounded-full bg-honey shrink-0" />
-        <span suppressHydrationWarning style={{ fontSize: 13, fontWeight: 500, color: isDark ? 'rgba(250,247,242,0.8)' : '#7a5010' }}>
+        <span suppressHydrationWarning className={`text-[13px] font-medium ${
+          isDark ? 'text-cream/80' : 'text-bark'
+        }`}>
           Liko tik {count} rink. {collar?.title ?? ''} sandėlyje
         </span>
       </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div className="w-[7px] h-[7px] rounded-full bg-sage shrink-0" style={{ animation: 'pulse 2s ease-in-out infinite' }} />
-        <span suppressHydrationWarning style={{ fontSize: 12, color: isDark ? 'rgba(250,247,242,0.5)' : '#6B6460' }}>
+      <div className="flex items-center gap-2">
+        <div className="w-[7px] h-[7px] rounded-full bg-sage shrink-0 animate-pulse" />
+        <span suppressHydrationWarning className={`text-[12px] ${
+          isDark ? 'text-cream/50' : 'text-bark-light'
+        }`}>
           Dabar šį produktą žiūri {viewers} žmonės
         </span>
       </div>

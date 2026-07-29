@@ -42,7 +42,7 @@ export function ConfigPanelStepTabs ({
               background: active
                 ? textPrimary
                 : done
-                  ? (isDark ? 'rgba(168,213,162,0.2)' : '#E8F5E6')
+                  ? (isDark ? 'rgba(168,213,162,0.2)' : 'rgba(168,213,162,0.18)')
                   : (isDark ? 'rgba(255,255,255,0.06)' : 'var(--color-surface-2)'),
               color: active
                 ? (isDark ? 'var(--color-bark)' : 'var(--color-cream)')

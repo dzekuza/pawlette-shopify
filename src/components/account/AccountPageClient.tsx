@@ -527,13 +527,7 @@ export function AccountPageClient({
       className="max-w-[900px] mx-auto mt-4 mb-2 px-4 md:px-6"
     >
       <div
-        className="rounded-2xl px-4 py-3 text-[14px]"
-        style={{
-          background: feedback.kind === 'error' ? '#FBEAEA' : '#E8F5E6',
-          color: feedback.kind === 'error' ? '#9B2C2C' : '#2F6B2E',
-          border: `1.5px solid ${feedback.kind === 'error' ? '#F2C9C9' : '#C9E9C6'}`,
-          fontFamily: "'DM Sans', sans-serif",
-        }}
+        className={`rounded-2xl px-4 py-3 text-[14px] ${feedback.kind === 'error' ? 'bg-blossom/20 text-bark border border-blossom/40' : 'bg-sage/15 text-interactive-text border border-sage/40'}`}
       >
         {feedback.message}
       </div>

@@ -86,7 +86,7 @@ export function NewsletterSignup() {
           {message ? (
             <p
               className="mt-4 text-[14px] leading-[1.6]"
-              style={{ color: status === 'error' ? '#A64B4B' : 'var(--color-bark)' }}
+              style={{ color: status === 'error' ? 'var(--color-destructive)' : 'var(--color-bark)' }}
             >
               {message}
             </p>

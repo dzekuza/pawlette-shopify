@@ -142,7 +142,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
           variant='default'
           size='compact'
           className='mb-[14px]'
-          style={{ color: '#3D3530', backgroundColor: `${product.accentColor}22` }}
+          style={{ color: 'var(--color-bark)', backgroundColor: `${product.accentColor}22` }}
         >
           {product.badge}
         </Badge>
@@ -158,7 +158,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
           maxWidth: 560,
           fontSize: 16,
           lineHeight: 1.65,
-          color: '#8f8680'
+          color: 'var(--color-bark-muted)'
         }}
       >
         {product.shortDescription}
@@ -181,7 +181,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
               borderRadius: 999,
               padding: '8px 12px',
               background: 'rgba(61,53,48,0.045)',
-              color: '#6B6460',
+              color: 'var(--color-bark-light)',
               fontSize: 12,
               fontWeight: 500
             }}
@@ -217,18 +217,18 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
             >
               <div>
                 <Eyebrow className='mb-2'>Kaina</Eyebrow>
-                <div style={{ fontSize: isMobile ? 38 : 44, lineHeight: 0.95, letterSpacing: '-0.05em', color: '#3D3530' }}>
+                <div style={{ fontSize: isMobile ? 38 : 44, lineHeight: 0.95, letterSpacing: '-0.05em', color: 'var(--color-bark)' }}>
                   {product.price}
                 </div>
               </div>
-              <div style={{ fontSize: 13, color: '#8f8680' }}>
+              <div style={{ fontSize: 13, color: 'var(--color-bark-muted)' }}>
                 Siunčiama iš Vilniaus, LT
               </div>
             </div>
           </div>
 
           <div>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: '#6B6460', maxWidth: 560 }}>
+            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.7, color: 'var(--color-bark-light)', maxWidth: 560 }}>
               {product.compatibilityNote}
             </p>
 
@@ -264,7 +264,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
           {statItems.map((item) => (
             <div key={item.label}>
               <Eyebrow className='mb-1.5 text-[10px] font-semibold'>{item.label}</Eyebrow>
-              <div style={{ fontSize: 15, lineHeight: 1.45, color: '#3D3530', fontWeight: 500 }}>
+              <div style={{ fontSize: 15, lineHeight: 1.45, color: 'var(--color-bark)', fontWeight: 500 }}>
                 {item.value}
               </div>
             </div>
@@ -294,8 +294,8 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                   background: 'transparent',
                   cursor: 'pointer',
                   padding: '0 0 12px',
-                  borderBottom: active ? '2px solid #3D3530' : '2px solid transparent',
-                  color: active ? '#3D3530' : '#9B948F',
+                  borderBottom: active ? '2px solid var(--color-bark)' : '2px solid transparent',
+                  color: active ? 'var(--color-bark)' : 'var(--color-muted-foreground)',
                   fontSize: 13,
                   fontWeight: 600,
                   whiteSpace: 'nowrap'
@@ -308,7 +308,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
         </div>
 
         <div style={{ paddingTop: 18 }}>
-          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.8, color: '#4f4843' }}>
+          <p style={{ margin: 0, fontSize: 15, lineHeight: 1.8, color: 'var(--color-bark-light)' }}>
             {tabContent[activeTab].intro}
           </p>
 
@@ -325,7 +325,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                     marginTop: 8
                   }}
                 />
-                <span style={{ fontSize: 14, lineHeight: 1.7, color: '#6B6460' }}>
+                <span style={{ fontSize: 14, lineHeight: 1.7, color: 'var(--color-bark-light)' }}>
                   {bullet}
                 </span>
               </div>
@@ -357,10 +357,10 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                   textAlign: 'left'
                 }}
               >
-                <span style={{ fontSize: 15, fontWeight: 600, color: '#3D3530', lineHeight: 1.45 }}>
+                <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-bark)', lineHeight: 1.45 }}>
                   {item.question}
                 </span>
-                <span style={{ fontSize: 20, lineHeight: 1, color: '#9B948F' }}>
+                <span style={{ fontSize: 20, lineHeight: 1, color: 'var(--color-muted-foreground)' }}>
                   {isOpen ? '−' : '+'}
                 </span>
               </button>
@@ -375,7 +375,7 @@ export function ProductDetailSummary ({ isMobile, product }: ProductDetailSummar
                     : 'max-height 180ms ease-in, opacity 150ms ease-in',
                 }}
               >
-                <div style={{ padding: '0 0 16px', fontSize: 14, lineHeight: 1.8, color: '#6B6460', maxWidth: 620 }}>
+                <div style={{ padding: '0 0 16px', fontSize: 14, lineHeight: 1.8, color: 'var(--color-bark-light)', maxWidth: 620 }}>
                   {item.answer}
                 </div>
               </div>

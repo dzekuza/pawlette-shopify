@@ -198,6 +198,7 @@ export function Collar3DModal({
             onSelectCharm={(i) => setSelectedCharmIndex((s) => (s === i ? null : i))}
           />
           <p
+            className="hidden md:block"
             style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)', margin: 0, fontSize: 12, color: 'var(--color-bark-muted)', pointerEvents: 'none' }}
           >
             {t('dragToRotate')}

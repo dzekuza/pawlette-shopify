@@ -70,7 +70,7 @@ export function MiniCart({ items, onClose, onRemove, checkoutUrl }: MiniCartProp
             <div style={{ fontSize: 14, color: 'var(--color-bark-muted)', textAlign: 'center', paddingTop: 60 }}>{t('empty')}</div>
           ) : items.map((item, i) => (
             <div key={i} style={{ background: 'white', borderRadius: 16, padding: 16, border: '1px solid var(--color-border)', display: 'flex', gap: 14, alignItems: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: 12, background: item.collarBgTint || '#FAF0F5', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0 }}>
+              <div style={{ width: 60, height: 60, borderRadius: 12, background: item.collarBgTint || 'var(--color-surface-2)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0 }}>
                 <div style={{ height: 8, borderRadius: 4, width: 44, background: item.collarColor }} />
                 <div style={{ fontSize: 11, color: 'var(--color-bark-muted)' }}>
                   {t('charmCount', { count: item.charmIds.filter(Boolean).length })}

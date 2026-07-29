@@ -15,7 +15,6 @@ import { RichText } from '@/components/products/RichText'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
-import { CartToast } from '@/components/shared/CartToast'
 import { Badge } from '@/components/ui/badge'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import {
@@ -299,8 +298,6 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
     preview3DOpen,
     setPreview3DOpen,
     setSelectedCollarCharms,
-    cartToastItems,
-    clearCartToast,
   } = configurator
 
   const pdpTrustPoints = getPdpTrustPoints(tPdp)
@@ -345,7 +342,6 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
   return (
     <>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      <CartToast items={cartToastItems} onClose={clearCartToast} />
       {/* Title & price */}
       <div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>

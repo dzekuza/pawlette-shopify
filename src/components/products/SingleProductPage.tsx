@@ -36,7 +36,6 @@ import { Accordion } from '@/components/shared/Accordion'
 import { GalleryLightbox } from '@/components/products/GalleryLightbox'
 import { ProductCard } from '@/components/products/ProductCard'
 import { CharmCollectionProductCard } from '@/components/products/CharmCollectionCard'
-import { CartToast, type CartToastItem } from '@/components/shared/CartToast'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
@@ -154,7 +153,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
   const [previewCharmImage, setPreviewCharmImage] = useState<string | null>(null)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
-  const [cartToastItems, setCartToastItems] = useState<CartToastItem[] | null>(null)
 
   useEffect(() => {
     trackMetaEvent('ViewContent', {
@@ -234,7 +232,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
     if (!picked.length) return
     setAdded(true)
     await addLinesToCart(picked.map(c => ({ merchandiseId: c.variantId, quantity: 1 })))
-    setCartToastItems(picked.map(c => ({ id: c.id, title: c.title, image: c.image })))
     window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))
     setTimeout(() => setAdded(false), 1400)
   }
@@ -325,7 +322,6 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
 
   return (
     <div className="bg-cream min-h-screen font-sans" style={{ background: 'var(--color-cream)' }}>
-      <CartToast items={cartToastItems} onClose={() => setCartToastItems(null)} />
       <TopBar />
       <LandingNav topOffset={0} cartCount={cartCount} onCart={() => router.push('/cart')} />
 

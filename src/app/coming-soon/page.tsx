@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
+import { cn } from '@/lib/utils';
 
 const PAWS = ['🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾', '🐾'];
 
@@ -96,7 +97,7 @@ export default function ComingSoonPage() {
           background: linear-gradient(
             90deg,
             var(--color-sage) 0%,
-            #c8eac3 40%,
+            rgba(255, 255, 255, 0.45) 40%,
             var(--color-sage) 100%
           );
           background-size: 200% auto;
@@ -115,20 +116,7 @@ export default function ComingSoonPage() {
         }
       `}</style>
 
-      <main
-        className="font-sans"
-        style={{
-          minHeight: '100dvh',
-          background: 'var(--color-cream)',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          padding: '40px 24px',
-        }}
-      >
+      <main className="font-sans min-h-screen bg-cream flex flex-col items-center justify-center relative overflow-hidden py-10 px-6">
         {/* Floating paws */}
         {mounted && paws.map((p) => (
           <span
@@ -148,124 +136,45 @@ export default function ComingSoonPage() {
         ))}
 
         {/* Decorative background blobs */}
-        <div style={{
-          position: 'absolute', top: '-120px', right: '-120px',
-          width: 380, height: 380, borderRadius: '50%',
-          background: 'var(--color-blossom)', opacity: 0.35,
-          filter: 'blur(80px)', pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', bottom: '-100px', left: '-80px',
-          width: 320, height: 320, borderRadius: '50%',
-          background: 'var(--color-sky)', opacity: 0.3,
-          filter: 'blur(70px)', pointerEvents: 'none',
-        }} />
-        <div style={{
-          position: 'absolute', top: '40%', left: '5%',
-          width: 200, height: 200, borderRadius: '50%',
-          background: 'var(--color-honey)', opacity: 0.2,
-          filter: 'blur(60px)', pointerEvents: 'none',
-        }} />
+        <div className="absolute top-[-120px] right-[-120px] w-[380px] h-[380px] rounded-full bg-blossom/35 blur-[80px] pointer-events-none" />
+        <div className="absolute bottom-[-100px] left-[-80px] w-[320px] h-[320px] rounded-full bg-sky/30 blur-[70px] pointer-events-none" />
+        <div className="absolute top-[40%] left-[5%] w-[200px] h-[200px] rounded-full bg-honey/20 blur-[60px] pointer-events-none" />
 
         {/* Card */}
-        <div
-          style={{
-            position: 'relative',
-            zIndex: 1,
-            maxWidth: 560,
-            width: '100%',
-            textAlign: 'center',
-          }}
-        >
+        <div className="relative z-10 max-w-[560px] w-full text-center">
           {/* Tag badge */}
-          <div className="animate-in-1" style={{ marginBottom: 24 }}>
-            <span
-              className="tag-wiggle font-sans"
-              style={{
-                display: 'inline-block',
-                background: 'var(--color-bark)',
-                color: 'var(--color-cream)',
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                padding: '6px 18px',
-                borderRadius: 999,
-              }}
-            >
+          <div className="animate-in-1 mb-6">
+            <span className="tag-wiggle font-sans inline-block bg-bark text-cream text-[13px] font-semibold tracking-[0.12em] uppercase py-1.5 px-[18px] rounded-full">
               🐶 Netrukus startuojame
             </span>
           </div>
 
           {/* Heading */}
-          <h1
-            className="animate-in-2 font-display"
-            style={{
-              fontSize: 'clamp(52px, 10vw, 88px)',
-              lineHeight: 1,
-              color: 'var(--color-bark)',
-              letterSpacing: '0.02em',
-              margin: '0 0 12px',
-            }}
-          >
+          <h1 className="animate-in-2 font-display text-[clamp(52px,10vw,88px)] leading-none text-bark tracking-[0.02em] mb-3">
             PawsCharm
           </h1>
 
           {/* Accent line */}
-          <p
-            className="animate-in-2 font-handwriting"
-            style={{
-              fontSize: 'clamp(22px, 4vw, 30px)',
-              color: 'var(--color-sage)',
-              margin: '0 0 20px',
-              lineHeight: 1.3,
-              filter: 'drop-shadow(0 1px 0 rgba(61,53,48,0.12))',
-            }}
-          >
+          <p className="animate-in-2 font-handwriting text-[clamp(22px,4vw,30px)] text-sage mb-5 leading-[1.3] drop-shadow-[0_1px_0_rgba(61,53,48,0.12)]">
             kuriamas su meile ♡
           </p>
 
           {/* Description */}
-          <p
-            className="animate-in-3"
-            style={{
-              fontSize: 17,
-              color: 'var(--color-bark)',
-              opacity: 0.65,
-              lineHeight: 1.65,
-              margin: '0 auto 40px',
-              maxWidth: 420,
-            }}
-          >
+          <p className="animate-in-3 text-[17px] text-bark/65 leading-[1.65] mx-auto mb-10 max-w-[420px]">
             Personalizuoti šunų antkakliai ir silikoniniai pakabukai šunims, kurie nusipelno daugiau nei įprasto aksesuaro.
             Baigiame paskutinius akcentus ir netrukus pakviesime jus vidun.
           </p>
 
           {/* Email form */}
           <form
-            className="animate-in-4"
+            className="animate-in-4 flex flex-col gap-3 max-w-[440px] w-full mx-auto"
             onSubmit={handleSubmit}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-              maxWidth: 440,
-              margin: '0 auto',
-            }}
           >
-            <p style={{
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--color-bark)',
-              opacity: 0.5,
-              marginBottom: 2,
-            }}>
+            <p className="text-[13px] font-semibold tracking-[0.08em] uppercase text-bark opacity-50 mb-[2px]">
               Sužinokite pirmieji
             </p>
 
-            <div style={{ display: 'flex', gap: 8, flexDirection: isMobile ? 'column' : 'row' }}>
+            <div className={cn("flex gap-2", isMobile ? "flex-col" : "flex-row")}>
               <input
                 ref={inputRef}
                 type="email"
@@ -273,86 +182,45 @@ export default function ComingSoonPage() {
                 onChange={(e) => { setEmail(e.target.value); setStatus('idle'); }}
                 placeholder="jusu@elpastas.lt"
                 disabled={status === 'loading' || status === 'success'}
-                className={`font-sans${status === 'error' ? ' input-shake' : ''}`}
-                style={{
-                  flex: 1,
-                  height: 52,
-                  padding: '0 18px',
-                  borderRadius: 14,
-                  border: `2px solid ${status === 'error' ? '#e05c5c' : 'rgba(61,53,48,0.15)'}`,
-                  background: 'rgba(255,255,255,0.75)',
-                  backdropFilter: 'blur(8px)',
-                  fontSize: 15,
-                  color: 'var(--color-bark)',
-                  outline: 'none',
-                  transition: 'border-color 0.2s',
-                  width: isMobile ? '100%' : undefined,
-                }}
+                className={cn(
+                  "font-sans flex-1 h-[52px] px-[18px] rounded-[14px] bg-white/75 backdrop-blur-[8px] text-[15px] text-bark outline-none transition-colors duration-200",
+                  status === 'error' ? 'input-shake border-2 border-destructive' : 'border-2 border-bark/15',
+                  isMobile && 'w-full'
+                )}
               />
               <button
                 type="submit"
                 disabled={status === 'loading' || status === 'success'}
-                className={`font-sans${status !== 'success' ? ' shimmer-btn' : ''}`}
-                style={{
-                  height: 52,
-                  padding: '0 26px',
-                  borderRadius: 14,
-                  border: 'none',
-                  background: status === 'success' ? '#4caf7d' : undefined,
-                  color: 'var(--color-bark)',
-                  fontSize: 15,
-                  fontWeight: 700,
-                  cursor: status === 'loading' || status === 'success' ? 'default' : 'pointer',
-                  whiteSpace: 'nowrap',
-                  transition: 'opacity 0.2s, background 0.3s',
-                  opacity: status === 'loading' ? 0.7 : 1,
-                  width: isMobile ? '100%' : undefined,
-                  flexShrink: 0,
-                }}
+                className={cn(
+                  "font-sans h-[52px] px-[26px] rounded-[14px] border-none text-[15px] font-bold text-bark whitespace-nowrap transition-all duration-300 shrink-0",
+                  status === 'success' ? 'bg-sage text-interactive-text' : 'shimmer-btn',
+                  status === 'loading' || status === 'success' ? 'cursor-default' : 'cursor-pointer',
+                  status === 'loading' && 'opacity-70',
+                  isMobile && 'w-full'
+                )}
               >
                 {status === 'loading' ? 'Saugome…' : status === 'success' ? '✓ Jūs sąraše!' : 'Praneškite man →'}
               </button>
             </div>
 
             {status === 'error' && (
-              <p style={{ fontSize: 13, color: '#e05c5c', margin: 0, textAlign: 'left', paddingLeft: 4 }}>
+              <p className="text-[13px] text-destructive m-0 text-left pl-1">
                 Įveskite galiojantį el. pašto adresą.
               </p>
             )}
             {status === 'success' && (
-              <p style={{ fontSize: 13, color: '#4caf7d', margin: 0, textAlign: 'left', paddingLeft: 4 }}>
+              <p className="text-[13px] text-interactive-text m-0 text-left pl-1">
                 Puiku! Atsiųsime jums žinutę, kai tik startuosime. 🎉
               </p>
             )}
           </form>
 
           {/* Social links */}
-          <div className="animate-in-5" style={{ marginTop: 40, display: 'flex', gap: 16, justifyContent: 'center', alignItems: 'center' }}>
-            <span style={{ fontSize: 13, color: 'var(--color-bark)', opacity: 0.4 }}>Turite klausimų?</span>
+          <div className="animate-in-5 mt-10 flex gap-4 justify-center items-center">
+            <span className="text-[13px] text-bark opacity-40">Turite klausimų?</span>
             <a
               href="mailto:hello@pawscharm.com"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '7px 16px',
-                borderRadius: 999,
-                border: '1.5px solid rgba(61,53,48,0.15)',
-                fontSize: 13,
-                fontWeight: 600,
-                color: 'var(--color-bark)',
-                textDecoration: 'none',
-                transition: 'background 0.15s, border-color 0.15s',
-                background: 'rgba(255,255,255,0.5)',
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'var(--color-sage)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'var(--color-sage)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.5)';
-                (e.currentTarget as HTMLElement).style.borderColor = 'rgba(61,53,48,0.15)';
-              }}
+              className="flex items-center gap-1.5 py-1.5 px-4 rounded-full border border-bark/15 text-[13px] font-semibold text-bark no-underline transition-colors duration-150 bg-white/50 hover:bg-sage hover:border-sage"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 6h16v12H4z"/><path d="m22 7-10 7L2 7"/>

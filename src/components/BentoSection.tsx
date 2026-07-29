@@ -12,44 +12,33 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
   const isMobile = w < 768;
 
   const bg = isDark ? '#2A1E18' : 'var(--color-surface-2)';
-  const cardBg = isDark ? 'rgba(255,255,255,0.05)' : 'white';
-  const cardBgAlt = isDark ? 'rgba(255,255,255,0.03)' : 'var(--color-cream)';
-  const border = isDark ? 'rgba(255,255,255,0.08)' : 'var(--color-border)';
-  const textPrimary = isDark ? 'var(--color-cream)' : 'var(--color-bark)';
-  const textSecondary = isDark ? 'rgba(250,247,242,0.6)' : 'var(--color-bark-light)';
-  const textMuted = isDark ? 'rgba(250,247,242,0.3)' : 'var(--color-bark-muted)';
-
-  const row: React.CSSProperties = {
-    display: 'flex',
-    gap: 16,
-    flexDirection: isMobile ? 'column' : 'row',
-  };
-  const impactHeadingSize = 'clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem)';
-  const sizingLabelSize = 'clamp(2.375rem, 2rem + 1.5vw, 3rem)';
 
   return (
-    <section style={{ background: bg, transition: 'background-color 250ms ease-out' }}>
+    <section 
+      style={{ backgroundColor: bg }} 
+      className="transition-colors duration-[250ms] ease-out"
+    >
       {/* max-width lives here, not on the section */}
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div className="max-w-[1200px] mx-auto py-8 px-4 md:py-16 md:px-12 flex flex-col gap-4">
 
         {/* Row 1 — Material + Origin */}
-        <div style={row}>
+        <div className="flex flex-col md:flex-row gap-4">
           {/* Material */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-sage)', padding: isMobile ? '28px 24px' : '40px 44px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
+          <div className="flex-1 min-w-0 rounded-[20px] bg-sage p-[28px_24px] md:p-[40px_44px] flex flex-col justify-between gap-6">
             <div>
-              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(42,90,37,0.6)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
+              <div className="text-[11px] font-medium tracking-[0.08em] uppercase text-interactive-text/60 mb-3.5 font-sans">
                 {t('material.label')}
               </div>
-              <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-interactive-text)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 16 }}>
+              <div className="font-display text-[clamp(1.875rem,1.5rem+1.5vw,2.5rem)] text-interactive-text leading-[1.02] md:leading-[1.05] tracking-[0.01em] mb-4">
                 {t('material.headingLine1')}<br />{t('material.headingLine2')}
               </div>
-              <div style={{ fontSize: 15, color: 'rgba(42,90,37,0.75)', lineHeight: 1.7 }}>
+              <div className="text-[15px] text-interactive-text/75 leading-[1.7]">
                 {t('material.description')}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div className="flex gap-2 flex-wrap">
               {materialTags.map(label => (
-                <div key={label} style={{ background: 'rgba(42,90,37,0.12)', borderRadius: 100, padding: '6px 14px', fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', fontFamily: "'DM Sans',sans-serif" }}>
+                <div key={label} className="bg-interactive-text/12 rounded-full py-1.5 px-3.5 text-[12px] font-medium text-interactive-text font-sans">
                   {label}
                 </div>
               ))}
@@ -57,44 +46,44 @@ export function BentoSection({ isDark }: { isDark: boolean }) {
           </div>
 
           {/* Origin */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-bark)', padding: isMobile ? '28px 24px' : '40px 36px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(250,247,242,0.35)', fontFamily: "'DM Sans',sans-serif" }}>
+          <div className="flex-1 min-w-0 rounded-[20px] bg-bark p-[28px_24px] md:p-[40px_36px] flex flex-col gap-4">
+            <div className="text-[11px] font-medium tracking-[0.08em] uppercase text-cream/35 font-sans">
               {t('origin.label')}
             </div>
-            <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'var(--color-cream)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em' }}>
+            <div className="font-display text-[clamp(1.875rem,1.5rem+1.5vw,2.5rem)] text-cream leading-[1.02] md:leading-[1.05] tracking-[0.01em]">
               {t('origin.headingLine1')}<br />{t('origin.headingLine2')}
             </div>
-            <div style={{ fontSize: 14, color: 'rgba(250,247,242,0.55)', lineHeight: 1.7 }}>
+            <div className="text-[14px] text-cream/55 leading-[1.7]">
               {t('origin.description')}
             </div>
-            <div style={{ fontSize: 22, fontWeight: 500, color: 'rgba(250,247,242,0.2)', fontStyle: 'italic', letterSpacing: '-0.01em', marginTop: 'auto' }}>
+            <div className="text-[22px] font-medium text-cream/20 italic tracking-[-0.01em] mt-auto">
               {t('origin.tagline')}
             </div>
           </div>
         </div>
 
         {/* Row 2 — Sizing + Charm system + Care */}
-        <div style={row}>
+        <div className="flex flex-col md:flex-row gap-4">
           {/* Charm system */}
-          <div style={{ flex: 1, minWidth: 0, borderRadius: 20, background: 'var(--color-blossom)', padding: isMobile ? '24px 20px' : '32px 28px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 24 }}>
+          <div className="flex-1 min-w-0 rounded-[20px] bg-blossom p-[24px_20px] md:p-[32px_28px] flex flex-col justify-between gap-6">
             <div>
-              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(61,20,30,0.45)', marginBottom: 14, fontFamily: "'DM Sans',sans-serif" }}>
+              <div className="text-[11px] font-medium tracking-[0.08em] uppercase text-bark/45 mb-3.5 font-sans">
                 {t('charmSystem.label')}
               </div>
-              <div style={{ fontFamily: "'Tomato Grotesk VF',cursive", fontSize: impactHeadingSize, color: 'rgba(61,20,30,0.85)', lineHeight: isMobile ? 1.02 : 1.05, letterSpacing: '0.01em', marginBottom: 10 }}>
+              <div className="font-display text-[clamp(1.875rem,1.5rem+1.5vw,2.5rem)] text-bark/85 leading-[1.02] md:leading-[1.05] tracking-[0.01em] mb-2.5">
                 {t('charmSystem.heading')}
               </div>
-              <div style={{ fontSize: 14, color: 'rgba(61,20,30,0.6)', lineHeight: 1.6 }}>
+              <div className="text-[14px] text-bark/60 leading-[1.6]">
                 {t('charmSystem.description')}
               </div>
             </div>
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <div className="flex gap-2 items-center">
               {['/charm-flower.png', '/charm-star.png', '/charm-heart.png', '/charm-paw.png'].map((src) => (
-                <div key={src} style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', padding: 4 }}>
-                  <Image src={src} alt="" width={36} height={36} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                <div key={src} className="w-9 h-9 rounded-full bg-white/50 flex items-center justify-center overflow-hidden p-1">
+                  <Image src={src} alt="" width={36} height={36} className="w-full h-full object-contain" />
                 </div>
               ))}
-              <span style={{ fontSize: 12, color: 'rgba(61,20,30,0.5)', marginLeft: 4 }}>{t('charmSystem.moreCount')}</span>
+              <span className="text-[12px] text-bark/50 ml-1">{t('charmSystem.moreCount')}</span>
             </div>
           </div>
 

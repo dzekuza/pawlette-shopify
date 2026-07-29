@@ -78,7 +78,7 @@ export function CatalogCardBody ({ children, className }: React.ComponentProps<'
 }
 
 export function CatalogCardTitle ({ children, className }: React.ComponentProps<'div'>) {
-  return <div className={cn('mb-1 font-sans text-[16px] font-medium text-bark', className)}>{children}</div>
+  return <div className={cn('mb-1 font-tomato text-base font-medium text-bark', className)}>{children}</div>
 }
 
 export function CatalogCardDescription ({

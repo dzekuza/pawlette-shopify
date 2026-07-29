@@ -54,34 +54,32 @@ export function ProductPrice ({
   const { hasSale, savingsPercent } = getSaleMeta(currentPrice, originalPrice)
 
   const currentSizeClass = size === 'detail'
-    ? 'text-[22px] md:text-[25px]'
-    : 'text-[22px]'
+    ? 'text-xl md:text-2xl'
+    : 'text-xl'
   const originalSizeClass = size === 'detail'
-    ? 'text-[14px]'
-    : 'text-[13px]'
+    ? 'text-sm'
+    : 'text-xs'
   const noteSizeClass = size === 'detail'
-    ? 'text-[13px]'
-    : 'text-[12px]'
+    ? 'text-xs'
+    : 'text-xs'
 
   return (
-    <div className={cn('flex min-w-0 flex-col', className)}>
-      <div className='flex flex-wrap items-baseline gap-x-2 gap-y-1 font-sans'>
-        <span className={cn('font-semibold text-bark', currentSizeClass, currentPriceClassName)}>
-          {formatPrice(currentPrice)}
+    <div className={cn('flex flex-wrap items-baseline gap-x-2 gap-y-1 font-tomato min-w-0', className)}>
+      <span className={cn('font-semibold text-bark', currentSizeClass, currentPriceClassName)}>
+        {formatPrice(currentPrice)}
+      </span>
+      {hasSale && originalPrice ? (
+        <span className={cn('font-medium text-bark-muted line-through', originalSizeClass, originalPriceClassName)}>
+          {formatPrice(originalPrice)}
         </span>
-        {hasSale && originalPrice ? (
-          <span className={cn('font-medium text-bark-muted line-through', originalSizeClass, originalPriceClassName)}>
-            {formatPrice(originalPrice)}
-          </span>
-        ) : null}
-        {showSavingsBadge && hasSale && savingsPercent ? (
-          <Badge variant='sage' size='compact' className='ml-1'>
-            -{savingsPercent}%
-          </Badge>
-        ) : null}
-      </div>
+      ) : null}
+      {showSavingsBadge && hasSale && savingsPercent ? (
+        <Badge variant='sage' size='compact' className='ml-1'>
+          -{savingsPercent}%
+        </Badge>
+      ) : null}
       {note ? (
-        <span className={cn('font-medium text-bark-muted', noteSizeClass, noteClassName)}>
+        <span className={cn('basis-full font-medium text-bark-muted', noteSizeClass, noteClassName)}>
           {note}
         </span>
       ) : null}

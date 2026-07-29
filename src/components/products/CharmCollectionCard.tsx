@@ -27,13 +27,13 @@ export function CharmCollectionCard ({ href, title, price, originalPrice, image,
   return (
     <CatalogCardLink href={href}>
       <CatalogCard>
-        <CatalogCardMedia alt={imageAlt} background='#B8D8F4' image={image}>
+        <CatalogCardMedia alt={imageAlt} background='var(--color-sky)' image={image}>
           <Badge variant='glass' className='absolute bottom-3.5 left-3.5 px-2.5 py-1 normal-case tracking-[0.04em]'>
             {title}
           </Badge>
         </CatalogCardMedia>
         <CatalogCardBody className='pb-2'>
-          <CatalogCardTitle className='mb-2 line-clamp-2 text-[16px] leading-[1.35]'>{title}</CatalogCardTitle>
+          <CatalogCardTitle className='mb-2 line-clamp-2 text-base leading-[1.35]'>{title}</CatalogCardTitle>
           <FeaturePillList items={[`Nuo ${price}`, '100+ variantų']} className='mb-4' />
           <CatalogCardFooter className='items-end'>
             <ProductPrice currentPrice={price} originalPrice={originalPrice} note='Spalvos ir raidės' />

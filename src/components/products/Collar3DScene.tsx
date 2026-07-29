@@ -93,6 +93,12 @@ export default function Collar3DScene({
 }: Collar3DSceneProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.matchMedia('(max-width: 767px)').matches
+    }
+    return false
+  })
 
   useEffect(() => {
     const el = containerRef.current
@@ -102,6 +108,13 @@ export default function Collar3DScene({
     }, { rootMargin: '200px' })
     observer.observe(el)
     return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const listener = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    media.addEventListener('change', listener)
+    return () => media.removeEventListener('change', listener)
   }, [])
 
   const loop = isVisible ? (autoRotate ? 'always' : 'demand') : 'never'
@@ -114,7 +127,7 @@ export default function Collar3DScene({
         camera={{ position: [-5.0, 2.0, -4.2], fov: 40 }}
         gl={{ toneMappingExposure: TONE_EXPOSURE }}
         style={{
-          touchAction: interactive ? 'none' : 'pan-y',
+          touchAction: interactive && !isMobile ? 'none' : 'pan-y',
           pointerEvents: interactive ? 'auto' : 'none',
         }}
       >
@@ -146,7 +159,7 @@ export default function Collar3DScene({
           maxDistance={30}
           enablePan={false}
           enableZoom={false}
-          enableRotate={interactive}
+          enableRotate={isMobile ? false : interactive}
           autoRotate={autoRotate}
           autoRotateSpeed={autoRotateSpeed}
         />

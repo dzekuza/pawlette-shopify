@@ -378,3 +378,9 @@ body {
 }
 .nav-link:hover { color: var(--color-bark) !important; }
 .nav-link:hover::after { width: 100%; }
+
+/* Fix calls.fly.dev voice agent embed z-index to be lower than the cart drawer and modal overlays */
+iframe[src*="calls.fly.dev"],
+iframe[title="Voice Agent Widget"] {
+  z-index: 1 !important;
+}

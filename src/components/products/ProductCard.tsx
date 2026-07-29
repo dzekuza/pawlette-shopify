@@ -80,7 +80,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
             ))}
           </div>
           <div className='flex flex-col gap-1'>
-            <CatalogCardTitle className='mb-0 line-clamp-2 text-[20px] font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
+            <CatalogCardTitle className='mb-0 line-clamp-2 text-xl font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
               {title}
             </CatalogCardTitle>
             <CatalogCardFooter className='items-end'>

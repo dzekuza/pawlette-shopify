@@ -151,7 +151,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   return (
     <section
       ref={sectionRef}
-      className={cn("relative px-4 pt-[96px] pb-6 md:px-6 md:pt-[120px] md:pb-16 lg:pt-[132px] lg:pb-20 min-h-[100dvh] flex flex-col justify-between", className)}
+      className={cn("relative px-4 pt-[120px] pb-6 md:px-6 md:pt-[120px] md:pb-16 lg:pt-[132px] lg:pb-20 min-h-[100dvh] flex flex-col justify-between", className)}
       style={{
         background: "linear-gradient(180deg, #e3ecf5 0%, #b8d8f4 100%)",
         marginTop: "-88px",
@@ -200,7 +200,7 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             as="h1"
             size="floatingHero"
             className="mx-auto max-w-[946px] font-normal leading-[1.15] md:leading-[1.1] tracking-[0.02em] text-bark"
-            style={{ fontSize: "clamp(30px, 6vw, 64px)" }}
+            style={{ fontSize: "clamp(40px, 8vw, 80px)" }}
           >
             {t("heading")}
           </DisplayHeading>

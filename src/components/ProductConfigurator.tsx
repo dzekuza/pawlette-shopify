@@ -282,8 +282,8 @@ export function ProductConfigurator () {
                   padding: '7px 18px',
                   fontSize: 12,
                   letterSpacing: '0.04em',
-                  background: leftTab === tab ? '#FAF7F2' : 'transparent',
-                  color: leftTab === tab ? '#3D3530' : 'rgba(61,53,48,0.45)',
+                  background: leftTab === tab ? 'var(--color-cream)' : 'transparent',
+                  color: leftTab === tab ? 'var(--color-bark)' : 'rgba(61,53,48,0.45)',
                   boxShadow: leftTab === tab ? '0 1px 4px rgba(61,53,48,0.12)' : 'none',
                   transition: 'background 150ms, color 150ms, box-shadow 150ms',
                 }}
@@ -319,7 +319,7 @@ export function ProductConfigurator () {
                     background: collar?.color,
                     padding: '5px 14px',
                     fontSize: 11,
-                    color: '#3D3530',
+                    color: 'var(--color-bark)',
                     letterSpacing: '0.08em',
                   }}
                 >

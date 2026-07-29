@@ -18,17 +18,20 @@ export function StickyCTA({ visible }: { visible: boolean }) {
   return (
     <div style={{
       position: 'fixed', bottom: 'var(--cookie-banner-height, 0px)', left: 0, right: 0, zIndex: 150,
-      background: 'var(--color-cream-glass)', backdropFilter: 'blur(16px)',
-      borderTop: '1px solid var(--color-border)',
+      background: isMobile ? 'transparent' : 'var(--color-cream-glass)',
+      backdropFilter: isMobile ? 'none' : 'blur(16px)',
+      borderTop: isMobile ? 'none' : '1px solid var(--color-border)',
       transform: visible ? 'translateY(0)' : 'translateY(100%)',
       transition: 'transform 280ms cubic-bezier(0.23, 1, 0.32, 1), bottom 200ms ease-out',
-      boxShadow: '0 -4px 24px var(--color-bark-divider)',
+      boxShadow: isMobile ? 'none' : '0 -4px 24px var(--color-bark-divider)',
+      pointerEvents: isMobile ? 'none' : 'auto',
     }}>
       <div style={{
         maxWidth: 1200,
         margin: '0 auto',
         padding: isMobile ? '12px 16px' : '14px 48px',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+        display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', gap: 16,
+        pointerEvents: 'auto',
       }}>
       {!isMobile && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -45,7 +48,7 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           </div>
         </div>
       )}
-      <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
+      <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', width: isMobile ? 'auto' : 'auto', marginLeft: isMobile ? 'auto' : 'auto' }}>
         {!isMobile && (
           <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
             {t('returnsBadge')}

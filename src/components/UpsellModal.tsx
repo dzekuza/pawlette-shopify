@@ -31,11 +31,11 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
           ×
         </button>
 
-        <div className="flex items-center gap-2.5 mb-6 rounded-xl border" style={{ padding: '12px 16px', background: '#eef7ee', borderColor: '#c8e8c4' }}>
-          <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0" style={{ background: 'var(--color-sage)', fontSize: 14, color: '#2a5a25' }}>✓</div>
+        <div className="flex items-center gap-2.5 mb-6 rounded-xl border border-sage/40 bg-sage/15" style={{ padding: '12px 16px' }}>
+          <div className="w-7 h-7 rounded-full flex items-center justify-center font-semibold flex-shrink-0 text-interactive-text" style={{ background: 'var(--color-sage)', fontSize: 14 }}>✓</div>
           <div>
-            <div className="font-medium" style={{ fontSize: 14, color: '#2a5a25' }}>{t('addedToCart', { collar: collar?.title ?? '' })}</div>
-            <div style={{ fontSize: 12, color: '#5a9a55' }}>{t('charmsReady')}</div>
+            <div className="font-medium text-interactive-text" style={{ fontSize: 14 }}>{t('addedToCart', { collar: collar?.title ?? '' })}</div>
+            <div className="text-interactive-text/70" style={{ fontSize: 12 }}>{t('charmsReady')}</div>
           </div>
         </div>
 
@@ -81,7 +81,7 @@ export function UpsellModal({ collar, charms, onClose, onAddCharms }: UpsellModa
           <button
             onClick={() => { onAddCharms(picked); onClose(); }}
             className="flex-[2] font-medium cursor-pointer rounded-full border-none font-sans"
-            style={{ fontSize: 14, padding: '13px', background: 'var(--color-sage)', color: '#2a5a25' }}
+            style={{ fontSize: 14, padding: '13px', background: 'var(--color-sage)', color: 'var(--color-interactive-text)' }}
           >
             {picked.length > 0 ? t('addCharmsButton', { count: picked.length, amount: picked.length * 6 }) : t('goToCartButton')}
           </button>

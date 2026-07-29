@@ -86,8 +86,8 @@ export function CharmsStep ({
                 fontSize: 12,
                 fontWeight: 500,
                 fontFamily: "'DM Sans',sans-serif",
-                background: active ? textPrimary : (isDark ? 'rgba(255,255,255,0.07)' : '#EDE8E2'),
-                color: active ? (isDark ? '#3D3530' : '#FAF7F2') : textMuted,
+                background: active ? textPrimary : (isDark ? 'rgba(255,255,255,0.07)' : 'var(--color-surface-2)'),
+                color: active ? (isDark ? 'var(--color-bark)' : 'var(--color-cream)') : textMuted,
                 transition: 'background-color 150ms ease-out, color 150ms ease-out'
               }}
             >
@@ -108,7 +108,7 @@ export function CharmsStep ({
           padding: '9px 12px',
           borderRadius: 10,
           border: `1.5px solid ${borderColor}`,
-          background: isDark ? 'rgba(255,255,255,0.06)' : '#F8F5F1',
+          background: isDark ? 'rgba(255,255,255,0.06)' : 'var(--color-surface-2)',
           color: textPrimary,
           fontSize: 13,
           fontFamily: "'DM Sans',sans-serif",
@@ -116,7 +116,7 @@ export function CharmsStep ({
           transition: 'border-color 150ms ease-out'
         }}
         onFocus={(event) => {
-          event.target.style.borderColor = '#A8D5A2'
+          event.target.style.borderColor = 'var(--color-sage)'
         }}
         onBlur={(event) => {
           event.target.style.borderColor = borderColor
@@ -137,7 +137,7 @@ export function CharmsStep ({
                 title={charm.title}
                 style={{
                   borderRadius: 14,
-                  background: isDark ? 'rgba(255,255,255,0.06)' : '#F0EBE5',
+                  background: isDark ? 'rgba(255,255,255,0.06)' : 'var(--color-surface-2)',
                   cursor: isFull ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   flexDirection: 'column',

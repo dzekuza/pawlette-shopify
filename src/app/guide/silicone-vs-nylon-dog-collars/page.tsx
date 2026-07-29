@@ -136,45 +136,45 @@ export default function ComparisonPage() {
       <div className="bg-cream min-h-dvh">
         <LandingNav topOffset={0} />
 
-        <main style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px 96px' }}>
-          <div style={{ marginBottom: 24 }}>
-            <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 13, color: '#9B948F', textDecoration: 'none', fontWeight: 600, letterSpacing: '0.01em' }}>
+        <main className="max-w-[1200px] mx-auto px-6 pb-24">
+          <div className="mb-6">
+            <Link href="/guide/how-to-measure-dog-collar" className="text-[13px] text-bark-muted no-underline font-semibold tracking-[0.01em]">
               Skaityti dydžių gidą →
             </Link>
           </div>
 
-          <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16, marginTop: 0 }}>Antkaklių gidas</p>
+          <p className="text-[13px] font-medium text-sage tracking-[0.08em] uppercase mb-4 mt-0">Antkaklių gidas</p>
 
-          <DisplayHeading as="h1" size="page" style={{ marginBottom: 20 }}>
+          <DisplayHeading as="h1" size="page" className="mb-5">
             Silikoniniai ar nailoniniai šunų antkakliai: kas geriau?
           </DisplayHeading>
 
-          <p style={{ fontSize: 17, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
+          <p className="text-[17px] text-bark-light leading-[1.7] mb-4">
             Nailonas dešimtmečius buvo įprastas šunų antkaklių pasirinkimas. Silikoniniai antkakliai yra naujesni, tačiau aktyviems šunims dažnai gerokai praktiškesni. Štai aiškus palyginimas, kad būtų lengviau apsispręsti.
           </p>
 
-          <p style={{ fontSize: 14, color: '#9B948F', marginBottom: 48 }}>
+          <p className="text-sm text-bark-muted mb-12">
             Atnaujinta: 2026 m. birželį
           </p>
 
           {/* Comparison table */}
-          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 24 }}>Palyginimas greta</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mb-6">Palyginimas greta</DisplayHeading>
 
-          <div style={{ borderRadius: 16, overflow: 'hidden', border: '1px solid rgba(61,53,48,0.1)', marginBottom: 56 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <div className="rounded-2xl overflow-hidden border border-bark/10 mb-14">
+            <table className="w-full border-collapse">
               <thead>
-                <tr style={{ background: 'var(--color-bark)' }}>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-cream)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '22%' }}>Kriterijus</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'var(--color-sage)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '39%' }}>Silikonas</th>
-                  <th style={{ padding: '14px 20px', textAlign: 'left', fontSize: 12, fontWeight: 500, color: 'rgba(250,247,242,0.5)', letterSpacing: '0.06em', textTransform: 'uppercase', width: '39%' }}>Nailonas</th>
+                <tr className="bg-bark">
+                  <th className="px-5 py-[14px] text-left text-xs font-medium text-cream tracking-[0.06em] uppercase w-[22%]">Kriterijus</th>
+                  <th className="px-5 py-[14px] text-left text-xs font-medium text-sage tracking-[0.06em] uppercase w-[39%]">Silikonas</th>
+                  <th className="px-5 py-[14px] text-left text-xs font-medium text-cream/50 tracking-[0.06em] uppercase w-[39%]">Nailonas</th>
                 </tr>
               </thead>
               <tbody>
                 {COMPARISON.map((row, i) => (
-                  <tr key={row.criterion} style={{ background: i % 2 === 0 ? '#FFFFFF' : 'var(--color-cream)', borderTop: '1px solid rgba(61,53,48,0.06)' }}>
-                    <td style={{ padding: '16px 20px', fontSize: 14, fontWeight: 600, color: 'var(--color-bark)', verticalAlign: 'top' }}>{row.criterion}</td>
-                    <td style={{ padding: '16px 20px', fontSize: 14, color: '#3D5a3a', lineHeight: 1.5, verticalAlign: 'top', background: row.winner === 'silicone' ? 'rgba(168,213,162,0.1)' : 'inherit' }}>{row.silicone}</td>
-                    <td style={{ padding: '16px 20px', fontSize: 14, color: '#6B6560', lineHeight: 1.5, verticalAlign: 'top', background: row.winner === 'nylon' ? 'rgba(168,213,162,0.1)' : 'inherit' }}>{row.nylon}</td>
+                  <tr key={row.criterion} className={i % 2 === 0 ? "bg-white border-t border-bark/[0.06]" : "bg-cream border-t border-bark/[0.06]"}>
+                    <td className="px-5 py-4 text-sm font-semibold text-bark align-top">{row.criterion}</td>
+                    <td className={`px-5 py-4 text-sm text-interactive-text leading-[1.5] align-top ${row.winner === 'silicone' ? 'bg-sage/10' : ''}`}>{row.silicone}</td>
+                    <td className={`px-5 py-4 text-sm text-bark-light leading-[1.5] align-top ${row.winner === 'nylon' ? 'bg-sage/10' : ''}`}>{row.nylon}</td>
                   </tr>
                 ))}
               </tbody>
@@ -182,78 +182,78 @@ export default function ComparisonPage() {
           </div>
 
           {/* Silicone pros/cons */}
-          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 20 }}>Silikoniniai antkakliai</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mb-5">Silikoniniai antkakliai</DisplayHeading>
 
-          <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
+          <p className="text-base text-bark-light leading-[1.7] mb-4">
             Silikoniniai antkakliai gaminami iš maistinio silikono — tos pačios medžiagos, kuri naudojama virtuvės įrankiuose ir medicinos gaminiuose. Svarbiausias privalumas yra neporėtas paviršius: į jį neįsigeria vanduo, bakterijos ar kvapai.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 40 }}>
-            <div style={{ background: '#EEF5EE', borderRadius: 14, padding: '20px 22px' }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#2a5a25', marginBottom: 12, marginTop: 0 }}>Privalumai</p>
+          <div className="grid grid-cols-2 gap-4 mb-10">
+            <div className="bg-sage/15 rounded-[14px] py-5 px-[22px]">
+              <p className="text-sm font-semibold text-interactive-text mb-3 mt-0">Privalumai</p>
               {['Nesugeria kvapo net dažnai maudantis', 'Nuvalomas per kelias sekundes', 'Kraštai nesišerpetoja ir neirsta', 'Atsparus UV ir sūriam vandeniui', 'Tinka prisegamiems pakabukams', 'Tinka jautriai odai'].map(p => (
-                <p key={p} style={{ fontSize: 14, color: '#3D5a3a', margin: '0 0 6px', lineHeight: 1.5 }}>✓ {p}</p>
+                <p key={p} className="text-sm text-interactive-text mb-1.5 leading-[1.5]">✓ {p}</p>
               ))}
             </div>
-            <div style={{ background: '#FFF5F5', borderRadius: 14, padding: '20px 22px' }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#8B3A3A', marginBottom: 12, marginTop: 0 }}>Ribojimai</p>
+            <div className="bg-blossom/15 rounded-[14px] py-5 px-[22px]">
+              <p className="text-sm font-semibold text-bark mb-3 mt-0">Ribojimai</p>
               {['Didesnė pradinė kaina nei bazinio nailono', 'Mažiau raštų pasirinkimo', 'Rečiau sutinkamas pigesnėse gyvūnų prekių parduotuvėse'].map(p => (
-                <p key={p} style={{ fontSize: 14, color: '#6B4040', margin: '0 0 6px', lineHeight: 1.5 }}>△ {p}</p>
+                <p key={p} className="text-sm text-bark-light mb-1.5 leading-[1.5]">△ {p}</p>
               ))}
             </div>
           </div>
 
           {/* Nylon pros/cons */}
-          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 20 }}>Nailoniniai antkakliai</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mb-5">Nailoniniai antkakliai</DisplayHeading>
 
-          <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
+          <p className="text-base text-bark-light leading-[1.7] mb-4">
             Nailoniniai antkakliai audžiami iš poliamido pluošto ir yra vieni plačiausiai prieinamų. Kokybė stipriai skiriasi: pigesni gali greitai irti, o sustiprintas nailonas būna labai tvirtas.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 56 }}>
-            <div style={{ background: '#EEF5EE', borderRadius: 14, padding: '20px 22px' }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#2a5a25', marginBottom: 12, marginTop: 0 }}>Privalumai</p>
+          <div className="grid grid-cols-2 gap-4 mb-14">
+            <div className="bg-sage/15 rounded-[14px] py-5 px-[22px]">
+              <p className="text-sm font-semibold text-interactive-text mb-3 mt-0">Privalumai</p>
               {['Platus kainų pasirinkimas, lengva rasti', 'Labai lengvas', 'Didelė raštų ir spaudinių įvairovė', 'Yra itin tvirtų variantų aktyviems šunims'].map(p => (
-                <p key={p} style={{ fontSize: 14, color: '#3D5a3a', margin: '0 0 6px', lineHeight: 1.5 }}>✓ {p}</p>
+                <p key={p} className="text-sm text-interactive-text mb-1.5 leading-[1.5]">✓ {p}</p>
               ))}
             </div>
-            <div style={{ background: '#FFF5F5', borderRadius: 14, padding: '20px 22px' }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#8B3A3A', marginBottom: 12, marginTop: 0 }}>Ribojimai</p>
+            <div className="bg-blossom/15 rounded-[14px] py-5 px-[22px]">
+              <p className="text-sm font-semibold text-bark mb-3 mt-0">Ribojimai</p>
               {['Sugerio vandenį ir lėčiau džiūsta', 'Pluoštai ilgainiui kaupia bakterijas ir kvapus', 'Kraštai gali irti intensyviai naudojant', 'Gali velti ilgesnį kailį'].map(p => (
-                <p key={p} style={{ fontSize: 14, color: '#6B4040', margin: '0 0 6px', lineHeight: 1.5 }}>△ {p}</p>
+                <p key={p} className="text-sm text-bark-light mb-1.5 leading-[1.5]">△ {p}</p>
               ))}
             </div>
           </div>
 
           {/* Verdict */}
-          <DisplayHeading as="h2" size="compact" style={{ marginBottom: 16 }}>Ką rinktis?</DisplayHeading>
+          <DisplayHeading as="h2" size="compact" className="mb-4">Ką rinktis?</DisplayHeading>
 
-          <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
-            <strong style={{ color: 'var(--color-bark)' }}>Rinkitės silikoną, jei:</strong> jūsų šuo maudosi, dažnai išsipurvina ar turi jautrią odą. Vien atsparumas vandeniui ir kvapams dažnai pateisina didesnę kainą.
+          <p className="text-base text-bark-light leading-[1.7] mb-4">
+            <strong className="text-bark">Rinkitės silikoną, jei:</strong> jūsų šuo maudosi, dažnai išsipurvina ar turi jautrią odą. Vien atsparumas vandeniui ir kvapams dažnai pateisina didesnę kainą.
           </p>
 
-          <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 16 }}>
-            <strong style={{ color: 'var(--color-bark)' }}>Rinkitės nailoną, jei:</strong> jums svarbus konkretus raštas, turite labai ribotą biudžetą arba jūsų šuo retai sušlampa.
+          <p className="text-base text-bark-light leading-[1.7] mb-4">
+            <strong className="text-bark">Rinkitės nailoną, jei:</strong> jums svarbus konkretus raštas, turite labai ribotą biudžetą arba jūsų šuo retai sušlampa.
           </p>
 
-          <p style={{ fontSize: 16, color: '#6B6560', lineHeight: 1.7, marginBottom: 56 }}>
+          <p className="text-base text-bark-light leading-[1.7] mb-14">
             Daugumai aktyvių šunų silikonas ilgainiui yra geresnė investicija — antkaklis tarnauja ilgiau ir iš tiesų išlieka švarus, o ne tik atrodo švariai.
           </p>
 
           {/* Related guide */}
-          <div style={{ borderTop: '1px solid rgba(61,53,48,0.1)', paddingTop: 32, marginBottom: 56 }}>
-            <p style={{ fontSize: 13, fontWeight: 500, color: '#9B948F', letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 12, marginTop: 0 }}>Susijęs gidas</p>
-            <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 16, fontWeight: 500, color: 'var(--color-bark)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="border-t border-bark/10 pt-8 mb-14">
+            <p className="text-[13px] font-medium text-bark-muted tracking-[0.06em] uppercase mb-3 mt-0">Susijęs gidas</p>
+            <Link href="/guide/how-to-measure-dog-collar" className="text-base font-medium text-bark no-underline flex items-center gap-2">
               Kaip išmatuoti šunį antkakliui →
             </Link>
           </div>
 
           {/* CTA */}
-          <div style={{ padding: '40px', background: 'var(--color-bark)', borderRadius: 20, textAlign: 'center', marginBottom: 24 }}>
-            <p style={{ fontSize: 22, fontWeight: 500, color: 'var(--color-cream)', marginBottom: 8, marginTop: 0, letterSpacing: '-0.01em' }}>
+          <div className="p-10 bg-bark rounded-[20px] text-center mb-6">
+            <p className="text-[22px] font-medium text-cream mb-2 mt-0 tracking-[-0.01em]">
               Išbandykite silikoninį antkaklį
             </p>
-            <p style={{ fontSize: 15, color: 'rgba(250,247,242,0.6)', marginBottom: 28, marginTop: 0 }}>
+            <p className="text-[15px] text-cream/60 mb-7 mt-0">
               Atsparus vandeniui, nesugeriantis kvapų ir personalizuojamas pakabukais. Sukurtas Vilniuje.
             </p>
             <PrimaryButton href="/products" variant="sage" size="lg">

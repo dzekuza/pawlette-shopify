@@ -33,13 +33,10 @@ function BentoCard({
   return (
     <div
       data-animate="card"
-      className={`group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT} ${className ?? ''}`}
+      className={`group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] min-h-[270px] shadow-[0_24px_48px_-32px_rgba(61,53,48,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] ${bgImage ? 'p-0' : 'p-6'} ${HOVER_LIFT} ${className ?? ''}`}
       style={{
         background,
-        minHeight: 270,
-        padding: bgImage ? 0 : 24,
         justifyContent: align === 'start' ? 'flex-start' : 'flex-end',
-        boxShadow: '0 24px 48px -32px rgba(61,53,48,0.28), inset 0 1px 0 rgba(255,255,255,0.4)',
       }}
     >
       {bgImage ? (
@@ -55,8 +52,8 @@ function BentoCard({
       {glow ? (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute rounded-full opacity-70 blur-3xl transition-opacity duration-500 group-hover:opacity-90"
-          style={{ background: glow, width: 220, height: 220, top: '10%', right: '5%' }}
+          className="pointer-events-none absolute rounded-full opacity-70 blur-3xl transition-opacity duration-500 group-hover:opacity-90 w-[220px] h-[220px] top-[10%] right-[5%]"
+          style={{ background: glow }}
         />
       ) : null}
       {children}
@@ -64,12 +61,12 @@ function BentoCard({
         <div className="relative flex flex-col gap-2">
           {eyebrow ? <Eyebrow className="text-bark-muted/80">{eyebrow}</Eyebrow> : null}
           {heading ? (
-            <p className="font-sans text-2xl font-medium leading-[1.2] tracking-[-0.02em] text-bark" style={{ maxWidth: 320 }}>
+            <p className="font-sans text-2xl font-medium leading-[1.2] tracking-[-0.02em] text-bark max-w-[320px]">
               {heading}
             </p>
           ) : null}
           {description ? (
-            <p className="font-sans text-base font-medium leading-[1.5] text-bark-muted" style={{ maxWidth: 320 }}>
+            <p className="font-sans text-base font-medium leading-[1.5] text-bark-muted max-w-[320px]">
               {description}
             </p>
           ) : null}
@@ -87,7 +84,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         glow="radial-gradient(circle, rgba(184,216,244,0.55) 0%, rgba(184,216,244,0) 70%)"
         eyebrow="Rankų darbas"
         heading="Kiekvienas antkaklis gaminamas rankomis"
-        description="Aukščiausios kokybės BioThane šuns antkaklis"
+        description="Aukščiausios kokybės BioThane šuno antkaklis"
         align="start"
         className="md:basis-[380px] md:flex-none"
       >
@@ -110,10 +107,10 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         description="Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi"
         className="flex-1"
       >
-        <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg]" style={{ aspectRatio: '1 / 1' }}>
+        <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg] aspect-square">
           <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="130px" style={{ objectFit: 'contain' }} />
         </div>
-        <div aria-hidden="true" className="absolute right-[2%] top-[60%] w-[26%] max-w-[110px] rotate-[46deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[40deg]" style={{ aspectRatio: '1 / 1' }}>
+        <div aria-hidden="true" className="absolute right-[2%] top-[60%] w-[26%] max-w-[110px] rotate-[46deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[40deg] aspect-square">
           <Image src="/hero-figma/bento-letter-s.png" alt="" fill sizes="110px" style={{ objectFit: 'contain' }} />
         </div>
       </BentoCard>
@@ -132,7 +129,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
         background="var(--color-surface-2)"
         glow="radial-gradient(circle, rgba(184,216,244,0.55) 0%, rgba(184,216,244,0) 70%)"
         eyebrow="Derinys"
-        heading="Sukurkite antkaklį, kuris atspindi jūsų šunį"
+        heading="Sukurti antkaklį, kuris atspindi jūsų šunį"
         description="Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
         align="start"
         className="md:basis-[380px] md:flex-none"
@@ -154,12 +151,7 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
   const brandPanel = (
     <div
       data-animate="card"
-      className={`group relative flex items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${HOVER_LIFT} md:basis-[340px] md:flex-none`}
-      style={{
-        aspectRatio: '3 / 4',
-        background: 'var(--color-surface-2)',
-        boxShadow: '0 24px 48px -32px rgba(61,53,48,0.28), inset 0 1px 0 rgba(255,255,255,0.4)',
-      }}
+      className={`group relative flex items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] aspect-[3/4] bg-surface-2 shadow-[0_24px_48px_-32px_rgba(61,53,48,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] ${HOVER_LIFT} md:basis-[340px] md:flex-none`}
     >
       <video
         src="https://cdn.shopify.com/videos/c/o/v/eaad51df2ebc4bdd81140870ab6f1534.mp4"
