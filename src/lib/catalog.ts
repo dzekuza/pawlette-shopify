@@ -6,6 +6,10 @@ export interface ProductDetail {
   id: string
   variantId: string
   productType: 'collar' | 'charm' | 'leash'
+  /** Only set for individual charm PDPs — distinguishes named icon/shape charms (unique content)
+   * from the ~260 letter×color permutations, which share near-identical boilerplate copy and are
+   * noindexed in generateMetadata to avoid a thin/doorway-page pattern. */
+  charmCategory?: 'icon' | 'letter'
   name: string
   /** Real Shopify product title, before per-color synthesis (e.g. "Blue Leash"). */
   parentTitle?: string
@@ -13,6 +17,7 @@ export interface ProductDetail {
   colorLabel?: string
   price: string
   originalPrice?: string
+  availableForSale: boolean
   shortDescription: string
   longDescription: string
   image: string
@@ -218,6 +223,7 @@ function buildCharmCollectionProduct (charms: ShopifyCharm[], locale: string = '
     name: first.productTitle,
     price: first.price,
     originalPrice: first.originalPrice,
+    availableForSale: charms.some((c) => c.availableForSale),
     shortDescription: normalizeMarketingCopy(first.productDescription),
     longDescription: normalizeMarketingCopy(first.description ?? first.productDescription) || 'Kiekvienas pakabukas užsisega ir nusiima maždaug per penkias sekundes.',
     image: cardImage,
@@ -244,9 +250,11 @@ function buildCharmProduct (charm: ShopifyCharm, locale: string = 'lt'): Product
     id: `charm-${charm.id}`,
     variantId: charm.variantId,
     productType: 'charm',
+    charmCategory: charm.category === 'icon' ? 'icon' : 'letter',
     name: localizeCharmName(charm.title),
     price: charm.price,
     originalPrice: charm.originalPrice,
+    availableForSale: charm.availableForSale,
     shortDescription,
     longDescription: normalizeMarketingCopy(charm.description) || `${charm.title} prisisega ir nusiima maždaug per penkias sekundes. Rinkite mėgstamiausius ir keiskite stilių kasdien be jokių įrankių.`,
     image: images[0] ?? '',
@@ -282,6 +290,7 @@ export function buildCollarProduct (collar: ShopifyCollar, opts?: { useParentMed
     colorLabel: collar.colors[0],
     price: collar.price,
     originalPrice: collar.originalPrice,
+    availableForSale: collar.availableForSale,
     shortDescription,
     longDescription: normalizeMarketingCopy(opts?.useParentMedia ? collar.parentDescription : collar.description) || `${collar.title} yra vandeniui atsparus silikoninis antkaklio rinkinys su penkiais prisegamais pakabukais. Sukurtas kasdieniam nešiojimui ir lengvam valymui po lietaus, dienų paplūdimyje ar purvinų pasivaikščiojimų.`,
     image,
@@ -318,6 +327,7 @@ export function buildLeashProduct (leash: ShopifyCollar, opts?: { useParentMedia
     colorLabel: leash.colors[0],
     price: leash.price,
     originalPrice: leash.originalPrice,
+    availableForSale: leash.availableForSale,
     shortDescription,
     longDescription: normalizeMarketingCopy(opts?.useParentMedia ? leash.parentDescription : leash.description) || `${leash.title} yra vandeniui atsparus silikoninis pavadėlis, sukurtas kasdieniam naudojimui. Lengvai valomas, patvarus ir stilingas.`,
     image,
@@ -343,6 +353,7 @@ export function buildGroupedLeashProduct (leashes: ShopifyCollar[], locale: stri
   const allVariants = leashes.flatMap(l => l.variants)
   return {
     ...buildLeashProduct(base, undefined, locale),
+    availableForSale: leashes.some((l) => l.availableForSale),
     leashColors: allColors.length > 0 ? allColors : undefined,
     leashVariants: allVariants,
   }
@@ -358,6 +369,9 @@ export function getProductBySlug (slug: string): ProductDetail | undefined {
 export interface ProductSlugEntry {
   slug: string
   updatedAt: string
+  /** Set for individual charm PDPs — 'letter' entries are thin, noindexed pages (see
+   * ProductDetail.charmCategory) and are excluded from the sitemap. */
+  charmCategory?: 'icon' | 'letter'
 }
 
 export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
@@ -365,12 +379,12 @@ export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
 
   // Preserves the original insertion order (Map.set on an existing key doesn't move it)
   // while keeping each slug's most recently updated timestamp when multiple sources map to it.
-  const entries = new Map<string, string>()
-  const add = (slug: string | undefined, updatedAt: string | undefined) => {
+  const entries = new Map<string, { updatedAt: string, charmCategory?: 'icon' | 'letter' }>()
+  const add = (slug: string | undefined, updatedAt: string | undefined, charmCategory?: 'icon' | 'letter') => {
     if (!isNonEmptyString(slug)) return
     const existing = entries.get(slug)
-    if (!existing || (updatedAt && new Date(updatedAt) > new Date(existing))) {
-      entries.set(slug, updatedAt || existing || '')
+    if (!existing || (updatedAt && new Date(updatedAt) > new Date(existing.updatedAt))) {
+      entries.set(slug, { updatedAt: updatedAt || existing?.updatedAt || '', charmCategory: charmCategory ?? existing?.charmCategory })
     }
   }
 
@@ -386,14 +400,14 @@ export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
   ), '')
   add('charm-charms', latestCharmUpdate)
   add('pawcharms-pakabuciai', latestCharmUpdate)
-  charms.forEach((charm) => add(slugFromCharmId(charm.id), charm.updatedAt))
+  charms.forEach((charm) => add(slugFromCharmId(charm.id), charm.updatedAt, charm.category === 'icon' ? 'icon' : 'letter'))
 
   leashes.forEach((leash) => {
     add(leash.nodeHandle, leash.updatedAt)
     add(leash.handle, leash.updatedAt)
   })
 
-  return Array.from(entries.entries()).map(([slug, updatedAt]) => ({ slug, updatedAt }))
+  return Array.from(entries.entries()).map(([slug, { updatedAt, charmCategory }]) => ({ slug, updatedAt, charmCategory }))
 }
 
 export async function getProductBySlugAsync (slug: string, locale: string = 'lt'): Promise<ProductDetail | undefined> {

@@ -37,10 +37,7 @@ Two independent user flows, each with its own orchestrator:
 
 **Landing page** (`/`) → `src/app/page.tsx` → `LandingPage.tsx`
 Assembles `src/components/landing/` subcomponents. GSAP scroll animations are wired here via `data-animate="section"` and `data-animate="card"` attributes on wrapper divs. `StickyCTA` and `ExitModal` are toggled by scroll/mouseleave state owned by `LandingPage`.
-Render order: `SocialTicker → LandingNav → FloatingHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → BentoSection → Reviews → FAQ → LandingFooter`.
-
-**Configurator** (`/configure`) → `src/app/configure/page.tsx` → `ProductConfigurator.tsx`
-Owns all cart/selection state and passes it down to `CollarStage` (visual preview), `ConfigPanel` (4-step selection UI), `MiniCart`, and `UpsellModal`. State shape: `selectedCollar`, `selectedCharms: (string|null)[]`, `size`, `engraving`, `cartItems: CartItem[]`.
+Render order: `SocialTicker → LandingNav → FloatingHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → FAQ → LandingFooter`.
 
 **Products page** (`/products`) → `src/app/products/page.tsx`
 Self-contained page component with local `SimpleNav` and `CollarCard`/`CharmCard` helpers defined at module level in the same file. Has a server-component `src/app/products/layout.tsx` sibling that injects metadata + JSON-LD schema — this is the pattern for adding SEO to a `'use client'` page without restructuring it.
@@ -64,9 +61,9 @@ All product data lives in `src/lib/data.ts` — no API calls, no database. Key e
 - `COLLARS` — 4 collar definitions (id, name, hex color, bgTint, glowColor)
 - `ALL_CHARMS` — 25 charms with emoji and bg color
 - `SIZES` — XS/S/M/L with neck range strings
-- `CHARM_POSITIONS` / `FLOAT_DURATIONS` — used by `CollarStage` for animated charm placement
+- `CHARM_POSITIONS` / `FLOAT_DURATIONS` — unused since the `/configure` page (and its `CollarStage` component) was removed; safe to delete if touching this file
 - `PRODUCTS` / `LANDING_REVIEWS` / `TICKER_ITEMS` — landing page static content
-- `CartItem` interface — the shape passed into `MiniCart` and `UpsellModal`
+- `CartItem` interface — the cart line-item shape used across `/cart`, `/checkout`, and `CartDrawer`
 
 ## Design system
 
@@ -98,7 +95,7 @@ Shared component quick-reference:
 - **`TrustNote`** — micro trust line near CTAs
 - **`Accordion`** — FAQ expandable item
 
-The `isDark` boolean prop on legacy components (`BentoSection`, `CollarStage`, `UrgencyBar`) uses inline ternaries — this is an accepted pattern for those existing components only. New components should use a `dark:` variant or a wrapper class instead.
+The `isDark` boolean prop on legacy components (e.g. `UrgencyBar`) uses inline ternaries — this is an accepted pattern for those existing components only. New components should use a `dark:` variant or a wrapper class instead.
 
 ## Responsive pattern
 
@@ -153,10 +150,9 @@ These rules govern all Figma-to-code work. Follow every step — do not skip.
 ### Component Organization Rules
 
 - Landing-page sections → `src/components/landing/`
-- Configurator sub-panels → `src/components/config-panel/`
 - Product/PDP components → `src/components/products/`
 - Shared primitives (shadcn wrappers) → `src/components/ui/`
-- Root-level orchestrators stay at `src/components/` (e.g. `LandingPage.tsx`, `ProductConfigurator.tsx`).
+- Root-level orchestrators stay at `src/components/` (e.g. `LandingPage.tsx`).
 - All interactive components must have `'use client'` at the top.
 - Export pattern: named export `export function ComponentName()` for components; `export default function PageName()` for page files in `src/app/`.
 

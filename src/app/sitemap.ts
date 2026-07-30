@@ -4,10 +4,11 @@ import { getAllProductSlugs } from '@/lib/catalog'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
   const products = await getAllProductSlugs()
-  // Exclude aliases that canonicalize to another URL (e.g. "pawcharms-pakabuciai" -> "charm-charms") —
-  // a sitemap should only list self-canonical, index-worthy URLs.
+  // Exclude aliases that canonicalize to another URL (e.g. "pawcharms-pakabuciai" -> "charm-charms")
+  // and thin letter×color charm variants (noindexed in generateMetadata, see products/[slug]/page.tsx)
+  // — a sitemap should only list self-canonical, index-worthy URLs.
   const CANONICAL_ALIASES = new Set(['pawcharms-pakabuciai'])
-  const indexableProducts = products.filter(({ slug }) => !CANONICAL_ALIASES.has(slug))
+  const indexableProducts = products.filter(({ slug, charmCategory }) => !CANONICAL_ALIASES.has(slug) && charmCategory !== 'letter')
   const productEntries = indexableProducts.map(({ slug, updatedAt }) => ({
     url: `https://pawscharm.com/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,
@@ -47,18 +48,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: 'https://pawscharm.com/configure',
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.85,
-    },
-    {
-      url: 'https://pawscharm.com/en/configure',
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.85,
     },
     {
       url: 'https://pawscharm.com/faq',

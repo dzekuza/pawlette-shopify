@@ -7,19 +7,10 @@ export type ProductLocale = 'lt' | 'en'
 export const SITE_URL = 'https://pawscharm.com'
 export const BRAND_NAME = 'PawsCharm'
 export const BRAND_LOCATION = 'Vilnius, Lietuva'
+// Kept for the visible star badge on ProductCard — that's a separate product-content
+// decision from structured data. See buildProductJsonLd: it no longer emits fake
+// aggregateRating/review schema built from this same placeholder value.
 export const PRODUCT_REVIEW_RATING = 4.9
-export const PRODUCT_REVIEW_COUNT = 9
-
-const PRODUCT_REVIEWS = [
-  {
-    author: 'Laima K.',
-    reviewBody: 'Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.',
-  },
-  {
-    author: 'Egle M.',
-    reviewBody: 'Minkštas, lengvai valomas, o pakabukai laikėsi vietoje net po lietingo bėgimo parke.',
-  },
-]
 
 function trimText(value?: string) {
   return value?.replace(/\s+/g, ' ').trim() ?? ''
@@ -264,33 +255,13 @@ export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale
           }]
         : []),
     ],
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: PRODUCT_REVIEW_RATING,
-      reviewCount: PRODUCT_REVIEW_COUNT,
-      bestRating: 5,
-      worstRating: 1,
-    },
-    review: PRODUCT_REVIEWS.map((review) => ({
-      '@type': 'Review',
-      reviewRating: {
-        '@type': 'Rating',
-        ratingValue: 5,
-        bestRating: 5,
-      },
-      author: {
-        '@type': 'Person',
-        name: review.author,
-      },
-      reviewBody: review.reviewBody,
-    })),
     offers: {
       '@type': 'Offer',
       url: productUrl,
       price: product.price.replace(/[^\d.]/g, ''),
       priceCurrency: 'EUR',
       priceValidUntil: getPriceValidUntil(),
-      availability: 'https://schema.org/InStock',
+      availability: product.availableForSale ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
       seller: {
         '@type': 'Organization',

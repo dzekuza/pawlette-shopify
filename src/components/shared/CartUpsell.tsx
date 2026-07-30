@@ -10,7 +10,7 @@ import enMessages from '@/messages/en.json';
 // CartUpsell is rendered inside CartDrawer, which is mounted globally in the
 // root layout (src/app/layout.tsx), outside the `[locale]` route segment —
 // it has no NextIntlClientProvider ancestor on migrated routes (/, /en,
-// /configure) OR on non-migrated ones (/faq, /cart, /checkout, /account).
+// /products) OR on non-migrated ones (/faq, /cart, /checkout, /account).
 // Calling next-intl's useTranslations() here would throw ("No intl context
 // found") on every single page load. So instead of the hook, resolve copy
 // from a plain object keyed by the URL's locale prefix, mirroring the same

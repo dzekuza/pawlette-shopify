@@ -602,8 +602,11 @@ export function CollarConfigurator ({ configurator, name, price, showCharms = tr
         <>
       {/* Trust strip — purchase reassurance below CTA */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {pdpTrustPoints.map((point) => (
-          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>{point}</div>
+        {pdpTrustPoints.map((point, i) => (
+          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
+            {point}
+            {i < pdpTrustPoints.length - 1 ? <span className="sr-only"> · </span> : null}
+          </div>
         ))}
       </div>
 

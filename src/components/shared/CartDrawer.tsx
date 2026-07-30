@@ -21,7 +21,7 @@ const SHIPPING_COST = 4.9;
 
 // CartDrawer is mounted globally in the root layout (src/app/layout.tsx),
 // outside the `[locale]` route segment — it has no NextIntlClientProvider
-// ancestor, on migrated routes (/, /en, /configure) OR on non-migrated ones
+// ancestor, on migrated routes (/, /en, /products) OR on non-migrated ones
 // (/faq, /cart, /checkout, /account). Calling next-intl's useTranslations()
 // here would throw ("No intl context found") on every single page load,
 // since the drawer's own render tree never sits inside the provider even

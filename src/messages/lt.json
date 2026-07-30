@@ -2,153 +2,6 @@
   "common": {
     "freeShipping": "Nemokamas pristatymas nuo {threshold}"
   },
-  "configure": {
-    "configurator": {
-      "tabGallery": "Galerija",
-      "tabPreview": "Peržiūra",
-      "eyebrow": "Antkaklio rinkinys",
-      "heading": "Susikurkite antkaklį"
-    },
-    "panel": {
-      "accordion": {
-        "descriptionTitle": "Aprašymas",
-        "descriptionDefault": "Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas, su saugiu atsegamu užsegimu. Atsparus purvui ir kvapams, tad tereikia nuplauti.",
-        "featuresTitle": "Produkto savybės",
-        "featuresDefault": "Vandeniui atsparus silikonas, lengvas reguliuojamas prigludimas, saugus atsegamas užsegimas, atsparumas purvui ir kvapams.",
-        "includesTitle": "Į rinkinį įeina",
-        "includesDefault": "Pagrindinis pasirinktos spalvos ir dydžio antkaklis. Penki keičiami prisegami pakabukai. Reguliuojamas saugus užsegimas. Lininis laikymo maišelis.",
-        "careTitle": "Priežiūra",
-        "careDefault": "Po kiekvieno maudymosi ar purvino pasivaikščiojimo nuplaukite. Džiovinkite paguldę, nedėkite į džiovyklę. Pakabukus valykite drėgna šluoste ir leiskite išdžiūti.",
-        "shippingTitle": "Pristatymas ir grąžinimas",
-        "shippingDefault": "Nemokamas pristatymas užsakymams nuo 40 €. Pristatymas per 2–4 darbo dienas. Grąžinimai priimami per 30 dienų, jei prekė nenaudota ir originalios būklės."
-      },
-      "charmsLabel": "Pakabukai",
-      "charmsSelectedCount": "{count} pasirinkta",
-      "addCharmsButton": "Pridėti pakabukų",
-      "charmsAddedButton": "{count} pakab. pridėta",
-      "addToCartButton": "Į krepšelį — €{total}",
-      "madeInLithuania": "Pagaminta Lietuvoje",
-      "charmsModalTitle": "Pridėti pakabukų",
-      "closeAria": "Uždaryti",
-      "doneButton": "Baigta",
-      "doneButtonWithCount": "Baigta — {count} pakab."
-    },
-    "bento": {
-      "material": {
-        "label": "Medžiaga",
-        "headingLine1": "Atsparūs vandeniui.",
-        "headingLine2": "Be kvapo. Be dėmių.",
-        "description": "TPU dengtas nailonas, kuriam nebaisūs ežerai, purvas ir lietus. Tereikia nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.",
-        "tags": [
-          "Ežerai",
-          "Purvas",
-          "Lietus",
-          "Sniegas"
-        ]
-      },
-      "origin": {
-        "label": "Kilmė",
-        "headingLine1": "Pagaminta rankomis",
-        "headingLine2": "Vilniuje, Lietuvoje.",
-        "description": "Mažos partijos. Kerpama ir surenkama rankomis mūsų dirbtuvėse. Kiekvienas antkaklis išsiunčiamas lino maišelyje.",
-        "tagline": "Vandeniui atspari."
-      },
-      "charmSystem": {
-        "label": "Pakabukų sistema",
-        "heading": "Prisisega per 5 sekundes.",
-        "description": "Prisegamas laikiklis. Jokių segtukų. Jokių įrankių. Jokio vargo.",
-        "moreCount": "+8 daugiau"
-      }
-    },
-    "upsell": {
-      "addedToCart": "{collar} pridėtas į krepšelį",
-      "charmsReady": "Jūsų 5 įtraukti pakabukai jau paruošti pasirinkimui.",
-      "eyebrow": "Užbaikite savo rinkinį",
-      "heading": "Pridėkite papildomų pakabukų po €6.",
-      "description": "Keiskite pagal nuotaiką, sezoną ar progą. Dauguma šeimininkų renkasi dar 2–3 papildomus.",
-      "noThanks": "Ne, ačiū",
-      "addCharmsButton": "Pridėti {count} pakab. — +€{amount}",
-      "goToCartButton": "Eiti į krepšelį →"
-    },
-    "reviews": {
-      "eyebrow": "Klientų atsiliepimai",
-      "title": "Patvirtinta šunų ir jų šeimininkų.",
-      "prevAriaLabel": "Ankstesnis",
-      "nextAriaLabel": "Kitas",
-      "dotAriaLabel": "Eiti į skaidrę {index}",
-      "quotes": [
-        "Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų vis dar atrodo kaip naujas.",
-        "Maudomės kas savaitę, o antkaklis išlieka švarus, minkštas ir patogus.",
-        "Užsakiau tris dovanoms. Ir pakuotė, ir kokybė tikrai nuostabios.",
-        "Per mūsų kasdienį sustojimą kavinėje visada sulaukiame komplimentų.",
-        "Pakankamai lengvas bėgimui ir pakankamai saugus pilnam sprintui.",
-        "Auksinės valandos nuotraukose Blossom rinkinys atrodo nerealiai.",
-        "Labai lengva pakeisti pakabukus savaitgalio ir darbo dienų deriniams.",
-        "Spalvos tobulos, o antkaklis patogus visai dienai.",
-        "Parkas, lietus ir zoomies — net po kelių savaičių jokio nusidėvėjimo."
-      ]
-    },
-    "charmsStep": {
-      "title": "Pasirinkite pakabukus",
-      "optional": "neprivaloma",
-      "selectedCount": "Pasirinkta: {count}",
-      "tabAll": "Visi",
-      "tabLetters": "Raidės",
-      "tabIcons": "Ikonos",
-      "searchPlaceholder": "Ieškoti pakabukų…",
-      "noResults": "Pakabukų nerasta"
-    },
-    "colourStep": {
-      "title": "Pasirinkite spalvą —"
-    },
-    "configPanelFeatures": {
-      "waterproof": "Atsparu vandeniui",
-      "easyToUse": "Paprasta naudoti",
-      "ecoFriendly": "Draugiška aplinkai",
-      "freeReturns": "Nemokamas grąžinimas"
-    },
-    "configPanelHeader": {
-      "eyebrow": "Antkaklio rinkinys",
-      "title": "Susikurkite antkaklį"
-    },
-    "stepTabs": {
-      "colour": "Spalva",
-      "charms": "Pakabukai",
-      "size": "Dydis"
-    },
-    "orderOverview": {
-      "title": "Užsakymo suvestinė",
-      "collarLabel": "Antkaklis",
-      "charmsLabel": "Pakabukai",
-      "charmsCount": "{count} pakab.",
-      "sizeLabel": "Dydis",
-      "total": "Iš viso"
-    },
-    "sizeStep": {
-      "title": "Pasirinkite dydį",
-      "sizingGuide": "Dydžių gidas →",
-      "sizes": [
-        {
-          "code": "S",
-          "range": "28–36 cm"
-        },
-        {
-          "code": "M",
-          "range": "36–44 cm"
-        },
-        {
-          "code": "L",
-          "range": "44–52 cm"
-        }
-      ]
-    },
-    "collarStage": {
-      "removeCharmAriaLabel": "Pašalinti pakabuką",
-      "viewImageAriaLabel": "Peržiūrėti {index}",
-      "galleryImageAlt": "{title} antkaklis",
-      "dragToReorder": "Vilkite, kad pertvarkytumėte"
-    }
-  },
   "landing": {
     "hero": {
       "loading3d": "Kraunama 3D peržiūra…",
@@ -356,6 +209,57 @@
       "notFoundTitle": "Prekė nerasta",
       "breadcrumbShop": "Parduotuvė",
       "colorLabel": "Spalva",
+      "story": {
+        "eyebrow": "Mūsų istorija",
+        "title": "Gaminama rankomis, kad tarnautų metų metus",
+        "body": "Kiekvienas PawsCharm antkaklis siuvamas rankomis Lietuvoje iš BioThane medžiagos — atsparios vandeniui, purvui ir nubluko spalvai. Pasirinkite dydį, spalvą ir pakabukus, kurie atspindi jūsų šuns charakterį, ir gaukite daiktą, kuris atlaikys kiekvieną nuotykį."
+      },
+      "aboutHeading": {
+        "eyebrow": "Apie mus",
+        "title": "Šunų antkakliai su vardu.<br></br>Pritaikyti jūsų šuniui"
+      },
+      "aboutCards": {
+        "craftsmanship": {
+          "eyebrow": "Rankų darbas",
+          "heading": "Kiekvienas antkaklis gaminamas rankomis",
+          "description": "Aukščiausios kokybės BioThane šuno antkaklis"
+        },
+        "personalization": {
+          "eyebrow": "Personalizacija",
+          "heading": "Personalizuojamas išskirtiniais pakabukais",
+          "description": "Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi"
+        },
+        "pairing": {
+          "eyebrow": "Derinys",
+          "heading": "Sukurti antkaklį, kuris atspindi jūsų šunį",
+          "description": "Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
+        }
+      },
+      "valueShowcase": {
+        "eyebrow": "Kodėl verta rinktis",
+        "title": "Kiekviena detalė sukurta jūsų šuniui",
+        "values": [
+          "Atsparus vandeniui ir purvui",
+          "Pakabukus keiskite per 5 sek.",
+          "BioThane medžiaga, nedylanti spalva",
+          "Rankų darbo Lietuvoje",
+          "Reguliuojamas dydis šuniui augant",
+          "30 dienų grąžinimo garantija"
+        ]
+      },
+      "comparison": {
+        "eyebrow": "Palyginimas",
+        "title": "Ne visi antkakliai vienodi",
+        "description": "Vandeniui atsparus silikonas, patogi rankena ir spalvos, tinkančios kiekvienam šuniui.",
+        "brandLabel": "Pawcharms",
+        "competitorLabel": "Kiti",
+        "rows": [
+          { "pawcharms": "Keičiami pakabukai per 5 sekundes", "competitor": "Pakabukų nepakeisite" },
+          { "pawcharms": "Personalizuojamas dizainas", "competitor": "Vienodas dizainas visiems" },
+          { "pawcharms": "Nesugeria kvapų ir dėmių", "competitor": "Sugeria kvapus ir dėmes" },
+          { "pawcharms": "Vandeniui atsparus silikonas", "competitor": "Neatsparus vandeniui" }
+        ]
+      },
       "addedToCart": "✓ Pridėta į krepšelį!",
       "buyWithCharms": "{count, plural, one {Pirkti su # pakabuku →} few {Pirkti su # pakabukais →} other {Pirkti su # pakabukais →}}",
       "chooseUpToCharms": "Pasirinkite iki {max} pakabukų",

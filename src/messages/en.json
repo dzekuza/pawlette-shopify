@@ -2,153 +2,6 @@
   "common": {
     "freeShipping": "Free shipping over {threshold}"
   },
-  "configure": {
-    "configurator": {
-      "tabGallery": "Gallery",
-      "tabPreview": "Preview",
-      "eyebrow": "Collar builder",
-      "heading": "Build your collar"
-    },
-    "panel": {
-      "accordion": {
-        "descriptionTitle": "Description",
-        "descriptionDefault": "Waterproof silicone collar with snap-on charms. Lightweight, adjustable, with a secure buckle release. Resists dirt and odour, so a quick rinse is all it needs.",
-        "featuresTitle": "Product features",
-        "featuresDefault": "Waterproof silicone, lightweight adjustable fit, secure buckle release, resistant to dirt and odour.",
-        "includesTitle": "What's included",
-        "includesDefault": "One collar in your chosen colour and size. Five interchangeable snap-on charms. Adjustable secure buckle. Linen storage pouch.",
-        "careTitle": "Care",
-        "careDefault": "Rinse after every swim or muddy walk. Air dry, do not tumble dry. Wipe charms clean with a damp cloth and let them air dry.",
-        "shippingTitle": "Shipping & returns",
-        "shippingDefault": "Free shipping on orders over €40. Delivery in 2–4 business days. Returns accepted within 30 days if the item is unused and in its original condition."
-      },
-      "charmsLabel": "Charms",
-      "charmsSelectedCount": "{count} selected",
-      "addCharmsButton": "Add charms",
-      "charmsAddedButton": "{count} charms added",
-      "addToCartButton": "Add to cart — €{total}",
-      "madeInLithuania": "Made in Lithuania",
-      "charmsModalTitle": "Add charms",
-      "closeAria": "Close",
-      "doneButton": "Done",
-      "doneButtonWithCount": "Done — {count} charms"
-    },
-    "bento": {
-      "material": {
-        "label": "Material",
-        "headingLine1": "Waterproof.",
-        "headingLine2": "No odour. No stains.",
-        "description": "TPU-coated nylon that shrugs off lakes, mud, and rain. Just wipe it down with a damp cloth and it looks new again.",
-        "tags": [
-          "Lakes",
-          "Mud",
-          "Rain",
-          "Snow"
-        ]
-      },
-      "origin": {
-        "label": "Origin",
-        "headingLine1": "Handmade in",
-        "headingLine2": "Vilnius, Lithuania.",
-        "description": "Small batches. Cut and assembled by hand in our workshop. Every collar ships in a linen pouch.",
-        "tagline": "Waterproof."
-      },
-      "charmSystem": {
-        "label": "Charm system",
-        "heading": "Snaps on in 5 seconds.",
-        "description": "Snap-on clip. No pins. No tools. No hassle.",
-        "moreCount": "+8 more"
-      }
-    },
-    "upsell": {
-      "addedToCart": "{collar} added to cart",
-      "charmsReady": "Your 5 included charms are ready to pick.",
-      "eyebrow": "Finish your set",
-      "heading": "Add extra charms for €6 each.",
-      "description": "Swap them out by mood, season, or occasion. Most owners pick 2–3 more.",
-      "noThanks": "No, thanks",
-      "addCharmsButton": "Add {count} charms — +€{amount}",
-      "goToCartButton": "Go to cart →"
-    },
-    "reviews": {
-      "eyebrow": "Customer reviews",
-      "title": "Approved by dogs and their humans.",
-      "prevAriaLabel": "Previous",
-      "nextAriaLabel": "Next",
-      "dotAriaLabel": "Go to slide {index}",
-      "quotes": [
-        "It clips on in seconds and still looks new even after muddy walks.",
-        "We bathe weekly, and the collar stays clean, soft, and comfortable.",
-        "I ordered three as gifts. Both the packaging and the quality are amazing.",
-        "We always get compliments during our daily coffee shop stop.",
-        "Light enough for running and secure enough for a full sprint.",
-        "In golden hour photos, the Blossom set looks unreal.",
-        "It's so easy to swap charms for weekend and weekday looks.",
-        "The colors are perfect, and the collar is comfortable all day.",
-        "Park runs, rain, and zoomies — still no wear after weeks."
-      ]
-    },
-    "charmsStep": {
-      "title": "Choose charms",
-      "optional": "optional",
-      "selectedCount": "{count} selected",
-      "tabAll": "All",
-      "tabLetters": "Letters",
-      "tabIcons": "Icons",
-      "searchPlaceholder": "Search charms…",
-      "noResults": "No charms found"
-    },
-    "colourStep": {
-      "title": "Select colour —"
-    },
-    "configPanelFeatures": {
-      "waterproof": "Waterproof",
-      "easyToUse": "Easy to use",
-      "ecoFriendly": "Eco-friendly",
-      "freeReturns": "Free returns"
-    },
-    "configPanelHeader": {
-      "eyebrow": "Collar set",
-      "title": "Build your collar"
-    },
-    "stepTabs": {
-      "colour": "Colour",
-      "charms": "Charms",
-      "size": "Size"
-    },
-    "orderOverview": {
-      "title": "Order summary",
-      "collarLabel": "Collar",
-      "charmsLabel": "Charms",
-      "charmsCount": "{count} charms",
-      "sizeLabel": "Size",
-      "total": "Total"
-    },
-    "sizeStep": {
-      "title": "Select size",
-      "sizingGuide": "Sizing guide →",
-      "sizes": [
-        {
-          "code": "S",
-          "range": "28–36 cm"
-        },
-        {
-          "code": "M",
-          "range": "36–44 cm"
-        },
-        {
-          "code": "L",
-          "range": "44–52 cm"
-        }
-      ]
-    },
-    "collarStage": {
-      "removeCharmAriaLabel": "Remove charm",
-      "viewImageAriaLabel": "View {index}",
-      "galleryImageAlt": "{title} collar",
-      "dragToReorder": "Drag to reorder"
-    }
-  },
   "landing": {
     "hero": {
       "loading3d": "Loading 3D preview…",
@@ -356,6 +209,57 @@
       "notFoundTitle": "Product not found",
       "breadcrumbShop": "Shop",
       "colorLabel": "Color",
+      "story": {
+        "eyebrow": "Our story",
+        "title": "Handmade to last for years",
+        "body": "Every PawsCharm collar is hand-sewn in Lithuania from BioThane — resistant to water, mud, and fading. Pick a size, color, and charms that match your dog's personality, and get a collar built to handle every adventure."
+      },
+      "aboutHeading": {
+        "eyebrow": "About us",
+        "title": "Personalized dog collars with name.<br></br>Custom-fitted for your dog"
+      },
+      "aboutCards": {
+        "craftsmanship": {
+          "eyebrow": "Handmade",
+          "heading": "Every collar is handmade",
+          "description": "Premium-quality BioThane dog collar"
+        },
+        "personalization": {
+          "eyebrow": "Personalization",
+          "heading": "Personalized with signature charms",
+          "description": "Magnetic silicone PawsCharm charms — personalize it your way"
+        },
+        "pairing": {
+          "eyebrow": "Pairing",
+          "heading": "Build a collar that matches your dog",
+          "description": "Choose a leash that pairs perfectly with your dog's collar"
+        }
+      },
+      "valueShowcase": {
+        "eyebrow": "Why choose us",
+        "title": "Every detail built for your dog",
+        "values": [
+          "Resistant to water and mud",
+          "Swap charms in 5 seconds",
+          "BioThane material, won't fade",
+          "Handmade in Lithuania",
+          "Adjustable size as your dog grows",
+          "30-day money-back guarantee"
+        ]
+      },
+      "comparison": {
+        "eyebrow": "Comparison",
+        "title": "Not all collars are the same",
+        "description": "Waterproof silicone, a comfortable handle, and colors to suit every dog.",
+        "brandLabel": "Pawcharms",
+        "competitorLabel": "Others",
+        "rows": [
+          { "pawcharms": "Swap charms in 5 seconds", "competitor": "Charms can't be swapped" },
+          { "pawcharms": "Personalized design", "competitor": "Same design for everyone" },
+          { "pawcharms": "Doesn't absorb odors or stains", "competitor": "Absorbs odors and stains" },
+          { "pawcharms": "Waterproof silicone", "competitor": "Not waterproof" }
+        ]
+      },
       "addedToCart": "✓ Added to cart!",
       "buyWithCharms": "{count, plural, one {Buy with # charm →} other {Buy with # charms →}}",
       "chooseUpToCharms": "Choose up to {max} charms",

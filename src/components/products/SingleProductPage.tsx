@@ -712,9 +712,32 @@ export function SingleProductPage ({ product, layout = 'standard' }: Props) {
         </section>
       )}
 
-      <About showCta={false} />
+      <About
+        showCta={false}
+        eyebrow={t('aboutHeading.eyebrow')}
+        heading={t.rich('aboutHeading.title', { br: () => <br /> })}
+        craftsmanshipCard={{
+          eyebrow: t('aboutCards.craftsmanship.eyebrow'),
+          heading: t('aboutCards.craftsmanship.heading'),
+          description: t('aboutCards.craftsmanship.description'),
+        }}
+        personalizationCard={{
+          eyebrow: t('aboutCards.personalization.eyebrow'),
+          heading: t('aboutCards.personalization.heading'),
+          description: t('aboutCards.personalization.description'),
+        }}
+        pairingCard={{
+          eyebrow: t('aboutCards.pairing.eyebrow'),
+          heading: t('aboutCards.pairing.heading'),
+          description: t('aboutCards.pairing.description'),
+        }}
+      />
 
-      <ProductStorySection />
+      <ProductStorySection
+        eyebrow={t('story.eyebrow')}
+        title={t('story.title')}
+        body={t('story.body')}
+      />
 
       <ProductValueShowcase name={displayName} />
 

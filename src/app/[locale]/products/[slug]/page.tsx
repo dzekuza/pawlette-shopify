@@ -41,9 +41,15 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   const enProductUrl = `https://pawscharm.com/en/products/${product.slug}`
   const productUrl = localeCode === 'en' ? enProductUrl : ltProductUrl
 
+  // The ~260 letter×color charm permutations share near-identical boilerplate copy (only the
+  // letter/color differs) — a thin/doorway-page pattern. Noindex them but keep them followable
+  // so link equity still flows to the charm collection hub and named icon/shape charms.
+  const isThinCharmVariant = product.productType === 'charm' && product.charmCategory === 'letter'
+
   return {
     title,
     description,
+    ...(isThinCharmVariant ? { robots: { index: false, follow: true } } : {}),
     alternates: {
       canonical: productUrl,
       languages: {

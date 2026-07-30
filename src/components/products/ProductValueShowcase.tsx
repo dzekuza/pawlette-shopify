@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { Eyebrow } from '@/components/storefront/Typography'
 import { DisplayHeading } from '@/components/storefront/Typography'
@@ -10,20 +11,12 @@ interface ShowcaseValue {
   side: 'left' | 'right'
 }
 
-const VALUES: ShowcaseValue[] = [
-  { label: 'Atsparus vandeniui ir purvui', side: 'left' },
-  { label: 'Pakabukus keiskite per 5 sek.', side: 'left' },
-  { label: 'BioThane medžiaga, nedylanti spalva', side: 'left' },
-  { label: 'Rankų darbo Lietuvoje', side: 'right' },
-  { label: 'Reguliuojamas dydis šuniui augant', side: 'right' },
-  { label: '30 dienų grąžinimo garantija', side: 'right' },
-]
-
-function ValueBadge({ value }: { value: ShowcaseValue }) {
+function ValueBadge({ value, isLast }: { value: ShowcaseValue; isLast: boolean }) {
   return (
     <div className="flex items-center justify-center">
       <span className="rounded-2xl border border-border bg-white px-4 py-3 text-center font-sans text-sm font-semibold leading-snug text-bark shadow-[0_6px_20px_rgba(61,53,48,0.08)]">
         {value.label}
+        {isLast ? null : <span className="sr-only"> · </span>}
       </span>
     </div>
   )
@@ -32,19 +25,23 @@ function ValueBadge({ value }: { value: ShowcaseValue }) {
 const SHOWCASE_IMAGE = '/hero-figma/bento-collar-charm.png'
 
 export function ProductValueShowcase({ name }: { name: string }) {
+  const t = useTranslations('products.pdp.valueShowcase')
   const w = useWindowWidth() ?? 1200
   const isMobile = w < 768
 
-  const left = VALUES.filter((v) => v.side === 'left')
-  const right = VALUES.filter((v) => v.side === 'right')
+  const labels = t.raw('values') as string[]
+  const half = Math.ceil(labels.length / 2)
+  const values: ShowcaseValue[] = labels.map((label, i) => ({ label, side: i < half ? 'left' : 'right' }))
+  const left = values.filter((v) => v.side === 'left')
+  const right = values.filter((v) => v.side === 'right')
 
   return (
     <section className="bg-cream">
       <div className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16">
         <div className="mb-10 flex flex-col items-center text-center md:mb-14">
-          <Eyebrow className="mb-3">Kodėl verta rinktis</Eyebrow>
+          <Eyebrow className="mb-3">{t('eyebrow')}</Eyebrow>
           <DisplayHeading size="section" className="max-w-[560px] text-bark">
-            Kiekviena detalė sukurta jūsų šuniui
+            {t('title')}
           </DisplayHeading>
         </div>
 
@@ -54,12 +51,13 @@ export function ProductValueShowcase({ name }: { name: string }) {
               <Image src={SHOWCASE_IMAGE} alt={name} fill sizes="400px" className="object-contain p-6" />
             </div>
             <div className="grid w-full grid-cols-2 gap-3">
-              {VALUES.map((value) => (
+              {values.map((value, i) => (
                 <span
                   key={value.label}
                   className="rounded-2xl border border-border bg-white px-3 py-3 text-center font-sans text-xs font-semibold leading-snug text-bark shadow-[0_6px_20px_rgba(61,53,48,0.08)]"
                 >
                   {value.label}
+                  {i < values.length - 1 ? <span className="sr-only"> · </span> : null}
                 </span>
               ))}
             </div>
@@ -67,8 +65,8 @@ export function ProductValueShowcase({ name }: { name: string }) {
         ) : (
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-10">
             <div className="flex flex-col gap-8">
-              {left.map((value) => (
-                <ValueBadge key={value.label} value={value} />
+              {left.map((value, i) => (
+                <ValueBadge key={value.label} value={value} isLast={i === left.length - 1} />
               ))}
             </div>
 
@@ -77,8 +75,8 @@ export function ProductValueShowcase({ name }: { name: string }) {
             </div>
 
             <div className="flex flex-col gap-8">
-              {right.map((value) => (
-                <ValueBadge key={value.label} value={value} />
+              {right.map((value, i) => (
+                <ValueBadge key={value.label} value={value} isLast={i === right.length - 1} />
               ))}
             </div>
           </div>

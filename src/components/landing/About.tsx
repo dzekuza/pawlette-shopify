@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import type { ReactNode } from 'react';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
 const HOVER_LIFT = '[@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
@@ -76,15 +77,35 @@ function BentoCard({
   );
 }
 
-export function About({ showCta = true }: { showCta?: boolean } = {}) {
+interface BentoCardCopy {
+  eyebrow: string
+  heading: string
+  description: string
+}
+
+export function About({
+  showCta = true,
+  eyebrow = 'Apie mus',
+  heading = <>Šunų antkakliai su vardu.<br />Pritaikyti jūsų šuniui</>,
+  craftsmanshipCard = { eyebrow: 'Rankų darbas', heading: 'Kiekvienas antkaklis gaminamas rankomis', description: 'Aukščiausios kokybės BioThane šuno antkaklis' },
+  personalizationCard = { eyebrow: 'Personalizacija', heading: 'Personalizuojamas išskirtiniais pakabukais', description: 'Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi' },
+  pairingCard = { eyebrow: 'Derinys', heading: 'Sukurti antkaklį, kuris atspindi jūsų šunį', description: 'Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu' },
+}: {
+  showCta?: boolean
+  eyebrow?: string
+  heading?: ReactNode
+  craftsmanshipCard?: BentoCardCopy
+  personalizationCard?: BentoCardCopy
+  pairingCard?: BentoCardCopy
+} = {}) {
   const rowTop = (
     <div className="flex flex-col gap-4 md:flex-row">
       <BentoCard
         background="var(--color-surface-2)"
         glow="radial-gradient(circle, rgba(184,216,244,0.55) 0%, rgba(184,216,244,0) 70%)"
-        eyebrow="Rankų darbas"
-        heading="Kiekvienas antkaklis gaminamas rankomis"
-        description="Aukščiausios kokybės BioThane šuno antkaklis"
+        eyebrow={craftsmanshipCard.eyebrow}
+        heading={craftsmanshipCard.heading}
+        description={craftsmanshipCard.description}
         align="start"
         className="md:basis-[380px] md:flex-none"
       >
@@ -102,9 +123,9 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
       <BentoCard
         background="rgba(168,213,162,0.3)"
         glow="radial-gradient(circle, rgba(249,228,160,0.6) 0%, rgba(249,228,160,0) 70%)"
-        eyebrow="Personalizacija"
-        heading="Personalizuojamas išskirtiniais pakabukais"
-        description="Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi"
+        eyebrow={personalizationCard.eyebrow}
+        heading={personalizationCard.heading}
+        description={personalizationCard.description}
         className="flex-1"
       >
         <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg] aspect-square">
@@ -128,9 +149,9 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
       <BentoCard
         background="var(--color-surface-2)"
         glow="radial-gradient(circle, rgba(184,216,244,0.55) 0%, rgba(184,216,244,0) 70%)"
-        eyebrow="Derinys"
-        heading="Sukurti antkaklį, kuris atspindi jūsų šunį"
-        description="Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu"
+        eyebrow={pairingCard.eyebrow}
+        heading={pairingCard.heading}
+        description={pairingCard.description}
         align="start"
         className="md:basis-[380px] md:flex-none"
       >
@@ -169,9 +190,9 @@ export function About({ showCta = true }: { showCta?: boolean } = {}) {
       <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 md:px-6 md:py-24">
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end md:gap-6">
           <div className="flex flex-col gap-3">
-            <Eyebrow>Apie mus</Eyebrow>
+            <Eyebrow>{eyebrow}</Eyebrow>
             <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
-              Šunų antkakliai su vardu.<br />Pritaikyti jūsų šuniui
+              {heading}
             </DisplayHeading>
           </div>
           {showCta ? (

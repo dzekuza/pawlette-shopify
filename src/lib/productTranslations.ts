@@ -48,7 +48,7 @@ export const PRODUCT_TRANSLATIONS_EN: Record<string, ProductTranslationOverride>
 
   // ---- Collar: parent/collection (nodeHandle) ----
   'pawcharms-antkaklis': {
-    name: 'PawsCharm Collar',
+    name: 'Personalized Waterproof Dog Collar with Interchangeable Charms',
     shortDescription: COLLAR_SHORT_DESCRIPTION_EN,
     longDescription: COLLAR_LONG_DESCRIPTION_EN,
   },

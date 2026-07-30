@@ -161,7 +161,5 @@ export const config = {
     '/en',
     '/products/:path*',
     '/en/products/:path*',
-    '/configure/:path*',
-    '/en/configure/:path*',
   ],
 };

@@ -8,7 +8,7 @@
 // Routes that have been migrated under the `[locale]` segment and therefore
 // have a working `/en/...` counterpart. Every other route (/faq, /cart,
 // /checkout, /account, /pavadeliai, /guide/*, etc.) has no English version.
-export const PHASE_1_LOCALIZED_PREFIXES = ['/', '/products', '/configure'] as const;
+export const PHASE_1_LOCALIZED_PREFIXES = ['/', '/products'] as const;
 
 /** Does `pathname` (bare or `/en`-prefixed) fall under a migrated Phase-1 route? */
 export function isLocalizedPath(pathname: string): boolean {

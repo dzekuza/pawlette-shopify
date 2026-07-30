@@ -14,6 +14,7 @@ export interface ShopifyCollarVariant {
   price: string;
   originalPrice?: string;
   image?: string;
+  availableForSale: boolean;
 }
 
 export interface ShopifyCollar {
@@ -25,6 +26,7 @@ export interface ShopifyCollar {
   variantId: string;
   price: string;
   originalPrice?: string;
+  availableForSale: boolean;
   color: string;
   bgTint: string;
   glowColor: string;
@@ -62,6 +64,7 @@ export interface ShopifyCharm {
   variantId: string;
   price: string;
   originalPrice?: string;
+  availableForSale: boolean;
   bg: string;
   category: string;
   /** 3D mesh shape key for icon charms with a Blender-authored model ("Heart", "Star", ...); undefined if none exists yet. */
@@ -98,6 +101,7 @@ interface ShopifyImageNode {
 interface ShopifyVariantNode {
   id: string;
   title: string;
+  availableForSale?: boolean;
   price?: {
     amount: string;
   };
@@ -200,6 +204,7 @@ const COLLARS_QUERY = `
               node {
                 id
                 title
+                availableForSale
                 image { url }
                 price { amount }
                 compareAtPrice { amount }
@@ -538,6 +543,7 @@ const CHARMS_QUERY = `
               node {
                 id
                 title
+                availableForSale
                 selectedOptions { name value }
                 image { url }
                 price { amount }
@@ -632,6 +638,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               ? formatEuroPrice(variant.compareAtPrice.amount)
               : undefined,
           image: variant.image?.url ?? '',
+          availableForSale: variant.availableForSale ?? true,
         }));
         const productImages = (node.images?.edges ?? []).map(({ node: image }) => image.url);
         const parentImage = node.featuredImage?.url ?? '';
@@ -674,6 +681,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               variantId: firstColorVariant?.id ?? '',
               price: firstColorVariant ? firstColorVariant.price : '€24.99',
               originalPrice: saleColorVariant?.originalPrice,
+              availableForSale: colorVariants.some((v) => v.availableForSale),
               color: colorHex,
               bgTint: hexToRgba(colorHex, 0.15),
               glowColor: hexToRgba(colorHex, 0.5),
@@ -702,6 +710,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€24.99',
           originalPrice: saleVariant?.originalPrice,
+          availableForSale: allVariants.some((v) => v.availableForSale),
           color,
           bgTint: hexToRgba(color, 0.15),
           glowColor: hexToRgba(color, 0.5),
@@ -821,6 +830,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
               variant.compareAtPrice?.amount && variant.price?.amount && parseFloat(variant.compareAtPrice.amount) > parseFloat(variant.price.amount)
                 ? formatEuroPrice(variant.compareAtPrice.amount)
                 : undefined,
+            availableForSale: variant.availableForSale ?? true,
             bg,
             category,
             shape,
@@ -881,6 +891,7 @@ const LEASHES_QUERY = `
               node {
                 id
                 title
+                availableForSale
                 image { url }
                 price { amount }
                 compareAtPrice { amount }
@@ -968,6 +979,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
               ? formatEuroPrice(variant.compareAtPrice.amount)
               : undefined,
           image: variant.image?.url ?? '',
+          availableForSale: variant.availableForSale ?? true,
         }));
         const productImages = (node.images?.edges ?? []).map(({ node: img }) => img.url);
         const sharedMeta = {
@@ -1000,6 +1012,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
               variantId: firstColorVariant?.id ?? '',
               price: firstColorVariant ? firstColorVariant.price : '€32.99',
               originalPrice: saleColorVariant?.originalPrice,
+              availableForSale: colorVariants.some((v) => v.availableForSale),
               color: colorHex,
               bgTint: hexToRgba(colorHex, 0.15),
               glowColor: hexToRgba(colorHex, 0.5),
@@ -1026,6 +1039,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€32.99',
           originalPrice: saleVariant?.originalPrice,
+          availableForSale: allVariants.some((v) => v.availableForSale),
           color: colorHex,
           bgTint: hexToRgba(colorHex, 0.15),
           glowColor: hexToRgba(colorHex, 0.5),
