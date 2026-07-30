@@ -51,9 +51,21 @@ export function FloatingHero({ className }: FloatingHeroProps) {
   // Separate progress state for mobile (plain scroll, not GSAP)
   const [mobileScrollProgress, setMobileScrollProgress] = useState(0);
   const [isDesktop, setIsDesktop] = useState(true);
+  // The 3D scene (three.js + @react-three/fiber, ~1MB) is the single biggest contributor to
+  // homepage Total Blocking Time — mounting it immediately competes with hydrating the rest of
+  // the page. Deferring the mount (not just the dynamic-import fetch) to the next idle slot lets
+  // text/CTA hydrate first; the placeholder keeps layout stable in the meantime.
+  const [showScene, setShowScene] = useState(false);
 
   useEffect(() => {
     setIsDesktop(window.matchMedia("(min-width: 768px)").matches);
+  }, []);
+
+  useEffect(() => {
+    const scheduleIdleWork = window.requestIdleCallback ?? ((cb: IdleRequestCallback) => setTimeout(cb, 0) as unknown as number);
+    const cancelIdleWork = window.cancelIdleCallback ?? clearTimeout;
+    const id = scheduleIdleWork(() => setShowScene(true));
+    return () => cancelIdleWork(id);
   }, []);
 
   useEffect(() => {
@@ -163,22 +175,26 @@ export function FloatingHero({ className }: FloatingHeroProps) {
           point. Desktop only: the scene's camera is tuned for a wide aspect ratio, and on the narrow
           mobile hero it renders zoomed-in and oversized. */}
       <div className="pointer-events-none absolute inset-0 z-0 hidden opacity-40 md:block">
-        <CharmPatternScene count={20} className="h-full w-full" />
+        {showScene ? <CharmPatternScene count={20} className="h-full w-full" /> : null}
       </div>
 
       {/* 3D Collar Stage — Desktop layout: hidden on mobile via CSS, direct absolute child, offset down so it clears the header content above it */}
       <div className="hidden md:block absolute inset-x-0 bottom-0 top-[28%] z-0 pointer-events-none">
         <div className="w-full h-full pointer-events-auto">
-          <Collar3DScene
-            items={items}
-            strapColour="#6B9FD4"
-            hardwareColour={HARDWARE_COLOUR}
-            modelRotation={modelRotation}
-            modelScale={modelScale}
-            modelPosition={modelPosition}
-            interactive={progress < 0.1}
-            fitMargin={1.3}
-          />
+          {showScene ? (
+            <Collar3DScene
+              items={items}
+              strapColour="#6B9FD4"
+              hardwareColour={HARDWARE_COLOUR}
+              modelRotation={modelRotation}
+              modelScale={modelScale}
+              modelPosition={modelPosition}
+              interactive={progress < 0.1}
+              fitMargin={1.3}
+            />
+          ) : (
+            <Collar3DLoading />
+          )}
         </div>
       </div>
 
@@ -222,17 +238,21 @@ export function FloatingHero({ className }: FloatingHeroProps) {
             height (filling the whole remaining 100dvh) was making the collar render tiny. */}
         <div className="block md:hidden relative w-full flex-1 max-h-[460px] min-h-[380px] pointer-events-none">
           <div className="absolute inset-0 pointer-events-auto">
-            <Collar3DScene
-              items={items}
-              strapColour="#6B9FD4"
-              hardwareColour={HARDWARE_COLOUR}
-              modelRotation={modelRotation}
-              modelScale={modelScale}
-              modelPosition={modelPosition}
-              interactive={false}
-              fitMargin={0.95}
-              autoRotate={true}
-            />
+            {showScene ? (
+              <Collar3DScene
+                items={items}
+                strapColour="#6B9FD4"
+                hardwareColour={HARDWARE_COLOUR}
+                modelRotation={modelRotation}
+                modelScale={modelScale}
+                modelPosition={modelPosition}
+                interactive={false}
+                fitMargin={0.95}
+                autoRotate={true}
+              />
+            ) : (
+              <Collar3DLoading />
+            )}
           </div>
         </div>
 
