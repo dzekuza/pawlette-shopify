@@ -92,6 +92,9 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
 // unset, the GA4 tags below simply don't render — no analytics rather than analytics
 // silently sent to the wrong property.
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+// Checkout runs on a separate domain (see ShopifyAnalytics.tsx) — without cross-domain
+// linking, GA4 starts a brand-new, unattributed session there on every order.
+const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN;
 
 // `inLanguage` must reflect the actually-rendered locale (also used for the
 // `<html lang={locale}>` attribute below) — otherwise this schema is emitted
@@ -178,7 +181,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               dangerouslySetInnerHTML={{
                 __html: `
                   gtag('js', new Date());
-                  gtag('config', '${GA_MEASUREMENT_ID}');
+                  gtag('config', '${GA_MEASUREMENT_ID}'${CHECKOUT_DOMAIN ? `, {
+                    linker: { domains: ['${CHECKOUT_DOMAIN}'], accept_incoming: true },
+                  }` : ''});
                 `,
               }}
             />

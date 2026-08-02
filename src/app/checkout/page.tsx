@@ -3,13 +3,13 @@
 import { useEffect } from 'react';
 import { fetchCart } from '@/lib/cart';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { trackGaEvent, getGaLinkerParam, withGaLinker } from '@/components/shared/GoogleAnalytics';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
 export default function CheckoutPage() {
   useEffect(() => {
-    fetchCart().then(cart => {
+    fetchCart().then(async (cart) => {
       if (cart?.checkoutUrl) {
         trackMetaEvent('InitiateCheckout', {
           content_ids: cart.lines.map((l) => l.merchandise.id),
@@ -28,10 +28,15 @@ export default function CheckoutPage() {
             quantity: l.quantity,
           })),
         });
+        // Carries the GA4 client ID across to the checkout domain (see the
+        // `linker` config on gtag('config', ...) in the root layout) so the
+        // checkout session stays attributed instead of starting fresh.
+        const linkerParam = await getGaLinkerParam();
+        const checkoutUrl = withGaLinker(cart.checkoutUrl, linkerParam);
         // Give the pixel beacon + gtag beacon a moment to leave the page before
         // the cross-origin navigation to Shopify checkout cancels them mid-flight.
         setTimeout(() => {
-          window.location.href = cart.checkoutUrl;
+          window.location.href = checkoutUrl;
         }, 300);
       }
     });
