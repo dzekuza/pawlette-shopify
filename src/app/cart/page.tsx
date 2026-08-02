@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
-import { fetchCart, removeCartLine, goToCheckout, type ShopifyCart } from '@/lib/cart';
+import { fetchCart, removeCartLine, trackCheckoutStart, type ShopifyCart } from '@/lib/cart';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
@@ -252,7 +252,8 @@ export default function CartPage() {
                   {/* CTA */}
                   <div className="mt-5">
                     <PrimaryButton
-                      onClick={() => { if (shopifyCart) goToCheckout(shopifyCart); }}
+                      href={shopifyCart?.checkoutUrl ?? '#'}
+                      onClick={() => { if (shopifyCart) trackCheckoutStart(shopifyCart); }}
                       variant="sage"
                       size="lg"
                       fullWidth

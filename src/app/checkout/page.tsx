@@ -1,14 +1,22 @@
 'use client';
 
 import { useEffect } from 'react';
-import { fetchCart, goToCheckout } from '@/lib/cart';
+import { fetchCart, trackCheckoutStart } from '@/lib/cart';
 import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 
 export default function CheckoutPage() {
   useEffect(() => {
     fetchCart().then((cart) => {
-      if (cart?.checkoutUrl) goToCheckout(cart);
+      if (!cart?.checkoutUrl) return;
+      trackCheckoutStart(cart);
+      // This page redirects automatically, with no real user click to carry —
+      // GA4's cross-domain linker only decorates a genuine click on an <a>, so
+      // unlike the CartDrawer/​cart page checkout buttons this redirect can't
+      // preserve GA4 session attribution across to the checkout domain.
+      setTimeout(() => {
+        window.location.href = cart.checkoutUrl;
+      }, 300);
     });
   }, []);
 

@@ -1,7 +1,7 @@
 import { shopifyClient } from './shopify';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
-import { trackGaEvent, getGaLinkerParam, withGaLinker } from '@/components/shared/GoogleAnalytics';
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -226,11 +226,16 @@ export async function fetchCart(): Promise<ShopifyCart | null> {
   return cart;
 }
 
-// The single entry point for leaving the site to Shopify's hosted checkout —
-// used by CartDrawer, /cart, and /checkout so InitiateCheckout/begin_checkout
-// tracking and the GA4 cross-domain linker param are never skipped regardless
-// of which UI the buyer clicks through.
-export function goToCheckout(cart: ShopifyCart): void {
+// Fires checkout-start tracking. Does NOT navigate — GA4's cross-domain linker
+// (see the `linker` config on gtag('config', ...) in the root layout) only
+// decorates real, browser-trusted clicks on an actual <a href> pointing at the
+// checkout domain. A JS-triggered `window.location.href` redirect (even one
+// carrying a manually-built `_gl` param) is invisible to it: neither synthetic
+// `.click()` calls nor the gtag('get', ..., 'linker_param', ...) API work for
+// this. So callers must render the checkout CTA as `<PrimaryButton href={cart.
+// checkoutUrl} onClick={() => trackCheckoutStart(cart)}>` — a real anchor the
+// user actually clicks — and let the browser's native navigation carry it.
+export function trackCheckoutStart(cart: ShopifyCart): void {
   trackMetaEvent('InitiateCheckout', {
     content_ids: cart.lines.map((l) => l.merchandise.id),
     content_type: 'product',
@@ -247,15 +252,6 @@ export function goToCheckout(cart: ShopifyCart): void {
       price: parseFloat(l.merchandise.price.amount),
       quantity: l.quantity,
     })),
-  });
-
-  getGaLinkerParam().then((linkerParam) => {
-    const checkoutUrl = withGaLinker(cart.checkoutUrl, linkerParam);
-    // Give the pixel beacon + gtag beacon a moment to leave the page before
-    // the cross-origin navigation to Shopify checkout cancels them mid-flight.
-    setTimeout(() => {
-      window.location.href = checkoutUrl;
-    }, 300);
   });
 }
 

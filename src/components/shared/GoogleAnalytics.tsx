@@ -32,36 +32,6 @@ export function trackGaEvent (eventName: string, params?: Record<string, unknown
   w.gtag?.('event', eventName, params)
 }
 
-const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
-
-/**
- * Resolves the `_gl` cross-domain linker param so a URL handed off to the
- * Shopify checkout domain (configured via `linker.domains` in the root
- * layout's gtag bootstrap) keeps the same GA4 client ID/session instead of
- * starting a new, unattributed one. Resolves to '' without consent, without
- * a measurement ID, or if gtag hasn't finished initializing in time.
- */
-export function getGaLinkerParam (): Promise<string> {
-  if (!hasConsent() || !GA_MEASUREMENT_ID) return Promise.resolve('')
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const w = window as any
-  if (typeof w.gtag !== 'function') return Promise.resolve('')
-
-  return new Promise((resolve) => {
-    const timeout = setTimeout(() => resolve(''), 300)
-    w.gtag('get', GA_MEASUREMENT_ID, 'linker_param', (param: string) => {
-      clearTimeout(timeout)
-      resolve(param || '')
-    })
-  })
-}
-
-/** Appends the GA4 linker param to a URL's query string, if one is available. */
-export function withGaLinker (url: string, linkerParam: string): string {
-  if (!linkerParam) return url
-  return url + (url.includes('?') ? '&' : '?') + linkerParam
-}
-
 // The base gtag.js tag is bootstrapped unconditionally in the root layout
 // with Consent Mode v2 defaults (all denied) so Google's tag verifier can
 // detect it. This component only flips consent to granted once the user
