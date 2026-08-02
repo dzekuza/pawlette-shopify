@@ -103,7 +103,7 @@ export function LandingPage() {
               gsap.to(section, {
                 autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out',
                 clearProps: 'transform,opacity,visibility',
-                scrollTrigger: { trigger: section, start: 'top 20%', toggleActions: 'play none none none', once: true },
+                scrollTrigger: { trigger: section, start: 'top 80%', toggleActions: 'play none none none', once: true },
               });
             });
 
@@ -114,7 +114,7 @@ export function LandingPage() {
             }
 
             ScrollTrigger.batch(cards, {
-              start: 'top 20%',
+              start: 'top 80%',
               once: true,
               onEnter: (batch) => {
                 gsap.to(batch, {
