@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState, useCallback } from 'react';
 import { X, PawPrint, Lock } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { fetchCart, removeCartLine, SHOPIFY_CART_UPDATED_EVENT, type ShopifyCart } from '@/lib/cart';
+import { fetchCart, removeCartLine, goToCheckout, SHOPIFY_CART_UPDATED_EVENT, type ShopifyCart } from '@/lib/cart';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CartUpsell } from '@/components/shared/CartUpsell';
 import { EmptyState } from '@/components/storefront/EmptyState';
@@ -213,7 +213,7 @@ export function CartDrawer() {
                   </div>
 
                   <PrimaryButton
-                    onClick={() => { if (cart?.checkoutUrl) window.location.href = cart.checkoutUrl; }}
+                    onClick={() => { if (cart) goToCheckout(cart); }}
                     variant="sage"
                     size="lg"
                     fullWidth

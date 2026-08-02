@@ -1,7 +1,7 @@
 import { shopifyClient } from './shopify';
 import { trackMetaEvent } from '@/components/shared/MetaPixel';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { trackGaEvent, getGaLinkerParam, withGaLinker } from '@/components/shared/GoogleAnalytics';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -224,6 +224,39 @@ export async function fetchCart(): Promise<ShopifyCart | null> {
   }
   const cart = parseCart(data.cart);
   return cart;
+}
+
+// The single entry point for leaving the site to Shopify's hosted checkout —
+// used by CartDrawer, /cart, and /checkout so InitiateCheckout/begin_checkout
+// tracking and the GA4 cross-domain linker param are never skipped regardless
+// of which UI the buyer clicks through.
+export function goToCheckout(cart: ShopifyCart): void {
+  trackMetaEvent('InitiateCheckout', {
+    content_ids: cart.lines.map((l) => l.merchandise.id),
+    content_type: 'product',
+    value: parseFloat(cart.cost.totalAmount.amount),
+    currency: cart.cost.totalAmount.currencyCode,
+    num_items: cart.totalQuantity,
+  });
+  trackGaEvent('begin_checkout', {
+    currency: cart.cost.totalAmount.currencyCode,
+    value: parseFloat(cart.cost.totalAmount.amount),
+    items: cart.lines.map((l) => ({
+      item_id: l.merchandise.id,
+      item_name: l.merchandise.product.title,
+      price: parseFloat(l.merchandise.price.amount),
+      quantity: l.quantity,
+    })),
+  });
+
+  getGaLinkerParam().then((linkerParam) => {
+    const checkoutUrl = withGaLinker(cart.checkoutUrl, linkerParam);
+    // Give the pixel beacon + gtag beacon a moment to leave the page before
+    // the cross-origin navigation to Shopify checkout cancels them mid-flight.
+    setTimeout(() => {
+      window.location.href = checkoutUrl;
+    }, 300);
+  });
 }
 
 export async function removeCartLine(cartId: string, lineId: string): Promise<ShopifyCart> {
