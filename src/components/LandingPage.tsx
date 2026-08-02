@@ -76,6 +76,8 @@ export function LandingPage() {
       card.style.transform = 'none';
     });
 
+    let resizeObserver: ResizeObserver | null = null;
+
     Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(
       ([{ gsap }, { ScrollTrigger }]) => {
         if (!pageRef.current) return;
@@ -113,6 +115,18 @@ export function LandingPage() {
               window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
             }
 
+            // Content below the fold keeps reflowing after that first refresh — the
+            // real product grid replaces its placeholder, images decode, the 3D hero
+            // mounts at idle — each shift leaves every ScrollTrigger below it stale,
+            // so later sections drift further "late" the further down the page they are.
+            // Re-measure whenever the page's rendered height actually changes.
+            let refreshRaf = 0;
+            resizeObserver = new ResizeObserver(() => {
+              cancelAnimationFrame(refreshRaf);
+              refreshRaf = requestAnimationFrame(() => ScrollTrigger.refresh());
+            });
+            resizeObserver.observe(page);
+
             ScrollTrigger.batch(cards, {
               start: 'top 80%',
               once: true,
@@ -129,6 +143,7 @@ export function LandingPage() {
     );
 
     return () => {
+      resizeObserver?.disconnect();
       mm?.revert();
       animatedSections.forEach((section) => {
         section.style.opacity = '1';
