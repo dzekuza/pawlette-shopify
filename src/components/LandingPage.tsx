@@ -96,16 +96,15 @@ export function LandingPage() {
             const sections = q('[data-animate="section"]');
             const cards = q('[data-animate="card"]');
 
+            gsap.set(sections, { autoAlpha: 0, y: 20 });
+            gsap.set(cards, { autoAlpha: 0, y: 16 });
+
             sections.forEach((section) => {
-              gsap.fromTo(section,
-                { autoAlpha: 0, y: 20 },
-                {
-                  autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out',
-                  clearProps: 'transform,opacity,visibility',
-                  immediateRender: false,
-                  scrollTrigger: { trigger: section, start: 'top 84%', toggleActions: 'play none none none', once: true },
-                }
-              );
+              gsap.to(section, {
+                autoAlpha: 1, y: 0, duration: 0.5, ease: 'power3.out',
+                clearProps: 'transform,opacity,visibility',
+                scrollTrigger: { trigger: section, start: 'top 20%', toggleActions: 'play none none none', once: true },
+              });
             });
 
             if (document.readyState === 'complete') {
@@ -115,17 +114,13 @@ export function LandingPage() {
             }
 
             ScrollTrigger.batch(cards, {
-              start: 'top 84%',
+              start: 'top 20%',
               once: true,
               onEnter: (batch) => {
-                gsap.fromTo(batch,
-                  { autoAlpha: 0, y: 16 },
-                  {
-                    autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out',
-                    stagger: 0.05, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
-                    immediateRender: false,
-                  }
-                );
+                gsap.to(batch, {
+                  autoAlpha: 1, y: 0, duration: 0.4, ease: 'power3.out',
+                  stagger: 0.05, overwrite: 'auto', clearProps: 'transform,opacity,visibility',
+                });
               },
             });
           }
