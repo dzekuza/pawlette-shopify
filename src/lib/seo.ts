@@ -221,7 +221,11 @@ export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale
     '@type': 'Product',
     name: keywordName,
     description,
-    image: product.images.length > 0 ? product.images : [product.image].filter(Boolean),
+    image: product.images.length > 0
+      ? product.images
+      : [product.image].filter(Boolean).length > 0
+        ? [product.image]
+        : ['https://pawscharm.com/og-image.jpg'],
     sku: product.slug,
     category: getProductKeyword(product, locale),
     brand: {

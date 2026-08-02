@@ -72,6 +72,7 @@ export default async function ProductsLayout({ children }: { children: React.Rea
         '@type': 'Product',
         name: `PawsCharm ${c.name}`,
         description: c.color,
+        image: 'https://pawscharm.com/og-image.jpg',
         brand: { '@type': 'Brand', name: 'PawsCharm' },
         url: productsUrl,
         offers: {
