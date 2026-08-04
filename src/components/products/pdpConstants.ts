@@ -9,11 +9,12 @@ import type { useTranslations } from 'next-intl'
 // Scoped to the `products.pdp` message namespace — pass `useTranslations('products.pdp')` from the caller.
 type PdpTranslator = ReturnType<typeof useTranslations>
 
-// Kept in sync with the "5 nemokami pakabukai su antkakliu" Shopify discount, which only
-// zeroes out up to 5 charms per collar at checkout — raising this above 5 would let a
-// shopper fill a 6th slot that gets charged full price, contradicting the "Įeina 5
-// pakabukai" (5 charms included) marketing copy shown across the site.
-export const MAX_CHARMS = 5
+// Total charm slots shown in the personalise UI. The "5 nemokami pakabukai su antkakliu"
+// Shopify discount only zeroes out up to FREE_CHARMS charms per collar at checkout — the
+// 6th slot (index FREE_CHARMS) is priced at full charm price, shown with a €3.99 badge
+// wherever slots are rendered.
+export const MAX_CHARMS = 6
+export const FREE_CHARMS = 5
 
 export const BORDER_COLOR = 'var(--color-border)'
 export const TEXT_PRIMARY = 'var(--color-bark)'

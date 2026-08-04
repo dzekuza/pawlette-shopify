@@ -41,6 +41,7 @@ import { PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-ki
 import { arrayMove } from '@dnd-kit/sortable'
 import {
   MAX_CHARMS,
+  FREE_CHARMS,
   BORDER_COLOR,
   TEXT_PRIMARY,
   TEXT_MUTED,
@@ -57,6 +58,7 @@ import {
 // with the collar configurator (useCollarConfigurator.ts / CollarConfigurator.tsx).
 export {
   MAX_CHARMS,
+  FREE_CHARMS,
   BORDER_COLOR,
   TEXT_PRIMARY,
   TEXT_MUTED,

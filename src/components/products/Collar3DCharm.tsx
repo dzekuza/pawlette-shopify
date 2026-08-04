@@ -1,6 +1,6 @@
 'use client'
 
-import { useFrame } from '@react-three/fiber'
+import { useFrame, useThree } from '@react-three/fiber'
 import type { ThreeEvent } from '@react-three/fiber'
 import { useEffect, useMemo, useRef } from 'react'
 import { BufferGeometry, Color, Group, Mesh, MeshStandardMaterial } from 'three'
@@ -99,6 +99,7 @@ export function Collar3DCharm({
   const group = useRef<Group>(null!)
   const mesh = useRef<Mesh>(null!)
   const material = useRef<MeshStandardMaterial>(null!)
+  const invalidate = useThree((state) => state.invalidate)
 
   const mount = useRef(spring(0))
   const slide = useRef(spring(angle))
@@ -249,6 +250,14 @@ export function Collar3DCharm({
       exited.current = true
       onExited()
     }
+
+    // Canvas runs frameloop="demand" — a prop change (new/removed/re-kerned/selected
+    // charm) only wakes it for a single frame. Keep requesting frames of our own while
+    // any spring here is still in flight, or the charm freezes mid-animation until the
+    // user drags the model (OrbitControls invalidates continuously during a drag).
+    const colourSettled = !mounted || mat.color.equals(target)
+    const selectSettled = Math.abs(select.current.value - (selected ? 1 : 0)) < SEATED && Math.abs(select.current.velocity) < STILL
+    if (!done || !colourSettled || !selectSettled) invalidate()
   })
 
   // The JSX describes the charm already seated, and the animation overrides it

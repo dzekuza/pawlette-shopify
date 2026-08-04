@@ -9,9 +9,9 @@ import { CSS } from '@dnd-kit/utilities'
 import { Badge } from '@/components/ui/badge'
 import type { ShopifyCharm } from '@/lib/shopify'
 import { extractLetter } from '@/lib/collar3dSelection'
-import { MAX_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/SingleProductPage'
+import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/SingleProductPage'
 
-const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)']
+const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)']
 
 // Per-letter colour swatches offered when tapping an individual charm slot on the Personalise tile —
 // keys match products.configurator.colorFilters in the message dictionaries.
@@ -54,7 +54,7 @@ function SortableLetterSlot({
         opacity: isDragging ? 0.5 : 1, touchAction: 'none',
       }}
     >
-      {index === MAX_CHARMS - 1 && (
+      {index === FREE_CHARMS && (
         <span
           aria-hidden="true"
           style={{
@@ -236,7 +236,7 @@ export function CharmDecoratorPanel({
         <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>{title}</span>
         <Badge variant="sage">
           {selectedCharmCount
-            ? t('charmsIncludedBadge', { count: selectedCharmCount })
+            ? t('charmsIncludedBadge', { count: Math.min(selectedCharmCount, FREE_CHARMS) })
             : tConfigurator('personaliseModal.free')}
         </Badge>
       </div>
@@ -337,7 +337,7 @@ export function CharmDecoratorPanel({
                 const Tag = hasCharm ? 'button' : 'div'
                 return (
                   <div key={i} style={{ position: 'relative', flex: '1 0 0', aspectRatio: '1 / 1' }}>
-                    {i === MAX_CHARMS - 1 && (
+                    {i === FREE_CHARMS && (
                       <span
                         aria-hidden="true"
                         style={{
