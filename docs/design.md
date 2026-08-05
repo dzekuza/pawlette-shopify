@@ -71,7 +71,7 @@ import { Eyebrow, DisplayHeading, BodyCopy } from '@/components/storefront/Typog
 
 // Body paragraph
 <BodyCopy className="max-w-[48ch]">
-  Silikoniniai antkakliai su keičiamais pakabukai.
+  BioThane antkakliai su keičiamais pakabukai.
 </BodyCopy>
 ```
 
@@ -84,6 +84,8 @@ import { Eyebrow, DisplayHeading, BodyCopy } from '@/components/storefront/Typog
 | `section` | 30px → 40px | Section headings |
 | `compact` | 22px → 26px | Card headings, sub-sections |
 | `floatingHero` | clamp(3.9rem, 8vw, 6.8rem) | Oversized floating hero |
+
+**SEO note:** `DisplayHeading` defaults to `as="h2"` when no `as` prop is given. Every new top-level page needs exactly one `<DisplayHeading as="h1" ...>` (or `as="h1"` on the page's main heading component) — a page can look visually correct while silently rendering zero `<h1>` elements if this is forgotten, since the heading level doesn't show up in a screenshot.
 
 ---
 
@@ -294,7 +296,7 @@ Expandable FAQ item. Use for FAQ sections — not raw `<details>` or custom togg
 ```tsx
 import { Accordion } from '@/components/shared/Accordion'
 <Accordion title="Ar antkakliai vandeniui atsparūs?">
-  Taip — maistinio silikono medžiaga.
+  Taip — BioThane medžiaga.
 </Accordion>
 ```
 

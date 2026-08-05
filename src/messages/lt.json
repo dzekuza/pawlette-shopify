@@ -132,6 +132,7 @@
           "title": "Parduotuvė",
           "links": {
             "collarSets": "Antkaklių rinkiniai",
+            "leashes": "Pavadėliai",
             "charms": "Pakabukai",
             "buildYourOwn": "Susikurk savo"
           }
@@ -140,7 +141,7 @@
           "title": "Pagalba",
           "links": {
             "sizeGuide": "Dydžių gidas",
-            "siliconeVsNylon": "Silikonas ar nailonas",
+            "siliconeVsNylon": "BioThane ar nailonas",
             "shipping": "Pristatymas",
             "returns": "Grąžinimas"
           }

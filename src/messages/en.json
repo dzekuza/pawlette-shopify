@@ -132,6 +132,7 @@
           "title": "Shop",
           "links": {
             "collarSets": "Collar sets",
+            "leashes": "Leashes",
             "charms": "Charms",
             "buildYourOwn": "Build your own"
           }
@@ -140,7 +141,7 @@
           "title": "Support",
           "links": {
             "sizeGuide": "Size guide",
-            "siliconeVsNylon": "Silicone vs. nylon",
+            "siliconeVsNylon": "BioThane vs. nylon",
             "shipping": "Shipping",
             "returns": "Returns"
           }

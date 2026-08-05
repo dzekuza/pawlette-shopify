@@ -69,8 +69,7 @@ const breadcrumbSchema = {
   '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'Pradžia', item: 'https://pawscharm.com' },
-    { '@type': 'ListItem', position: 2, name: 'Gidai', item: 'https://pawscharm.com/guide' },
-    { '@type': 'ListItem', position: 3, name: 'Kaip išmatuoti šunį antkakliui', item: 'https://pawscharm.com/guide/how-to-measure-dog-collar' },
+    { '@type': 'ListItem', position: 2, name: 'Kaip išmatuoti šunį antkakliui', item: 'https://pawscharm.com/guide/how-to-measure-dog-collar' },
   ],
 };
 

@@ -48,6 +48,5 @@ Magnetic silicone charms that snap onto the collar without tools.
 
 ## Where to order
 
-- Product configurator (build your own): https://pawscharm.com/configure
 - Browse all products: https://pawscharm.com/products
 - Contact: hello@pawscharm.com

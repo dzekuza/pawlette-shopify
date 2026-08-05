@@ -62,7 +62,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
       ? [
           product.name,
           product.productType === 'collar' ? 'personalized dog collar' : product.productType === 'leash' ? 'waterproof dog leash' : 'interchangeable dog collar charms',
-          product.productType === 'collar' ? 'silicone dog collar' : product.productType === 'leash' ? 'silicone dog leash' : 'charms for dog collars',
+          product.productType === 'collar' ? 'BioThane dog collar' : product.productType === 'leash' ? 'BioThane dog leash' : 'charms for dog collars',
           product.productType === 'collar' ? 'engraved dog collar' : product.productType === 'leash' ? 'dog leash' : 'letter charms for dogs',
           'PawsCharm',
           'Vilnius',
@@ -70,7 +70,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
       : [
           product.name,
           product.productType === 'collar' ? 'personalizuotas šuns antkaklis' : product.productType === 'leash' ? 'vandeniui atsparus pavadėlis šuniui' : 'keičiami pakabukai šunims',
-          product.productType === 'collar' ? 'silikoninis antkaklis šuniui' : product.productType === 'leash' ? 'silikoninis pavadėlis šuniui' : 'pakabukai šunų antkakliams',
+          product.productType === 'collar' ? 'BioThane antkaklis šuniui' : product.productType === 'leash' ? 'BioThane pavadėlis šuniui' : 'pakabukai šunų antkakliams',
           product.productType === 'collar' ? 'graviruotas šuns antkaklis' : product.productType === 'leash' ? 'pavadėlis šuniui' : 'raidiniai pakabukai šunims',
           'PawsCharm',
           'Vilnius',

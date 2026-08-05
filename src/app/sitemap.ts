@@ -1,6 +1,19 @@
 import { MetadataRoute } from 'next'
 import { getAllProductSlugs } from '@/lib/catalog'
 
+// Real per-route "last meaningfully changed" dates for static pages — bump the entry
+// when that page's visible content or metadata actually changes. Using `new Date()`
+// here would mark every static page as changing on every build, giving Google no
+// real freshness signal to prioritize re-crawls with.
+const STATIC_LAST_MODIFIED: Record<string, string> = {
+  home: '2026-08-05',
+  products: '2026-08-05',
+  faq: '2026-08-05',
+  pavadeliai: '2026-08-05',
+  guideMeasure: '2026-08-05',
+  guideMaterial: '2026-08-05',
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
   const products = await getAllProductSlugs()
@@ -27,49 +40,49 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: 'https://pawscharm.com',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.home,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: 'https://pawscharm.com/en',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.home,
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: 'https://pawscharm.com/products',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.products,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: 'https://pawscharm.com/en/products',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.products,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: 'https://pawscharm.com/faq',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.faq,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
       url: 'https://pawscharm.com/pavadeliai',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.pavadeliai,
       changeFrequency: 'weekly',
       priority: 0.75,
     },
     {
       url: 'https://pawscharm.com/guide/how-to-measure-dog-collar',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.guideMeasure,
       changeFrequency: 'monthly',
       priority: 0.65,
     },
     {
       url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
-      lastModified,
+      lastModified: STATIC_LAST_MODIFIED.guideMaterial,
       changeFrequency: 'monthly',
       priority: 0.65,
     },

@@ -15,7 +15,7 @@ const PRODUCT_FAQS: AccordionItem[] = [
     id: 'waterproof',
     title: 'Ar PawsCharm antkakliai yra atsparūs vandeniui?',
     content:
-      'Taip. Visi PawsCharm antkakliai pagaminti iš maistinio silikono, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
+      'Taip. Visi PawsCharm antkakliai pagaminti iš BioThane juostos, todėl puikiai tinka maudynėms, lietui ir purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ar dėmių.',
   },
   {
     id: 'charms',
@@ -33,7 +33,7 @@ const PRODUCT_FAQS: AccordionItem[] = [
     id: 'engrave',
     title: 'Ar galiu išgraviruoti savo šuns vardą ant antkaklio?',
     content:
-      'Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti vardą, trumpą žinutę arba telefono numerį saugumui. Graviravimas lazeriu atliekamas tiesiai silikone.',
+      'Taip — personalizuotas graviravimas galimas atsiskaitymo metu. Galite pridėti vardą, trumpą žinutę arba telefono numerį saugumui. Graviravimas lazeriu atliekamas tiesiai ant BioThane juostos.',
   },
   {
     id: 'origin',
@@ -43,9 +43,9 @@ const PRODUCT_FAQS: AccordionItem[] = [
   },
   {
     id: 'durability',
-    title: 'Kiek patvari silikoninė medžiaga?',
+    title: 'Kiek patvari BioThane medžiaga?',
     content:
-      'PawsCharm antkakliai sukurti ilgam. Maistinis silikonas atsparus UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Jis netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
+      'PawsCharm antkakliai sukurti ilgam. BioThane atspari UV spinduliams, sūriam vandeniui, chlorui ir kasdieniam nešiojimui. Ji netrūkinėja ir nenusibraukia taip greitai kaip įprastos medžiagos.',
   },
   {
     id: 'charm-compatibility',

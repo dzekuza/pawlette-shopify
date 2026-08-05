@@ -43,16 +43,16 @@ function localeUrl(path: string, locale: ProductLocale) {
 function getProductKeyword(product: ProductDetail, locale: ProductLocale) {
   if (locale === 'en') {
     if (product.productType === 'collar') {
-      if (isParentProductPage(product)) return 'personalized silicone dog collar with charms'
+      if (isParentProductPage(product)) return 'personalized BioThane dog collar with charms'
       // product.name carries the Task-19 English overlay (e.g. "Blue Collar") —
       // strip the trailing noun to recover just the color word.
       const colorWord = product.name.replace(/\s*collar\s*$/i, '').trim().toLowerCase()
-      return `${colorWord ? `${colorWord} ` : ''}silicone dog collar with charms`
+      return `${colorWord ? `${colorWord} ` : ''}BioThane dog collar with charms`
     }
     if (product.productType === 'leash') {
       return isParentProductPage(product)
-        ? 'waterproof silicone dog leash'
-        : 'silicone dog leash'
+        ? 'waterproof BioThane dog leash'
+        : 'BioThane dog leash'
     }
     if (product.slug === 'charm-charms') return 'interchangeable charms for dog collars'
     return 'dog collar charm'
@@ -60,13 +60,13 @@ function getProductKeyword(product: ProductDetail, locale: ProductLocale) {
 
   if (product.productType === 'collar') {
     return isParentProductPage(product)
-      ? 'personalizuotas silikoninis šuns antkaklis su pakabukais'
-      : `${product.colorLabel?.toLowerCase() ?? ''} silikoninis šuns antkaklis su pakabukais`.trim()
+      ? 'personalizuotas BioThane šuns antkaklis su pakabukais'
+      : `${product.colorLabel?.toLowerCase() ?? ''} BioThane šuns antkaklis su pakabukais`.trim()
   }
   if (product.productType === 'leash') {
     return isParentProductPage(product)
-      ? 'vandeniui atsparus silikoninis pavadėlis šuniui'
-      : `${product.colorLabel?.toLowerCase() ?? ''} silikoninis pavadėlis šuniui`.trim()
+      ? 'vandeniui atsparus BioThane pavadėlis šuniui'
+      : `${product.colorLabel?.toLowerCase() ?? ''} BioThane pavadėlis šuniui`.trim()
   }
   if (product.slug === 'charm-charms') return 'keičiami pakabukai šunų antkakliams'
   return 'pakabukas šuns antkakliui'
@@ -79,27 +79,27 @@ export function buildProductSeoTitle(product: ProductDetail, locale: ProductLoca
     // title around it instead of re-deriving a color word from Lithuanian
     // fields like colorLabel, which the overlay does not translate.
     if (product.productType === 'collar') {
-      if (isParentProductPage(product)) return 'Personalized Silicone Dog Collar with Charms'
-      return `${product.name} — Waterproof Silicone Dog Collar with Charms`
+      if (isParentProductPage(product)) return 'Personalized BioThane Dog Collar with Charms'
+      return `${product.name} — Waterproof BioThane Dog Collar with Charms`
     }
     if (product.productType === 'leash') {
-      if (isParentProductPage(product)) return 'Waterproof Silicone Dog Leash'
-      return `${product.name} — Waterproof Silicone Dog Leash`
+      if (isParentProductPage(product)) return 'Waterproof BioThane Dog Leash'
+      return `${product.name} — Waterproof BioThane Dog Leash`
     }
     if (product.slug === 'charm-charms') return 'Interchangeable Charms for Dog Collars'
     return `${product.name} — Dog Collar Charm`
   }
 
   if (product.productType === 'collar') {
-    if (isParentProductPage(product)) return 'Personalizuotas silikoninis šuns antkaklis su pakabukais'
+    if (isParentProductPage(product)) return 'Personalizuotas BioThane šuns antkaklis su pakabukais'
     // product.name is already the masculine-agreeing form (e.g. "Mėlynas antkaklis") —
     // strip the noun back off so it can be reinserted into this title template.
     const colorAdjective = product.name.replace(/\s*antkaklis\s*$/i, '').trim() || toTitleCase(product.colorLabel)
-    return `${colorAdjective} silikoninis šuns antkaklis su pakabukais`
+    return `${colorAdjective} BioThane šuns antkaklis su pakabukais`
   }
   if (product.productType === 'leash') {
-    if (isParentProductPage(product)) return 'Vandeniui atsparus silikoninis pavadėlis šuniui'
-    return `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui`
+    if (isParentProductPage(product)) return 'Vandeniui atsparus BioThane pavadėlis šuniui'
+    return `${toTitleCase(product.colorLabel) || product.name} BioThane pavadėlis šuniui`
   }
   if (product.slug === 'charm-charms') return 'Keičiami pakabukai šunų antkakliams'
   return `${product.name} pakabukas šuns antkakliui`
@@ -112,21 +112,21 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     if (product.productType === 'collar') {
       if (isParentProductPage(product)) {
         return clampDescription(
-          `Personalized silicone dog collar with interchangeable charms, engraving, and a waterproof build. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+          `Personalized BioThane dog collar with interchangeable charms, engraving, and a waterproof build. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
         )
       }
       return clampDescription(
-        `${product.name} — waterproof silicone dog collar with interchangeable charms and engraving. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+        `${product.name} — waterproof BioThane dog collar with interchangeable charms and engraving. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
       )
     }
     if (product.productType === 'leash') {
       if (isParentProductPage(product)) {
         return clampDescription(
-          'Waterproof silicone dog leash that matches every PawsCharm collar. Easy to clean, durable, and built for everyday walks.'
+          'Waterproof BioThane dog leash that matches every PawsCharm collar. Easy to clean, durable, and built for everyday walks.'
         )
       }
       return clampDescription(
-        `${product.name} — waterproof silicone dog leash that matches every PawsCharm collar. Easy to clean and built for everyday walks.`
+        `${product.name} — waterproof BioThane dog leash that matches every PawsCharm collar. Easy to clean and built for everyday walks.`
       )
     }
     if (product.slug === 'charm-charms') {
@@ -142,24 +142,24 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
   if (product.productType === 'collar') {
     if (isParentProductPage(product)) {
       return clampDescription(
-        `Personalizuotas silikoninis šuns antkaklis su keičiamais pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+        `Personalizuotas BioThane šuns antkaklis su keičiamais pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
       )
     }
 
     return clampDescription(
-      `${toTitleCase(product.colorLabel) || product.name} silikoninis šuns antkaklis su pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+      `${toTitleCase(product.colorLabel) || product.name} BioThane šuns antkaklis su pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
     )
   }
 
   if (product.productType === 'leash') {
     if (isParentProductPage(product)) {
       return clampDescription(
-        `Vandeniui atsparus silikoninis pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas, patvarus ir sukurtas kasdieniams pasivaikščiojimams.`
+        `Vandeniui atsparus BioThane pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas, patvarus ir sukurtas kasdieniams pasivaikščiojimams.`
       )
     }
 
     return clampDescription(
-      `${toTitleCase(product.colorLabel) || product.name} silikoninis pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
+      `${toTitleCase(product.colorLabel) || product.name} BioThane pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
     )
   }
 
@@ -234,8 +234,8 @@ export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale
     },
     url: productUrl,
     material: locale === 'en'
-      ? (product.productType === 'charm' ? 'Silicone' : 'Food-grade silicone')
-      : (product.productType === 'charm' ? 'Silikonas' : 'Maistinis silikonas'),
+      ? (product.productType === 'charm' ? 'Silicone' : 'BioThane webbing')
+      : (product.productType === 'charm' ? 'Silikonas' : 'BioThane juosta'),
     countryOfOrigin: {
       '@type': 'Country',
       name: locale === 'en' ? 'Lithuania' : 'Lietuva',

@@ -36,8 +36,8 @@ export async function generateMetadata({
       },
     },
     keywords: locale === 'en'
-      ? ['dog collar with name', 'personalized dog collar', 'custom dog collar with name tag', 'dog collars', 'dog collar with charms', 'silicone dog collar', 'PawsCharm']
-      : ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'silikoninis antkaklis šuniui', 'PawsCharm'],
+      ? ['dog collar with name', 'personalized dog collar', 'custom dog collar with name tag', 'dog collars', 'dog collar with charms', 'BioThane dog collar', 'PawsCharm']
+      : ['šuns antkaklis', 'šunų antkakliai su vardu', 'personalizuotas šuns antkaklis su vardu', 'šunų antkakliai', 'šuns antkaklis su pakabukais', 'BioThane antkaklis šuniui', 'PawsCharm'],
     openGraph: {
       title: `${title} | PawsCharm`,
       description: ogDescription,

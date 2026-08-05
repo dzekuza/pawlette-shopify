@@ -11,14 +11,14 @@ export async function generateMetadata({
 
   const title = locale === 'en' ? 'Dog Collars, Charms & Sets' : 'Šunų antkakliai, pakabukai ir rinkiniai';
   const description = locale === 'en'
-    ? 'Browse every PawsCharm silicone dog collar, interchangeable charm, and set. Handmade in Vilnius, shipping across the EU.'
-    : 'Peržiūrėkite visus PawsCharm silikoninius šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.';
+    ? 'Browse every PawsCharm BioThane dog collar, interchangeable charm, and set. Handmade in Vilnius, shipping across the EU.'
+    : 'Peržiūrėkite visus PawsCharm BioThane šunų antkaklius, keičiamus pakabukus ir rinkinius. Rankų darbas Vilniuje, pristatymas visoje Lietuvoje.';
   const ogDescription = locale === 'en'
-    ? 'Waterproof silicone dog collars with interchangeable charms. Handmade in Vilnius, Lithuania.'
-    : 'Vandeniui atsparūs silikoniniai šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.';
+    ? 'Waterproof BioThane dog collars with interchangeable charms. Handmade in Vilnius, Lithuania.'
+    : 'Vandeniui atsparūs BioThane šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.';
   const twitterDescription = locale === 'en'
-    ? 'Waterproof silicone dog collars and interchangeable charms for dogs.'
-    : 'Vandeniui atsparūs silikoniniai šunų antkakliai ir keičiami pakabukai šunims.';
+    ? 'Waterproof BioThane dog collars and interchangeable charms for dogs.'
+    : 'Vandeniui atsparūs BioThane šunų antkakliai ir keičiami pakabukai šunims.';
 
   return {
     title,
@@ -32,8 +32,8 @@ export async function generateMetadata({
       },
     },
     keywords: locale === 'en'
-      ? ['dog collar', 'dog collars', 'charms for dogs', 'silicone dog collar', 'PawsCharm']
-      : ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'silikoninis antkaklis šuniui', 'PawsCharm'],
+      ? ['dog collar', 'dog collars', 'charms for dogs', 'BioThane dog collar', 'PawsCharm']
+      : ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'BioThane antkaklis šuniui', 'PawsCharm'],
     openGraph: {
       title: `${title} | PawsCharm`,
       description: ogDescription,

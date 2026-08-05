@@ -22,6 +22,7 @@ const COMMON_STRINGS = { lt: ltMessages.common, en: enMessages.common };
 const FOOTER_COLS = [
   { key: 'store', links: [
     { key: 'collarSets', href: '/products' },
+    { key: 'leashes', href: '/pavadeliai' },
     { key: 'charms', href: '/products/charm-charms' },
     { key: 'buildYourOwn', href: '/products' },
   ]},
@@ -51,7 +52,7 @@ export function LandingFooter() {
         <div className="mb-10 grid gap-10 md:mb-14 md:grid-cols-2 md:gap-12 xl:grid-cols-[2fr_1fr_1fr_1fr]">
           <div>
             <Link href={homeHref} aria-label={t.logoAriaLabel} style={{ display: 'inline-flex', marginBottom: 16 }}>
-              <img src="/pawcharms.svg" alt="PawsCharm" style={{ height: 32, width: 'auto', display: 'block' }} />
+              <Image src="/pawcharms.svg" alt="PawsCharm" width={64} height={32} style={{ height: 32, width: 'auto', display: 'block' }} />
             </Link>
             <p style={{ fontSize: 14, color: 'var(--color-bark-muted)', lineHeight: 1.7, maxWidth: 260 }}>{t.tagline}</p>
             <div style={{ marginTop: 20, fontSize: 13, color: 'var(--color-muted-foreground)', fontStyle: 'italic' }}>{t.swapNote}</div>

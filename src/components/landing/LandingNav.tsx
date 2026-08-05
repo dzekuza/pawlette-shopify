@@ -68,7 +68,7 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
         <div className="mx-auto w-full max-w-[1200px] px-4 py-3 md:px-6">
           <div className="flex items-center justify-between gap-2 overflow-clip rounded-full border border-bark/[0.06] bg-cream py-3 pl-4 pr-3 shadow-[0_1px_2px_rgba(61,53,48,0.04)]">
             <Link href={homeHref} aria-label={t.homeAriaLabel} className="shrink-0 leading-none">
-              <img src="/pawcharms.svg" alt="PawsCharm" className="block h-[42px] w-auto" />
+              <Image src="/pawcharms.svg" alt="PawsCharm" width={84} height={42} priority className="block h-[42px] w-auto" />
             </Link>
 
             {/* Desktop nav links */}
