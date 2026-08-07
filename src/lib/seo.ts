@@ -264,6 +264,7 @@ export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale
       url: productUrl,
       price: product.price.replace(/[^\d.]/g, ''),
       priceCurrency: 'EUR',
+      validFrom: getPriceValidFrom(),
       priceValidUntil: getPriceValidUntil(),
       availability: product.availableForSale ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
       itemCondition: 'https://schema.org/NewCondition',
@@ -306,6 +307,15 @@ export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale
 function getPriceValidUntil (): string {
   const d = new Date()
   d.setMonth(d.getMonth() + 2, 0)
+  return d.toISOString().split('T')[0]
+}
+
+// Google's Merchant Listings validator recommends a `validFrom` alongside
+// `priceValidUntil` to bound the price's validity window on both ends —
+// the start of the current month, since we have no per-price-change date to use.
+function getPriceValidFrom (): string {
+  const d = new Date()
+  d.setDate(1)
   return d.toISOString().split('T')[0]
 }
 
