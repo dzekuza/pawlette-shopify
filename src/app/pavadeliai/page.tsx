@@ -7,7 +7,7 @@ export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'BioThane pavadėlis šuniui – vandeniui atsparus',
-  description: 'BioThane pavadėlis šuniui (šuns pavadėlis), vandeniui atsparus ir derantis su PawsCharm antkakliais. Lengvai valomas, patvarus ir pagamintas kasdieniams pasivaikščiojimams.',
+  description: 'BioThane pavadėlis šuniui, vandeniui atsparus ir derantis su PawsCharm antkakliais. Lengvai valomas, patvarus, tinka kasdieniams pasivaikščiojimams.',
   alternates: { canonical: 'https://pawscharm.com/pavadeliai' },
   keywords: ['pavadėlis šuniui', 'šuns pavadėlis', 'BioThane pavadėlis', 'vandeniui atsparus pavadėlis', 'PawsCharm'],
   openGraph: {

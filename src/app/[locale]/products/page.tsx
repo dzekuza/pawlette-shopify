@@ -13,6 +13,18 @@ export default async function ProductsPage () {
   const collars = translatedCollars.map((collar) => ({ ...collar, price: COLLAR_PRICE }))
   const productsUrl = locale === 'en' ? 'https://pawscharm.com/en/products' : 'https://pawscharm.com/products'
 
+  const tContent = await getTranslations('products.pageContent')
+  const faqItems = tContent.raw('faq.items') as Array<{ question: string, answer: string }>
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqItems.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }
+
   const productListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -70,6 +82,10 @@ export default async function ProductsPage () {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productListSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <ProductsPageContent products={products} />
     </>

@@ -198,9 +198,47 @@
   },
   "products": {
     "pageContent": {
-      "eyebrow": "Parduotuvė",
-      "title": "Antkakliai, pakabukai ir deriniai jiems.",
-      "description": "Rinkitės vandeniui atsparius antkaklius, naršykite keičiamus pakabukus ir raskite paruoštą derinį vienoje vietoje."
+      "eyebrow": "Antkakliai su vardu",
+      "title": "Personalizuoti antkakliai šunims su vardu — rankų darbo Vilniuje",
+      "description": "Personalizuotas antkaklis šuniui, kurį atpažinsite iš toli — su šuns vardu ir keičiamais pakabukais. Kiekvienas antkaklis gaminamas rankų darbo būdu Vilniuje iš vandeniui atsparios BioThane juostos, todėl tarnauja ilgai net aktyviausiems šunims.",
+      "gridId": "produktai",
+      "sections": {
+        "personalization": {
+          "eyebrow": "Kaip tai veikia",
+          "heading": "Kaip veikia personalizuoto antkaklio kūrimas",
+          "body": "Pasirinkite antkaklio spalvą, pridėkite šuns vardą ir sudėliokite iki 6 silikoninių pakabukų. Kiekvienas pakabukas prisegamas prie antkaklio per 5 sekundes — jokių įrankių, jokio vargo. Norite pakeisti derinį prieš pasivaikščiojimą ar šventę? Tiesiog perstumdote pakabukus, ir antkaklis šuniui su vardu atrodo kaip naujas."
+        },
+        "material": {
+          "eyebrow": "Medžiaga",
+          "heading": "BioThane: medžiaga, kuri atlaiko viską",
+          "body": "Kiekvienas antkaklis siuvamas iš BioThane juostos — vandeniui atsparios, kvapų nesugeriančios ir lengvai nuvalomos drėgna šluoste. Dydis reguliuojamas, kad tiktų tiksliai: nuo mažo šuniuko iki didelio veislyno atstovo. Medžiaga atspari UV spinduliams, sūriam vandeniui ir kasdieniam nešiojimui, todėl rankų darbo antkaklis nepraranda formos ir spalvos metų metus."
+        }
+      },
+      "faq": {
+        "heading": "Dažnai užduodami klausimai",
+        "items": [
+          {
+            "id": "swap-charms",
+            "question": "Ar galima pakeisti pakabukus vėliau?",
+            "answer": "Taip. Pakabukus galite keisti bet kada — jie prisegami prie antkaklio per 5 sekundes ir nereikalauja jokių įrankių. Papildomus pakabukus galite įsigyti atskirai ir laisvai derinti su bet kuriuo PawsCharm antkakliu."
+          },
+          {
+            "id": "sizing",
+            "question": "Kokio dydžio antkaklis tinka mano šuniui?",
+            "answer": "Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S dydis tinka 28–36 cm, M — 36–44 cm, o L — 44–52 cm apimties kaklui. Jei šuo tarp dydžių, rinkitės didesnį."
+          },
+          {
+            "id": "production-time",
+            "question": "Kiek laiko trunka gamyba?",
+            "answer": "Kiekvienas personalizuotas antkaklis su vardu gaminamas rankomis Vilniuje ir paruošiamas siuntimui per 1–2 darbo dienas. Pristatymas Lietuvoje trunka dar 1–3 darbo dienas."
+          }
+        ]
+      },
+      "cta": {
+        "kicker": "Sukurta jūsų šuniui",
+        "heading": "Antkaklis šuniui su vardu, sukurtas jūsų augintiniui.",
+        "button": "Personalizuok antkaklį dabar"
+      }
     },
     "card": {
       "charmsIncluded": "{count} pakabukai įskaičiuoti",

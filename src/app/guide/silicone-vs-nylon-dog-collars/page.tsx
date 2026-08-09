@@ -6,7 +6,7 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { DisplayHeading } from '@/components/storefront/Typography';
 
 export const metadata: Metadata = {
-  title: 'BioThane ar nailoniniai šunų antkakliai: kas geriau?',
+  title: 'BioThane ar nailonas: koks antkaklis geriau?',
   description: 'BioThane ir nailoninių šunų antkaklių palyginimas pagal atsparumą vandeniui, patvarumą, patogumą, priežiūrą ir personalizavimą.',
   alternates: { canonical: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars' },
   openGraph: {

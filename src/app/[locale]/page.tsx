@@ -12,11 +12,11 @@ export async function generateMetadata({
   const canonical = locale === 'en' ? 'https://pawscharm.com/en' : 'https://pawscharm.com';
 
   const title = locale === 'en'
-    ? 'Personalized Dog Collars with Name and Interchangeable Charms'
-    : 'Šunų antkakliai su vardu ir keičiamais pakabukais';
+    ? 'Personalized Dog Collars with Name & Charms'
+    : 'Antkakliai šunims su vardu ir pakabukais';
   const description = locale === 'en'
     ? `Personalized dog collars with your dog's name — waterproof, with charms you can swap in 5 seconds. Choose a color, engrave the name. Free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
-    : `Personalizuoti šunų antkakliai su vardu — vandeniui atsparūs, su keičiamais per 5 sek. pakabukais. Rinkitės spalvą, graviruokite vardą. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`;
+    : `Personalizuoti antkakliai šunims su vardu — vandeniui atsparūs, pakabukai keičiami per 5 sek. Rankų darbo Vilniuje. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`;
   const ogDescription = locale === 'en'
     ? 'Personalized, waterproof dog collars with a name tag and charms you can swap in 5 seconds. Mix colors, add charms, engrave the name.'
     : 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.';
