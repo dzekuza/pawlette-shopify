@@ -6,7 +6,7 @@
     "hero": {
       "loading3d": "Kraunama 3D peržiūra…",
       "eyebrow": "Šunų antkakliai su vardu",
-      "heading": "Antkakliai, kurie pritampa prie kiekvieno nuotykio",
+      "heading": "Personalizuotas antkaklis šuniui, kurį pritaikai per 5 sekundes",
       "buyNow": "Pirkti dabar"
     },
     "featuresStrip": {
@@ -78,7 +78,7 @@
       "shopCta": "Apsipirkti",
       "personalize": {
         "question": "Kaip personalizuoti antkaklį?",
-        "answer": "Paspauskite ant pirmo laisvo langelio prie „1. Įrašykite raides\" ir tiesiog pradėkite rašyti klaviatūra — pasirinkta raidė iškart atsiras pasirinktame langelyje, o kitas langelis automatiškai taps aktyvus, kad galėtumėte rašyti toliau. Taip galite iš anksto peržiūrėti, kaip atrodys jūsų šuns vardas ar norimas užrašas ant antkaklio."
+        "answer": "Kiekvienas personalizuotas antkaklis šuniui pradedamas nuo spalvos — tada pridedi iki 6 raidžių pakabukų su šuns vardu. Paspauskite ant pirmo laisvo langelio prie „1. Įrašykite raides\" ir tiesiog pradėkite rašyti klaviatūra — pasirinkta raidė iškart atsiras pasirinktame langelyje, o kitas langelis automatiškai taps aktyvus, kad galėtumėte rašyti toliau. Taip galite iš anksto peržiūrėti, kaip atrodys jūsų šuns vardas ar norimas užrašas ant antkaklio."
       },
       "editLetter": {
         "question": "Kaip pakeisti raidę?",

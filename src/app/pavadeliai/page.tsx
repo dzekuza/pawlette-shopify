@@ -24,7 +24,54 @@ export const metadata: Metadata = {
   },
 }
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Koks pavadėlio ilgis tinka mano šuniui?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'PawsCharm pavadėlis tinka visų dydžių šunims — nuo mažiausio iki didžiausio. Rankena ir kilpa sukurtos taip, kad pavadėlis būtų patogus laikyti tiek trumpiems, tiek ilgiems pasivaikščiojimams.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Ar pavadėlis atsparus vandeniui?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Taip. Pavadėlis pagamintas iš BioThane juostos, todėl atlaiko lietų, balas ir purviną žolę — pakanka nuvalyti drėgna šluoste, ir jis vėl atrodo kaip naujas.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Ar galima derinti pavadėlį su antkakliu pagal spalvą?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Taip. Pavadėliai gaminami tomis pačiomis spalvomis kaip PawsCharm antkakliai, todėl galite lengvai suderinti visą rinkinį — antkaklį, pavadėlį ir pakabukus.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Kaip prižiūrėti BioThane pavadėlį?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Priežiūra minimali — nuvalykite drėgna šluoste arba nuskalaukite po čiaupu ir leiskite išdžiūti. BioThane nereikia jokios specialios priežiūros ar impregnavimo, priešingai nei odiniams ar nailoniniams pavadėliams.',
+      },
+    },
+  ],
+}
+
 export default async function PavadeliaiPage () {
   const leashes = await getLeashes()
-  return <PavadeliaiPageContent leashes={leashes.map((leash) => buildLeashProduct(leash))} />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <PavadeliaiPageContent leashes={leashes.map((leash) => buildLeashProduct(leash))} />
+    </>
+  )
 }
