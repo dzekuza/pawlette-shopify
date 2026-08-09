@@ -59,6 +59,7 @@ export function PavadeliaiPageContent ({ leashes }: Props) {
       <main style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 16px' : '64px 48px' }}>
         <PageHero
           tone='hero'
+          stacked
           eyebrow='Pavadėlis šuniui'
           title='BioThane pavadėlis šuniui — rankų darbo Vilniuje'
           description='Pavadėlis šuniui, sukurtas kasdieniams pasivaikščiojimams — vandeniui atsparus, lengvai valomas ir spalvomis suderintas su PawsCharm antkakliais. Kiekvienas pavadėlis siuvamas rankomis Vilniuje iš tos pačios BioThane juostos kaip ir mūsų antkakliai, todėl atlaiko lietų, purvą ir kasdienį naudojimą. Kaip ir visi PawsCharm gaminiai, jis turi 30 dienų grąžinimo garantiją.'

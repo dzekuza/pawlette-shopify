@@ -8,6 +8,8 @@ interface PageHeroProps {
   description?: string
   descriptionClassName?: string
   eyebrow: string
+  /** tone='hero' only: stack the description under the title on desktop instead of the default side-by-side grid. */
+  stacked?: boolean
   title: string
   titleClassName?: string
   tone?: 'plain' | 'hero'
@@ -20,6 +22,7 @@ export function PageHero ({
   description,
   descriptionClassName,
   eyebrow,
+  stacked = false,
   title,
   titleClassName,
   tone = 'plain',
@@ -66,7 +69,14 @@ export function PageHero ({
           className
         )}
       >
-        <div className='relative z-10 mx-auto grid w-full max-w-[1160px] gap-8 gap-3 md:gap-8 md:grid-cols-[minmax(0,70%)_minmax(280px,30%)] md:items-end'>
+        <div
+          className={cn(
+            'relative z-10 mx-auto w-full max-w-[1160px]',
+            stacked
+              ? 'flex flex-col gap-6'
+              : 'grid gap-8 gap-3 md:gap-8 md:grid-cols-[minmax(0,70%)_minmax(280px,30%)] md:items-end'
+          )}
+        >
           <div className='max-w-[820px] text-left'>
             <Eyebrow className='mb-4'>{eyebrow}</Eyebrow>
             <DisplayHeading
@@ -81,7 +91,8 @@ export function PageHero ({
           {description ? (
             <BodyCopy
               className={cn(
-                'mb-0 max-w-[30rem] text-left text-[16px] leading-[1.7] text-bark/72 md:justify-self-end md:text-[18px]',
+                'mb-0 max-w-[30rem] text-left text-[16px] leading-[1.7] text-bark/72',
+                stacked ? 'md:text-[18px]' : 'md:justify-self-end md:text-[18px]',
                 descriptionClassName
               )}
             >
