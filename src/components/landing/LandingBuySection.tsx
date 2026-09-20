@@ -33,13 +33,15 @@ export function LandingBuySection() {
 
           {/* Right Column: the same shared collar configurator used on the product detail page */}
           <div className="lg:col-span-5 font-sans bg-white p-6 md:p-10 rounded-[32px] shadow-[0_24px_48px_-32px_rgba(61,53,48,0.12)]">
-            <CollarConfigurator
+            <CollarConfigurator.Root
               configurator={collarConfigurator}
               name={collar.parentTitle ?? t('defaultCollarName')}
               price={displayPrice}
-              showTrustAndReviews={false}
-              stepper
-            />
+            >
+              <CollarConfigurator.Header />
+              <CollarConfigurator.GuidedSteps />
+              <CollarConfigurator.AddToCart />
+            </CollarConfigurator.Root>
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ export function CharmCollectionCard ({ href, title, price, originalPrice, image,
 }
 
 export function CharmCollectionProductCard ({ product }: { product: ProductDetail }) {
-  // CharmCollectionCard is only ever rendered inside SingleProductPage (PDP,
+  // CharmCollectionCard is only ever rendered inside the product page (SingleProductPageStandard/Split, PDP,
   // migrated-only), so a NextIntlClientProvider ancestor is always present —
   // safe to use useLocale() directly here.
   const locale = useLocale()

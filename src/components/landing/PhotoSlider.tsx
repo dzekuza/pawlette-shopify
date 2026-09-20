@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
@@ -189,27 +189,41 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
   );
 }
 
-function SocialProductSlide({ video, product, width, height, autoPlay, onEnded, showInfo = true }: { video: string; product: PromoProduct; width: number; height: number; autoPlay: boolean; onEnded?: () => void; showInfo?: boolean }) {
-  const t = useTranslations('landing.photoSlider');
+interface SocialSlideProps {
+  video: string;
+  width: number;
+  height: number;
+  autoPlay: boolean;
+  onEnded?: () => void;
+  /** Content shown under the video, e.g. `<SocialProductInfo />`. Omit for a video-only slide. */
+  children?: ReactNode;
+}
 
+function SocialSlide({ video, width, height, autoPlay, onEnded, children }: SocialSlideProps) {
   return (
     <CarouselItem className="basis-auto shrink-0 grow-0" style={{ flex: '0 0 auto', width }}>
       <div className="flex flex-col gap-3" style={{ width }}>
         <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} onEnded={onEnded} />
-        {showInfo && (
-          <div className="flex items-center gap-2">
-            <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
-              <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
-            </Link>
-            <div className="min-w-0 flex-1">
-              <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
-              <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
-            </div>
-            <AddToCartButton variantId={product.variantId} label={t('addToCartAriaLabel', { name: product.name })} />
-          </div>
-        )}
+        {children}
       </div>
     </CarouselItem>
+  );
+}
+
+function SocialProductInfo({ product }: { product: PromoProduct }) {
+  const t = useTranslations('landing.photoSlider');
+
+  return (
+    <div className="flex items-center gap-2">
+      <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
+        <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
+      </Link>
+      <div className="min-w-0 flex-1">
+        <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
+        <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
+      </div>
+      <AddToCartButton variantId={product.variantId} label={t('addToCartAriaLabel', { name: product.name })} />
+    </div>
   );
 }
 
@@ -288,16 +302,16 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
         <Carousel opts={{ align: 'start', loop: false, dragFree: true }} setApi={setCarouselApi} className="mx-auto max-w-[1200px] px-4 md:px-6">
           <CarouselContent className="justify-start md:justify-center" style={{ gap: 16 }}>
             {slides.map((slide, i) => (
-              <SocialProductSlide
+              <SocialSlide
                 key={`social-${i}`}
                 video={slide.video}
-                product={slide.product}
                 width={videoW}
                 height={videoH}
                 autoPlay={i === activeIndex}
                 onEnded={handleVideoEnded}
-                showInfo={!product}
-              />
+              >
+                {!product && <SocialProductInfo product={slide.product} />}
+              </SocialSlide>
             ))}
           </CarouselContent>
         </Carousel>

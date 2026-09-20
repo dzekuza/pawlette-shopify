@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import type React from 'react'
 import Image from 'next/image'
 import { Link } from '@/i18n/navigation'
 import { useRouter } from 'next/navigation'
@@ -9,18 +9,11 @@ import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { Accordion, type AccordionItem } from '@/components/shared/Accordion'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
-import { trackMetaEvent } from '@/components/shared/MetaPixel'
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
+import { LeashProvider, useLeash, LEASH_SIZES } from '@/components/products/LeashContext'
 import type { ProductDetail } from '@/lib/catalog'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 
 const NAV_H = 72
-
-const SIZES: { label: string; neck: string }[] = [
-  { label: 'S', neck: '28–36 cm' },
-  { label: 'M', neck: '36–44 cm' },
-  { label: 'L', neck: '44–54 cm' },
-]
 
 const LEASH_COLOR_HEX: Record<string, string> = {
   pink:        '#F4B5C0',
@@ -70,85 +63,17 @@ function handleSwipeEnd (
 }
 
 export function LeashProductPage ({ product, recommendedProducts }: Props) {
+  return (
+    <LeashProvider product={product}>
+      <LeashPageContent product={product} recommendedProducts={recommendedProducts} />
+    </LeashProvider>
+  )
+}
+
+function LeashPageContent ({ product, recommendedProducts }: Props) {
   const router = useRouter()
-  const w = useWindowWidth() ?? 1200
-  const isMobile = w < 768
-
-  const colors = product.leashColors ?? []
-  const [selectedColor, setSelectedColor] = useState(colors[0] ?? '')
-
-  useEffect(() => {
-    trackMetaEvent('ViewContent', {
-      content_ids: [product.id],
-      content_type: 'product',
-      content_name: product.name,
-      value: parseFloat(product.price),
-      currency: 'EUR',
-    })
-    trackGaEvent('view_item', {
-      currency: 'EUR',
-      value: parseFloat(product.price),
-      items: [{ item_id: product.id, item_name: product.name, price: parseFloat(product.price) }],
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [product.id])
-  const [selectedSize, setSelectedSize] = useState(SIZES[1].label)
-  const [cartCount, setCartCount] = useState(0)
-  const [added, setAdded] = useState(false)
-  const [activeSlide, setActiveSlide] = useState(0)
-  const swipeStartRef = useRef<number | null>(null)
-
-  // Show images for the selected color variant; fall back to product-level images
-  const colorVariants = product.leashVariants?.filter(v =>
-    !selectedColor || v.color.toLowerCase() === selectedColor.toLowerCase()
-  ) ?? []
-  const colorImages: string[] = [...new Set(colorVariants.map(v => v.image).filter((s): s is string => !!s))]
-  const gallery: string[] = colorImages.length > 0 ? colorImages : (product.images.length ? product.images : [product.image])
-
-  function handleColorChange (color: string) {
-    setSelectedColor(color)
-    setActiveSlide(0)
-  }
-
-  function getVariantId () {
-    if (!product.leashVariants) return product.variantId
-    const v = product.leashVariants.find(
-      lv => lv.color.toLowerCase() === selectedColor.toLowerCase() && lv.size === selectedSize
-    )
-    return v?.id ?? product.variantId
-  }
-
-  function getVariantPrice () {
-    if (!product.leashVariants) return product.price
-    const v = product.leashVariants.find(
-      lv => lv.color.toLowerCase() === selectedColor.toLowerCase() && lv.size === selectedSize
-    )
-    return v?.price ?? product.price
-  }
-
-  function addToCart () {
-    const variantId = getVariantId()
-    const price = getVariantPrice()
-    const cart = JSON.parse(localStorage.getItem('pawlette_cart') ?? '[]')
-    const item = {
-      id: variantId,
-      productId: product.id,
-      slug: product.slug,
-      name: product.name,
-      color: selectedColor || undefined,
-      size: selectedSize,
-      price,
-      image: gallery[0] ?? product.image,
-      quantity: 1,
-    }
-    const idx = cart.findIndex((c: typeof item) => c.id === item.id && c.size === item.size)
-    if (idx > -1) cart[idx].quantity += 1
-    else cart.push(item)
-    localStorage.setItem('pawlette_cart', JSON.stringify(cart))
-    setCartCount(cart.reduce((s: number, c: { quantity: number }) => s + c.quantity, 0))
-    setAdded(true)
-    setTimeout(() => setAdded(false), 2000)
-  }
+  const isMobile = (useWindowWidth() ?? 1200) < 768
+  const { state: { cartCount } } = useLeash()
 
   const accordionItems: AccordionItem[] = [
     product.features && { id: 'features', title: 'Savybės', content: product.features },
@@ -164,32 +89,9 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
       {/* ── HERO ── */}
       <div style={{ paddingTop: NAV_H }}>
         {isMobile ? (
-          <MobileLayout
-            product={product}
-            gallery={gallery}
-            activeSlide={activeSlide}
-            setActiveSlide={setActiveSlide}
-            selectedSize={selectedSize}
-            setSelectedSize={setSelectedSize}
-            selectedColor={selectedColor}
-            onColorChange={handleColorChange}
-            colors={colors}
-            added={added}
-            onAddToCart={addToCart}
-            swipeStartRef={swipeStartRef}          />
+          <MobileLayout />
         ) : (
-          <DesktopLayout
-            product={product}
-            gallery={gallery}
-            activeSlide={activeSlide}
-            setActiveSlide={setActiveSlide}
-            selectedSize={selectedSize}
-            setSelectedSize={setSelectedSize}
-            selectedColor={selectedColor}
-            onColorChange={handleColorChange}
-            colors={colors}
-            added={added}
-            onAddToCart={addToCart}          />
+          <DesktopLayout />
         )}
       </div>
 
@@ -274,21 +176,8 @@ export function LeashProductPage ({ product, recommendedProducts }: Props) {
 
 /* ─────────────────── Desktop Layout ─────────────────── */
 
-interface LayoutProps {
-  product: ProductDetail
-  gallery: string[]
-  activeSlide: number
-  setActiveSlide: (n: number) => void
-  selectedSize: string
-  setSelectedSize: (s: string) => void
-  selectedColor: string
-  onColorChange: (color: string) => void
-  colors: string[]
-  added: boolean
-  onAddToCart: () => void
-  swipeStartRef?: React.MutableRefObject<number | null>}
-
-function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart }: LayoutProps) {
+function DesktopLayout () {
+  const { state: { gallery, activeSlide }, actions: { setActiveSlide }, meta: { product } } = useLeash()
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 480px', maxWidth: 1200, margin: '0 auto', padding: '48px 40px', gap: 64, alignItems: 'start' }}>
       {/* Gallery column */}
@@ -320,15 +209,7 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
 
       {/* Info column — sticky */}
       <div style={{ position: 'sticky', top: NAV_H + 24 }}>
-        <InfoPanel
-          product={product}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-          selectedColor={selectedColor}
-          onColorChange={onColorChange}
-          colors={colors}
-          added={added}
-          onAddToCart={onAddToCart}        />
+        <InfoPanel />
       </div>
     </div>
   )
@@ -336,18 +217,19 @@ function DesktopLayout ({ product, gallery, activeSlide, setActiveSlide, selecte
 
 /* ─────────────────── Mobile Layout ─────────────────── */
 
-function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart, swipeStartRef }: LayoutProps) {
+function MobileLayout () {
+  const { state: { gallery, activeSlide }, actions: { setActiveSlide }, meta: { product, swipeStartRef } } = useLeash()
   return (
     <div>
       <div
         style={{ position: 'relative', width: '100%', aspectRatio: '1/1', overflow: 'hidden', touchAction: 'pan-y' }}
-        onPointerDown={e => swipeStartRef && handleSwipeStart(e.clientX, swipeStartRef)}
-        onPointerUp={e => swipeStartRef && handleSwipeEnd(e.clientX, swipeStartRef, gallery.length, activeSlide, setActiveSlide)}
+        onPointerDown={e => handleSwipeStart(e.clientX, swipeStartRef)}
+        onPointerUp={e => handleSwipeEnd(e.clientX, swipeStartRef, gallery.length, activeSlide, setActiveSlide)}
         onPointerCancel={() => {
-          if (swipeStartRef) swipeStartRef.current = null
+          swipeStartRef.current = null
         }}
         onPointerLeave={() => {
-          if (swipeStartRef) swipeStartRef.current = null
+          swipeStartRef.current = null
         }}
       >
         <div style={{ display: 'flex', height: '100%', transition: 'transform 300ms ease', transform: `translateX(-${activeSlide * 100}%)` }}>
@@ -369,15 +251,7 @@ function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selected
       </div>
 
       <div style={{ padding: '24px 20px 100px' }}>
-        <InfoPanel
-          product={product}
-          selectedSize={selectedSize}
-          setSelectedSize={setSelectedSize}
-          selectedColor={selectedColor}
-          onColorChange={onColorChange}
-          colors={colors}
-          added={added}
-          onAddToCart={onAddToCart}        />
+        <InfoPanel />
       </div>
     </div>
   )
@@ -385,17 +259,12 @@ function MobileLayout ({ product, gallery, activeSlide, setActiveSlide, selected
 
 /* ─────────────────── Info Panel ─────────────────── */
 
-interface InfoPanelProps {
-  product: ProductDetail
-  selectedSize: string
-  setSelectedSize: (s: string) => void
-  selectedColor: string
-  onColorChange: (color: string) => void
-  colors: string[]
-  added: boolean
-  onAddToCart: () => void}
-
-function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onColorChange, colors, added, onAddToCart }: InfoPanelProps) {
+function InfoPanel () {
+  const {
+    state: { selectedColor, selectedSize, added },
+    actions: { selectColor, selectSize, addToCart },
+    meta: { product, colors },
+  } = useLeash()
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Breadcrumb */}
@@ -449,7 +318,7 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
             {colors.map(color => (
               <button
                 key={color}
-                onClick={() => onColorChange(color)}
+                onClick={() => selectColor(color)}
                 title={color}
                 aria-label={color}
                 style={{
@@ -479,15 +348,15 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
           <span style={{ fontWeight: 700, fontSize: 13, color: 'var(--color-bark)', letterSpacing: '0.02em', textTransform: 'uppercase' }}>
             Dydis
           </span>
-          <a href="/guide/how-to-measure-dog-collar" style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)', textDecoration: 'underline' }}>
+          <Link href="/guide/how-to-measure-dog-collar" style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)', textDecoration: 'underline' }}>
             Kaip išmatuoti?
-          </a>
+          </Link>
         </div>
         <div style={{ display: 'flex', gap: 8 }}>
-          {SIZES.map(({ label, neck }) => (
+          {LEASH_SIZES.map(({ label, neck }) => (
             <button
               key={label}
-              onClick={() => setSelectedSize(label)}
+              onClick={() => selectSize(label)}
               title={neck}
               style={{
                 width: 52,
@@ -507,13 +376,13 @@ function InfoPanel ({ product, selectedSize, setSelectedSize, selectedColor, onC
           ))}
         </div>
         <div style={{ fontSize: 12, color: 'rgba(61,53,48,0.5)', marginTop: 8 }}>
-          {SIZES.find(s => s.label === selectedSize)?.neck}
+          {LEASH_SIZES.find(s => s.label === selectedSize)?.neck}
         </div>
       </div>
 
       {/* Add to cart */}
       <button
-        onClick={onAddToCart}
+        onClick={addToCart}
         style={{
           width: '100%',
           height: 56,

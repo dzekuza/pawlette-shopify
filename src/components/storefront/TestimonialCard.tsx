@@ -1,6 +1,6 @@
 'use client'
 
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import Image from 'next/image'
 import { Star } from 'lucide-react'
 import { SurfaceCard, SurfaceCardBody } from '@/components/storefront/SurfaceCard'
@@ -9,21 +9,25 @@ import { cn } from '@/lib/utils'
 interface ReviewStarsProps {
   rating: number
   className?: string
-  showValue?: boolean
-  textClassName?: string
+  /** Optional trailing content, e.g. `<ReviewStarsValue rating={4.9} />`. */
+  children?: ReactNode
 }
 
-export function ReviewStars ({ rating, className, showValue = true, textClassName }: ReviewStarsProps) {
+export function ReviewStarsValue ({ rating, className }: { rating: number; className?: string }) {
+  return (
+    <span className={cn('ml-1 font-sans text-xs font-semibold text-white/90', className)}>
+      {rating.toFixed(1)}
+    </span>
+  )
+}
+
+export function ReviewStars ({ className, children }: ReviewStarsProps) {
   return (
     <div className={cn('flex items-center gap-[3px]', className)}>
       {Array.from({ length: 5 }).map((_, index) => (
         <Star key={index} aria-hidden className='size-4 fill-honey text-honey' strokeWidth={1.5} />
       ))}
-      {showValue ? (
-        <span className={cn('ml-1 font-sans text-xs font-semibold text-white/90', textClassName)}>
-          {rating.toFixed(1)}
-        </span>
-      ) : null}
+      {children}
     </div>
   )
 }
@@ -54,7 +58,9 @@ export function TestimonialMediaCard ({
       <Image src={preview} alt={author} fill sizes={sizes} className='block h-full w-full object-cover' />
       <div className='absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.65)_0%,rgba(0,0,0,0.1)_50%,transparent_100%)]' />
       <div className='absolute inset-x-0 bottom-0 p-[20px_18px]'>
-        <ReviewStars rating={rating} />
+        <ReviewStars rating={rating}>
+          <ReviewStarsValue rating={rating} />
+        </ReviewStars>
         <p className='my-2 mb-3.5 font-sans text-[13px] leading-[1.5] text-white/[0.92]'>
           &ldquo;{quote}&rdquo;
         </p>

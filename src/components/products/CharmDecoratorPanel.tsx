@@ -3,13 +3,14 @@
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { DndContext, closestCenter, type DragEndEvent, type SensorDescriptor, type SensorOptions } from '@dnd-kit/core'
+import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy, useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { Badge } from '@/components/ui/badge'
 import type { ShopifyCharm } from '@/lib/shopify'
 import { extractLetter } from '@/lib/collar3dSelection'
-import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/SingleProductPage'
+import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/pdpConstants'
+import { useCharmDecorator } from '@/components/products/CharmDecoratorContext'
 
 const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)']
 
@@ -144,36 +145,19 @@ function SortableLetterSlot({
   )
 }
 
-interface CharmDecoratorPanelProps {
-  title: string
-  selectedCharmCount?: number
-  selectedCharms?: (ShopifyCharm | null)[]
-  charmName?: string
-  onCharmNameChange?: (name: string) => void
-  onCharmColourAt?: (index: number, colourKey: string) => void
-  onToggleCharm?: (charm: ShopifyCharm) => void
-  onCharmReorder?: (event: DragEndEvent) => void
-  onNeedMoreCharms?: () => void
-  mounted?: boolean
-  allCharms?: ShopifyCharm[]
-  dndSensors: SensorDescriptor<SensorOptions>[]
-}
-
-/** Tabbed charm decorator — "Raidžių charmsai" (letter engraving) + "Kiti charmsai" (grid/search picker). */
-export function CharmDecoratorPanel({
-  title,
-  selectedCharmCount,
-  selectedCharms,
-  charmName = '',
-  onCharmNameChange,
-  onCharmColourAt,
-  onToggleCharm,
-  onCharmReorder,
-  onNeedMoreCharms,
-  mounted = false,
-  allCharms = [],
-  dndSensors,
-}: CharmDecoratorPanelProps) {
+/** Tabbed charm decorator — "Raidžių charmsai" (letter engraving) + "Kiti charmsai" (grid/search picker). Reads its selection from <CharmDecoratorProvider>. */
+export function CharmDecoratorPanel({ title }: { title: string }) {
+  const {
+    state: { selectedCharms, selectedCharmCount, charmName, allCharms, mounted },
+    actions: {
+      setCharmName: onCharmNameChange,
+      recolourAt: onCharmColourAt,
+      toggleCharm: onToggleCharm,
+      reorder: onCharmReorder,
+      requestMoreCharms: onNeedMoreCharms,
+    },
+    meta: { dndSensors },
+  } = useCharmDecorator()
   const t = useTranslations('products.charmDecorator')
   const tPdp = useTranslations('products.pdp')
   const tConfigurator = useTranslations('products.configurator')
@@ -205,11 +189,11 @@ export function CharmDecoratorPanel({
 
   // Defaults to the most recently typed letter so step 2 (colour) appears as soon as one character exists,
   // even before the shopper explicitly taps a slot. An explicit tap can target ANY charm — letter or icon.
-  const lastLetterIndex = (selectedCharms ?? []).reduce((last, c, i) => (c?.category === 'letter' ? i : last), -1)
-  const colourTargetIndex = activeColourSlot !== null && selectedCharms?.[activeColourSlot]
+  const lastLetterIndex = selectedCharms.reduce((last, c, i) => (c?.category === 'letter' ? i : last), -1)
+  const colourTargetIndex = activeColourSlot !== null && selectedCharms[activeColourSlot]
     ? activeColourSlot
     : (lastLetterIndex >= 0 ? lastLetterIndex : null)
-  const colourTargetCharm = colourTargetIndex !== null ? selectedCharms?.[colourTargetIndex] ?? null : null
+  const colourTargetCharm = colourTargetIndex !== null ? selectedCharms[colourTargetIndex] ?? null : null
 
   // Icon charms (paw, heart, star, flower…) recolour via a shape match rather than the fixed letter
   // palette, since not every shape necessarily ships in all five letter colours.
@@ -225,7 +209,7 @@ export function CharmDecoratorPanel({
       : []
   const colourTargetIconOptions = iconColourOptionsFor(colourTargetCharm)
 
-  const activeIconCharm = activeIconCharmIndex !== null ? selectedCharms?.[activeIconCharmIndex] ?? null : null
+  const activeIconCharm = activeIconCharmIndex !== null ? selectedCharms[activeIconCharmIndex] ?? null : null
   const activeIconColours = iconColourOptionsFor(activeIconCharm)
 
   const cursorSlotIndex = charmRowFocused ? Math.min(charmCursor, MAX_CHARMS - 1) : null
@@ -295,7 +279,7 @@ export function CharmDecoratorPanel({
               aria-label={t('typeLettersAriaLabel')}
               onChange={(e) => {
                 const next = e.target.value.replace(/[^a-zA-Z0-9]/g, '').slice(0, MAX_CHARMS)
-                onCharmNameChange?.(next)
+                onCharmNameChange(next)
                 syncCharmCursor(e.target)
               }}
               onFocus={(e) => { setCharmRowFocused(true); syncCharmCursor(e.target) }}
@@ -312,7 +296,7 @@ export function CharmDecoratorPanel({
             {mounted ? (
               <DndContext sensors={dndSensors} collisionDetection={closestCenter} onDragEnd={onCharmReorder}>
                 <SortableContext items={Array.from({ length: MAX_CHARMS }, (_, i) => `slot-${i}`)} strategy={horizontalListSortingStrategy}>
-                  {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => (
+                  {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms[i] ?? null).map((c, i) => (
                     <SortableLetterSlot
                       key={i}
                       id={`slot-${i}`}
@@ -329,7 +313,7 @@ export function CharmDecoratorPanel({
                 </SortableContext>
               </DndContext>
             ) : (
-              Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
+              Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms[i] ?? null).map((c, i) => {
                 const isLetter = c?.category === 'letter'
                 const hasCharm = !!c
                 const isActive = colourTargetIndex === i && hasCharm
@@ -444,7 +428,7 @@ export function CharmDecoratorPanel({
                         title={label}
                         aria-label={label}
                         aria-pressed={isActiveColour}
-                        onClick={() => onCharmColourAt?.(colourTargetIndex, key)}
+                        onClick={() => onCharmColourAt(colourTargetIndex, key)}
                         style={{
                           width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                           background: hex,
@@ -464,7 +448,7 @@ export function CharmDecoratorPanel({
                         title={translateColorLabel(tPdp, charm.color)}
                         aria-label={translateColorLabel(tPdp, charm.color)}
                         aria-pressed={isActiveColour}
-                        onClick={() => onCharmColourAt?.(colourTargetIndex, charm.bg)}
+                        onClick={() => onCharmColourAt(colourTargetIndex, charm.bg)}
                         style={{
                           width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                           background: charm.bg,
@@ -479,7 +463,7 @@ export function CharmDecoratorPanel({
               </>
             )}
           </div>
-          {(selectedCharms ?? []).filter(Boolean).length >= MAX_CHARMS && (
+          {selectedCharms.filter(Boolean).length >= MAX_CHARMS && (
             <button
               type="button"
               onClick={onNeedMoreCharms}
@@ -498,7 +482,7 @@ export function CharmDecoratorPanel({
         <div>
           {/* Selected slots preview */}
           <div style={{ display: 'flex', gap: 8, marginBottom: activeIconCharm ? 8 : 12 }}>
-            {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms?.[i] ?? null).map((c, i) => {
+            {Array.from({ length: MAX_CHARMS }, (_, i) => selectedCharms[i] ?? null).map((c, i) => {
               const isActive = !!c && activeIconCharmIndex === i
               const Tag = c ? 'button' : 'div'
               return (
@@ -521,7 +505,7 @@ export function CharmDecoratorPanel({
                       ? <Image src={c.image} alt={c.title} width={48} height={48} style={{ width: '100%', height: '100%', objectFit: 'contain', pointerEvents: 'none' }} />
                       : <span aria-hidden="true" style={{ width: 18, height: 3, borderRadius: 2, background: CHARM_TINTS[i] }} />}
                   </Tag>
-                  {c && onToggleCharm && (
+                  {c && (
                     <button
                       type="button"
                       aria-label={t('removeCharmAria', { title: c.title })}
@@ -557,7 +541,7 @@ export function CharmDecoratorPanel({
                       title={translateColorLabel(tPdp, charm.color)}
                       aria-label={translateColorLabel(tPdp, charm.color)}
                       aria-pressed={isActiveColour}
-                      onClick={() => onCharmColourAt?.(activeIconCharmIndex!, charm.bg)}
+                      onClick={() => onCharmColourAt(activeIconCharmIndex!, charm.bg)}
                       style={{
                         width: 28, height: 28, padding: 0, borderRadius: '50%', cursor: 'pointer',
                         background: charm.bg,
@@ -592,7 +576,7 @@ export function CharmDecoratorPanel({
               .filter((charm) => charm.category !== 'letter')
               .filter((charm) => !charmPickerQuery || charm.title.toLowerCase().includes(charmPickerQuery.toLowerCase()))
               .map((charm) => {
-                const selectedIds = (selectedCharms ?? []).filter(Boolean).map((c) => c!.id)
+                const selectedIds = selectedCharms.filter(Boolean).map((c) => c!.id)
                 const isSelected = selectedIds.includes(charm.id)
                 const isFull = selectedIds.length >= MAX_CHARMS && !isSelected
                 return (
@@ -601,7 +585,7 @@ export function CharmDecoratorPanel({
                     type="button"
                     title={charm.title}
                     disabled={isFull}
-                    onClick={() => onToggleCharm?.(charm)}
+                    onClick={() => onToggleCharm(charm)}
                     style={{
                       minHeight: 78, borderRadius: 10, border: isSelected ? `2px solid ${TEXT_PRIMARY}` : '2px solid transparent',
                       background: 'var(--color-surface-2)', cursor: isFull ? 'not-allowed' : 'pointer',
@@ -622,9 +606,9 @@ export function CharmDecoratorPanel({
             )}
           </div>
           <span style={{ display: 'block', marginTop: 8, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-            {t('selectedCountLabel', { count: (selectedCharms ?? []).filter(Boolean).length, max: MAX_CHARMS })}
+            {t('selectedCountLabel', { count: selectedCharms.filter(Boolean).length, max: MAX_CHARMS })}
           </span>
-          {(selectedCharms ?? []).filter(Boolean).length >= MAX_CHARMS && (
+          {selectedCharms.filter(Boolean).length >= MAX_CHARMS && (
             <button
               type="button"
               onClick={onNeedMoreCharms}

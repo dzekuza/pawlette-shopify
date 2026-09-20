@@ -1,8 +1,6 @@
-// Shared, presentation-agnostic constants used by both the product-detail page (SingleProductPage.tsx)
-// and the collar configurator (useCollarConfigurator.ts / CollarConfigurator.tsx). Pulled out into their
-// own module so CollarConfigurator can import them without creating a circular dependency with
-// SingleProductPage.tsx (which imports CollarConfigurator). SingleProductPage.tsx re-exports these so
-// existing external imports (CharmBuilderPanel, CharmDecoratorPanel, Collar3DModal) keep working unchanged.
+// Shared, presentation-agnostic constants used by the product pages (SingleProductPageStandard / SingleProductPageSplit),
+// the collar configurator (useCollarConfigurator.ts / CollarConfigurator.tsx) and the charm panels. Kept in their own
+// module so none of those has to import from another page-level component.
 
 import type { useTranslations } from 'next-intl'
 

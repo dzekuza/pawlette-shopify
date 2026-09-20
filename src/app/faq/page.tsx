@@ -154,7 +154,7 @@ function CategoryBlock({ id, title, accent, items }: CategoryBlockProps) {
         />
       </div>
 
-      <Accordion items={items} isMobile={false} />
+      <Accordion items={items} />
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
@@ -37,7 +38,8 @@ interface ProductPriceProps {
   noteClassName?: string
   originalPriceClassName?: string
   size?: 'card' | 'detail'
-  showSavingsBadge?: boolean
+  /** Extra inline content after the prices, e.g. `<SavingsBadge … />`. */
+  children?: ReactNode
 }
 
 export function ProductPrice ({
@@ -49,9 +51,9 @@ export function ProductPrice ({
   noteClassName,
   originalPriceClassName,
   size = 'card',
-  showSavingsBadge = false,
+  children,
 }: ProductPriceProps) {
-  const { hasSale, savingsPercent } = getSaleMeta(currentPrice, originalPrice)
+  const { hasSale } = getSaleMeta(currentPrice, originalPrice)
 
   const currentSizeClass = size === 'detail'
     ? 'text-xl md:text-2xl'
@@ -73,17 +75,24 @@ export function ProductPrice ({
           {formatPrice(originalPrice)}
         </span>
       ) : null}
-      {showSavingsBadge && hasSale && savingsPercent ? (
-        <Badge variant='sage' size='compact' className='ml-1'>
-          -{savingsPercent}%
-        </Badge>
-      ) : null}
+      {children}
       {note ? (
         <span className={cn('basis-full font-medium text-bark-muted', noteSizeClass, noteClassName)}>
           {note}
         </span>
       ) : null}
     </div>
+  )
+}
+
+/** "-20%" badge; renders nothing when there is no sale. Compose it inside `<ProductPrice>`. */
+export function SavingsBadge ({ currentPrice, originalPrice }: { currentPrice: string; originalPrice?: string }) {
+  const { hasSale, savingsPercent } = getSaleMeta(currentPrice, originalPrice)
+  if (!hasSale || !savingsPercent) return null
+  return (
+    <Badge variant='sage' size='compact' className='ml-1'>
+      -{savingsPercent}%
+    </Badge>
   )
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale } from 'next-intl/server'
-import { SingleProductPage } from '@/components/products/SingleProductPage'
+import { SingleProductPageSplit } from '@/components/products/SingleProductPageSplit'
 import { getProductBySlugAsync } from '@/lib/catalog'
 import {
   buildProductBreadcrumbJsonLd,
@@ -63,7 +63,7 @@ export default async function ProductPageV2 ({ params }: ProductPageProps) {
   return (
     <>
       {schemas}
-      <SingleProductPage product={product} layout="split" />
+      <SingleProductPageSplit product={product} />
     </>
   )
 }

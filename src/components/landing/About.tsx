@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
@@ -83,15 +84,28 @@ interface BentoCardCopy {
   description: string
 }
 
+/** The "create your collar" call-to-action for the About header. Pass it to `<About cta={…} />`. */
+export function AboutCta() {
+  return (
+    <Link
+      href="/products/pawcharms-melynas-antkaklis"
+      className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
+    >
+      Sukurkite savo unikalų antkaklį →
+    </Link>
+  );
+}
+
 export function About({
-  showCta = true,
+  cta,
   eyebrow = 'Apie mus',
   heading = <>Šunų antkakliai su vardu.<br />Pritaikyti jūsų šuniui</>,
   craftsmanshipCard = { eyebrow: 'Rankų darbas', heading: 'Kiekvienas antkaklis gaminamas rankomis', description: 'Aukščiausios kokybės BioThane šuno antkaklis' },
   personalizationCard = { eyebrow: 'Personalizacija', heading: 'Personalizuojamas išskirtiniais pakabukais', description: 'Magnetiniai silikoniniai PawsCharm pakabučiai — personalizuokite savo stiliumi' },
   pairingCard = { eyebrow: 'Derinys', heading: 'Sukurti antkaklį, kuris atspindi jūsų šunį', description: 'Rinkitės pavadėlį, kuris tobulai dera su jūsų šuns antkakliu' },
 }: {
-  showCta?: boolean
+  /** Optional slot rendered at the end of the header row (e.g. `<AboutCta />`). */
+  cta?: ReactNode
   eyebrow?: string
   heading?: ReactNode
   craftsmanshipCard?: BentoCardCopy
@@ -195,14 +209,7 @@ export function About({
               {heading}
             </DisplayHeading>
           </div>
-          {showCta ? (
-            <a
-              href="/products/pawcharms-melynas-antkaklis"
-              className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
-            >
-              Sukurkite savo unikalų antkaklį →
-            </a>
-          ) : null}
+          {cta}
         </div>
 
         <div className="flex flex-col gap-4 lg:flex-row">

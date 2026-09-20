@@ -1,5 +1,6 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import { useLocale, useTranslations } from 'next-intl';
 import { Accordion } from '@/components/shared/Accordion';
 import type { AccordionItem } from '@/components/shared/Accordion';
@@ -9,9 +10,25 @@ import { localizeHref } from '@/lib/locale-path';
 
 const FAQ_IDS = ['personalize', 'editLetter', 'letterCount', 'color', 'size'] as const;
 
-export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
+/** The "shop" call-to-action shown under the landing-page FAQ. Pass it to `<FAQ cta={…} />`. */
+export function FAQShopCta() {
   const t = useTranslations('landing.faq');
   const locale = useLocale();
+
+  return (
+    <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md">
+      {t('shopCta')}
+    </PrimaryButton>
+  );
+}
+
+interface FAQProps {
+  /** Optional slot rendered below the accordion (e.g. `<FAQShopCta />`). */
+  cta?: ReactNode;
+}
+
+export function FAQ({ cta }: FAQProps = {}) {
+  const t = useTranslations('landing.faq');
 
   const faqs: AccordionItem[] = FAQ_IDS.map((id) => ({
     id,
@@ -38,11 +55,7 @@ export function FAQ({ showCta = true }: { showCta?: boolean } = {}) {
             <Accordion items={faqs} />
           </div>
 
-          {showCta && (
-            <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md">
-              {t('shopCta')}
-            </PrimaryButton>
-          )}
+          {cta}
         </div>
       </div>
     </section>

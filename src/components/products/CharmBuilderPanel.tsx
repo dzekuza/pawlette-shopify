@@ -1,10 +1,7 @@
 'use client'
 
-import type { DragEndEvent, SensorDescriptor, SensorOptions } from '@dnd-kit/core'
 import { useTranslations } from 'next-intl'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
-import type { ShopifyCharm } from '@/lib/shopify'
-import type { ProductDetail } from '@/lib/catalog'
 import { DisplayHeading } from '@/components/storefront/Typography'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
@@ -17,65 +14,23 @@ import {
   PDP_REVIEW_COUNT,
   getPdpTrustPoints,
   getPdpReviews,
-  CharmColorPicker,
-  CharmCTA,
-  CharmAccordion,
-} from '@/components/products/SingleProductPage'
-
-interface CharmBuilderPanelProps {
-  isMobile: boolean
-  displayName: string
-  displayPrice: string
-  originalPrice?: string
-  product: ProductDetail
-  hasCharmVariants: boolean
-  charmColor: string
-  onCharmColorChange: (color: string) => void
-  colorOptions: { value: string; label: string; dot: string }[]
-  mounted: boolean
-  dndSensors: SensorDescriptor<SensorOptions>[]
-  selectedCharms: (ShopifyCharm | null)[]
-  onDragEnd: (event: DragEndEvent) => void
-  onToggleCharm: (charm: ShopifyCharm) => void
-  charmName: string
-  onCharmNameChange: (name: string) => void
-  onCharmColourAt: (index: number, colourKey: string) => void
-  onNeedMoreCharms?: () => void
-  allCharms: ShopifyCharm[]
-  activeReview: number
-  onActiveReviewChange: (updater: (current: number) => number) => void
-  added: boolean
-  selectedCharmCount: number
-  onAddToCart: () => void
-}
+} from '@/components/products/pdpConstants'
+import { CharmColorPicker } from '@/components/products/CharmColorPicker'
+import { CharmCTA } from '@/components/products/CharmCTA'
+import { CharmAccordion } from '@/components/products/CharmAccordion'
+import { CharmDecoratorProvider } from '@/components/products/CharmDecoratorContext'
+import { useCharmProduct } from '@/components/products/CharmProductContext'
+import { useProductPage } from '@/components/products/ProductPageContext'
 
 /** Shared charm-selection builder used on both the mobile and desktop charm PDP layouts. */
-export function CharmBuilderPanel({
-  isMobile,
-  displayName,
-  displayPrice,
-  originalPrice,
-  product,
-  hasCharmVariants,
-  charmColor,
-  onCharmColorChange,
-  colorOptions,
-  mounted,
-  dndSensors,
-  selectedCharms,
-  onDragEnd,
-  onToggleCharm,
-  charmName,
-  onCharmNameChange,
-  onCharmColourAt,
-  onNeedMoreCharms,
-  allCharms,
-  activeReview,
-  onActiveReviewChange,
-  added,
-  selectedCharmCount,
-  onAddToCart,
-}: CharmBuilderPanelProps) {
+export function CharmBuilderPanel() {
+  const { meta: { product, hasCharmVariants } } = useProductPage()
+  const {
+    state: { selectedCharms, selectedCharmCount, charmName, charmColor, colorOptions, added, activeReview, displayName, displayPrice, originalPrice },
+    actions: { toggleCharm, reorder, setCharmName, recolourAt, setCharmColor, setActiveReview, addToCart },
+    meta: { charms, mounted, dndSensors, requestMoreCharms },
+  } = useCharmProduct()
+  const onActiveReviewChange = setActiveReview
   const t = useTranslations('products.pdp')
   const pdpTrustPoints = getPdpTrustPoints(t)
   const pdpReviews = getPdpReviews(t)
@@ -83,7 +38,7 @@ export function CharmBuilderPanel({
     <>
       <div>
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
-          <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' showValue={false} textClassName='text-bark' />
+          <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
           <span style={{ fontSize: 13, fontWeight: 600 }}>{t('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
         </div>
         <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
@@ -96,21 +51,16 @@ export function CharmBuilderPanel({
       </div>
       {hasCharmVariants && (
         <>
-          <CharmColorPicker color={charmColor} onColorChange={onCharmColorChange} options={colorOptions} />
-          <CharmDecoratorPanel
-            title={t('decorateCharmTitle')}
-            selectedCharmCount={selectedCharmCount}
-            selectedCharms={selectedCharms}
-            charmName={charmName}
-            onCharmNameChange={onCharmNameChange}
-            onCharmColourAt={onCharmColourAt}
-            onToggleCharm={onToggleCharm}
-            onCharmReorder={onDragEnd}
-            onNeedMoreCharms={onNeedMoreCharms}
-            mounted={mounted}
-            allCharms={allCharms}
-            dndSensors={dndSensors}
-          />
+          <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={colorOptions} />
+          <CharmDecoratorProvider
+            value={{
+              state: { selectedCharms, selectedCharmCount, charmName, allCharms: charms, mounted },
+              actions: { setCharmName, recolourAt, toggleCharm, reorder, requestMoreCharms },
+              meta: { dndSensors },
+            }}
+          >
+            <CharmDecoratorPanel title={t('decorateCharmTitle')} />
+          </CharmDecoratorProvider>
         </>
       )}
       <div style={{ height: 1, background: 'var(--color-surface-2)' }} />
@@ -137,7 +87,7 @@ export function CharmBuilderPanel({
           </div>
         </div>
       </div>
-      <CharmCTA added={added} count={selectedCharmCount} onClick={onAddToCart} isMobile={isMobile} />
+      <CharmCTA added={added} count={selectedCharmCount} onClick={addToCart} />
       {/* Trust strip */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
         {pdpTrustPoints.map((point) => (

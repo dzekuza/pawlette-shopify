@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getLocale, getTranslations } from 'next-intl/server'
-import { SingleProductPage } from '@/components/products/SingleProductPage'
+import { SingleProductPageStandard } from '@/components/products/SingleProductPageStandard'
 import { getAllProductSlugs, getProductBySlugAsync } from '@/lib/catalog'
 import {
   buildProductBreadcrumbJsonLd,
@@ -115,7 +115,7 @@ export default async function ProductPage ({ params }: ProductPageProps) {
   return (
     <>
       {schemas}
-      <SingleProductPage product={product} />
+      <SingleProductPageStandard product={product} />
     </>
   )
 }

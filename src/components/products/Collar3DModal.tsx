@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DCharms, collar3DLetters, extractLetter, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
-import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/SingleProductPage'
+import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/pdpConstants'
 
 const CHARM_TINTS = ['var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-blossom)', 'var(--color-sky)', 'var(--color-honey)']
 
