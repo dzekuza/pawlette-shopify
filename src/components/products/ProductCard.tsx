@@ -15,9 +15,10 @@ import {
 import ltMessages from '@/messages/lt.json'
 import enMessages from '@/messages/en.json'
 import { localizeHref } from '@/lib/locale-path'
+import { useAvailableCharmSwatches } from '@/hooks/useAvailableCharmSwatches'
 
 type ProductCardProduct = LandingCollar | ProductDetail
-const DEFAULT_CHARM_SWATCHES = ['var(--color-blossom)', 'var(--color-sage)', 'var(--color-sky)', 'var(--color-honey)', 'var(--color-lavender)']
+const INCLUDED_CHARMS_COUNT = 5
 
 // ProductCard is rendered both under the migrated `[locale]` routes (with a
 // NextIntlClientProvider ancestor) and from PavadeliaiPageContent on the
@@ -36,6 +37,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt'
   const t = PRODUCT_CARD_STRINGS[locale]
   const isDetail = isProductDetail(product)
+  const availableSwatches = useAvailableCharmSwatches()
   // ProductCard can't use next-intl's <Link> (no NextIntlClientProvider on
   // /pavadeliai — see note above), so prefix the href with the locale we
   // already resolved from the path, mirroring what next-intl's Link would do
@@ -47,9 +49,9 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const price = product.price
   const originalPrice = product.originalPrice
   const charmSwatches = isDetail
-    ? DEFAULT_CHARM_SWATCHES
+    ? availableSwatches
     : product.charms.slice(0, 5).map((charm) => charm.bg)
-  const charmsCount = isDetail ? DEFAULT_CHARM_SWATCHES.length : product.charms.length
+  const charmsCount = isDetail ? INCLUDED_CHARMS_COUNT : product.charms.length
 
   return (
     <CatalogCardLink href={href} className='block rounded-[24px] bg-white p-3'>
@@ -69,7 +71,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
         </div>
         <CatalogCardMedia alt={title} background={background} image={product.image} className='rounded-[16px]' />
         <CatalogCardBody className='gap-2.5 px-0 pb-0 pt-0'>
-          <div className='flex items-center'>
+          <div className='flex min-h-6 items-center'>
             {charmSwatches.map((swatch, index) => (
               <span
                 key={`${swatch}-${index}`}
@@ -80,11 +82,11 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
             ))}
           </div>
           <div className='flex flex-col gap-1'>
-            <CatalogCardTitle className='mb-0 line-clamp-2 text-xl font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
+            <CatalogCardTitle className='mb-0 line-clamp-2 text-base font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
               {title}
             </CatalogCardTitle>
             <CatalogCardFooter className='items-end'>
-              <ProductPrice currentPrice={price} originalPrice={originalPrice} />
+              <ProductPrice currentPrice={price} originalPrice={originalPrice} currentPriceClassName='text-lg' />
               <span className='btn-press flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-bark/15 text-bark transition-colors duration-150 ease-out group-hover:bg-bark group-hover:text-cream'>
                 <ChevronRight className='h-3.5 w-3.5' aria-hidden='true' />
               </span>
