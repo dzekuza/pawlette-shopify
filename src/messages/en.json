@@ -198,9 +198,47 @@
   },
   "products": {
     "pageContent": {
-      "eyebrow": "Shop",
-      "title": "Collars, charms, and pairings for them.",
-      "description": "Choose waterproof collars, browse swappable charms, and find a ready-made set all in one place."
+      "eyebrow": "Collars with a name",
+      "title": "Personalized dog collars with a name — handmade in Vilnius",
+      "description": "A personalized dog collar you'll spot from across the park — with your dog's name and interchangeable charms. Every collar is handmade in Vilnius from waterproof BioThane webbing, built to keep up with even the most active dogs.",
+      "gridId": "products",
+      "sections": {
+        "personalization": {
+          "eyebrow": "How it works",
+          "heading": "How personalizing your collar works",
+          "body": "Pick a collar color, add your dog's name, and arrange up to 6 silicone charms. Each charm clips onto the collar in 5 seconds — no tools, no hassle. Want a new look before a walk or a party? Just swap the charms and the collar looks brand new."
+        },
+        "material": {
+          "eyebrow": "Material",
+          "heading": "BioThane: a material built to take a beating",
+          "body": "Every collar is stitched from BioThane webbing — waterproof, odor-resistant, and easy to wipe clean with a damp cloth. Sizing adjusts precisely, from a small dog to a large breed. The material resists UV rays, salt water, and daily wear, so a handmade collar keeps its shape and color for years."
+        }
+      },
+      "faq": {
+        "heading": "Frequently asked questions",
+        "items": [
+          {
+            "id": "swap-charms",
+            "question": "Can I change the charms later?",
+            "answer": "Yes. You can swap charms anytime — they clip onto the collar in 5 seconds and need no tools. Extra charms can be bought separately and mixed freely with any PawsCharm collar."
+          },
+          {
+            "id": "sizing",
+            "question": "What collar size fits my dog?",
+            "answer": "Measure the widest part of your dog's neck and add 2–3 cm for comfort. Size S fits 28–36 cm, M fits 36–44 cm, and L fits 44–52 cm. If your dog is between sizes, choose the larger one."
+          },
+          {
+            "id": "production-time",
+            "question": "How long does production take?",
+            "answer": "Every personalized collar with a name is handmade in Vilnius and ready to ship within 1–2 business days. Delivery within the EU typically takes another 3–7 business days."
+          }
+        ]
+      },
+      "cta": {
+        "kicker": "Made for your dog",
+        "heading": "A dog collar with a name, made for your best friend.",
+        "button": "Personalize your collar now"
+      }
     },
     "card": {
       "charmsIncluded": "{count} charms included",

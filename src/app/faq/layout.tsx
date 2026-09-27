@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dažniausiai užduodami klausimai apie šunų antkaklius',
+  title: 'DUK — šunų antkakliai ir pakabukai',
   description: 'Dažniausiai užduodami klausimai apie PawsCharm antkaklius, pakabukus, pristatymą ir grąžinimą.',
   alternates: { canonical: 'https://pawscharm.com/faq' },
   openGraph: {
