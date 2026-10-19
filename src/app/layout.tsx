@@ -40,9 +40,13 @@ export const metadata: Metadata = {
   // in the environment (Vercel → Project → Settings → Environment Variables) with the
   // content value from Search Console → Settings → Ownership verification → HTML tag.
   // Omitted entirely (not rendered) when unset, so this is safe to deploy before it's set.
-  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
-    : {}),
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    // Meta domain verification (Business Settings → Brand safety → Domains). A public tag, not a secret.
+    other: { 'facebook-domain-verification': '1m2freyf4eug3xyczono05cfb7ye5x' },
+  },
   icons: {
     icon: '/pawcharmsfav.jpg',
     apple: '/pawcharmsfav.jpg',

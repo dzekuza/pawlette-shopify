@@ -9,6 +9,12 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Meta domain verification tag
+
+- Added `facebook-domain-verification` to the root layout metadata (`verification.other`), so it renders in the
+  static `<head>` of every page, including the home page. Needed to verify pawscharm.com in Meta Business
+  Settings (Brand safety → Domains) before configuring events for ad optimisation. The value is a public tag.
+
 ## 2026-10-19 — orders-paid webhook logging
 
 - `/api/shopify/orders-paid` now logs one line per delivery (rejected signature, skipped with reason,
