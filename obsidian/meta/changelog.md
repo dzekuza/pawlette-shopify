@@ -9,6 +9,13 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — fix Vercel build: stale `Accordion` prop
+
+- The composition-patterns refactor removed `isMobile` from `Accordion`, but
+  `PavadeliaiPageContent` and `ProductsPageContent` still passed it, failing
+  `next build` type-check on Vercel. Removed the prop at both call sites.
+  Run `npx tsc --noEmit` before pushing.
+
 ## 2026-10-19 — second Meta Pixel
 
 - `MetaPixel` now initialises two pixel IDs (`NEXT_PUBLIC_META_PIXEL_ID` and

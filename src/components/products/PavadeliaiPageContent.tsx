@@ -92,7 +92,7 @@ export function PavadeliaiPageContent ({ leashes }: Props) {
         {/* FAQ — also lets the target keyword phrase appear naturally a second time */}
         <div className="mt-16 max-w-[720px] md:mt-24">
           <DisplayHeading size="compact" className="mb-6">Dažnai užduodami klausimai</DisplayHeading>
-          <Accordion items={FAQ_ITEMS} isMobile={isMobile} />
+          <Accordion items={FAQ_ITEMS} />
         </div>
       </main>
 

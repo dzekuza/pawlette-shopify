@@ -67,7 +67,7 @@ export function ProductsPageContent ({ products }: ProductsPageContentProps) {
         {/* FAQ — also lets the target keyword phrases appear naturally a second time */}
         <div className="mt-16 max-w-[720px] md:mt-24">
           <DisplayHeading size="compact" className="mb-6">{t('faq.heading')}</DisplayHeading>
-          <Accordion items={accordionItems} isMobile={isMobile} />
+          <Accordion items={accordionItems} />
         </div>
       </main>
 
