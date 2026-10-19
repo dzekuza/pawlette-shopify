@@ -7,7 +7,7 @@ import { useLandingProducts } from '@/hooks/useLandingProducts';
 import type { ProductDetail } from '@/lib/db';
 import { LandingLayout, LandingSection } from './landing/LandingLayout';
 import { LandingNav } from './landing/LandingNav';
-import { FloatingHero } from './ui/hero-floating';
+import { PhotoHero } from './landing/PhotoHero';
 import { ProductGrid } from './landing/ProductGrid';
 import { PhotoSlider } from './landing/PhotoSlider';
 import { FAQ, FAQShopCta } from './landing/FAQ';
@@ -23,7 +23,7 @@ export function LandingPage({ initialProducts }: { initialProducts?: ProductDeta
 
   return (
     <LandingLayout nav={<LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />}>
-      <FloatingHero />
+      <PhotoHero />
 
       <LandingSection><ProductGrid products={products} /></LandingSection>
       <LandingSection><HowItWorks /></LandingSection>

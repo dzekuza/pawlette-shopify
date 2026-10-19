@@ -37,7 +37,7 @@ Two independent user flows, each with its own orchestrator:
 
 **Landing page** (`/`) → `src/app/page.tsx` → `LandingPage.tsx`
 Assembles `src/components/landing/` subcomponents. GSAP scroll animations are wired here via `data-animate="section"` and `data-animate="card"` attributes on wrapper divs. `StickyCTA` and `ExitModal` are toggled by scroll/mouseleave state owned by `LandingPage`.
-Render order: `SocialTicker → LandingNav → FloatingHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → FAQ → LandingFooter`.
+Render order: `SocialTicker → LandingNav → PhotoHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → FAQ → LandingFooter`.
 
 **Products page** (`/products`) → `src/app/products/page.tsx`
 Self-contained page component with local `SimpleNav` and `CollarCard`/`CharmCard` helpers defined at module level in the same file. Has a server-component `src/app/products/layout.tsx` sibling that injects metadata + JSON-LD schema — this is the pattern for adding SEO to a `'use client'` page without restructuring it.

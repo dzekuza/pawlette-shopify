@@ -9,6 +9,15 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Photo hero replaces the 3D scroll hero
+
+- Homepage hero is now `components/landing/PhotoHero.tsx`: the Gemini park-moment photo full-bleed on desktop (headline left over a
+  cream scrim) and a 4:5 crop on phones with the headline below; one H1, same CTA and `hero_buy_now` GA event, new
+  `landing.hero.imageAlt` translations (lt/en). It loads one priority image instead of three.js, which should also cut main-thread time.
+- `ui/hero-floating.tsx` (pinned GSAP + 3D collar) is no longer rendered but was left in place for an easy rollback.
+- Fixed a visible cream seam under the top bar: the sticky nav is 92px (phones) / 94px (md+) tall, so the hero's negative top margin
+  must match exactly; verified 0px gap at 390, 768, 1024 and 1440 wide.
+
 ## 2026-10-19 — Hero cover images and Shopify catalog cleanup
 
 - Added three hero cover images in `public/hero/` (desktop, alternate, 4:5 mobile crop) generated with Gemini from real product
