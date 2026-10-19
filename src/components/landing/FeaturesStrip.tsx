@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/utils';
 import { HARDWARE_COLOUR } from '@/lib/collar3d';
 
 function Collar3DLoading() {
@@ -34,6 +35,16 @@ const FEATURE_ICONS = [
   '/icons/return.svg',
 ];
 
+// Bento widths on lg (6-col grid): wide/narrow, narrow/wide, half/half.
+const BENTO_SPANS = [
+  'lg:col-span-4',
+  'lg:col-span-2',
+  'lg:col-span-2',
+  'lg:col-span-4',
+  'lg:col-span-3',
+  'lg:col-span-3',
+];
+
 interface FeatureItem {
   title: string;
   desc: string;
@@ -44,10 +55,7 @@ export function FeaturesStrip() {
   const items = t.raw('items') as FeatureItem[];
 
   return (
-    <section 
-      className="relative overflow-hidden px-4 py-16 md:px-6 md:py-24"
-      style={{ background: 'linear-gradient(180deg, #e3ecf5 0%, #b8d8f4 100%)' }}
-    >
+    <section className="relative overflow-hidden bg-gradient-to-b from-sky/35 to-sky px-4 py-16 md:px-6 md:py-24">
       {/* CSS Levitation Style Block */}
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes float-levitate-features {
@@ -64,7 +72,7 @@ export function FeaturesStrip() {
         .features-float-sticker-3 { animation: float-levitate-features 4s ease-in-out infinite; }
       `}} />
 
-      <div className="mx-auto max-w-[1200px] flex flex-col gap-16">
+      <div className="mx-auto flex max-w-[1152px] flex-col gap-16">
         
         {/* Top 3D Showcase Area with Stickers */}
         <div className="relative w-full aspect-[21/9] min-h-[340px] max-w-[1000px] mx-auto z-10">
@@ -95,19 +103,28 @@ export function FeaturesStrip() {
           </div>
         </div>
 
-        {/* Bottom Features Grid */}
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-3 z-10">
+        {/* Bottom features — bento grid */}
+        <div className="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
           {items.map((f, i) => (
-            <div key={f.title} className="flex flex-col gap-3 font-sans">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/40 backdrop-blur-sm shadow-sm border border-white/20">
+            <div
+              key={f.title}
+              data-animate="card"
+              className={cn(
+                'group flex flex-col justify-between gap-10 rounded-[28px] border border-white/60 bg-white/45 p-7 font-sans shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_16px_32px_-20px_rgba(61,53,48,0.25)] backdrop-blur-md transition-[transform,background-color] duration-300 ease-out hover:-translate-y-1 hover:bg-white/60 md:p-8',
+                BENTO_SPANS[i],
+              )}
+            >
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/70 shadow-[0_6px_14px_-8px_rgba(61,53,48,0.3)] transition-transform duration-300 ease-out group-hover:scale-105">
                 <Image src={FEATURE_ICONS[i]} alt="" aria-hidden="true" width={22} height={22} />
               </div>
-              <p className="m-0 text-lg font-bold leading-tight text-bark tracking-tight">
-                {f.title}
-              </p>
-              <p className="m-0 text-sm leading-relaxed text-bark-light">
-                {f.desc}
-              </p>
+              <div className="flex flex-col gap-2">
+                <p className="m-0 max-w-[24ch] text-xl font-semibold leading-tight tracking-tight text-bark md:text-[22px]">
+                  {f.title}
+                </p>
+                <p className="m-0 max-w-[46ch] text-sm leading-relaxed text-bark-light md:text-[15px]">
+                  {f.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>

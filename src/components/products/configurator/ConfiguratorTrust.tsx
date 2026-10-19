@@ -14,14 +14,14 @@ export function TrustStrip() {
   const tPdp = useTranslations('products.pdp')
   const pdpTrustPoints = getPdpTrustPoints(tPdp)
   return (
-      <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>
-        {pdpTrustPoints.map((point, i) => (
-          <div key={point} className="bg-cream" style={{ padding: '7px 12px', borderRadius: 999, border: `1px solid ${BORDER_COLOR}`, fontSize: 12, fontWeight: 500, color: TEXT_SECONDARY }}>
-            {point}
-            {i < pdpTrustPoints.length - 1 ? <span className="sr-only"> · </span> : null}
-          </div>
-        ))}
-      </div>
+    <div className='flex flex-wrap justify-center gap-2'>
+      {pdpTrustPoints.map((point, i) => (
+        <div key={point} className='rounded-full bg-surface-2 px-3 py-1.5 text-xs font-medium leading-none text-bark-light'>
+          {point}
+          {i < pdpTrustPoints.length - 1 ? <span className='sr-only'> · </span> : null}
+        </div>
+      ))}
+    </div>
   )
 }
 

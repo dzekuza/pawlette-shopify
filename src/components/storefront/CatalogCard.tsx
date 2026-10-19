@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Card, CardContent } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { HoverImageCarousel } from '@/components/storefront/HoverImageCarousel'
 
 interface CatalogCardLinkProps {
   children: React.ReactNode
@@ -15,6 +16,8 @@ interface CatalogCardMediaProps {
   children?: React.ReactNode
   className?: string
   image?: string
+  /** Extra gallery images; when 2+ are given the media cycles through them on mouse hover. */
+  images?: string[]
 }
 
 interface CatalogCardDescriptionProps {
@@ -52,15 +55,20 @@ export function CatalogCardMedia ({
   children,
   className,
   image,
+  images,
 }: CatalogCardMediaProps) {
+  const MEDIA_SIZES = '(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw'
+  const gallery = image ? [image, ...(images ?? []).filter((src) => src && src !== image)] : []
   return (
     <div className={cn('relative aspect-square overflow-hidden rounded-[20px]', className)} style={background ? { background } : undefined}>
-      {image ? (
+      {gallery.length > 1 ? (
+        <HoverImageCarousel alt={alt} images={gallery} sizes={MEDIA_SIZES} />
+      ) : image ? (
         <Image
           src={image}
           alt={alt}
           fill
-          sizes='(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw'
+          sizes={MEDIA_SIZES}
           className='block h-full w-full object-cover transition-transform duration-[250ms] ease-out [@media(hover:hover)_and_(pointer:fine)]:group-hover:scale-105'
         />
       ) : null}

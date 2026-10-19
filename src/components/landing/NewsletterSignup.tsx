@@ -52,7 +52,7 @@ export function NewsletterSignup() {
 
   return (
     <section className="bg-white px-4 py-16 md:px-6 md:py-24">
-      <div className="mx-auto max-w-[1200px] rounded-[32px] border border-sage/30 bg-[linear-gradient(135deg,rgba(168,213,162,0.18),rgba(184,216,244,0.22),rgba(244,181,192,0.14))] px-4 py-10 md:px-6 md:py-14">
+      <div className="mx-auto max-w-[1152px] rounded-[32px] border border-sage/30 bg-[linear-gradient(135deg,rgba(168,213,162,0.18),rgba(184,216,244,0.22),rgba(244,181,192,0.14))] px-4 py-10 md:px-6 md:py-14">
         <div className="mx-auto max-w-[760px] text-center">
           <p className="mb-3 text-[12px] font-medium uppercase tracking-[0.12em] text-bark-muted">{t('eyebrow')}</p>
           <h2 className="mb-3 font-display text-[clamp(30px,4vw,48px)] leading-[1.05] tracking-[0.02em] text-bark">

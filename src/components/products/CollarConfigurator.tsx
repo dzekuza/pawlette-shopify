@@ -59,7 +59,7 @@ function Preview3DModal() {
 function Root({ configurator, name, price, children }: RootProps) {
   return (
     <CollarConfiguratorProvider configurator={configurator} name={name} price={price}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <div className='flex flex-col gap-6'>
         {children}
         <FitGuideModal />
       </div>

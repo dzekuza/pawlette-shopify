@@ -8,7 +8,12 @@
       "eyebrow": "Personalized dog collars",
       "heading": "Collars that keep up with every adventure",
       "buyNow": "Buy now",
-      "imageAlt": "A laughing woman with two dogs wearing PawsCharm collars with the names EDIS and BAZ"
+      "imageAlt": "A laughing woman with two dogs wearing PawsCharm collars with the names EDIS and BAZ",
+      "subheading": "Waterproof BioThane collars with an engraved name and swappable charms.",
+      "secondaryCta": "Browse charms",
+      "chipHandmade": "Handmade in Vilnius",
+      "chipShipping": "Free shipping over {threshold}",
+      "hotspot": "Swap letters in 5 seconds"
     },
     "featuresStrip": {
       "loading3d": "Loading 3D preview…",
@@ -52,10 +57,16 @@
       "addToCartAriaLabel": "Add {name} to cart",
       "shopCharmsCta": "Shop charms"
     },
+    "gallery": {
+      "heading": "Made for every kind of dog",
+      "imageAlt": "Dog wearing a PawsCharm collar with its name"
+    },
     "howItWorks": {
       "heading": "What happens after you get PawsCharm?",
       "dog1Alt": "Dog wearing a PawsCharm collar",
       "dog2Alt": "Dog with glasses wearing a PawsCharm collar",
+      "dog3Alt": "Wet golden retriever puppy shaking off water in a PawsCharm collar",
+      "dog4Alt": "Border collie wearing a PawsCharm collar while a charm letter is clipped on",
       "timeline": [
         {
           "week": "Week 1",
@@ -245,7 +256,23 @@
     },
     "card": {
       "charmsIncluded": "{count} charms included",
-      "charmColorTitle": "Charm color"
+      "features": {
+        "collar": [
+          "Waterproof and dirt-resistant",
+          "Adjustable fit",
+          "Secure buckle"
+        ],
+        "leash": [
+          "Waterproof",
+          "1.5 m with padded handle",
+          "Built-in bag holder"
+        ],
+        "charm": [
+          "Snaps on in 5 seconds",
+          "Fits every PawsCharm collar",
+          "Soft silicone"
+        ]
+      }
     },
     "pdp": {
       "notFoundTitle": "Product not found",
@@ -421,6 +448,7 @@
       "decoratePanelTitle": "Decorate your collar",
       "addedToCart": "✓ Added to cart!",
       "buyPlain": "Buy · {price}",
+      "selectOptionsToBuy": "Select color and size to buy",
       "buyWithCharms": "{count, plural, one {Buy with # charm · {price}} other {Buy with # charms · {price}}}",
       "stepSummarySkipped": "Skipped",
       "stepSummaryCharms": "{count, plural, one {# charm} other {# charms}}",

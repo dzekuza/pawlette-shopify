@@ -9,6 +9,100 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — "Browse every charm" grid removed from charm pages
+
+- Removed the all-charms grid (`CharmCard` list) from `ProductPageShell`. It was the only internal-link path to the individual charm PDPs (`/products/charm-<letter>-<colour>`) for search crawlers; those URLs are still in the sitemap if listed there. `CharmCard.tsx` and the `products.pdp.allCharms` strings are now unused and left in place.
+
+## 2026-10-19 — LandingFooter redesigned
+
+- Footer is now a dark `bark` rounded card (`max-w-[1152px]`, 32px radius) inset on a cream strip: logo, tagline, handwriting "swap" note in sage and translucent pills on the left; three link columns on the right with cream-toned links and an underline on hover; thin divider and muted copyright/contact row. Inline styles and JS hover handlers replaced with classes. Copy and links unchanged. Used on every page that renders `LandingFooter` (landing, PDP, FAQ, cart, checkout).
+
+## 2026-10-19 — ComparisonTable layout fixed
+
+- Cards now span the full 1152px content width (the 920px cap is gone) in two equal columns. The collar image floats at the top-right of the PawsCharm card instead of taking a tall block, so the competitor card no longer has a large empty gap (image sized 330×250 on md+); both lists are bottom-aligned with matching rows, and the VS badge sits on the seam, vertically centred.
+
+## 2026-10-19 — Section content width unified at 1152px
+
+- `FeaturesStrip`, `GalleryMosaic`, `NewsletterSignup` (card) and `LandingBuySection` had inner boxes of 1200px / 1112px sitting inside the section's own `px-6`, so their content was wider/narrower than the nav pill, hero and the other sections (1200px container minus `px-6` = 1152px). All four now use `max-w-[1152px]`.
+
+## 2026-10-19 — Hero card width matches the page container
+
+- `PhotoHero` card max width is now 1152px (the content width of the 1200px / `px-6` container every other section and the nav pill use), down from 1400px; it still shrinks to fit the viewport height. Docs that mention the card limit: see the `PhotoHero` row in `components/common.md`.
+
+## 2026-10-19 — Rest of the product page sections restyled
+
+- `ProductStorySection`: photo pair (large frame + tilted overlapping second photo `hero-dsc02225.jpg`), pill eyebrow, roomier spacing.
+- `ProductValueShowcase`: value badges are now pills with a sage check, bowed around the product (md+) instead of boxed columns; the product sits on soft drifting colour blobs (`animate-drift-*`); the `useWindowWidth` mobile/desktop branch was replaced by a CSS grid.
+- `ComparisonTable`: two flat rounded cards (PawsCharm side tinted sage and wider, competitor side `surface-2`), row dividers, VS badge between them; shadow and inline styles removed.
+- `FAQ` (also on the landing page): two columns on lg — heading (+ CTA) pinned on the left, accordion on the right; inline styles replaced with classes.
+- All section eyebrows use the same soft pill. `About` and `PhotoSlider` had already been restyled.
+
+## 2026-10-19 — About bento restyled
+
+- `About` cards (used on the PDP and `LandingPageV2`): flat (no drop shadow), 28px radius, roomier padding and min-height, eyebrow as a soft pill, 26px heading and lighter 15px description in `bark-light`, sage tint via `color-mix` instead of raw rgba, inline `style` objects replaced with classes (`cn`, `object-contain object-right`). Header heading now uses the standard `section` size (the `md:text-[48px]` override was dropped).
+
+## 2026-10-19 — Collar configurator: no preselected variant
+
+- `useCollarConfigurator` no longer defaults `selectedColor` / `selectedSize` (colour tiles and sizes start unselected on the PDP and the landing buy card). New `canAddToCart` flag (colour chosen and, if the collar has sizes, size chosen) disables the add-to-cart button — which shows "Select color and size to buy" (`products.configurator.selectOptionsToBuy`) — and guards `buildCollarBundleLines` / `addCollarCharmToCart` so no arbitrary variant can be added. Changing colour keeps the size only if the new collar offers it, otherwise clears it.
+- Not changed: the separate leash PDP (`LeashContext`) still defaults its colour/size; the 3D preview still shows the matched collar.
+
+## 2026-10-19 — Collar configurator panel restyled
+
+- Shared `CollarConfigurator` parts (used on the PDP and the landing buy card) moved from inline styles to Tailwind classes and refreshed: review chip + name/price stack, field labels with a value pill, rounded colour tiles with a selected border + check badge, sizes as a segmented control on a `surface-2` track (bark-filled selection), taller `h-14` add-to-cart using `hover:bg-sage-dark` instead of JS hover handlers/hex, and softer trust pills. Behaviour and props unchanged; the charm decorator panel, stepper, reviews and accordion were not touched.
+
+## 2026-10-19 — Animated gradient behind the buy section
+
+- `LandingBuySection` now has four blurred brand-colour blobs (sky, blossom, sage, honey) drifting slowly behind the 3D collar and configurator, faded out top and bottom with a CSS mask. New `drift-a/b/c` keyframes + `.animate-drift-*` classes in `globals.css` (transform-only, 18–28s loops); disabled under `prefers-reduced-motion` via `motion-reduce:animate-none`.
+
+## 2026-10-19 — GalleryMosaic section added
+
+- New `GalleryMosaic` (`components/landing/`) between `FeaturesStrip` and `LandingBuySection`: centred heading + a 7-photo bento mosaic (2 cols on phones, 4 on md+, spans tile with no gaps) built from existing studio photos plus `timeline-dog-3.jpg`. Tiles use `data-animate="card"` and a slow hover zoom. Copy under `landing.gallery` in `lt.json` / `en.json`.
+
+## 2026-10-19 — HowItWorks photo stack grown to four cards
+
+- Two new Gemini-generated portraits (`timeline-dog-3.jpg`, `timeline-dog-4.jpg`) join the existing two in a fanned four-card stack, driven by a `PHOTO_CARDS` array in `HowItWorks.tsx`; new `dog3Alt` / `dog4Alt` strings in `lt.json` / `en.json`. Prompts and lessons are in `docs/photography.md`.
+
+## 2026-10-19 — PhotoSlider ("Your colorful moments") restyled
+
+- Video cards are larger (280×440 desktop, 240×380 phones) with the product info moved into a frosted-glass chip overlaid at the bottom of the video (thumb, name, price, add-to-cart) instead of a strip underneath.
+- The faded cream overlay on inactive cards is gone (inactive cards sit at 97% scale instead); the playing card shows a story-style progress bar driven by `timeupdate` (ref-based, no re-renders). Add-to-cart button uses lucide `Plus`/`Check` and classes instead of inline styles. The PDP video-only usage is unchanged. No drop shadows or bottom gradient on the cards or the chip. Heading and description are centred and stacked.
+
+## 2026-10-19 — FeaturesStrip redesigned as a bento grid
+
+- The six feature items are now frosted-glass bento tiles (4+2 / 2+4 / 3+3 on lg, 2 cols on md, 1 col on phones) with icon tile top-left and title + description bottom-aligned; hover lifts the tile. Tiles use `data-animate="card"` for the GSAP stagger.
+- Section background moved off inline hex to `from-sky/35 to-sky`. 3D collar showcase and floating stickers unchanged. Titles stay `<p>` because the global unlayered `h1–h6` rule overrides Tailwind font utilities.
+
+## 2026-10-19 — Card features as badges
+
+- `ProductCard` features are now wrapping sage-tinted pill badges (check icon + text) instead of a stacked list.
+
+## 2026-10-19 — HowItWorks section redesigned
+
+- Two-column grid: heading + photo pair pinned (`lg:sticky`) on the left, a vertical timeline on the right (one gradient rail, a node per step, last node pulses; uppercase week label in `interactive-text`, display-font step titles, no pill chips). Steps use `data-animate="card"` for the existing GSAP stagger. Heading uses the standard `section` size.
+- LT week labels were still English ("Week 1"); now "1 savaitė" / "4 savaitė" / "8 savaitė".
+
+## 2026-10-19 — Product card features replace charm swatches
+
+- `ProductCard` no longer shows the row of charm colour swatches; it lists three check-marked features per product type (collar / leash / charm), from `products.card.features` in `lt.json` / `en.json`. The Shopify `features` metafield is empty on all products, so copy is per type, not per product.
+- Removed the `charmColorTitle` message key. `useAvailableCharmSwatches` is now unused by `ProductCard` (hook left in place).
+
+## 2026-10-19 — Rating star contrast
+
+- New token `--color-honey-dark` (`#E5AE1C`, `fill-honey-dark`/`text-honey-dark`) for stars on light chips; `ProductCard`'s rating star uses it because pale `honey` was nearly invisible on the grey chip. `ReviewStars` (PDP header chip, testimonial cards) now uses it too.
+
+## 2026-10-19 — Product card hover image carousel
+
+- New `HoverImageCarousel` (`components/storefront/`, client): when a mouse hovers a catalog card's media it crossfades through the product's gallery (first 4 images, 1.1s each) with a dot indicator, and resets on leave. Extra images mount only after first hover; touch and `prefers-reduced-motion` keep the static first image.
+- `CatalogCardMedia` takes an optional `images` prop (uses the carousel when 2+ images); `ProductCard` passes `product.images` for `ProductDetail` items.
+
+## 2026-10-19 — ProductGrid heading size
+
+- Dropped the `text-[32px] md:text-[48px]` override on the ProductGrid H2 so it uses the standard `DisplayHeading` `section` size (30px / 40px md+).
+
+## 2026-10-19 — Hero text tweak
+
+- `PhotoHero` overlay: default left padding cut to 48px (grows to clear the video widget only when the card margin is small, 84px reference) and the lg+ H1 enlarged to `clamp(2.25rem,4.6cqw,4.75rem)`.
+
 ## 2026-10-19 — Header (`LandingNav`) redesigned
 
 - Frosted-glass floating pill (`bg-cream/80` + blur, inner highlight, tinted shadow that strengthens after 8px scroll). Height is unchanged (92px phones, 94px md+) because `PhotoHero`'s negative top margin depends on it.

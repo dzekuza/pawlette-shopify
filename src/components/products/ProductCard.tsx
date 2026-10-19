@@ -1,4 +1,4 @@
-import { Star, ChevronRight } from 'lucide-react'
+import { Star, ChevronRight, Check } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import type { ProductDetail } from '@/lib/catalog'
 import type { LandingCollar } from '@/lib/db'
@@ -15,7 +15,6 @@ import {
 import ltMessages from '@/messages/lt.json'
 import enMessages from '@/messages/en.json'
 import { localizeHref } from '@/lib/locale-path'
-import { useAvailableCharmSwatches } from '@/hooks/useAvailableCharmSwatches'
 
 type ProductCardProduct = LandingCollar | ProductDetail
 const INCLUDED_CHARMS_COUNT = 5
@@ -37,7 +36,6 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt'
   const t = PRODUCT_CARD_STRINGS[locale]
   const isDetail = isProductDetail(product)
-  const availableSwatches = useAvailableCharmSwatches()
   // ProductCard can't use next-intl's <Link> (no NextIntlClientProvider on
   // /pavadeliai — see note above), so prefix the href with the locale we
   // already resolved from the path, mirroring what next-intl's Link would do
@@ -48,9 +46,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const title = product.name
   const price = product.price
   const originalPrice = product.originalPrice
-  const charmSwatches = isDetail
-    ? availableSwatches
-    : product.charms.slice(0, 5).map((charm) => charm.bg)
+  const features = t.features[isDetail ? product.productType : 'collar']
   const charmsCount = isDetail ? INCLUDED_CHARMS_COUNT : product.charms.length
 
   return (
@@ -58,7 +54,7 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
       <CatalogCard className='gap-3'>
         <div className='flex items-center justify-between gap-2'>
           <span className='inline-flex shrink-0 items-center gap-2 rounded-full bg-bark/5 px-3 py-2'>
-            <Star className='h-3.5 w-3.5 fill-honey text-honey' strokeWidth={0} aria-hidden='true' />
+            <Star className='h-3.5 w-3.5 fill-honey-dark text-honey-dark' strokeWidth={0} aria-hidden='true' />
             <span className='font-sans text-[13px] font-semibold leading-none text-bark'>{PRODUCT_REVIEW_RATING}</span>
           </span>
           {charmsCount > 0 ? (
@@ -69,18 +65,19 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
             </span>
           ) : null}
         </div>
-        <CatalogCardMedia alt={title} background={background} image={product.image} className='rounded-[16px]' />
+        <CatalogCardMedia alt={title} background={background} image={product.image} images={isDetail ? product.images : undefined} className='rounded-[16px]' />
         <CatalogCardBody className='gap-2.5 px-0 pb-0 pt-0'>
-          <div className='flex min-h-6 items-center'>
-            {charmSwatches.map((swatch, index) => (
-              <span
-                key={`${swatch}-${index}`}
-                title={t.charmColorTitle}
-                className='h-6 w-6 shrink-0 rounded-full border border-bark/10 [&:not(:last-child)]:mr-[-10px]'
-                style={{ background: swatch }}
-              />
+          <ul className='m-0 flex list-none flex-wrap gap-1.5 p-0'>
+            {features.map((feature) => (
+              <li
+                key={feature}
+                className='inline-flex items-center gap-1.5 rounded-full bg-sage/10 px-2.5 py-1.5 font-sans text-[12px] font-medium leading-none text-interactive-text'
+              >
+                <Check className='h-3 w-3 shrink-0' strokeWidth={2.5} aria-hidden='true' />
+                {feature}
+              </li>
             ))}
-          </div>
+          </ul>
           <div className='flex flex-col gap-1'>
             <CatalogCardTitle className='mb-0 line-clamp-2 text-base font-semibold leading-[1.5] tracking-[-0.5px] text-bark'>
               {title}

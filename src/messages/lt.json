@@ -6,9 +6,14 @@
     "hero": {
       "loading3d": "Kraunama 3D peržiūra…",
       "eyebrow": "Šunų antkakliai su vardu",
-      "heading": "Antkaklis šuniui su vardu, kurį pritaikai per 5 sekundes",
+      "heading": "Antkaklis šuniui su vardu",
       "buyNow": "Pirkti dabar",
-      "imageAlt": "Besijuokianti moteris su dviem šunimis, dėvinčiais PawsCharm antkaklius su vardų raidėmis EDIS ir BAZ"
+      "imageAlt": "Besijuokianti moteris su dviem šunimis, dėvinčiais PawsCharm antkaklius su vardų raidėmis EDIS ir BAZ",
+      "subheading": "Pritaikyk per 5 sekundes: vandeniui atsparus BioThane antkaklis su graviruotu vardu ir keičiamais pakabukais.",
+      "secondaryCta": "Žiūrėti pakabukus",
+      "chipHandmade": "Rankų darbas Vilniuje",
+      "chipShipping": "Nemokamas pristatymas nuo {threshold}",
+      "hotspot": "Raidės keičiamos per 5 sek."
     },
     "featuresStrip": {
       "loading3d": "Kraunama 3D peržiūra…",
@@ -52,23 +57,29 @@
       "addToCartAriaLabel": "Pridėti {name} į krepšelį",
       "shopCharmsCta": "Pirkti pakabukus"
     },
+    "gallery": {
+      "heading": "Kiekvienam šuniui – savas stilius",
+      "imageAlt": "Šuo su PawsCharm antkakliu ir savo vardu"
+    },
     "howItWorks": {
       "heading": "Kas atsitiks po to kai įsigysi PawsCharm?",
       "dog1Alt": "Šuo su PawsCharm antkakliu",
       "dog2Alt": "Šuo su akiniais ir PawsCharm antkakliu",
+      "dog3Alt": "Šlapias auksaspalvis retriveris su PawsCharm antkakliu purškia vandenį",
+      "dog4Alt": "Borderkolis su PawsCharm antkakliu, kuriam prisegamas pakabuko raidė",
       "timeline": [
         {
-          "week": "Week 1",
+          "week": "1 savaitė",
           "title": "Nebijosi vandens ir purvo",
           "desc": "BioThane paviršius atlaiko lietų, balas ir purviną žolę — antkaklis lieka švarus po kiekvieno pasivaikščiojimo."
         },
         {
-          "week": "Week 4",
+          "week": "4 savaitė",
           "title": "Būsi išskirtinis",
           "desc": "Pakabukai keičiami per kelias sekundes — kiekvieną dieną galite sukurti naują stilių savo šuniui."
         },
         {
-          "week": "Week 8",
+          "week": "8 savaitė",
           "title": "Turėsi ilgaamžišką pavadėlį, antkaklį bei charmsus",
           "desc": "Medžiaga nesudyla ir neblunka — tas pats antkaklis liks kaip naujas dar ilgai po pirkimo."
         }
@@ -245,7 +256,23 @@
     },
     "card": {
       "charmsIncluded": "{count} pakabukai įskaičiuoti",
-      "charmColorTitle": "Pakabuko spalva"
+      "features": {
+        "collar": [
+          "Atsparus vandeniui ir purvui",
+          "Reguliuojamas prigludimas",
+          "Saugi sagtis"
+        ],
+        "leash": [
+          "Atsparus vandeniui",
+          "1,5 m su paminkštinta rankena",
+          "Integruotas maišelių laikiklis"
+        ],
+        "charm": [
+          "Prisegamas per 5 sekundes",
+          "Tinka visiems PawsCharm antkakliams",
+          "Minkštas silikonas"
+        ]
+      }
     },
     "pdp": {
       "notFoundTitle": "Prekė nerasta",
@@ -421,6 +448,7 @@
       "decoratePanelTitle": "Papuoškite savo antkaklį",
       "addedToCart": "✓ Pridėta į krepšelį!",
       "buyPlain": "Pirkti · {price}",
+      "selectOptionsToBuy": "Pasirinkite spalvą ir dydį",
       "buyWithCharms": "{count, plural, one {Pirkti su # pakabuku · {price}} few {Pirkti su # pakabukais · {price}} other {Pirkti su # pakabukais · {price}}}",
       "stepSummarySkipped": "Praleista",
       "stepSummaryCharms": "{count, plural, one {# pakabukas} few {# pakabukai} other {# pakabukai}}",

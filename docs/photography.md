@@ -94,8 +94,8 @@ When shooting actual product photography, reference these settings:
 
 ## Hero Cover — "Park moment" (Gemini)
 
-Files: `public/hero/park-moment-cover.jpg` (2200×1228, preferred), `park-moment-cover-alt.jpg` (alternate take),
-`park-moment-cover-mobile.jpg` (1080×1349, 4:5 crop of the preferred image so both names stay visible).
+Files: `public/hero/park-moment-cover.jpg` (2200×1228, preferred, used on every screen size) and `park-moment-cover-alt.jpg`
+(alternate take). A 4:5 phone crop existed briefly and was dropped in favour of the same 16:9 photo everywhere.
 
 Generated 2026-10-19 with `gemini-3-pro-image-preview` (alt: `gemini-3.1-flash-image-preview`) via the Gemini
 `generateContent` REST API, 16:9 at 2K, using two real product photos as references
@@ -108,4 +108,19 @@ space on the left for a headline; no text, logos, extra accessories or CGI look.
 
 Known flaws to retouch or reject before heavy use: a faint partial letter before "BAZ" on the spaniel's collar. AI-generated person, so
 no real-person likeness or model-release question, but disclose AI imagery where required.
+
+
+---
+
+## Timeline Cards — "What happens after you get PawsCharm?" (Gemini)
+
+Files: `public/hero-figma/timeline-dog-3.jpg` (golden retriever puppy shaking off water, collar LUNA, powder-blue strap + butter-yellow letters) and `timeline-dog-4.jpg`
+(border collie, collar MILO, lavender strap + mint letters, a hand pressing a letter). They join the existing `timeline-dog-1.jpg` / `timeline-dog-2.png` in the `HowItWorks` fan.
+
+Generated 2026-10-19 with `gemini-3-pro-image-preview` via REST `generateContent` (2:3, 1K), passing two reference images: `bento-collar-charm.png` (exact collar and letter construction)
+and `timeline-dog-2.png` (target look: pale white-lavender studio backdrop, soft window light). Style suffix used on both: "Editorial pet portrait photography, bright airy pale
+white-lavender seamless studio background, soft diffused window light, shallow depth of field, 85mm, photorealistic, no text overlays, no watermark, no CGI look".
+
+Lessons: the first border-collie take had the collar floating in front of the dog instead of worn; fixed by stating "FASTENED AROUND THE DOG'S NECK … sitting snugly on the fur".
+Known flaw: dog-4's D-ring sits slightly forward of the neck. AI-generated imagery; disclose where required.
 

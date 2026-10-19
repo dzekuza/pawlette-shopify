@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
+import { Check, Plus } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Link } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
@@ -81,26 +83,20 @@ function AddToCartButton({ variantId, label }: { variantId: string; label: strin
       onClick={handleAdd}
       disabled={adding || added}
       aria-label={label}
-      className="flex shrink-0 items-center justify-center rounded-full transition-opacity"
-      style={{
-        width: 32,
-        height: 32,
-        background: added ? 'var(--color-interactive-text)' : 'var(--color-sage)',
-        color: 'var(--color-bark)',
-        fontSize: added ? 15 : 18,
-        lineHeight: 1,
-        cursor: adding || added ? 'default' : 'pointer',
-        opacity: adding ? 0.6 : 1,
-      }}
+      className={cn(
+        'flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-bark transition-[background-color,transform,opacity] duration-200 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/40',
+        added ? 'bg-interactive-text text-cream' : 'bg-sage hover:bg-sage-dark',
+        adding && 'opacity-60',
+      )}
     >
-      {added ? '✓' : '+'}
+      {added ? <Check className="h-4 w-4" strokeWidth={2.5} /> : <Plus className="h-4 w-4" strokeWidth={2.5} />}
     </button>
   );
 }
 
-function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: string; width: number; height: number; autoPlay: boolean; onEnded?: () => void }) {
+function SocialVideoCard({ video, width, height, autoPlay, onEnded, children }: { video: string; width: number; height: number; autoPlay: boolean; onEnded?: () => void; children?: ReactNode }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [hovered, setHovered] = useState(false);
+  const progressRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = videoRef.current;
@@ -146,12 +142,10 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
   }, [autoPlay]);
 
   const handleEnter = () => {
-    setHovered(true);
     if (!autoPlay) videoRef.current?.play().catch(() => {});
   };
 
   const handleLeave = () => {
-    setHovered(false);
     if (!autoPlay) {
       const el = videoRef.current;
       if (el) {
@@ -161,10 +155,20 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
     }
   };
 
+  const handleTimeUpdate = () => {
+    const el = videoRef.current;
+    const bar = progressRef.current;
+    if (!el || !bar || !el.duration) return;
+    bar.style.transform = `scaleX(${el.currentTime / el.duration})`;
+  };
+
   return (
     <div
-      className="relative overflow-hidden rounded-[28px] bg-bark transition-transform duration-300 ease-out"
-      style={{ width, height, transform: hovered ? 'scale(1.04)' : 'scale(1)' }}
+      className={cn(
+        'relative overflow-hidden rounded-[32px] bg-bark transition-transform duration-300 ease-out',
+        autoPlay ? 'scale-100' : 'scale-[0.97] hover:scale-100',
+      )}
+      style={{ width, height }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
@@ -178,13 +182,14 @@ function SocialVideoCard({ video, width, height, autoPlay, onEnded }: { video: s
         playsInline
         preload={autoPlay ? 'auto' : 'metadata'}
         onEnded={autoPlay ? onEnded : undefined}
+        onTimeUpdate={autoPlay ? handleTimeUpdate : undefined}
       />
-      {!autoPlay && (
-        <div
-          className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-          style={{ background: 'rgba(250,247,242,0.32)', opacity: hovered ? 0 : 1 }}
-        />
+      {autoPlay && (
+        <span className="absolute inset-x-4 top-4 h-[3px] overflow-hidden rounded-full bg-white/35">
+          <span ref={progressRef} className="block h-full w-full origin-left rounded-full bg-white" style={{ transform: 'scaleX(0)' }} />
+        </span>
       )}
+      {children}
     </div>
   );
 }
@@ -195,17 +200,16 @@ interface SocialSlideProps {
   height: number;
   autoPlay: boolean;
   onEnded?: () => void;
-  /** Content shown under the video, e.g. `<SocialProductInfo />`. Omit for a video-only slide. */
+  /** Content overlaid at the bottom of the video, e.g. `<SocialProductInfo />`. Omit for a video-only slide. */
   children?: ReactNode;
 }
 
 function SocialSlide({ video, width, height, autoPlay, onEnded, children }: SocialSlideProps) {
   return (
     <CarouselItem className="basis-auto shrink-0 grow-0" style={{ flex: '0 0 auto', width }}>
-      <div className="flex flex-col gap-3" style={{ width }}>
-        <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} onEnded={onEnded} />
+      <SocialVideoCard video={video} width={width} height={height} autoPlay={autoPlay} onEnded={onEnded}>
         {children}
-      </div>
+      </SocialVideoCard>
     </CarouselItem>
   );
 }
@@ -214,13 +218,13 @@ function SocialProductInfo({ product }: { product: PromoProduct }) {
   const t = useTranslations('landing.photoSlider');
 
   return (
-    <div className="flex items-center gap-2">
-      <Link href={product.href} className="relative shrink-0 overflow-hidden rounded-xl" style={{ width: 44, height: 44 }}>
+    <div className="absolute inset-x-2.5 bottom-2.5 z-10 flex items-center gap-2.5 rounded-[22px] border border-white/50 bg-cream/85 p-2 backdrop-blur-md">
+      <Link href={product.href} className="relative h-11 w-11 shrink-0 overflow-hidden rounded-[14px]">
         <Image src={product.image} alt={product.name} fill sizes="44px" className="object-cover" />
       </Link>
       <div className="min-w-0 flex-1">
-        <p className="truncate font-sans text-sm font-medium text-bark">{product.name}</p>
-        <span className="font-sans text-sm font-semibold text-bark">{product.price}</span>
+        <p className="m-0 truncate font-sans text-[13px] font-medium leading-tight text-bark">{product.name}</p>
+        <span className="font-sans text-sm font-semibold leading-tight text-bark">{product.price}</span>
       </div>
       <AddToCartButton variantId={product.variantId} label={t('addToCartAriaLabel', { name: product.name })} />
     </div>
@@ -272,8 +276,8 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       })
     : buildSlides(promoProducts);
 
-  const videoW = isMobile ? 220 : 260;
-  const videoH = isMobile ? 320 : 360;
+  const videoW = isMobile ? 240 : 280;
+  const videoH = isMobile ? 380 : 440;
 
   useEffect(() => {
     setActiveIndex(0);
@@ -288,10 +292,8 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
 
   return (
     <section className="bg-surface-2 overflow-hidden">
-      <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-6 px-4 pt-16 md:px-6 md:pt-24 lg:flex-row lg:items-end lg:justify-between lg:gap-10"
-      >
-        <DisplayHeading as="h2" size="section" className="text-left text-bark" style={{ flex: '1 0 0' }}>
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center gap-4 px-4 pt-16 text-center md:px-6 md:pt-24">
+        <DisplayHeading as="h2" size="section" className="text-center text-bark">
           {t('heading')}
         </DisplayHeading>
         <BodyCopy style={{ maxWidth: 434 }}>

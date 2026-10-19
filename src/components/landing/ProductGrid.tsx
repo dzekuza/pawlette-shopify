@@ -26,7 +26,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
       >
         {/* Heading */}
         <div className="flex flex-col items-center text-center gap-4">
-          <DisplayHeading as="h2" size="section" className="text-bark text-[32px] md:text-[48px]">
+          <DisplayHeading as="h2" size="section" className="text-bark">
             {t('heading')}
           </DisplayHeading>
         </div>

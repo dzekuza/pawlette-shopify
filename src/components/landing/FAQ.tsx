@@ -38,25 +38,16 @@ export function FAQ({ cta }: FAQProps = {}) {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-[1200px] px-4 py-16 md:px-6 md:py-24">
-        <div style={{
-          maxWidth: 760,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 40,
-        }}>
-          <DisplayHeading as="h2" size="section" className="text-bark text-center">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+        {/* Heading + CTA stay in view while the answers scroll */}
+        <div className="flex flex-col items-start gap-6 lg:sticky lg:top-28 lg:self-start">
+          <DisplayHeading as="h2" size="section" className="max-w-[14ch] text-bark">
             {t('heading')}
           </DisplayHeading>
-
-          <div style={{ width: '100%' }}>
-            <Accordion items={faqs} />
-          </div>
-
           {cta}
         </div>
+
+        <Accordion items={faqs} />
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
+import { cn } from '@/lib/utils';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
 const HOVER_LIFT = '[@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1'
@@ -35,11 +36,14 @@ function BentoCard({
   return (
     <div
       data-animate="card"
-      className={`group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] min-h-[270px] shadow-[0_24px_48px_-32px_rgba(61,53,48,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] ${bgImage ? 'p-0' : 'p-6'} ${HOVER_LIFT} ${className ?? ''}`}
-      style={{
-        background,
-        justifyContent: align === 'start' ? 'flex-start' : 'flex-end',
-      }}
+      className={cn(
+        'group relative flex min-w-0 flex-col gap-1 overflow-hidden rounded-[28px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] min-h-[290px] md:min-h-[320px]',
+        bgImage ? 'p-0' : 'p-7 md:p-8',
+        align === 'start' ? 'justify-start' : 'justify-end',
+        HOVER_LIFT,
+        className,
+      )}
+      style={{ background }}
     >
       {bgImage ? (
         <Image
@@ -47,8 +51,7 @@ function BentoCard({
           alt={bgImageAlt ?? ''}
           fill
           sizes="(max-width: 767px) 100vw, 380px"
-          style={{ objectFit: 'cover' }}
-          className="transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+          className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
         />
       ) : null}
       {glow ? (
@@ -61,14 +64,14 @@ function BentoCard({
       {children}
       {heading || description ? (
         <div className="relative flex flex-col gap-2">
-          {eyebrow ? <Eyebrow className="text-bark-muted/80">{eyebrow}</Eyebrow> : null}
+          {eyebrow ? <Eyebrow className="mb-1 w-fit rounded-full bg-bark/5 px-3 py-1.5 leading-none text-bark-light">{eyebrow}</Eyebrow> : null}
           {heading ? (
-            <p className="font-sans text-2xl font-medium leading-[1.2] tracking-[-0.02em] text-bark max-w-[320px]">
+            <p className="font-sans text-[26px] font-medium leading-[1.15] tracking-[-0.02em] text-bark max-w-[340px]">
               {heading}
             </p>
           ) : null}
           {description ? (
-            <p className="font-sans text-base font-medium leading-[1.5] text-bark-muted max-w-[320px]">
+            <p className="font-sans text-[15px] leading-relaxed text-bark-light max-w-[340px]">
               {description}
             </p>
           ) : null}
@@ -123,19 +126,18 @@ export function About({
         align="start"
         className="md:basis-[380px] md:flex-none"
       >
-        <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
+        <div aria-hidden="true" className="relative mb-5 h-[170px] w-full">
           <Image
             src="/hero-figma/card-dog-freddie.png"
             alt="Šuo su personalizuotu PawsCharm antkakliu"
             fill
             sizes="380px"
-            style={{ objectFit: 'contain', objectPosition: 'right center' }}
-            className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+            className="object-contain object-right transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
           />
         </div>
       </BentoCard>
       <BentoCard
-        background="rgba(168,213,162,0.3)"
+        background="color-mix(in srgb, var(--color-sage) 22%, var(--color-cream))"
         glow="radial-gradient(circle, rgba(249,228,160,0.6) 0%, rgba(249,228,160,0) 70%)"
         eyebrow={personalizationCard.eyebrow}
         heading={personalizationCard.heading}
@@ -143,10 +145,10 @@ export function About({
         className="flex-1"
       >
         <div aria-hidden="true" className="absolute right-[6%] top-3 w-[30%] max-w-[130px] rotate-[34deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[28deg] aspect-square">
-          <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="130px" style={{ objectFit: 'contain' }} />
+          <Image src="/hero-figma/bento-paw-print.png" alt="" fill sizes="130px" className="object-contain" />
         </div>
         <div aria-hidden="true" className="absolute right-[2%] top-[60%] w-[26%] max-w-[110px] rotate-[46deg] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-[40deg] aspect-square">
-          <Image src="/hero-figma/bento-letter-s.png" alt="" fill sizes="110px" style={{ objectFit: 'contain' }} />
+          <Image src="/hero-figma/bento-letter-s.png" alt="" fill sizes="110px" className="object-contain" />
         </div>
       </BentoCard>
     </div>
@@ -169,14 +171,13 @@ export function About({
         align="start"
         className="md:basis-[380px] md:flex-none"
       >
-        <div aria-hidden="true" className="relative mb-4 h-[160px] w-full">
+        <div aria-hidden="true" className="relative mb-5 h-[170px] w-full">
           <Image
             src="/hero-figma/card-dog-baz.png"
             alt="Šuo Baz su personalizuotu PawsCharm antkakliu"
             fill
             sizes="380px"
-            style={{ objectFit: 'contain', objectPosition: 'right center' }}
-            className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
+            className="object-contain object-right transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.04]"
           />
         </div>
       </BentoCard>
@@ -186,7 +187,7 @@ export function About({
   const brandPanel = (
     <div
       data-animate="card"
-      className={`group relative flex items-center justify-center overflow-hidden rounded-[24px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] aspect-[3/4] bg-surface-2 shadow-[0_24px_48px_-32px_rgba(61,53,48,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] ${HOVER_LIFT} md:basis-[340px] md:flex-none`}
+      className={cn('group relative flex items-center justify-center overflow-hidden rounded-[28px] ring-1 ring-bark/[0.06] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] aspect-[3/4] bg-surface-2 md:basis-[340px] md:flex-none', HOVER_LIFT)}
     >
       <video
         src="https://cdn.shopify.com/videos/c/o/v/eaad51df2ebc4bdd81140870ab6f1534.mp4"
@@ -205,7 +206,7 @@ export function About({
         <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end md:gap-6">
           <div className="flex flex-col gap-3">
             <Eyebrow>{eyebrow}</Eyebrow>
-            <DisplayHeading as="h2" size="section" className="text-bark md:text-[48px]">
+            <DisplayHeading as="h2" size="section" className="text-bark">
               {heading}
             </DisplayHeading>
           </div>

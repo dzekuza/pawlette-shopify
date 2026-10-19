@@ -25,7 +25,7 @@ export function ReviewStars ({ className, children }: ReviewStarsProps) {
   return (
     <div className={cn('flex items-center gap-[3px]', className)}>
       {Array.from({ length: 5 }).map((_, index) => (
-        <Star key={index} aria-hidden className='size-4 fill-honey text-honey' strokeWidth={1.5} />
+        <Star key={index} aria-hidden className='size-4 fill-honey-dark text-honey-dark' strokeWidth={1.5} />
       ))}
       {children}
     </div>

@@ -2,6 +2,8 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import { Check } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { CharmDecoratorPanel } from '@/components/products/CharmDecoratorPanel'
 import { CharmDecoratorProvider } from '@/components/products/CharmDecoratorContext'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
@@ -10,9 +12,6 @@ import { DisplayHeading } from '@/components/storefront/Typography'
 import { VideoCircles } from '@/components/products/configurator/VideoCircles'
 import { useCollarConfiguratorContext } from '@/components/products/configurator/CollarConfiguratorContext'
 import {
-  BORDER_COLOR,
-  TEXT_PRIMARY,
-  TEXT_SECONDARY,
   PDP_REVIEW_RATING,
   PDP_REVIEW_COUNT,
   translateColorLabel,
@@ -23,18 +22,18 @@ export function Header({ as = 'h1' }: { as?: 'h1' | 'h2' }) {
   const tPdp = useTranslations('products.pdp')
   const { state: { configurator: { collar } }, meta: { name, price } } = useCollarConfiguratorContext()
   return (
-  <div>
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
-      <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
-      <span style={{ fontSize: 13, fontWeight: 600 }}>{tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
+    <div className='flex flex-col gap-3'>
+      <div className='inline-flex w-fit items-center gap-2 rounded-full bg-bark/5 py-1.5 pl-2.5 pr-3 text-bark'>
+        <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
+        <span className='text-[13px] font-semibold leading-none'>{tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
+      </div>
+      <DisplayHeading as={as} size="compact" className="m-0 leading-[1.1] text-bark">{name}</DisplayHeading>
+      <ProductPrice
+        currentPrice={price}
+        originalPrice={collar?.originalPrice}
+        size='detail'
+      />
     </div>
-    <DisplayHeading as={as} size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
-    <ProductPrice
-      currentPrice={price}
-      originalPrice={collar?.originalPrice}
-      size='detail'
-    />
-  </div>
   )
 }
 
@@ -47,9 +46,9 @@ export function Videos({ videos }: { videos: string[] }) {
 /** "Label ........ value" row above a picker. */
 function FieldLabel({ label, value }: { label: string; value?: string }) {
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-      <span style={{ fontSize: 13, fontWeight: 600, color: TEXT_PRIMARY }}>{label}</span>
-      {value && <span style={{ fontSize: 13, color: TEXT_SECONDARY }}>{value}</span>}
+    <div className='mb-3 flex items-center justify-between gap-3'>
+      <span className='text-sm font-semibold text-bark'>{label}</span>
+      {value && <span className='rounded-full bg-bark/5 px-2.5 py-1 text-xs font-medium leading-none text-bark-light'>{value}</span>}
     </div>
   )
 }
@@ -59,26 +58,20 @@ export function ColorSwatches() {
   const tPdp = useTranslations('products.pdp')
   const { state: { configurator: { selectedColor, onColorChange } }, meta: { colorOptions } } = useCollarConfiguratorContext()
   return (
-    <div style={{ display: 'flex', gap: 8 }}>
+    <div className='flex gap-2.5'>
       {colorOptions.map((option) => {
         const isSelected = option.color === selectedColor
         return (
           <button
             key={option.color}
-              title={translateColorLabel(tPdp, option.color)}
+            type='button'
+            title={translateColorLabel(tPdp, option.color)}
             onClick={() => onColorChange(option.color)}
-            style={{
-              flex: '1 1 0',
-              aspectRatio: '1 / 1',
-              minWidth: 0,
-              padding: 0,
-              borderRadius: 12,
-              border: `2px solid ${isSelected ? 'var(--color-sage-dark)' : BORDER_COLOR}`,
-              overflow: 'hidden',
-              cursor: 'pointer',
-              background: option.fallback,
-              transition: 'border-color 150ms, transform 150ms',
-            }}
+            style={{ background: option.fallback }}
+            className={cn(
+              'relative aspect-square min-w-0 flex-1 overflow-hidden rounded-2xl border-2 p-0 transition-[border-color,transform] duration-200 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage',
+              isSelected ? 'border-bark' : 'border-transparent hover:-translate-y-0.5 hover:border-bark/25',
+            )}
             aria-label={option.color}
             aria-pressed={isSelected}
           >
@@ -89,9 +82,14 @@ export function ColorSwatches() {
                 width={52}
                 height={52}
                 aria-hidden="true"
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                className='block h-full w-full object-cover'
               />
             ) : null}
+            {isSelected && (
+              <span className='absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-bark text-cream'>
+                <Check className='h-3 w-3' strokeWidth={3} aria-hidden='true' />
+              </span>
+            )}
           </button>
         )
       })}
@@ -118,48 +116,34 @@ export function SizeOptions() {
   const t = useTranslations('products.configurator')
   const { state: { configurator: { collar, selectedSize, onSizeChange } }, actions: { openFitGuide } } = useCollarConfiguratorContext()
   return (
-    <>
-    <div style={{ display: 'flex', gap: 8 }}>
-      {(collar?.sizes ?? []).map((s) => {
-        const isSelected = s === selectedSize
-        return (
-          <button
-            key={s}
-            onClick={() => onSizeChange(s)}
-            style={{
-              minWidth: 48, padding: '8px 16px', borderRadius: 10, cursor: 'pointer',
-              fontWeight: 600, fontSize: 14,
-              border: `2px solid ${isSelected ? TEXT_PRIMARY : BORDER_COLOR}`,
-              background: isSelected ? TEXT_PRIMARY : 'transparent',
-              color: isSelected ? 'var(--color-cream)' : TEXT_PRIMARY,
-              transition: 'background 150ms, border-color 150ms, color 150ms',
-            }}
-          >
-            {s}
-          </button>
-        )
-      })}
-    </div>
-    <div style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+    <div className='flex flex-col gap-3'>
+      <div className='flex gap-1 rounded-2xl bg-surface-2 p-1'>
+        {(collar?.sizes ?? []).map((s) => {
+          const isSelected = s === selectedSize
+          return (
+            <button
+              key={s}
+              type='button'
+              onClick={() => onSizeChange(s)}
+              aria-pressed={isSelected}
+              className={cn(
+                'min-w-0 flex-1 rounded-xl px-2 py-2.5 text-sm font-semibold transition-[background-color,color,transform] duration-200 ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage',
+                isSelected ? 'bg-bark text-cream' : 'text-bark hover:bg-white',
+              )}
+            >
+              {s}
+            </button>
+          )
+        })}
+      </div>
       <button
-        type="button"
+        type='button'
         onClick={() => openFitGuide()}
-        style={{
-          width: 'fit-content',
-          padding: 0,
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 600,
-          color: 'var(--color-interactive-text)',
-          textDecoration: 'none',
-        }}
+        className='w-fit border-0 bg-transparent p-0 text-[13px] font-semibold text-interactive-text underline-offset-4 hover:underline'
       >
         {t('howToMeasure')}
       </button>
     </div>
-    </>
   )
 }
 
@@ -208,26 +192,21 @@ export function Charms() {
 /** Add-to-cart — label reflects any charms already picked so the payoff of customizing is visible at purchase. */
 export function AddToCart() {
   const t = useTranslations('products.configurator')
-  const { state: { configurator: { selectedCollarCharmCount }, added }, actions: { addToCart: handleAddToCart }, meta: { price } } = useCollarConfiguratorContext()
+  const { state: { configurator: { selectedCollarCharmCount, canAddToCart }, added }, actions: { addToCart: handleAddToCart }, meta: { price } } = useCollarConfiguratorContext()
   return (
-  <button
-    onClick={handleAddToCart}
-    style={{
-      width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: 'pointer',
-      fontWeight: 600, fontSize: 16, letterSpacing: '0.01em',
-      background: 'var(--color-sage)', color: 'var(--color-interactive-text)',
-      boxShadow: '0 4px 20px rgba(168,213,162,0.45)', transition: 'background-color 150ms ease-out, transform 80ms ease-out',
-    }}
-    onMouseEnter={(e) => { e.currentTarget.style.background = '#8fc489'; e.currentTarget.style.transform = 'translateY(-1px)' }}
-    onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'translateY(0)' }}
-    onMouseDown={(e) => { e.currentTarget.style.transform = 'translateY(1px)' }}
-    onMouseUp={(e) => { e.currentTarget.style.transform = 'translateY(-1px)' }}
-  >
-    {added
-      ? t('addedToCart')
-      : selectedCollarCharmCount
-        ? t('buyWithCharms', { count: selectedCollarCharmCount, price })
-        : t('buyPlain', { price })}
-  </button>
+    <button
+      type='button'
+      onClick={handleAddToCart}
+      disabled={!canAddToCart}
+      className='h-14 w-full disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:bg-sage rounded-full bg-sage text-base font-semibold tracking-[0.01em] text-interactive-text shadow-[0_10px_24px_-12px_rgba(168,213,162,0.9)] transition-[background-color,transform] duration-200 ease-out hover:-translate-y-0.5 hover:bg-sage-dark active:translate-y-px active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30 focus-visible:ring-offset-2'
+    >
+      {!canAddToCart
+        ? t('selectOptionsToBuy')
+        : added
+        ? t('addedToCart')
+        : selectedCollarCharmCount
+          ? t('buyWithCharms', { count: selectedCollarCharmCount, price })
+          : t('buyPlain', { price })}
+    </button>
   )
 }

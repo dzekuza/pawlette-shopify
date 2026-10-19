@@ -65,10 +65,6 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
           ?? data[0]
           ?? null
         setCollar(match)
-        if (match) {
-          setSelectedColor(match.colors[0] ?? '')
-          setSelectedSize(match.sizes[1] ?? match.sizes[0] ?? '')
-        }
       })
     } else {
       getCollars().then((data) => {
@@ -78,10 +74,6 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
           ?? data[0]
           ?? null
         setCollar(match)
-        if (match) {
-          setSelectedColor(match.colors[0] ?? '')
-          setSelectedSize(match.sizes[1] ?? match.sizes[0] ?? '')
-        }
       })
     }
     getCharms().then(setCharms)
@@ -92,7 +84,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     const next = allCollars.find(c => c.colors.includes(color) || c.colors[0] === color)
     if (next) {
       setCollar(next)
-      setSelectedSize(s => next.sizes.includes(s) ? s : (next.sizes[1] ?? next.sizes[0] ?? ''))
+      setSelectedSize(s => next.sizes.includes(s) ? s : '')
     }
   }
 
@@ -135,6 +127,10 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     }
   }
 
+  // Nothing is preselected: the buyer must pick a colour and (when the product has sizes) a size
+  // before anything can be added to the cart.
+  const canAddToCart = !!selectedColor && (!collar?.sizes?.length || !!selectedSize)
+
   const selectedVariantImage = collar?.variants.find((variant) =>
     (selectedColor ? variant.color === selectedColor : true) &&
     (selectedSize ? variant.size === selectedSize : true)
@@ -146,7 +142,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
   // so buying a 2nd collar (same color/size) correctly counts as 2 for BXGY-style
   // "N free charms per collar" discounts instead of being silently skipped.
   const buildCollarBundleLines = async () => {
-    if (!collar) return { lines: [] as { merchandiseId: string; quantity: number }[], collarAdded: false }
+    if (!collar || !canAddToCart) return { lines: [] as { merchandiseId: string; quantity: number }[], collarAdded: false }
     const variant = collar.variants.find(v =>
       (selectedColor ? v.color === selectedColor : true) &&
       (selectedSize ? v.size === selectedSize : true)
@@ -189,6 +185,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
   }, [charms, collarCharmColor, collarCharmQuery, activeCharmSizeGroup])
 
   const addCollarCharmToCart = async () => {
+    if (!canAddToCart) return
     const picked = selectedCollarCharms.filter(Boolean) as ShopifyCharm[]
     if (!picked.length) return
     setCharmAdded(true)
@@ -286,6 +283,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
     selectedSize,
     mounted,
     selectedVariantImage,
+    canAddToCart,
     // color/size
     onColorChange: handleColorChange,
     onSizeChange: setSelectedSize,
