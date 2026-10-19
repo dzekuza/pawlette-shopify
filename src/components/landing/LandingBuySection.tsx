@@ -38,7 +38,7 @@ export function LandingBuySection() {
               name={collar.parentTitle ?? t('defaultCollarName')}
               price={displayPrice}
             >
-              <CollarConfigurator.Header />
+              <CollarConfigurator.Header as="h2" />
               <CollarConfigurator.GuidedSteps />
               <CollarConfigurator.AddToCart />
             </CollarConfigurator.Root>

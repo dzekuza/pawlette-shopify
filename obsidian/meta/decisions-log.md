@@ -1,12 +1,28 @@
 ---
 tags: [meta, decision]
-updated: 2026-09-20
+updated: 2026-10-19
 ---
 
 # Decisions Log (ADRs)
 
 Architecture Decision Records. Each entry captures a choice, its context, and its
 consequences. Use [[templates/adr-note]] for new entries. Newest first.
+
+---
+
+## ADR-0002 — Landing page has exactly one H1; embedded product titles are H2
+
+- **Status:** Accepted
+- **Date:** 2026-10-19
+
+**Context.** The homepage embeds the collar configurator, whose header rendered the
+product name as an H1, giving two H1s (hero + product title).
+
+**Decision.** `CollarConfigurator.Header` accepts `as` (`h1` default, `h2` when embedded).
+Pages that embed the configurator below another H1 must pass `as="h2"`. Noindex on
+letter-charm variants and the `pawcharms-pakabuciai` canonical stay as deliberate SEO choices.
+
+**Consequences.** One H1 per page on the landing; PDPs keep their product-name H1.
 
 ---
 

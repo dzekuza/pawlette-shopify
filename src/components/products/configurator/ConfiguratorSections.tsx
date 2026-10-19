@@ -19,7 +19,7 @@ import {
 } from '@/components/products/pdpConstants'
 
 /** Review badge, product name and price. */
-export function Header() {
+export function Header({ as = 'h1' }: { as?: 'h1' | 'h2' }) {
   const tPdp = useTranslations('products.pdp')
   const { state: { configurator: { collar } }, meta: { name, price } } = useCollarConfiguratorContext()
   return (
@@ -28,7 +28,7 @@ export function Header() {
       <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
       <span style={{ fontSize: 13, fontWeight: 600 }}>{tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
     </div>
-    <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
+    <DisplayHeading as={as} size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{name}</DisplayHeading>
     <ProductPrice
       currentPrice={price}
       originalPrice={collar?.originalPrice}
