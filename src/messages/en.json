@@ -13,7 +13,8 @@
       "secondaryCta": "Browse charms",
       "chipHandmade": "Handmade in Vilnius",
       "chipShipping": "Free shipping over {threshold}",
-      "hotspot": "Swap letters in 5 seconds"
+      "hotspot": "Swap letters in 5 seconds",
+      "priceFrom": "From {price} · 5 charms included"
     },
     "featuresStrip": {
       "loading3d": "Loading 3D preview…",
@@ -186,10 +187,18 @@
       "errorEmptyEmail": "Enter your email address.",
       "errorGeneric": "Couldn't sign up your email.",
       "successWithCode": "Thank you. Your 10% discount code: {code}",
-      "successNoCode": "Thank you. Your subscription is confirmed."
+      "successNoCode": "Thank you. Your subscription is confirmed.",
+      "consent": "I agree to receive PawsCharm news and offers by email. I can unsubscribe at any time.",
+      "errorConsent": "Please tick the box to confirm your consent."
+    },
+    "sectionCta": {
+      "button": "Build your collar"
+    },
+    "reviews": {
+      "heading": "Loved by dogs and the people who walk them"
     },
     "stickyCta": {
-      "productLine": "Waterproof collar sets — from €32.99",
+      "productLine": "Waterproof collar sets — from €33.00",
       "charmsIncludedLine": "5 charms included · {shipping}",
       "returnsBadge": "✓ 30-day returns",
       "cta": "Build your collar →"

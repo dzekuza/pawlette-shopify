@@ -37,9 +37,15 @@ function isExistingCustomerError(message: string) {
 export async function POST(request: Request) {
   const body = await request.json().catch(() => ({}));
   const email = String(body.email ?? '').trim().toLowerCase();
+  const consent = body.consent === true;
 
   if (!email || !email.includes('@')) {
     return NextResponse.json({ error: 'Įveskite galiojantį el. pašto adresą.' }, { status: 400 });
+  }
+
+  // EU marketing opt-in must be explicit: never subscribe without the consent checkbox.
+  if (!consent) {
+    return NextResponse.json({ error: 'Reikalingas sutikimas gauti naujienas el. paštu.' }, { status: 400 });
   }
 
   // Shopify limits password length to a maximum of 40 characters.
@@ -52,7 +58,7 @@ export async function POST(request: Request) {
         input: {
           email,
           password,
-          acceptsMarketing: true,
+          acceptsMarketing: consent,
         },
       },
     }

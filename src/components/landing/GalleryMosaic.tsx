@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { SectionCta } from '@/components/landing/SectionCta';
 import { DisplayHeading } from '@/components/storefront/Typography';
 
 // 2 columns on phones, 4 on md+. Spans are chosen so each breakpoint tiles with no gaps.
@@ -42,6 +43,10 @@ export function GalleryMosaic() {
               />
             </div>
           ))}
+        </div>
+
+        <div className="flex justify-center">
+          <SectionCta location="gallery" />
         </div>
       </div>
     </section>

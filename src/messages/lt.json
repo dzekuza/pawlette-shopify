@@ -13,7 +13,8 @@
       "secondaryCta": "Žiūrėti pakabukus",
       "chipHandmade": "Rankų darbas Vilniuje",
       "chipShipping": "Nemokamas pristatymas nuo {threshold}",
-      "hotspot": "Raidės keičiamos per 5 sek."
+      "hotspot": "Raidės keičiamos per 5 sek.",
+      "priceFrom": "Nuo {price} · 5 pakabukai įskaičiuoti"
     },
     "featuresStrip": {
       "loading3d": "Kraunama 3D peržiūra…",
@@ -186,10 +187,18 @@
       "errorEmptyEmail": "Įveskite el. pašto adresą.",
       "errorGeneric": "Nepavyko užregistruoti el. pašto.",
       "successWithCode": "Ačiū. Jūsų 10% nuolaidos kodas: {code}",
-      "successNoCode": "Ačiū. Jūsų prenumerata patvirtinta."
+      "successNoCode": "Ačiū. Jūsų prenumerata patvirtinta.",
+      "consent": "Sutinku gauti „PawsCharm“ naujienas ir pasiūlymus el. paštu. Atsisakyti galiu bet kada.",
+      "errorConsent": "Pažymėkite varnelę, kad patvirtintumėte sutikimą."
+    },
+    "sectionCta": {
+      "button": "Sukurkite savo antkaklį"
+    },
+    "reviews": {
+      "heading": "Ką sako šunų šeimininkai"
     },
     "stickyCta": {
-      "productLine": "Vandeniui atsparūs antkaklių rinkiniai — nuo 32.99 €",
+      "productLine": "Vandeniui atsparūs antkaklių rinkiniai — nuo 33.00 €",
       "charmsIncludedLine": "5 pakabukai įskaičiuoti · {shipping}",
       "returnsBadge": "✓ 30 dienų grąžinimas",
       "cta": "Kurk savo antkaklį →"

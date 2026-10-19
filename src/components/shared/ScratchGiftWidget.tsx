@@ -24,6 +24,7 @@ interface NewsletterResponse {
 export function ScratchGiftWidget() {
   const [step, setStep] = useState<Step>('closed');
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [code, setCode] = useState('');
@@ -140,6 +141,11 @@ export function ScratchGiftWidget() {
       return;
     }
 
+    if (!consent) {
+      setErrorMessage('Pažymėkite varnelę, kad patvirtintumėte sutikimą.');
+      return;
+    }
+
     setSubmitting(true);
     setErrorMessage('');
 
@@ -147,7 +153,7 @@ export function ScratchGiftWidget() {
       const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: normalizedEmail }),
+        body: JSON.stringify({ email: normalizedEmail, consent: true }),
       });
       const data = (await response.json()) as NewsletterResponse;
 
@@ -180,6 +186,7 @@ export function ScratchGiftWidget() {
     }
     setStep('closed');
     setEmail('');
+    setConsent(false);
     setErrorMessage('');
     setCopied(false);
   }
@@ -267,6 +274,16 @@ export function ScratchGiftWidget() {
                     onChange={setEmail}
                     disabled={submitting}
                   />
+                  <label className="flex cursor-pointer items-start gap-3 text-left text-[13px] leading-snug text-bark-light">
+                    <input
+                      type="checkbox"
+                      checked={consent}
+                      onChange={(event) => setConsent(event.target.checked)}
+                      disabled={submitting}
+                      className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--color-interactive-text)]"
+                    />
+                    <span>Sutinku gauti „PawsCharm“ naujienas ir pasiūlymus el. paštu. Atsisakyti galiu bet kada.</span>
+                  </label>
                   {errorMessage ? (
                     <p className="text-[13px] text-destructive">{errorMessage}</p>
                   ) : null}

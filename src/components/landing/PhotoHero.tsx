@@ -33,7 +33,7 @@ function HeroGhostLink ({ href, children }: { href: string, children: React.Reac
  * From lg up the card keeps the photo's 2200:1228 aspect ratio so the hotspot percentages stay exact; the card also
  * shrinks to fit the viewport height. Below xl the text may sit over the subjects (a dark scrim keeps it readable); from xl the column stays left of the hotspot.
  */
-export function PhotoHero () {
+export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
   const t = useTranslations('landing.hero')
   const alt = t('imageAlt')
 
@@ -72,6 +72,9 @@ export function PhotoHero () {
             {t('heading')}
           </DisplayHeading>
           <BodyCopy className='max-w-[46ch] text-bark-light lg:text-[clamp(0.85rem,1.15cqw,1.05rem)] lg:leading-[1.5] lg:text-white/85'>{t('subheading')}</BodyCopy>
+          {startingPrice ? (
+            <p className='m-0 text-[15px] font-semibold text-bark lg:text-white'>{t('priceFrom', { price: startingPrice })}</p>
+          ) : null}
           <div className='flex flex-wrap items-center gap-3'>
             <PrimaryButton
               href='#customize'

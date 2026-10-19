@@ -4,6 +4,7 @@ import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { SectionCta } from '@/components/landing/SectionCta';
 import { HARDWARE_COLOUR } from '@/lib/collar3d';
 
 function Collar3DLoading() {
@@ -127,6 +128,10 @@ export function FeaturesStrip() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="relative z-10 flex justify-center">
+          <SectionCta location="features" />
         </div>
 
       </div>

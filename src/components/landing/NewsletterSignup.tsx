@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { cn } from '@/lib/utils';
 
 interface NewsletterResponse {
   code?: string;
@@ -11,6 +12,7 @@ interface NewsletterResponse {
 export function NewsletterSignup() {
   const t = useTranslations('landing.newsletter');
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
@@ -24,6 +26,12 @@ export function NewsletterSignup() {
       return;
     }
 
+    if (!consent) {
+      setStatus('error');
+      setMessage(t('errorConsent'));
+      return;
+    }
+
     setStatus('submitting');
     setMessage('');
 
@@ -31,7 +39,7 @@ export function NewsletterSignup() {
       const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: normalizedEmail }),
+        body: JSON.stringify({ email: normalizedEmail, consent: true }),
       });
       const data = await response.json() as NewsletterResponse;
 
@@ -44,6 +52,7 @@ export function NewsletterSignup() {
         ? t('successWithCode', { code: data.code })
         : t('successNoCode'));
       setEmail('');
+      setConsent(false);
     } catch (error) {
       setStatus('error');
       setMessage(error instanceof Error ? error.message : t('errorGeneric'));
@@ -62,7 +71,8 @@ export function NewsletterSignup() {
             {t('description')}
           </p>
 
-          <form onSubmit={handleSubmit} className="mx-auto flex max-w-[620px] flex-col gap-3 md:flex-row">
+          <form onSubmit={handleSubmit} className="mx-auto max-w-[620px]">
+            <div className="flex flex-col gap-3 md:flex-row">
             <input
               type="email"
               inputMode="email"
@@ -81,12 +91,21 @@ export function NewsletterSignup() {
             >
               {status === 'submitting' ? t('submitting') : t('submit')}
             </button>
+            </div>
+            <label className="mx-auto mt-4 flex max-w-[620px] cursor-pointer items-start gap-3 text-left text-[13px] leading-snug text-bark-light">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(event) => setConsent(event.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--color-interactive-text)]"
+              />
+              <span>{t('consent')}</span>
+            </label>
           </form>
 
           {message ? (
             <p
-              className="mt-4 text-[14px] leading-[1.6]"
-              style={{ color: status === 'error' ? 'var(--color-destructive)' : 'var(--color-bark)' }}
+              className={cn('mt-4 text-[14px] leading-[1.6]', status === 'error' ? 'text-destructive' : 'text-bark')}
             >
               {message}
             </p>

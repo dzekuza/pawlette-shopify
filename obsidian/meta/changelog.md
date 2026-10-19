@@ -9,6 +9,13 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-20 — Conversion batch (landing)
+
+- **Hero price anchor:** `PhotoHero` takes `startingPrice` (lowest collar price from the landing products, via `lowestCollarPrice` in `LandingPage`) and shows "From €33.00 · 5 charms included" above the CTAs (`landing.hero.priceFrom`). The sticky bar's hardcoded "from €32.99" copy was corrected to €33.00 to match.
+- **Mid-page CTAs:** new `SectionCta` ("Build your collar" → `#customize`, GA `cta_click` tagged per location) after the how-it-works timeline, the features bento, the gallery mosaic and the reviews section.
+- **Reviews section:** new `ReviewsSection` before the buy card — rating chip, one featured quote and two supporting quotes (asymmetric, no equal 3-up), from the existing `products.pdp.reviews` + `PDP_REVIEW_*` constants. Those are still hard-coded; replace with real, verified reviews before using them in schema.
+- **Newsletter consent:** `NewsletterSignup` and `ScratchGiftWidget` now require an explicit consent checkbox; `/api/newsletter` rejects requests without `consent: true` (400) and sets `acceptsMarketing` from it instead of always `true`.
+
 ## 2026-10-19 — "Browse every charm" grid removed from charm pages
 
 - Removed the all-charms grid (`CharmCard` list) from `ProductPageShell`. It was the only internal-link path to the individual charm PDPs (`/products/charm-<letter>-<colour>`) for search crawlers; those URLs are still in the sitemap if listed there. `CharmCard.tsx` and the `products.pdp.allCharms` strings are now unused and left in place.

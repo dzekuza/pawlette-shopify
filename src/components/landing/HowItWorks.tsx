@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
+import { SectionCta } from '@/components/landing/SectionCta';
 import { DisplayHeading } from '@/components/storefront/Typography';
 
 // Fanned photo stack: later entries sit on top. Straightens slightly on hover.
@@ -77,6 +78,10 @@ export function HowItWorks() {
             );
           })}
         </ol>
+
+        <div className="flex justify-center lg:col-span-2">
+          <SectionCta location="how_it_works" />
+        </div>
       </div>
     </section>
   );

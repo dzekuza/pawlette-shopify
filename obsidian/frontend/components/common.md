@@ -14,6 +14,8 @@ primitives, reused across features.
 | `HeroHotspot` | `components/landing/HeroHotspot.tsx` | Crosshair frame + label over the lettered collar; percent-positioned against the photo, so only valid while the card keeps the photo's aspect ratio; xl+ only | #stable |
 | `HoverImageCarousel` | `components/storefront/HoverImageCarousel.tsx` | Client crossfade carousel used by `CatalogCardMedia` when a card has 2+ images: cycles on mouse hover only (max 4 images, dots), lazy-mounts extras, respects reduced motion | #stable |
 | `GalleryMosaic` | `components/landing/GalleryMosaic.tsx` | Landing photo bento: heading + 7 dog photos in a 2→4 column span grid, sits right before the buy section; images/spans in the `TILES` constant | #stable |
+| `ReviewsSection` | `components/landing/ReviewsSection.tsx` | Landing social proof: rating chip, featured quote + two supporting quotes, closing `SectionCta`; copy from `products.pdp.reviews` | #stable |
+| `SectionCta` | `components/landing/SectionCta.tsx` | Dark "Build your collar" `PrimaryButton` linking to `#customize` with a GA `cta_click` (pass `location`) | #stable |
 | `GuideLayout` | `components/guide/GuideLayout.tsx` | Server shell for guide pages: nav, footer, width, JSON-LD scripts | #stable |
 | `GuideHeader`, `GuideSection`, `GuideCallout`, `GuideBullets`, `GuideLink`, `GuideNumberedList`, `GuideTable`, `GuideFaq`, `GuideCta` | `components/guide/GuideBlocks.tsx` | Content blocks for `/guide/*` pages (all server components) | #stable |
 
