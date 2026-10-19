@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto'
+import { createHash, createHmac } from 'node:crypto'
 import { META_CART_ATTRIBUTES } from './meta-cart-attributes'
 
 interface ShopifyAddress {
@@ -49,6 +49,14 @@ function hash (value: string): string {
   return createHash('sha256').update(value.trim().toLowerCase()).digest('hex')
 }
 
+/**
+ * Deterministic per order (so Shopify retries dedupe) but unguessable without the server secret, so a
+ * visitor can't pre-empt the real event by firing a Purchase with a predicted id.
+ */
+export function purchaseEventId (orderId: number | string, secret: string): string {
+  return `purchase-${createHmac('sha256', secret).update(String(orderId)).digest('hex').slice(0, 32)}`
+}
+
 function digitsOnly (value: string): string {
   return value.replace(/\D/g, '')
 }
@@ -61,9 +69,9 @@ function attribute (order: ShopifyOrderPayload, name: string): string | undefine
  * Maps a Shopify `orders/paid` payload to a Meta Purchase event.
  * Only orders whose cart carried `meta_consent=granted` (written by the storefront when the
  * visitor accepted cookies) are sent, so server-side purchases follow the same consent gate
- * as the browser pixel. The event id is derived from the order id so webhook retries dedupe.
+ * as the browser pixel. The event id is an HMAC of the order id so webhook retries dedupe.
  */
-export function buildMetaPurchaseEvent (order: ShopifyOrderPayload, siteUrl: string): PurchaseDecision {
+export function buildMetaPurchaseEvent (order: ShopifyOrderPayload, siteUrl: string, idSecret: string): PurchaseDecision {
   if (order.test) return { send: false, reason: 'test-order' }
   if (attribute(order, META_CART_ATTRIBUTES.consent) !== 'granted') return { send: false, reason: 'no-consent' }
 
@@ -91,7 +99,7 @@ export function buildMetaPurchaseEvent (order: ShopifyOrderPayload, siteUrl: str
     send: true,
     event: {
       eventName: 'Purchase',
-      eventId: `purchase-${order.id}`,
+      eventId: purchaseEventId(order.id, idSecret),
       eventTime: Math.floor(new Date(order.processed_at ?? order.created_at ?? Date.now()).getTime() / 1000),
       eventSourceUrl: attribute(order, META_CART_ATTRIBUTES.sourceUrl) ?? siteUrl,
       fbp,

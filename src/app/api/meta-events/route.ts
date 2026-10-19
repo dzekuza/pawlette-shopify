@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendMetaCapiEvent } from '@/lib/meta-capi'
 
+// Browser-originated events only. Purchase is sent server-side from the signed Shopify webhook;
+// accepting it here would let anyone forge purchases or pre-empt the real event's id.
+const ALLOWED_BROWSER_EVENTS = new Set(['ViewContent', 'AddToCart', 'InitiateCheckout'])
+
 interface MetaEventRequestBody {
   eventName: string
   eventId: string
@@ -15,6 +19,10 @@ export async function POST (request: NextRequest) {
 
   if (!body.eventName || !body.eventId || !body.eventSourceUrl) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
+  }
+
+  if (!ALLOWED_BROWSER_EVENTS.has(body.eventName) || body.eventId.startsWith('purchase-')) {
+    return NextResponse.json({ error: 'Event not allowed' }, { status: 400 })
   }
 
   await sendMetaCapiEvent({

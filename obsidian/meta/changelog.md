@@ -22,6 +22,9 @@ This is a human-curated log — not a mirror of `git log`. Record *why*, not jus
 - `sendMetaCapiEvent` now returns per-pixel results and posts to both pixels when each has a token
   (`META_CAPI_ACCESS_TOKEN`, `META_CAPI_ACCESS_TOKEN_SECONDARY`); `META_CAPI_TEST_EVENT_CODE` routes
   events to Events Manager's Test events tab. Signature check moved to `src/lib/shopify-webhook.ts`.
+- Hardening: purchase event ids are now an HMAC of the order id (unguessable, still stable across
+  Shopify retries), and `/api/meta-events` accepts only `ViewContent`, `AddToCart` and `InitiateCheckout`,
+  rejecting `Purchase` and ids starting with `purchase-`, so a visitor can't forge or pre-empt a purchase.
 - Verified: 12 unit tests (mapping, hashing, consent, signatures), route behaviour on a production
   build (401/400/405, skipped, rejected-by-Meta 502 with a fake token), and in the browser against the
   real Shopify cart (attributes present after accepting cookies, absent after declining).

@@ -27,7 +27,7 @@ export async function POST (request: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
-  const decision = buildMetaPurchaseEvent(order, SITE_URL)
+  const decision = buildMetaPurchaseEvent(order, SITE_URL, secret)
   if (!decision.send) {
     return NextResponse.json({ sent: false, reason: decision.reason })
   }
