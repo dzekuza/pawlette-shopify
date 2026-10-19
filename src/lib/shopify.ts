@@ -1,9 +1,36 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 
-export const shopifyClient = createStorefrontApiClient({
+export const SHOPIFY_CACHE_TAG = 'shopify';
+const SHOPIFY_REVALIDATE_SECONDS = 300;
+const IS_SERVER = typeof window === 'undefined';
+
+const storefrontConfig = {
   storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
   apiVersion: '2026-04',
   publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!,
+};
+
+/** Uncached client — use for mutations, carts and anything customer-specific. */
+export const shopifyClient = createStorefrontApiClient(storefrontConfig);
+
+/**
+ * Read-only catalog client. On the server its requests go through Next's tagged data cache so
+ * the Shopify webhook route can invalidate them on demand; the revalidate window is only a
+ * backstop for a missed webhook. Never use it for mutations or customer data. In the browser
+ * (and in dev) it is a plain fetch.
+ */
+export const shopifyCatalogClient = createStorefrontApiClient({
+  ...storefrontConfig,
+  ...(IS_SERVER && process.env.NODE_ENV !== 'development'
+    ? {
+        customFetchApi: (url: string, init?: RequestInit) =>
+          fetch(url, {
+            ...init,
+            cache: 'force-cache',
+            next: { tags: [SHOPIFY_CACHE_TAG], revalidate: SHOPIFY_REVALIDATE_SECONDS },
+          }),
+      }
+    : {}),
 });
 
 export interface ShopifyCollarVariant {
@@ -561,7 +588,9 @@ let _collarsCache: ShopifyCollar[] | null = null;
 let _collarsInflight: Promise<ShopifyCollar[]> | null = null;
 let _collarsCacheAt = 0;
 
-const CACHE_TTL_MS = process.env.NODE_ENV === 'development' ? 0 : 5 * 60 * 1000;
+// In-process memo for the browser only. On the server Next's tagged data cache is the source
+// of truth (so webhook invalidation takes effect), and a per-instance memo would hide it.
+const CACHE_TTL_MS = process.env.NODE_ENV === 'development' || IS_SERVER ? 0 : 5 * 60 * 1000;
 
 export function getCollarsSync(): ShopifyCollar[] | null { return _collarsCache; }
 
@@ -579,7 +608,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
   if (!_collarsInflight) {
     _collarsInflight = (async () => {
       try {
-      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
+      const { data, errors } = await shopifyCatalogClient.request<ShopifyProductsResponse>(COLLARS_QUERY);
       if (errors || !data) return staleCollars ?? [];
 
       // Hex colors for collar color names (used when a single product has a Color option)
@@ -760,7 +789,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
 
       // Charms (shapes + letters, every color) are variants on two products, split by size —
       // fetch both and merge, tagging every charm with which product (sizeGroup) it came from.
-      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
+      const { data, errors } = await shopifyCatalogClient.request<ShopifyProductsResponse>(CHARMS_QUERY);
       if (errors || !data) return staleCharms ?? [];
 
       const productNodes = data.products.edges.map(({ node }) => node);
@@ -931,7 +960,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
   if (!_leashesCacheInflight) {
     _leashesCacheInflight = (async () => {
       try {
-      const { data, errors } = await shopifyClient.request<ShopifyProductsResponse>(LEASHES_QUERY);
+      const { data, errors } = await shopifyCatalogClient.request<ShopifyProductsResponse>(LEASHES_QUERY);
       if (errors || !data) return staleLeashes ?? [];
 
       const LEASH_COLOR_HEX: Record<string, string> = {
@@ -1097,7 +1126,7 @@ export async function getCollectionProductHandles(handle: string): Promise<strin
 
   const promise = (async () => {
     try {
-      const { data, errors } = await shopifyClient.request<CollectionProductHandlesResponse>(
+      const { data, errors } = await shopifyCatalogClient.request<CollectionProductHandlesResponse>(
         COLLECTION_PRODUCT_HANDLES_QUERY,
         { variables: { handle } }
       );

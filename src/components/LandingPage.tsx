@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useCartCount } from '@/hooks/useCartCount';
 import { useLandingProducts } from '@/hooks/useLandingProducts';
+import type { ProductDetail } from '@/lib/db';
 import { LandingLayout, LandingSection } from './landing/LandingLayout';
 import { LandingNav } from './landing/LandingNav';
 import { FloatingHero } from './ui/hero-floating';
@@ -15,10 +16,10 @@ import { LandingBuySection } from './landing/LandingBuySection';
 import { FeaturesStrip } from './landing/FeaturesStrip';
 import { NewsletterSignup } from './landing/NewsletterSignup';
 
-export function LandingPage() {
+export function LandingPage({ initialProducts }: { initialProducts?: ProductDetail[] }) {
   const router = useRouter();
   const cartCount = useCartCount();
-  const products = useLandingProducts(useLocale());
+  const products = useLandingProducts(useLocale(), initialProducts);
 
   return (
     <LandingLayout nav={<LandingNav cartCount={cartCount} onCart={() => router.push('/cart')} />}>

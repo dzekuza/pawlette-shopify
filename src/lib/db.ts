@@ -31,7 +31,8 @@ export function getLandingProductsSync(locale: string = 'lt'): ProductDetail[] |
 }
 
 export async function getLandingProducts(locale: string = 'lt'): Promise<ProductDetail[]> {
-  const cached = _productsCache.get(locale);
+  // Server renders re-read through the Shopify data cache so webhook revalidation applies.
+  const cached = typeof window === 'undefined' ? undefined : _productsCache.get(locale);
   if (cached) return cached;
 
   let inflight = _productsInflight.get(locale);

@@ -10,6 +10,26 @@ consequences. Use [[templates/adr-note]] for new entries. Newest first.
 
 ---
 
+## ADR-0004 — Catalog reads use Next's tagged data cache, invalidated by Shopify webhooks
+
+- **Status:** Accepted
+- **Date:** 2026-10-19
+
+**Context.** Catalog data lived in per-instance in-memory maps (5 min TTL) plus page-level
+`revalidate = 300`, so edits took minutes to appear and each serverless instance refetched.
+Vercel's Hydrogen guidance for Next.js is tagged caching with on-demand revalidation.
+
+**Decision.** Server-side catalog queries go through `shopifyCatalogClient`
+(`fetch` with `cache: 'force-cache'`, tag `shopify`); the webhook route calls
+`revalidateTag('shopify', 'max')`. We did not enable `cacheComponents` / `"use cache"`: the app
+mixes `[locale]` routes with non-localized pages, so that migration is larger than needed.
+Mutations, carts and customer data must never use the catalog client.
+
+**Consequences.** Needs `SHOPIFY_WEBHOOK_SECRET` and webhooks registered in Shopify Admin;
+without them the 5 min backstop still applies. A future move to `"use cache"` can reuse the same tag.
+
+---
+
 ## ADR-0003 — Additional Meta pixels are added inside `MetaPixel`, never as raw snippets
 
 - **Status:** Accepted

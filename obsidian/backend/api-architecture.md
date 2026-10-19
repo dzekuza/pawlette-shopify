@@ -1,6 +1,6 @@
 ---
 tags: [backend, wip]
-updated: 2026-09-20
+updated: 2026-10-19
 ---
 
 # API Architecture
@@ -25,7 +25,7 @@ type ApiResponse<T> = { data: T } | { error: { message: string; code?: string } 
 
 | Route | Method | Input | Output | Auth |
 |-------|--------|-------|--------|------|
-| | | | | |
+| `/api/shopify/revalidate` | POST | Shopify webhook body (raw) | `{ revalidated, topic }` | HMAC `X-Shopify-Hmac-Sha256` with `SHOPIFY_WEBHOOK_SECRET` (401 bad, 503 unset) |
 
 ## Server actions
 

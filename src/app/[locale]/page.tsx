@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import { LandingPage } from '@/components/LandingPage';
+import { getLandingProducts } from '@/lib/db';
 import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config';
+
+// Backstop only: the Shopify webhook (/api/shopify/revalidate) refreshes the catalog on demand.
+export const revalidate = 300;
 
 export async function generateMetadata({
   params,
@@ -54,8 +58,14 @@ export async function generateMetadata({
   };
 }
 
-export default async function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
   const t = await getTranslations('seo.faqSchema');
+  const initialProducts = await getLandingProducts(locale).catch(() => []);
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -95,7 +105,7 @@ export default async function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <LandingPage />
+      <LandingPage initialProducts={initialProducts} />
     </>
   );
 }

@@ -9,6 +9,22 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Shopify catalog: webhook revalidation + server-rendered landing products
+
+- New `shopifyCatalogClient` (`src/lib/shopify.ts`): read-only Storefront client whose
+  server requests go through Next's data cache, tagged `shopify` (5 min `revalidate` as a
+  backstop). Only `getCollars`, `getCharms`, `getLeashes` and `getCollectionProductHandles`
+  use it. `shopifyClient` stays uncached for mutations, carts and account calls.
+- New `POST /api/shopify/revalidate`: verifies Shopify's HMAC (`SHOPIFY_WEBHOOK_SECRET`) and
+  calls `revalidateTag('shopify', 'max')`, so price and stock edits appear on the next visit.
+  Register it in Shopify Admin > Settings > Notifications > Webhooks for products/create,
+  products/update, products/delete, collections/update, inventory_levels/update.
+- Server renders no longer use the per-instance in-memory memos (`CACHE_TTL_MS` is 0 on the
+  server; `getLandingProducts` skips its Map on the server); browsers keep them.
+- Homepage fetches `getLandingProducts(locale)` on the server and passes `initialProducts`
+  to `LandingPage`, so the product grid is in the first HTML (0 -> 6 product mentions;
+  previously loaded only after hydration).
+
 ## 2026-10-19 — Lithuanian SEO copy for the "antkaklis su vardu" cluster
 
 - Search Console (28 days) showed "antkakliai šunims su vardu" at position ~4 and
