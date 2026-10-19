@@ -9,6 +9,17 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Lithuanian SEO copy for the "antkaklis su vardu" cluster
+
+- Search Console (28 days) showed "antkakliai šunims su vardu" at position ~4 and
+  "šuns antkaklis su vardu" at ~10, while `/products` and the collar PDP sat at
+  positions ~60 for generic terms. Tuned copy around the name-collar phrasing:
+  LT homepage H1 (`landing.hero.heading` in `lt.json`) and meta description,
+  `/products` title and description, and the collar parent PDP title and description
+  (`buildProductSeoTitle` / `buildProductSeoDescription` in `src/lib/seo.ts`).
+- Titles and descriptions were checked to stay under Google's display limits; the PDP
+  description is kept short because `clampDescription` truncates mid-sentence.
+
 ## 2026-10-19 — fix Vercel build: stale `Accordion` prop
 
 - The composition-patterns refactor removed `isMobile` from `Accordion`, but
