@@ -12,11 +12,13 @@ import { isValidShopifySignature } from '@/lib/shopify-webhook'
 export async function POST (request: Request) {
   const secret = process.env.SHOPIFY_WEBHOOK_SECRET
   if (!secret) {
+    console.error('orders-paid: SHOPIFY_WEBHOOK_SECRET is not set')
     return NextResponse.json({ error: 'Webhook secret is not configured' }, { status: 503 })
   }
 
   const rawBody = await request.text()
   if (!isValidShopifySignature(rawBody, request.headers.get('x-shopify-hmac-sha256'), secret)) {
+    console.warn('orders-paid: rejected invalid signature', { topic: request.headers.get('x-shopify-topic') })
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
   }
 
@@ -29,6 +31,7 @@ export async function POST (request: Request) {
 
   const decision = buildMetaPurchaseEvent(order, SITE_URL, secret)
   if (!decision.send) {
+    console.info('orders-paid: skipped', { orderId: order.id, reason: decision.reason })
     return NextResponse.json({ sent: false, reason: decision.reason })
   }
 
@@ -45,6 +48,9 @@ export async function POST (request: Request) {
     userData: event.userData,
     customData: event.customData,
   })
+
+  // One line per order (no customer data) so deliveries can be checked in the Vercel runtime logs.
+  console.info('orders-paid: processed', { orderId: order.id, eventId: event.eventId, pixels: results })
 
   // A non-2xx makes Shopify retry; the order-derived event id lets Meta dedupe repeats.
   if (results.length > 0 && results.every((r) => !r.ok)) {

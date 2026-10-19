@@ -9,6 +9,13 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — orders-paid webhook logging
+
+- `/api/shopify/orders-paid` now logs one line per delivery (rejected signature, skipped with reason,
+  or processed with the per-pixel Conversions API result). Only the order number and event id are logged,
+  never customer data, so webhook deliveries can be checked in Vercel runtime logs (a successful run
+  previously left no trace there).
+
 ## 2026-10-19 — second Meta pixel moved into the business portfolio
 
 - The personal pixel `1738084163919588` could not get a Conversions API token (Meta requires a business
