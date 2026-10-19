@@ -9,6 +9,15 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — second Meta Pixel
+
+- `MetaPixel` now initialises two pixel IDs (`NEXT_PUBLIC_META_PIXEL_ID` and
+  `NEXT_PUBLIC_META_PIXEL_ID_SECONDARY`, defaulting to `1738084163919588`). Client-side
+  events (`PageView` and `trackMetaEvent`) reach both. The Conversions API mirror
+  (`src/lib/meta-capi.ts`) still posts to the primary pixel only.
+- The pasted raw snippet and its `<noscript>` image were deliberately not used: they fire
+  before cookie consent. The second pixel loads behind the same consent gate.
+
 ## 2026-10-19 — single H1 on the homepage
 
 - OpenSEO audit flagged two H1s on `/en`: the hero headline plus the product title in

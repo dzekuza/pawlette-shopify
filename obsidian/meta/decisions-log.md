@@ -10,6 +10,22 @@ consequences. Use [[templates/adr-note]] for new entries. Newest first.
 
 ---
 
+## ADR-0003 — Additional Meta pixels are added inside `MetaPixel`, never as raw snippets
+
+- **Status:** Accepted
+- **Date:** 2026-10-19
+
+**Context.** A second pixel ID was requested. Meta's stock snippet loads immediately, which
+bypasses the EEA cookie-consent gate that `MetaPixel` enforces.
+
+**Decision.** Extra pixel IDs are added to `META_PIXEL_IDS` in `src/components/shared/MetaPixel.tsx`
+(env-overridable). They initialise only after consent, and no `<noscript>` pixel image is used.
+
+**Consequences.** `fbq('track')` reaches all pixels. Conversions API mirroring stays on the primary
+pixel; sending server events to the second pixel needs a separate change in `meta-capi.ts`.
+
+---
+
 ## ADR-0002 — Landing page has exactly one H1; embedded product titles are H2
 
 - **Status:** Accepted
