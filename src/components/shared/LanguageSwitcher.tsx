@@ -81,7 +81,7 @@ export function LanguageSwitcher({ tabIndex }: LanguageSwitcherProps) {
       onClick={handleSwitch}
       aria-label={`Switch language to ${LOCALE_LABEL[nextLocale]}`}
       tabIndex={tabIndex}
-      className="flex items-center gap-1.5 text-sm font-medium text-bark-muted transition-colors hover:text-bark"
+      className="flex h-10 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-bark-light transition-colors hover:bg-bark/[0.07] hover:text-bark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage"
     >
       <Flag />
       {LOCALE_LABEL[nextLocale]}

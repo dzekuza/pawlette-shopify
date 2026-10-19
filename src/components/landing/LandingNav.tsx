@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Gift } from 'lucide-react';
+import { Gift, ShoppingBag } from 'lucide-react';
 import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import { cn } from '@/lib/utils';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer';
 import { GIFT_MODAL_OPEN_EVENT } from '@/components/shared/ScratchGiftWidget';
@@ -37,17 +38,37 @@ interface LandingNavProps {
   topOffset?: number;
 }
 
+const ICON_BUTTON_CLASS =
+  'relative flex h-10 w-10 items-center justify-center rounded-full text-bark transition-[background-color,transform] duration-200 ease-out hover:bg-bark/[0.07] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage';
+
+function NavIconButton({
+  label,
+  onClick,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button type="button" onClick={onClick} aria-label={label} className={ICON_BUTTON_CLASS}>
+      {children}
+    </button>
+  );
+}
+
 export function LandingNav({ cartCount = 0 }: LandingNavProps) {
   const pathname = usePathname();
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
   const t = NAV_STRINGS[locale];
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const homeHref = localizeHref('/', locale);
   const shopHref = localizeHref('/products', locale);
-  const navLinks = NAV_LINK_HREFS.map(({ key, href }) => ({
-    label: t.links[key],
-    href: localizeHref(href, locale),
-  }));
+  const navLinks = NAV_LINK_HREFS.map(({ key, href }) => {
+    const localized = localizeHref(href, locale);
+    return { label: t.links[key], href: localized, active: pathname === localized };
+  });
 
   useBodyScrollLock(menuOpen);
 
@@ -62,84 +83,90 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
     return () => mediaQuery.removeEventListener('change', syncMenuState);
   }, []);
 
+  useEffect(() => {
+    const syncScrolled = () => setScrolled(window.scrollY > 8);
+    syncScrolled();
+    window.addEventListener('scroll', syncScrolled, { passive: true });
+    return () => window.removeEventListener('scroll', syncScrolled);
+  }, []);
+
   return (
     <>
       <header className="sticky top-0 z-[200]">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-3 md:px-6">
-          <div className="flex items-center justify-between gap-2 overflow-clip rounded-full border border-bark/[0.06] bg-cream py-3 pl-4 pr-3 shadow-[0_1px_2px_rgba(61,53,48,0.04)]">
-            <Link href={homeHref} aria-label={t.homeAriaLabel} className="shrink-0 leading-none">
+          <div
+            className={cn(
+              'grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-full border border-bark/[0.07] py-3 pl-5 pr-3 backdrop-blur-xl transition-[background-color,box-shadow] duration-300 ease-out md:grid-cols-[1fr_auto_1fr]',
+              scrolled
+                ? 'bg-cream/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_32px_-14px_rgba(61,53,48,0.28)]'
+                : 'bg-cream/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_6px_20px_-12px_rgba(61,53,48,0.16)]',
+            )}
+          >
+            <Link href={homeHref} aria-label={t.homeAriaLabel} className="shrink-0 justify-self-start leading-none">
               <Image src="/pawcharms.svg" alt="PawsCharm" width={84} height={42} priority className="block h-[42px] w-auto" />
             </Link>
 
-            {/* Desktop nav links */}
-            <nav className="hidden items-center gap-7 md:flex">
-              {navLinks.map((link, i) => (
+            {/* Desktop nav links — centred between logo and actions */}
+            <nav className="hidden items-center gap-1 md:flex">
+              {navLinks.map((link) => (
                 <Link
-                  key={i}
+                  key={link.href}
                   href={link.href}
-                  className="group relative whitespace-nowrap py-1 text-sm font-medium text-bark-light no-underline transition-colors hover:text-bark"
+                  aria-current={link.active ? 'page' : undefined}
+                  className={cn(
+                    'flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium no-underline transition-colors duration-200 ease-out',
+                    link.active ? 'bg-bark/[0.07] text-bark' : 'text-bark-light hover:bg-bark/[0.05] hover:text-bark',
+                  )}
                 >
+                  {link.active && <span className="h-1.5 w-1.5 rounded-full bg-sage-dark" />}
                   {link.label}
-                  <span className="absolute inset-x-0 -bottom-0.5 h-[1.5px] scale-x-0 rounded-full bg-sage-dark transition-transform duration-200 ease-out group-hover:scale-x-100" />
                 </Link>
               ))}
             </nav>
 
-            {/* Right: cart + CTA */}
-            <div className="flex items-center gap-1">
-              {/* Language switcher */}
-              <LanguageSwitcher />
+            {/* Actions */}
+            <div className="col-start-3 flex items-center justify-self-end md:gap-1">
+              <div className="hidden sm:block">
+                <LanguageSwitcher />
+              </div>
 
-              {/* Gift */}
-              <button
-                onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}
-                aria-label={t.giftAriaLabel}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-bark transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30"
-              >
-                <Gift className="h-5 w-5" />
-              </button>
+              <NavIconButton label={t.giftAriaLabel} onClick={() => window.dispatchEvent(new Event(GIFT_MODAL_OPEN_EVENT))}>
+                <Gift className="h-[19px] w-[19px]" strokeWidth={1.75} />
+              </NavIconButton>
 
-              {/* Cart */}
-              <button
-                onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}
-                aria-label={t.cartAriaLabel}
-                className="relative flex h-9 w-9 items-center justify-center rounded-full text-bark transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <path d="M16 10a4 4 0 0 1-8 0" />
-                </svg>
+              <NavIconButton label={t.cartAriaLabel} onClick={() => window.dispatchEvent(new Event(CART_DRAWER_OPEN_EVENT))}>
+                <ShoppingBag className="h-[19px] w-[19px]" strokeWidth={1.75} />
                 {cartCount > 0 && (
-                  <span className="absolute right-0.5 top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-sage text-[10px] font-semibold text-interactive-text">
+                  <span className="absolute right-0 top-0 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-sage px-1 text-[10px] font-semibold leading-none text-interactive-text ring-2 ring-cream">
                     {cartCount}
                   </span>
                 )}
-              </button>
+              </NavIconButton>
 
               {/* Mobile hamburger */}
               <button
-                onClick={() => setMenuOpen(o => !o)}
+                type="button"
+                onClick={() => setMenuOpen((o) => !o)}
                 aria-label={menuOpen ? t.closeMenuAriaLabel : t.openMenuAriaLabel}
                 aria-expanded={menuOpen}
-                className="flex h-9 w-9 flex-col items-center justify-center gap-[5px] rounded-full transition-colors hover:bg-bark/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30 md:hidden"
+                className={cn(ICON_BUTTON_CLASS, 'ml-1 flex-col gap-[5px] bg-bark text-cream hover:bg-bark/90 md:hidden')}
               >
                 <span
-                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-transform duration-[250ms] ease-out"
-                  style={{ transform: menuOpen ? 'translateY(6.5px) rotate(45deg)' : 'none' }}
+                  className={cn(
+                    'block h-[1.5px] w-4 rounded-sm bg-cream transition-transform duration-[250ms] ease-out',
+                    menuOpen && 'translate-y-[3.25px] rotate-45',
+                  )}
                 />
                 <span
-                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-opacity duration-[250ms] ease-out"
-                  style={{ opacity: menuOpen ? 0 : 1 }}
-                />
-                <span
-                  className="block h-[1.5px] w-5 rounded-sm bg-bark transition-transform duration-[250ms] ease-out"
-                  style={{ transform: menuOpen ? 'translateY(-6.5px) rotate(-45deg)' : 'none' }}
+                  className={cn(
+                    'block h-[1.5px] w-4 rounded-sm bg-cream transition-transform duration-[250ms] ease-out',
+                    menuOpen && '-translate-y-[3.25px] -rotate-45',
+                  )}
                 />
               </button>
 
               {/* Shop now CTA */}
-              <PrimaryButton href={shopHref} variant="sage" size="md" className="ml-1 hidden md:inline-flex">
+              <PrimaryButton href={shopHref} variant="dark" size="md" className="ml-2 hidden md:inline-flex">
                 {t.shopNow}
               </PrimaryButton>
             </div>
@@ -150,45 +177,37 @@ export function LandingNav({ cartCount = 0 }: LandingNavProps) {
       {/* Mobile full-screen menu */}
       <div
         aria-hidden={!menuOpen}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 199,
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'auto' : 'none',
-          transition: 'opacity 250ms ease-out',
-        }}
-        className="flex flex-col justify-center bg-cream px-10 md:hidden"
+        className={cn(
+          'fixed inset-0 z-[199] flex flex-col bg-cream px-6 pb-7 pt-28 transition-opacity duration-250 ease-out md:hidden',
+          menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0',
+        )}
       >
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col">
           {navLinks.map((link, i) => (
-            <a
-              key={i}
+            <Link
+              key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               tabIndex={menuOpen ? 0 : -1}
-              className="block font-display leading-[1.15] text-bark no-underline transition-colors"
-              style={{
-                fontSize: 'clamp(36px, 8vw, 64px)',
-                transform: menuOpen ? 'translateY(0)' : 'translateY(16px)',
-                transition: `color 150ms ease-out, transform 250ms ease-out ${i * 40}ms`,
-              }}
+              style={{ transitionDelay: menuOpen ? `${i * 50}ms` : '0ms' }}
+              className={cn(
+                'flex items-baseline gap-4 border-b border-bark/10 py-5 font-display text-[clamp(36px,10vw,56px)] leading-none text-bark no-underline transition-[transform,opacity] duration-300 ease-out',
+                menuOpen ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0',
+              )}
             >
+              <span className="w-6 font-sans text-xs font-medium text-bark-muted">0{i + 1}</span>
               {link.label}
-            </a>
+            </Link>
           ))}
         </nav>
-        <div className="absolute inset-x-10 bottom-7 flex items-center justify-between gap-3">
-          <span className="text-[13px] text-bark-muted">{t.madeIn}</span>
-          <div className="flex items-center gap-3">
+
+        <div className="mt-auto flex flex-col gap-5">
+          <PrimaryButton href={shopHref} variant="sage" size="lg" fullWidth onClick={() => setMenuOpen(false)}>
+            {t.shopNow}
+          </PrimaryButton>
+          <div className="flex items-center justify-between gap-3 text-[13px] text-bark-muted">
+            <span>{t.madeIn}</span>
             <LanguageSwitcher tabIndex={menuOpen ? 0 : -1} />
-            <a
-              href="mailto:hello@pawscharm.com"
-              tabIndex={menuOpen ? 0 : -1}
-              className="text-[13px] text-bark-muted no-underline"
-            >
-              hello@pawscharm.com
-            </a>
           </div>
         </div>
       </div>

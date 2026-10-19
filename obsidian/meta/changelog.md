@@ -9,6 +9,24 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Header (`LandingNav`) redesigned
+
+- Frosted-glass floating pill (`bg-cream/80` + blur, inner highlight, tinted shadow that strengthens after 8px scroll). Height is unchanged (92px phones, 94px md+) because `PhotoHero`'s negative top margin depends on it.
+- Desktop: 3-column grid centres the links; active page gets a soft pill + sage dot (`aria-current`); CTA is now the dark `PrimaryButton`. Icons are lucide (`Gift`, `ShoppingBag`) in a shared `NavIconButton`.
+- Phones: logo + gift + cart + dark hamburger; language switcher moves into the menu below `sm`. Menu overlay rebuilt with class-based transitions (no inline styles), numbered display links, a full-width sage CTA and footer row.
+- `LanguageSwitcher` restyled as a hover chip. No new deps, fonts or i18n keys.
+
+## 2026-10-19 — Hero restyled as an inset card (reference: Aurelia hero)
+
+- `PhotoHero` is now a rounded inset photo card on a honey→cream→sage gradient: white headline over a bark gradient at the
+  bottom-left, two chips (handmade in Vilnius, free shipping over the threshold), subheading, a filled sage CTA plus an outlined
+  "browse charms" CTA, and a thin crosshair frame (`HeroHotspot`) calling out the EDIS collar ("Swap letters in 5 seconds").
+  Phones and tablets stack the text under the photo; the overlay layout starts at 1024px and the hotspot at 1280px.
+- Phones use the same 16:9 photo as desktop (the 4:5 crop was removed); headline line-height raised to 1.18 so descenders and the "ų" hook no longer touch the next line.
+- LT H1 shortened to "Antkaklis šuniui su vardu" (still the head keyword phrase); "per 5 sekundes" moved into the subheading.
+- Text is sized in container-query units and the left padding adapts so it never collides with the fixed bottom-left video widget.
+- New `landing.hero` keys in lt/en: subheading, secondaryCta, chipHandmade, chipShipping, hotspot.
+
 ## 2026-10-19 — Photo hero replaces the 3D scroll hero
 
 - Homepage hero is now `components/landing/PhotoHero.tsx`: the Gemini park-moment photo full-bleed on desktop (headline left over a
