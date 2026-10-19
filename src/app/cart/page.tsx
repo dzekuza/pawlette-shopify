@@ -74,6 +74,17 @@ export default function CartPage() {
                 actionHref='/products'
                 actionLabel='Kurti antkaklį'
               />
+              <div className='mt-6 flex flex-wrap items-center justify-center gap-3'>
+                <Link href='/products/charm-charms' className='rounded-full bg-bark/5 px-4 py-2 text-sm font-medium text-bark-light no-underline transition-colors hover:bg-bark/10 hover:text-bark'>
+                  Pakabukai
+                </Link>
+                <Link href='/pavadeliai' className='rounded-full bg-bark/5 px-4 py-2 text-sm font-medium text-bark-light no-underline transition-colors hover:bg-bark/10 hover:text-bark'>
+                  Pavadėliai
+                </Link>
+                <Link href='/guide/how-to-measure-dog-collar' className='rounded-full bg-bark/5 px-4 py-2 text-sm font-medium text-bark-light no-underline transition-colors hover:bg-bark/10 hover:text-bark'>
+                  Kaip išsirinkti dydį
+                </Link>
+              </div>
             </div>
           ) : (
             /* Two-column layout */

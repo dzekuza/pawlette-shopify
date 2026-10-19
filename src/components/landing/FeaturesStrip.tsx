@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { SectionCta } from '@/components/landing/SectionCta';
+import { DisplayHeading } from '@/components/storefront/Typography';
 import { HARDWARE_COLOUR } from '@/lib/collar3d';
 
 function Collar3DLoading() {
@@ -75,6 +76,10 @@ export function FeaturesStrip() {
 
       <div className="mx-auto flex max-w-[1152px] flex-col gap-16">
         
+        <DisplayHeading as="h2" size="section" className="relative z-10 text-center text-bark">
+          {t('heading')}
+        </DisplayHeading>
+
         {/* Top 3D Showcase Area with Stickers */}
         <div className="relative w-full aspect-[21/9] min-h-[340px] max-w-[1000px] mx-auto z-10">
           

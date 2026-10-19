@@ -65,94 +65,25 @@ function legacyProductSlugRedirect(request: NextRequest): NextResponse | null {
 }
 
 // ---------------------------------------------------------------------------
-// Locale resolution (geo + cookie + Accept-Language)
+// Locale routing
 // ---------------------------------------------------------------------------
+// The Lithuanian site lives at `/` and English at `/en`. `routing.localeDetection`
+// is off, so `/` is always served as-is — no redirect to `/en` based on a
+// NEXT_LOCALE cookie, Accept-Language or the visitor's IP country. English is
+// reached only through an explicit `/en` link or the language switcher.
 const intlMiddleware = createIntlMiddleware(routing);
-
-// Known search/social crawler user-agents. Per product-owner decision,
-// crawlers must always see the Lithuanian version at `/` regardless of the
-// IP's geolocation (Googlebot crawls mostly from US IPs, which would
-// otherwise geo-redirect it away from the canonical `lt` homepage) — only
-// real visitors get geo-redirected. Not exhaustive, but covers the common
-// search/social crawlers.
-const CRAWLER_USER_AGENT = /bot|crawler|spider|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandexbot|facebookexternalhit|twitterbot|linkedinbot/i;
-
-function isCrawler(request: NextRequest): boolean {
-  const userAgent = request.headers.get('user-agent') ?? '';
-  return CRAWLER_USER_AGENT.test(userAgent);
-}
-
-function resolveLocale(request: NextRequest): 'lt' | 'en' {
-  // If the request path is already locale-prefixed (e.g. `/en/products`),
-  // that explicit prefix must win over cookie/geo/Accept-Language — otherwise
-  // a Lithuania-geo visitor who opens a shared `/en` link gets bounced back
-  // to `lt` on their very next navigation, even though they explicitly asked
-  // for the English page. next-intl's own middleware always honors the path
-  // segment already, so mirroring that here keeps our geo-derived value and
-  // next-intl's negotiated value in agreement.
-  const { pathname } = request.nextUrl;
-  const pathSegments = pathname.split('/').filter(Boolean);
-  if (pathSegments[0] === 'en') {
-    return 'en';
-  }
-
-  // Search/social crawlers always get the default Lithuanian homepage,
-  // regardless of their IP's geolocation.
-  if (isCrawler(request)) {
-    return 'lt';
-  }
-
-  const cookieLocale = request.cookies.get('NEXT_LOCALE')?.value;
-  if (cookieLocale === 'lt' || cookieLocale === 'en') {
-    return cookieLocale;
-  }
-
-  // Next.js 16 removed `NextRequest.geo` — Vercel's edge network instead sets
-  // geolocation headers directly on the incoming request. This header is
-  // `null` in local dev and non-Vercel environments, which correctly falls
-  // through to the Accept-Language branch below (expected fallback).
-  const country = request.headers.get('x-vercel-ip-country');
-  if (country) {
-    return country === 'LT' ? 'lt' : 'en';
-  }
-
-  // Default is 'lt': only positively-English Accept-Language switches to 'en'.
-  // A missing/empty header (or anything else) falls back to 'lt'.
-  const acceptLanguage = request.headers.get('accept-language') ?? '';
-  return acceptLanguage.toLowerCase().startsWith('en') ? 'en' : 'lt';
-}
 
 // ---------------------------------------------------------------------------
 // Entry point — Next.js 16 uses `proxy.ts` (the renamed `middleware.ts`) and,
 // with a `src/` layout, only reads it from inside `src/`; only one proxy file
 // is supported per project, so the legacy slug-redirect logic above and the
-// locale-resolution logic below must live in this single exported function.
+// locale routing below must live in this single exported function.
 // ---------------------------------------------------------------------------
 export function proxy(request: NextRequest) {
   const legacyRedirect = legacyProductSlugRedirect(request);
   if (legacyRedirect) return legacyRedirect;
 
-  const hadCookie = Boolean(request.cookies.get('NEXT_LOCALE'));
-  const resolved = resolveLocale(request);
-
-  // next-intl's own middleware negotiates its locale independently, reading
-  // the NEXT_LOCALE cookie (and Accept-Language) off this same request — it
-  // has no visibility into our geo-derived `resolved` value. On a first visit
-  // (no cookie yet), seed the cookie onto the *request* before calling
-  // intlMiddleware so next-intl's cookie read (its own highest-priority
-  // signal, above its own Accept-Language negotiation) picks up our resolved
-  // locale immediately, rather than only from the second request onward.
-  if (!hadCookie) {
-    request.cookies.set('NEXT_LOCALE', resolved);
-  }
-
-  const response = intlMiddleware(request);
-
-  if (!hadCookie) {
-    response.cookies.set('NEXT_LOCALE', resolved, { maxAge: 60 * 60 * 24 * 365 });
-  }
-
-  return response;
+  return intlMiddleware(request);
 }
 
 export const config = {

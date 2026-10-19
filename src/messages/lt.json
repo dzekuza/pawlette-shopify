@@ -17,6 +17,7 @@
       "priceFrom": "Nuo {price} · 5 pakabukai įskaičiuoti"
     },
     "featuresStrip": {
+      "heading": "Kodėl šunų šeimininkai renkasi PawsCharm",
       "loading3d": "Kraunama 3D peržiūra…",
       "items": [
         {
@@ -46,24 +47,33 @@
       ]
     },
     "productGrid": {
-      "heading": "Išskirtiniai. Kaip ir jie",
+      "heading": "Vandeniui atsparūs BioThane antkakliai, pakabukai ir pavadėliai",
       "placeholderBadge": "✦ PERSONALIZUOK",
       "placeholderProductName": "PawsCharm Antkaklis",
       "placeholderPrice": "Kaina: €25",
       "placeholderCta": "Apsipirkti"
     },
     "photoSlider": {
-      "heading": "Jūsų spalvotos akimirkos.",
-      "description": "Sukurtas kasdieniam komfortui, vandeniui atsparus silikonas.",
+      "heading": "Šunys su savo PawsCharm antkakliais",
+      "description": "Sukurtas kasdieniam komfortui, vandeniui atsparus BioThane.",
       "addToCartAriaLabel": "Pridėti {name} į krepšelį",
       "shopCharmsCta": "Pirkti pakabukus"
     },
     "gallery": {
       "heading": "Kiekvienam šuniui – savas stilius",
-      "imageAlt": "Šuo su PawsCharm antkakliu ir savo vardu"
+      "imageAlt": "Šuo su PawsCharm antkakliu ir savo vardu",
+      "alts": [
+        "Juodas kokerspanielis pievoje, su mėlynu PawsCharm antkakliu su vardu BAZ ir geltonu pavadėliu",
+        "Kreminis kavapu studijoje, su tamsiai mėlynu PawsCharm antkakliu ir geltonomis raidėmis",
+        "Šlapias auksaspalvis retriverio šuniukas purto vandenį, su šviesiai mėlynu PawsCharm antkakliu su vardu LUNA",
+        "Juodai baltas borderkolis sėdi su levandų spalvos PawsCharm antkakliu",
+        "Borderkolis iš nugaros su PawsCharm antkakliu su vardu META",
+        "Juodas kokerspanielis studijoje su PawsCharm antkakliu su vardu",
+        "Juodas kokerspanielis stovi ant užpakalinių kojų su PawsCharm antkakliu"
+      ]
     },
     "howItWorks": {
-      "heading": "Kas atsitiks po to kai įsigysi PawsCharm?",
+      "heading": "Kas nutiks, kai įsigysi PawsCharm antkaklį?",
       "dog1Alt": "Šuo su PawsCharm antkakliu",
       "dog2Alt": "Šuo su akiniais ir PawsCharm antkakliu",
       "dog3Alt": "Šlapias auksaspalvis retriveris su PawsCharm antkakliu purškia vandenį",
@@ -81,13 +91,13 @@
         },
         {
           "week": "8 savaitė",
-          "title": "Turėsi ilgaamžišką pavadėlį, antkaklį bei charmsus",
+          "title": "Turėsi ilgaamžišką pavadėlį, antkaklį bei pakabukus",
           "desc": "Medžiaga nesudyla ir neblunka — tas pats antkaklis liks kaip naujas dar ilgai po pirkimo."
         }
       ]
     },
     "faq": {
-      "heading": "Turite klausimų?",
+      "heading": "Dažniausi klausimai apie antkaklius",
       "shopCta": "Apsipirkti",
       "personalize": {
         "question": "Kaip personalizuoti antkaklį?",
@@ -108,6 +118,18 @@
       "size": {
         "question": "Kaip pasirinkti tinkamą dydį?",
         "answer": "Prie dydžio pasirinkimo paspauskite mygtuką „Kaip išmatuoti tinkamą dydį\"."
+      },
+      "delivery": {
+        "question": "Kiek laiko trunka pristatymas?",
+        "answer": "Užsakymai išsiunčiami iš Vilniaus per 1–2 darbo dienas ir paprastai pasiekia jus per 2–4 dienas Lietuvoje ir ES. Pristatymas nemokamas užsakymams nuo 40 €."
+      },
+      "returns": {
+        "question": "Ar galiu grąžinti antkaklį?",
+        "answer": "Taip. Nenaudotą antkaklį originalios būklės galite grąžinti per 30 dienų, grąžinimas nemokamas."
+      },
+      "care": {
+        "question": "Kaip prižiūrėti antkaklį?",
+        "answer": "Po purvinų ar paplūdimio pasivaikščiojimų nuplaukite vandeniu ir nusausinkite minkšta šluoste. BioThane nesugeria kvapų; džiovinkite paguldę ir saugokite nuo tiesioginės aukštos temperatūros."
       }
     },
     "topBar": {
@@ -154,6 +176,7 @@
           "title": "Pagalba",
           "links": {
             "sizeGuide": "Dydžių gidas",
+          "allGuides": "Visi gidai",
             "siliconeVsNylon": "BioThane ar nailonas",
             "chooseCollar": "Kaip išsirinkti antkaklį su vardu",
             "orderChecklist": "Ką patikrinti užsakant",
@@ -328,14 +351,14 @@
       "comparison": {
         "eyebrow": "Palyginimas",
         "title": "Ne visi antkakliai vienodi",
-        "description": "Vandeniui atsparus silikonas, patogi rankena ir spalvos, tinkančios kiekvienam šuniui.",
+        "description": "Vandeniui atsparus BioThane, patogi rankena ir spalvos, tinkančios kiekvienam šuniui.",
         "brandLabel": "Pawcharms",
         "competitorLabel": "Kiti",
         "rows": [
           { "pawcharms": "Keičiami pakabukai per 5 sekundes", "competitor": "Pakabukų nepakeisite" },
           { "pawcharms": "Personalizuojamas dizainas", "competitor": "Vienodas dizainas visiems" },
           { "pawcharms": "Nesugeria kvapų ir dėmių", "competitor": "Sugeria kvapus ir dėmes" },
-          { "pawcharms": "Vandeniui atsparus silikonas", "competitor": "Neatsparus vandeniui" }
+          { "pawcharms": "Vandeniui atsparus BioThane", "competitor": "Neatsparus vandeniui" }
         ]
       },
       "addedToCart": "✓ Pridėta į krepšelį!",
@@ -480,9 +503,9 @@
       },
       "accordion": {
         "description": "Aprašymas",
-        "descriptionContent": "Vandeniui atsparus silikoninis antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.",
+        "descriptionContent": "Vandeniui atsparus BioThane antkaklis su prisegamais pakabukais. Lengvas, reguliuojamas ir su saugia sagtimi.",
         "features": "Savybės",
-        "featuresContent": "Vandeniui atsparus silikonas · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.",
+        "featuresContent": "Vandeniui atsparus BioThane · lengvas reguliuojamas prigludimas · saugi sagtis · atsparumas purvui ir kvapams.",
         "includes": "Į rinkinį įeina",
         "includesContent": "Antkaklis pasirinktos spalvos ir dydžio · Penki keičiami prisegami pakabukai — pirmi penki įskaičiuoti nemokamai, kiekvienas papildomas + €3.99 · Reguliuojama saugi sagtis · Lininis laikymo maišelis",
         "shipping": "Pristatymas ir grąžinimas",
@@ -520,7 +543,7 @@
     "faqSchema": {
       "waterproof": {
         "question": "Ar PawsCharm antkakliai yra atsparūs vandeniui?",
-        "answer": "Taip. Visi PawsCharm antkakliai pagaminti iš maistinio silikono, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių."
+        "answer": "Taip. Visi PawsCharm antkakliai pagaminti iš BioThane — vandeniui atsparios dengtos juostos, todėl yra visiškai atsparūs vandeniui ir tinkami maudynėms, lietui bei purviniems pasivaikščiojimams. Medžiaga nesugeria kvapų ir dėmių."
       },
       "charms": {
         "question": "Kaip veikia keičiami pakabukai?",
@@ -544,19 +567,19 @@
       "collars": [
         {
           "name": "Blossom rinkinys",
-          "color": "Rožinis silikoninis šuns antkaklis su keičiamais pakabukais"
+          "color": "Rožinis BioThane šuns antkaklis su keičiamais pakabukais"
         },
         {
           "name": "Sage rinkinys",
-          "color": "Šalavijo žalios spalvos silikoninis šuns antkaklis su keičiamais pakabukais"
+          "color": "Šalavijo žalios spalvos BioThane šuns antkaklis su keičiamais pakabukais"
         },
         {
           "name": "Sky rinkinys",
-          "color": "Dangaus mėlynumo silikoninis šuns antkaklis su keičiamais pakabukais"
+          "color": "Dangaus mėlynumo BioThane šuns antkaklis su keičiamais pakabukais"
         },
         {
           "name": "Honey rinkinys",
-          "color": "Medaus geltonumo silikoninis šuns antkaklis su keičiamais pakabukais"
+          "color": "Medaus geltonumo BioThane šuns antkaklis su keičiamais pakabukais"
         }
       ]
     }

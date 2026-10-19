@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://pawscharm.com/pavadeliai',
     siteName: 'PawsCharm',
+    images: [{ url: '/og-image.jpg', width: 1920, height: 1080 }],
   },
   twitter: {
     card: 'summary_large_image',

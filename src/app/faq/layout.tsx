@@ -10,6 +10,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://pawscharm.com/faq',
     siteName: 'PawsCharm',
+    images: [{ url: '/og-image.jpg', width: 1920, height: 1080 }],
   },
 };
 

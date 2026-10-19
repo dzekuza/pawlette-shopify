@@ -15,6 +15,7 @@ export const metadata: Metadata = {
     type: 'article',
     url: 'https://pawscharm.com/guide/silicone-vs-nylon-dog-collars',
     siteName: 'PawsCharm',
+    images: [{ url: '/og-image.jpg', width: 1920, height: 1080 }],
   },
 };
 

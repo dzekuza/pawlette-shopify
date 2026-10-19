@@ -110,7 +110,17 @@ function localizeLeashName (title: string): string {
  * (or the whole entry missing) falls back to the Lithuanian Shopify value —
  * never renders undefined. No-op for any other locale.
  */
-export function applyLocaleOverlay (detail: ProductDetail, locale: string): ProductDetail {
+// Shopify product titles sometimes carry the typo "PawCharms" (missing "s"); display the brand as "PawsCharm".
+function fixBrandName (value: string): string {
+  return value.replace(/PawCharms?/g, 'PawsCharm')
+}
+
+export function applyLocaleOverlay (rawDetail: ProductDetail, locale: string): ProductDetail {
+  const detail: ProductDetail = {
+    ...rawDetail,
+    name: fixBrandName(rawDetail.name),
+    parentTitle: rawDetail.parentTitle ? fixBrandName(rawDetail.parentTitle) : rawDetail.parentTitle,
+  }
   if (locale !== 'en') return detail
 
   const override = PRODUCT_TRANSLATIONS_EN[detail.slug]

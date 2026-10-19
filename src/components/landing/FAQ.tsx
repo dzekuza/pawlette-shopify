@@ -8,7 +8,7 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { localizeHref } from '@/lib/locale-path';
 
-const FAQ_IDS = ['personalize', 'editLetter', 'letterCount', 'color', 'size'] as const;
+const FAQ_IDS = ['delivery', 'returns', 'personalize', 'letterCount', 'color', 'size', 'care', 'editLetter'] as const;
 
 /** The "shop" call-to-action shown under the landing-page FAQ. Pass it to `<FAQ cta={…} />`. */
 export function FAQShopCta() {

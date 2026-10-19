@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     type: 'article',
     url: URL,
     siteName: 'PawsCharm',
+    images: [{ url: '/og-image.jpg', width: 1920, height: 1080 }],
   },
 }
 

@@ -19,6 +19,7 @@ const TILES = [
 
 export function GalleryMosaic() {
   const t = useTranslations('landing.gallery');
+  const alts = t.raw('alts') as string[];
 
   return (
     <section className="bg-cream px-4 pb-0 pt-16 md:px-6 md:pt-24">
@@ -28,7 +29,7 @@ export function GalleryMosaic() {
         </DisplayHeading>
 
         <div className="grid auto-rows-[170px] grid-cols-2 gap-3 md:auto-rows-[230px] md:grid-cols-4 md:gap-4">
-          {TILES.map((tile) => (
+          {TILES.map((tile, index) => (
             <div
               key={tile.src}
               data-animate="card"
@@ -36,7 +37,7 @@ export function GalleryMosaic() {
             >
               <Image
                 src={tile.src}
-                alt={t('imageAlt')}
+                alt={alts[index] ?? t('imageAlt')}
                 fill
                 sizes="(min-width: 1200px) 580px, (min-width: 768px) 50vw, 100vw"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"

@@ -6,12 +6,13 @@ import { getAllProductSlugs } from '@/lib/catalog'
 // here would mark every static page as changing on every build, giving Google no
 // real freshness signal to prioritize re-crawls with.
 const STATIC_LAST_MODIFIED: Record<string, string> = {
-  home: '2026-08-05',
-  products: '2026-08-05',
-  faq: '2026-08-05',
-  pavadeliai: '2026-08-05',
-  guideMeasure: '2026-08-05',
-  guideMaterial: '2026-08-05',
+  home: '2026-10-20',
+  products: '2026-10-20',
+  faq: '2026-10-20',
+  pavadeliai: '2026-10-20',
+  guideIndex: '2026-10-20',
+  guideMeasure: '2026-10-20',
+  guideMaterial: '2026-10-20',
   guideChoose: '2026-10-19',
   guideChecklist: '2026-10-19',
 }
@@ -75,6 +76,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: STATIC_LAST_MODIFIED.pavadeliai,
       changeFrequency: 'weekly',
       priority: 0.75,
+    },
+    {
+      url: 'https://pawscharm.com/guide',
+      lastModified: STATIC_LAST_MODIFIED.guideIndex,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
     {
       url: 'https://pawscharm.com/guide/how-to-measure-dog-collar',

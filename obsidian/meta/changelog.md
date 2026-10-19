@@ -9,6 +9,15 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-20 — Default locale routing, SEO headings and copy fixes
+
+- **Routing:** `/` no longer redirects to `/en` for English browsers, non-LT IPs or a `NEXT_LOCALE` cookie (`localeDetection: false`, locale logic removed from `proxy.ts`); see ADR-0004.
+- **Headings:** EN H1 is now "Personalized dog collars with a name" (tagline moved to the subheading); keyword-bearing H2s for the product grid, how-it-works, "real dogs" slider and FAQ (EN + LT); new H2 above the features bento; LT "charmsus" and a missing comma fixed.
+- **Copy:** collars/leashes are BioThane, not silicone, in the messages, root layout description and leash page (silicone stays for charms). Shopify's "PawCharms" typo is normalised to "PawsCharm" in `applyLocaleOverlay`.
+- **FAQ:** landing FAQ gains delivery, returns and care questions (EN + LT).
+- **Images/SEO:** per-photo alt text for the gallery mosaic; OG image added to `/pavadeliai`, `/faq` and the guides; sitemap `lastModified` bumped and `/guide` added.
+- **New:** `/guide` hub page (CollectionPage + ItemList + breadcrumb schema), linked from the footer; empty cart shows quick links to charms, leashes and the size guide.
+
 ## 2026-10-20 — Conversion batch (landing)
 
 - **Hero price anchor:** `PhotoHero` takes `startingPrice` (lowest collar price from the landing products, via `lowestCollarPrice` in `LandingPage`) and shows "From €33.00 · 5 charms included" above the CTAs (`landing.hero.priceFrom`). The sticky bar's hardcoded "from €32.99" copy was corrected to €33.00 to match.

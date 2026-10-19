@@ -84,7 +84,7 @@ const organizationSchema = {
     '@type': 'Place',
     name: 'Vilnius, Lithuania',
   },
-  description: 'Rankų darbo, vandeniui atsparūs silikoniniai šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
+  description: 'Rankų darbo, vandeniui atsparūs BioThane šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.',
   sameAs: [
     'https://www.instagram.com/pawscharm.com',
   ],

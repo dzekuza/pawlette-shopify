@@ -6,10 +6,10 @@
     "hero": {
       "loading3d": "Loading 3D preview…",
       "eyebrow": "Personalized dog collars",
-      "heading": "Collars that keep up with every adventure",
+      "heading": "Personalized dog collars with a name",
       "buyNow": "Buy now",
       "imageAlt": "A laughing woman with two dogs wearing PawsCharm collars with the names EDIS and BAZ",
-      "subheading": "Waterproof BioThane collars with an engraved name and swappable charms.",
+      "subheading": "Waterproof BioThane collars that keep up with every adventure — engraved name, swappable charms.",
       "secondaryCta": "Browse charms",
       "chipHandmade": "Handmade in Vilnius",
       "chipShipping": "Free shipping over {threshold}",
@@ -17,6 +17,7 @@
       "priceFrom": "From {price} · 5 charms included"
     },
     "featuresStrip": {
+      "heading": "Why dog owners choose PawsCharm",
       "loading3d": "Loading 3D preview…",
       "items": [
         {
@@ -46,24 +47,33 @@
       ]
     },
     "productGrid": {
-      "heading": "Unique. Just like them",
+      "heading": "Waterproof BioThane dog collars, charms and leashes",
       "placeholderBadge": "✦ PERSONALIZE",
       "placeholderProductName": "PawsCharm Collar",
       "placeholderPrice": "Price: €25",
       "placeholderCta": "Shop now"
     },
     "photoSlider": {
-      "heading": "Your colorful moments.",
-      "description": "Built for everyday comfort, waterproof silicone.",
+      "heading": "Real dogs in their PawsCharm collars",
+      "description": "Built for everyday comfort, waterproof BioThane.",
       "addToCartAriaLabel": "Add {name} to cart",
       "shopCharmsCta": "Shop charms"
     },
     "gallery": {
       "heading": "Made for every kind of dog",
-      "imageAlt": "Dog wearing a PawsCharm collar with its name"
+      "imageAlt": "Dog wearing a PawsCharm collar with its name",
+      "alts": [
+        "Black cocker spaniel looking up in a meadow, wearing a blue PawsCharm collar with the name BAZ and a yellow leash",
+        "Cream cavapoo lying down in a studio, wearing a navy PawsCharm collar with yellow letters",
+        "Wet golden retriever puppy shaking off water, wearing a light blue PawsCharm collar with the name LUNA",
+        "Black and white border collie sitting, wearing a lavender PawsCharm collar",
+        "Border collie seen from behind wearing a PawsCharm collar with the name META",
+        "Black cocker spaniel sitting in a studio, wearing a PawsCharm collar with a name",
+        "Black cocker spaniel standing on its hind legs, wearing a PawsCharm collar"
+      ]
     },
     "howItWorks": {
-      "heading": "What happens after you get PawsCharm?",
+      "heading": "What happens after you get your PawsCharm collar?",
       "dog1Alt": "Dog wearing a PawsCharm collar",
       "dog2Alt": "Dog with glasses wearing a PawsCharm collar",
       "dog3Alt": "Wet golden retriever puppy shaking off water in a PawsCharm collar",
@@ -87,7 +97,7 @@
       ]
     },
     "faq": {
-      "heading": "Have questions?",
+      "heading": "Dog collar questions, answered",
       "shopCta": "Shop now",
       "personalize": {
         "question": "How do I personalize the collar?",
@@ -108,6 +118,18 @@
       "size": {
         "question": "How do I choose the right size?",
         "answer": "Next to the size selection, click the \"How to measure the right size\" button."
+      },
+      "delivery": {
+        "question": "How long does delivery take?",
+        "answer": "Orders ship from Vilnius within 1–2 business days and usually arrive in 2–4 days across Lithuania and the EU. Shipping is free on orders over €40."
+      },
+      "returns": {
+        "question": "Can I return my collar?",
+        "answer": "Yes. You have 30 days to return an unused collar in its original condition, and returns are free."
+      },
+      "care": {
+        "question": "How do I clean the collar?",
+        "answer": "Rinse it with water after muddy or beach walks and dry it with a soft cloth. BioThane doesn't absorb odors; air-dry it flat and keep it away from direct high heat."
       }
     },
     "topBar": {
@@ -154,6 +176,7 @@
           "title": "Support",
           "links": {
             "sizeGuide": "Size guide",
+          "allGuides": "All guides",
             "siliconeVsNylon": "BioThane vs. nylon",
             "chooseCollar": "How to choose a collar with a name",
             "orderChecklist": "Ordering checklist",
@@ -328,14 +351,14 @@
       "comparison": {
         "eyebrow": "Comparison",
         "title": "Not all collars are the same",
-        "description": "Waterproof silicone, a comfortable handle, and colors to suit every dog.",
+        "description": "Waterproof BioThane, a comfortable handle, and colors to suit every dog.",
         "brandLabel": "Pawcharms",
         "competitorLabel": "Others",
         "rows": [
           { "pawcharms": "Swap charms in 5 seconds", "competitor": "Charms can't be swapped" },
           { "pawcharms": "Personalized design", "competitor": "Same design for everyone" },
           { "pawcharms": "Doesn't absorb odors or stains", "competitor": "Absorbs odors and stains" },
-          { "pawcharms": "Waterproof silicone", "competitor": "Not waterproof" }
+          { "pawcharms": "Waterproof BioThane", "competitor": "Not waterproof" }
         ]
       },
       "addedToCart": "✓ Added to cart!",
@@ -480,9 +503,9 @@
       },
       "accordion": {
         "description": "Description",
-        "descriptionContent": "Waterproof silicone collar with attachable charms. Lightweight, adjustable, and with a secure buckle.",
+        "descriptionContent": "Waterproof BioThane collar with attachable charms. Lightweight, adjustable, and with a secure buckle.",
         "features": "Features",
-        "featuresContent": "Waterproof silicone · lightweight adjustable fit · secure buckle · resistant to dirt and odor.",
+        "featuresContent": "Waterproof BioThane · lightweight adjustable fit · secure buckle · resistant to dirt and odor.",
         "includes": "What's in the set",
         "includesContent": "Collar in your chosen color and size · Five swappable charms — the first five included free, each extra +€3.99 · Adjustable secure buckle · Linen storage pouch",
         "shipping": "Shipping & returns",
@@ -520,7 +543,7 @@
     "faqSchema": {
       "waterproof": {
         "question": "Are PawsCharm collars waterproof?",
-        "answer": "Yes. All PawsCharm collars are made from food-grade silicone, so they're fully waterproof and safe for swimming, rain, and muddy walks. The material doesn't absorb odors or stains."
+        "answer": "Yes. All PawsCharm collars are made from BioThane, a waterproof coated webbing, so they're fully waterproof and safe for swimming, rain, and muddy walks. The material doesn't absorb odors or stains."
       },
       "charms": {
         "question": "How do the interchangeable charms work?",
@@ -544,19 +567,19 @@
       "collars": [
         {
           "name": "Blossom Set",
-          "color": "Pink silicone dog collar with interchangeable charms"
+          "color": "Pink BioThane dog collar with interchangeable charms"
         },
         {
           "name": "Sage Set",
-          "color": "Sage green silicone dog collar with interchangeable charms"
+          "color": "Sage green BioThane dog collar with interchangeable charms"
         },
         {
           "name": "Sky Set",
-          "color": "Sky blue silicone dog collar with interchangeable charms"
+          "color": "Sky blue BioThane dog collar with interchangeable charms"
         },
         {
           "name": "Honey Set",
-          "color": "Honey yellow silicone dog collar with interchangeable charms"
+          "color": "Honey yellow BioThane dog collar with interchangeable charms"
         }
       ]
     }

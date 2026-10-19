@@ -1,6 +1,6 @@
 ---
 tags: [meta, decision]
-updated: 2026-10-19
+updated: 2026-10-20
 ---
 
 # Decisions Log (ADRs)
@@ -45,6 +45,25 @@ Mutations, carts and customer data must never use the catalog client.
 
 **Consequences.** Needs `SHOPIFY_WEBHOOK_SECRET` and webhooks registered in Shopify Admin;
 without them the 5 min backstop still applies. A future move to `"use cache"` can reuse the same tag.
+
+---
+
+## ADR-0004 — `/` is always the Lithuanian site; no automatic locale redirect
+
+- **Status:** Accepted
+- **Date:** 2026-10-20
+
+**Context.** `proxy.ts` used to resolve a locale from the `NEXT_LOCALE` cookie, Vercel's IP country header and
+`Accept-Language`, so English-browser or non-LT visitors were redirected from `/` to `/en`. That made the
+homepage URL unstable (and a language-switcher click pinned the cookie).
+
+**Decision.** `routing.localeDetection` is `false` and `proxy.ts` only runs the legacy slug redirects plus
+next-intl routing. `/` always renders `lt`; `/en` renders English only when requested explicitly (link or
+language switcher). The `NEXT_LOCALE` cookie written by `LanguageSwitcher` no longer influences routing.
+
+**Consequences.** One canonical URL per language and no geo/cookie redirects for crawlers or users. English
+visitors must find `/en` themselves (hreflang and the switcher cover this); a dismissible language suggestion
+banner would be the next step if needed.
 
 ---
 

@@ -32,7 +32,7 @@ function colorToHex (name: string) {
 }
 
 const LEASH_FEATURES = [
-  { icon: Droplets, label: 'Vandeniui atsparus', desc: '100% atsparus vandeniui maistinė klasės silikonas' },
+  { icon: Droplets, label: 'Vandeniui atsparus', desc: '100% atsparus vandeniui BioThane' },
   { icon: Ruler, label: 'Reguliuojamas ilgis', desc: 'Pritaikomas prie jūsų šuns ir stiliaus' },
   { icon: Shield, label: 'Patvarus', desc: 'Atsparumas UV spinduliams ir kvapams' },
   { icon: Sparkles, label: 'Lengva valyti', desc: 'Paprasčiausiai nušluostykite arba nuplaukite' },
