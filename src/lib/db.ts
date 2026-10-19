@@ -60,7 +60,8 @@ export async function getLandingProducts(locale: string = 'lt'): Promise<Product
         return applyLocaleOverlay(p, locale)
       })() : null;
       const results = [collarProduct, leashProduct, charmCollection].filter((p): p is ProductDetail => !!p);
-      _productsCache.set(locale, results);
+      // Browser-only memo: on the server the key comes from the URL and the data cache is the source of truth.
+      if (typeof window !== 'undefined') _productsCache.set(locale, results);
       _productsInflight.delete(locale);
       return results;
     })();

@@ -24,6 +24,9 @@ This is a human-curated log — not a mirror of `git log`. Record *why*, not jus
 - Homepage fetches `getLandingProducts(locale)` on the server and passes `initialProducts`
   to `LandingPage`, so the product grid is in the first HTML (0 -> 6 product mentions;
   previously loaded only after hydration).
+- Hardening: the homepage now `notFound()`s any `[locale]` other than `lt`/`en` before fetching,
+  and `getLandingProducts` no longer writes its per-locale memo on the server, so arbitrary URL
+  segments can't grow server memory.
 
 ## 2026-10-19 — Lithuanian SEO copy for the "antkaklis su vardu" cluster
 

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { LandingPage } from '@/components/LandingPage';
+import { routing } from '@/i18n/routing';
 import { getLandingProducts } from '@/lib/db';
 import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config';
 
@@ -64,6 +66,7 @@ export default async function Page({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  if (!(routing.locales as readonly string[]).includes(locale)) notFound();
   const t = await getTranslations('seo.faqSchema');
   const initialProducts = await getLandingProducts(locale).catch(() => []);
 
