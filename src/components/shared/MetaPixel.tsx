@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '27330734433257068'
-const META_PIXEL_ID_SECONDARY = process.env.NEXT_PUBLIC_META_PIXEL_ID_SECONDARY || '1738084163919588'
+const META_PIXEL_ID_SECONDARY = process.env.NEXT_PUBLIC_META_PIXEL_ID_SECONDARY || '3252638168278408'
 // fbq('track') fans out to every initialised pixel, so each event reaches both.
 const META_PIXEL_IDS = [META_PIXEL_ID, META_PIXEL_ID_SECONDARY].filter(Boolean)
 export const COOKIE_CONSENT_KEY = 'pawcharms_cookie_consent'

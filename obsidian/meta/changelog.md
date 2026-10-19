@@ -9,6 +9,14 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — second Meta pixel moved into the business portfolio
+
+- The personal pixel `1738084163919588` could not get a Conversions API token (Meta requires a business
+  portfolio admin). Replaced the default second pixel with `3252638168278408`, owned by "Prosto Rička's
+  Business" and connected to ad account `1429766462703402` ("PawsCharm account", EUR). Both defaults live in
+  `MetaPixel.tsx` and `meta-capi.ts` and can be overridden with `NEXT_PUBLIC_META_PIXEL_ID_SECONDARY`.
+  The old personal pixel and ad account `2759794937618469` are no longer used.
+
 ## 2026-10-19 — Purchase events to Meta via Shopify webhook
 
 - Checkout runs on Shopify's domain, so the browser pixel never saw purchases (Shopify had 8 orders,

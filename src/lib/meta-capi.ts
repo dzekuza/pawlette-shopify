@@ -1,7 +1,7 @@
 import { createHash } from 'crypto'
 
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '27330734433257068'
-const META_PIXEL_ID_SECONDARY = process.env.NEXT_PUBLIC_META_PIXEL_ID_SECONDARY || '1738084163919588'
+const META_PIXEL_ID_SECONDARY = process.env.NEXT_PUBLIC_META_PIXEL_ID_SECONDARY || '3252638168278408'
 const GRAPH_API_VERSION = 'v21.0'
 
 export interface MetaCapiEvent {
