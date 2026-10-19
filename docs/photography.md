@@ -89,3 +89,23 @@ When shooting actual product photography, reference these settings:
 | Lifestyle / on-dog | Replace flat lay with "golden retriever wearing a sage green collar..." |
 | Charm close-up | Crop tight on 3–4 charms, emphasize texture and lettering detail |
 | Seasonal / gift | Add "wrapped in kraft paper tissue, small gift box in background" |
+
+---
+
+## Hero Cover — "Park moment" (Gemini)
+
+Files: `public/hero/park-moment-cover.jpg` (2200×1228, preferred), `park-moment-cover-alt.jpg` (alternate take),
+`park-moment-cover-mobile.jpg` (1080×1349, 4:5 crop of the preferred image so both names stay visible).
+
+Generated 2026-10-19 with `gemini-3-pro-image-preview` (alt: `gemini-3.1-flash-image-preview`) via the Gemini
+`generateContent` REST API, 16:9 at 2K, using two real product photos as references
+(`public/hero-figma/bento-collar-charm.png` for the collar construction and `hero-dsc00912.jpg` for a real dog wearing it).
+
+Prompt essentials: warm golden-hour park, a young woman in cream linen laughing on the grass with a cream cavapoo (collar EDIS in
+butter-yellow block letters) and a black cocker spaniel (collar BAZ in powder-blue block letters); navy BioThane collars with silver
+D-ring and chunky matte letters flush on the strap; editorial, airy, shallow depth of field, subjects on the right two-thirds with empty
+space on the left for a headline; no text, logos, extra accessories or CGI look.
+
+Known flaws to retouch or reject before heavy use: a faint partial letter before "BAZ" on the spaniel's collar. AI-generated person, so
+no real-person likeness or model-release question, but disclose AI imagery where required.
+

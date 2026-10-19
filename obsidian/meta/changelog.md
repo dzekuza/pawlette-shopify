@@ -9,6 +9,17 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Hero cover images and Shopify catalog cleanup
+
+- Added three hero cover images in `public/hero/` (desktop, alternate, 4:5 mobile crop) generated with Gemini from real product
+  references; prompt and settings in `docs/photography.md`. Not yet wired into the hero component.
+- Shopify store data (not code), done via the Admin API: rewrote collar, leash and both charm descriptions (removed the old
+  "Pawlette" brand name and the unsupported "magnetic" claim, fixed a typo, added engraving/size/handmade facts the site already
+  states), filled SEO title and description on all four products, added Lithuanian alt text to the 15 collar and leash images,
+  and set SKUs on all 320 variants (`PAWS-COL-<colour>-<size>`, `PAWS-LSH-<colour>`, `PAWS-CHS-…` small and `PAWS-CHL-…` large charms).
+- Product titles were deliberately not changed: the storefront derives slugs and lookups from them. Inventory tracking is still off
+  for collars and leashes (zero-stock variants remain purchasable); that is a business decision left open.
+
 ## 2026-10-19 — Meta domain verification tag
 
 - Added `facebook-domain-verification` to the root layout metadata (`verification.other`), so it renders in the
