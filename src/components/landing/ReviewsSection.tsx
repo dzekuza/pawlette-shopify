@@ -5,24 +5,25 @@ import { useTranslations } from 'next-intl';
 import { SectionCta } from '@/components/landing/SectionCta';
 import { ReviewStars } from '@/components/storefront/TestimonialCard';
 import { DisplayHeading } from '@/components/storefront/Typography';
-import { PDP_REVIEW_COUNT, PDP_REVIEW_RATING, getPdpReviews } from '@/components/products/pdpConstants';
+import { REVIEWS, getReviewSummary } from '@/lib/reviews';
 
 /** Social proof ahead of the buy card: rating summary, one featured review and two supporting ones. */
 export function ReviewsSection() {
   const t = useTranslations('landing.reviews');
   const tPdp = useTranslations('products.pdp');
-  const [featured, ...others] = getPdpReviews(tPdp);
+  const summary = getReviewSummary();
+  const [featured, ...others] = REVIEWS;
 
-  if (!featured) return null;
+  if (!featured || !summary) return null;
 
   return (
     <section className="bg-cream px-4 pb-0 pt-16 md:px-6 md:pt-24">
       <div className="mx-auto flex max-w-[1152px] flex-col gap-10 md:gap-14">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="inline-flex items-center gap-2 rounded-full bg-bark/5 py-1.5 pl-2.5 pr-3 text-bark">
-            <ReviewStars rating={PDP_REVIEW_RATING} className="gap-[2px]" />
+            <ReviewStars rating={summary.rating} className="gap-[2px]" />
             <span className="text-[13px] font-semibold leading-none">
-              {tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}
+              {tPdp('reviewCountLabel', { rating: summary.rating.toFixed(1), count: summary.count })}
             </span>
           </div>
           <DisplayHeading as="h2" size="section" className="max-w-[560px] text-bark">

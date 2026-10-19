@@ -4,16 +4,14 @@ import { useTranslations } from 'next-intl'
 import { FREE_SHIPPING_COPY } from '@/lib/site-config'
 import { DisplayHeading } from '@/components/storefront/Typography'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
+import { REVIEWS, getReviewSummary } from '@/lib/reviews'
 import { ReviewStars, TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { CharmDecoratorPanel } from '@/components/products/CharmDecoratorPanel'
 import {
   BORDER_COLOR,
   TEXT_PRIMARY,
   TEXT_SECONDARY,
-  PDP_REVIEW_RATING,
-  PDP_REVIEW_COUNT,
   getPdpTrustPoints,
-  getPdpReviews,
 } from '@/components/products/pdpConstants'
 import { CharmColorPicker } from '@/components/products/CharmColorPicker'
 import { CharmCTA } from '@/components/products/CharmCTA'
@@ -33,14 +31,17 @@ export function CharmBuilderPanel() {
   const onActiveReviewChange = setActiveReview
   const t = useTranslations('products.pdp')
   const pdpTrustPoints = getPdpTrustPoints(t)
-  const pdpReviews = getPdpReviews(t)
+  const pdpReviews = REVIEWS
+  const reviewSummary = getReviewSummary()
   return (
     <>
       <div>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
-          <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
-          <span style={{ fontSize: 13, fontWeight: 600 }}>{t('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
-        </div>
+        {reviewSummary ? (
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 999, background: 'rgba(61,53,48,0.05)', color: TEXT_PRIMARY, marginBottom: 18 }}>
+            <ReviewStars rating={reviewSummary.rating} className='gap-[2px]' />
+            <span style={{ fontSize: 13, fontWeight: 600 }}>{t('reviewCountLabel', { rating: reviewSummary.rating.toFixed(1), count: reviewSummary.count })}</span>
+          </div>
+        ) : null}
         <DisplayHeading as="h1" size="compact" className="m-0 mb-[10px]" style={{ lineHeight: 1.1, color: TEXT_PRIMARY }}>{displayName}</DisplayHeading>
         <ProductPrice
           currentPrice={displayPrice}
@@ -63,6 +64,7 @@ export function CharmBuilderPanel() {
           </CharmDecoratorProvider>
         </>
       )}
+      {pdpReviews.length > 0 && (<>
       <div style={{ height: 1, background: 'var(--color-surface-2)' }} />
       {/* Review carousel */}
       <div id="reviews" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -87,6 +89,7 @@ export function CharmBuilderPanel() {
           </div>
         </div>
       </div>
+      </>)}
       <CharmCTA added={added} count={selectedCharmCount} onClick={addToCart} />
       {/* Trust strip */}
       <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 8 }}>

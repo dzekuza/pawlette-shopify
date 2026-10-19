@@ -7,7 +7,8 @@ import { RichText } from '@/components/products/RichText'
 import { TestimonialQuoteCard } from '@/components/storefront/TestimonialCard'
 import { useCollarConfiguratorContext } from '@/components/products/configurator/CollarConfiguratorContext'
 import { DIVIDER } from '@/components/products/configurator/configuratorConstants'
-import { BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, getPdpTrustPoints, getPdpReviews } from '@/components/products/pdpConstants'
+import { REVIEWS } from '@/lib/reviews'
+import { BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, getPdpTrustPoints } from '@/components/products/pdpConstants'
 
 /** Purchase reassurance pills shown below the add-to-cart button. */
 export function TrustStrip() {
@@ -28,9 +29,9 @@ export function TrustStrip() {
 /** Review carousel — cross-sell moved to cart drawer as an upsell. */
 export function ReviewCarousel() {
   const t = useTranslations('products.configurator')
-  const tPdp = useTranslations('products.pdp')
-  const pdpReviews = getPdpReviews(tPdp)
+  const pdpReviews = REVIEWS
   const [activeReview, setActiveReview] = useState(0)
+  if (pdpReviews.length === 0) return null
   return (
       <div
         id="reviews"

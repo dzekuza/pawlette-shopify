@@ -1,4 +1,4 @@
-import { getCollars, getCharms, getLeashes, type ShopifyCharm, type ShopifyCollar, type ShopifyCollarVariant } from '@/lib/shopify'
+import { fixBrandName, getCollars, getCharms, getLeashes, type ShopifyCharm, type ShopifyCollar, type ShopifyCollarVariant } from '@/lib/shopify'
 import { PRODUCT_TRANSLATIONS_EN } from '@/lib/productTranslations'
 
 export interface ProductDetail {
@@ -110,11 +110,6 @@ function localizeLeashName (title: string): string {
  * (or the whole entry missing) falls back to the Lithuanian Shopify value —
  * never renders undefined. No-op for any other locale.
  */
-// Shopify product titles sometimes carry the typo "PawCharms" (missing "s"); display the brand as "PawsCharm".
-function fixBrandName (value: string): string {
-  return value.replace(/PawCharms?/g, 'PawsCharm')
-}
-
 export function applyLocaleOverlay (rawDetail: ProductDetail, locale: string): ProductDetail {
   const detail: ProductDetail = {
     ...rawDetail,

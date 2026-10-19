@@ -31,6 +31,8 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
 
   return (
     <div
+      // Hidden on phones: it covers page content and competes with the sticky CTA and chat bubble.
+      className='hidden md:block'
       style={{
         position: 'fixed',
         left: 16,

@@ -9,11 +9,10 @@ import { CharmDecoratorProvider } from '@/components/products/CharmDecoratorCont
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import { ReviewStars } from '@/components/storefront/TestimonialCard'
 import { DisplayHeading } from '@/components/storefront/Typography'
+import { getReviewSummary } from '@/lib/reviews'
 import { VideoCircles } from '@/components/products/configurator/VideoCircles'
 import { useCollarConfiguratorContext } from '@/components/products/configurator/CollarConfiguratorContext'
 import {
-  PDP_REVIEW_RATING,
-  PDP_REVIEW_COUNT,
   translateColorLabel,
 } from '@/components/products/pdpConstants'
 
@@ -21,12 +20,15 @@ import {
 export function Header({ as = 'h1' }: { as?: 'h1' | 'h2' }) {
   const tPdp = useTranslations('products.pdp')
   const { state: { configurator: { collar } }, meta: { name, price } } = useCollarConfiguratorContext()
+  const reviewSummary = getReviewSummary()
   return (
     <div className='flex flex-col gap-3'>
-      <div className='inline-flex w-fit items-center gap-2 rounded-full bg-bark/5 py-1.5 pl-2.5 pr-3 text-bark'>
-        <ReviewStars rating={PDP_REVIEW_RATING} className='gap-[2px]' />
-        <span className='text-[13px] font-semibold leading-none'>{tPdp('reviewCountLabel', { rating: PDP_REVIEW_RATING.toFixed(1), count: PDP_REVIEW_COUNT })}</span>
-      </div>
+      {reviewSummary ? (
+        <div className='inline-flex w-fit items-center gap-2 rounded-full bg-bark/5 py-1.5 pl-2.5 pr-3 text-bark'>
+          <ReviewStars rating={reviewSummary.rating} className='gap-[2px]' />
+          <span className='text-[13px] font-semibold leading-none'>{tPdp('reviewCountLabel', { rating: reviewSummary.rating.toFixed(1), count: reviewSummary.count })}</span>
+        </div>
+      ) : null}
       <DisplayHeading as={as} size="compact" className="m-0 leading-[1.1] text-bark">{name}</DisplayHeading>
       <ProductPrice
         currentPrice={price}

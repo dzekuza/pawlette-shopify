@@ -33,6 +33,11 @@ export const shopifyCatalogClient = createStorefrontApiClient({
     : {}),
 });
 
+/** Shopify titles sometimes carry the typo "PawCharms" (missing "s"); always display the brand as "PawsCharm". */
+export function fixBrandName(value: string): string {
+  return value.replace(/PawCharms?/g, 'PawsCharm');
+}
+
 export interface ShopifyCollarVariant {
   id: string;
   title: string;
@@ -703,7 +708,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
               handle: collarHandle,
               title: collarTitle,
               updatedAt: node.updatedAt,
-              parentTitle: node.title,
+              parentTitle: fixBrandName(node.title),
               nodeHandle: node.handle,
               parentImage,
               parentDescription,
@@ -735,7 +740,7 @@ export async function getCollars(): Promise<ShopifyCollar[]> {
           handle: node.handle,
           title: node.title,
           updatedAt: node.updatedAt,
-          parentTitle: node.title,
+          parentTitle: fixBrandName(node.title),
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€24.99',
           originalPrice: saleVariant?.originalPrice,
@@ -813,7 +818,7 @@ export async function getCharms(): Promise<ShopifyCharm[]> {
 
         const productMeta = (key: string) =>
           productNode.metafields?.find((metafield) => metafield?.key === key)?.value;
-        const productTitle = productNode.title ?? 'Charms';
+        const productTitle = fixBrandName(productNode.title ?? 'Charms');
         const productFeaturedImage = productNode.featuredImage?.url ?? '';
         const productDescriptionHtml = productNode.descriptionHtml ?? '';
         const rawDesc = productMeta('description');
@@ -1036,7 +1041,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
               handle: leashHandle,
               title: `${colorName} Leash`,
               updatedAt: node.updatedAt,
-              parentTitle: node.title,
+              parentTitle: fixBrandName(node.title),
               nodeHandle: node.handle,
               variantId: firstColorVariant?.id ?? '',
               price: firstColorVariant ? firstColorVariant.price : '€32.99',
@@ -1063,7 +1068,7 @@ export async function getLeashes(): Promise<ShopifyCollar[]> {
           handle: node.handle,
           title: node.title,
           updatedAt: node.updatedAt,
-          parentTitle: node.title,
+          parentTitle: fixBrandName(node.title),
           nodeHandle: node.handle,
           variantId: firstVariant?.id ?? '',
           price: firstVariant ? firstVariant.price : '€32.99',

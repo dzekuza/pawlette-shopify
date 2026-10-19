@@ -19,15 +19,8 @@ export const TEXT_PRIMARY = 'var(--color-bark)'
 export const TEXT_MUTED = 'var(--color-muted-foreground)'
 export const TEXT_SECONDARY = 'var(--color-bark-light)'
 
-export const PDP_REVIEW_RATING = 4.9
-export const PDP_REVIEW_COUNT = 9
-
 export function getPdpTrustPoints (t: PdpTranslator): string[] {
   return t.raw('trustPoints')
-}
-
-export function getPdpReviews (t: PdpTranslator): { quote: string; author: string }[] {
-  return t.raw('reviews')
 }
 
 const COLOR_LABEL_KEYS: Record<string, string> = {

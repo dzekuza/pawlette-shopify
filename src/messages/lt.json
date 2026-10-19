@@ -366,11 +366,6 @@
       "chooseUpToCharms": "Pasirinkite iki {max} pakabukų",
       "madeInLithuania": "Pagaminta Lietuvoje",
       "trustPoints": ["2–4 d. pristatymas", "30 d. grąžinimas", "Pagaminta Lietuvoje"],
-      "reviews": [
-        { "quote": "Prisisega per kelias sekundes ir net po purvinų pasivaikščiojimų atrodo kaip naujas.", "author": "Laima K." },
-        { "quote": "Minkštas, lengvai valomas, o pakabukai laikėsi vietoje net po lietingo bėgimo parke.", "author": "Egle M." },
-        { "quote": "Gyvai atrodo itin kokybiškai, o mūsų šuo pagaliau turi antkaklį, kuris ir žaismingas, ir tvarkingas.", "author": "Rasa T." }
-      ],
       "allCharms": {
         "eyebrow": "Visi pakabukai",
         "title": "Naršykite kiekvieną pakabuką"

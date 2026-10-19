@@ -9,6 +9,12 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-20 — Reviews from one real source; mobile widget clutter
+
+- **Reviews:** all review UI (PDP rating chip, PDP review carousel, charm builder panel, landing `ReviewsSection`) now reads `REVIEWS` in `src/lib/reviews.ts`; rating and count are computed from it and every piece renders only when it has entries. The invented quotes and the `PDP_REVIEW_RATING` / `PDP_REVIEW_COUNT` constants (and `products.pdp.reviews` messages) were removed. The Shopify store has no review data, so the list ships empty — add genuine reviews there (author, verbatim quote, rating, date) and everything appears.
+- **Mobile widgets:** `StickyVideoWidget` is hidden below `md`; the phone sticky CTA now stops short of the right-hand chat bubble instead of sitting under it.
+- **Brand typo:** `fixBrandName` moved to `lib/shopify.ts` and applied to collar/leash/charm titles at the source, so the client-side configurator H1 also reads "PawsCharm".
+
 ## 2026-10-20 — Default locale routing, SEO headings and copy fixes
 
 - **Routing:** `/` no longer redirects to `/en` for English browsers, non-LT IPs or a `NEXT_LOCALE` cookie (`localeDetection: false`, locale logic removed from `proxy.ts`); see ADR-0004.

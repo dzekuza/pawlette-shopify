@@ -29,7 +29,8 @@ export function StickyCTA({ visible }: { visible: boolean }) {
       <div style={{
         maxWidth: 1200,
         margin: '0 auto',
-        padding: isMobile ? '12px 16px' : '14px 48px',
+        // Phones: leave the bottom-right corner free for the chat bubble.
+        padding: isMobile ? '12px 88px 12px 16px' : '14px 48px',
         display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', gap: 16,
         pointerEvents: 'auto',
       }}>
@@ -48,13 +49,13 @@ export function StickyCTA({ visible }: { visible: boolean }) {
           </div>
         </div>
       )}
-      <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', width: isMobile ? 'auto' : 'auto', marginLeft: isMobile ? 'auto' : 'auto' }}>
+      <div style={{ display: 'flex', gap: isMobile ? 8 : 10, alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', width: isMobile ? '100%' : 'auto', marginLeft: isMobile ? 0 : 'auto' }}>
         {!isMobile && (
           <div style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-interactive-text)', display: 'flex', alignItems: 'center', gap: 6 }}>
             {t('returnsBadge')}
           </div>
         )}
-        <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md">
+        <PrimaryButton href={localizeHref('/products', locale as 'lt' | 'en')} variant="sage" size="md" fullWidth={isMobile}>
           {t('cta')}
         </PrimaryButton>
       </div>
