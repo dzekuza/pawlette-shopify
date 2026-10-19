@@ -12,6 +12,8 @@ const STATIC_LAST_MODIFIED: Record<string, string> = {
   pavadeliai: '2026-08-05',
   guideMeasure: '2026-08-05',
   guideMaterial: '2026-08-05',
+  guideChoose: '2026-10-19',
+  guideChecklist: '2026-10-19',
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -85,6 +87,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: STATIC_LAST_MODIFIED.guideMaterial,
       changeFrequency: 'monthly',
       priority: 0.65,
+    },
+    {
+      url: 'https://pawscharm.com/guide/kaip-isrinkti-antkakli-su-vardu',
+      lastModified: STATIC_LAST_MODIFIED.guideChoose,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://pawscharm.com/guide/ka-patikrinti-uzsakant-antkakli-su-vardu',
+      lastModified: STATIC_LAST_MODIFIED.guideChecklist,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
     ...productEntries,
     ...enProductEntries,

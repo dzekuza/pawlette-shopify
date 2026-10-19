@@ -29,6 +29,8 @@ const FOOTER_COLS = [
   { key: 'support', links: [
     { key: 'sizeGuide', href: '/guide/how-to-measure-dog-collar' },
     { key: 'siliconeVsNylon', href: '/guide/silicone-vs-nylon-dog-collars' },
+    { key: 'chooseCollar', href: '/guide/kaip-isrinkti-antkakli-su-vardu' },
+    { key: 'orderChecklist', href: '/guide/ka-patikrinti-uzsakant-antkakli-su-vardu' },
     { key: 'shipping', href: '/faq#orders' },
     { key: 'returns', href: '/faq#orders' },
   ]},

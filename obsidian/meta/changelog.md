@@ -15,6 +15,20 @@ This is a human-curated log — not a mirror of `git log`. Record *why*, not jus
   static `<head>` of every page, including the home page. Needed to verify pawscharm.com in Meta Business
   Settings (Brand safety → Domains) before configuring events for ad optimisation. The value is a public tag.
 
+## 2026-10-19 — two Lithuanian buyer guides for AI and search visibility
+
+- OpenSEO's AI visibility check (ChatGPT, Gemini, Google AI Overviews; 14 answers) named PawsCharm in 4:
+  on shopping questions ("where to find / compare / best for everyday use"), never on the informational
+  ones ("how to choose", "what to check when ordering"). Added two server-rendered guides for those gaps:
+  `/guide/kaip-isrinkti-antkakli-su-vardu` and `/guide/ka-patikrinti-uzsakant-antkakli-su-vardu`
+  (answer-first intro, FAQ, Article + FAQPage + BreadcrumbList JSON-LD, comparison table).
+- Claims only repeat what the site already states (S/M/L sizes, engraving at checkout, charms in ~5 s,
+  handmade in Vilnius, free shipping threshold); material comparisons are labelled as general guidance.
+- New shared building blocks in `src/components/guide/` (`GuideLayout`, `GuideBlocks`) and
+  `src/lib/guide-schema.ts`. Added sitemap entries, two footer links (`chooseCollar`, `orderChecklist`)
+  and `llms.txt` lines. Existing guides were not refactored onto the new components.
+- Re-run the AI visibility check in a few weeks to see whether mentions on the informational prompts change.
+
 ## 2026-10-19 — orders-paid webhook logging
 
 - `/api/shopify/orders-paid` now logs one line per delivery (rejected signature, skipped with reason,

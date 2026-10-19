@@ -10,7 +10,8 @@ primitives, reused across features.
 
 | Component | File | Purpose | Status |
 |-----------|------|---------|--------|
-| | | | #wip |
+| `GuideLayout` | `components/guide/GuideLayout.tsx` | Server shell for guide pages: nav, footer, width, JSON-LD scripts | #stable |
+| `GuideHeader`, `GuideSection`, `GuideCallout`, `GuideBullets`, `GuideLink`, `GuideNumberedList`, `GuideTable`, `GuideFaq`, `GuideCta` | `components/guide/GuideBlocks.tsx` | Content blocks for `/guide/*` pages (all server components) | #stable |
 
 ## Related
 

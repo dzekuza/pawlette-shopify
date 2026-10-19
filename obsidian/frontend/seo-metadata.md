@@ -18,7 +18,8 @@ updated: 2026-09-20
 
 | Route | Title | Description | OG image |
 |-------|-------|-------------|----------|
-| | | | |
+| `/guide/kaip-isrinkti-antkakli-su-vardu` | Kaip išsirinkti šuns antkaklį su vardu | Dydis, medžiaga, vardo užrašymo būdas ir sagtis… | default |
+| `/guide/ka-patikrinti-uzsakant-antkakli-su-vardu` | Ką patikrinti užsakant šuns antkaklį su vardu | Dešimties punktų sąrašas prieš užsakant… | default |
 
 ## Related
 
