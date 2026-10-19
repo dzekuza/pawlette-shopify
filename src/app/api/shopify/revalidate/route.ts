@@ -1,14 +1,7 @@
-import { createHmac, timingSafeEqual } from 'node:crypto';
 import { revalidateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
 import { SHOPIFY_CACHE_TAG } from '@/lib/shopify';
-
-function isValidSignature(rawBody: string, signature: string | null, secret: string) {
-  if (!signature) return false;
-  const expected = createHmac('sha256', secret).update(rawBody, 'utf8').digest();
-  const received = Buffer.from(signature, 'base64');
-  return received.length === expected.length && timingSafeEqual(received, expected);
-}
+import { isValidShopifySignature } from '@/lib/shopify-webhook';
 
 /**
  * Shopify webhook receiver (products/create|update|delete, collections/update, inventory_levels/update).
@@ -21,7 +14,7 @@ export async function POST(request: Request) {
   }
 
   const rawBody = await request.text();
-  if (!isValidSignature(rawBody, request.headers.get('x-shopify-hmac-sha256'), secret)) {
+  if (!isValidShopifySignature(rawBody, request.headers.get('x-shopify-hmac-sha256'), secret)) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
   }
 

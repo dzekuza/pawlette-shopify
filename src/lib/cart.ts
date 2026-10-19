@@ -1,5 +1,6 @@
 import { shopifyClient } from './shopify';
-import { trackMetaEvent } from '@/components/shared/MetaPixel';
+import { getMetaBrowserIds, trackMetaEvent } from '@/components/shared/MetaPixel';
+import { META_CART_ATTRIBUTES } from '@/lib/meta-cart-attributes';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
 
@@ -84,6 +85,15 @@ const ADD_TO_CART = `
   }
 `;
 
+const CART_ATTRIBUTES_UPDATE = `
+  mutation cartAttributesUpdate($cartId: ID!, $attributes: [AttributeInput!]!) {
+    cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
+      cart { id }
+      userErrors { message }
+    }
+  }
+`;
+
 const GET_CART = `
   ${CART_FRAGMENT}
   query getCart($cartId: ID!) {
@@ -152,7 +162,23 @@ export async function addLineToCart(variantId: string, quantity = 1): Promise<Sh
   return addLinesToCart([{ merchandiseId: variantId, quantity }]);
 }
 
+// Checkout runs on Shopify's domain, so the browser pixel can't see the purchase. Stash the Meta
+// browser ids on the cart (consent-gated: nothing is written without accepted cookies) so the
+// orders/paid webhook can send a matched Purchase. See /api/shopify/orders-paid.
+function syncMetaCartAttributes(cartId: string): void {
+  const ids = getMetaBrowserIds();
+  if (!ids) return;
+  const attributes = [
+    { key: META_CART_ATTRIBUTES.consent, value: 'granted' },
+    { key: META_CART_ATTRIBUTES.sourceUrl, value: window.location.origin },
+    ...(ids.fbp ? [{ key: META_CART_ATTRIBUTES.fbp, value: ids.fbp }] : []),
+    ...(ids.fbc ? [{ key: META_CART_ATTRIBUTES.fbc, value: ids.fbc }] : []),
+  ];
+  shopifyClient.request(CART_ATTRIBUTES_UPDATE, { variables: { cartId, attributes } }).catch(() => {});
+}
+
 function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; quantity: number }[]): void {
+  syncMetaCartAttributes(cart.id);
   const addedIds = addedLines.map((l) => l.merchandiseId);
   const addedCartLines = cart.lines.filter((l) => addedIds.includes(l.merchandise.id));
   const value = addedCartLines.reduce((sum, l) => {

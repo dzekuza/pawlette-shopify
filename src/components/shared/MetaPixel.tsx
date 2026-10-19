@@ -57,6 +57,12 @@ function generateEventId (): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`
 }
 
+/** Browser identifiers for server-side matching; null unless the visitor accepted cookies. */
+export function getMetaBrowserIds (): { fbp?: string, fbc?: string } | null {
+  if (!hasConsent()) return null
+  return { fbp: getCookie('_fbp'), fbc: getCookie('_fbc') }
+}
+
 /**
  * Fires a pixel event client-side and mirrors it server-side via the
  * Conversions API, sharing the same eventId so Meta deduplicates the two.

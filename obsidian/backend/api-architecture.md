@@ -25,6 +25,7 @@ type ApiResponse<T> = { data: T } | { error: { message: string; code?: string } 
 
 | Route | Method | Input | Output | Auth |
 |-------|--------|-------|--------|------|
+| `/api/shopify/orders-paid` | POST | Shopify `orders/paid` webhook body (raw) | `{ sent, reason? \| pixels }` (200 skipped/sent, 502 if Meta rejects so Shopify retries) | HMAC `X-Shopify-Hmac-Sha256` with `SHOPIFY_WEBHOOK_SECRET` |
 | `/api/shopify/revalidate` | POST | Shopify webhook body (raw) | `{ revalidated, topic }` | HMAC `X-Shopify-Hmac-Sha256` with `SHOPIFY_WEBHOOK_SECRET` (401 bad, 503 unset) |
 
 ## Server actions

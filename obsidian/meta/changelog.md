@@ -9,6 +9,23 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-19 — Purchase events to Meta via Shopify webhook
+
+- Checkout runs on Shopify's domain, so the browser pixel never saw purchases (Shopify had 8 orders,
+  Meta 0 `Purchase`). New `POST /api/shopify/orders-paid` verifies Shopify's HMAC and sends a
+  `Purchase` to the Conversions API (`src/lib/meta-purchase.ts` maps the order; hashed email, phone,
+  name, city, zip, country; order-derived `event_id` so Shopify retries dedupe).
+- Consent gate: on add-to-cart the storefront writes `meta_consent`, `meta_fbp`, `meta_fbc` and
+  `meta_event_source_url` to the Shopify cart (`syncMetaCartAttributes` in `src/lib/cart.ts`) only when the
+  visitor accepted cookies. The webhook sends only orders carrying `meta_consent=granted`; others return
+  `{ sent: false, reason: 'no-consent' }`. Shopify test orders are skipped.
+- `sendMetaCapiEvent` now returns per-pixel results and posts to both pixels when each has a token
+  (`META_CAPI_ACCESS_TOKEN`, `META_CAPI_ACCESS_TOKEN_SECONDARY`); `META_CAPI_TEST_EVENT_CODE` routes
+  events to Events Manager's Test events tab. Signature check moved to `src/lib/shopify-webhook.ts`.
+- Verified: 12 unit tests (mapping, hashing, consent, signatures), route behaviour on a production
+  build (401/400/405, skipped, rejected-by-Meta 502 with a fake token), and in the browser against the
+  real Shopify cart (attributes present after accepting cookies, absent after declining).
+
 ## 2026-10-19 — Shopify catalog: webhook revalidation + server-rendered landing products
 
 - New `shopifyCatalogClient` (`src/lib/shopify.ts`): read-only Storefront client whose

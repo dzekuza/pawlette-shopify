@@ -10,6 +10,24 @@ consequences. Use [[templates/adr-note]] for new entries. Newest first.
 
 ---
 
+## ADR-0005 — Purchases reach Meta through a consent-gated order webhook
+
+- **Status:** Accepted
+- **Date:** 2026-10-19
+
+**Context.** Checkout is on Shopify's domain, so the pixel can't fire `Purchase`, and an order webhook
+has no cookie-consent signal of its own. Sending every order would bypass the consent banner.
+
+**Decision.** Carry consent and Meta browser ids on the Shopify cart (set only after cookie consent),
+and have the `orders/paid` webhook send a Conversions API `Purchase` only when those attributes are
+present. Customer fields are SHA-256 hashed server-side. Event ids derive from the order id.
+
+**Consequences.** Orders from visitors who declined or never saw the banner aren't reported to Meta, so
+Meta undercounts purchases by design. Shopify's own Facebook & Instagram channel remains the alternative,
+but it must not run in parallel with this or purchases double-count. The privacy policy should mention it.
+
+---
+
 ## ADR-0004 — Catalog reads use Next's tagged data cache, invalidated by Shopify webhooks
 
 - **Status:** Accepted
