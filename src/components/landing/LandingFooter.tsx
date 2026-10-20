@@ -23,7 +23,7 @@ const FOOTER_COLS = [
   { key: 'store', links: [
     { key: 'collarSets', href: '/products' },
     { key: 'leashes', href: '/pavadeliai' },
-    { key: 'charms', href: '/products/charm-charms' },
+    { key: 'charms', href: '/products/pawcharms-pakabuciai' },
     { key: 'buildYourOwn', href: '/products' },
   ]},
   { key: 'support', links: [

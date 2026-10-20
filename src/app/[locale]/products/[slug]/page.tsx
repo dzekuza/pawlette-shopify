@@ -9,6 +9,7 @@ import {
   buildProductJsonLd,
   buildProductSeoDescription,
   buildProductSeoTitle,
+  canonicalProductSlug,
 } from '@/lib/seo'
 
 export const revalidate = 300
@@ -41,20 +42,17 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   // so they canonicalize to the base page when it exists instead of competing with it.
   const baseSlug = product.slug.replace(/-mazi$/, '')
   const isSizeTwin = product.productType === 'charm' && baseSlug !== product.slug
-  const canonicalSlug = isSizeTwin && await getProductBySlugAsync(baseSlug, locale) ? baseSlug : product.slug
+  const hubSlug = canonicalProductSlug(product)
+  const canonicalSlug = hubSlug !== product.slug
+    ? hubSlug
+    : isSizeTwin && await getProductBySlugAsync(baseSlug, locale) ? baseSlug : product.slug
   const ltProductUrl = `https://pawscharm.com/products/${canonicalSlug}`
   const enProductUrl = `https://pawscharm.com/en/products/${canonicalSlug}`
   const productUrl = localeCode === 'en' ? enProductUrl : ltProductUrl
 
-  // The ~260 letter×color charm permutations share near-identical boilerplate copy (only the
-  // letter/color differs) — a thin/doorway-page pattern. Noindex them but keep them followable
-  // so link equity still flows to the charm collection hub and named icon/shape charms.
-  const isThinCharmVariant = product.productType === 'charm' && product.charmCategory === 'letter'
-
   return {
     title,
     description,
-    ...(isThinCharmVariant ? { robots: { index: false, follow: true } } : {}),
     alternates: {
       canonical: productUrl,
       languages: {

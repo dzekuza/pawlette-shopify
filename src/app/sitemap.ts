@@ -20,10 +20,10 @@ const STATIC_LAST_MODIFIED: Record<string, string> = {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
   const products = await getAllProductSlugs()
-  // Exclude aliases that canonicalize to another URL (e.g. "pawcharms-pakabuciai" -> "charm-charms")
+  // Exclude aliases that canonicalize to another URL (e.g. "charm-charms" -> "pawcharms-pakabuciai")
   // and thin letter×color charm variants (noindexed in generateMetadata, see products/[slug]/page.tsx)
   // — a sitemap should only list self-canonical, index-worthy URLs.
-  const CANONICAL_ALIASES = new Set(['pawcharms-pakabuciai'])
+  const CANONICAL_ALIASES = new Set(['charm-charms'])
   // "-mazi" (small size) charm pages canonicalize to their base charm page, so they are left out too.
   const allSlugs = new Set(products.map(({ slug }) => slug))
   const isSizeTwin = (slug: string) => slug.endsWith('-mazi') && allSlugs.has(slug.replace(/-mazi$/, ''))
@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `https://pawscharm.com/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,
     changeFrequency: 'weekly' as const,
-    priority: slug === 'charm-charms' ? 0.75 : 0.7,
+    priority: slug === 'pawcharms-pakabuciai' ? 0.75 : 0.7,
   }))
   // English PDPs (locale === 'en') became indexable alongside their LT counterparts —
   // list them too so Google discovers them without waiting on crawl/hreflang alone.
@@ -40,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `https://pawscharm.com/en/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,
     changeFrequency: 'weekly' as const,
-    priority: slug === 'charm-charms' ? 0.7 : 0.65,
+    priority: slug === 'pawcharms-pakabuciai' ? 0.7 : 0.65,
   }))
 
   return [

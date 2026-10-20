@@ -12,6 +12,16 @@ export const BRAND_LOCATION = 'Vilnius, Lietuva'
 // aggregateRating/review schema built from this same placeholder value.
 export const PRODUCT_REVIEW_RATING = 4.9
 
+// The charm hub page. Both "charm-charms" and the thin letter×color charm pages
+// canonicalize to this URL, so search shows /products/pawcharms-pakabuciai instead of
+// an individual letter page like "Mėlyna raidė D".
+export const CHARM_HUB_SLUG = 'pawcharms-pakabuciai'
+
+export function canonicalProductSlug (product: ProductDetail) {
+  const isLetterCharm = product.productType === 'charm' && product.charmCategory === 'letter'
+  return product.slug === 'charm-charms' || isLetterCharm ? CHARM_HUB_SLUG : product.slug
+}
+
 function trimText(value?: string) {
   return value?.replace(/\s+/g, ' ').trim() ?? ''
 }
@@ -211,7 +221,7 @@ export async function buildProductFaqSchema(product: ProductDetail, locale: Prod
 }
 
 export function buildProductJsonLd(product: ProductDetail, locale: ProductLocale = 'lt') {
-  const productUrl = localeUrl(`/products/${product.slug}`, locale)
+  const productUrl = localeUrl(`/products/${canonicalProductSlug(product)}`, locale)
   const description = buildProductSeoDescription(product, locale)
   const keywordName = buildProductSeoTitle(product, locale)
   const brandLocation = locale === 'en' ? 'Vilnius, Lithuania' : BRAND_LOCATION
