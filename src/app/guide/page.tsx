@@ -112,6 +112,19 @@ export default function GuideIndexPage () {
           </li>
         ))}
       </ul>
+
+      <section className='mt-14 flex max-w-[720px] flex-col gap-4 pb-6 md:mt-20'>
+        <h2 className='m-0 text-[26px] leading-[1.15] text-bark md:text-[30px]'>Kodėl verta perskaityti gidus prieš užsakant</h2>
+        <p className='m-0 text-[16px] leading-relaxed text-bark-light'>
+          Antkaklis su vardu gaminamas pagal jūsų užsakymą, todėl verta iš anksto apsispręsti dėl dydžio, medžiagos ir užrašo. Šie gidai padeda pasirinkti dydį pagal šuns kaklo apimtį, palyginti BioThane su nailonu ir pasitikrinti, ar nieko nepamiršote prieš apmokėdami.
+        </p>
+        <p className='m-0 text-[16px] leading-relaxed text-bark-light'>
+          PawsCharm antkakliai gaminami iš vandeniui atsparaus BioThane, vardas graviruojamas, o pakabukai keičiami maždaug per 5 sekundes. Viską rankomis gaminame Vilniuje.
+        </p>
+        <p className='m-0 text-[16px] leading-relaxed text-bark-light'>
+          Jau žinote, ko ieškote? Peržiūrėkite <Link href='/products' className='text-interactive-text underline'>visus antkaklius ir pakabukus</Link> arba <Link href='/pavadeliai' className='text-interactive-text underline'>BioThane pavadėlius</Link>.
+        </p>
+      </section>
     </GuideLayout>
   )
 }

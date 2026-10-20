@@ -36,7 +36,10 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   }
 
   const localeCode = locale === 'en' ? 'en' : 'lt'
-  const title = buildProductSeoTitle(product, localeCode)
+  const baseTitle = buildProductSeoTitle(product, localeCode)
+  // Short titles (parent collar and leash pages, charm hub, letter charms) carry the brand;
+  // longer color-variant titles are left alone so they stay within about 60 characters.
+  const title = baseTitle.length <= 48 ? `${baseTitle} | PawsCharm` : baseTitle
   const description = buildProductSeoDescription(product, localeCode)
   // "-mazi" (small size) charm pages repeat their base charm's name and copy word for word,
   // so they canonicalize to the base page when it exists instead of competing with it.
@@ -79,7 +82,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
           'Vilnius',
         ],
     openGraph: {
-      title: `${title} | PawsCharm`,
+      title: `${baseTitle} | PawsCharm`,
       description,
       type: 'website',
       url: productUrl,
@@ -88,7 +91,7 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${title} | PawsCharm`,
+      title: `${baseTitle} | PawsCharm`,
       description,
       images: product.image ? [product.image] : undefined,
     }

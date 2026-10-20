@@ -90,7 +90,7 @@ export function buildProductSeoTitle(product: ProductDetail, locale: ProductLoca
     // fields like colorLabel, which the overlay does not translate.
     if (product.productType === 'collar') {
       if (isParentProductPage(product)) return 'Personalized BioThane Dog Collar with Charms'
-      return `${product.name} — Waterproof BioThane Dog Collar with Charms`
+      return `${product.name} — BioThane Dog Collar with Charms`
     }
     if (product.productType === 'leash') {
       if (isParentProductPage(product)) return 'Waterproof BioThane Dog Leash'
