@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify';
 import { NEWSLETTER_DISCOUNT_CODE } from '@/lib/site-config';
+import { GA_LEAD_SOURCES, sendGaLead, type GaLeadSource } from '@/lib/ga-purchase';
 
 interface CustomerCreateResponse {
   customerCreate: {
@@ -29,15 +30,46 @@ const NEWSLETTER_CUSTOMER_CREATE_MUTATION = `
   }
 `;
 
+// Basic per-IP limit so the endpoint can't be used to probe many addresses quickly. It is held in
+// memory per server instance, so it slows bursts rather than guaranteeing a global cap; add a
+// Vercel WAF rate-limit rule on /api/newsletter for a hard limit.
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
+const requestLog = new Map<string, { count: number; resetAt: number }>();
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  if (requestLog.size > 1000) {
+    for (const [key, entry] of requestLog) {
+      if (entry.resetAt <= now) requestLog.delete(key);
+    }
+  }
+  const entry = requestLog.get(ip);
+  if (!entry || entry.resetAt <= now) {
+    requestLog.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_LIMIT_MAX_REQUESTS;
+}
+
 function isExistingCustomerError(message: string) {
   const normalized = message.toLowerCase();
   return normalized.includes('already') || normalized.includes('exists') || normalized.includes('taken');
 }
 
 export async function POST(request: Request) {
+  const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  if (isRateLimited(ip)) {
+    return NextResponse.json({ error: 'Per daug bandymų. Pabandykite vėliau.' }, { status: 429 });
+  }
+
   const body = await request.json().catch(() => ({}));
   const email = String(body.email ?? '').trim().toLowerCase();
   const consent = body.consent === true;
+  // Present only when the visitor accepted analytics cookies (see getGaBrowserIds on the client).
+  const gaClientId = typeof body.gaClientId === 'string' ? body.gaClientId.slice(0, 100) : '';
+  const leadSource = GA_LEAD_SOURCES.find((source) => source === body.leadSource) as GaLeadSource | undefined;
 
   if (!email || !email.includes('@')) {
     return NextResponse.json({ error: 'Įveskite galiojantį el. pašto adresą.' }, { status: 400 });
@@ -81,10 +113,14 @@ export async function POST(request: Request) {
     );
   }
 
+  // Count the lead only for a newly created customer, and do it here: telling the browser
+  // whether the address already existed would let anyone test which emails are customers.
+  if (data?.customerCreate.customer && gaClientId && leadSource) {
+    await sendGaLead(gaClientId, leadSource);
+  }
+
   return NextResponse.json({
     success: true,
     code: NEWSLETTER_DISCOUNT_CODE,
-    // Lets the client skip lead tracking for addresses that were already customers.
-    existing: !data?.customerCreate.customer,
   });
 }

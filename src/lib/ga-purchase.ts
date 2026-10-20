@@ -69,3 +69,25 @@ export async function sendGaPurchase (event: GaPurchaseEvent): Promise<boolean> 
     return false
   }
 }
+
+/** Lead sources the signup forms may report; anything else is ignored. */
+export const GA_LEAD_SOURCES = ['newsletter_footer', 'exit_modal'] as const
+export type GaLeadSource = (typeof GA_LEAD_SOURCES)[number]
+
+/** Sends a generate_lead event through the GA4 Measurement Protocol. Returns false when unconfigured or rejected. */
+export async function sendGaLead (clientId: string, leadSource: GaLeadSource): Promise<boolean> {
+  const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  const apiSecret = process.env.GA_API_SECRET
+  if (!measurementId || !apiSecret) return false
+
+  const url = `https://www.google-analytics.com/mp/collect?measurement_id=${encodeURIComponent(measurementId)}&api_secret=${encodeURIComponent(apiSecret)}`
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify({ client_id: clientId, events: [{ name: 'generate_lead', params: { lead_source: leadSource } }] }),
+    })
+    return response.ok
+  } catch {
+    return false
+  }
+}

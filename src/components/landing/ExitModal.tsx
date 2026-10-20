@@ -4,7 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import Image from 'next/image';
 import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { getGaBrowserIds } from '@/components/shared/GoogleAnalytics';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { BodyCopy, DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
@@ -15,7 +15,6 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 interface NewsletterResponse {
   code?: string;
   error?: string;
-  existing?: boolean;
 }
 
 export function ExitModal({ onClose }: { onClose: () => void }) {
@@ -50,14 +49,14 @@ export function ExitModal({ onClose }: { onClose: () => void }) {
     setSubmitting(true);
     setError('');
     try {
+      const gaIds = await getGaBrowserIds();
       const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: normalizedEmail, consent: true }),
+        body: JSON.stringify({ email: normalizedEmail, consent: true, leadSource: 'exit_modal', gaClientId: gaIds?.clientId }),
       });
       const data = await response.json() as NewsletterResponse;
       if (!response.ok) throw new Error(data.error || t('errorGeneric'));
-      if (!data.existing) trackGaEvent('generate_lead', { lead_source: 'exit_modal' });
       setCode(data.code ?? '');
       setSent(true);
     } catch (submitError) {

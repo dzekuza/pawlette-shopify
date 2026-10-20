@@ -1,6 +1,6 @@
 'use client';
 
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { getGaBrowserIds } from '@/components/shared/GoogleAnalytics';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { FormEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -9,7 +9,6 @@ import { cn } from '@/lib/utils';
 interface NewsletterResponse {
   code?: string;
   error?: string;
-  existing?: boolean;
 }
 
 export function NewsletterSignup() {
@@ -39,10 +38,11 @@ export function NewsletterSignup() {
     setMessage('');
 
     try {
+      const gaIds = await getGaBrowserIds();
       const response = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: normalizedEmail, consent: true }),
+        body: JSON.stringify({ email: normalizedEmail, consent: true, leadSource: 'newsletter_footer', gaClientId: gaIds?.clientId }),
       });
       const data = await response.json() as NewsletterResponse;
 
@@ -50,7 +50,6 @@ export function NewsletterSignup() {
         throw new Error(data.error || t('errorGeneric'));
       }
 
-      if (!data.existing) trackGaEvent('generate_lead', { lead_source: 'newsletter_footer' });
       setStatus('success');
       setMessage(data.code
         ? t('successWithCode', { code: data.code })
