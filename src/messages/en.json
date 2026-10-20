@@ -227,6 +227,7 @@
       "cta": "Build your collar →"
     },
     "stickyVideo": {
+      "dismissAriaLabel": "Hide video",
       "tooltip": "How it works",
       "closeAriaLabel": "Close video"
     },

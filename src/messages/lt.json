@@ -227,6 +227,7 @@
       "cta": "Kurk savo antkaklį →"
     },
     "stickyVideo": {
+      "dismissAriaLabel": "Paslėpti vaizdo įrašą",
       "tooltip": "Kaip tai veikia",
       "closeAriaLabel": "Uždaryti vaizdo įrašą"
     },

@@ -18,6 +18,10 @@ This is a human-curated log — not a mirror of `git log`. Record *why*, not jus
 - `/api/newsletter` now returns `existing: true` when the address was already a customer; both email forms skip `generate_lead` in that case.
 - **Open:** the newsletter discount code is one shared public code (`NEWSLETTER_DISCOUNT_CODE`), unchanged. Single-use codes need Shopify Admin discount access.
 
+## 2026-10-20 — Dismiss button on the floating video widget
+
+- `StickyVideoWidget` shows a small X on the collapsed bubble that hides it for the rest of the session (`sessionStorage` key `pawlette_video_widget_dismissed`, guarded for blocked storage). The X on the expanded player still just collapses it. New message `landing.stickyVideo.dismissAriaLabel` (EN + LT).
+
 ## 2026-10-20 — Performance-report follow-ups: SEO titles, exit modal lead capture, lead events
 
 - **SEO (LT):** `/products` title is now "Antkakliai šunims: BioThane antkakliai, pakabukai, pavadėliai" with a price-led description (from €33); the parent collar page title is "Antkaklis šunims su vardu ir pakabukais" (matches the "antkaklis šunims" queries that sat at position 70-90) with "5 pakabukai įskaičiuoti" in the description (`lib/seo.ts`, `app/[locale]/products/layout.tsx`).

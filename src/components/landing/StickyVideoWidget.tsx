@@ -1,15 +1,46 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useSyncExternalStore } from 'react';
 import { useTranslations } from 'next-intl';
 import { X, Volume2, VolumeX } from 'lucide-react';
 
+const DISMISS_KEY = 'pawlette_video_widget_dismissed';
+const DISMISS_EVENT = 'pawlette:video-widget-dismissed';
+
+function subscribeToDismissal(onChange: () => void) {
+  window.addEventListener(DISMISS_EVENT, onChange);
+  return () => window.removeEventListener(DISMISS_EVENT, onChange);
+}
+
+function readDismissed() {
+  try {
+    return window.sessionStorage.getItem(DISMISS_KEY) === '1';
+  } catch {
+    // Storage can be blocked; the widget then reappears on the next page load.
+    return false;
+  }
+}
 const VIDEO_SRC = 'https://cdn.shopify.com/videos/c/o/v/a32c10206bf546289fe5d8bcb6cef346.mp4';
 
 export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number }) {
   const t = useTranslations('landing.stickyVideo');
   const [expanded, setExpanded] = useState(false);
+  const [dismissedThisView, setDismissedThisView] = useState(false);
+  const dismissedEarlier = useSyncExternalStore(subscribeToDismissal, readDismissed, () => false);
+  const dismissed = dismissedThisView || dismissedEarlier;
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const dismiss = () => {
+    setDismissedThisView(true);
+    try {
+      window.sessionStorage.setItem(DISMISS_KEY, '1');
+      window.dispatchEvent(new Event(DISMISS_EVENT));
+    } catch {
+      // Ignore: dismissal still holds for this page view.
+    }
+  };
+
+  if (dismissed) return null;
 
   const toggle = () => {
     const video = videoRef.current;
@@ -43,6 +74,17 @@ export function StickyVideoWidget({ bottomOffset = 0 }: { bottomOffset?: number 
         transition: 'width 320ms cubic-bezier(0.23, 1, 0.32, 1), height 320ms cubic-bezier(0.23, 1, 0.32, 1), bottom 200ms ease-out',
       }}
     >
+      {!expanded && (
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label={t('dismissAriaLabel')}
+          className="absolute -right-2 -top-2 z-[2] flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-0 bg-bark text-cream shadow-[0_4px_12px_rgba(61,53,48,0.28)] transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <X aria-hidden className="h-3.5 w-3.5" strokeWidth={2.4} />
+        </button>
+      )}
+
       {!expanded && (
         <div
           style={{
