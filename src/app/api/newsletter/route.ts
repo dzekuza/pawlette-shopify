@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { NextResponse } from 'next/server';
+import { after, NextResponse } from 'next/server';
 import { shopifyClient } from '@/lib/shopify';
 import { NEWSLETTER_DISCOUNT_CODE } from '@/lib/site-config';
 import { GA_LEAD_SOURCES, sendGaLead, type GaLeadSource } from '@/lib/ga-purchase';
@@ -115,8 +115,9 @@ export async function POST(request: Request) {
 
   // Count the lead only for a newly created customer, and do it here: telling the browser
   // whether the address already existed would let anyone test which emails are customers.
+  // `after` runs it once the response has gone out, so response time is the same either way.
   if (data?.customerCreate.customer && gaClientId && leadSource) {
-    await sendGaLead(gaClientId, leadSource);
+    after(() => sendGaLead(gaClientId, leadSource));
   }
 
   return NextResponse.json({
