@@ -1,7 +1,7 @@
 'use client';
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import type { ProductDetail } from '@/lib/db';
-import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from '@/components/products/ProductCard';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
@@ -26,7 +26,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
       >
         {/* Heading */}
         <div className="flex flex-col items-center text-center gap-4">
-          <DisplayHeading as="h2" size="section" className="text-bark">
+          <DisplayHeading as="h2" size="section" className="max-w-[32ch] text-balance text-bark">
             {t('heading')}
           </DisplayHeading>
         </div>
@@ -96,26 +96,7 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
                   <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderProductName')}</span>
                   <span style={{ fontSize: 14, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderPrice')}</span>
                 </div>
-                <Link
-                  href="/products"
-                  onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-sage-dark)'; e.currentTarget.style.transform = 'scale(0.99)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = 'var(--color-sage)'; e.currentTarget.style.transform = 'scale(1)'; }}
-                  style={{
-                    display: 'block',
-                    textAlign: 'center',
-                    background: 'var(--color-sage)',
-                    borderRadius: 100,
-                    padding: '12px 16px',
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: 'var(--color-interactive-text)',
-                    textDecoration: 'none',
-                    fontFamily: "'DM Sans', sans-serif",
-                    transition: 'background-color 150ms ease-out, transform 100ms ease-out',
-                  }}
-                >
-                  {t('placeholderCta')}
-                </Link>
+                <PrimaryButton href="/products" variant="sage" size="md" fullWidth>{t('placeholderCta')}</PrimaryButton>
               </div>
             ))}
           </div>

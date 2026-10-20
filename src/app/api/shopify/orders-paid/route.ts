@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { buildGaPurchaseEvent, sendGaPurchase } from '@/lib/ga-purchase'
 import { sendMetaCapiEvent } from '@/lib/meta-capi'
 import { buildMetaPurchaseEvent, type ShopifyOrderPayload } from '@/lib/meta-purchase'
 import { SITE_URL } from '@/lib/seo'
@@ -6,7 +7,8 @@ import { isValidShopifySignature } from '@/lib/shopify-webhook'
 
 /**
  * Shopify `orders/paid` webhook. Mirrors the purchase to Meta's Conversions API so ads can
- * optimise for sales; checkout runs on Shopify's domain, where the browser pixel never loads.
+ * optimise for sales, and to GA4 (Measurement Protocol) so revenue shows in reports; checkout
+ * runs on Shopify's domain, where neither the browser pixel nor gtag loads.
  * Orders from visitors who did not accept cookies are acknowledged but not sent.
  */
 export async function POST (request: Request) {
@@ -29,10 +31,15 @@ export async function POST (request: Request) {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
 
+  // GA4 first and independent of Meta: a Meta rejection must not block (or retry-duplicate) it.
+  const gaDecision = buildGaPurchaseEvent(order)
+  const gaSent = gaDecision.send ? await sendGaPurchase(gaDecision.event) : false
+  console.info('orders-paid: ga4', { orderId: order.id, sent: gaSent, reason: gaDecision.send ? undefined : gaDecision.reason })
+
   const decision = buildMetaPurchaseEvent(order, SITE_URL, secret)
   if (!decision.send) {
     console.info('orders-paid: skipped', { orderId: order.id, reason: decision.reason })
-    return NextResponse.json({ sent: false, reason: decision.reason })
+    return NextResponse.json({ sent: false, reason: decision.reason, ga: gaSent })
   }
 
   const { event } = decision
@@ -54,7 +61,7 @@ export async function POST (request: Request) {
 
   // A non-2xx makes Shopify retry; the order-derived event id lets Meta dedupe repeats.
   if (results.length > 0 && results.every((r) => !r.ok)) {
-    return NextResponse.json({ sent: false, reason: 'meta-rejected' }, { status: 502 })
+    return NextResponse.json({ sent: false, reason: 'meta-rejected', ga: gaSent }, { status: 502 })
   }
-  return NextResponse.json({ sent: results.length > 0, pixels: results })
+  return NextResponse.json({ sent: results.length > 0, pixels: results, ga: gaSent })
 }

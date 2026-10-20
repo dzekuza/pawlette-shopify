@@ -1,5 +1,6 @@
 'use client'
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { useTranslations } from 'next-intl'
 import type { CollarConfiguratorState } from '@/lib/useCollarConfigurator'
 import { DisplayHeading } from '@/components/storefront/Typography'
@@ -87,23 +88,13 @@ export function ExtraCharmsModal ({ configurator }: { configurator: CollarConfig
         </div>
 
         {/* CTA */}
-        <button
-          onClick={addExtraCharmsToCart}
-          disabled={!extraCharmsPicked.length}
-          style={{
-            width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: extraCharmsPicked.length ? 'pointer' : 'not-allowed',
-            fontWeight: 600, fontSize: 16,
-            background: extraCharmsPicked.length ? 'var(--color-sage)' : '#E8E3DC',
-            color: extraCharmsPicked.length ? 'var(--color-interactive-text)' : TEXT_MUTED,
-            transition: 'background 150ms',
-          }}
-        >
+        <PrimaryButton variant="sage" size="lg" fullWidth onClick={addExtraCharmsToCart} disabled={!extraCharmsPicked.length}>
           {extraCharmsAdded
             ? t('addedToCart')
             : extraCharmsPicked.length
               ? t('extraCharmsModal.addToCart', { count: extraCharmsPicked.length })
               : t('extraCharmsModal.addToCartEmpty')}
-        </button>
+        </PrimaryButton>
       </div>
     </div>
   )

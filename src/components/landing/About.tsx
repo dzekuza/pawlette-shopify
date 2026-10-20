@@ -1,7 +1,7 @@
 'use client';
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import Image from 'next/image';
-import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
@@ -90,12 +90,9 @@ interface BentoCardCopy {
 /** The "create your collar" call-to-action for the About header. Pass it to `<About cta={…} />`. */
 export function AboutCta() {
   return (
-    <Link
-      href="/products/pawcharms-melynas-antkaklis"
-      className="btn-press whitespace-nowrap rounded-full bg-bark px-6 py-3 text-base font-medium text-white no-underline transition-colors duration-150 ease-out hover:bg-bark/90"
-    >
-      Sukurkite savo unikalų antkaklį →
-    </Link>
+    <PrimaryButton href="/products/pawcharms-melynas-antkaklis" variant="dark" size="lg">
+      Sukurkite savo unikalų antkaklį
+    </PrimaryButton>
   );
 }
 

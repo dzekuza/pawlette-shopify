@@ -28,12 +28,12 @@ export function HowItWorks() {
     <section id="how" className="bg-white">
       <div className="mx-auto grid max-w-[1200px] gap-12 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
         {/* Left: heading + photo pair, pinned while the timeline scrolls */}
-        <div className="flex min-w-0 flex-col gap-10 lg:sticky lg:top-28 lg:self-start">
+        <div className="flex min-w-0 flex-col items-center gap-10 text-center lg:sticky lg:items-stretch lg:text-left lg:top-28 lg:self-start">
           <DisplayHeading as="h2" size="section" className="max-w-[16ch] text-bark">
             {t('heading')}
           </DisplayHeading>
 
-          <div className="relative h-[400px] w-[320px] md:h-[540px] md:w-[460px]">
+          <div className="relative aspect-[460/540] w-full max-w-[460px]">
             {PHOTO_CARDS.map((card) => (
               <div
                 key={card.src}
@@ -42,7 +42,7 @@ export function HowItWorks() {
                   card.className,
                 )}
               >
-                <Image src={card.src} alt={t(card.altKey)} fill sizes="(min-width: 768px) 220px, 154px" className="object-cover" loading="eager" />
+                <Image src={card.src} alt={t(card.altKey)} fill sizes="(min-width: 768px) 220px, 50vw" className="object-cover" loading="eager" />
               </div>
             ))}
           </div>

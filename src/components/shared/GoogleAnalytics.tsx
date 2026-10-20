@@ -32,6 +32,31 @@ export function trackGaEvent (eventName: string, params?: Record<string, unknown
   w.gtag?.('event', eventName, params)
 }
 
+function readGaValue (key: 'client_id' | 'session_id'): Promise<string | undefined> {
+  const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const w = window as any
+  if (!measurementId || typeof w.gtag !== 'function') return Promise.resolve(undefined)
+  return new Promise((resolve) => {
+    // gtag's callback never fires if the script is blocked, so don't wait on it indefinitely.
+    const timer = window.setTimeout(() => resolve(undefined), 1500)
+    w.gtag('get', measurementId, key, (value: unknown) => {
+      window.clearTimeout(timer)
+      resolve(value == null ? undefined : String(value))
+    })
+  })
+}
+
+/**
+ * GA4 client and session ids, so the orders/paid webhook can attach the server-side purchase
+ * to the visitor's session. Returns null without cookie consent.
+ */
+export async function getGaBrowserIds (): Promise<{ clientId?: string, sessionId?: string } | null> {
+  if (!hasConsent()) return null
+  const [clientId, sessionId] = await Promise.all([readGaValue('client_id'), readGaValue('session_id')])
+  return { clientId, sessionId }
+}
+
 // The base gtag.js tag is bootstrapped unconditionally in the root layout
 // with Consent Mode v2 defaults (all denied) so Google's tag verifier can
 // detect it. This component only flips consent to granted once the user

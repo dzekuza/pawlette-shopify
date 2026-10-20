@@ -9,6 +9,81 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-20 — Server-side GA4 purchase tracking
+
+- **Why:** Shopify showed a real €65.98 order (12 Oct) while GA4 recorded 0 purchases. Checkout runs on `checkout.pawscharm.com`, where the site's gtag never loads, and the `orders/paid` webhook only mirrored purchases to Meta.
+- `storefront` now also writes the GA4 `client_id` / `session_id` to the cart attributes (`ga_client_id`, `ga_session_id`, consent-gated like the Meta ids) via `syncCartAttributes` in `lib/cart.ts`; `getGaBrowserIds` lives in `GoogleAnalytics.tsx`.
+- `/api/shopify/orders-paid` sends a GA4 `purchase` through the Measurement Protocol (`lib/ga-purchase.ts`) before the Meta event; `transaction_id` is the order id so webhook retries dedupe. Skips test orders, orders without consent, and orders without a client id.
+- **Needs env:** `GA_API_SECRET` (GA4 Admin > Data streams > Measurement Protocol API secrets). Without it the webhook logs a warning and skips GA. Orders placed before this ships stay missing from GA4.
+- `/api/newsletter` now returns `existing: true` when the address was already a customer; both email forms skip `generate_lead` in that case.
+- **Open:** the newsletter discount code is one shared public code (`NEWSLETTER_DISCOUNT_CODE`), unchanged. Single-use codes need Shopify Admin discount access.
+
+## 2026-10-20 — Performance-report follow-ups: SEO titles, exit modal lead capture, lead events
+
+- **SEO (LT):** `/products` title is now "Antkakliai šunims: BioThane antkakliai, pakabukai, pavadėliai" with a price-led description (from €33); the parent collar page title is "Antkaklis šunims su vardu ir pakabukais" (matches the "antkaklis šunims" queries that sat at position 70-90) with "5 pakabukai įskaičiuoti" in the description (`lib/seo.ts`, `app/[locale]/products/layout.tsx`).
+- **Exit modal** now posts to `/api/newsletter` (explicit consent checkbox, required by the route), shows the returned discount code, and surfaces errors inline. Previously it only flipped to a thank-you state.
+- **GA:** `generate_lead` events (`lead_source: exit_modal | newsletter_footer`) on both email capture forms; `view_item`, `add_to_cart`, `begin_checkout` and hero/section `cta_click` already existed.
+- **Not done (outside the repo):** `checkout.pawscharm.com` pages appear in Google's index; that host is Shopify's checkout domain, so it needs a Shopify-side fix (robots/noindex setting), and Google Analytics + the Pawlette Shopify connector need re-authorising to get funnel data.
+
+## 2026-10-20 — Smaller cart-upsell swatches
+
+- `CartUpsell` leash colour swatches shrink from 24px to 16px (selected one scales 1.1 with a 2px bark ring), with wider spacing; ring styling moved from inline styles to Tailwind classes, only the data-driven fill colour stays inline.
+
+## 2026-10-20 — Wider hero text column
+
+- `PhotoHero` text column max width at `xl` goes from 41% to 56% of the card so the H1 wraps in fewer lines. The hotspot frame only overlaps the H1's second line, which stays short; re-check the hotspot if the heading copy gets longer.
+
+## 2026-10-20 — Colour filter in the inline charm picker
+
+- `CharmDecoratorPanel` ("Kiti charmsai" tab, used on the landing buy block and the product pages) gets a row of colour chips above the grid: "All" plus one chip per distinct charm colour found in `allCharms`, filtering the grid client-side. Previously only the Personalise / Extra-charms modals had a colour filter.
+
+## 2026-10-20 — Landing buy block in a white card
+
+- `LandingBuySection` wraps the 3D preview and options in one white `rounded-[32px]` card with `p-6 md:p-10` padding (soft tinted shadow) over the drifting gradient backdrop.
+
+## 2026-10-20 — Leash card drops the bag-holder feature
+
+- Removed "Built-in bag holder" / "Integruotas maišelių laikiklis" from the leash feature list (`landing.products.features.leash`, EN + LT).
+
+## 2026-10-20 — Product grid heading width
+
+- `ProductGrid` H2 gets `max-w-[32ch] text-balance`, so the long keyword heading breaks into two balanced centered lines on wide screens instead of one 1100px line.
+
+## 2026-10-20 — Centered section headings on mobile
+
+- `HowItWorks` and `FAQ` headings (and the FAQ CTA) are centered below `lg` and left-aligned from `lg` up, matching the other landing sections (product grid, features, gallery, reviews, slider, newsletter) that were already centered.
+
+## 2026-10-20 — How-it-works photo collage is fluid on mobile
+
+- `HowItWorks` collage uses `w-full max-w-[460px] aspect-[460/540]` instead of fixed 320×400 / 460×540 sizes, so it fills the column on phones; image `sizes` is `50vw` below md.
+
+## 2026-10-20 — ExitModal photo instead of 3D charms
+
+- `ExitModal` shows a full-bleed dog photo (`/hero-figma/bento-dog-leash-meadow.jpg`) at the top instead of the `Charm3DScene` canvas, so the modal no longer loads three.js on exit intent.
+
+## 2026-10-20 — ExitModal rebuilt on design tokens
+
+- `ExitModal` drops all inline styles and the `useWindowWidth` padding switch: Tailwind token classes, responsive padding, `PrimaryButton` for submit and the success CTA, lucide `X` close button (new `landing.exitModal.close` string, EN + LT).
+- Now a real `<form>` with email validation (invalid input keeps focus state, no submit), `role="dialog"` / `aria-modal`, and Escape to close. Submit still only flips to the success state — no backend call was ever wired.
+
+## 2026-10-20 — Duplicate button arrows; landing buy panel trimmed
+
+- `PrimaryButton` strips a trailing "→" from its label (new `stripTrailingArrow`), because the hover reveal already draws an arrow icon; labels such as "Prenumeruoti →" no longer show two arrows. Message strings keep their arrows for text links.
+- `LandingBuySection` renders `TrustStrip` + `ReviewCarousel` instead of `Trust`, dropping the divider and the info accordion (the product page keeps them).
+
+## 2026-10-20 — One animated CTA button
+
+- `PrimaryButton` gains a `ghost` (outline, white-on-glass over the hero photo from `lg`) variant plus `type` and `disabled` props.
+- Replaced hand-rolled CTA buttons with it: hero secondary link (`HeroGhostLink` removed), configurator `AddToCart`, Personalise and Extra-charms modal CTAs, newsletter submit, `PhotoSlider` "shop charms", `ProductGrid` placeholder CTA, `AboutCta`. Icon buttons, option selectors, accordions and text links stay as they are.
+
+## 2026-10-20 — Landing buy panel matches the PDP
+
+- `LandingBuySection` drops the white rounded card and the guided step accordion; it now renders the same flat `Colors` / `Sizes` / `Charms` / `AddToCart` / `Trust` sections as `CollarBuyPanel` on the product page.
+
+## 2026-10-20 — PrimaryButton hover text
+
+- **Fix:** the hover-reveal label used the opposite variant's text colour on an unchanged background (`text-bark` on `bg-bark`), so the text vanished on hover. Reveal text now matches the base text colour per variant.
+
 ## 2026-10-20 — Reviews from one real source; mobile widget clutter
 
 - **Reviews:** all review UI (PDP rating chip, PDP review carousel, charm builder panel, landing `ReviewsSection`) now reads `REVIEWS` in `src/lib/reviews.ts`; rating and count are computed from it and every piece renders only when it has entries. The invented quotes and the `PDP_REVIEW_RATING` / `PDP_REVIEW_COUNT` constants (and `products.pdp.reviews` messages) were removed. The Shopify store has no review data, so the list ships empty — add genuine reviews there (author, verbatim quote, rating, date) and everything appears.

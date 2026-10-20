@@ -101,7 +101,7 @@ export function buildProductSeoTitle(product: ProductDetail, locale: ProductLoca
   }
 
   if (product.productType === 'collar') {
-    if (isParentProductPage(product)) return 'Šuns antkaklis su vardu ir pakabukais'
+    if (isParentProductPage(product)) return 'Antkaklis šunims su vardu ir pakabukais'
     // product.name is already the masculine-agreeing form (e.g. "Mėlynas antkaklis") —
     // strip the noun back off so it can be reinserted into this title template.
     const colorAdjective = product.name.replace(/\s*antkaklis\s*$/i, '').trim() || toTitleCase(product.colorLabel)
@@ -152,7 +152,7 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
   if (product.productType === 'collar') {
     if (isParentProductPage(product)) {
       return clampDescription(
-        `Šuns antkaklis su vardu — vandeniui atsparus BioThane, graviravimas ir keičiami pakabukai. Rankų darbas Vilniuje, nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+        `Antkaklis šunims su vardu — vandeniui atsparus BioThane, graviravimas ir 5 pakabukai įskaičiuoti. Rankų darbas Vilniuje, nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
       )
     }
 

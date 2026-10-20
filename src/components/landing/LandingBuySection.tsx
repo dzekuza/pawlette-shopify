@@ -24,7 +24,7 @@ export function LandingBuySection() {
         <div className="animate-drift-b absolute bottom-[10%] right-[10%] h-[320px] w-[320px] rounded-full bg-honey/60 blur-[80px] motion-reduce:animate-none" />
       </div>
       <div className="relative mx-auto max-w-[1152px]">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+        <div className="grid grid-cols-1 gap-8 rounded-[32px] bg-white p-6 shadow-[0_24px_48px_-32px_rgba(61,53,48,0.12)] md:p-10 lg:grid-cols-12 lg:items-center lg:gap-12">
 
           {/* Left Column: Live 3D Preview */}
           <div className="lg:col-span-7 flex flex-col gap-4">
@@ -38,16 +38,20 @@ export function LandingBuySection() {
             </div>
           </div>
 
-          {/* Right Column: the same shared collar configurator used on the product detail page */}
-          <div className="lg:col-span-5 font-sans bg-white p-6 md:p-10 rounded-[32px] shadow-[0_24px_48px_-32px_rgba(61,53,48,0.12)]">
+          {/* Right Column: the same flat option sections as the product detail page buy panel */}
+          <div className="lg:col-span-5 font-sans">
             <CollarConfigurator.Root
               configurator={collarConfigurator}
               name={collar.parentTitle ?? t('defaultCollarName')}
               price={displayPrice}
             >
               <CollarConfigurator.Header as="h2" />
-              <CollarConfigurator.GuidedSteps />
+              <CollarConfigurator.Colors />
+              <CollarConfigurator.Sizes />
+              <CollarConfigurator.Charms />
               <CollarConfigurator.AddToCart />
+              <CollarConfigurator.TrustStrip />
+              <CollarConfigurator.ReviewCarousel />
             </CollarConfigurator.Root>
           </div>
         </div>

@@ -1,73 +1,151 @@
 'use client';
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useState, type FormEvent } from 'react';
+import Image from 'next/image';
+import { X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { useWindowWidth } from '@/hooks/useWindowWidth';
-import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
-import type { CharmSpec } from '@/lib/collar3d';
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
+import { BodyCopy, DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
 
-const Charm3DScene = dynamic(() => import('@/components/products/Charm3DScene'), { ssr: false });
+const PHOTO_SRC = '/hero-figma/bento-dog-leash-meadow.jpg';
 
-const CHARM_3D_ITEMS: CharmSpec[] = [
-  { meshKey: 'Flower', colour: '#D4B8F4', kind: 'icon' },
-  { meshKey: 'Star', colour: '#A8D5A2', kind: 'icon' },
-  { meshKey: 'Star', colour: '#F9E4A0', kind: 'icon' },
-  { meshKey: 'Paw', colour: '#B8D8F4', kind: 'icon' },
-  { meshKey: 'Heart', colour: '#F4B5C0', kind: 'icon' },
-];
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+interface NewsletterResponse {
+  code?: string;
+  error?: string;
+  existing?: boolean;
+}
 
 export function ExitModal({ onClose }: { onClose: () => void }) {
   const t = useTranslations('landing.exitModal');
   const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
   const [sent, setSent] = useState(false);
-  const w = useWindowWidth() ?? 1200;
-  const isMobile = w < 768;
+  const [code, setCode] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onClose]);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const normalizedEmail = email.trim();
+    if (!EMAIL_PATTERN.test(normalizedEmail)) {
+      setError(t('errorEmail'));
+      return;
+    }
+    if (!consent) {
+      setError(t('errorConsent'));
+      return;
+    }
+
+    setSubmitting(true);
+    setError('');
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: normalizedEmail, consent: true }),
+      });
+      const data = await response.json() as NewsletterResponse;
+      if (!response.ok) throw new Error(data.error || t('errorGeneric'));
+      if (!data.existing) trackGaEvent('generate_lead', { lead_source: 'exit_modal' });
+      setCode(data.code ?? '');
+      setSent(true);
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : t('errorGeneric'));
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
-    <div className="fade-in bg-bark/50" onClick={onClose} style={{ position: 'fixed', inset: 0, zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
-      <div className="slide-up" onClick={e => e.stopPropagation()} style={{ width: '90vw', maxWidth: 480, background: 'var(--color-cream)', borderRadius: 28, padding: isMobile ? '32px 24px' : '48px 44px', position: 'relative', boxShadow: '0 24px 80px rgba(61,53,48,0.2)' }}>
-        <button onClick={onClose} className="btn-press" style={{ position: 'absolute', top: 18, right: 20, background: 'none', border: 'none', cursor: 'pointer', fontSize: 22, color: 'var(--color-muted-foreground)', lineHeight: 1, transition: 'transform 100ms ease-out' }}>×</button>
+    <div
+      className="fade-in fixed inset-0 z-[500] flex items-center justify-center bg-bark/50 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('heading')}
+        className="slide-up relative w-[90vw] max-w-[480px] overflow-hidden rounded-[28px] bg-cream px-6 py-8 shadow-[0_24px_80px_-24px_rgba(61,53,48,0.35)] md:px-11 md:py-12"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label={t('close')}
+          className="btn-press absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-cream/90 text-bark transition-colors hover:bg-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        >
+          <X className="h-5 w-5" strokeWidth={2} />
+        </button>
 
-        <div className="animate-levitate" style={{ width: '100%', maxWidth: 340, height: 130, margin: '0 auto 28px' }} aria-hidden="true">
-          <Charm3DScene items={CHARM_3D_ITEMS} boundsMargin={1} autoRotate={false} />
+        <div className="relative -mx-6 -mt-8 mb-6 h-44 md:-mx-11 md:-mt-12">
+          <Image src={PHOTO_SRC} alt="" fill sizes="480px" className="object-cover" />
         </div>
 
-        {!sent ? (
-          <>
-            <div style={{ textAlign: 'center', marginBottom: 28 }}>
-              <Eyebrow className="mb-3">{t('eyebrow')}</Eyebrow>
-              <DisplayHeading as="h2" size="compact" className="text-bark mb-3">{t('heading')}</DisplayHeading>
-              <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7 }}>{t('description')}</p>
+        {sent ? (
+          <div className="flex flex-col items-center gap-3 text-center">
+            <DisplayHeading as="h2" size="compact" className="text-bark">{t('sentHeading')}</DisplayHeading>
+            <BodyCopy className="mb-3 text-[15px] text-bark-light md:text-[15px]">{code ? t('sentCodeDescription', { code }) : t('sentDescription')}</BodyCopy>
+            <PrimaryButton variant="sage" size="lg" onClick={onClose}>{t('sentCta')}</PrimaryButton>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <Eyebrow>{t('eyebrow')}</Eyebrow>
+              <DisplayHeading as="h2" size="compact" className="text-bark">{t('heading')}</DisplayHeading>
+              <BodyCopy className="text-[15px] text-bark-light md:text-[15px]">{t('description')}</BodyCopy>
             </div>
-            <div style={{ display: 'flex', gap: 10 }}>
-              <input
-                type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder={t('emailPlaceholder')}
-                style={{ flex: 1, fontSize: 14, boxSizing: 'border-box' as const, padding: '12px 16px', borderRadius: 100, border: '1.5px solid var(--color-border)', background: 'var(--color-cream)', color: 'var(--color-bark)', outline: 'none', transition: 'border-color 150ms ease-out' }}
-                onFocus={e => (e.target.style.borderColor = 'var(--color-sage)')}
-                onBlur={e => (e.target.style.borderColor = 'var(--color-border)')}
-              />
+
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    setError('');
+                  }}
+                  placeholder={t('emailPlaceholder')}
+                  aria-label={t('emailPlaceholder')}
+                  aria-invalid={Boolean(error)}
+                  className="h-12 min-w-0 flex-1 rounded-full border border-bark/10 bg-white px-5 text-[15px] text-bark outline-none transition-colors placeholder:text-bark-muted focus:border-sage aria-[invalid=true]:border-bark/40"
+                />
+                <PrimaryButton type="submit" variant="sage" size="lg" className="sm:shrink-0" disabled={submitting}>
+                  {submitting ? t('submitting') : t('submit')}
+                </PrimaryButton>
+              </div>
+              <label className="flex cursor-pointer items-start gap-3 text-left text-[13px] leading-snug text-bark-light">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(event) => {
+                    setConsent(event.target.checked);
+                    setError('');
+                  }}
+                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer accent-[var(--color-interactive-text)]"
+                />
+                <span>{t('consent')}</span>
+              </label>
+              {error ? <p role="alert" className="m-0 text-center text-[13px] text-bark">{error}</p> : null}
               <button
-                className="btn-press"
-                onClick={() => email && setSent(true)}
-                style={{ fontSize: 14, fontWeight: 500, padding: '12px 22px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', whiteSpace: 'nowrap', transition: 'transform 100ms ease-out' }}>
-                {t('submit')}
+                type="button"
+                onClick={onClose}
+                className="mx-auto text-[13px] text-bark-muted underline underline-offset-2 transition-colors hover:text-bark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                {t('declineCta')}
               </button>
             </div>
-            <div style={{ textAlign: 'center', marginTop: 14, fontSize: 12, color: 'var(--color-muted-foreground)' }}>
-              <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', fontSize: 12, color: 'var(--color-muted-foreground)', padding: 0 }}>{t('declineCta')}</button>
-            </div>
-          </>
-        ) : (
-          <div style={{ textAlign: 'center', padding: '8px 0' }}>
-            <div className="animate-levitate" style={{ width: 110, height: 110, margin: '0 auto 16px' }} aria-hidden="true">
-              <Charm3DScene items={[CHARM_3D_ITEMS[4]]} boundsMargin={1} autoRotate={false} />
-            </div>
-            <DisplayHeading as="h2" size="compact" className="text-bark mb-2">{t('sentHeading')}</DisplayHeading>
-            <p style={{ fontSize: 15, color: 'var(--color-bark-light)', lineHeight: 1.7, marginBottom: 24 }}>{t('sentDescription')}</p>
-            <button className="btn-press" onClick={onClose} style={{ fontSize: 14, fontWeight: 500, padding: '12px 28px', borderRadius: 100, border: 'none', background: 'var(--color-sage)', color: 'var(--color-interactive-text)', cursor: 'pointer', transition: 'transform 100ms ease-out' }}>{t('sentCta')}</button>
-          </div>
+          </form>
         )}
       </div>
     </div>

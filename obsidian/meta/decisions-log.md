@@ -118,3 +118,13 @@ PR. Every code change carries a doc obligation. Agents get consistent context wi
 re-reading the whole codebase.
 
 ---
+
+---
+
+## 2026-10-20 — GA4 purchases are sent server-side from the order webhook
+
+**Context.** Checkout is on Shopify's domain, so gtag cannot fire `purchase`; GA4 showed 0 purchases against real orders.
+
+**Decision.** Reuse the existing `orders/paid` webhook and cart-attribute pattern (already used for Meta CAPI) to send a GA4 Measurement Protocol `purchase`, instead of a Shopify Customer Events pixel. Same consent gate, one code path, no extra script on checkout.
+
+**Consequences.** Needs `GA_API_SECRET`. Attribution depends on the cart carrying `ga_client_id` / `ga_session_id`, so only visitors who accepted cookies and added to cart after this change are attributed.

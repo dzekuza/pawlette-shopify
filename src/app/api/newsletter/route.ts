@@ -84,5 +84,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     success: true,
     code: NEWSLETTER_DISCOUNT_CODE,
+    // Lets the client skip lead tracking for addresses that were already customers.
+    existing: !data?.customerCreate.customer,
   });
 }

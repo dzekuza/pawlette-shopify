@@ -1,8 +1,8 @@
 import { shopifyClient } from './shopify';
 import { getMetaBrowserIds, trackMetaEvent } from '@/components/shared/MetaPixel';
-import { META_CART_ATTRIBUTES } from '@/lib/meta-cart-attributes';
+import { GA_CART_ATTRIBUTES, META_CART_ATTRIBUTES } from '@/lib/meta-cart-attributes';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
-import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { getGaBrowserIds, trackGaEvent } from '@/components/shared/GoogleAnalytics';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -162,23 +162,27 @@ export async function addLineToCart(variantId: string, quantity = 1): Promise<Sh
   return addLinesToCart([{ merchandiseId: variantId, quantity }]);
 }
 
-// Checkout runs on Shopify's domain, so the browser pixel can't see the purchase. Stash the Meta
-// browser ids on the cart (consent-gated: nothing is written without accepted cookies) so the
-// orders/paid webhook can send a matched Purchase. See /api/shopify/orders-paid.
-function syncMetaCartAttributes(cartId: string): void {
-  const ids = getMetaBrowserIds();
-  if (!ids) return;
+// Checkout runs on Shopify's domain, so neither the Meta pixel nor gtag can see the purchase. Stash
+// the Meta and GA4 browser ids on the cart (consent-gated: nothing is written without accepted
+// cookies) so the orders/paid webhook can send matched server-side purchases.
+// See /api/shopify/orders-paid.
+async function syncCartAttributes(cartId: string): Promise<void> {
+  const metaIds = getMetaBrowserIds();
+  if (!metaIds) return;
+  const gaIds = await getGaBrowserIds();
   const attributes = [
     { key: META_CART_ATTRIBUTES.consent, value: 'granted' },
     { key: META_CART_ATTRIBUTES.sourceUrl, value: window.location.origin },
-    ...(ids.fbp ? [{ key: META_CART_ATTRIBUTES.fbp, value: ids.fbp }] : []),
-    ...(ids.fbc ? [{ key: META_CART_ATTRIBUTES.fbc, value: ids.fbc }] : []),
+    ...(metaIds.fbp ? [{ key: META_CART_ATTRIBUTES.fbp, value: metaIds.fbp }] : []),
+    ...(metaIds.fbc ? [{ key: META_CART_ATTRIBUTES.fbc, value: metaIds.fbc }] : []),
+    ...(gaIds?.clientId ? [{ key: GA_CART_ATTRIBUTES.clientId, value: gaIds.clientId }] : []),
+    ...(gaIds?.sessionId ? [{ key: GA_CART_ATTRIBUTES.sessionId, value: gaIds.sessionId }] : []),
   ];
-  shopifyClient.request(CART_ATTRIBUTES_UPDATE, { variables: { cartId, attributes } }).catch(() => {});
+  await shopifyClient.request(CART_ATTRIBUTES_UPDATE, { variables: { cartId, attributes } });
 }
 
 function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; quantity: number }[]): void {
-  syncMetaCartAttributes(cart.id);
+  syncCartAttributes(cart.id).catch(() => {});
   const addedIds = addedLines.map((l) => l.merchandiseId);
   const addedCartLines = cart.lines.filter((l) => addedIds.includes(l.merchandise.id));
   const value = addedCartLines.reduce((sum, l) => {

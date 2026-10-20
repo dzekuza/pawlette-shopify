@@ -40,7 +40,7 @@ export function FAQ({ cta }: FAQProps = {}) {
     <section className="bg-white">
       <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-10 px-4 py-16 md:px-6 md:py-24 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         {/* Heading + CTA stay in view while the answers scroll */}
-        <div className="flex flex-col items-start gap-6 lg:sticky lg:top-28 lg:self-start">
+        <div className="flex flex-col items-center gap-6 text-center lg:sticky lg:items-start lg:text-left lg:top-28 lg:self-start">
           <DisplayHeading as="h2" size="section" className="max-w-[14ch] text-bark">
             {t('heading')}
           </DisplayHeading>

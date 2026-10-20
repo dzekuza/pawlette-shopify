@@ -231,6 +231,13 @@
       "closeAriaLabel": "Uždaryti vaizdo įrašą"
     },
     "exitModal": {
+      "consent": "Sutinku gauti „PawsCharm“ naujienas ir pasiūlymus el. paštu. Atsisakyti galiu bet kada.",
+      "errorEmail": "Įveskite galiojantį el. pašto adresą.",
+      "errorConsent": "Pažymėkite varnelę, kad patvirtintumėte sutikimą.",
+      "errorGeneric": "Nepavyko užregistruoti el. pašto.",
+      "submitting": "Siunčiama...",
+      "sentCodeDescription": "Jūsų 10 % nuolaidos kodas: {code}. Naudokite jį pirmajam užsakymui.",
+      "close": "Uždaryti",
       "eyebrow": "Prieš išeinant",
       "heading": "10 % nuolaida pirmajam antkakliui.",
       "description": "Prisijunkite prie mūsų sąrašo ir nuolaidos kodą gaukite iškart. Jokio spamo — tik naujienos ir šunų turinys.",
@@ -296,8 +303,7 @@
         ],
         "leash": [
           "Atsparus vandeniui",
-          "1,5 m su paminkštinta rankena",
-          "Integruotas maišelių laikiklis"
+          "1,5 m su paminkštinta rankena"
         ],
         "charm": [
           "Prisegamas per 5 sekundes",

@@ -231,6 +231,13 @@
       "closeAriaLabel": "Close video"
     },
     "exitModal": {
+      "consent": "I agree to receive PawsCharm news and offers by email. I can unsubscribe any time.",
+      "errorEmail": "Enter a valid email address.",
+      "errorConsent": "Tick the box to confirm your consent.",
+      "errorGeneric": "We couldn't sign you up. Please try again.",
+      "submitting": "Sending...",
+      "sentCodeDescription": "Your 10% discount code: {code}. Use it on your first order.",
+      "close": "Close",
       "eyebrow": "Before you go",
       "heading": "10% off your first collar.",
       "description": "Join our list and get your discount code instantly. No spam — just news and dog content.",
@@ -296,8 +303,7 @@
         ],
         "leash": [
           "Waterproof",
-          "1.5 m with padded handle",
-          "Built-in bag holder"
+          "1.5 m with padded handle"
         ],
         "charm": [
           "Snaps on in 5 seconds",

@@ -163,6 +163,12 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
   const tConfigurator = useTranslations('products.configurator')
   const [charmTab, setCharmTab] = useState<'letters' | 'charms'>('letters')
   const [charmPickerQuery, setCharmPickerQuery] = useState('')
+  const [charmPickerColor, setCharmPickerColor] = useState('')
+  const pickerColorOptions = allCharms
+    .filter((charm) => charm.category !== 'letter' && charm.color)
+    .reduce<{ color: string, bg: string }[]>((options, charm) => (
+      options.some((option) => option.color === charm.color) ? options : [...options, { color: charm.color, bg: charm.bg }]
+    ), [])
   const [activeColourSlot, setActiveColourSlot] = useState<number | null>(null)
   const [activeIconCharmIndex, setActiveIconCharmIndex] = useState<number | null>(null)
   const [charmRowFocused, setCharmRowFocused] = useState(false)
@@ -570,11 +576,33 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
             onBlur={(e) => { e.target.style.borderColor = BORDER_COLOR }}
           />
 
+          {/* Colour filter */}
+          {pickerColorOptions.length > 1 && (
+            <div className="hide-scrollbar mb-2.5 flex gap-2 overflow-x-auto" role="group" aria-label={t('step2ChooseColor')}>
+              {[{ color: '', bg: '' }, ...pickerColorOptions].map(({ color, bg }) => {
+                const active = charmPickerColor === color
+                return (
+                  <button
+                    key={color || 'all'}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setCharmPickerColor(color)}
+                    className={`flex shrink-0 items-center gap-1.5 rounded-full py-1.5 pl-2 pr-3 text-[12px] font-medium transition-colors ${active ? 'bg-bark text-cream' : 'bg-bark/[0.07] text-bark hover:bg-bark/10'}`}
+                  >
+                    {bg ? <span aria-hidden="true" className="h-3.5 w-3.5 rounded-full" style={{ background: bg }} /> : null}
+                    {color ? translateColorLabel(tPdp, color) : tConfigurator('extraCharmsModal.allColors')}
+                  </button>
+                )
+              })}
+            </div>
+          )}
+
           {/* Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(68px, 1fr))', gap: 8, maxHeight: 260, overflowY: 'auto', paddingRight: 2 }}>
             {allCharms
               .filter((charm) => charm.category !== 'letter')
               .filter((charm) => !charmPickerQuery || charm.title.toLowerCase().includes(charmPickerQuery.toLowerCase()))
+              .filter((charm) => !charmPickerColor || charm.color === charmPickerColor)
               .map((charm) => {
                 const selectedIds = selectedCharms.filter(Boolean).map((c) => c!.id)
                 const isSelected = selectedIds.includes(charm.id)
@@ -601,7 +629,7 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
                   </button>
                 )
               })}
-            {allCharms.filter((c) => c.category !== 'letter').filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).length === 0 && (
+            {allCharms.filter((c) => c.category !== 'letter').filter((c) => !charmPickerQuery || c.title.toLowerCase().includes(charmPickerQuery.toLowerCase())).filter((c) => !charmPickerColor || c.color === charmPickerColor).length === 0 && (
               <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: '24px 0', fontSize: 13, color: TEXT_MUTED }}>{t('noResults')}</div>
             )}
           </div>

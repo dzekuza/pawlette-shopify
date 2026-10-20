@@ -2,7 +2,6 @@
 
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Link } from '@/i18n/navigation'
 import { HeroHotspot } from '@/components/landing/HeroHotspot'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
@@ -14,17 +13,6 @@ function HeroChip ({ children }: { children: React.ReactNode }) {
     <span className='rounded-full bg-bark/10 px-3.5 py-1.5 text-[12px] font-medium text-bark lg:bg-white/15 lg:text-white lg:backdrop-blur-sm'>
       {children}
     </span>
-  )
-}
-
-function HeroGhostLink ({ href, children }: { href: string, children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      className='inline-flex h-12 items-center justify-center rounded-full border border-bark/30 px-8 text-[15px] font-medium text-bark no-underline transition-colors hover:bg-bark/5 lg:border-white/60 lg:bg-white/10 lg:text-white lg:backdrop-blur-sm lg:hover:bg-white/20'
-    >
-      {children}
-    </Link>
   )
 }
 
@@ -59,7 +47,7 @@ export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
         <HeroHotspot label={t('hotspot')} />
 
         {/* Left padding keeps the text clear of the fixed bottom-left video widget (16px offset, 108px wide): it is 48px by default and only grows when the card's own side margin is smaller than the widget. */}
-        <div className='relative z-10 flex flex-col items-start gap-5 px-1 pt-6 lg:absolute lg:inset-x-0 lg:bottom-0 lg:max-w-[62%] lg:p-12 lg:pl-[max(3rem,calc(84px-(100vw-var(--card-w))/2))] xl:max-w-[41%] xl:pr-6'>
+        <div className='relative z-10 flex flex-col items-start gap-5 px-1 pt-6 lg:absolute lg:inset-x-0 lg:bottom-0 lg:max-w-[62%] lg:p-12 lg:pl-[max(3rem,calc(84px-(100vw-var(--card-w))/2))] xl:max-w-[56%] xl:pr-6'>
           <div className='flex flex-wrap gap-2'>
             <HeroChip>{t('chipHandmade')}</HeroChip>
             <HeroChip>{t('chipShipping', { threshold: FREE_SHIPPING_THRESHOLD_TEXT })}</HeroChip>
@@ -84,7 +72,7 @@ export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
             >
               {t('buyNow')}
             </PrimaryButton>
-            <HeroGhostLink href='/products/charm-charms'>{t('secondaryCta')}</HeroGhostLink>
+            <PrimaryButton href='/products/pawcharms-pakabuciai' variant='ghost' size='lg'>{t('secondaryCta')}</PrimaryButton>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -124,20 +125,18 @@ export function CartUpsell({ lines }: { lines: ShopifyCartLine[] }) {
       </div>
 
       {product.leashColors && product.leashColors.length > 1 && (
-        <div className="mt-2.5 flex flex-wrap gap-2">
+        <div className="mt-3 flex flex-wrap gap-3">
           {product.leashColors.map((color) => (
             <button
               key={color}
               onClick={() => setSelectedColor(color)}
               title={color}
               aria-label={color}
-              className="h-6 w-6 rounded-full border-none p-0 cursor-pointer transition-transform"
-              style={{
-                background: LEASH_COLOR_HEX[color.toLowerCase()] ?? '#ccc',
-                outline: color === selectedColor ? '2.5px solid var(--color-bark)' : '1.5px solid var(--color-bark-border)',
-                outlineOffset: 2,
-                transform: color === selectedColor ? 'scale(1.15)' : 'scale(1)',
-              }}
+              className={cn(
+                'h-4 w-4 cursor-pointer rounded-full border-none p-0 outline-offset-2 transition-transform',
+                color === selectedColor ? 'scale-110 outline outline-2 outline-bark' : 'outline outline-1 outline-bark/20',
+              )}
+              style={{ background: LEASH_COLOR_HEX[color.toLowerCase()] ?? '#ccc' }}
             />
           ))}
         </div>

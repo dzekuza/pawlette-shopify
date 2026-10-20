@@ -1,5 +1,6 @@
 'use client'
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { Check } from 'lucide-react'
@@ -196,12 +197,7 @@ export function AddToCart() {
   const t = useTranslations('products.configurator')
   const { state: { configurator: { selectedCollarCharmCount, canAddToCart }, added }, actions: { addToCart: handleAddToCart }, meta: { price } } = useCollarConfiguratorContext()
   return (
-    <button
-      type='button'
-      onClick={handleAddToCart}
-      disabled={!canAddToCart}
-      className='h-14 w-full disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:bg-sage rounded-full bg-sage text-base font-semibold tracking-[0.01em] text-interactive-text shadow-[0_10px_24px_-12px_rgba(168,213,162,0.9)] transition-[background-color,transform] duration-200 ease-out hover:-translate-y-0.5 hover:bg-sage-dark active:translate-y-px active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-bark/30 focus-visible:ring-offset-2'
-    >
+    <PrimaryButton variant='sage' size='lg' fullWidth className='h-14 text-base font-semibold' onClick={handleAddToCart} disabled={!canAddToCart}>
       {!canAddToCart
         ? t('selectOptionsToBuy')
         : added
@@ -209,6 +205,6 @@ export function AddToCart() {
         : selectedCollarCharmCount
           ? t('buyWithCharms', { count: selectedCollarCharmCount, price })
           : t('buyPlain', { price })}
-    </button>
+    </PrimaryButton>
   )
 }

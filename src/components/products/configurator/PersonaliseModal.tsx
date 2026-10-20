@@ -1,5 +1,6 @@
 'use client'
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { useTranslations } from 'next-intl'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
@@ -117,19 +118,9 @@ export function PersonaliseModal() {
           </div>
 
           {/* CTA */}
-          <button
-            onClick={addCollarCharmToCart}
-            disabled={!selectedCollarCharmCount}
-            style={{
-              width: '100%', padding: '16px', borderRadius: 50, border: 'none', cursor: selectedCollarCharmCount ? 'pointer' : 'not-allowed',
-              fontWeight: 600, fontSize: 16,
-              background: selectedCollarCharmCount ? 'var(--color-sage)' : '#E8E3DC',
-              color: selectedCollarCharmCount ? 'var(--color-interactive-text)' : TEXT_MUTED,
-              transition: 'background 150ms',
-            }}
-          >
+          <PrimaryButton variant="sage" size="lg" fullWidth onClick={addCollarCharmToCart} disabled={!selectedCollarCharmCount}>
             {charmAdded ? t('addedToCart') : selectedCollarCharmCount ? t('personaliseModal.addToCart', { count: selectedCollarCharmCount }) : t('personaliseModal.addToCartEmpty')}
-          </button>
+          </PrimaryButton>
           <button
             type="button"
             onClick={() => setPersonaliseOpen(false)}

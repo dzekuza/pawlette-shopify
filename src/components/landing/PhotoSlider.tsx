@@ -1,5 +1,6 @@
 'use client';
 
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import { Check, Plus } from 'lucide-react';
@@ -8,7 +9,6 @@ import { Link } from '@/i18n/navigation';
 import { useTranslations, useLocale } from 'next-intl';
 import { useWindowWidth } from '@/hooks/useWindowWidth';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
-import { Button } from '@/components/ui/button';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from '@/components/ui/carousel';
 import { addLinesToCart } from '@/lib/cart';
 import { getProductBySlugAsync, type ProductDetail } from '@/lib/catalog';
@@ -320,9 +320,7 @@ export function PhotoSlider({ product }: { product?: ProductDetail } = {}) {
       </div>
       {!product && (
         <div className="flex flex-wrap justify-center gap-4 px-4 pb-16 md:px-6 md:pb-24">
-          <Button asChild variant="pillOutline" size="pill">
-            <Link href="/products/charm-charms">{t('shopCharmsCta')}</Link>
-          </Button>
+          <PrimaryButton href="/products/pawcharms-pakabuciai" variant="dark" size="lg">{t('shopCharmsCta')}</PrimaryButton>
         </div>
       )}
     </section>

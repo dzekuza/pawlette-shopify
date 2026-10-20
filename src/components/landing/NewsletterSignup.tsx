@@ -1,5 +1,7 @@
 'use client';
 
+import { trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { FormEvent, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
@@ -7,6 +9,7 @@ import { cn } from '@/lib/utils';
 interface NewsletterResponse {
   code?: string;
   error?: string;
+  existing?: boolean;
 }
 
 export function NewsletterSignup() {
@@ -47,6 +50,7 @@ export function NewsletterSignup() {
         throw new Error(data.error || t('errorGeneric'));
       }
 
+      if (!data.existing) trackGaEvent('generate_lead', { lead_source: 'newsletter_footer' });
       setStatus('success');
       setMessage(data.code
         ? t('successWithCode', { code: data.code })
@@ -84,13 +88,9 @@ export function NewsletterSignup() {
               className="min-h-[54px] flex-1 rounded-full border border-bark/10 bg-white/90 px-5 text-[15px] text-bark outline-none transition-colors placeholder:text-bark-muted focus:border-sage"
               aria-label={t('emailAriaLabel')}
             />
-            <button
-              type="submit"
-              disabled={status === 'submitting'}
-              className="min-h-[54px] rounded-full bg-sage px-7 text-[15px] font-medium text-interactive-text transition-colors hover:bg-sage-dark disabled:cursor-not-allowed disabled:opacity-70"
-            >
+            <PrimaryButton type="submit" variant="sage" size="lg" className="min-h-[54px]" disabled={status === 'submitting'}>
               {status === 'submitting' ? t('submitting') : t('submit')}
-            </button>
+            </PrimaryButton>
             </div>
             <label className="mx-auto mt-4 flex max-w-[620px] cursor-pointer items-start gap-3 text-left text-[13px] leading-snug text-bark-light">
               <input
