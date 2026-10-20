@@ -24,7 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // and thin letter×color charm variants (noindexed in generateMetadata, see products/[slug]/page.tsx)
   // — a sitemap should only list self-canonical, index-worthy URLs.
   const CANONICAL_ALIASES = new Set(['pawcharms-pakabuciai'])
-  const indexableProducts = products.filter(({ slug, charmCategory }) => !CANONICAL_ALIASES.has(slug) && charmCategory !== 'letter')
+  // "-mazi" (small size) charm pages canonicalize to their base charm page, so they are left out too.
+  const allSlugs = new Set(products.map(({ slug }) => slug))
+  const isSizeTwin = (slug: string) => slug.endsWith('-mazi') && allSlugs.has(slug.replace(/-mazi$/, ''))
+  const indexableProducts = products.filter(({ slug, charmCategory }) => !CANONICAL_ALIASES.has(slug) && charmCategory !== 'letter' && !isSizeTwin(slug))
   const productEntries = indexableProducts.map(({ slug, updatedAt }) => ({
     url: `https://pawscharm.com/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,

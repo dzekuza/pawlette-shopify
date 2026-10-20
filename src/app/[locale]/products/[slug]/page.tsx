@@ -37,8 +37,13 @@ export async function generateMetadata ({ params }: ProductPageProps): Promise<M
   const localeCode = locale === 'en' ? 'en' : 'lt'
   const title = buildProductSeoTitle(product, localeCode)
   const description = buildProductSeoDescription(product, localeCode)
-  const ltProductUrl = `https://pawscharm.com/products/${product.slug}`
-  const enProductUrl = `https://pawscharm.com/en/products/${product.slug}`
+  // "-mazi" (small size) charm pages repeat their base charm's name and copy word for word,
+  // so they canonicalize to the base page when it exists instead of competing with it.
+  const baseSlug = product.slug.replace(/-mazi$/, '')
+  const isSizeTwin = product.productType === 'charm' && baseSlug !== product.slug
+  const canonicalSlug = isSizeTwin && await getProductBySlugAsync(baseSlug, locale) ? baseSlug : product.slug
+  const ltProductUrl = `https://pawscharm.com/products/${canonicalSlug}`
+  const enProductUrl = `https://pawscharm.com/en/products/${canonicalSlug}`
   const productUrl = localeCode === 'en' ? enProductUrl : ltProductUrl
 
   // The ~260 letter×color charm permutations share near-identical boilerplate copy (only the
