@@ -22,7 +22,7 @@ export async function generateMetadata({
     : 'Antkakliai šunims su vardu ir pakabukais';
   const description = locale === 'en'
     ? `Personalized dog collars with your dog's name — waterproof, with charms you can swap in 5 seconds. Choose a color, engrave the name. Free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
-    : `Antkaklis su vardu šuniui — vandeniui atsparus BioThane, graviruotas vardas, pakabukai keičiami per 5 s. Rankų darbas Vilniuje. Nemokamas pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`;
+    : `Antkaklis su vardu šuniui — vandeniui atsparus BioThane, graviruotas vardas, pakabukai keičiami per 5 s. Rankų darbas Vilniuje. Pristatymas nemokamas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`;
   const ogDescription = locale === 'en'
     ? 'Personalized, waterproof dog collars with a name tag and charms you can swap in 5 seconds. Mix colors, add charms, engrave the name.'
     : 'Personalizuoti, vandeniui atsparūs šunų antkakliai su vardu ir per 5 sekundes keičiamais pakabukais. Derinkite spalvas, pridėkite pakabukų, graviruokite vardą.';
