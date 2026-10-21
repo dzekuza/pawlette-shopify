@@ -8,6 +8,7 @@ interface ProductStorySectionProps {
   title?: string
   body?: string
   imageAlt?: string
+  secondImageAlt?: string
 }
 
 export function ProductStorySection({
@@ -15,6 +16,7 @@ export function ProductStorySection({
   title = 'Gaminama rankomis, kad tarnautų metų metus',
   body = 'Kiekvienas PawsCharm antkaklis siuvamas rankomis Lietuvoje iš BioThane medžiagos — atsparios vandeniui, purvui ir nubluko spalvai. Pasirinkite dydį, spalvą ir pakabukus, kurie atspindi jūsų šuns charakterį, ir gaukite daiktą, kuris atlaikys kiekvieną nuotykį.',
   imageAlt = 'Rankų darbo PawsCharm antkaklis',
+  secondImageAlt = 'Juodai baltas šuo su rožiniu PawsCharm antkakliu ir violetiniais pakabukais-raidėmis „META“',
 }: ProductStorySectionProps) {
   return (
     <section className="bg-cream">
@@ -33,7 +35,7 @@ export function ProductStorySection({
           <div className="absolute -bottom-4 right-0 h-[42%] w-[44%] rotate-3 overflow-hidden rounded-[28px] bg-surface-2 ring-4 ring-cream transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:rotate-1">
             <Image
               src="/hero-figma/hero-dsc02225.jpg"
-              alt=""
+              alt={secondImageAlt}
               fill
               sizes="(min-width: 768px) 230px, 40vw"
               className="object-cover"
