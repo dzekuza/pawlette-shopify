@@ -126,7 +126,7 @@ function trackClick (el: Element) {
   const url = href ? parseHref(href) : null
   const social = url ? SOCIAL_NETWORKS.find(({ host }) => url.hostname === host || url.hostname.endsWith(`.${host}`)) : undefined
   if (social) {
-    trackGaEvent('social_click', { social_network: social.network, link_url: url?.href, click_section: section })
+    trackGaEvent('social_click', { social_network: social.network, click_section: section })
     return
   }
 
@@ -134,7 +134,8 @@ function trackClick (el: Element) {
   trackGaEvent(href ? 'link_click' : 'button_click', {
     link_text: label,
     click_section: section,
-    ...(url ? { link_url: url.origin === window.location.origin ? `${url.pathname}${url.hash}` : url.href } : {}),
+    // External links report the origin only: checkout URLs carry the cart token in the path and query.
+    ...(url ? { link_url: url.origin === window.location.origin ? `${url.pathname}${url.hash}` : url.origin } : {}),
     // Accordions (FAQ) and menu toggles report the state they are moving *to*.
     ...(expanded === null ? {} : { expanded_after: expanded === 'false' }),
   })
