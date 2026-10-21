@@ -18,6 +18,7 @@ This is a human-curated log — not a mirror of `git log`. Record *why*, not jus
 - Privacy: `link_url` is the path (+hash) for internal links and the **origin only** for external ones, because checkout URLs carry the cart token in the path/query. `social_click` sends no URL.
 - Scroll depth (90%) already comes from the GTM container; GA4 Enhanced Measurement covers outbound clicks / site search / file downloads if enabled on the stream, so none of those are duplicated in code.
 - **Needs GA4 admin:** register `link_text`, `link_url`, `click_section`, `contact_method`, `social_network`, `cta_id` as event-scoped custom dimensions, or they won't appear in reports. Mark `contact_click`, `social_click` and `generate_lead` as key events if wanted.
+- **GTM/GA4 config (not in code):** GTM container GTM-T6B2FJ5F version 6 ("Remove duplicate GA4 tags (now handled in code)") published 2026-10-21 with **0 tags** — the Google tag and the "View page" GA4 event for `G-CD28613MD9` were deleted because GA4 is configured in `layout.tsx`. GA4 stream 15243683703 (PawCharms): Enhanced Measurement "Page changes based on browser history events" turned **off** so `GaPageViewTracker` is the only SPA `page_view` source. Roll back GTM via Versions -> restore v5. GTM stays installed for future non-GA4 tags.
 - Not live-tested: `add_to_cart` -> `view_cart` -> `remove_from_cart` (needs a real Shopify cart); type-checked only.
 
 ## 2026-10-20 — Server-side GA4 purchase tracking
