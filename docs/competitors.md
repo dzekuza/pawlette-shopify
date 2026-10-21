@@ -18,7 +18,7 @@
 - Handmade collars, BioThane waterproof construction, local Lithuanian brand
 - Has built local trust and is already in the same material category
 - Currently does NOT offer a customizable letter charm system — this is the gap
-- If they add a charm system before Pawlette launches, a core differentiator disappears
+- If they add a charm system before PawsCharm builds out its charm system further, a core differentiator disappears
 - **Action: move fast. First-mover advantage matters here.**
 
 ### Bakli.lt
@@ -36,7 +36,7 @@
 ### LT Marketplaces (Pigu.lt, Varle.lt, etc.)
 - **Threat level: Low (on brand terms)**
 - Generic commodity competition on price
-- Not relevant if Pawlette competes on brand, customization, and aesthetics rather than price
+- Not relevant if PawsCharm competes on brand, customization, and aesthetics rather than price
 
 ---
 
@@ -57,10 +57,18 @@ That combination is the market gap. The opportunity is real and the window is op
 
 |  | BioThane | Charm System | Local LT | Pastel Brand |
 |--|---------|-------------|----------|-------------|
-| **Pawlette** | ✅ | ✅ | ✅ | ✅ |
+| **PawsCharm** | ✅ | ✅ | ✅ | ✅ |
 | Distinguish Me | ✅ | ❌ | ✅ | ❌ |
 | Springland Pets | ❌ | ✅ | ❌ | Partial |
 | Wear Felicity | ❌ | ✅ | ❌ | ❌ |
 | Bakli.lt | Partial | ❌ | ✅ | ❌ |
 
-Pawlette is the only brand that would own all four dimensions simultaneously.
+PawsCharm is the only brand that would own all four dimensions simultaneously.
+
+---
+
+## Tracked in OpenSEO (as of Oct 2026)
+
+Competitor roster in the PawsCharm OpenSEO project: bakli.lt, pupas.lt, squffy.com, waggingtail.eu.
+
+Also recurring in AI answers for Lithuanian leash and collar prompts, and added to tracking: distinguishme.eu (Distinguish Me above), laumeshandmade.lt, tavoteka.lt. Profiles for pupas.lt, squffy.com, waggingtail.eu, laumeshandmade.lt and tavoteka.lt have not been written up yet; fill them in after the competitor analysis run rather than guessing.

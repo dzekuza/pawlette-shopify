@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Knowledge Base
 
 - `docs/design.md` — **Design system: components, tokens, styling rules. Read before writing any UI.**
-- `docs/brand.md` — Brand name (Pawlette), color palette, typography, tone, Instagram strategy
+- `docs/brand.md` — Brand name (PawsCharm; "Pawlette" is the old working name), color palette, typography, tone, Instagram strategy
 - `docs/suppliers.md` — BioThane webbing, silicone charms, hardware, packaging, COGS breakdown
 - `docs/3d-printing.md` — Custom charm printing: materials, local LT suppliers, EU services, workflow
 - `docs/competitors.md` — Competitive landscape: Distinguish Me, Springland Pets, market gap analysis
@@ -47,7 +47,7 @@ Fully server-rendered — **no `'use client'`**. These are the only pages in the
 
 **Commerce pages** — all `'use client'`, use `export default function`, `LandingNav` + `LandingFooter`:
 - `/faq` → `src/app/faq/page.tsx` — full FAQ page with accordion
-- `/cart` → `src/app/cart/page.tsx` — reads cart from `localStorage` key `pawlette_cart` (JSON array of `CartItem`)
+- `/cart` → `src/app/cart/page.tsx` — reads cart from `localStorage` key `pawlette_cart` (legacy key name, kept for existing carts; JSON array of `CartItem`)
 - `/checkout` → `src/app/checkout/page.tsx` — contact/shipping/payment form, reads same localStorage cart
 - `/account` → `src/app/account/page.tsx` — local `isLoggedIn` state, order history + profile tabs
 

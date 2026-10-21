@@ -2,11 +2,11 @@
 
 ## Brand Name
 
-**Pawlette** — recommended primary name.
+**PawsCharm** (pawscharm.com) — the live brand name. "Pawlette" was the earlier working name; it survives only in code identifiers (the `pawlette_cart` localStorage key) and the repo name `pawlette-shopify`.
 
 - English/international; communicates color palette, customization, and dogs in a single word
 - Previous Lithuanian name considered: **Žavesys** (means "enchantment" or "charm" in Lithuanian) — still viable as a local/secondary brand identity or handle
-- Target handles: `@pawlette` or `@zavesys`
+- Handles: the original plan was `@pawlette` or `@zavesys`; confirm the current PawsCharm handle before using either
 
 ## Vibe & Positioning
 
@@ -51,7 +51,7 @@ These map directly to the CSS custom properties already in the codebase (`--colo
 Three content pillars:
 
 1. **Product Hero** — clean flat-lay shots of collars and charms against cream backgrounds. Showcase color combinations, new name spellings, limited-edition charm drops.
-2. **Dog Personality** — user-generated or styled content featuring real dogs wearing Pawlette collars. Emotional, shareable, builds community.
+2. **Dog Personality** — user-generated or styled content featuring real dogs wearing PawsCharm collars. Emotional, shareable, builds community.
 3. **Education** — care tips (how to clean BioThane, how to measure neck), styling guides, "which collar for which dog breed" type posts. Drives SEO traffic and positions brand as expert.
 
 Post frequency target: 4–5x per week (mix of feed + stories + reels).
