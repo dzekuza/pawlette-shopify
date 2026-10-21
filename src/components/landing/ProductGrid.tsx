@@ -4,6 +4,7 @@ import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import type { ProductDetail } from '@/lib/db';
 import { useTranslations } from 'next-intl';
 import { ProductCard } from '@/components/products/ProductCard';
+import { useViewItemList } from '@/hooks/useViewItemList';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
 
 const COLOR_SWATCHES = [
@@ -17,6 +18,7 @@ const COLOR_SWATCHES = [
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   const t = useTranslations('landing.productGrid');
   const filteredProducts = products;
+  useViewItemList('landing_featured', filteredProducts);
 
   return (
     <section id="shop" style={{ background: 'var(--color-cream)' }}>
@@ -41,18 +43,18 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
               WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
               scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'],
             }}>
-              {filteredProducts.map(p => (
+              {filteredProducts.map((p, i) => (
                 <div key={p.id} style={{
                   flex: '0 0 calc((100% - 12px) / 1.4)',
                   scrollSnapAlign: 'start',
                 }}>
-                  <ProductCard product={p} />
+                  <ProductCard product={p} listName='landing_featured' index={i} />
                 </div>
               ))}
             </div>
             <div className="hidden grid-cols-3 gap-5 md:grid">
-              {filteredProducts.map(p => (
-                <ProductCard key={p.id} product={p} />
+              {filteredProducts.map((p, i) => (
+                <ProductCard key={p.id} product={p} listName='landing_featured' index={i} />
               ))}
             </div>
           </>

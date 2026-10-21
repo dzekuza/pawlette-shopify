@@ -6,6 +6,7 @@ import { useWindowWidth } from '@/hooks/useWindowWidth'
 import type { ProductDetail } from '@/lib/catalog'
 import { trackMetaEvent } from '@/components/shared/MetaPixel'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
+import { parsePrice } from '@/lib/ga-ecommerce'
 import { COLLAR_GALLERY } from '@/components/products/collarGallery'
 
 interface ProductPageState {
@@ -75,13 +76,13 @@ export function ProductPageProvider({ product, children }: { product: ProductDet
       content_ids: [product.id],
       content_type: 'product',
       content_name: product.name,
-      value: parseFloat(product.price),
+      value: parsePrice(product.price),
       currency: 'EUR',
     })
     trackGaEvent('view_item', {
       currency: 'EUR',
-      value: parseFloat(product.price),
-      items: [{ item_id: product.id, item_name: product.name, price: parseFloat(product.price) }],
+      value: parsePrice(product.price),
+      items: [{ item_id: product.id, item_name: product.name, price: parsePrice(product.price) }],
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product.id])

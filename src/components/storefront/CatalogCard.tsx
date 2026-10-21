@@ -8,6 +8,7 @@ interface CatalogCardLinkProps {
   children: React.ReactNode
   className?: string
   href: string
+  onClick?: () => void
 }
 
 interface CatalogCardMediaProps {
@@ -26,10 +27,13 @@ interface CatalogCardDescriptionProps {
   lines?: 3 | 4
 }
 
-export function CatalogCardLink ({ children, className, href }: CatalogCardLinkProps) {
+export function CatalogCardLink ({ children, className, href, onClick }: CatalogCardLinkProps) {
   return (
     <Link
       href={href}
+      onClick={onClick}
+      // A card that reports its own select_item doesn't also need the generic link_click.
+      data-ga-ignore={onClick ? '' : undefined}
       data-animate='card'
       className={cn(
         'group block rounded-[20px] no-underline transition-transform duration-200 ease-out [@media(hover:hover)_and_(pointer:fine)]:hover:-translate-y-1',

@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { DM_Sans, Caveat } from 'next/font/google';
 import { MetaPixel } from "@/components/shared/MetaPixel";
 import { ShopifyAnalytics } from "@/components/shared/ShopifyAnalytics";
-import { GoogleAnalytics, GaPageViewTracker } from "@/components/shared/GoogleAnalytics";
+import { GoogleAnalytics, GaPageViewTracker, GaClickTracker } from "@/components/shared/GoogleAnalytics";
 import { CookieConsentBanner } from "@/components/shared/CookieConsentBanner";
 import { ScratchGiftWidget } from "@/components/shared/ScratchGiftWidget";
 import { CartDrawer } from "@/components/shared/CartDrawer";
@@ -232,6 +232,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <MetaPixel />
         <GoogleAnalytics />
         <GaPageViewTracker />
+        <GaClickTracker />
         <ShopifyAnalytics />
         {children}
         <CookieConsentBanner />

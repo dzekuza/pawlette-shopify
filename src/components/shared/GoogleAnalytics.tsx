@@ -74,6 +74,96 @@ export function GoogleAnalytics () {
   return null
 }
 
+const SOCIAL_NETWORKS: Array<{ host: string, network: string }> = [
+  { host: 'instagram.com', network: 'instagram' },
+  { host: 'facebook.com', network: 'facebook' },
+  { host: 'tiktok.com', network: 'tiktok' },
+  { host: 'wa.me', network: 'whatsapp' },
+  { host: 'whatsapp.com', network: 'whatsapp' },
+]
+
+const CLICKABLE_SELECTOR = 'a[href], button, [role="button"]'
+const MAX_LABEL_LENGTH = 80
+
+function clickLabel (el: Element): string {
+  const explicit = el.getAttribute('data-ga-label') ?? el.getAttribute('aria-label')
+  const raw = explicit ?? el.textContent ?? ''
+  return raw.replace(/\s+/g, ' ').trim().slice(0, MAX_LABEL_LENGTH)
+}
+
+// Where on the page the click happened: an explicit data-ga-section wins, otherwise the
+// nearest landmark / dialog / id'd section, so "Buy now" in the nav and in the hero differ.
+function clickSection (el: Element): string {
+  const tagged = el.closest('[data-ga-section]')?.getAttribute('data-ga-section')
+  if (tagged) return tagged
+  if (el.closest('[role="dialog"]')) return 'dialog'
+  const landmark = el.closest('header, nav, footer, section[id], main')
+  if (!landmark) return 'page'
+  return landmark.tagName === 'SECTION' ? landmark.id : landmark.tagName.toLowerCase()
+}
+
+function parseHref (href: string): URL | null {
+  try {
+    return new URL(href, window.location.href)
+  } catch {
+    return null
+  }
+}
+
+function trackClick (el: Element) {
+  const section = clickSection(el)
+  const label = clickLabel(el)
+  const href = el instanceof HTMLAnchorElement ? el.getAttribute('href') ?? '' : ''
+
+  if (href.startsWith('mailto:') || href.startsWith('tel:')) {
+    trackGaEvent('contact_click', {
+      contact_method: href.startsWith('mailto:') ? 'email' : 'phone',
+      click_section: section,
+    })
+    return
+  }
+
+  const url = href ? parseHref(href) : null
+  const social = url ? SOCIAL_NETWORKS.find(({ host }) => url.hostname === host || url.hostname.endsWith(`.${host}`)) : undefined
+  if (social) {
+    trackGaEvent('social_click', { social_network: social.network, link_url: url?.href, click_section: section })
+    return
+  }
+
+  const expanded = el.getAttribute('aria-expanded')
+  trackGaEvent(href ? 'link_click' : 'button_click', {
+    link_text: label,
+    click_section: section,
+    ...(url ? { link_url: url.origin === window.location.origin ? `${url.pathname}${url.hash}` : url.href } : {}),
+    // Accordions (FAQ) and menu toggles report the state they are moving *to*.
+    ...(expanded === null ? {} : { expanded_after: expanded === 'false' }),
+  })
+}
+
+/**
+ * Delegated click tracking for every button and link on the site — one capture-phase
+ * listener instead of an onClick on each component. Emits `button_click` / `link_click`
+ * (with link_text, link_url, click_section), plus `contact_click` for mailto:/tel: and
+ * `social_click` for Instagram/Facebook/TikTok/WhatsApp. Opt an element subtree out with
+ * `data-ga-ignore`; override the label with `data-ga-label` and the section with
+ * `data-ga-section`. Consent-gated through trackGaEvent. Mount once, next to <GoogleAnalytics />.
+ */
+export function GaClickTracker () {
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) return
+      const el = event.target.closest(CLICKABLE_SELECTOR)
+      if (!el || el.closest('[data-ga-ignore]')) return
+      if (el instanceof HTMLButtonElement && el.disabled) return
+      trackClick(el)
+    }
+    document.addEventListener('click', handleClick, { capture: true })
+    return () => document.removeEventListener('click', handleClick, { capture: true })
+  }, [])
+
+  return null
+}
+
 /**
  * Fires GA4 page_view on client-side route changes. The gtag('config', ...)
  * call in the root layout only sends page_view once, on initial script load —

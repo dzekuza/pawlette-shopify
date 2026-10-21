@@ -128,3 +128,13 @@ re-reading the whole codebase.
 **Decision.** Reuse the existing `orders/paid` webhook and cart-attribute pattern (already used for Meta CAPI) to send a GA4 Measurement Protocol `purchase`, instead of a Shopify Customer Events pixel. Same consent gate, one code path, no extra script on checkout.
 
 **Consequences.** Needs `GA_API_SECRET`. Attribution depends on the cart carrying `ga_client_id` / `ga_session_id`, so only visitors who accepted cookies and added to cart after this change are attributed.
+
+---
+
+## 2026-10-21 — Button/link tracking is one delegated listener, not per-component handlers
+
+**Context.** "Track all button clicks" across ~40 components, several of them legacy and still changing.
+
+**Decision.** A single capture-phase `document` click listener (`GaClickTracker`) classifies clicks by element (button / link / mailto / tel / social) and derives the section from the nearest landmark. Ecommerce events that need product or cart data stay explicit (`lib/ga-ecommerce.ts`), and a component that reports its own event opts out of the generic one with `data-ga-ignore` (product cards do).
+
+**Consequences.** New buttons are tracked with no code. Labels come from `aria-label` / visible text, so unlabeled icon buttons show up empty and should get an `aria-label` (which they need for accessibility anyway). Anything sensitive inside a button's text must be wrapped in `data-ga-ignore`.

@@ -8,6 +8,7 @@ import { ProductCard } from './ProductCard'
 import { useRouter } from 'next/navigation'
 import { PageHero } from '@/components/storefront/PageHero'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { useViewItemList } from '@/hooks/useViewItemList'
 import { useTranslations } from 'next-intl'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionItem } from '@/components/shared/Accordion'
@@ -24,6 +25,7 @@ export function ProductsPageContent ({ products }: ProductsPageContentProps) {
   const cartCount = useCartCount()
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
+  useViewItemList('products_collars', products)
 
   const faqItems = t.raw('faq.items') as Array<{ id: string; question: string; answer: string }>
   const accordionItems: AccordionItem[] = faqItems.map((item) => ({
@@ -45,8 +47,8 @@ export function ProductsPageContent ({ products }: ProductsPageContentProps) {
         />
 
         <div id={t('gridId')} className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} listName='products_collars' index={index} />
           ))}
         </div>
 

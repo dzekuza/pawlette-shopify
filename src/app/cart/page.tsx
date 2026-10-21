@@ -10,6 +10,7 @@ import { LandingNav } from '@/components/landing/LandingNav';
 import { LandingFooter } from '@/components/landing/LandingFooter';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { fetchCart, removeCartLine, trackCheckoutStart, type ShopifyCart } from '@/lib/cart';
+import { trackViewCart, trackRemoveFromCart } from '@/lib/ga-ecommerce';
 import { EmptyState } from '@/components/storefront/EmptyState';
 import { SurfaceCard } from '@/components/storefront/SurfaceCard';
 import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography';
@@ -26,13 +27,17 @@ export default function CartPage() {
 
   useEffect(() => {
     fetchCart().then(cart => {
-      if (cart) setShopifyCart(cart);
+      if (!cart) return;
+      setShopifyCart(cart);
+      trackViewCart(cart);
     });
   }, []);
 
   async function removeItem(lineId: string) {
     if (!shopifyCart) return;
+    const removed = shopifyCart.lines.find((line) => line.id === lineId);
     const updated = await removeCartLine(shopifyCart.id, lineId);
+    if (removed) trackRemoveFromCart(removed, shopifyCart.cost.totalAmount.currencyCode);
     setShopifyCart(updated);
   }
 

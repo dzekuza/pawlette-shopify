@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation'
 import type { ProductDetail } from '@/lib/catalog'
 import type { LandingCollar } from '@/lib/db'
 import { PRODUCT_REVIEW_RATING } from '@/lib/seo'
+import { trackSelectItem } from '@/lib/ga-ecommerce'
 import { ProductPrice } from '@/components/storefront/ProductPrice'
 import {
   CatalogCard,
@@ -31,7 +32,16 @@ function isProductDetail (product: ProductCardProduct): product is ProductDetail
   return 'slug' in product
 }
 
-export function ProductCard ({ product, href: hrefProp }: { product: ProductCardProduct; href?: string }) {
+interface ProductCardProps {
+  product: ProductCardProduct
+  href?: string
+  /** GA4 list this card is rendered in — enables `select_item` on click. */
+  listName?: string
+  /** Position of the card within that list. */
+  index?: number
+}
+
+export function ProductCard ({ product, href: hrefProp, listName, index = 0 }: ProductCardProps) {
   const pathname = usePathname()
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt'
   const t = PRODUCT_CARD_STRINGS[locale]
@@ -50,7 +60,11 @@ export function ProductCard ({ product, href: hrefProp }: { product: ProductCard
   const charmsCount = isDetail ? INCLUDED_CHARMS_COUNT : product.charms.length
 
   return (
-    <CatalogCardLink href={href} className='block rounded-[24px] bg-white p-3'>
+    <CatalogCardLink
+      href={href}
+      className='block rounded-[24px] bg-white p-3'
+      onClick={listName ? () => trackSelectItem(listName, product, index) : undefined}
+    >
       <CatalogCard className='gap-3'>
         <div className='flex items-center justify-between gap-2'>
           <span className='inline-flex shrink-0 items-center gap-2 rounded-full bg-bark/5 px-3 py-2'>

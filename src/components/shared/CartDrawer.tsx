@@ -3,10 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { X, PawPrint, Lock } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fetchCart, removeCartLine, trackCheckoutStart, SHOPIFY_CART_UPDATED_EVENT, type ShopifyCart } from '@/lib/cart';
+import { trackViewCart, trackRemoveFromCart } from '@/lib/ga-ecommerce';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import { CartUpsell } from '@/components/shared/CartUpsell';
 import { EmptyState } from '@/components/storefront/EmptyState';
@@ -33,6 +34,7 @@ const CART_DRAWER_STRINGS = { lt: ltMessages.shared.cartDrawer, en: enMessages.s
 export function CartDrawer() {
   const [open, setOpen] = useState(false);
   const [cart, setCart] = useState<ShopifyCart | null>(null);
+  const viewCartTracked = useRef(false);
   const pathname = usePathname();
   const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
   const t = CART_DRAWER_STRINGS[locale];
@@ -54,6 +56,18 @@ export function CartDrawer() {
     };
   }, [refresh]);
 
+  // One view_cart per drawer opening, once the cart has loaded with items in it.
+  useEffect(() => {
+    if (!open) {
+      viewCartTracked.current = false;
+      return;
+    }
+    if (cart && cart.lines.length > 0 && !viewCartTracked.current) {
+      viewCartTracked.current = true;
+      trackViewCart(cart);
+    }
+  }, [open, cart]);
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
@@ -68,7 +82,9 @@ export function CartDrawer() {
 
   async function removeItem(lineId: string) {
     if (!cart) return;
+    const removed = cart.lines.find((line) => line.id === lineId);
     const updated = await removeCartLine(cart.id, lineId);
+    if (removed) trackRemoveFromCart(removed, cart.cost.totalAmount.currencyCode);
     setCart(updated);
   }
 

@@ -8,6 +8,7 @@ import { ProductCard } from './ProductCard'
 import { useRouter } from 'next/navigation'
 import { PageHero } from '@/components/storefront/PageHero'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { useViewItemList } from '@/hooks/useViewItemList'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionItem } from '@/components/shared/Accordion'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
@@ -51,6 +52,7 @@ export function PavadeliaiPageContent ({ leashes }: Props) {
   const cartCount = useCartCount()
   const width = useWindowWidth() ?? 1200
   const isMobile = width < 768
+  useViewItemList('products_leashes', leashes)
 
   return (
     <>
@@ -66,8 +68,8 @@ export function PavadeliaiPageContent ({ leashes }: Props) {
         />
 
         <div id={GRID_ID} className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {leashes.map((leash) => (
-            <ProductCard key={leash.id} product={leash} />
+          {leashes.map((leash, index) => (
+            <ProductCard key={leash.id} product={leash} listName='products_leashes' index={index} />
           ))}
         </div>
 

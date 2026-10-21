@@ -7,6 +7,7 @@ import { LandingNav } from '@/components/landing/LandingNav'
 import { LandingFooter } from '@/components/landing/LandingFooter'
 import { useCartCount } from '@/hooks/useCartCount'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
+import { useViewItemList } from '@/hooks/useViewItemList'
 import type { ProductDetail } from '@/lib/catalog'
 import { ProductCard } from './ProductCard'
 import { PageHero } from '@/components/storefront/PageHero'
@@ -64,6 +65,7 @@ export function ProductsPageV2Content ({ products }: ProductsPageV2ContentProps)
     }
     return filtered
   }, [products, category, sort])
+  useViewItemList(`products_${category}`, visibleProducts)
 
   return (
     <>
@@ -124,8 +126,8 @@ export function ProductsPageV2Content ({ products }: ProductsPageV2ContentProps)
 
             {visibleProducts.length > 0 ? (
               <div className='grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5'>
-                {visibleProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                {visibleProducts.map((product, index) => (
+                  <ProductCard key={product.id} product={product} listName={`products_${category}`} index={index} />
                 ))}
               </div>
             ) : (
