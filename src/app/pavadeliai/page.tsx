@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { getLeashes } from '@/lib/shopify'
 import { buildLeashProduct } from '@/lib/catalog'
 import { PavadeliaiPageContent } from '@/components/products/PavadeliaiPageContent'
+import { buildBreadcrumbSchema } from '@/lib/guide-schema'
+import { SITE_URL, canonicalProductSlug } from '@/lib/seo'
+import type { ProductDetail } from '@/lib/catalog'
 
 export const revalidate = 300
 
@@ -64,15 +67,45 @@ const faqSchema = {
   ],
 }
 
+function buildCollectionSchema (products: ProductDetail[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'BioThane pavadėlis šuniui – vandeniui atsparus',
+    url: `${SITE_URL}/pavadeliai`,
+    inLanguage: 'lt',
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: products.map((product, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `${SITE_URL}/products/${canonicalProductSlug(product)}`,
+        name: product.name,
+      })),
+    },
+  }
+}
+
 export default async function PavadeliaiPage () {
   const leashes = await getLeashes()
+  const products = leashes.map((leash) => buildLeashProduct(leash))
+  const breadcrumbSchema = buildBreadcrumbSchema('Pavadėliai', '/pavadeliai')
+  const collectionSchema = buildCollectionSchema(products)
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <PavadeliaiPageContent leashes={leashes.map((leash) => buildLeashProduct(leash))} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <PavadeliaiPageContent leashes={products} />
     </>
   )
 }
