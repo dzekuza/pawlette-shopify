@@ -4,7 +4,7 @@ import type { GuideFaqItem } from '@/lib/guide-schema'
 export const GUIDE_PATH = '/guide/kaip-isrinkti-antkakli-su-vardu'
 export const GUIDE_TITLE = 'Kaip išsirinkti šuns antkaklį su vardu'
 export const GUIDE_DESCRIPTION =
-  'Dydis, medžiaga, vardo užrašymo būdas ir sagtis: į ką atkreipti dėmesį renkantis šuns antkaklį su vardu ar telefono numeriu.'
+  'Dydis, medžiaga, vardo užrašymo būdas ir sagtis: į ką atkreipti dėmesį renkantis šuns antkaklį su vardu ar telefono numeriu. Praktinis gidas su patarimais.'
 export const GUIDE_PUBLISHED = '2026-10-19'
 export const GUIDE_MODIFIED = '2026-10-19'
 

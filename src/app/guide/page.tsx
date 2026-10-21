@@ -6,7 +6,7 @@ import { DisplayHeading, Eyebrow } from '@/components/storefront/Typography'
 
 const URL = 'https://pawscharm.com/guide'
 const TITLE = 'Šunų antkaklių gidai: dydis, medžiaga, vardas'
-const DESCRIPTION = 'PawsCharm gidai: kaip išmatuoti šunį antkakliui, kaip išsirinkti antkaklį su vardu, BioThane ar nailonas ir ką patikrinti prieš užsakant.'
+const DESCRIPTION = 'PawsCharm gidai: kaip išmatuoti šunį antkakliui, kaip išsirinkti antkaklį su vardu, BioThane ar nailonas ir ką patikrinti prieš užsakant. Aiškiai ir paprastai.'
 
 export const metadata: Metadata = {
   title: TITLE,

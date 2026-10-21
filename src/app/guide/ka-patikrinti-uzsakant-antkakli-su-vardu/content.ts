@@ -4,7 +4,7 @@ import type { GuideFaqItem } from '@/lib/guide-schema'
 export const GUIDE_PATH = '/guide/ka-patikrinti-uzsakant-antkakli-su-vardu'
 export const GUIDE_TITLE = 'Ką patikrinti užsakant šuns antkaklį su vardu'
 export const GUIDE_DESCRIPTION =
-  'Dešimties punktų sąrašas prieš užsakant antkaklį su vardu: dydis, medžiaga, užrašo būdas, sagtis, pristatymas ir grąžinimas. Su palyginimo lentele.'
+  'Dešimties punktų sąrašas prieš užsakant antkaklį su vardu: dydis, medžiaga, užrašo būdas, sagtis, pristatymas ir grąžinimas. Su lentele ir patarimais.'
 export const GUIDE_PUBLISHED = '2026-10-19'
 export const GUIDE_MODIFIED = '2026-10-19'
 

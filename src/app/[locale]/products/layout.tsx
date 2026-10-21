@@ -10,7 +10,7 @@ export async function generateMetadata({
 
   const title = locale === 'en' ? 'Dog Collars, Charms & Sets' : 'Rankų darbo antkakliai šunims ir pavadėliai';
   const description = locale === 'en'
-    ? 'Browse every PawsCharm BioThane dog collar, interchangeable charm, and set. Handmade in Vilnius, shipping across the EU.'
+    ? 'Browse every PawsCharm BioThane dog collar, interchangeable charm and leash. Waterproof, handmade in Vilnius, with free shipping over 40 € across the EU.'
     : 'Rankų darbo antkakliai šunims — vandeniui atsparūs BioThane antkakliai nuo 33 €, keičiami pakabukai ir pavadėliai. Pagaminta Vilniuje, pristatymas Lietuvoje.';
   const ogDescription = locale === 'en'
     ? 'Waterproof BioThane dog collars with interchangeable charms. Handmade in Vilnius, Lithuania.'
