@@ -3,14 +3,14 @@ import { getLeashes } from '@/lib/shopify'
 import { buildLeashProduct } from '@/lib/catalog'
 import { PavadeliaiPageContent } from '@/components/products/PavadeliaiPageContent'
 import { buildBreadcrumbSchema } from '@/lib/guide-schema'
-import { SITE_URL, canonicalProductSlug } from '@/lib/seo'
+import { SITE_URL } from '@/lib/seo'
 import type { ProductDetail } from '@/lib/catalog'
 
 export const revalidate = 300
 
 export const metadata: Metadata = {
   title: 'BioThane pavadėlis šuniui – vandeniui atsparus',
-  description: 'BioThane pavadėlis šuniui, vandeniui atsparus ir derantis su PawsCharm antkakliais. Lengvai valomas, patvarus, tinka kasdieniams pasivaikščiojimams.',
+  description: 'BioThane pavadėlis šuniui, vandeniui atsparus ir derantis su PawsCharm antkakliais. Lengvai valomas, patvarus, kasdieniams pasivaikščiojimams. Rankų darbas.',
   alternates: { canonical: 'https://pawscharm.com/pavadeliai' },
   keywords: ['pavadėlis šuniui', 'šuns pavadėlis', 'BioThane pavadėlis', 'vandeniui atsparus pavadėlis', 'PawsCharm'],
   openGraph: {
@@ -79,7 +79,7 @@ function buildCollectionSchema (products: ProductDetail[]) {
       itemListElement: products.map((product, index) => ({
         '@type': 'ListItem',
         position: index + 1,
-        url: `${SITE_URL}/products/${canonicalProductSlug(product)}`,
+        url: `${SITE_URL}/products/${product.slug}`,
         name: product.name,
       })),
     },

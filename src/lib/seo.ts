@@ -18,8 +18,12 @@ export const PRODUCT_REVIEW_RATING = 4.9
 export const CHARM_HUB_SLUG = 'pawcharms-pakabuciai'
 
 export function canonicalProductSlug (product: ProductDetail) {
-  const isLetterCharm = product.productType === 'charm' && product.charmCategory === 'letter'
-  return product.slug === 'charm-charms' || isLetterCharm ? CHARM_HUB_SLUG : product.slug
+  // Letter and icon charm color pages are near-duplicates of each other, so they all point at the hub.
+  const isVariantCharm = product.productType === 'charm' && (product.charmCategory === 'letter' || product.charmCategory === 'icon')
+  if (product.slug === 'charm-charms' || isVariantCharm) return CHARM_HUB_SLUG
+  // Collar and leash color variants point at their parent product page.
+  if (product.productType !== 'charm' && product.parentHandle && product.slug !== product.parentHandle) return product.parentHandle
+  return product.slug
 }
 
 function trimText(value?: string) {
@@ -38,6 +42,13 @@ function clampDescription(value: string, maxLength = 160) {
 function toTitleCase(value?: string) {
   if (!value) return ''
   return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+/** Color adjective that agrees with the product noun. product.name already holds the
+ * agreeing form (e.g. "Mėlynas antkaklis", "Rožinis pavadėlis"); colorLabel is the
+ * feminine dictionary form ("Mėlyna") and mismatches these masculine nouns. */
+function agreeingColorAdjective(product: ProductDetail, noun: 'antkaklis' | 'pavadėlis') {
+  return product.name.replace(new RegExp(`\\s*${noun}\\s*$`, 'i'), '').trim() || toTitleCase(product.colorLabel)
 }
 
 function isParentProductPage(product: ProductDetail) {
@@ -104,12 +115,11 @@ export function buildProductSeoTitle(product: ProductDetail, locale: ProductLoca
     if (isParentProductPage(product)) return 'Personalizuotas BioThane antkaklis, 5 pakabukai'
     // product.name is already the masculine-agreeing form (e.g. "Mėlynas antkaklis") —
     // strip the noun back off so it can be reinserted into this title template.
-    const colorAdjective = product.name.replace(/\s*antkaklis\s*$/i, '').trim() || toTitleCase(product.colorLabel)
-    return `${colorAdjective} BioThane šuns antkaklis su pakabukais`
+    return `${agreeingColorAdjective(product, 'antkaklis')} BioThane šuns antkaklis su pakabukais`
   }
   if (product.productType === 'leash') {
     if (isParentProductPage(product)) return 'Vandeniui atsparus BioThane pavadėlis šuniui'
-    return `${toTitleCase(product.colorLabel) || product.name} BioThane pavadėlis šuniui`
+    return `${agreeingColorAdjective(product, 'pavadėlis')} BioThane pavadėlis šuniui`
   }
   if (product.slug === 'charm-charms') return 'Keičiami pakabukai šunų antkakliams'
   return `${product.name} pakabukas šuns antkakliui`
@@ -122,7 +132,7 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     if (product.productType === 'collar') {
       if (isParentProductPage(product)) {
         return clampDescription(
-          `Personalized BioThane dog collar with interchangeable charms, engraving, and a waterproof build. Handmade in Vilnius, free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+          `Personalized BioThane dog collar with 5 interchangeable charms, engraving and a waterproof build. Handmade in Vilnius. Free shipping over ${FREE_SHIPPING_THRESHOLD_TEXT} across the EU.`
         )
       }
       return clampDescription(
@@ -132,7 +142,7 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     if (product.productType === 'leash') {
       if (isParentProductPage(product)) {
         return clampDescription(
-          'Waterproof BioThane dog leash that matches every PawsCharm collar. Easy to clean, durable, and built for everyday walks.'
+          'Waterproof BioThane dog leash that matches every PawsCharm collar. Easy to clean and built for everyday walks. Handmade in Vilnius, ships across the EU.'
         )
       }
       return clampDescription(
@@ -141,7 +151,7 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     }
     if (product.slug === 'charm-charms') {
       return clampDescription(
-        'Interchangeable PawsCharm charms for dog collars — letters, hearts, stars, and more designs that snap on in 5 seconds, no tools required.'
+        'Interchangeable PawsCharm charms for dog collars — letters, hearts, stars, and more designs that snap on in 5 seconds, no tools required. Pick a shape.'
       )
     }
     return clampDescription(
@@ -157,7 +167,7 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     }
 
     return clampDescription(
-      `${toTitleCase(product.colorLabel) || product.name} BioThane šuns antkaklis su pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
+      `${agreeingColorAdjective(product, 'antkaklis')} BioThane šuns antkaklis su pakabukais, graviravimu ir vandeniui atsparia medžiaga. Rankų darbas Vilniuje, pristatymas nuo ${FREE_SHIPPING_THRESHOLD_TEXT}.`
     )
   }
 
@@ -169,13 +179,13 @@ export function buildProductSeoDescription(product: ProductDetail, locale: Produ
     }
 
     return clampDescription(
-      `${toTitleCase(product.colorLabel) || product.name} BioThane pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
+      `${agreeingColorAdjective(product, 'pavadėlis')} BioThane pavadėlis šuniui, derantis su PawsCharm antkakliais. Lengvai valomas ir sukurtas kasdieniams pasivaikščiojimams.`
     )
   }
 
   if (product.slug === 'charm-charms') {
     return clampDescription(
-      `Keičiami PawsCharm pakabukai šunų antkakliams - raidės, širdelės, žvaigždės ir kiti dizainai, kuriuos prisegsite per 5 sekundes be įrankių.`
+      `Keičiami PawsCharm pakabukai šunų antkakliams - raidės, širdelės, žvaigždės ir kiti dizainai, kuriuos prisegsite per 5 sekundes be įrankių. Rinkitės formą.`
     )
   }
 

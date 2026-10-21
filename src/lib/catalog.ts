@@ -377,6 +377,8 @@ export interface ProductSlugEntry {
   /** Set for individual charm PDPs — 'letter' entries are thin, noindexed pages (see
    * ProductDetail.charmCategory) and are excluded from the sitemap. */
   charmCategory?: 'icon' | 'letter'
+  /** Set for collar and leash color variants — the parent product page they canonicalize to. */
+  parentSlug?: string
 }
 
 export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
@@ -384,18 +386,18 @@ export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
 
   // Preserves the original insertion order (Map.set on an existing key doesn't move it)
   // while keeping each slug's most recently updated timestamp when multiple sources map to it.
-  const entries = new Map<string, { updatedAt: string, charmCategory?: 'icon' | 'letter' }>()
-  const add = (slug: string | undefined, updatedAt: string | undefined, charmCategory?: 'icon' | 'letter') => {
+  const entries = new Map<string, { updatedAt: string, charmCategory?: 'icon' | 'letter', parentSlug?: string }>()
+  const add = (slug: string | undefined, updatedAt: string | undefined, charmCategory?: 'icon' | 'letter', parentSlug?: string) => {
     if (!isNonEmptyString(slug)) return
     const existing = entries.get(slug)
     if (!existing || (updatedAt && new Date(updatedAt) > new Date(existing.updatedAt))) {
-      entries.set(slug, { updatedAt: updatedAt || existing?.updatedAt || '', charmCategory: charmCategory ?? existing?.charmCategory })
+      entries.set(slug, { updatedAt: updatedAt || existing?.updatedAt || '', charmCategory: charmCategory ?? existing?.charmCategory, parentSlug: parentSlug ?? existing?.parentSlug })
     }
   }
 
   collars.forEach((collar) => {
     add(collar.nodeHandle, collar.updatedAt)
-    add(collar.handle || slugFromProductName(collar.title), collar.updatedAt)
+    add(collar.handle || slugFromProductName(collar.title), collar.updatedAt, undefined, collar.nodeHandle)
   })
 
   // 'charm-charms' / 'pawcharms-pakabuciai' are collection-style pages spanning every charm
@@ -409,10 +411,10 @@ export async function getAllProductSlugs (): Promise<ProductSlugEntry[]> {
 
   leashes.forEach((leash) => {
     add(leash.nodeHandle, leash.updatedAt)
-    add(leash.handle, leash.updatedAt)
+    add(leash.handle, leash.updatedAt, undefined, leash.nodeHandle)
   })
 
-  return Array.from(entries.entries()).map(([slug, { updatedAt, charmCategory }]) => ({ slug, updatedAt, charmCategory }))
+  return Array.from(entries.entries()).map(([slug, { updatedAt, charmCategory, parentSlug }]) => ({ slug, updatedAt, charmCategory, parentSlug }))
 }
 
 export async function getProductBySlugAsync (slug: string, locale: string = 'lt'): Promise<ProductDetail | undefined> {

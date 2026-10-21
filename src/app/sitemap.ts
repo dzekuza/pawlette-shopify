@@ -27,7 +27,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // "-mazi" (small size) charm pages canonicalize to their base charm page, so they are left out too.
   const allSlugs = new Set(products.map(({ slug }) => slug))
   const isSizeTwin = (slug: string) => slug.endsWith('-mazi') && allSlugs.has(slug.replace(/-mazi$/, ''))
-  const indexableProducts = products.filter(({ slug, charmCategory }) => !CANONICAL_ALIASES.has(slug) && charmCategory !== 'letter' && !isSizeTwin(slug))
+  // Color variants (collars, leashes) canonicalize to their parent page and icon charm color pages
+  // canonicalize to the charm hub, so none of them belong in the sitemap either.
+  const isColorVariant = (slug: string, parentSlug?: string) => Boolean(parentSlug && parentSlug !== slug)
+  const indexableProducts = products.filter(({ slug, charmCategory, parentSlug }) => (
+    !CANONICAL_ALIASES.has(slug) && charmCategory !== 'letter' && charmCategory !== 'icon' && !isSizeTwin(slug) && !isColorVariant(slug, parentSlug)
+  ))
   const productEntries = indexableProducts.map(({ slug, updatedAt }) => ({
     url: `https://pawscharm.com/products/${slug}`,
     lastModified: updatedAt ? new Date(updatedAt) : lastModified,
