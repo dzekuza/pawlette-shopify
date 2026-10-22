@@ -8,6 +8,7 @@ import { GoogleAnalytics, GaPageViewTracker, GaClickTracker } from "@/components
 import { CookieConsentBanner } from "@/components/shared/CookieConsentBanner";
 import { ScratchGiftWidget } from "@/components/shared/ScratchGiftWidget";
 import { CartDrawer } from "@/components/shared/CartDrawer";
+import { GA_ALLOWED_HOSTNAMES, GA_DEFAULT_CHECKOUT_DOMAIN } from "@/lib/ga-config";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -98,7 +99,11 @@ const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || 'GTM-T6B2FJ5F';
 const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 // Checkout runs on a separate domain (see ShopifyAnalytics.tsx) — without cross-domain
 // linking, GA4 starts a brand-new, unattributed session there on every order.
-const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN;
+const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN || GA_DEFAULT_CHECKOUT_DOMAIN;
+// Only the production site may send to GA4/GTM: dev builds, localhost, LAN and preview hosts are
+// switched off in the browser (GA's official `ga-disable-<ID>` flag + a GTM loader guard).
+const IS_PRODUCTION_BUILD = process.env.NODE_ENV === 'production';
+const ANALYTICS_HOSTS_JSON = JSON.stringify(GA_ALLOWED_HOSTNAMES);
 
 // `inLanguage` must reflect the actually-rendered locale (also used for the
 // `<html lang={locale}>` attribute below) — otherwise this schema is emitted
@@ -184,10 +189,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <script
               dangerouslySetInnerHTML={{
                 __html: `
+                  if (!${IS_PRODUCTION_BUILD} || ${ANALYTICS_HOSTS_JSON}.indexOf(location.hostname) === -1) {
+                    window['ga-disable-${GA_MEASUREMENT_ID}'] = true;
+                  }
                   gtag('js', new Date());
-                  gtag('config', '${GA_MEASUREMENT_ID}'${CHECKOUT_DOMAIN ? `, {
+                  gtag('config', '${GA_MEASUREMENT_ID}', {
                     linker: { domains: ['${CHECKOUT_DOMAIN}'], accept_incoming: true },
-                  }` : ''});
+                  });
                 `,
               }}
             />
@@ -201,7 +209,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              if (${IS_PRODUCTION_BUILD} && ${ANALYTICS_HOSTS_JSON}.indexOf(location.hostname) !== -1) (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);

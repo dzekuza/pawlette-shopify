@@ -3,9 +3,11 @@
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { COOKIE_CONSENT_KEY, COOKIE_CONSENT_EVENT } from '@/components/shared/MetaPixel'
+import { isGaEnabledHost } from '@/lib/ga-config'
 
+// Consent AND an allowed production hostname: dev, LAN and preview traffic never reaches GA4.
 function hasConsent (): boolean {
-  return typeof window !== 'undefined' && localStorage.getItem(COOKIE_CONSENT_KEY) === 'granted'
+  return isGaEnabledHost() && localStorage.getItem(COOKIE_CONSENT_KEY) === 'granted'
 }
 
 function grantAnalyticsConsent () {

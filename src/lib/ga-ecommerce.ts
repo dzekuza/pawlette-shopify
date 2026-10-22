@@ -5,6 +5,7 @@ import type { ShopifyCart, ShopifyCartLine } from '@/lib/cart'
 export interface GaItem {
   item_id: string
   item_name: string
+  item_variant?: string
   price: number
   quantity?: number
   item_list_name?: string
@@ -36,13 +37,44 @@ export function gaItemFromProduct (product: GaListProduct, listName?: string, in
   }
 }
 
-function gaItemFromCartLine (line: ShopifyCartLine): GaItem {
+/** Numeric tail of a Shopify gid (`gid://shopify/ProductVariant/123` -> `123`). */
+function shortGid (gid: string): string {
+  return gid.split('/').pop() ?? gid
+}
+
+/** GA4 item for a cart line; `quantity` overrides the line quantity (add_to_cart reports only what was added). */
+export function gaItemFromCartLine (line: ShopifyCartLine, quantity: number = line.quantity): GaItem {
   return {
-    item_id: line.merchandise.id,
+    item_id: shortGid(line.merchandise.id),
     item_name: line.merchandise.product.title,
+    ...(line.merchandise.title && line.merchandise.title !== 'Default Title' ? { item_variant: line.merchandise.title } : {}),
     price: parsePrice(line.merchandise.price.amount),
-    quantity: line.quantity,
+    quantity,
   }
+}
+
+/** Items were added to the cart. `added` lists the variants and quantities of this action only. */
+export function trackAddToCartEvent (cart: ShopifyCart, added: { merchandiseId: string, quantity: number }[]): void {
+  const items = cart.lines.flatMap((line) => {
+    const request = added.find((a) => a.merchandiseId === line.merchandise.id)
+    return request ? [gaItemFromCartLine(line, request.quantity)] : []
+  })
+  if (items.length === 0) return
+  trackGaEvent('add_to_cart', {
+    currency: cart.cost.totalAmount.currencyCode || CURRENCY,
+    value: items.reduce((sum, item) => sum + item.price * (item.quantity ?? 1), 0),
+    items,
+  })
+}
+
+/** The visitor clicked through to the Shopify checkout. */
+export function trackBeginCheckoutEvent (cart: ShopifyCart): void {
+  if (cart.lines.length === 0) return
+  trackGaEvent('begin_checkout', {
+    currency: cart.cost.totalAmount.currencyCode || CURRENCY,
+    value: parsePrice(cart.cost.totalAmount.amount),
+    items: cart.lines.map((line) => gaItemFromCartLine(line)),
+  })
 }
 
 /** A product list (grid / carousel) was shown to the visitor. */

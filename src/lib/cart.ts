@@ -2,7 +2,8 @@ import { shopifyClient } from './shopify';
 import { getMetaBrowserIds, trackMetaEvent } from '@/components/shared/MetaPixel';
 import { GA_CART_ATTRIBUTES, META_CART_ATTRIBUTES } from '@/lib/meta-cart-attributes';
 import { trackShopifyAddToCart } from './shopifyAnalytics';
-import { getGaBrowserIds, trackGaEvent } from '@/components/shared/GoogleAnalytics';
+import { getGaBrowserIds } from '@/components/shared/GoogleAnalytics';
+import { trackAddToCartEvent, trackBeginCheckoutEvent } from '@/lib/ga-ecommerce';
 
 const CART_ID_KEY = 'pawlette_shopify_cart_id';
 export const SHOPIFY_CART_UPDATED_EVENT = 'shopify-cart-updated';
@@ -199,19 +200,7 @@ function trackAddToCart(cart: ShopifyCart, addedLines: { merchandiseId: string; 
 
   trackShopifyAddToCart(cart, addedLines).catch(() => {});
 
-  trackGaEvent('add_to_cart', {
-    currency: cart.cost.totalAmount.currencyCode,
-    value,
-    items: addedCartLines.map((l) => {
-      const requested = addedLines.find((rl) => rl.merchandiseId === l.merchandise.id);
-      return {
-        item_id: l.merchandise.id,
-        item_name: l.merchandise.product.title,
-        price: parseFloat(l.merchandise.price.amount),
-        quantity: requested?.quantity ?? l.quantity,
-      };
-    }),
-  });
+  trackAddToCartEvent(cart, addedLines);
 }
 
 export async function addLinesToCart(lines: { merchandiseId: string; quantity: number }[]): Promise<ShopifyCart> {
@@ -273,16 +262,7 @@ export function trackCheckoutStart(cart: ShopifyCart): void {
     currency: cart.cost.totalAmount.currencyCode,
     num_items: cart.totalQuantity,
   });
-  trackGaEvent('begin_checkout', {
-    currency: cart.cost.totalAmount.currencyCode,
-    value: parseFloat(cart.cost.totalAmount.amount),
-    items: cart.lines.map((l) => ({
-      item_id: l.merchandise.id,
-      item_name: l.merchandise.product.title,
-      price: parseFloat(l.merchandise.price.amount),
-      quantity: l.quantity,
-    })),
-  });
+  trackBeginCheckoutEvent(cart);
 }
 
 export async function removeCartLine(cartId: string, lineId: string): Promise<ShopifyCart> {
