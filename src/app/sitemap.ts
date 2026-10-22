@@ -10,11 +10,12 @@ const STATIC_LAST_MODIFIED: Record<string, string> = {
   products: '2026-10-20',
   faq: '2026-10-20',
   pavadeliai: '2026-10-20',
-  guideIndex: '2026-10-20',
+  guideIndex: '2026-10-23',
   guideMeasure: '2026-10-20',
   guideMaterial: '2026-10-20',
   guideChoose: '2026-10-19',
   guideChecklist: '2026-10-19',
+  guideBreedSizes: '2026-10-23',
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -112,6 +113,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: 'https://pawscharm.com/guide/ka-patikrinti-uzsakant-antkakli-su-vardu',
       lastModified: STATIC_LAST_MODIFIED.guideChecklist,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: 'https://pawscharm.com/guide/antkakliu-dydziai-pagal-veisle',
+      lastModified: STATIC_LAST_MODIFIED.guideBreedSizes,
       changeFrequency: 'monthly',
       priority: 0.7,
     },

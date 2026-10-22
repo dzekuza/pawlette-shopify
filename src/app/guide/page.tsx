@@ -30,6 +30,12 @@ const GUIDES = [
     description: 'Žingsnis po žingsnio: kaip išmatuoti šuns kaklą ir pasirinkti S, M arba L dydį.',
   },
   {
+    href: '/guide/antkakliu-dydziai-pagal-veisle',
+    label: 'Lentelė',
+    title: 'Šunų antkaklių dydžiai pagal veislę',
+    description: 'Kaklo apimtis ir tinkamas S, M ar L dydis 34 populiarioms veislėms — nuo čihuahua iki rotveilerio.',
+  },
+  {
     href: '/guide/kaip-isrinkti-antkakli-su-vardu',
     label: 'Pirkimo gidas',
     title: 'Kaip išsirinkti šuns antkaklį su vardu',

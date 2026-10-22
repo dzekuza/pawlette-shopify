@@ -77,7 +77,7 @@ const breadcrumbSchema = {
 const SIZES = [
   { size: 'S',  range: '28–36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
   { size: 'M',  range: '36–44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
-  { size: 'L',  range: '44–54 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },
+  { size: 'L',  range: '44–52 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },
 ];
 
 export default function MeasureGuidePage() {
@@ -157,7 +157,8 @@ export default function MeasureGuidePage() {
           </div>
 
           <p className="text-[13px] text-bark-muted mt-3">
-            Tai apytikslės gairės. Visada matuokite konkretų šunį — vien veislė nėra pakankamai patikimas kriterijus.
+            Tai apytikslės gairės. Visada matuokite konkretų šunį — vien veislė nėra pakankamai patikimas kriterijus.{' '}
+            <Link href="/guide/antkakliu-dydziai-pagal-veisle" className="text-bark-muted font-semibold underline">Visa lentelė pagal veislę (34 veislės) →</Link>
           </p>
 
           {/* Between sizes */}
