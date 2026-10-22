@@ -51,7 +51,8 @@
       "placeholderBadge": "✦ PERSONALIZE",
       "placeholderProductName": "PawsCharm Collar",
       "placeholderPrice": "Price: €25",
-      "placeholderCta": "Shop now"
+      "placeholderCta": "Shop now",
+      "allCollarsLink": "All handmade dog collars"
     },
     "photoSlider": {
       "heading": "Real dogs in their PawsCharm collars",
@@ -166,7 +167,7 @@
         "store": {
           "title": "Shop",
           "links": {
-            "collarSets": "Collar sets",
+            "collarSets": "Handmade dog collars",
             "leashes": "Leashes",
             "charms": "Charms",
             "buildYourOwn": "Build your own"
@@ -253,10 +254,22 @@
   },
   "products": {
     "pageContent": {
-      "eyebrow": "Collars with a name",
-      "title": "Personalized dog collars with a name — handmade in Vilnius",
-      "description": "A personalized dog collar you'll spot from across the park — with your dog's name and interchangeable charms. Every collar is handmade in Vilnius from waterproof BioThane webbing, built to keep up with even the most active dogs.",
+      "eyebrow": "Dog collars",
+      "title": "Handmade dog collars",
+      "description": "PawsCharm dog collars are sewn by hand in Vilnius from BioThane webbing. It does not absorb water or odors, and a damp cloth is enough to clean it after a walk. Sizes S, M and L, and charms clip onto the collar in 5 seconds with no tools.",
       "gridId": "products",
+      "related": {
+        "accessories": {
+          "eyebrow": "With your collar",
+          "heading": "Leash and charms",
+          "body": "A <leash>BioThane dog leash</leash> in the same colors and up to 6 <charms>interchangeable collar charms</charms> go with the collar. The main model and sizes are on the <collar>PawsCharm BioThane collar</collar> page."
+        },
+        "guides": {
+          "eyebrow": "Guides",
+          "heading": "Before you choose a collar",
+          "body": "Not sure of the size? Read <size>how to measure your dog for a collar</size>. Comparing materials? See <material>BioThane vs nylon</material>."
+        }
+      },
       "sections": {
         "personalization": {
           "eyebrow": "How it works",

@@ -9,7 +9,9 @@ import { useRouter } from 'next/navigation'
 import { PageHero } from '@/components/storefront/PageHero'
 import { useWindowWidth } from '@/hooks/useWindowWidth'
 import { useViewItemList } from '@/hooks/useViewItemList'
-import { useTranslations } from 'next-intl'
+import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
+import { localizeHref } from '@/lib/locale-path'
 import { Accordion } from '@/components/shared/Accordion'
 import type { AccordionItem } from '@/components/shared/Accordion'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
@@ -21,6 +23,11 @@ interface ProductsPageContentProps {
 
 export function ProductsPageContent ({ products }: ProductsPageContentProps) {
   const t = useTranslations('products.pageContent')
+  const locale = useLocale() as 'lt' | 'en'
+  const linkClass = 'font-medium text-interactive-text underline underline-offset-2'
+  const link = (href: string) => function RichLink (chunks: React.ReactNode) {
+    return <Link href={localizeHref(href, locale)} className={linkClass}>{chunks}</Link>
+  }
   const router = useRouter()
   const cartCount = useCartCount()
   const width = useWindowWidth() ?? 1200
@@ -63,6 +70,33 @@ export function ProductsPageContent ({ products }: ProductsPageContentProps) {
             <Eyebrow className="mb-3">{t('sections.material.eyebrow')}</Eyebrow>
             <DisplayHeading size="compact" className="mb-4">{t('sections.material.heading')}</DisplayHeading>
             <BodyCopy>{t('sections.material.body')}</BodyCopy>
+          </div>
+        </div>
+
+        {/* Supporting links: accessories and buying guides, kept below the collar grid so the page stays collar-led */}
+        <div className="mt-16 grid grid-cols-1 gap-10 md:mt-24 md:grid-cols-2 md:gap-14">
+          <div>
+            <Eyebrow className="mb-3">{t('related.accessories.eyebrow')}</Eyebrow>
+            <DisplayHeading size="compact" className="mb-4">{t('related.accessories.heading')}</DisplayHeading>
+            <BodyCopy>
+              {t.rich('related.accessories.body', {
+                leash: link('/pavadeliai'),
+                charms: link('/products/pawcharms-pakabuciai'),
+                collar: link('/products/pawcharms-antkaklis'),
+              })}
+            </BodyCopy>
+          </div>
+          <div>
+            <Eyebrow className="mb-3">{t('related.guides.eyebrow')}</Eyebrow>
+            <DisplayHeading size="compact" className="mb-4">{t('related.guides.heading')}</DisplayHeading>
+            <BodyCopy>
+              {t.rich('related.guides.body', {
+                size: link('/guide/how-to-measure-dog-collar'),
+                material: link('/guide/silicone-vs-nylon-dog-collars'),
+                choose: link('/guide/kaip-isrinkti-antkakli-su-vardu'),
+                checklist: link('/guide/ka-patikrinti-uzsakant-antkakli-su-vardu'),
+              })}
+            </BodyCopy>
           </div>
         </div>
 

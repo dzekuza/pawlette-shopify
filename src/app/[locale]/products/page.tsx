@@ -25,6 +25,26 @@ export default async function ProductsPage () {
     })),
   }
 
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: tContent('title'),
+    description: tContent('description'),
+    url: productsUrl,
+    inLanguage: locale === 'en' ? 'en' : 'lt',
+    isPartOf: { '@type': 'WebSite', name: 'PawsCharm', url: 'https://pawscharm.com' },
+  }
+
+  const homeUrl = locale === 'en' ? 'https://pawscharm.com/en' : 'https://pawscharm.com'
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: locale === 'en' ? 'Home' : 'Pradžia', item: homeUrl },
+      { '@type': 'ListItem', position: 2, name: tContent('title'), item: productsUrl },
+    ],
+  }
+
   const productListSchema = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
@@ -79,6 +99,14 @@ export default async function ProductsPage () {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productListSchema) }}

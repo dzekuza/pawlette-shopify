@@ -51,7 +51,8 @@
       "placeholderBadge": "✦ PERSONALIZUOK",
       "placeholderProductName": "PawsCharm Antkaklis",
       "placeholderPrice": "Kaina: €25",
-      "placeholderCta": "Apsipirkti"
+      "placeholderCta": "Apsipirkti",
+      "allCollarsLink": "Visi rankų darbo antkakliai šunims"
     },
     "photoSlider": {
       "heading": "Šunys su savo PawsCharm antkakliais",
@@ -166,7 +167,7 @@
         "store": {
           "title": "Parduotuvė",
           "links": {
-            "collarSets": "Antkaklių rinkiniai",
+            "collarSets": "Rankų darbo antkakliai šunims",
             "leashes": "Pavadėliai",
             "charms": "Pakabukai",
             "buildYourOwn": "Susikurk savo"
@@ -253,10 +254,22 @@
   },
   "products": {
     "pageContent": {
-      "eyebrow": "Visa kolekcija",
-      "title": "Rankų darbo antkakliai, pakabukai ir pavadėliai šunims",
-      "description": "Personalizuotas antkaklis šuniui, kurį atpažinsite iš toli — su šuns vardu ir keičiamais pakabukais. Kiekvienas antkaklis gaminamas rankų darbo būdu Vilniuje iš vandeniui atsparios BioThane juostos, todėl tarnauja ilgai net aktyviausiems šunims.",
+      "eyebrow": "Šunų antkakliai",
+      "title": "Rankų darbo antkakliai šunims",
+      "description": "PawsCharm antkakliai šunims siuvami rankomis Vilniuje iš BioThane juostos. Ji nesugeria vandens ir kvapų, o po pasivaikščiojimo pakanka nuvalyti drėgna šluoste. Dydžiai S, M ir L, o pakabukus prie antkaklio prisegsite per 5 sekundes be įrankių.",
       "gridId": "produktai",
+      "related": {
+        "accessories": {
+          "eyebrow": "Prie antkaklio",
+          "heading": "Pavadėlis ir pakabukai",
+          "body": "Antkaklį papildo <leash>BioThane pavadėlis šuniui</leash> tokių pačių spalvų ir iki 6 <charms>keičiamų pakabukų antkakliui</charms>. Pagrindinį modelį ir dydžius rasite <collar>BioThane antkaklio PawsCharm</collar> puslapyje."
+        },
+        "guides": {
+          "eyebrow": "Gidai",
+          "heading": "Prieš renkantis antkaklį",
+          "body": "Nežinote dydžio? Perskaitykite, <size>kaip išmatuoti šunį antkakliui</size>. Svarstote medžiagas? Palyginkite <material>BioThane ir nailoną</material>. Vardo užrašymo būdus aptarėme gide <choose>kaip išsirinkti šuns antkaklį su vardu</choose>, o prieš užsakydami peržiūrėkite <checklist>ką patikrinti užsakant antkaklį</checklist>."
+        }
+      },
       "sections": {
         "personalization": {
           "eyebrow": "Kaip tai veikia",

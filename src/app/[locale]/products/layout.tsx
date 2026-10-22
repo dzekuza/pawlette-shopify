@@ -8,10 +8,10 @@ export async function generateMetadata({
   const { locale } = await params;
   const canonical = locale === 'en' ? 'https://pawscharm.com/en/products' : 'https://pawscharm.com/products';
 
-  const title = locale === 'en' ? 'Dog Collars, Charms & Sets' : 'Rankų darbo antkakliai šunims ir pavadėliai';
+  const title = locale === 'en' ? 'Handmade BioThane Dog Collars with Swap Charms' : 'Rankų darbo antkakliai šunims iš BioThane';
   const description = locale === 'en'
-    ? 'Browse every PawsCharm BioThane dog collar, interchangeable charm and leash. Waterproof, handmade in Vilnius, with free shipping over 40 € across the EU.'
-    : 'Rankų darbo antkakliai šunims — vandeniui atsparūs BioThane antkakliai nuo 33 €, keičiami pakabukai ir pavadėliai. Pagaminta Vilniuje, pristatymas Lietuvoje.';
+    ? 'Handmade dog collars from waterproof BioThane webbing. Interchangeable charms clip on in 5 seconds. Sewn in Vilnius, with free shipping over 40 € across the EU.'
+    : 'Rankų darbo antkakliai šunims iš vandeniui atsparios BioThane juostos. Pakabukai prisegami per 5 sekundes. Siuvami Vilniuje, pristatymas nemokamas nuo 40 €.';
   const ogDescription = locale === 'en'
     ? 'Waterproof BioThane dog collars with interchangeable charms. Handmade in Vilnius, Lithuania.'
     : 'Vandeniui atsparūs BioThane šunų antkakliai su keičiamais pakabukais. Pagaminta Vilniuje, Lietuvoje.';
@@ -31,8 +31,8 @@ export async function generateMetadata({
       },
     },
     keywords: locale === 'en'
-      ? ['dog collar', 'dog collars', 'charms for dogs', 'BioThane dog collar', 'PawsCharm']
-      : ['šuns antkaklis', 'šunų antkakliai', 'pakabukai šunims', 'BioThane antkaklis šuniui', 'PawsCharm'],
+      ? ['handmade dog collars', 'dog collar', 'BioThane dog collar', 'PawsCharm']
+      : ['rankų darbo antkakliai šunims', 'šunų antkakliai', 'antkakliai šunims', 'BioThane antkaklis šuniui', 'PawsCharm'],
     openGraph: {
       title: `${title} | PawsCharm`,
       description: ogDescription,
