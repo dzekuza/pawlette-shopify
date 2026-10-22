@@ -72,7 +72,8 @@ export default function ChooseCollarWithNameGuidePage () {
         <GuideBullets items={NAME_METHODS} />
         <p>
           PawsCharm antkakliams personalizuotas graviravimas užsakomas atsiskaitymo metu, o keičiami pakabukai
-          prisegami ir nusegami maždaug per 5 sekundes be įrankių.
+          prisegami ir nusegami maždaug per 5 sekundes be įrankių. Visus modelius rasite puslapyje{' '}
+          <GuideLink href='/products'>rankų darbo antkakliai šunims</GuideLink>.
         </p>
       </GuideSection>
 
@@ -116,7 +117,7 @@ export default function ChooseCollarWithNameGuidePage () {
         title='Susikurkite savo antkaklį su vardu'
         text='Pasirinkite spalvą, dydį ir pridėkite graviravimą arba pakabukus.'
         href='/products'
-        label='Kurti antkaklį →'
+        label='Rankų darbo antkakliai šunims →'
       />
     </GuideLayout>
   )

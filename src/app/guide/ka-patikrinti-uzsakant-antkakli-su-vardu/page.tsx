@@ -69,6 +69,7 @@ export default function OrderingChecklistGuidePage () {
           <p className='m-0'>
             Perskaitykite <GuideLink href='/guide/kaip-isrinkti-antkakli-su-vardu'>kaip išsirinkti šuns antkaklį su vardu</GuideLink>
             {' '}arba palyginkite medžiagas: <GuideLink href='/guide/silicone-vs-nylon-dog-collars'>BioThane ar nailonas</GuideLink>.
+            Jau žinote, ko ieškote? Peržiūrėkite <GuideLink href='/products'>rankų darbo antkaklius šunims</GuideLink>.
           </p>
         </GuideCallout>
       </div>
@@ -79,7 +80,7 @@ export default function OrderingChecklistGuidePage () {
         title='Pasiruošę užsakyti?'
         text='Pasirinkite spalvą ir dydį, pridėkite graviravimą arba pakabukus.'
         href='/products'
-        label='Kurti antkaklį →'
+        label='Rankų darbo antkakliai šunims →'
       />
     </GuideLayout>
   )

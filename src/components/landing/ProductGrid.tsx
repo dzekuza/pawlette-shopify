@@ -2,7 +2,9 @@
 
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
 import type { ProductDetail } from '@/lib/db';
-import { useTranslations } from 'next-intl';
+import Link from 'next/link';
+import { useLocale, useTranslations } from 'next-intl';
+import { localizeHref } from '@/lib/locale-path';
 import { ProductCard } from '@/components/products/ProductCard';
 import { useViewItemList } from '@/hooks/useViewItemList';
 import { DisplayHeading, BodyCopy } from '@/components/storefront/Typography';
@@ -17,6 +19,7 @@ const COLOR_SWATCHES = [
 
 export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   const t = useTranslations('landing.productGrid');
+  const locale = useLocale() as 'lt' | 'en';
   const filteredProducts = products;
   useViewItemList('landing_featured', filteredProducts);
 
@@ -103,6 +106,15 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
             ))}
           </div>
         )}
+
+        <p className="m-0 text-center">
+          <Link
+            href={localizeHref('/products', locale)}
+            className="font-medium text-interactive-text underline underline-offset-4"
+          >
+            {t('allCollarsLink')}
+          </Link>
+        </p>
       </div>
     </section>
   );
