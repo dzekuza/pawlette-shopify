@@ -253,6 +253,10 @@
     }
   },
   "products": {
+    "arViewer": {
+      "preparing": "Preparing your AR model…",
+      "iosOnly": "AR preview works on iPhone and iPad. Open this page in Safari on your iPhone."
+    },
     "pageContent": {
       "eyebrow": "Dog collars",
       "title": "Handmade dog collars",
@@ -403,6 +407,11 @@
         "zoomPhoto": "Zoom photo"
       },
       "gallery3d": {
+        "viewInAr": "View in AR",
+        "qrTitle": "Scan to view in AR",
+        "qrClose": "Close",
+        "qrAlt": "QR code that opens the collar in AR on your phone",
+        "qrHint": "Open your iPhone camera and point it at the code.",
         "loading": "Loading 3D preview…",
         "disclaimer": "Charms (not letters) will stay in the cart but won't show in the 3D preview"
       },

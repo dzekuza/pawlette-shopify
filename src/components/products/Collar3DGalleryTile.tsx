@@ -1,11 +1,13 @@
 'use client'
 
 import dynamic from 'next/dynamic'
-import { useMemo } from 'react'
+import { useMemo, useState, useSyncExternalStore } from 'react'
 import { useTranslations } from 'next-intl'
 import type { ShopifyCharm, ShopifyCollar } from '@/lib/shopify'
 import { DEFAULT_STRAP_COLOUR, HARDWARE_COLOUR } from '@/lib/collar3d'
 import { collar3DCharms, hasUnrenderableIconCharms } from '@/lib/collar3dSelection'
+import { ArPreviewButton } from '@/components/products/ArPreviewButton'
+import { ArQrPopover } from '@/components/products/ArQrPopover'
 
 const Collar3DScene = dynamic(() => import('@/components/products/Collar3DScene'), {
   ssr: false,
@@ -21,6 +23,12 @@ function Collar3DSceneLoading () {
   )
 }
 
+const subscribeNever = () => () => {}
+const getArSupported = () => document.createElement('a').relList?.supports?.('ar') ?? false
+const getArSupportedOnServer = () => false
+
+const AR_BUTTON_CLASS = 'absolute right-3.5 top-3.5 z-10 flex items-center gap-1.5 rounded-full bg-bark px-4 py-2 text-sm font-medium text-cream shadow-md'
+
 type Collar3DGalleryTileProps = {
   collar: ShopifyCollar | null
   selectedCharms?: (ShopifyCharm | null)[]
@@ -34,6 +42,10 @@ type Collar3DGalleryTileProps = {
 export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 'grid', background }: Collar3DGalleryTileProps) {
   const t = useTranslations('products.pdp')
   const items = useMemo(() => collar3DCharms(selectedCharms), [selectedCharms])
+  // AR Quick Look exists only on iOS; everywhere else the button (and the USDZ export) is skipped.
+  const arSupported = useSyncExternalStore(subscribeNever, getArSupported, getArSupportedOnServer)
+  const [arUrl, setArUrl] = useState<string | null>(null)
+  const strapColour = collar?.color ?? DEFAULT_STRAP_COLOUR
   const showUnrenderableDisclaimer = useMemo(() => hasUnrenderableIconCharms(selectedCharms), [selectedCharms])
 
   return (
@@ -66,9 +78,19 @@ export function Collar3DGalleryTile({ collar, selectedCharms, onEdit, variant = 
     >
       <Collar3DScene
         items={items}
-        strapColour={collar?.color ?? DEFAULT_STRAP_COLOUR}
+        strapColour={strapColour}
         hardwareColour={HARDWARE_COLOUR}
+        onArModelReady={arSupported ? setArUrl : undefined}
       />
+
+      {arSupported ? (
+        <ArPreviewButton
+          href={arUrl}
+          className={AR_BUTTON_CLASS}
+        />
+      ) : (
+        <ArQrPopover strapColour={strapColour} items={items} className={AR_BUTTON_CLASS.replace('absolute right-3.5 top-3.5 z-10 ', '')} />
+      )}
 
       {showUnrenderableDisclaimer && (
         <div style={{ position: 'absolute', bottom: 14, left: 14, pointerEvents: 'none' }}>

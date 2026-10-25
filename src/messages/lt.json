@@ -253,6 +253,10 @@
     }
   },
   "products": {
+    "arViewer": {
+      "preparing": "Ruošiamas AR modelis…",
+      "iosOnly": "AR peržiūra veikia iPhone ir iPad. Atidarykite šį puslapį Safari naršyklėje savo iPhone."
+    },
     "pageContent": {
       "eyebrow": "Šunų antkakliai",
       "title": "Rankų darbo antkakliai šunims",
@@ -403,6 +407,11 @@
         "zoomPhoto": "Padidinti nuotrauką"
       },
       "gallery3d": {
+        "viewInAr": "Peržiūrėti AR",
+        "qrTitle": "Nuskenuokite ir peržiūrėkite AR",
+        "qrClose": "Uždaryti",
+        "qrAlt": "QR kodas, atidarantis antkaklį AR telefone",
+        "qrHint": "Atidarykite iPhone kamerą ir nukreipkite į kodą.",
         "loading": "Kraunama 3D peržiūra…",
         "disclaimer": "Pakabukai (ne raidės) liks krepšelyje, bet nerodomi 3D peržiūroje"
       },

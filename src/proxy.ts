@@ -92,5 +92,7 @@ export const config = {
     '/en',
     '/products/:path*',
     '/en/products/:path*',
+    '/ar',
+    '/en/ar',
   ],
 };

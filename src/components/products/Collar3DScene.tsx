@@ -5,6 +5,7 @@ import { Center, Environment, OrbitControls } from '@react-three/drei'
 import { Suspense, useLayoutEffect, useRef, useEffect, useState, type ReactNode } from 'react'
 import * as THREE from 'three'
 import { Collar3DMesh } from '@/components/products/Collar3DMesh'
+import { Collar3DArExporter } from '@/components/products/Collar3DArExporter'
 import type { CharmSpec } from '@/lib/collar3d'
 
 /**
@@ -75,6 +76,8 @@ export type Collar3DSceneProps = {
   modelRotation?: [number, number, number]
   modelScale?: number
   modelPosition?: [number, number, number]
+  /** When set, the scene exports a USDZ snapshot (iOS AR Quick Look) and reports its blob URL here; null on failure. */
+  onArModelReady?: (url: string | null) => void
 }
 
 export default function Collar3DScene({
@@ -90,7 +93,9 @@ export default function Collar3DScene({
   modelRotation = [0, 0, 0],
   modelScale = 1,
   modelPosition = [0, 0, 0],
+  onArModelReady,
 }: Collar3DSceneProps) {
+  const modelRef = useRef<THREE.Group>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isMobile, setIsMobile] = useState(() => {
@@ -137,7 +142,7 @@ export default function Collar3DScene({
         <directionalLight position={[0, -3, -5]} intensity={0.5} />
         <Suspense fallback={null}>
           <FitCameraToView margin={fitMargin}>
-            <group rotation={modelRotation} scale={modelScale} position={modelPosition}>
+            <group ref={modelRef} rotation={modelRotation} scale={modelScale} position={modelPosition}>
               <Center>
                 <Collar3DMesh
                   items={items}
@@ -149,6 +154,13 @@ export default function Collar3DScene({
               </Center>
             </group>
           </FitCameraToView>
+          {onArModelReady && (
+            <Collar3DArExporter
+              modelRef={modelRef}
+              signature={JSON.stringify([items, strapColour, hardwareColour])}
+              onReady={onArModelReady}
+            />
+          )}
           <Environment preset="studio" environmentIntensity={ENV_INTENSITY} />
         </Suspense>
         <OrbitControls
