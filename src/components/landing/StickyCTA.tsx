@@ -29,8 +29,8 @@ export function StickyCTA({ visible }: { visible: boolean }) {
       <div style={{
         maxWidth: 1200,
         margin: '0 auto',
-        // Phones: leave the bottom-right corner free for the chat bubble.
-        padding: isMobile ? '12px 88px 12px 16px' : '14px 48px',
+        // Leave the bottom-right corner free for the voice-agent launcher (84px + 12px inset).
+        padding: isMobile ? '12px 88px 12px 16px' : '14px 100px 14px 48px',
         display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'space-between', gap: 16,
         pointerEvents: 'auto',
       }}>

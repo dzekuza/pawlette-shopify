@@ -80,24 +80,19 @@ export function FeaturesStrip() {
           {t('heading')}
         </DisplayHeading>
 
-        {/* Top 3D Showcase Area with Stickers */}
-        <div className="relative w-full aspect-[21/9] min-h-[340px] max-w-[1000px] mx-auto z-10">
-          
-          {/* Background Stickers */}
-          <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-            <div className="features-float-sticker-1 absolute left-[2%] top-[10%] w-[130px] -rotate-[17deg] md:w-[200px] md:left-[4%]">
-              <Image src={STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
-            </div>
-            <div className="features-float-sticker-2 absolute right-[4%] top-[5%] w-[120px] rotate-[15deg] md:w-[170px]">
-              <Image src={STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
-            </div>
-            <div className="features-float-sticker-3 absolute right-[2%] top-[15%] w-[100px] -rotate-[23deg] md:w-[140px] md:right-[4%] md:top-[10%]">
-              <Image src={STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
-            </div>
+        {/* Bottom features — bento grid */}
+        <div className="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
+          {/* Decorations floating around the grid edges */}
+          <div className="features-float-sticker-1 pointer-events-none absolute -left-3 -top-16 z-20 w-[84px] -rotate-[17deg] md:-left-10 md:-top-20 md:w-[150px]">
+            <Image src={STICKERS.collar} alt="" width={238} height={238} className="h-auto w-full" />
           </div>
-
-          {/* Live 3D Scene */}
-          <div className="features-float-collar absolute inset-0 z-10">
+          <div className="features-float-sticker-2 pointer-events-none absolute -bottom-12 -left-2 z-20 w-[72px] rotate-[15deg] md:-bottom-16 md:-left-8 md:w-[120px]">
+            <Image src={STICKERS.letterS} alt="" width={222} height={222} className="h-auto w-full" />
+          </div>
+          <div className="features-float-sticker-3 pointer-events-none absolute -bottom-10 -right-2 z-20 w-[68px] -rotate-[23deg] md:-bottom-14 md:-right-8 md:w-[110px]">
+            <Image src={STICKERS.paw} alt="" width={144} height={144} className="h-auto w-full" />
+          </div>
+          <div className="features-float-collar absolute -right-4 -top-28 z-20 h-[140px] w-[220px] md:-right-12 md:-top-36 md:h-[200px] md:w-[400px]">
             <Collar3DScene
               items={[]}
               strapColour="#B8D8F4"
@@ -107,10 +102,6 @@ export function FeaturesStrip() {
               fitMargin={0.95}
             />
           </div>
-        </div>
-
-        {/* Bottom features — bento grid */}
-        <div className="relative z-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
           {items.map((f, i) => (
             <div
               key={f.title}
