@@ -155,6 +155,10 @@ export function fitsOnCollar(name: string, centreDeg = CENTRE_DEG): boolean {
   return startDeg >= FREE_ARC_DEG[0] && endDeg <= FREE_ARC_DEG[1];
 }
 
+const DARK_BLUE_SWATCH = "#6B9FD4";
+const YELLOW_SWATCH = "#F9E4A0";
+/** Mustard sampled from the yellow product photo; the pale swatch token renders near-white in 3D. */
+const YELLOW_STRAP_COLOUR = "#D9A94A";
 export const DEFAULT_STRAP_COLOUR = "#27394D"; // Navy
 /** Deliberately not the default strap colour, or the charms vanish into the strap. */
 export const DEFAULT_CHARM_COLOUR = "#F2C149"; // Yellow
@@ -189,6 +193,9 @@ export const MATERIAL_DEFAULTS = {
  * into the 3D materials, so the render matches the product photography.
  */
 export function toMaterialColour(hex: string): string {
+  // "Dark blue" swatch token (#6B9FD4) is a mid-blue for UI chrome; the real strap is navy.
+  if (hex.toUpperCase() === DARK_BLUE_SWATCH) return DEFAULT_STRAP_COLOUR;
+  if (hex.toUpperCase() === YELLOW_SWATCH) return YELLOW_STRAP_COLOUR;
   const clean = hex.replace("#", "");
   const r = parseInt(clean.slice(0, 2), 16) / 255;
   const g = parseInt(clean.slice(2, 4), 16) / 255;

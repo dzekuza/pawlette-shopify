@@ -32,11 +32,11 @@ export const FAQ_ITEMS: readonly GuideFaqItem[] = [
   },
   {
     question: 'Kaip parinkti dydį mišrūnui?',
-    answer: 'Mišrūnams veislių lentelė mažai padeda — išmatuokite kaklo apimtį plačiausioje vietoje ir palyginkite su S (28–36 cm), M (36–44 cm) ir L (44–52 cm) dydžiais.',
+    answer: 'Mišrūnams veislių lentelė mažai padeda — išmatuokite kaklo apimtį plačiausioje vietoje ir palyginkite su antkaklių ilgiu: S — 36 cm, M — 44 cm, L — 52 cm.',
   },
   {
-    question: 'Mano šuns kaklas mažesnis nei 28 cm arba didesnis nei 52 cm. Ar turite tinkamą antkaklį?',
-    answer: 'Šiuo metu PawsCharm antkakliai gaminami S, M ir L dydžiais (28–52 cm). Jei jūsų šuo už šių ribų, parašykite mums į info@pawscharm.com — pranešime, kai atsiras daugiau dydžių.',
+    question: 'Mano šuns kaklas labai mažas arba didesnis nei 52 cm antkaklio ilgis. Ar turite tinkamą antkaklį?',
+    answer: 'Šiuo metu PawsCharm antkakliai gaminami S, M ir L dydžiais (36, 44 ir 52 cm ilgio). Jei jūsų šuo už šių ribų, parašykite mums į info@pawscharm.com — pranešime, kai atsiras daugiau dydžių.',
   },
 ]
 

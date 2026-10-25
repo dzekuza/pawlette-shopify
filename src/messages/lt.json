@@ -297,7 +297,7 @@
           {
             "id": "sizing",
             "question": "Kokio dydžio antkaklis tinka mano šuniui?",
-            "answer": "Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S dydis tinka 28–36 cm, M — 36–44 cm, o L — 44–52 cm apimties kaklui. Jei šuo tarp dydžių, rinkitės didesnį."
+            "answer": "Išmatuokite plačiausią šuns kaklo vietą ir patogumui pridėkite 2–3 cm. Antkaklio ilgis: S — 36 cm, M — 44 cm, L — 52 cm. Jei šuo tarp dydžių, rinkitės didesnį."
           },
           {
             "id": "production-time",
@@ -576,7 +576,7 @@
       },
       "sizing": {
         "question": "Kaip pasirinkti tinkamą antkaklio dydį?",
-        "answer": "Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. S tinka 28–36 cm, M tinka 36–44 cm, o L tinka 44–52 cm."
+        "answer": "Išmatuokite plačiausią savo šuns kaklo vietą ir patogumui pridėkite 2–3 cm. Antkaklio ilgis: S — 36 cm, M — 44 cm, L — 52 cm."
       },
       "engraving": {
         "question": "Ar galiu išgraviruoti savo šuns vardą ant antkaklio?",

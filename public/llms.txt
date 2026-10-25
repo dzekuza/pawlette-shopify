@@ -13,7 +13,7 @@
 ### Collar — €32.99
 BioThane dog collar, compatible with all PawsCharm charms.
 - **Colors**: dark blue (Tamsiai mėlyna), blue (Mėlyna), yellow (Geltona), pink (Rožinė), purple (Violetinė)
-- **Sizes**: S (28–36 cm), M (36–44 cm), L (44–52 cm) — by neck circumference
+- **Sizes**: S (36 cm), M (44 cm), L (52 cm) — collar length
 
 ### Leash — €32.99
 BioThane dog leash, matches the collar colors.
@@ -38,11 +38,11 @@ Magnetic silicone charms that snap onto the collar without tools.
 
 ## Collar sizes
 
-| Size | Neck circumference | Common breeds |
-|------|--------------------|---------------|
-| S    | 28–36 cm           | French Bulldog, Beagle, Shiba Inu, Miniature Schnauzer |
-| M    | 36–44 cm           | Border Collie, Cocker Spaniel, Whippet, Basenji |
-| L    | 44–52 cm           | Golden Retriever, Labrador, German Shepherd, Husky |
+| Size | Collar length | Common breeds |
+|------|---------------|---------------|
+| S    | 36 cm         | French Bulldog, Beagle, Shiba Inu, Miniature Schnauzer |
+| M    | 44 cm         | Border Collie, Cocker Spaniel, Whippet, Basenji |
+| L    | 52 cm         | Golden Retriever, Labrador, German Shepherd, Husky |
 
 **Sizing tip:** Measure the widest point of your dog's neck and add 2–3 cm for comfort. If between sizes, choose the larger one.
 

@@ -9,6 +9,22 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-25 — Dark blue collar 3D colour
+
+- `toMaterialColour` now maps the "dark blue" UI swatch (`#6B9FD4`, a mid-blue) to the navy strap colour (`DEFAULT_STRAP_COLOUR`) for 3D only, so the dark collar no longer renders light. Swatch dots/badges unchanged.
+- Same for the yellow swatch (`#F9E4A0`) -> mustard `#D9A94A` (sampled from the yellow product photo), since the pale token rendered washed-out in 3D.
+
+## 2026-10-25 — AR model scale corrected (checked against the Blender source)
+
+- Measured `collar-customiser` Blender scene (scene unit scale 0.04, so **1 model unit = 4 cm**): strap width 0.5 units = **2.0 cm (20 mm)**, straight strap 35.2 cm long, ring inner circumference ~34 cm, charm height 2.96 cm (so letters stand ~0.5 cm proud of the strap top and bottom). Width matches `docs/brand-bible.md` (~20 mm).
+- `Collar3DArExporter` used 0.11 m / 1.6 units (~6.9 cm per unit), which rendered the AR collar ~1.7x too big. It now uses 0.04 m per unit. The 3D model is a single size, so AR always shows the S-sized (~36 cm) collar, whichever size the shopper picked.
+
+## 2026-10-25 — Collar sizes are now stated as collar length (36 / 44 / 52 cm)
+
+- Replaced the "neck circumference" ranges (28–36 / 36–44 / 44–52 cm) with collar length — S 36 cm, M 44 cm, L 52 cm — in `public/llms.txt`, FAQ (`messages/{en,lt}.json`, `faq/page.tsx`, `faq/layout.tsx` JSON-LD), the three size guides, `lib/data.ts` `SIZES`, `docs/brand-bible.md` and `docs/ai-chat-prompt.md`. The "measure the neck, add 2–3 cm, choose larger if between sizes" advice is unchanged.
+- `COLLAR_SIZE_RANGES` keeps its `min`/`max` numbers because the breed guide still maps neck ranges onto S/M/L by overlap; only `max` (the length) is shown to shoppers.
+- **Not changed (needs a decision / Shopify):** the live Shopify collar variant titles ("S — 28–36 cm" …) drive the PDP size buttons and the cart, so edit them in Shopify Admin (matching in code is by first letter, so renaming is safe). `scripts/seed-pawlette.mjs`, `scripts/restructure-store.mjs`, `products_export_lt.csv` and old plan docs still carry the old strings. Leash sizes (`LeashContext.tsx` `neck` labels) were left alone.
+
 ## 2026-10-25 — AR via QR code for desktop shoppers
 
 - Non-iOS browsers now get a "Peržiūrėti AR" button on the collar tile that opens a popover with a QR code (`ArQrPopover`, dependency `qrcode` + `@types/qrcode`). The QR encodes `<origin>/ar?c=<strap hex>&i=<mesh>-<hex>,…` (`lib/ar-share.ts`, validated on read; max 6 charms, bad params -> 404). iOS keeps the direct Quick Look button.

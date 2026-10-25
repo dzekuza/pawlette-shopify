@@ -51,7 +51,7 @@ export default function ChooseCollarWithNameGuidePage () {
       <GuideSection heading='1. Pirmiausia — dydis'>
         <p>
           Antkaklio dydį lemia kaklo apimtis, o ne veislė. Išmatuokite plačiausią kaklo vietą ir pridėkite 2–3 cm.
-          PawsCharm antkakliai gaminami trijų dydžių: S tinka 28–36 cm, M — 36–44 cm, L — 44–52 cm.
+          PawsCharm antkakliai gaminami trijų dydžių, pagal antkaklio ilgį: S — 36 cm, M — 44 cm, L — 52 cm.
         </p>
         <p>
           Jei šuo tarp dydžių, rinkitės didesnį. Užsegę antkaklį, pakiškite po juo du pirštus: jei telpa patogiai,

@@ -54,11 +54,11 @@ Three things competitors don't combine simultaneously: BioThane durability + per
 **Properties:** Waterproof · Odor-resistant · Stain-resistant · Flexible · Machine-safe rinse  
 **Widths:** ~20 mm (standard charm-compatible width)  
 **Sizes:**
-| Size | Neck circumference |
-|------|--------------------|
-| S | 28–36 cm |
-| M | 36–44 cm |
-| L | 44–52 cm |
+| Size | Collar length |
+|------|---------------|
+| S | 36 cm |
+| M | 44 cm |
+| L | 52 cm |
 
 ### 2.2 The Buckle Hardware
 

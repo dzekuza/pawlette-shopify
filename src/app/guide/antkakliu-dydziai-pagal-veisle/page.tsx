@@ -48,7 +48,7 @@ export default function BreedSizeGuidePage () {
         {COLLAR_SIZE_RANGES.map((s) => (
           <div key={s.size} className='rounded-2xl bg-surface-2 px-4 py-4 text-center'>
             <p className='font-display text-2xl text-bark m-0'>{s.size}</p>
-            <p className='text-sm text-bark-light mt-1 mb-0'>{s.min}–{s.max} cm</p>
+            <p className='text-sm text-bark-light mt-1 mb-0'>{s.max} cm</p>
           </div>
         ))}
       </div>

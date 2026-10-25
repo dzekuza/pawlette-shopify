@@ -297,7 +297,7 @@
           {
             "id": "sizing",
             "question": "What collar size fits my dog?",
-            "answer": "Measure the widest part of your dog's neck and add 2–3 cm for comfort. Size S fits 28–36 cm, M fits 36–44 cm, and L fits 44–52 cm. If your dog is between sizes, choose the larger one."
+            "answer": "Measure the widest part of your dog's neck and add 2–3 cm for comfort. Collar length is 36 cm for S, 44 cm for M and 52 cm for L. If your dog is between sizes, choose the larger one."
           },
           {
             "id": "production-time",
@@ -576,7 +576,7 @@
       },
       "sizing": {
         "question": "How do I choose the right collar size?",
-        "answer": "Measure the widest part of your dog's neck and add 2-3 cm for comfort. S fits 28-36 cm, M fits 36-44 cm, and L fits 44-52 cm."
+        "answer": "Measure the widest part of your dog's neck and add 2-3 cm for comfort. Collar length is 36 cm for S, 44 cm for M and 52 cm for L."
       },
       "engraving": {
         "question": "Can I engrave my dog's name on the collar?",

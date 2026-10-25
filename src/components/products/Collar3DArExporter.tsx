@@ -3,10 +3,12 @@
 import { useEffect, type RefObject } from 'react'
 import * as THREE from 'three'
 
-/** Real-world collar radius in metres. Model radius is ~1.6 units, so this maps it to a medium dog collar. */
-const AR_COLLAR_RADIUS_M = 0.11
-const MODEL_RADIUS_UNITS = 1.6
-const AR_SCALE = AR_COLLAR_RADIUS_M / MODEL_RADIUS_UNITS
+/**
+ * Real-world size of one model unit, in metres. collar-customiser's Blender scene is authored at
+ * 1 unit = 4 cm (scene unit scale 0.04), so the strap is 0.5 units = 2 cm wide and the ring has a
+ * ~34 cm inner circumference, i.e. the S collar. Keep in sync with public/models/collar.glb.
+ */
+const AR_SCALE = 0.04
 
 /** Wait for charm arrival / prong animations to settle before snapshotting the scene. */
 const SETTLE_MS = 1500

@@ -1,4 +1,4 @@
-export const SIZES = ['S — 28–36 cm', 'M — 36–44 cm', 'L — 44–52 cm'] as const;
+export const SIZES = ['S — 36 cm', 'M — 44 cm', 'L — 52 cm'] as const;
 
 export const REVIEWS = [
   { name: 'Laima K.', dog: 'Luna, Biglis',   rating: 5, text: 'Antkaklis atlaikė du mėnesius maudynių ir purvinų pasivaikščiojimų. Jokio kvapo, jokių dėmių.' },
@@ -46,8 +46,8 @@ export const TICKER_ITEMS = [
   '🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų',
 ] as const;
 
-// Collar size ranges by neck circumference (cm) — numeric twin of SIZES, used to
-// map breed neck ranges onto S/M/L in /guide/antkakliu-dydziai-pagal-veisle.
+// Collar sizes: `max` is the collar length (cm) shown to shoppers; `min` is only the neck
+// size the previous size covers, kept so breed neck ranges can be mapped onto S/M/L in /guide/antkakliu-dydziai-pagal-veisle.
 export const COLLAR_SIZE_RANGES = [
   { size: 'S', min: 28, max: 36 },
   { size: 'M', min: 36, max: 44 },

@@ -35,7 +35,7 @@ export const FAQ_ITEMS: readonly GuideFaqItem[] = [
   {
     question: 'Kokio dydžio antkaklį rinktis šuniui?',
     answer:
-      'Išmatuokite plačiausią šuns kaklo vietą ir pridėkite 2–3 cm. PawsCharm dydžiai: S tinka 28–36 cm, M — 36–44 cm, L — 44–52 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
+      'Išmatuokite plačiausią šuns kaklo vietą ir pridėkite 2–3 cm. PawsCharm antkaklių ilgis: S — 36 cm, M — 44 cm, L — 52 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
   },
   {
     question: 'Ar ant antkaklio galima užrašyti telefono numerį?',

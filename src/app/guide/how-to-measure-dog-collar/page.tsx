@@ -60,7 +60,7 @@ const howToSchema = {
       '@type': 'HowToStep',
       position: 5,
       name: 'Palyginkite su dydžių lentele',
-      text: 'S tinka 28–36 cm, M tinka 36–44 cm, L tinka 44–52 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
+      text: 'Antkaklio ilgis: S — 36 cm, M — 44 cm, L — 52 cm. Jei šuo tarp dydžių, rinkitės didesnį.',
     },
   ],
 };
@@ -75,9 +75,9 @@ const breadcrumbSchema = {
 };
 
 const SIZES = [
-  { size: 'S',  range: '28–36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
-  { size: 'M',  range: '36–44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
-  { size: 'L',  range: '44–52 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },
+  { size: 'S',  range: '36 cm', breeds: 'Prancūzų buldogas, biglis, šiba inu, miniatiūrinis šnauceris' },
+  { size: 'M',  range: '44 cm', breeds: 'Borderkolis, kokerspanielis, vipetas, basendžis' },
+  { size: 'L',  range: '52 cm', breeds: 'Auksaspalvis retriveris, labradoras, vokiečių aviganis, haskis' },
 ];
 
 export default function MeasureGuidePage() {
@@ -139,7 +139,7 @@ export default function MeasureGuidePage() {
             <table className="w-full border-collapse font-sans">
               <thead>
                 <tr className="bg-bark">
-                  {['Dydis', 'Kaklo apimtis', 'Dažnos veislės'].map(h => (
+                  {['Dydis', 'Antkaklio ilgis', 'Dažnos veislės'].map(h => (
                     <th key={h} className="px-5 py-[14px] text-left text-xs font-medium text-cream tracking-[0.06em] uppercase">{h}</th>
                   ))}
                 </tr>

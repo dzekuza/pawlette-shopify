@@ -82,7 +82,7 @@ export interface ShopifyCollar {
 /** Which charm-size product a charm belongs to: 'S' = "Maži (S)" (paired with S/M collars), 'L' = "Dideli (M/L)" (paired with L collars). */
 export type CharmSizeGroup = 'S' | 'L';
 
-/** Maps a collar's selected size string (e.g. "S — 28–36 cm", "L — 44–52 cm") to the matching charm size group. */
+/** Maps a collar's selected size string (e.g. "S — 36 cm", "L — 52 cm") to the matching charm size group. */
 export function charmSizeGroupForCollarSize(size: string): CharmSizeGroup {
   return size.trim().charAt(0).toUpperCase() === 'L' ? 'L' : 'S';
 }
