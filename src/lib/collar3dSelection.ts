@@ -42,3 +42,9 @@ export function collar3DCharms(selectedCharms?: (ShopifyCharm | null)[]): CharmS
 export function hasUnrenderableIconCharms(selectedCharms?: (ShopifyCharm | null)[]): boolean {
   return (selectedCharms ?? []).some((c) => !!c && c.category !== 'letter' && !c.shape)
 }
+
+/** Packs filled charm slots to the front so the engraved row never has gaps between characters. */
+export function compactSlots<T>(slots: (T | null)[]): (T | null)[] {
+  const filled = slots.filter((s): s is T => s !== null)
+  return [...filled, ...Array<null>(slots.length - filled.length).fill(null)]
+}

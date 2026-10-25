@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
 import { getCollars, getCharms, getLeashes, charmSizeGroupForCollarSize, type ShopifyCollar, type ShopifyCharm } from '@/lib/shopify'
-import { collar3DLetters, extractLetter } from '@/lib/collar3dSelection'
+import { collar3DLetters, compactSlots, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart } from '@/lib/cart'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import type { CartToastItem } from '@/components/shared/CartToast'
@@ -108,7 +108,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
   const toggleCollarCharm = (charm: ShopifyCharm) => {
     setSelectedCollarCharms(prev => {
       const idx = prev.findIndex(c => c?.id === charm.id)
-      if (idx !== -1) { const next = [...prev]; next[idx] = null; return next }
+      if (idx !== -1) { const next = [...prev]; next[idx] = null; return compactSlots(next) }
       const empty = prev.findIndex(c => c === null)
       if (empty === -1) return prev
       const next = [...prev]; next[empty] = charm; return next
@@ -122,7 +122,7 @@ export function useCollarConfigurator (options: UseCollarConfiguratorOptions = {
       setSelectedCollarCharms(prev => {
         const oldIndex = prev.findIndex((_, i) => `slot-${i}` === active.id)
         const newIndex = prev.findIndex((_, i) => `slot-${i}` === over.id)
-        return arrayMove(prev, oldIndex, newIndex)
+        return compactSlots(arrayMove(prev, oldIndex, newIndex))
       })
     }
   }

@@ -8,6 +8,7 @@ import { SortableContext, horizontalListSortingStrategy, useSortable } from '@dn
 import { CSS } from '@dnd-kit/utilities'
 import { Badge } from '@/components/ui/badge'
 import type { ShopifyCharm } from '@/lib/shopify'
+import { X } from 'lucide-react'
 import { extractLetter } from '@/lib/collar3dSelection'
 import { MAX_CHARMS, FREE_CHARMS, BORDER_COLOR, TEXT_PRIMARY, TEXT_SECONDARY, TEXT_MUTED, translateColorLabel } from '@/components/products/pdpConstants'
 import { useCharmDecorator } from '@/components/products/CharmDecoratorContext'
@@ -32,7 +33,7 @@ const COLOR_FILTER_LABEL_KEYS: Record<string, string> = {
 }
 
 function SortableLetterSlot({
-  id, index, charm, isActive, isCursorTarget, onClick,
+  id, index, charm, isActive, isCursorTarget, onClick, onRemove,
 }: {
   id: string
   index: number
@@ -40,9 +41,11 @@ function SortableLetterSlot({
   isActive: boolean
   isCursorTarget: boolean
   onClick: () => void
+  onRemove: () => void
 }) {
   const t = useTranslations('products.charmDecorator')
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id })
+  // Empty slots are not draggable, so characters can only be reordered among themselves (no gaps).
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id, disabled: !charm })
   const isLetter = charm?.category === 'letter'
   const hasCharm = !!charm
   const Tag = hasCharm ? 'button' : 'div'
@@ -141,6 +144,16 @@ function SortableLetterSlot({
             </span>
           )}
       </Tag>
+      {charm && (
+        <button
+          type="button"
+          aria-label={t('removeCharmAria', { title: charm.title })}
+          onClick={onRemove}
+          className="absolute -right-1.5 -top-1.5 z-10 flex size-5 items-center justify-center rounded-full bg-bark text-cream shadow-sm"
+        >
+          <X className="size-3" aria-hidden="true" />
+        </button>
+      )}
     </div>
   )
 }
@@ -313,6 +326,12 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
                       onClick={() => {
                         placeCharmCursor(i)
                         if (c) setActiveColourSlot((s) => (s === i ? null : i))
+                      }}
+                      onRemove={() => {
+                        if (!c) return
+                        onToggleCharm(c)
+                        setActiveColourSlot(null)
+                        setActiveIconCharmIndex(null)
                       }}
                     />
                   ))}
