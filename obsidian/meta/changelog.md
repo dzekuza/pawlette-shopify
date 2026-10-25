@@ -1,6 +1,6 @@
 ---
 tags: [meta, changelog]
-updated: 2026-10-21
+updated: 2026-10-25
 ---
 
 # Changelog
@@ -8,6 +8,44 @@ updated: 2026-10-21
 Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
+
+## 2026-10-25 — AR via QR code for desktop shoppers
+
+- Non-iOS browsers now get a "Peržiūrėti AR" button on the collar tile that opens a popover with a QR code (`ArQrPopover`, dependency `qrcode` + `@types/qrcode`). The QR encodes `<origin>/ar?c=<strap hex>&i=<mesh>-<hex>,…` (`lib/ar-share.ts`, validated on read; max 6 charms, bad params -> 404). iOS keeps the direct Quick Look button.
+- New route `[locale]/ar` (`ArViewer`): renders the shared build and, on iOS, exports the USDZ and shows the Quick Look button; elsewhere it says AR needs an iPhone. noindex. `/ar` and `/en/ar` were added to the `proxy.ts` matcher and `PHASE_1_LOCALIZED_PREFIXES` — without that the route 404s because locale rewriting only covers listed paths.
+- No file hosting needed: the phone builds the USDZ itself from the URL params. QR links use `window.location.origin`, so on `localhost` a phone can't open them — test on a deployed/preview URL or via the Mac's LAN IP.
+- Verified in desktop Chrome: popover QR renders, `/ar` renders the build, invalid params 404. **Not tested on a real iPhone.** Charms other than letters/shapes with a mesh are ignored as in the 3D preview.
+
+## 2026-10-25 — Rewritten AI chat widget prompt
+
+- New `docs/ai-chat-prompt.md`: PawsCharm-specific system prompt for the Orby widget (Lithuanian-first, mirrors the shopper's language; bakes in sizing, charm, shipping and returns facts; tool data wins over the baked-in figures; only the 10% newsletter offer may be mentioned). Paste it into the Orby admin — it is not read by the app.
+- Open questions flagged in the doc: free-shipping threshold (site config €40 vs `llms.txt`/`pricing.md` €50), the "5 free charms, 6th €3.99" rule, and the personalised-order returns wording.
+
+## 2026-10-25 — Landing buy card: 3D canvas fills the card height
+
+- `LandingBuySection`: the left 3D column was an `aspect-square` block centred (`lg:items-center`) next to the taller options column, so the canvas was shorter than the card. On `lg+` the grid now uses `items-stretch`, the 3D wrapper is `lg:aspect-auto lg:flex-1 lg:min-h-[480px]`, and the options column is `lg:self-center`. Below `lg` it is still a square. Measured at 1309px wide: card 783px, canvas 703px (= card minus 40px padding top/bottom).
+- The PDP split layout (`/products/[slug]/v2`) already filled its sticky panel; the standard PDP keeps the square 2x2-grid tile.
+
+## 2026-10-25 — Voice-agent launcher no longer hidden behind the sticky CTA
+
+- `globals.css` forced the calls.fly.dev launcher iframe to `z-index: 1 !important` (to stay under modals), which put it *under* `StickyCTA` (z 150) so the bar clipped it. Now `160`: above the sticky bar, below nav (200), cookie banner (240+), cart drawer and modals (500+). `StickyCTA` desktop right padding is 100px so its button never sits under the launcher.
+- The dark pill beside it in dev is the Next.js dev-tools indicator and does not ship to production.
+
+## 2026-10-25 — iOS AR Quick Look preview for the collar
+
+- `Collar3DGalleryTile` shows a "View in AR / Peržiūrėti AR" pill on iOS only (`relList.supports('ar')`). `Collar3DScene` takes an `onArModelReady` prop; `Collar3DArExporter` (inside the Canvas) waits 1.5 s after any change to items/colours, clones the model group, scales it to ~0.11 m radius, sits it on y=0 and exports a USDZ blob with three's `USDZExporter` (imported lazily). `ArPreviewButton` renders `<a rel="ar" href="blob:…#allowsContentScaling=0">` with the required blank `<img>` child.
+- No static USDZ/GLB asset: the file always matches the live letters and colours. Export is ~6.9 MB (geometry-heavy) — decimate or pre-bake if AR load time matters. Environment lighting isn't exported, so metal hardware may look flatter in Quick Look than in the page. Android Scene Viewer (needs GLB) is not covered.
+- Verified in desktop Chrome by faking `supports('ar')`: export produced a valid `model/vnd.usdz+zip` blob and the button rendered. **Not tested on a real iPhone.**
+
+## 2026-10-25 — Letter slots: no gaps, remove button
+
+- Charm/letter slot rows can no longer end up with empty slots between characters: new `compactSlots` (`lib/collar3dSelection.ts`) packs filled slots to the front after every drag-reorder and removal (`useCollarConfigurator`, `CharmProductContext`, `Collar3DModal`). Empty slots are not draggable in `CharmDecoratorPanel`.
+- Each filled slot in `CharmDecoratorPanel` now has an X button (lucide `X`) that removes that character via `toggleCharm`.
+- Type-checked only; not exercised in the browser.
+
+## 2026-10-25 — FeaturesStrip decorations moved onto the bento grid
+
+- Removed the separate 21:9 showcase block above the bento grid in `FeaturesStrip`. The live 3D collar (`Collar3DScene`) and the three floating stickers (collar, "S", paw) are now `absolute` children of the (now `relative`) bento grid wrapper: collar overhangs top-right, collar sticker top-left, "S" bottom-left, paw bottom-right. Stickers are `pointer-events-none`; same float keyframes as before. Grid has no top margin (heading gap comes from the parent `gap-16`), so the collar overhang may overlap the heading area on wide screens. Checked in the dev preview at desktop width only, not mobile.
 
 ## 2026-10-21 — Full GA4 event coverage (clicks + ecommerce funnel)
 
