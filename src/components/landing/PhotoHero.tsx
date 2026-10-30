@@ -1,8 +1,6 @@
 'use client'
 
-import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { HeroHotspot } from '@/components/landing/HeroHotspot'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { BodyCopy, DisplayHeading } from '@/components/storefront/Typography'
@@ -18,8 +16,7 @@ function HeroChip ({ children }: { children: React.ReactNode }) {
 
 /**
  * Card hero: an inset rounded 16:9 photo with the headline over its left (lg+) or below it (phones and tablets).
- * From lg up the card keeps the photo's 2200:1228 aspect ratio so the hotspot percentages stay exact; the card also
- * shrinks to fit the viewport height. Below xl the text may sit over the subjects (a dark scrim keeps it readable); from xl the column stays left of the hotspot.
+ * From lg up the card keeps a 2200:1228 aspect ratio and shrinks to fit the viewport height.
  */
 export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
   const t = useTranslations('landing.hero')
@@ -31,20 +28,19 @@ export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
     <section className='relative -mt-[92px] bg-linear-to-br from-honey/40 via-cream to-sage/30 px-4 pb-8 pt-[104px] md:-mt-[94px] md:px-6 md:pb-12 md:pt-[112px]'>
       <div className='@container relative mx-auto max-w-[720px] [--card-w:min(calc(100vw-48px),1152px,calc((100dvh-172px)*1.79))] lg:aspect-[2200/1228] lg:w-[var(--card-w)] lg:max-w-none'>
         <div className='relative aspect-[2200/1228] overflow-hidden rounded-[28px] lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-[32px]'>
-          <Image
-            src='/hero/park-moment-cover.jpg'
-            alt={alt}
-            width={2200}
-            height={1228}
-            sizes='(min-width: 1200px) 1152px, 100vw'
-            priority
+          <video
+            aria-label={alt}
+            poster='/hero/hero-loop-poster.jpg'
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload='auto'
             className='absolute inset-0 h-full w-full object-cover'
-          />
-          <div className='absolute inset-0 hidden bg-linear-to-r from-bark/75 via-bark/35 to-transparent lg:block' />
-          <div className='absolute inset-0 hidden bg-linear-to-t from-bark/40 to-transparent lg:block' />
+          >
+            <source src='/hero/hero-loop.mp4' type='video/mp4' />
+          </video>
         </div>
-
-        <HeroHotspot label={t('hotspot')} />
 
         {/* Left padding keeps the text clear of the fixed bottom-left video widget (16px offset, 108px wide): it is 48px by default and only grows when the card's own side margin is smaller than the widget. */}
         <div className='relative z-10 flex flex-col items-start gap-5 px-1 pt-6 lg:absolute lg:inset-x-0 lg:bottom-0 lg:max-w-[62%] lg:p-12 lg:pl-[max(3rem,calc(84px-(100vw-var(--card-w))/2))] xl:max-w-[56%] xl:pr-6'>

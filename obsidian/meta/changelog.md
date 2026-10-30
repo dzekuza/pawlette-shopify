@@ -9,6 +9,11 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-10-31 — Hero background is now a looping video
+
+- Removed the `HeroHotspot` crosshair + "Swap letters in 5 seconds" callout (component deleted, `landing.hero.hotspot` removed from `messages/{en,lt}.json`): it was positioned for the old still photo and does not track the collar in the moving video.
+- `PhotoHero` swaps the park-moment photo for a muted, looping, `playsInline` `<video>` (`public/hero/hero-loop.mp4`, 10s, 1280x720, audio stripped, re-encoded from the supplied clip to ~1.2MB; `hero-loop-poster.jpg` is its first frame and shows until playback starts). Same card; the dark gradient scrim over the video was removed (white lg+ text now sits directly on the footage, so check legibility if the clip changes); `object-cover` keeps the framing. `park-moment-cover.jpg` is still in `public/hero/` but unused.
+
 ## 2026-10-25 — Dark blue collar 3D colour
 
 - `toMaterialColour` now maps the "dark blue" UI swatch (`#6B9FD4`, a mid-blue) to the navy strap colour (`DEFAULT_STRAP_COLOUR`) for 3D only, so the dark collar no longer renders light. Swatch dots/badges unchanged.
