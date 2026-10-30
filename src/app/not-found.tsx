@@ -1,6 +1,15 @@
-import Link from 'next/link';
+import type { Metadata } from 'next';
 import { DisplayHeading } from '@/components/storefront/Typography';
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
+
+export const metadata: Metadata = {
+  title: '404',
+  robots: {
+    index: false,
+    follow: true,
+    googleBot: { index: false, follow: true },
+  },
+};
 
 export default function NotFound() {
   return (
