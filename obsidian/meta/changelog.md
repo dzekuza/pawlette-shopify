@@ -9,6 +9,54 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-11-02 — Landing page unslop pass (polish)
+
+- Removed decoration, kept brand: `PhotoHero` loses the duplicate chips (already in `TopBar`) and the pastel wash; `FeaturesStrip` is a flat `bg-sky/30` with plain white hairline cards (no glass, blur, shadows, floating stickers or float loops; the 3D collar stays, static); `LandingBuySection` drops the drifting blobs; `NewsletterSignup` drops its 3-hue gradient; `HowItWorks` drops `animate-ping`, the rail gradient, hover rotates and uppercase week labels; `GalleryMosaic` drops hover zoom; `ReviewsSection` drops the decorative quote icon.
+- Shared: `Eyebrow` is now sentence case (13px, no tracking); `PrimaryButton` uses `transition-[transform,opacity]` instead of `transition-all`.
+- Inline styles replaced by Tailwind in `ProductGrid`, `StickyCTA`, `LandingLayout` (StickyCTA also loses its blur and shadow).
+- `FeaturesStrip` cards use `gap-6` on phones (`md:gap-10` from md up).
+- Deleted dead `SocialTicker` and `TICKER_ITEMS` (invented customer lines, never rendered).
+
+## 2026-11-02 — Charm-only page prices every charm individually
+
+- Rule: the first 5 charms are free only when bought with a collar or leash; charms bought on their own each cost their own price. The charm page (`CharmProductProvider`) now shows the SUM of the picked charms' prices as the page price (4 x EUR 4.00 = EUR 16.00; original price summed only if every picked charm has one), instead of just the first charm's price. `CharmDecoratorContext` gained `freeCharmsIncluded?` (default true, so the collar flow is unchanged); the charm page passes false, which hides the "N charms included" badge (replaced by a plain "N charms" count, new `products.charmDecorator.charmsCountBadge`) and the EUR 3.99 pill on the sixth slot.
+- Not verified/changed: the actual discount lives in Shopify ("5 free charms with a collar" in `pdpConstants.ts` comments). The Shopify connector in this session is the unrelated Ohubo store, so I could not check that the discount only triggers when a collar/leash is in the cart. If it also zeroes charms in a charms-only cart, fix it in the Shopify discount's conditions. The charm page FAQ still says "5 charms are included in the collar price" (accurate, collar context).
+
+## 2026-11-01 — Charm page: size picker (Small S / Large M/L)
+
+- Charms are two Shopify products split by size (`sizeGroup` 'S' = Maži, 'L' = Dideli M/L), but the standalone charm page offered no choice and silently built with whichever size matched first (Large). `CharmProductContext` now has `sizeGroup` (default 'L'), `sizeGroups` and `setSizeGroup`; typing letters, recolouring and the charm picker use only the chosen size's charms. Switching size swaps each picked charm for the same letter/shape + colour in the other size (dropped if none exists) and clears the hero-photo preview. New `CharmSizePicker` sits above the colour dots in `CharmBuilderPanel`; messages `products.pdp.charmSize.{label,S,L}` in en/lt.
+- Known gap: the product name is "PawsCharm Charms - Large (M/L)" (EN overlay / Shopify title) and the H1 does not follow the picker, so it still says Large while Small is selected. Price still follows the first picked charm.
+
+## 2026-11-01 — Charm page heading no longer changes while typing letters
+
+- `CharmProductContext`: `displayName` was the first selected charm's title when exactly one charm was picked, so typing a single letter retitled the H1 to e.g. "Letter W - Blue". It is now always `product.name`. The price still follows the first selected charm (`displayPrice`), unchanged.
+
+## 2026-11-01 — Orby chat widget endpoints moved to checkout.pawscharm.com
+
+- The widget never loaded: every `settings` call was blocked by CORS. Two causes. (1) This site's origins were not allowlisted in Orby (Settings > Headless storefront); `https://pawscharm.com`, `https://checkout.pawscharm.com`, `https://pawcharms-2.myshopify.com` and `http://localhost:3000` are now added. (2) Even allowlisted, `pawcharms-2.myshopify.com/apps/chat-widget/*` answers with a 301 to `checkout.pawscharm.com` (the store's primary domain), and that redirect hop has no CORS header, which browsers reject. The five `data-*-endpoint` attributes in `app/layout.tsx` now point straight at `https://checkout.pawscharm.com/apps/chat-widget/…`, which returns `access-control-allow-origin` for allowlisted origins.
+- Verified on localhost: bubble mounts, settings/welcome message load, 0 console errors. **Not tested:** sending an actual chat message (the widget asks for name + email first; not filled with fake data) and `https://pawscharm.com` in production.
+
+## 2026-11-01 — Removed the calls.fly.dev voice-agent widget
+
+- Deleted the `<Script src="https://calls.fly.dev/embed.js" data-slug="pawcharms">` tag from `app/layout.tsx` and its `z-index: 160` launcher rule from `globals.css`. The Orby chat widget (Vercel-hosted, Shopify app-proxy endpoints) is untouched. `StickyCTA` still reserves ~88-100px of right padding with a comment naming the voice-agent launcher; it was left alone because the Orby launcher also sits bottom-right, so check it and trim the padding if the corner is now empty. The 2026-10-25 entry about the launcher's z-index is historical.
+
+## 2026-11-01 — PDP dog videos moved below Add to cart
+
+- `CollarBuyPanel`: `CollarConfigurator.Videos` (the circular dog clips) now renders right after `AddToCart` instead of between the header and the colour swatches, so the colours/size/charms start higher up the panel. Order is now Header, Colors, Sizes, Charms, AddToCart, Videos, Trust.
+
+## 2026-11-01 — Comparison section: no collar image, real logo
+
+- `ComparisonTable` (PDP "Ne visi antkakliai vienodi"): removed the floating `bento-collar-charm.png` and its spacer, and replaced the "Pawcharms" text + paw icon in the left pill with `/pawcharms.svg`. The pill is now white (like the competitor pill) because the logo's green lettering is low-contrast on sage. `products.pdp.comparison.brandLabel` is now only the logo's alt text.
+
+## 2026-11-01 — PDP gallery no longer repeats photos
+
+- `ProductPageContext` padded the gallery to 8 tiles by cycling through the real images (`i % length`), so a product with 4 photos showed each twice (the stacked-collars shot appeared at tile 1 and 5). The padding is removed: `gallery` is now the unique list (selected variant image first, then the Shopify images, or the static `COLLAR_GALLERY` fallback). `CollarPhotoGrid` makes the last photo span both columns when the count is odd, so the 2-column grid has no hole. Leash/charm pages and the lightbox read the same `gallery`, so they now also show only unique photos.
+
+## 2026-11-01 — PDP colour swatches are live 3D collars
+
+- The five colour swatches used to show the Shopify variant image, which fell back to the stacked-collars photo for every colour (the variants have no image of their own). `ColorSwatches` now draws the real `collar.glb` model in each colour through the new `CollarSwatchPreviews`: one shared orthographic canvas over the whole swatch row, not five WebGL contexts. `frameloop="demand"` (static, renders on change only). `ColorOption` gained `strapColour` (the collar's hex, same source as the main 3D tile). A colour dot shows until the model loads, then fades out.
+- Collars are positioned along the camera's screen-right axis, not world X (world X is tilted in the angled view and put them at different heights). The swatch gap constant (`SWATCH_GAP_PX = 10`) must match the row's `gap-2.5`. `ColorOption.image` is no longer used by the swatches. Verified in desktop Chrome (swatches render, click selects, main 3D preview recolours). **Not tested on a real phone** (WebGL cost on low-end devices).
+
 ## 2026-11-01 — Gallery mosaic: Luna / Meta / Bazu tiles swapped for new Bazu lifestyle shots
 
 - `GalleryMosaic` tiles 3, 4 and 7 now use `public/hero-figma/gallery-bazu-beach.png`, `gallery-bazu-winter.png`, `gallery-golden-leash.png` (AI-generated, 1024x1024). Old files (`timeline-dog-3.jpg`, `hero-dsc02865.jpg`, `hero-dsc01798.jpg`) were left in place because `HowItWorks` and `ProductStorySection` still use them. Matching `landing.gallery.alts` entries (indices 2, 3, 6) updated in `messages/{en,lt}.json`.

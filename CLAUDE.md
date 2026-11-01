@@ -37,7 +37,7 @@ Two independent user flows, each with its own orchestrator:
 
 **Landing page** (`/`) → `src/app/page.tsx` → `LandingPage.tsx`
 Assembles `src/components/landing/` subcomponents. GSAP scroll animations are wired here via `data-animate="section"` and `data-animate="card"` attributes on wrapper divs. `StickyCTA` and `ExitModal` are toggled by scroll/mouseleave state owned by `LandingPage`.
-Render order: `SocialTicker → LandingNav → PhotoHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → FAQ → LandingFooter`.
+Render order: `TopBar → LandingNav → PhotoHero → FeaturesStrip → ProductGrid → CharmGrid → PhotoSlider → FAQ → LandingFooter`.
 
 **Products page** (`/products`) → `src/app/products/page.tsx`
 Self-contained page component with local `SimpleNav` and `CollarCard`/`CharmCard` helpers defined at module level in the same file. Has a server-component `src/app/products/layout.tsx` sibling that injects metadata + JSON-LD schema — this is the pattern for adding SEO to a `'use client'` page without restructuring it.
@@ -62,7 +62,7 @@ All product data lives in `src/lib/data.ts` — no API calls, no database. Key e
 - `ALL_CHARMS` — 25 charms with emoji and bg color
 - `SIZES` — XS/S/M/L with neck range strings
 - `CHARM_POSITIONS` / `FLOAT_DURATIONS` — unused since the `/configure` page (and its `CollarStage` component) was removed; safe to delete if touching this file
-- `PRODUCTS` / `LANDING_REVIEWS` / `TICKER_ITEMS` — landing page static content
+- `PRODUCTS` / `LANDING_REVIEWS` — landing page static content
 - `CartItem` interface — the cart line-item shape used across `/cart`, `/checkout`, and `CartDrawer`
 
 ## Design system

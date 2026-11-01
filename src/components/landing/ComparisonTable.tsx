@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { Check, X, PawPrint } from 'lucide-react'
+import { Check, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { DisplayHeading, BodyCopy, Eyebrow } from '@/components/storefront/Typography'
 
@@ -30,22 +30,9 @@ export function ComparisonTable () {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* PawsCharm column — the hero side, tinted and slightly larger */}
           <div className="relative flex flex-col gap-6 rounded-[28px] bg-sage/20 p-7 md:p-9">
-            <div className="flex items-center gap-2 self-start rounded-full bg-sage px-4 py-2">
-              <PawPrint size={16} strokeWidth={2.5} className="text-bark" />
-              <span className="font-display text-lg tracking-wide text-bark">{t('brandLabel')}</span>
+            <div className="self-start rounded-full bg-white px-4 py-2">
+              <Image src="/pawcharms.svg" alt={t('brandLabel')} width={84} height={42} className="block h-8 w-auto" />
             </div>
-
-            <div aria-hidden="true" className="pointer-events-none absolute right-3 top-3 h-[170px] w-[230px] rotate-6 md:right-6 md:top-2 md:h-[250px] md:w-[330px]">
-              <Image
-                src="/hero-figma/bento-collar-charm.png"
-                alt=""
-                fill
-                sizes="330px"
-                className="object-contain"
-              />
-            </div>
-
-            <div className="h-28 md:h-44" />
 
             <ul className="m-0 mt-auto flex list-none flex-col p-0">
               {rows.map((row) => (

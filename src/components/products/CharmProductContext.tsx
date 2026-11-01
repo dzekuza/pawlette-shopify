@@ -4,9 +4,10 @@ import { createContext, use, useMemo, useState, type Dispatch, type ReactNode, t
 import { useTranslations } from 'next-intl'
 import { PointerSensor, useSensor, useSensors, type DragEndEvent, type SensorDescriptor, type SensorOptions } from '@dnd-kit/core'
 import { arrayMove } from '@dnd-kit/sortable'
-import type { ShopifyCharm } from '@/lib/shopify'
+import type { CharmSizeGroup, ShopifyCharm } from '@/lib/shopify'
 import { collar3DCharms, collar3DLetters, compactSlots, extractLetter } from '@/lib/collar3dSelection'
 import { addLinesToCart } from '@/lib/cart'
+import { parsePrice } from '@/lib/ga-ecommerce'
 import { CART_DRAWER_OPEN_EVENT } from '@/components/shared/CartDrawer'
 import { useProductPage } from '@/components/products/ProductPageContext'
 import { MAX_CHARMS, translateColorLabel } from '@/components/products/pdpConstants'
@@ -39,6 +40,10 @@ interface CharmProductState {
   /** Letters currently engraved, derived from selectedCharms. */
   charmName: string
   charmColor: string
+  /** Which charm product size is being built: 'S' (Maži) or 'L' (Dideli, M/L). Letters, shapes and the picker all follow it. */
+  sizeGroup: CharmSizeGroup
+  /** Size groups that actually have charms, in display order (S before L). */
+  sizeGroups: CharmSizeGroup[]
   colorOptions: CharmColorOption[]
   added: boolean
   activeReview: number
@@ -54,6 +59,8 @@ interface CharmProductActions {
   setCharmName: (rawName: string) => void
   recolourAt: (index: number, colourKey: string) => void
   setCharmColor: (color: string) => void
+  /** Switches the charm size; picked charms are swapped for their same letter/shape + colour in the new size (dropped if none). */
+  setSizeGroup: (group: CharmSizeGroup) => void
   setGalleryIndex: Dispatch<SetStateAction<number>>
   setActiveReview: Dispatch<SetStateAction<number>>
   addToCart: () => Promise<void>
@@ -90,14 +97,41 @@ export function useCharmProduct(): CharmProductContextValue {
 export function CharmProductProvider({ children }: { children: ReactNode }) {
   const t = useTranslations('products.pdp')
   const { state: { configurator }, meta: { product } } = useProductPage()
-  const { charms, mounted } = configurator
+  const { charms: allSizeCharms, mounted } = configurator
 
   const [selectedCharms, setSelectedCharms] = useState<(ShopifyCharm | null)[]>(Array(MAX_CHARMS).fill(null))
+  // Large (M/L) first: it is the product the page is titled after and the one the page always built with.
+  const [sizeGroup, setSizeGroupState] = useState<CharmSizeGroup>('L')
   const [charmColor, setCharmColor] = useState<string>(product.charmVariants?.[0]?.bg || '#B8D8F4')
   const [added, setAdded] = useState(false)
   const [charmGalleryIndex, setCharmGalleryIndex] = useState(0)
   const [previewCharmImage, setPreviewCharmImage] = useState<string | null>(null)
   const [activeReview, setActiveReview] = useState(0)
+
+  const charms = useMemo(() => allSizeCharms.filter((c) => c.sizeGroup === sizeGroup), [allSizeCharms, sizeGroup])
+  const sizeGroups = useMemo(
+    () => (['S', 'L'] as const).filter((group) => allSizeCharms.some((c) => c.sizeGroup === group)),
+    [allSizeCharms],
+  )
+
+  const setSizeGroup = (group: CharmSizeGroup) => {
+    if (group === sizeGroup) return
+    setSelectedCharms((prev) => {
+      const swapped = prev.map((charm) => {
+        if (!charm) return null
+        const match = allSizeCharms.find((c) => c.sizeGroup === group && c.bg === charm.bg && (
+          charm.category === 'letter'
+            ? c.category === 'letter' && extractLetter(c.baseTitle) === extractLetter(charm.baseTitle)
+            : c.category === 'icon' && c.shape === charm.shape
+        ))
+        return match ?? null
+      })
+      return compactSlots(swapped)
+    })
+    // The hero photo belongs to a charm of the old size; fall back to the product gallery.
+    setPreviewCharmImage(null)
+    setSizeGroupState(group)
+  }
 
   const dndSensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 5 } }))
 
@@ -186,8 +220,14 @@ export function CharmProductProvider({ children }: { children: ReactNode }) {
   }
 
   const firstSelectedCharm = selectedCharms.find(Boolean) ?? null
-  const displayName = selectedCharmCount === 1 ? (firstSelectedCharm?.title ?? product.name) : product.name
-  const displayPrice = firstSelectedCharm?.price ?? product.price
+  // The heading is always the product's own name; typing letters must not retitle the page (e.g. "Letter W - Blue").
+  const displayName = product.name
+  // Charms bought on their own are not free: this page's price is the sum of each picked charm's own price.
+  // (The 5 free charms apply only alongside a collar/leash, in the collar configurator.)
+  const pickedCharms = selectedCharms.filter((c): c is ShopifyCharm => !!c)
+  const displayPrice = pickedCharms.length > 0
+    ? `€${pickedCharms.reduce((sum, c) => sum + parsePrice(c.price), 0).toFixed(2)}`
+    : product.price
   // Picking a charm only replaces the top gallery image (previewCharmImage) — the static
   // product thumbnails below stay in place, same as the collar page's non-3D gallery tiles.
   const baseCharmGallery = product.images.length > 0
@@ -219,15 +259,19 @@ export function CharmProductProvider({ children }: { children: ReactNode }) {
           selectedCharmCount,
           charmName,
           charmColor,
+          sizeGroup,
+          sizeGroups,
           colorOptions,
           added,
           activeReview,
           displayName,
           displayPrice,
-          originalPrice: firstSelectedCharm?.originalPrice ?? product.originalPrice,
+          originalPrice: pickedCharms.length > 0
+            ? (pickedCharms.every((c) => c.originalPrice) ? `€${pickedCharms.reduce((sum, c) => sum + parsePrice(c.originalPrice ?? ''), 0).toFixed(2)}` : undefined)
+            : product.originalPrice,
           gallery: { images: visibleCharmGallery, index: safeCharmGalleryIndex, heroImage: charmHeroImage, thumbnails, charms3D: previewCharms3D, showHero3D },
         },
-        actions: { toggleCharm, reorder, setCharmName, recolourAt, setCharmColor, setGalleryIndex: setCharmGalleryIndex, setActiveReview, addToCart },
+        actions: { toggleCharm, reorder, setCharmName, recolourAt, setCharmColor, setSizeGroup, setGalleryIndex: setCharmGalleryIndex, setActiveReview, addToCart },
         meta: { charms, mounted, dndSensors, requestMoreCharms: () => configurator.setExtraCharmsOpen(true) },
       }}
     >

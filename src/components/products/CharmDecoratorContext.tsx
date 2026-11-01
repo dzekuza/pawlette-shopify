@@ -13,6 +13,12 @@ interface CharmDecoratorState {
   /** Every charm the picker may offer. */
   allCharms: ShopifyCharm[]
   mounted: boolean
+  /**
+   * True (default) when the first FREE_CHARMS charms are free because they come with a collar/leash, so the
+   * panel shows "N charms included" and a price pill on the first paid slot. False for charms bought on their
+   * own: every charm costs its own price and nothing is included.
+   */
+  freeCharmsIncluded?: boolean
 }
 
 interface CharmDecoratorActions {

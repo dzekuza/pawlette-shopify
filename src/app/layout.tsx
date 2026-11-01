@@ -251,22 +251,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           reads its endpoints from the data-* attributes. Keep the id and every attribute
           exactly as written, keep the <script> after the div, and keep this markup inline
           in the layout (not in a re-rendering component). Endpoints are Shopify app-proxy
-          routes served only on the .myshopify.com domain. This site's origin (and any
-          preview/branch domains) must be allowlisted in the Orby app admin under
+          routes. They point at checkout.pawscharm.com (the store's primary domain), NOT
+          pawcharms-2.myshopify.com: the myshopify host 301-redirects there, and that redirect
+          hop carries no CORS header, so browsers block the request. This site's origin (and
+          any preview/branch domains) must be allowlisted in the Orby app admin under
           Settings > Headless storefront, or the cross-origin requests fail on CORS.
         */}
         {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="https://ai-chat-widget-vert.vercel.app/widget/ai-chat-widget.css" />
         <div
           id="ai-chat-widget-root"
-          data-chat-endpoint="https://pawcharms-2.myshopify.com/apps/chat-widget/chat"
-          data-settings-endpoint="https://pawcharms-2.myshopify.com/apps/chat-widget/settings"
-          data-messages-endpoint="https://pawcharms-2.myshopify.com/apps/chat-widget/messages"
-          data-history-endpoint="https://pawcharms-2.myshopify.com/apps/chat-widget/history"
-          data-upload-endpoint="https://pawcharms-2.myshopify.com/apps/chat-widget/upload"
+          data-chat-endpoint="https://checkout.pawscharm.com/apps/chat-widget/chat"
+          data-settings-endpoint="https://checkout.pawscharm.com/apps/chat-widget/settings"
+          data-messages-endpoint="https://checkout.pawscharm.com/apps/chat-widget/messages"
+          data-history-endpoint="https://checkout.pawscharm.com/apps/chat-widget/history"
+          data-upload-endpoint="https://checkout.pawscharm.com/apps/chat-widget/upload"
         />
         <script src="https://ai-chat-widget-vert.vercel.app/widget/ai-chat-widget.js" defer />
-        <Script src="https://calls.fly.dev/embed.js" data-slug="pawcharms" strategy="lazyOnload" />
       </body>
     </html>
   );

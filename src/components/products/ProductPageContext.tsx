@@ -90,13 +90,11 @@ export function ProductPageProvider({ product, children }: { product: ProductDet
   const collarHandle = product.id.replace(/^collar-/, '')
   const galleryKey = collarHandle.replace(/-collar$/, '')
   const localGallery = COLLAR_GALLERY[galleryKey] ?? COLLAR_GALLERY[collarHandle] ?? COLLAR_GALLERY[collar?.handle ?? ''] ?? []
-  const rawGallery = [
+  // Unique images only: padding the list by repeating photos made the grid show every picture twice.
+  const gallery = [
     selectedVariantImage,
     ...((collar?.images && collar.images.length > 0) ? collar.images : localGallery),
   ].filter((image, index, list): image is string => Boolean(image) && list.indexOf(image) === index)
-  const gallery = rawGallery.length > 0
-    ? Array.from({ length: 8 }, (_, i) => rawGallery[i % rawGallery.length])
-    : []
 
   return (
     <ProductPageContext

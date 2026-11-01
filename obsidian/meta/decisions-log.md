@@ -10,6 +10,27 @@ consequences. Use [[templates/adr-note]] for new entries. Newest first.
 
 ---
 
+## ADR-0007 — Landing page: flat surfaces, no ambient motion
+
+- **Decision:** landing surfaces are flat tints or white with a hairline ring; richness lives in photography, the hero video and the 3D collar. No glass/blur, colored shadows, gradients, floating loops or hover-lift on cards. Eyebrows are sentence case.
+- **Why:** the decoration competed with the product photos and was identical to every template. Brand palette, fonts and section order are unchanged.
+- **Open:** the 4.9 rating pills and `LANDING_REVIEWS` need a verifiable source; `PhotoSlider`, `StickyVideoWidget`, `LandingNav` still contain inline styles.
+
+---
+
+## ADR-0006 — Colour swatch previews share one WebGL canvas
+
+- **Status:** Accepted
+- **Date:** 2026-11-01
+
+**Context.** The PDP colour swatches showed the Shopify variant image, which is the same stacked-collars photo for every colour. The user wanted live 3D collars in the swatches, not pre-rendered images.
+
+**Decision.** Draw all swatches in ONE orthographic r3f canvas (`CollarSwatchPreviews`) laid over the button row, with `frameloop="demand"` and pointer events off, instead of one canvas per swatch.
+
+**Consequences.** One WebGL context and one model load instead of five (browsers cap contexts, mobile pays per context). Cost: the canvas layout must mirror the DOM row (`SWATCH_GAP_PX` = the row's `gap-2.5`, equal-width square cells), and the buttons sit under the canvas, so the overlay needs `pointer-events-none!` on all descendants because r3f sets pointer events inline.
+
+---
+
 ## ADR-0005 — Purchases reach Meta through a consent-gated order webhook
 
 - **Status:** Accepted

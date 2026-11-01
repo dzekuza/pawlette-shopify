@@ -3,11 +3,14 @@
 import { createContext, use, useMemo, useState, type ReactNode } from 'react'
 import type { CollarConfiguratorState } from '@/lib/useCollarConfigurator'
 import { COLOR_SWATCHES } from '@/components/products/configurator/configuratorConstants'
+import { DEFAULT_STRAP_COLOUR } from '@/lib/collar3d'
 
 interface ColorOption {
   color: string
   image: string
   fallback: string
+  /** Strap colour (hex) fed to the 3D swatch preview. */
+  strapColour: string
 }
 
 interface CollarConfiguratorContextState {
@@ -73,6 +76,7 @@ export function CollarConfiguratorProvider({ configurator, name, price, children
         color: colorName,
         image: representativeVariant?.image || c.image,
         fallback: COLOR_SWATCHES[colorName] ?? '#E8E3DC',
+        strapColour: c.color || DEFAULT_STRAP_COLOUR,
       }
     })
   // eslint-disable-next-line react-hooks/exhaustive-deps

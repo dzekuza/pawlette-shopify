@@ -20,11 +20,11 @@ export function CollarBuyPanel() {
       price={collar?.price ?? product.price}
     >
       <CollarConfigurator.Header />
-      <CollarConfigurator.Videos videos={product.videos ?? []} />
       <CollarConfigurator.Colors />
       <CollarConfigurator.Sizes />
       {showCollarCharmPicker && <CollarConfigurator.Charms />}
       <CollarConfigurator.AddToCart />
+      <CollarConfigurator.Videos videos={product.videos ?? []} />
       <CollarConfigurator.Trust />
     </CollarConfigurator.Root>
   )

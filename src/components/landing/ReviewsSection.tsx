@@ -1,6 +1,5 @@
 'use client';
 
-import { Quote } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { SectionCta } from '@/components/landing/SectionCta';
 import { ReviewStars } from '@/components/storefront/TestimonialCard';
@@ -33,7 +32,6 @@ export function ReviewsSection() {
 
         <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
           <figure data-animate="card" className="m-0 flex flex-col justify-between gap-10 rounded-[28px] bg-sage/25 p-7 md:p-10">
-            <Quote aria-hidden="true" className="h-9 w-9 text-interactive-text/60" strokeWidth={1.5} />
             <blockquote className="m-0 font-display text-[26px] leading-[1.25] tracking-[-0.01em] text-bark md:text-[34px]">
               {featured.quote}
             </blockquote>

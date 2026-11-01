@@ -160,7 +160,11 @@ export function CollarPhotoGrid() {
                 type='button'
                 onClick={() => setLightboxIndex(i)}
                 aria-label={t('gallery.zoomPhoto')}
-                style={{ borderRadius: 12, overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in' }}
+                style={{
+                  borderRadius: 12, overflow: 'hidden', position: 'relative', aspectRatio: '1 / 1', border: 'none', padding: 0, cursor: 'zoom-in',
+                  // An odd last photo spans both columns so the grid has no hole.
+                  ...(i === gallery.length - 1 && gallery.length % 2 === 1 ? { gridColumn: 'span 2', aspectRatio: '2 / 1' } : {}),
+                }}
               >
                 <Image
                   src={src}

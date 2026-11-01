@@ -1,7 +1,8 @@
 'use client'
 
 import { PrimaryButton } from '@/components/shared/PrimaryButton';
-import Image from 'next/image'
+import dynamic from 'next/dynamic'
+import { useCallback, useMemo, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -16,6 +17,11 @@ import { useCollarConfiguratorContext } from '@/components/products/configurator
 import {
   translateColorLabel,
 } from '@/components/products/pdpConstants'
+
+const CollarSwatchPreviews = dynamic(() => import('@/components/products/CollarSwatchPreviews'), { ssr: false })
+
+/** Pixel gap between swatches — must equal the row's `gap-2.5` so the 3D collars line up with their buttons. */
+const SWATCH_GAP_PX = 10
 
 /** Review badge, product name and price. */
 export function Header({ as = 'h1' }: { as?: 'h1' | 'h2' }) {
@@ -60,42 +66,46 @@ function FieldLabel({ label, value }: { label: string; value?: string }) {
 export function ColorSwatches() {
   const tPdp = useTranslations('products.pdp')
   const { state: { configurator: { selectedColor, onColorChange } }, meta: { colorOptions } } = useCollarConfiguratorContext()
+  const [previewReady, setPreviewReady] = useState(false)
+  const handlePreviewReady = useCallback(() => setPreviewReady(true), [])
+  const strapColours = useMemo(() => colorOptions.map((option) => option.strapColour), [colorOptions])
   return (
-    <div className='flex gap-2.5'>
-      {colorOptions.map((option) => {
-        const isSelected = option.color === selectedColor
-        return (
-          <button
-            key={option.color}
-            type='button'
-            title={translateColorLabel(tPdp, option.color)}
-            onClick={() => onColorChange(option.color)}
-            style={{ background: option.fallback }}
-            className={cn(
-              'relative aspect-square min-w-0 flex-1 overflow-hidden rounded-2xl border-2 p-0 transition-[border-color,transform] duration-200 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage',
-              isSelected ? 'border-bark' : 'border-transparent hover:-translate-y-0.5 hover:border-bark/25',
-            )}
-            aria-label={option.color}
-            aria-pressed={isSelected}
-          >
-            {option.image ? (
-              <Image
-                src={option.image}
-                alt=""
-                width={52}
-                height={52}
-                aria-hidden="true"
-                className='block h-full w-full object-cover'
+    <div className='relative'>
+      <div className='flex gap-2.5'>
+        {colorOptions.map((option) => {
+          const isSelected = option.color === selectedColor
+          return (
+            <button
+              key={option.color}
+              type='button'
+              title={translateColorLabel(tPdp, option.color)}
+              onClick={() => onColorChange(option.color)}
+              className={cn(
+                'relative flex aspect-square min-w-0 flex-1 items-center justify-center overflow-hidden rounded-2xl border-2 bg-surface-2 p-0 transition-[border-color,transform] duration-200 ease-out active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sage',
+                isSelected ? 'border-bark' : 'border-transparent hover:-translate-y-0.5 hover:border-bark/25',
+              )}
+              aria-label={option.color}
+              aria-pressed={isSelected}
+            >
+              {/* Colour dot shown until the 3D collar has loaded, then fades out. */}
+              <span
+                aria-hidden='true'
+                style={{ background: option.fallback }}
+                className={cn('h-1/2 w-1/2 rounded-full transition-opacity duration-300', previewReady && 'opacity-0')}
               />
-            ) : null}
-            {isSelected && (
-              <span className='absolute bottom-1 right-1 flex h-5 w-5 items-center justify-center rounded-full bg-bark text-cream'>
-                <Check className='h-3 w-3' strokeWidth={3} aria-hidden='true' />
-              </span>
-            )}
-          </button>
-        )
-      })}
+              {isSelected && (
+                <span className='absolute bottom-1 right-1 z-10 flex h-5 w-5 items-center justify-center rounded-full bg-bark text-cream'>
+                  <Check className='h-3 w-3' strokeWidth={3} aria-hidden='true' />
+                </span>
+              )}
+            </button>
+          )
+        })}
+      </div>
+      {/* One shared WebGL canvas over the whole row; pointer events pass through to the buttons. */}
+      <div className='pointer-events-none absolute inset-0 z-[5] [&_*]:pointer-events-none!'>
+        <CollarSwatchPreviews strapColours={strapColours} gap={SWATCH_GAP_PX} onReady={handlePreviewReady} />
+      </div>
     </div>
   )
 }
