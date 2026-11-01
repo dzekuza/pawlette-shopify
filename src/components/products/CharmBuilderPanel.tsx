@@ -14,6 +14,7 @@ import {
   getPdpTrustPoints,
 } from '@/components/products/pdpConstants'
 import { CharmColorPicker } from '@/components/products/CharmColorPicker'
+import { CharmSizePicker } from '@/components/products/CharmSizePicker'
 import { CharmCTA } from '@/components/products/CharmCTA'
 import { CharmAccordion } from '@/components/products/CharmAccordion'
 import { CharmDecoratorProvider } from '@/components/products/CharmDecoratorContext'
@@ -24,8 +25,8 @@ import { useProductPage } from '@/components/products/ProductPageContext'
 export function CharmBuilderPanel() {
   const { meta: { product, hasCharmVariants } } = useProductPage()
   const {
-    state: { selectedCharms, selectedCharmCount, charmName, charmColor, colorOptions, added, activeReview, displayName, displayPrice, originalPrice },
-    actions: { toggleCharm, reorder, setCharmName, recolourAt, setCharmColor, setActiveReview, addToCart },
+    state: { selectedCharms, selectedCharmCount, charmName, charmColor, sizeGroup, sizeGroups, colorOptions, added, activeReview, displayName, displayPrice, originalPrice },
+    actions: { toggleCharm, reorder, setCharmName, recolourAt, setCharmColor, setSizeGroup, setActiveReview, addToCart },
     meta: { charms, mounted, dndSensors, requestMoreCharms },
   } = useCharmProduct()
   const onActiveReviewChange = setActiveReview
@@ -52,10 +53,11 @@ export function CharmBuilderPanel() {
       </div>
       {hasCharmVariants && (
         <>
+          <CharmSizePicker value={sizeGroup} options={sizeGroups} onChange={setSizeGroup} />
           <CharmColorPicker color={charmColor} onColorChange={setCharmColor} options={colorOptions} />
           <CharmDecoratorProvider
             value={{
-              state: { selectedCharms, selectedCharmCount, charmName, allCharms: charms, mounted },
+              state: { selectedCharms, selectedCharmCount, charmName, allCharms: charms, mounted, freeCharmsIncluded: false },
               actions: { setCharmName, recolourAt, toggleCharm, reorder, requestMoreCharms },
               meta: { dndSensors },
             }}

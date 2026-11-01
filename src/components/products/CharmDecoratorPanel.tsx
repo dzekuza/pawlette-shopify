@@ -33,10 +33,12 @@ const COLOR_FILTER_LABEL_KEYS: Record<string, string> = {
 }
 
 function SortableLetterSlot({
-  id, index, charm, isActive, isCursorTarget, onClick, onRemove,
+  id, index, charm, isActive, isCursorTarget, showExtraPrice, onClick, onRemove,
 }: {
   id: string
   index: number
+  /** Show the €3.99 pill on the first paid slot (only when the first charms are included with a collar). */
+  showExtraPrice: boolean
   charm: ShopifyCharm | null
   isActive: boolean
   isCursorTarget: boolean
@@ -58,7 +60,7 @@ function SortableLetterSlot({
         opacity: isDragging ? 0.5 : 1, touchAction: 'none',
       }}
     >
-      {index === FREE_CHARMS && (
+      {showExtraPrice && index === FREE_CHARMS && (
         <span
           aria-hidden="true"
           style={{
@@ -161,7 +163,7 @@ function SortableLetterSlot({
 /** Tabbed charm decorator — "Raidžių charmsai" (letter engraving) + "Kiti charmsai" (grid/search picker). Reads its selection from <CharmDecoratorProvider>. */
 export function CharmDecoratorPanel({ title }: { title: string }) {
   const {
-    state: { selectedCharms, selectedCharmCount, charmName, allCharms, mounted },
+    state: { selectedCharms, selectedCharmCount, charmName, allCharms, mounted, freeCharmsIncluded = true },
     actions: {
       setCharmName: onCharmNameChange,
       recolourAt: onCharmColourAt,
@@ -237,11 +239,15 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginBottom: 12 }}>
         <span style={{ fontSize: 15, fontWeight: 600, color: TEXT_PRIMARY }}>{title}</span>
-        <Badge variant="sage">
-          {selectedCharmCount
-            ? t('charmsIncludedBadge', { count: Math.min(selectedCharmCount, FREE_CHARMS) })
-            : tConfigurator('personaliseModal.free')}
-        </Badge>
+        {freeCharmsIncluded ? (
+          <Badge variant="sage">
+            {selectedCharmCount
+              ? t('charmsIncludedBadge', { count: Math.min(selectedCharmCount, FREE_CHARMS) })
+              : tConfigurator('personaliseModal.free')}
+          </Badge>
+        ) : selectedCharmCount > 0 ? (
+          <Badge variant="sage">{t('charmsCountBadge', { count: selectedCharmCount })}</Badge>
+        ) : null}
       </div>
 
       {/* Tab switcher */}
@@ -323,6 +329,7 @@ export function CharmDecoratorPanel({ title }: { title: string }) {
                       charm={c}
                       isActive={colourTargetIndex === i && !!c}
                       isCursorTarget={cursorSlotIndex === i}
+                      showExtraPrice={freeCharmsIncluded}
                       onClick={() => {
                         placeCharmCursor(i)
                         if (c) setActiveColourSlot((s) => (s === i ? null : i))

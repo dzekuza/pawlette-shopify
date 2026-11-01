@@ -437,6 +437,11 @@
         "prevReview": "Previous review",
         "nextReview": "Next review"
       },
+      "charmSize": {
+        "label": "Size",
+        "S": "Small (S)",
+        "L": "Large (M/L)"
+      },
       "decorateCharmTitle": "Decorate your charm",
       "seo": {
         "breadcrumbHome": "Home",
@@ -459,6 +464,7 @@
     },
     "charmDecorator": {
       "charmsIncludedBadge": "{count, plural, one {# charm included} other {# charms included}}",
+      "charmsCountBadge": "{count, plural, one {# charm} other {# charms}}",
       "tabLetters": "Letter charms",
       "tabIcons": "Other charms",
       "searchPlaceholder": "Search charms…",

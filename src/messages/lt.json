@@ -437,6 +437,11 @@
         "prevReview": "Ankstesnis atsiliepimas",
         "nextReview": "Kitas atsiliepimas"
       },
+      "charmSize": {
+        "label": "Dydis",
+        "S": "Maži (S)",
+        "L": "Dideli (M/L)"
+      },
       "decorateCharmTitle": "Papuoškite savo pakabuką",
       "seo": {
         "breadcrumbHome": "Pradžia",
@@ -459,6 +464,7 @@
     },
     "charmDecorator": {
       "charmsIncludedBadge": "{count, plural, one {# pakabukas įskaičiuoti} few {# pakabukai įskaičiuoti} other {# pakabukai įskaičiuoti}}",
+      "charmsCountBadge": "{count, plural, one {# pakabukas} few {# pakabukai} other {# pakabukai}}",
       "tabLetters": "Raidžių charmsai",
       "tabIcons": "Kiti charmsai",
       "searchPlaceholder": "Ieškoti pakabukų…",
