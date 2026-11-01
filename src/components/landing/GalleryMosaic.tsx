@@ -10,11 +10,11 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 const TILES = [
   { src: '/hero-figma/bento-dog-leash-meadow.jpg', className: 'col-span-2 row-span-2' },
   { src: '/hero-figma/hero-dsc01440.jpg', className: 'col-span-2 md:col-span-2' },
-  { src: '/hero-figma/timeline-dog-3.jpg', className: 'row-span-2' },
-  { src: '/hero-figma/hero-dsc02865.jpg', className: '' },
+  { src: '/hero-figma/gallery-bazu-beach.png', className: 'row-span-2' },
+  { src: '/hero-figma/gallery-bazu-winter.png', className: '' },
   { src: '/hero-figma/hero-dsc02225.jpg', className: '' },
   { src: '/hero-figma/hero-dsc01458.jpg', className: '' },
-  { src: '/hero-figma/hero-dsc01798.jpg', className: '' },
+  { src: '/hero-figma/gallery-golden-leash.png', className: '' },
 ] as const;
 
 export function GalleryMosaic() {

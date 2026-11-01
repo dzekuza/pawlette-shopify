@@ -9,6 +9,15 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-11-01 — Gallery mosaic: Luna / Meta / Bazu tiles swapped for new Bazu lifestyle shots
+
+- `GalleryMosaic` tiles 3, 4 and 7 now use `public/hero-figma/gallery-bazu-beach.png`, `gallery-bazu-winter.png`, `gallery-golden-leash.png` (AI-generated, 1024x1024). Old files (`timeline-dog-3.jpg`, `hero-dsc02865.jpg`, `hero-dsc01798.jpg`) were left in place because `HowItWorks` and `ProductStorySection` still use them. Matching `landing.gallery.alts` entries (indices 2, 3, 6) updated in `messages/{en,lt}.json`.
+
+## 2026-10-31 — Collar product main image changed in Shopify
+
+- Uploaded `stackv2-3.png` (four stacked collars: EDIS / HARY / META / BAZU) to Shopify Files as `pawcharms-collar-stack.png` and made it the first media item of `pawcharms-antkaklis` (no code change; the storefront reads `featuredImage` from Shopify). Previous main image `waebrb_6.jpg` and the other media are still on the product. Variants with their own image keep showing it.
+- A standalone landing-page redesign mockup (React artifact, not in the repo) was also produced; nothing from it is wired into `src/` yet.
+
 ## 2026-10-31 — Hero background is now a looping video
 
 - Removed the `HeroHotspot` crosshair + "Swap letters in 5 seconds" callout (component deleted, `landing.hero.hotspot` removed from `messages/{en,lt}.json`): it was positioned for the old still photo and does not track the collar in the moving video.
