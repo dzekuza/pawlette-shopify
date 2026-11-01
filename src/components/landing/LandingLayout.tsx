@@ -146,7 +146,7 @@ export function LandingLayout({ nav, children }: LandingLayoutProps) {
   }, [pathname]);
 
   return (
-    <div ref={pageRef} style={{ fontFamily: "'DM Sans',sans-serif", background: 'var(--color-cream)' }}>
+    <div ref={pageRef} className="bg-cream font-sans">
       <TopBar />
       {nav}
 

@@ -35,17 +35,6 @@ export const LANDING_REVIEWS = [
   { name: 'Rūta P.', dog: 'Mochi (Šiba inu)', rating: 5, text: 'Nusipirkau vieną ir iškart užsakiau dar du dovanoms. Blossom antkaklis ypač gražus. Patinka, kad jis gaminamas Lietuvoje.', avatar: '/testimonials/avatar-ruta-mochi.jpg' },
 ] as const;
 
-export const TICKER_ITEMS = [
-  '🐾 Laima iš Vilniaus ką tik užsakė Blossom rinkinį',
-  '⭐ Marta Sage antkakliui skyrė 5 žvaigždutes',
-  '💧 Bruno išsimaudė ežere — antkaklis atrodo kaip naujas',
-  '🛍 Rūta užsakė 3 rinkinius dovanoms',
-  '🌸 Mochi šiandien segi naują Hibiscus pakabuką',
-  '🇱🇹 Papildėme atsargas — Honey rinkinys vėl prekyboje',
-  '⚡ „Pakeisti užtruko tiesiog 5 sekundes“ — Jurgita K.',
-  '🐕 Luna per vieną pasivaikščiojimą sulaukė 4 komplimentų',
-] as const;
-
 // Collar sizes: `max` is the collar length (cm) shown to shoppers; `min` is only the neck
 // size the previous size covers, kept so breed neck ranges can be mapped onto S/M/L in /guide/antkakliu-dydziai-pagal-veisle.
 export const COLLAR_SIZE_RANGES = [

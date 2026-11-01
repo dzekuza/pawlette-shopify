@@ -4,15 +4,6 @@ import { useTranslations } from 'next-intl'
 import { trackGaEvent } from '@/components/shared/GoogleAnalytics'
 import { PrimaryButton } from '@/components/shared/PrimaryButton'
 import { BodyCopy, DisplayHeading } from '@/components/storefront/Typography'
-import { FREE_SHIPPING_THRESHOLD_TEXT } from '@/lib/site-config'
-
-function HeroChip ({ children }: { children: React.ReactNode }) {
-  return (
-    <span className='rounded-full bg-bark/10 px-3.5 py-1.5 text-[12px] font-medium text-bark lg:bg-white/15 lg:text-white lg:backdrop-blur-sm'>
-      {children}
-    </span>
-  )
-}
 
 /**
  * Card hero: an inset rounded 16:9 photo with the headline over its left (lg+) or below it (phones and tablets).
@@ -25,7 +16,7 @@ export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
   // The sticky nav above is 92px tall on phones and 94px from md up (measured); the negative margins must match it
   // exactly or a cream seam shows between the top bar and the hero background.
   return (
-    <section className='relative -mt-[92px] bg-linear-to-br from-honey/40 via-cream to-sage/30 px-4 pb-8 pt-[104px] md:-mt-[94px] md:px-6 md:pb-12 md:pt-[112px]'>
+    <section className='relative -mt-[92px] bg-cream px-4 pb-8 pt-[104px] md:-mt-[94px] md:px-6 md:pb-12 md:pt-[112px]'>
       <div className='@container relative mx-auto max-w-[720px] [--card-w:min(calc(100vw-48px),1152px,calc((100dvh-172px)*1.79))] lg:aspect-[2200/1228] lg:w-[var(--card-w)] lg:max-w-none'>
         <div className='relative aspect-[2200/1228] overflow-hidden rounded-[28px] lg:absolute lg:inset-0 lg:aspect-auto lg:rounded-[32px]'>
           <video
@@ -44,10 +35,6 @@ export function PhotoHero ({ startingPrice }: { startingPrice?: string }) {
 
         {/* Left padding keeps the text clear of the fixed bottom-left video widget (16px offset, 108px wide): it is 48px by default and only grows when the card's own side margin is smaller than the widget. */}
         <div className='relative z-10 flex flex-col items-start gap-5 px-1 pt-6 lg:absolute lg:inset-x-0 lg:bottom-0 lg:max-w-[62%] lg:p-12 lg:pl-[max(3rem,calc(84px-(100vw-var(--card-w))/2))] xl:max-w-[56%] xl:pr-6'>
-          <div className='flex flex-wrap gap-2'>
-            <HeroChip>{t('chipHandmade')}</HeroChip>
-            <HeroChip>{t('chipShipping', { threshold: FREE_SHIPPING_THRESHOLD_TEXT })}</HeroChip>
-          </div>
           <DisplayHeading
             as='h1'
             size='hero'

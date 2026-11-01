@@ -24,11 +24,8 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
   useViewItemList('landing_featured', filteredProducts);
 
   return (
-    <section id="shop" style={{ background: 'var(--color-cream)' }}>
-      <div
-        className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 md:px-6 md:py-24"
-        style={{ fontFamily: "'DM Sans', sans-serif" }}
-      >
+    <section id="shop" className="bg-cream">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-10 px-4 py-16 font-sans md:px-6 md:py-24">
         {/* Heading */}
         <div className="flex flex-col items-center text-center gap-4">
           <DisplayHeading as="h2" size="section" className="max-w-[32ch] text-balance text-bark">
@@ -39,18 +36,9 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
         {/* Product cards grid / carousel */}
         {filteredProducts.length > 0 ? (
           <>
-            <div className="hide-scrollbar flex md:hidden" style={{
-              gap: 12,
-              overflowX: 'auto',
-              scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
-              scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'],
-            }}>
+            <div className="hide-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto md:hidden">
               {filteredProducts.map((p, i) => (
-                <div key={p.id} style={{
-                  flex: '0 0 calc((100% - 12px) / 1.4)',
-                  scrollSnapAlign: 'start',
-                }}>
+                <div key={p.id} className="shrink-0 basis-[calc((100%-12px)/1.4)] snap-start">
                   <ProductCard product={p} listName='landing_featured' index={i} />
                 </div>
               ))}
@@ -63,43 +51,20 @@ export function ProductGrid({ products = [] }: { products?: ProductDetail[] }) {
           </>
         ) : (
           /* Placeholder cards when no products loaded */
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: 12,
-          }}>
+          <div className="grid grid-cols-2 gap-3">
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <div style={{
-                  background: 'var(--color-border)',
-                  borderRadius: 16,
-                  aspectRatio: '1 / 1',
-                  position: 'relative',
-                }}>
-                  <div style={{
-                    position: 'absolute',
-                    top: 12,
-                    left: 12,
-                    background: 'var(--color-blossom)',
-                    borderRadius: 100,
-                    padding: '4px 10px',
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: 'var(--color-bark)',
-                    letterSpacing: '0.05em',
-                    textTransform: 'uppercase',
-                  }}>
-                    {t('placeholderBadge')}
-                  </div>
-                  <div style={{ position: 'absolute', bottom: 12, left: 12, display: 'flex', gap: 4 }}>
+              <div key={i} className="flex flex-col gap-3">
+                <div className="relative aspect-square rounded-2xl bg-border">
+                  <span className="absolute left-3 top-3 text-[13px] font-medium text-bark-muted">{t('placeholderBadge')}</span>
+                  <div className="absolute bottom-3 left-3 flex gap-1">
                     {COLOR_SWATCHES.map(c => (
-                      <div key={c} style={{ width: 14, height: 14, borderRadius: '50%', background: c, border: '1px solid rgba(255,255,255,0.6)' }} />
+                      <span key={c} className="size-3.5 rounded-full border border-white/60" style={{ background: c }} />
                     ))}
                   </div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--color-bark)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderProductName')}</span>
-                  <span style={{ fontSize: 14, color: 'var(--color-bark-muted)', fontFamily: "'DM Sans', sans-serif" }}>{t('placeholderPrice')}</span>
+                <div className="flex flex-col gap-1 font-sans">
+                  <span className="text-base font-medium text-bark">{t('placeholderProductName')}</span>
+                  <span className="text-sm text-bark-muted">{t('placeholderPrice')}</span>
                 </div>
                 <PrimaryButton href="/products" variant="sage" size="md" fullWidth>{t('placeholderCta')}</PrimaryButton>
               </div>

@@ -10,6 +10,14 @@ consequences. Use [[templates/adr-note]] for new entries. Newest first.
 
 ---
 
+## ADR-0007 — Landing page: flat surfaces, no ambient motion
+
+- **Decision:** landing surfaces are flat tints or white with a hairline ring; richness lives in photography, the hero video and the 3D collar. No glass/blur, colored shadows, gradients, floating loops or hover-lift on cards. Eyebrows are sentence case.
+- **Why:** the decoration competed with the product photos and was identical to every template. Brand palette, fonts and section order are unchanged.
+- **Open:** the 4.9 rating pills and `LANDING_REVIEWS` need a verifiable source; `PhotoSlider`, `StickyVideoWidget`, `LandingNav` still contain inline styles.
+
+---
+
 ## ADR-0006 — Colour swatch previews share one WebGL canvas
 
 - **Status:** Accepted

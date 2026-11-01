@@ -33,14 +33,14 @@ export function GalleryMosaic() {
             <div
               key={tile.src}
               data-animate="card"
-              className={cn('group relative overflow-hidden rounded-[24px] bg-surface-2 md:rounded-[32px]', tile.className)}
+              className={cn('relative overflow-hidden rounded-[24px] bg-surface-2 md:rounded-[32px]', tile.className)}
             >
               <Image
                 src={tile.src}
                 alt={alts[index] ?? t('imageAlt')}
                 fill
                 sizes="(min-width: 1200px) 580px, (min-width: 768px) 50vw, 100vw"
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                className="object-cover"
               />
             </div>
           ))}

@@ -8,10 +8,10 @@ import { DisplayHeading } from '@/components/storefront/Typography';
 
 // Fanned photo stack: later entries sit on top. Straightens slightly on hover.
 const PHOTO_CARDS = [
-  { src: '/hero-figma/timeline-dog-1.jpg', altKey: 'dog1Alt', className: 'left-0 top-0 -rotate-6 rounded-[28px] hover:-rotate-3' },
-  { src: '/hero-figma/timeline-dog-3.jpg', altKey: 'dog3Alt', className: 'right-0 top-6 rotate-4 rounded-[28px] ring-4 ring-white hover:rotate-2' },
-  { src: '/hero-figma/timeline-dog-4.jpg', altKey: 'dog4Alt', className: 'bottom-0 left-[4%] -rotate-3 rounded-[28px] ring-4 ring-white hover:-rotate-1' },
-  { src: '/hero-figma/timeline-dog-2.png', altKey: 'dog2Alt', className: 'bottom-4 right-[2%] rotate-6 rounded-[28px] ring-4 ring-white hover:rotate-3' },
+  { src: '/hero-figma/timeline-dog-1.jpg', altKey: 'dog1Alt', className: 'left-0 top-0 -rotate-6 rounded-3xl' },
+  { src: '/hero-figma/timeline-dog-3.jpg', altKey: 'dog3Alt', className: 'right-0 top-6 rotate-4 rounded-3xl ring-4 ring-white' },
+  { src: '/hero-figma/timeline-dog-4.jpg', altKey: 'dog4Alt', className: 'bottom-0 left-[4%] -rotate-3 rounded-3xl ring-4 ring-white' },
+  { src: '/hero-figma/timeline-dog-2.png', altKey: 'dog2Alt', className: 'bottom-4 right-[2%] rotate-6 rounded-3xl ring-4 ring-white' },
 ] as const;
 
 interface TimelineStep {
@@ -38,7 +38,7 @@ export function HowItWorks() {
               <div
                 key={card.src}
                 className={cn(
-                  'absolute h-[56%] w-[48%] overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]',
+                  'absolute h-[56%] w-[48%] overflow-hidden',
                   card.className,
                 )}
               >
@@ -50,7 +50,7 @@ export function HowItWorks() {
 
         {/* Right: vertical timeline — one rail, a node per step */}
         <ol className="relative m-0 flex list-none flex-col gap-12 p-0 pl-10 lg:gap-16 lg:pt-3">
-          <span aria-hidden="true" className="absolute bottom-3 left-[11px] top-3 w-px bg-gradient-to-b from-sage via-bark/15 to-bark/5" />
+          <span aria-hidden="true" className="absolute bottom-3 left-[11px] top-3 w-px bg-bark/10" />
           {timeline.map((step, i) => {
             const isLast = i === timeline.length - 1;
             return (
@@ -63,9 +63,8 @@ export function HowItWorks() {
                   )}
                 >
                   <span className={cn('h-2 w-2 rounded-full', isLast ? 'bg-interactive-text' : 'bg-sage')} />
-                  {isLast && <span className="absolute inset-0 animate-ping rounded-full bg-sage/50 [animation-duration:2.4s]" />}
                 </span>
-                <span className="text-xs font-semibold uppercase tracking-[0.14em] text-interactive-text">
+                <span className="text-sm font-medium text-interactive-text">
                   {step.week}
                 </span>
                 <h3 className="m-0 font-display text-2xl font-medium leading-[1.15] tracking-[-0.01em] text-bark md:text-[30px]">

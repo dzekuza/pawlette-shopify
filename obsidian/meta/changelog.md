@@ -9,6 +9,14 @@ Chronological log of notable changes to the project. Newest first.
 This is a human-curated log — not a mirror of `git log`. Record *why*, not just
 *what*; the diff already covers *what*.
 
+## 2026-11-02 — Landing page unslop pass (polish)
+
+- Removed decoration, kept brand: `PhotoHero` loses the duplicate chips (already in `TopBar`) and the pastel wash; `FeaturesStrip` is a flat `bg-sky/30` with plain white hairline cards (no glass, blur, shadows, floating stickers or float loops; the 3D collar stays, static); `LandingBuySection` drops the drifting blobs; `NewsletterSignup` drops its 3-hue gradient; `HowItWorks` drops `animate-ping`, the rail gradient, hover rotates and uppercase week labels; `GalleryMosaic` drops hover zoom; `ReviewsSection` drops the decorative quote icon.
+- Shared: `Eyebrow` is now sentence case (13px, no tracking); `PrimaryButton` uses `transition-[transform,opacity]` instead of `transition-all`.
+- Inline styles replaced by Tailwind in `ProductGrid`, `StickyCTA`, `LandingLayout` (StickyCTA also loses its blur and shadow).
+- `FeaturesStrip` cards use `gap-6` on phones (`md:gap-10` from md up).
+- Deleted dead `SocialTicker` and `TICKER_ITEMS` (invented customer lines, never rendered).
+
 ## 2026-11-02 — Charm-only page prices every charm individually
 
 - Rule: the first 5 charms are free only when bought with a collar or leash; charms bought on their own each cost their own price. The charm page (`CharmProductProvider`) now shows the SUM of the picked charms' prices as the page price (4 x EUR 4.00 = EUR 16.00; original price summed only if every picked charm has one), instead of just the first charm's price. `CharmDecoratorContext` gained `freeCharmsIncluded?` (default true, so the collar flow is unchanged); the charm page passes false, which hides the "N charms included" badge (replaced by a plain "N charms" count, new `products.charmDecorator.charmsCountBadge`) and the EUR 3.99 pill on the sixth slot.
