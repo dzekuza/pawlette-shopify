@@ -1,16 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useTranslations } from 'next-intl';
 import { FREE_SHIPPING_THRESHOLD_EURO, NEWSLETTER_DISCOUNT_CODE, NEWSLETTER_DISCOUNT_PERCENT } from '@/lib/site-config';
+import ltMessages from '@/messages/lt.json';
+import enMessages from '@/messages/en.json';
+
+// TopBar is rendered on landing variants (/landing-v2, /landing-v3, /landing-v4)
+// that sit outside the `[locale]` route segment and have no NextIntlClientProvider
+// ancestor. Resolve copy from the static message bundles keyed by URL prefix,
+// matching LandingNav and LandingFooter.
+const TOPBAR_STRINGS = { lt: ltMessages.landing.topBar, en: enMessages.landing.topBar };
+const COMMON_STRINGS = { lt: ltMessages.common, en: enMessages.common };
 
 export function TopBar() {
-  const t = useTranslations('landing.topBar');
-  const tCommon = useTranslations('common');
-  const slides = t.raw('slides') as string[];
+  const pathname = usePathname();
+  const locale = pathname?.split('/').filter(Boolean)[0] === 'en' ? 'en' : 'lt';
+  const t = TOPBAR_STRINGS[locale];
+  const tCommon = COMMON_STRINGS[locale];
+  const slides = t.slides;
   const [taglineIndex, setTaglineIndex] = useState(0);
-  const shippingCopy = tCommon('freeShipping', { threshold: FREE_SHIPPING_THRESHOLD_EURO });
+  const shippingCopy = tCommon.freeShipping.replace('{threshold}', String(FREE_SHIPPING_THRESHOLD_EURO));
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +44,7 @@ export function TopBar() {
     <div className="flex h-9 items-center justify-center gap-3 bg-sage px-4 text-center">
       <button
         type="button"
-        aria-label={t('prevSlide')}
+        aria-label={t.prevSlide}
         onClick={() => goToTagline(-1)}
         className="hidden size-6 shrink-0 items-center justify-center rounded-full text-interactive-text transition-colors hover:bg-bark/10 md:flex"
       >
@@ -46,7 +57,7 @@ export function TopBar() {
 
       <button
         type="button"
-        aria-label={t('nextSlide')}
+        aria-label={t.nextSlide}
         onClick={() => goToTagline(1)}
         className="hidden size-6 shrink-0 items-center justify-center rounded-full text-interactive-text transition-colors hover:bg-bark/10 md:flex"
       >
